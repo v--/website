@@ -1,0 +1,15 @@
+doctype html
+html(lang="en")
+	head
+		include _nojs
+		include _oldcheck
+		include _head
+
+		base(href="/")
+		link(rel="stylesheet", href="/styles/application.css")
+		script(src="/scripts/application.js")
+		title iVasilev
+
+	body.preload(ng-app="ivasilev")
+		x-foundation
+			main(ui-view)

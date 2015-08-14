@@ -1,0 +1,13 @@
+p(snap-toggle="left")
+    fa(name="chevron-circle-left")
+    span Collapse
+
+div(ng-repeat="state in states")
+    a(href, ng-href="{{state.url}}", ng-class="{selected: state.active}")
+        fa(name="{{iconMap[state.name]}}")
+        span {{state.name | capitalize}}
+        fa(ng-class="{'fa-chevron-down': state.active, 'fa-chevron-up': !state.active}", ng-show="state.childrenPromise")
+
+    a(href, ng-href="{{item.url}}", ng-class="{selected: item.active}", ng-repeat="item in state.children", ng-if="state.active")
+        fa(name="fa-angle-right")
+        span {{item.name}}

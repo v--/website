@@ -1,0 +1,2 @@
+[Service]
+ExecStart=/srv/http/ivasilev/ivasilev --forex

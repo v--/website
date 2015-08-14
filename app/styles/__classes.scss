@@ -1,0 +1,77 @@
+@import '_vars';
+
+.description {
+	&:after {
+		content: ': ';
+	}
+}
+
+.button {
+	color: $white;
+	border: 0;
+	border-radius: $table-rounded;
+	background-color: $edge-blur;
+	transition: background-color $anim-short;
+	padding: 0.3em 1em;
+	text-align: center;
+
+	&.active {
+		background-color: $edge-normal;
+	}
+
+	&:hover {
+		background-color: $edge-hover;
+	}
+
+	&::-moz-focus-inner {
+		border: 0;
+	}
+}
+
+.with-links {
+	> a:before {
+		content: ' ';
+	}
+
+	&:after {
+		content: '.';
+	}
+}
+
+.network {
+	display: block;
+	margin-bottom: 1em;
+
+	> i {
+		color: $edge-normal;
+		margin-right: 0.75em;
+	}
+}
+
+.nodisplay {
+	display: none;
+}
+
+.becomes {
+	text-align: center;
+
+	&:after {
+		font-family: 'FontAwesome';
+		content: '\f078';
+	}
+}
+
+.panel {
+	background-color: $background-panel;
+	padding: 10px;
+	border-radius: $table-rounded;
+	margin-bottom: 25px;
+}
+
+.inline {
+	display: inline;
+}
+
+.center {
+	text-align: center;
+}

@@ -1,0 +1,105 @@
+@import '_vars.scss';
+
+#networks {
+	float: right;
+	width: 30%;
+	padding-left: 2em;
+	padding-bottom: 1em;
+	background-color: $black;
+
+	> a {
+		color: $edge-hover;
+
+		&:hover {
+			color: $white;
+		}
+	}
+}
+
+#forex {
+	position: absolute;
+	height: 80%;
+	width: 90%;
+	display: block;
+	margin: auto;
+	left: 0;
+	right: 0;
+
+	path, line {
+		fill: none;
+		stroke: $gray;
+	}
+
+	path {
+		fill: none;
+		stroke-width: 2px;
+	}
+
+	text {
+		fill: $white;
+	}
+
+	#line-usd {
+		stroke-width: 4px;
+	}
+}
+
+#sorting {
+	margin-top: 0.5em;
+
+	> svg {
+		@extend .panel;
+		width: 120px;
+		height: 400px;
+		fill: #0687ff;
+		margin: 1em;
+
+		> g > rect {
+			&.done {
+				fill: #22ff43;
+			}
+
+			&.highlight {
+				fill: #ffe70f;
+			}
+
+			&.swap {
+				fill: #ff2504;
+			}
+
+			&:hover {
+				fill: $edge-hover;
+			}
+		}
+
+		> text {
+			font-size: 1.2em;
+			fill: $white;
+		}
+
+		> .button {
+			fill: $edge-normal;
+			transition: $anim-short;
+
+			&:hover {
+				fill: $edge-hover;
+			}
+		}
+
+		> .description {
+			fill: $gray;
+			font-size: 1em;
+		}
+	}
+}
+
+#error {
+	> h1 {
+		font-weight: bold;
+		margin-bottom: 0;
+	}
+
+	> h2 {
+		color: $gray;
+	}
+}

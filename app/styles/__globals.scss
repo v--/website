@@ -1,0 +1,70 @@
+@import '_vars.scss';
+
+h1, h2, h3, h4, h5, h6, a, p, div {
+	font-family: sans-serif;
+	color: #fff;
+	line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	cursor: default;
+	text-align: center;
+	font-weight: normal;
+}
+
+h1 {
+	font-size: 3em;
+	margin: 0.3em auto;
+}
+
+h2 {
+	font-size: 2em;
+	margin: 0.3em auto;
+}
+
+a, p {
+	font-size: 1.2em;
+}
+
+a > p, p > a {
+	font-size: 1em;
+}
+
+a {
+	text-decoration: none;
+	outline: none !important;
+	transition: $anim-short;
+	color: $edge-hover;
+
+	&:hover {
+		color: $edge-selected;
+	}
+}
+
+button {
+	@extend .button;
+	font-size: 1em;
+	margin: 0.5em;
+	min-width: 110px;
+}
+
+pre {
+	background-color: $background-aside;
+	border-radius: $table-rounded;
+	padding: 0.5em 1em;
+	margin: 1em;
+}
+
+article {
+	h1, h2, h3, h4, h5, h6 {
+		text-align: left;
+	}
+
+	a {
+		color: $edge-selected;
+
+		&:hover {
+			color: $edge-hover;
+		}
+	}
+}

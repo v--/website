@@ -1,0 +1,17 @@
+{
+	"fileVersion": 1,
+	"versions": {
+		"memutils": "0.3.3",
+		"derelict-pq": "1.0.1",
+		"kxml": "1.0.0",
+		"vibe-d": "0.7.23",
+		"libevent": "2.0.1+2.0.16",
+		"derelict-util": "1.9.1",
+		"ddbc": "0.2.24",
+		"openssl": "1.1.4+1.0.1g",
+		"libev": "5.0.0+4.04",
+		"hibernated": "0.2.24",
+		"mysql-native": "0.1.2",
+		"libasync": "0.7.1"
+	}
+}

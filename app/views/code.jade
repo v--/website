@@ -1,0 +1,14 @@
+h2 Behold: various code snippets
+
+table(ts-wrapper)
+    thead
+        tr
+            th(ts-criteria="name", ts-default)
+                p Name
+
+    tbody
+        tr(ng-repeat="code in paginated", ts-repeat)
+            td
+                a(href, ng-href="{{code.url}}") {{code.name}}
+
+x-pagination(original="list", paginated="paginated")

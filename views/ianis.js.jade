@@ -1,0 +1,14 @@
+doctype html
+html(lang="en")
+	head
+		include _head
+		title ianis.js spec runner
+		base(href="/vendor/ianis.js/")
+		link(rel="stylesheet", href="mocha.css")
+		script(src="ianis.min.js")
+		script(src="spec.min.js")
+		script.
+			mocha.setup('bdd')
+			onload = mocha.run.bind(mocha, undefined);
+
+	body#mocha

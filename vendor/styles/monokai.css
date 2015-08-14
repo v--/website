@@ -1,0 +1,127 @@
+/*
+Monokai style - ported by Luigi Maselli - http://grigio.org
+*/
+/*
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: #272822;
+  -webkit-text-size-adjust: none;
+}
+*/
+.tag,
+.tag .title,
+.keyword,
+.literal,
+.strong,
+.change,
+.winutils,
+.flow,
+.nginx .title,
+.tex .special {
+  color: #f92672;
+}
+
+.hljs {
+  color: #ddd;
+}
+
+.hljs .constant,
+.asciidoc .code,
+.markdown .code {
+  color: #66d9ef;
+}
+
+.code,
+.class .title,
+.header {
+  color: white;
+}
+
+.link_label,
+.attribute,
+.symbol,
+.symbol .string,
+.value,
+.regexp {
+  color: #bf79db;
+}
+
+.link_url,
+.tag .value,
+.string,
+.bullet,
+.subst,
+.title,
+.emphasis,
+.type,
+.preprocessor,
+.pragma,
+.ruby .class .parent,
+.built_in,
+.django .template_tag,
+.django .variable,
+.smalltalk .class,
+.javadoc,
+.django .filter .argument,
+.smalltalk .localvars,
+.smalltalk .array,
+.attr_selector,
+.pseudo,
+.addition,
+.stream,
+.envvar,
+.apache .tag,
+.apache .cbracket,
+.tex .command,
+.prompt {
+  color: #a6e22e;
+}
+
+.comment,
+.annotation,
+.smartquote,
+.blockquote,
+.horizontal_rule,
+.decorator,
+.pi,
+.doctype,
+.deletion,
+.shebang,
+.apache .sqbracket,
+.tex .formula {
+  color: #75715e;
+}
+
+.keyword,
+.literal,
+.css .id,
+.phpdoc,
+.dartdoc,
+.title,
+.header,
+.type,
+.vbscript .built_in,
+.rsl .built_in,
+.smalltalk .class,
+.diff .header,
+.chunk,
+.winutils,
+.bash .variable,
+.apache .tag,
+.tex .special,
+.request,
+.status {
+  font-weight: bold;
+}
+
+.coffeescript .javascript,
+.javascript .xml,
+.tex .formula,
+.xml .javascript,
+.xml .vbscript,
+.xml .css,
+.xml .cdata {
+  opacity: 0.5;
+}

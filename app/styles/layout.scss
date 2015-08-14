@@ -1,0 +1,24 @@
+@import 'main';
+
+html {
+	position: relative;
+	min-height: 100%;
+	height: auto;
+}
+
+body {
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	background-color: $background-main;
+}
+
+main {
+	@include animation();
+}
+
+.preload * {
+	transition: none !important;
+}

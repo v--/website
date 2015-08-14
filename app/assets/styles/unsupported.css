@@ -1,0 +1,38 @@
+body {
+    min-width: 480px;
+    min-height: 360px;
+    width: 100%;
+    position: absolute;
+    text-align: center;
+    background: #000;
+    top: 40%;
+    padding: 0;
+    margin: 0;
+}
+
+h1, h2 {
+    cursor: default;
+    margin: 10px;
+    font-family: sans-serif;
+    font-weight: normal;
+}
+
+h1 {
+    color: #fff;
+    font-size: 45px;
+}
+
+h2 {
+    color: #d0d0d0;
+    font-size: 30px;
+}
+
+a {
+    transition: color 150ms;
+    text-decoration: none;
+    color: #90c0f0;
+}
+
+a:hover {
+    color: #d0e0f0;
+}
