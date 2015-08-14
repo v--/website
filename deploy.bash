@@ -22,9 +22,9 @@ scp -C ivasilev ivasilev.net:/srv/http/ivasilev
 echo ' Syncing the public folder'
 scp -rC public ivasilev.net:/srv/http/ivasilev
 echo ' Syncing the nginx conf'
-scp -rC slides ivasilev.net:/srv/http/ivasilev
+scp -rC nginx.conf ivasilev.net:/srv/http/ivasilev
 echo ' Syncing the views'
-scp -Cr html ivasilev.net:/srv/http/ivasilev
+scp -rC html ivasilev.net:/srv/http/ivasilev
 echo ' Setting permissions'
 ssh ivasilev.net chown website:website /srv/http/ivasilev -R
 echo ' Starting the server'
