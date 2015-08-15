@@ -16,11 +16,13 @@ Server = http://ivasilev.net/pacman/$arch
 
 ## You can view the package list here:
 
-<div ng-repeat="repo in repos | orderBy: repo.name">
-    ___{{repo.name}}___
+{{packages}}
+
+<div ng-repeat="(name, packages) in repos | orderBy: repo.name">
+    ___{{name}}___
 
     <ol>
-        <li ng-repeat="package in repo.packages">
+        <li ng-repeat="package in packages">
             __{{package.name}}:__ v{{package.version}}
         </li>
     </ol>
