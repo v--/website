@@ -1,7 +1,7 @@
 application.filter('size', function() {
     return function(bytes) {
         if (bytes < 1024)
-            return bytes + ' Bts';
+            return bytes + ' Bytes';
 
         let sizes = 'KMGTP';
         let ratio = bytes;

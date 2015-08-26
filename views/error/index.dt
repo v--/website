@@ -1,16 +1,16 @@
 doctype html
 html
-	head
-		// if IE
-			meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    head
+        // if IE
+            meta(http-equiv="X-UA-Compatible", content="IE=edge")
 
-		meta(charset="UTF-8")
-		meta(name="description", content="Ianis G. Vasilev's personal website. Contains mostly everything personal websites are for")
-		meta(name="viewport", content="width=device-width, initial-scale=1")
-		link(rel="icon", href="/favicon.ico")
-		link(rel='stylesheet', href='/styles/unsupported.css')
-		title iVasilev :: Error #{error.code}
+        meta(charset="UTF-8")
+        meta(name="description", content="Ianis G. Vasilev's personal website. Contains mostly everything personal websites are for")
+        meta(name="viewport", content="width=device-width, initial-scale=1")
+        link(rel="icon", href="/favicon.ico")
+        link(rel='stylesheet', href='/styles/unsupported.css')
+        title ivasilev.net &#187; Error #{error.code}
 
-	body
-		h1 Error #{error.code}:
-		h2 #{error.message}
+    body
+        h1 Error #{error.code}:
+        h2 #{error.message}

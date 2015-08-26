@@ -56,10 +56,10 @@ class Dir : Entry {
         entry.markdown = "";
         entry.children = Json.emptyArray;
 
-        foreach (child; dirEntries(de.name, SpanMode.shallow))
+        foreach (child; dirEntries(de.name, SpanMode.shallow).array)
         {
             if (startsWith(baseName(child.name), "."))
-                return;
+                continue;
             else if (endsWith(child.name, "readme.md"))
                 entry.markdown = cast(string) read(child.name);
             else

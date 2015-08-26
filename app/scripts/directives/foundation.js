@@ -2,7 +2,7 @@ application.directive('foundation', function() { return {
     templateUrl: 'views/directives/foundation',
     scope: true,
     transclude: true,
-    controller: function($scope, $rootScope, $timeout, $cookieStore, snapRemote) {
+    controller: function($scope, $state, $rootScope, $timeout, $cookieStore, snapRemote) {
         $scope.loading = true;
 
         snapRemote.getSnapper().then(function(snapper) {
@@ -29,34 +29,24 @@ application.directive('foundation', function() { return {
 
         // document.title does not interpolate HTML entries
         $rootScope.$on('changeTitle', function(_e, titles = []) {
-            title.innerHTML = ['iVasilev'].concat(titles).join(' &#187; ');
-        });
-
-        $rootScope.$on('errorPage', function(_e, error) {
-            $scope.error = error || {
-                title: 'Error',
-                message: 'An unknown error occured'
-            };
-
-            $rootScope.$emit('changeTitle', [$scope.error.title]);
+            title.innerHTML = ['ivasilev.net'].concat(titles).join(' &#187; ');
         });
 
         $rootScope.$on('clearError', function() {
             $rootScope.$emit('changeTitle');
-            $scope.error = null;
         });
 
-        $rootScope.$on('$stateChangeError', function(_e, _toState, _toParams, _fromState, _fromParams, error) {
+        $rootScope.$on('$stateChangeError', function(e, _toState, _toParams, _fromState, _fromParams, error) {
+            // Force URL change
+            e.preventDefault();
             $timeout.cancel(timeout);
-            $rootScope.$emit('notify:error', 'Error ' + error.status + ': ' + error.statusText);
-            $rootScope.$emit('errorPage', {
-                title: 'Error ' + error.status,
-                message: error.statusText
-            });
+            $scope.loading = false;
+            $state.go('error', {error: error});
         });
 
         $rootScope.$on('$stateChangeStart', function() {
-            timeout = $timeout($rootScope.$emit.fill('notify:info', 'Still loading...', {timeout: 0}), 1500);
+            $timeout.cancel(timeout);
+            timeout = $timeout($rootScope.$emit.fill('notify:info', 'Still loading...', {timeout: 0}).bind($rootScope), 1500);
             $scope.loading = true;
             $rootScope.$emit('changeTitle', ['Loading']);
         });

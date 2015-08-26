@@ -3,14 +3,8 @@
 x-snap-drawer
     x-navigation
 
-x-snap-content(ng-class="{extended: snapperOpen}")
-    div.center(ng-show="loading || error")
-        x-fa(name="spinner", spin, ng-show="loading && !error")
-        div(ng-show="error")
-            h1 {{error.title}}
-            h2 {{error.message}}
-
-    div(ng-hide="error")
-        x-ng-transclude
+x-snap-content(ng-class="{extended: snapperOpen}" ng-switch="loading")
+    div(ng-switch-when="true"): x-fa.center(name="spinner", spin)
+    x-ng-transclude(ng-switch-default)
 
 x-fa(name="chevron-circle-right", ng-hide="snapperOpen", snap-toggle="left")

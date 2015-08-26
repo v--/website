@@ -1,5 +1,5 @@
 application.factory('submenuSlides', function(Slide, State) {
-    return () => new Promise(function(resolve) {
+    return () => new Promise(function(resolve, reject) {
         Slide.query(function(slides) {
             let states = slides[0].children
                 .map(entry => new State({
@@ -9,6 +9,6 @@ application.factory('submenuSlides', function(Slide, State) {
                 })).filter(x => x.name !== ' reveal.jade');
 
             resolve(states);
-        });
+        }, reject);
     });
 });

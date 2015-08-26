@@ -9,11 +9,13 @@ application.config(function($stateProvider, $locationProvider, $urlRouterProvide
     $locationProvider.html5Mode(true);
 
     $urlRouterProvider.otherwise(function($injector) {
-        let $rootScope = $injector.get('$rootScope');
+        let $state = $injector.get('$state');
 
-        $rootScope.$emit('errorPage', {
-            title: 'Error 404',
-            message: 'Not found'
+        $state.go('error', {
+            error: {
+                status: 404,
+                statusText: 'Not found'
+            }
         });
     });
 
@@ -102,5 +104,12 @@ application.config(function($stateProvider, $locationProvider, $urlRouterProvide
                     return Package.query().$promise;
                 }
             }
+        })
+
+        .state({
+            name: 'error',
+            params: {error: {}},
+            controller: 'ErrorCtrl',
+            templateUrl: 'views/error'
         });
 });
