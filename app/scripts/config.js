@@ -81,22 +81,15 @@ application.config(function($stateProvider, $locationProvider, $urlRouterProvide
             templateUrl: 'views/slides',
             controller: 'SlidesCtrl',
             resolve: {
-                slides: function(submenuSlides) {
-                    return submenuSlides();
+                slides: function(Slide) {
+                    return Slide.slides();
                 }
             }
         })
 
         .state({
-            name: 'slides_display',
-            url: '/slides/:slide',
-            templateUrl: 'views/slides_display',
-            controller: 'SlidesDisplayCtrl'
-        })
-
-        .state({
             name: 'pacman',
-            url: '/pacman{repo:|/any|/i686|/x86_64}',
+            url: '/pacman',
             templateUrl: 'views/pacman',
             controller: 'PacmanCtrl',
             resolve: {
