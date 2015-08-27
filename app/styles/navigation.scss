@@ -1,53 +1,53 @@
 @import 'main';
 
 x-navigation {
-	position: absolute;
-	background-color: $background-aside;
-	height: 100%;
-	width: 200px;
+  position: absolute;
+  background-color: $background-aside;
+  height: 100%;
+  width: 200px;
 
-	> p {
-		margin: 0;
-		background-color: $toggle-hover;
-		cursor: pointer;
+  > p {
+    margin: 0;
+    background-color: $toggle-hover;
+    cursor: pointer;
 
-		&:hover {
-			background-color: $toggle-hover;
-		}
-	}
+    &:hover {
+      background-color: $toggle-hover;
+    }
+  }
 
-	a, > p {
-		@include ellipsis();
-		padding: 10px 12px;
-		display: block;
+  a, > p {
+    @include ellipsis();
+    padding: 10px 12px;
+    display: block;
 
-		> i {
-			margin: 10px;
-		}
+    > i {
+      margin: 10px;
+    }
 
-		> i:last-child {
-			right: 5px;
-			position: absolute;
-		}
+    > i:last-child {
+      right: 5px;
+      position: absolute;
+    }
 
-		&.selected {
-			background-color: $edge-normal;
-		}
+    &.selected {
+      background-color: $edge-normal;
+    }
 
-		&:hover {
-			color: $white;
-			background-color: $edge-hover;
-		}
-	}
+    &:hover {
+      color: $white;
+      background-color: $edge-hover;
+    }
+  }
 
-	a {
-		color: $white;
-	}
+  a {
+    color: $white;
+  }
 
-	a:not(:first-child) {
-		padding: 0.2em;
-		padding-left: 1.25em;
-		opacity: 0.7;
-		@include animation(0.7);
-	}
+  a:not(:first-child) {
+    padding: 0.2em;
+    padding-left: 1.25em;
+    opacity: 0.7;
+    @include animation(0.7);
+  }
 }

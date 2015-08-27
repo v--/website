@@ -1,24 +1,26 @@
-$background-main:	#000000;
-$background-aside:	#101010;
-$background-panel:	#181818;
+@import '../../bower_components/font-awesome/scss/font-awesome.scss';
 
-$table-dark:		#101010;
-$table-light:		#181818;
-$table-hover:		#282828;
-$table-rounded:		5px;
+$background-main:   #000000;
+$background-aside:  #101010;
+$background-panel:  #181818;
 
-$edge-selected:		#d0e0f0;
-$edge-hover:		#90c0f0;
-$edge-normal:		#4080b0;
-$edge-blur:			#305070;
+$table-dark:        #101010;
+$table-light:       #181818;
+$table-hover:       #282828;
+$table-rounded:     5px;
 
-$toggle-normal:		#204060;
-$toggle-hover:		#406080;
+$edge-selected:     #d0e0f0;
+$edge-hover:        #90c0f0;
+$edge-normal:       #4080b0;
+$edge-blur:         #305070;
 
-$anim-short:		150ms;
-$anim-medium:		$anim-short * 2;
-$anim-long:			$anim-short * 3;
+$toggle-normal:     #204060;
+$toggle-hover:      #406080;
 
-$white:				#fff;
-$gray:				#bbb;
-$black:				#000;
+$anim-short:        150ms;
+$anim-medium:       $anim-short * 2;
+$anim-long:         $anim-short * 3;
+
+$white:             #fff;
+$gray:              #bbb;
+$black:             #000;

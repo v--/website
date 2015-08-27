@@ -1,6 +1,6 @@
 application.directive('navigation', function() { return {
     /*@ngInject*/
-    templateUrl: 'views/directives/navigation',
+    templateUrl: 'directives/navigation.html',
     scope: true,
     controller: function($scope, $element, $state, $location, $injector, State) {
         $scope.iconMap = {

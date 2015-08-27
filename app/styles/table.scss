@@ -1,145 +1,145 @@
 @import 'main';
 
 @mixin cell-background($color) {
-	border-color: $color;
-	background-color: $color;
-	transition: $anim-short;
+  border-color: $color;
+  background-color: $color;
+  transition: $anim-short;
 }
 
 table {
-	width: 100%;
-	border-collapse: collapse;
-	margin-top: 2em;
-	margin-bottom: 2em;
-	table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  table-layout: fixed;
 }
 
 tr {
-	border: 0;
-	@include animation();
+  border: 0;
+  @include animation();
 }
 
 th, tr, td {
-	padding: 0;
-	@include ellipsis();
+  padding: 0;
+  @include ellipsis();
 
-	> a, > p {
-		color: $white;
-		box-sizing: border-box;
-		border: 0.7em solid black;
-		text-align: left;
-		margin: 0;
-		display: inline-block;
-		width: 100%;
-	}
+  > a, > p {
+    color: $white;
+    box-sizing: border-box;
+    border: 0.7em solid black;
+    text-align: left;
+    margin: 0;
+    display: inline-block;
+    width: 100%;
+  }
 
-	> a:hover {
-		@include cell-background($table-hover !important);
-	}
+  > a:hover {
+    @include cell-background($table-hover !important);
+  }
 
-	> pre {
-		margin: 0;
+  > pre {
+    margin: 0;
 
-		> code {
-			border-top-left-radius: 0;
-			border-top-right-radius: 0;
-		}
-	}
+    > code {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+  }
 }
 
 td:not(:first-child) > pre > code {
-	border-bottom-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 td:not(:last-child) > pre > code {
-	border-bottom-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 th > p, th > div {
-	@include cell-background($edge-normal);
-	padding-left: 1.5em;
-	position: relative;
+  @include cell-background($edge-normal);
+  padding-left: 1.5em;
+  position: relative;
 }
 
 th[ts-criteria] > p, th[ts-criteria] > div {
-	cursor: pointer;
+  cursor: pointer;
 
-	&:before, &:after {
-		content: '';
-		float: left;
-		position: absolute;
-		left: 0.1em;
-		border-style: solid;
-		border-width: 8px;
-		border-color: #fff transparent;
-	}
+  &:before, &:after {
+    content: '';
+    float: left;
+    position: absolute;
+    left: 0.1em;
+    border-style: solid;
+    border-width: 8px;
+    border-color: #fff transparent;
+  }
 
-	&:before {
-		margin-top: 0.1em;;
-		border-top-width: 0;
-		border-top-color: transparent;
-	}
+  &:before {
+    margin-top: 0.1em;;
+    border-top-width: 0;
+    border-top-color: transparent;
+  }
 
-	&:after {
-		margin-top: 0.6em;;
-		margin-right: -0.1em;;
-		border-bottom-width: 0;
-		border-bottom-color: transparent;
-	}
+  &:after {
+    margin-top: 0.6em;;
+    margin-right: -0.1em;;
+    border-bottom-width: 0;
+    border-bottom-color: transparent;
+  }
 
-	&:hover {
-		@include cell-background($edge-hover);
-	}
+  &:hover {
+    @include cell-background($edge-hover);
+  }
 }
 
 th.tablesort-asc > p:after {
-	border-top-color: transparent;
+  border-top-color: transparent;
 }
 
 th.tablesort-desc > p:before {
-	border-bottom-color: transparent;
+  border-bottom-color: transparent;
 }
 
 th:first-child {
-	> a, > p {
-		border-top-left-radius: $table-rounded;
-	}
+  > a, > p {
+    border-top-left-radius: $table-rounded;
+  }
 }
 
 th:last-child {
-	> a, > p {
-		border-top-right-radius: $table-rounded;
-	}
+  > a, > p {
+    border-top-right-radius: $table-rounded;
+  }
 }
 
 tr:last-child {
-	td:first-child {
-		> a, > p {
-			border-bottom-left-radius: $table-rounded;
-		}
-	}
+  td:first-child {
+    > a, > p {
+      border-bottom-left-radius: $table-rounded;
+    }
+  }
 
-	td:last-child {
-		> a, > p {
-			border-bottom-right-radius: $table-rounded;
-		}
-	}
+  td:last-child {
+    > a, > p {
+      border-bottom-right-radius: $table-rounded;
+    }
+  }
 }
 
 tr:nth-child(odd) {
-	td > a, td > p {
-		@include cell-background($table-dark);
-	}
+  td > a, td > p {
+    @include cell-background($table-dark);
+  }
 }
 
 tr:nth-child(even) {
-	td > a, td > p {
-		@include cell-background($table-light);
-	}
+  td > a, td > p {
+    @include cell-background($table-light);
+  }
 }
 
 @-moz-document url-prefix() {
-	th > p:before, th > p:after {
-		transform: scale(.999);
-	}
+  th > p:before, th > p:after {
+    transform: scale(.999);
+  }
 }

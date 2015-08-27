@@ -1,5 +1,5 @@
 application.directive('pagination', function() { return {
-    templateUrl: 'views/directives/pagination',
+    templateUrl: 'directives/pagination.html',
     scope: {
         original: '=',
         paginated: '=',

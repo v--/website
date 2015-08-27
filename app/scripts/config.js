@@ -23,13 +23,13 @@ application.config(function($stateProvider, $locationProvider, $urlRouterProvide
         .state({
             name: 'home',
             url: '/',
-            templateUrl: 'views/home'
+            templateUrl: 'home.html'
         })
 
         .state({
             name: 'files',
             url: '/files{sub:.*}',
-            templateUrl: 'views/files',
+            templateUrl: 'files.html',
             controller: 'FilesCtrl',
             resolve: {
                 files: function(Files) {
@@ -42,7 +42,7 @@ application.config(function($stateProvider, $locationProvider, $urlRouterProvide
             name: 'code',
             url: '/code',
             controller: 'CodeCtrl',
-            templateUrl: 'views/code',
+            templateUrl: 'code.html',
             resolve: {
                 list: function(submenuCode) {
                     return submenuCode();
@@ -53,14 +53,14 @@ application.config(function($stateProvider, $locationProvider, $urlRouterProvide
         .state({
             name: 'code_ianis',
             url: '/code/ianis.js',
-            templateUrl: 'views/code/ianis'
+            templateUrl: 'code/ianis.html'
         })
 
         .state({
             name: 'code_Forex',
             url: '/code/forex',
             controller: 'CodeForexCtrl',
-            templateUrl: 'views/code/forex',
+            templateUrl: 'code/forex.html',
             resolve: {
                 forexRates: function(ForexRates) {
                     return ForexRates.get({currency: 'usd'}).$promise;
@@ -72,13 +72,13 @@ application.config(function($stateProvider, $locationProvider, $urlRouterProvide
             name: 'code_Sorting',
             url: '/code/sorting',
             controller: 'CodeSortingCtrl',
-            templateUrl: 'views/code/sorting'
+            templateUrl: 'code/sorting.html'
         })
 
         .state({
             name: 'slides',
             url: '/slides',
-            templateUrl: 'views/slides',
+            templateUrl: 'slides.html',
             controller: 'SlidesCtrl',
             resolve: {
                 slides: function(Slide) {
@@ -90,7 +90,7 @@ application.config(function($stateProvider, $locationProvider, $urlRouterProvide
         .state({
             name: 'pacman',
             url: '/pacman',
-            templateUrl: 'views/pacman',
+            templateUrl: 'pacman.html',
             controller: 'PacmanCtrl',
             resolve: {
                 packages: function(Package) {
@@ -103,6 +103,6 @@ application.config(function($stateProvider, $locationProvider, $urlRouterProvide
             name: 'error',
             params: {error: {}},
             controller: 'ErrorCtrl',
-            templateUrl: 'views/error'
+            templateUrl: 'error.html'
         });
 });

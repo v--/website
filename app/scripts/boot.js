@@ -1,3 +1,8 @@
+// removeIf(production)
+// jshint evil:true
+document.write('<script src="http://localhost:35729/livereload.js"></script>');
+// endRemoveIf(production)
+
 Array.prototype.defineMethod('swap', function(a, b) {
     var temp = this[a];
     this[a] = this[b];
@@ -13,5 +18,6 @@ window.application = angular.module('ivasilev', [
     'snap',
     'hc.marked',
     'tableSort',
-    'picardy.fontawesome'
+    'picardy.fontawesome',
+    'templates'
 ]);

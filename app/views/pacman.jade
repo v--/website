@@ -1,0 +1,29 @@
+<h1 id="pacmanrepositories">Pacman repositories</h1>
+
+<h2 id="avarietyofpackagesmostlymyownsoftwareandaurbuilds.">a variety of packages, mostly my own software and AUR builds.</h2>
+
+<p>All packages are signed, so you can import my GPG key (436BB513) into the pacman keychain. You can find it:<br/>
+* <a href="/436BB513.gpg">On this server</a><br/>
+* <a href="http://pgp.mit.edu">On pgp.mit.edu</a><br/>
+* <a href="http://keys.gnupg.net">On keys.gnupg.net</a><br/>
+* <a href="http://pool.sks-keyservers.net">On pool.sks-keyservers.net</a></p>
+
+<p><strong>Note:</strong> I mantain &#8216;any&#8217;, &#8216;i686&#8217; and &#8216;x86_64&#8217; repos. Each of them includes packages from &#8216;any&#8217;. $arch can be replaced with any of the three</p>
+
+pre: code.ini
+[ivasilev]</br>
+why Server = http://ivasilev.net/pacman/$arch
+
+<h2 id="youcanviewthepackagelisthere:">You can view the package list here:</h2>
+
+<p>{{packages}}</p>
+
+<div ng-repeat="(name, packages) in repos | orderBy: repo.name">
+<i><b>{{name}}</b></i>
+
+<ol>
+<li ng-repeat="package in packages">
+<b>{{package.name}}:</b> v{{package.version}}
+</li>
+</ol>
+</div>

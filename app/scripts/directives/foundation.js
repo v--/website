@@ -1,5 +1,5 @@
 application.directive('foundation', function() { return {
-    templateUrl: 'views/directives/foundation',
+    templateUrl: 'directives/foundation.html',
     scope: true,
     transclude: true,
     controller: function($scope, $state, $rootScope, $timeout, $cookieStore, snapRemote) {

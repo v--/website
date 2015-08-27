@@ -7,12 +7,10 @@ echo ' npm install'
 npm install
 echo ' bower install'
 bower install
-echo ' Building the assets'
-brunch build -P
-echo ' Building the binary'
-dub build --build=release --compiler=dmd
-echo ' Building the views'
-jade views -o html
+echo ' Building the backend'
+dub build -c release
+echo ' Building the frontend'
+gulp prod
 
 echo 'Deploying...'
 echo ' Stopping the server'
@@ -21,8 +19,8 @@ echo ' Syncing the application'
 scp -C ivasilev ivasilev.net:/srv/http/ivasilev
 echo ' Syncing the public folder'
 scp -rC public ivasilev.net:/srv/http/ivasilev
-echo ' Syncing the nginx conf'
-scp -rC nginx.conf ivasilev.net:/srv/http/ivasilev
+echo ' Syncing the configuration'
+scp -rC config ivasilev.net:/srv/http/ivasilev
 echo ' Syncing the views'
 scp -rC html ivasilev.net:/srv/http/ivasilev
 echo ' Setting permissions'

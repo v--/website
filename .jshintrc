@@ -84,6 +84,7 @@
     // Custom Globals
     "globals"       : {
         "angular": true,
+        "require": true,
         "application": true,
         "d3": true,
         "humane": true,

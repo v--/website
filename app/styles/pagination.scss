@@ -1,24 +1,24 @@
 @import 'main';
 
 x-pagination {
-	display: table;
-	width: 100%;
-	table-layout: fixed;
-	margin-top: 1em;
-	margin-bottom: 1em;
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  margin-top: 1em;
+  margin-bottom: 1em;
 
-	> .button {
-		display: table-cell;
-		border-right: 2px solid black;
+  > .button {
+    display: table-cell;
+    border-right: 2px solid black;
 
-		&:not(:first-child) {
-			border-top-left-radius: 0;
-			border-bottom-left-radius: 0;
-		}
+    &:not(:first-child) {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
 
-		&:not(:last-child) {
-			border-top-right-radius: 0;
-			border-bottom-right-radius: 0;
-		}
-	}
+    &:not(:last-child) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
 }

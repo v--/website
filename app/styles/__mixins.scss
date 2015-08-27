@@ -1,28 +1,28 @@
 @import '_vars.scss';
 
 @mixin ellipsis() {
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 @mixin animation($opacity:1) {
-	&.ng-move,
-	&.ng-enter {
-		transition: $anim-medium;
-	}
+  &.ng-move,
+  &.ng-enter {
+    transition: $anim-medium;
+  }
 
-	&.ng-leave.ng-leave-active,
-	&.ng-move,
-	&.ng-enter {
-		opacity: 0;
-		max-height: 0;
-	}
+  &.ng-leave.ng-leave-active,
+  &.ng-move,
+  &.ng-enter {
+    opacity: 0;
+    max-height: 0;
+  }
 
-	&.ng-leave,
-	&.ng-move.ng-move-active,
-	&.ng-enter.ng-enter-active {
-		opacity: $opacity;
-		max-height: 50px;
-	}
+  &.ng-leave,
+  &.ng-move.ng-move-active,
+  &.ng-enter.ng-enter-active {
+    opacity: $opacity;
+    max-height: 50px;
+  }
 }

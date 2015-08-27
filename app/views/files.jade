@@ -1,38 +1,38 @@
 h2 Index of "{{files.url}}"
 
 table(ts-wrapper)
-	thead
-		tr
-			th(ts-criteria="name", ts-default)
-				p Name
-			th(ts-criteria="extension")
-				p Type
-			th(ts-criteria="size")
-				p Size
-			th(ts-criteria="date")
-				p Date
+    thead
+        tr
+            th(ts-criteria="name", ts-default)
+                p Name
+            th(ts-criteria="extension")
+                p Type
+            th(ts-criteria="size")
+                p Size
+            th(ts-criteria="date")
+                p Date
 
-	tbody
-		tr(ng-if="parent")
-			td
-				a(href="", ng-href="{{parent.url}}") ..
-			td
-				p {{parent.extension | fileType}}
-			td
-				p {{parent.size | size}}
-			td
-				p {{parent.date | date}}
+    tbody
+        tr(ng-if="parent")
+            td
+                a(href="", ng-href="{{parent.url}}") ..
+            td
+                p {{parent.extension | fileType}}
+            td
+                p {{parent.size | size}}
+            td
+                p {{parent.date | date}}
 
-		tr(ng-if="parent")
-		tr(ng-repeat="file in paginated", ts-repeat)
-			td
-				a(href="", target="{{file.children ? '' : '_self'}}", ng-href="{{file.url}}") {{file.name}}
-			td
-				p {{file.extension | fileType}}
-			td
-				p {{file.size | size}}
-			td
-				p {{file.date | date}}
+        tr(ng-if="parent")
+        tr(ng-repeat="file in paginated", ts-repeat)
+            td
+                a(href="", target="{{file.children ? '' : '_self'}}", ng-href="{{file.url}}") {{file.name}}
+            td
+                p {{file.extension | fileType}}
+            td
+                p {{file.size | size}}
+            td
+                p {{file.date | date}}
 
 x-pagination(original="files.children", paginated="paginated", per-page="parent ? 7 : 8")
 
