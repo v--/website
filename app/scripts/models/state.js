@@ -16,9 +16,9 @@ application.factory('State', ($state, $rootScope) => class State {
 
         if (this.active) {
             if (this.parent)
-                $rootScope.$emit('changeTitle', [this.parent.name.capitalize()]);
+                $rootScope.$emit('changeTitle', [this.parent.name]);
             else
-                $rootScope.$emit('changeTitle', [this.name.capitalize()]);
+                $rootScope.$emit('changeTitle', [this.name]);
 
             if (this.children.isEmpty() && this.childrenPromise)
                 this.childrenPromise().then((children) => {

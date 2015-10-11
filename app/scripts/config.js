@@ -51,12 +51,6 @@ application.config(function($stateProvider, $locationProvider, $urlRouterProvide
         })
 
         .state({
-            name: 'code_ianis',
-            url: '/code/ianis.js',
-            templateUrl: 'code/ianis.html'
-        })
-
-        .state({
             name: 'code_Forex',
             url: '/code/forex',
             controller: 'CodeForexCtrl',

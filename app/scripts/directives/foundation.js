@@ -48,7 +48,7 @@ application.directive('foundation', function() { return {
             $timeout.cancel(timeout);
             timeout = $timeout($rootScope.$emit.fill('notify:info', 'Still loading...', {timeout: 0}).bind($rootScope), 1500);
             $scope.loading = true;
-            $rootScope.$emit('changeTitle', ['Loading']);
+            $rootScope.$emit('changeTitle', ['loading...']);
         });
 
         $rootScope.$on('$stateChangeSuccess', function() {

@@ -1,29 +1,30 @@
 #!/usr/bin/env bash
 
+trap "echo Aborting; exit" INT
+
 cd $(dirname ${BASH_SOURCE[0]})
+ROOT=/srv/http/ivasilev/
 
-echo 'Preparing...'
-echo ' npm install'
-npm install
-echo ' bower install'
-bower install
-echo ' Building the backend'
-dub build -c release
-echo ' Building the frontend'
-gulp prod
+function section {
+    echo -e "\x1b[32;1m$1\x1b[0m"
+}
 
-echo 'Deploying...'
-echo ' Stopping the server'
-ssh ivasilev.net systemctl stop vibed
-echo ' Syncing the application'
-scp -C ivasilev ivasilev.net:/srv/http/ivasilev
-echo ' Syncing the public folder'
-scp -rC public ivasilev.net:/srv/http/ivasilev
-echo ' Syncing the configuration'
-scp -rC config ivasilev.net:/srv/http/ivasilev
-echo ' Syncing the views'
-scp -rC html ivasilev.net:/srv/http/ivasilev
-echo ' Setting permissions'
-ssh ivasilev.net chown website:website /srv/http/ivasilev -R
-echo ' Starting the server'
-ssh ivasilev.net systemctl start vibed
+function action {
+    echo -e "  \x1b[33;1m$1\x1b[0m"
+    $1
+}
+
+section "Preparing..."
+action "npm install"
+action "bower install"
+action "dub build -b release"
+action "gulp prod"
+
+section "Deploying..."
+action "ssh ivasilev.net systemctl stop vibed"
+action "ssh ivasilev.net rm -r $ROOT/ivasilev $ROOT/html $ROOT/config $ROOT/public"
+action "scp -rC ivasilev html config public ivasilev.net:$ROOT"
+action "ssh ivasilev.net chown website:website $ROOT -R"
+action "ssh ivasilev.net systemctl restart vibed nginx"
+
+section "Finished..."
