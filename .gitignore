@@ -4,7 +4,7 @@
 /node_modules
 /ivasilev
 /files
-/public
+/public/application.(js|css)
 /html
 /pacman
 /slides
