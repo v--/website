@@ -1,3 +1,5 @@
+// Remove ianis.min.js
+
 import childProcess from 'child_process';
 import webpackStream from 'webpack-stream';
 import libnotify from 'libnotify';
