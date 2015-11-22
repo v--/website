@@ -53,11 +53,11 @@ export default class View extends Component {
         let resolveNumber = resolveCounter;
 
         // A basic promise canceller for avoiding sync problems
-        return new Promise(resolve => {
+        return new Promise((resolve, reject) => {
             this.resolver(...args).then((...results) => {
                 if (resolveNumber === resolveCounter)
                     resolve(...results);
-            });
+            }, reject);
         });
     }
 
