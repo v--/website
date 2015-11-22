@@ -7,8 +7,6 @@ import ivasilev.interfaces.json;
 import ivasilev.exception;
 import ivasilev.models;
 
-import std.stdio: writeln;
-
 enum PACMAN_PACKAGE_REGEX =  ctRegex!`^(.*)-([\d.]+-\d)-(.*).pkg.tar.xz$`;
 
 class PacmanPackage: IJSON {

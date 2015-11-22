@@ -3,6 +3,8 @@ module ivasilev.website.helpers.serve_files;
 import std.file;
 import vibe.d;
 
+import ivasilev.logger;
+
 private enum WEBAPP_ENTRY = "./views/application.html";
 
 ubyte[] serveFile(string path, HTTPServerRequest, HTTPServerResponse res)
@@ -16,14 +18,18 @@ ubyte[] serveFile(string path, HTTPServerRequest, HTTPServerResponse res)
     return cast(ubyte[]) read(path);
 }
 
+ubyte[] serveWebapp(HTTPServerRequest req, HTTPServerResponse res) {
+    return serveFile(WEBAPP_ENTRY, req, res);
+}
+
 ubyte[] serveFileOrWebapp(string path, HTTPServerRequest req, HTTPServerResponse res)
 {
     if (exists(path) && isFile(path))
+    {
+        logger.info("Serving requested file ", path);
         return serveFile(path, req, res);
+    }
 
+    logger.infof("Requested file %s was not found", path);
     return serveWebapp(req, res);
-}
-
-ubyte[] serveWebapp(HTTPServerRequest req, HTTPServerResponse res) {
-    return serveFile(WEBAPP_ENTRY, req, res);
 }

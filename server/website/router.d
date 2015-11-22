@@ -8,8 +8,6 @@ import ivasilev.logger;
 import ivasilev.models;
 import ivasilev.website.helpers;
 
-import std.stdio: writeln;
-
 void initializeRouter(ApplicationSettings settings, HTTPServerSettings vibedSettings)
 {
     with(Vibrant(vibedSettings))
@@ -19,12 +17,12 @@ void initializeRouter(ApplicationSettings settings, HTTPServerSettings vibedSett
         import std.typecons: scoped;
 
         Get("/files/*", delegate ubyte[] (req, res) {
-            auto path = buildPath(settings.dirs.files, req.path["files/".length..$]);
+            auto path = buildPath(settings.dirs.files, req.path.replaceFirst("files", settings.dirs.files));
             return serveFileOrWebapp(path, req, res);
         });
 
         Get("/pacman/*", delegate ubyte[] (req, res) {
-            auto path = buildPath(settings.dirs.pacman, req.path["pacman/".length..$]);
+            auto path = buildPath(settings.dirs.pacman, req.path.replaceFirst("pacman", settings.dirs.pacman));
             return serveFileOrWebapp(path, req, res);
         });
 
