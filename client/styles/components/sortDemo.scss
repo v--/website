@@ -1,0 +1,21 @@
+@import 'vars';
+
+.sort-demo {
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: $darkgray;
+  text-align: center;
+  display: inline-block;
+  min-width: 100px;
+  margin: 0 30px 30px 0;
+
+  > p {
+    font-size: 1.2em;
+    margin: 5px auto;
+  }
+
+  > button {
+    width: 100%;
+    margin: 15px auto 5px;
+  }
+}

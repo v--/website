@@ -1,0 +1,30 @@
+:marked
+    # __pacman__ repository
+
+    The repo contains a variety of packages, mostly my own software and AUR builds.
+
+    I mantain __'any'__ and __'x86\_64'__ repos. __'x86\_64'__ includes packages from __'any'__. __$arch__ can be replaced with any of the two:
+
+pre: code
+    :highlight(lang="ini")
+        [ivasilev]
+        Server = http://ivasilev.net/pacman/$arch
+        # Server = http://ivasilev.net/pacman/any
+        # Server = http://ivasilev.net/pacman/x86_64
+
+p All packages are signed, so you can import my GPG key (#{key}) into the pacman keychain. The key can be downloaded from:
+
+ul
+    each server in keyservers
+        li: a(href=server.url)
+            span #{server.origin}
+            span.semitransparent #{server.path}
+
+h2 Packages:
+
+each packageGroup, arch in packages
+    h3 #{arch}
+
+    ul
+        each pkg in packageGroup
+            li #{pkg.name} #{pkg.version}

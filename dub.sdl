@@ -1,0 +1,26 @@
+name "ivasilev"
+description "ivasilev.net"
+copyright "Copyright © 2014-2015 Ianis G. Vasilev"
+authors "Ianis G. Vasilev"
+targetType "executable"
+
+sourcePaths "server/common" "server/website"
+stringImportPaths "server/website"
+dependency "vibe-d" version="~>0.7.26"
+dependency "vibrant-d" version="~>0.1.6"
+dependency "ddbc" version="~>0.2.24"
+dependency "toml-d" version="~>0.3.0"
+dependency "ivasilev:forex" version="*"
+
+subPackage {
+    name "forex"
+    description "ivasilev.net forex service"
+    targetType "executable"
+
+    libs "curl"
+    sourcePaths "server/common" "server/forex"
+    dependency "vibe-d" version="~>0.7.26"
+    dependency "ddbc" version="~>0.2.24"
+    dependency "toml-d" version="~>0.3.0"
+    dependency "kxml" version="~>1.0.1"
+}

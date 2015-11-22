@@ -1,0 +1,12 @@
+linters:
+  PropertySortOrder:
+    enabled: false
+
+  HexLength:
+    enabled: false
+
+  SingleLinePerSelector:
+    enabled: false
+
+  LeadingZero:
+    enabled: false

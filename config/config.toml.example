@@ -1,0 +1,20 @@
+[server]
+address = "0.0.0.0"
+port = 8000
+
+[db]
+address = "127.0.0.1"
+port = 5432
+name = "ivasilev"
+user = "website"
+pass = "veb"
+
+[dirs]
+files = "files"
+slides = "slides"
+pacman = "pacman"
+
+[ecb_history]
+daily = "http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml"
+quaterly = "http://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist-90d.xml"
+full = "http://www.ecb.europa.eu/stats/eurofxref/eurofxref-hist.xml"

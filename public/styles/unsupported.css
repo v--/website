@@ -4,7 +4,8 @@ body {
     width: 100%;
     position: absolute;
     text-align: center;
-    background: #000;
+    background-color: #000;
+    background-image: url('/images/background.svg');
     top: 40%;
     padding: 0;
     margin: 0;

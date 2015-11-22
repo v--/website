@@ -1,0 +1,48 @@
+$white:                #ffffff;
+$black:                #000000;
+
+$gray:                 #888888;
+$darkgray:             #202020;
+$lightgray:            #f0f0f0;
+
+$blue:                 #0fa0ce;
+$darkblue:             #014156;
+$lightblue:            lighten($blue, 15%);
+$paleblue:             lighten($blue, 25%);
+
+$success:              #228b22;
+$danger:               #cc0000;
+
+$primary:              $lightgray;
+$secondary:            $gray;
+$background:           $black;
+$codebox:              $darkgray;
+$disabled:             #404040;
+$link:                 $blue;
+$link-hover:           $lightblue;
+$error-icon:           #ffff66;
+$table-border:         #888888;
+$button-color:         #bbbbbb;
+$button-hover:         $gray;
+$nav-background:       $darkgray;
+$nav-button-active:    $darkblue;
+$nav-subbutton:        #303030;
+$nav-subbutton-active: $paleblue;
+$nav-subbutton-hover:  $lightblue;
+
+
+$anim-duration:        250ms;
+
+
+$tablet-width:         800px;
+$navbar-width:        200px;
+$button-height:        38px;
+$view-padding-base:    40px;
+$view-padding-side:    50px;
+
+
+@mixin ellipsis() {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

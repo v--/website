@@ -1,8 +1,0 @@
-x-snap-drawer
-    x-navigation
-
-x-snap-content(ng-class="{extended: snapperOpen}" ng-switch="loading")
-    div(ng-switch-when="true"): x-fa.center(name="spinner", spin)
-    x-ng-transclude(ng-switch-default)
-
-x-fa(name="chevron-circle-right", ng-hide="snapperOpen", snap-toggle="left")

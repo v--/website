@@ -1,0 +1,7 @@
+development:
+    dialect: postgres
+    datasource: dbname=ivasilev user=website sslmode=disable
+
+production:
+    dialect: postgres
+    datasource: dbname=ivasilev user=website sslmode=disable

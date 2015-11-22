@@ -1,0 +1,55 @@
+@import 'vars';
+
+tr, th, td {
+  border-color: $table-border;
+}
+
+table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+th {
+  cursor: pointer;
+
+  > p {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 0.5em;
+    margin-bottom: 0;
+  }
+}
+
+tbody {
+  td {
+    vertical-align: middle;
+
+    > p, a {
+      @include ellipsis();
+      display: block;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.pagination {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  text-align: center;
+
+  > span {
+    cursor: pointer;
+    color: $link;
+    flex: 1;
+
+    &.active {
+      color: $primary;
+    }
+
+    &.disabled {
+      color: $disabled;
+      cursor: not-allowed;
+    }
+  }
+}

@@ -1,0 +1,17 @@
+@import 'vars';
+
+.button-accordeon-enter {
+  height: 0;
+
+  &.button-accordeon-enter-active {
+    height: $button-height;
+    transition: height $anim-duration;
+  }
+}
+
+.button-accordeon-leave {
+  &.button-accordeon-leave-active {
+    height: 0;
+    transition: height $anim-duration;
+  }
+}

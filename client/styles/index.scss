@@ -1,0 +1,70 @@
+@import 'vars';
+@import url("https://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css");
+
+// remove blue webkit outline
+*:focus {
+  outline: 0;
+}
+
+body {
+  color: $primary;
+  font-family: sans-serif;
+  background-color: $background;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+a {
+  color: $link;
+
+  &:hover {
+    color: $link-hover;
+  }
+}
+
+code {
+  border: 0;
+  overflow: auto;
+  background-color: $codebox;
+}
+
+button, .button {
+  @include ellipsis();
+  color: $button-color;
+  border-color: $button-color;
+  transition: background-color $anim-duration;
+
+  &:focus {
+    color: $button-color;
+    border-color: $button-color;
+  }
+
+  &:hover {
+    color: $button-hover;
+    border-color: $button-hover;
+  }
+}
+
+.secondary {
+  color: $secondary;
+}
+
+.centered {
+  text-align: center;
+}
+
+.ellipsis {
+  @include ellipsis;
+}
+
+.success {
+  color: $success;
+}
+
+.danger {
+  color: $danger;
+}
+
+.semitransparent {
+  opacity: 0.5;
+}
