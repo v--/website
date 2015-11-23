@@ -31,7 +31,7 @@ class DatabaseConnection
         try _active = new DatabaseConnection(settings);
 
         catch (Exception)
-            throw new CoolException("Could not initialize database ", settings.db.name);
+            throw new CoolException("Could not initialize database %s", settings.db.name);
     }
 
     private this(ApplicationSettings settings)

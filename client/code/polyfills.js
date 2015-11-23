@@ -8,14 +8,14 @@ Array.prototype.defineMethod('groupBy', function(accessorArg) {
 
     Object.assertType('function', accessor);
 
-    this.forEach(data => {
+    this.forEach((function(data) {
         var prop = accessor(data);
 
         if (!result.hasOwnProperty(prop))
             result[prop] = [];
 
         result[prop].push(data);
-    });
+    }).bind(this));
 
     return result;
 });

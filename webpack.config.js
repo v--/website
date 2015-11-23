@@ -1,12 +1,9 @@
 /* global process, require, module, __dirname */
 /* eslint no-var: 0 */
 
-var webpack = require('webpack');
 var plugins = [], babelPlugins = [];
 
-if (process.env.NODE_ENV === 'production')
-    plugins.push(new webpack.optimize.UglifyJsPlugin());
-else
+if (process.env.NODE_ENV !== 'production')
     babelPlugins.push('typecheck');
 
 module.exports = {

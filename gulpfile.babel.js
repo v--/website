@@ -11,6 +11,7 @@ import livereload from 'gulp-livereload';
 import gulpJade from 'gulp-jade';
 import scssLint from 'gulp-scss-lint';
 import plumber from 'gulp-plumber';
+import uglify from 'gulp-uglify';
 import concat from 'gulp-concat';
 import eslint from 'gulp-eslint';
 import watch from 'gulp-watch';
@@ -100,6 +101,7 @@ gulp.task('webpack', function() {
 
     return merge(polyfills, code)
         .pipe(concat('application.js'))
+        .pipe(runMode.production(uglify()))
         .pipe(gulp.dest('public/code'))
         .pipe(runMode.development(livereload()));
 });
