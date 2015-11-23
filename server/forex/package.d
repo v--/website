@@ -16,6 +16,7 @@ void main()
     auto settings = ApplicationSettings(DEFAULT_CONFIG_FILE);
     DatabaseConnection.renew(settings);
     syncRates(settings);
+    DatabaseConnection.active.destroy();
 }
 
 private:
@@ -56,22 +57,23 @@ void importXML(string document, DateRange dateRange)
 
     foreach (cube; readDocument(document).parseXPath("/gesmes:Envelope/Cube/Cube"))
     {
-        auto date = cube.getAttribute("time").parseDate();
+        import std.string: toUpper;
+        auto currentDate = cube.getAttribute("time").parseDate();
 
-        if (dateRange.isEmpty && dateRange.includes(date))
+        if (!dateRange.isEmpty && dateRange.includes(currentDate))
         {
-            logger.info("Ignored date ", date);
+            logger.info("Ignored date ", currentDate);
             continue;
         }
 
         foreach (node; cube.parseXPath("/Cube"))
         {
-            auto name = node.getAttribute("currency");
+            auto name = node.getAttribute("currency").toUpper();
             auto rate = node.getAttribute("rate").to!double;
-            rateAppender.put(new Rate(currencyByName(name), rate, date));
+            rateAppender.put(new Rate(currencyByName(name), rate, currentDate));
         }
 
-        logger.info("Parsed date ", date);
+        logger.info("Parsed date ", currentDate);
     }
 
     Rate.bulkInsert(rateAppender.data);

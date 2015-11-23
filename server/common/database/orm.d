@@ -110,6 +110,10 @@ mixin template ORM(CLASS, string SELECTOR = "*")
     static void bulkInsert(CLASS[] instances)
     {
         import std.algorithm: map;
+
+        if (instances.length == 0)
+            return;
+
         DatabaseConnection.active.performUpdate(
             "INSERT INTO %s %s VALUES %s", TABLE_NAME, KEYS,
             instances.map!(x => stringifyValues(x)).array.join(",")

@@ -1,6 +1,5 @@
 module ivasilev.models.currency;
 
-import std.datetime;
 import vibe.data.json;
 
 import ivasilev.database;
@@ -17,7 +16,7 @@ class Currency: IJSON
     static bool isValidName(string name)
     {
         import std.regex: matchFirst, ctRegex;
-        enum CURRENCY_REGEX =  ctRegex!"^[a-z]{3}$";
+        enum CURRENCY_REGEX =  ctRegex!"^[A-Z]{3}$";
         return !name.matchFirst(CURRENCY_REGEX).empty;
     }
 
@@ -43,12 +42,10 @@ class Currency: IJSON
     this() {}
     this(string name)
     {
-        import std.string: toUpper;
-
         if (!isValidName(name))
             throw new CoolException("Invalid currency name " ~ name);
 
-        this.name = name.toUpper();
+        this.name = name;
     }
 
     Json toJSON()

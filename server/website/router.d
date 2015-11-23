@@ -80,7 +80,7 @@ void initializeRouter(ApplicationSettings settings, HTTPServerSettings vibedSett
                 }
 
                 string rawLimit = req.query.get("limit", null),
-                       currencyName = req.params["currency"];
+                       currencyName = req.params["currency"].toUpper();
 
                 long limit = parseLimitString(rawLimit);
                 auto result = Json.emptyObject;
@@ -88,7 +88,7 @@ void initializeRouter(ApplicationSettings settings, HTTPServerSettings vibedSett
                 if (!Currency.isValidName(currencyName))
                     throw new HTTPStatusException(400, "Invalid currency " ~ currencyName);
 
-                auto currency = Currency.find("name", currencyName.toUpper());
+                auto currency = Currency.find("name", currencyName.toUpper);
 
                 if (currency is null)
                     throw new HTTPStatusException(400, "Invalid currency " ~ currencyName);

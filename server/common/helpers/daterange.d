@@ -41,7 +41,6 @@ struct DateRange
 
     @property isEmpty()
     {
-        enforceNonEmpty();
         return _empty;
     }
 
@@ -67,6 +66,6 @@ struct DateRange
     bool includes(Date date)
     {
         enforceNonEmpty();
-        return date > start && date < end;
+        return date >= start && date <= end;
     }
 }
