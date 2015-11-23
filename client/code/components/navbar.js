@@ -14,7 +14,7 @@ export default class Navbar extends Component {
         super();
 
         this.state = {
-            expanded: outerWidth >= TABLET_WIDTH && monster.get('sidemenuExpanded') === 'true'
+            expanded: outerWidth >= TABLET_WIDTH && monster.get('sidemenuExpanded') !== 'false'
         };
 
         this.unregNavListener = Dispatcher.nav.register(::this.onContextUpdate);
