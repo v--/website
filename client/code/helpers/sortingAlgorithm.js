@@ -95,7 +95,7 @@ SortingAlgorithm.save(
                     if (!isMin)
                         segment.swap(k, minIndex);
 
-                    yield new SortResponse(start + k, start + minIndex, isMin);
+                    yield new SortResponse(start + k, start + minIndex, !isMin);
                 }
             }
     }
