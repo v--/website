@@ -2,7 +2,7 @@ module ivasilev.website.helpers.content_type;
 
 enum ContentType
 {
-    plain = "text/plain",
+    text = "text/plain",
     json = "application/json",
     html = "text/html"
 }

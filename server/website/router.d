@@ -110,6 +110,12 @@ void initializeRouter(ApplicationSettings settings, HTTPServerSettings vibedSett
                     .toString();
             });
 
+            Get("/yomomma", ContentType.text.utf8, delegate string (req, res) {
+                import std.net.curl: get;
+                auto joke = cast(string) get("http://api.yomomma.info/");
+                return parseJson(joke)["joke"].toString()[1..$ - 1];
+            });
+
             Get("*", delegate void (req, res) {
                 throw new HTTPStatusException(404);
             });
