@@ -91,16 +91,16 @@ export default class Table extends Component {
                 )
             ),
 
+            createElement('tbody', null,
+                staticData.concat(data.slice(startIndex, endIndex)).map(::this.createRow)
+            ),
+
             createElement('thead', null,
                 createElement('tr', null,
                     createElement('th', { colSpan: this.props.columns.length },
                         this.createPagination()
                     )
                 )
-            ),
-
-            createElement('tbody', null,
-                staticData.concat(data.slice(startIndex, endIndex)).map(::this.createRow)
             )
         );
     }
