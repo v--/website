@@ -25,7 +25,7 @@ module.exports = {
             },
 
             {
-                test: /client\/jade/,
+                test: /client\/views/,
                 loader: 'jade'
             }
         ]
@@ -34,7 +34,7 @@ module.exports = {
         extensions: ['', '.js', '.jade'],
         alias: {
             code: `${__dirname}/client/code`,
-            views: `${__dirname}/client/jade`
+            views: `${__dirname}/client/views`
         }
     },
     plugins: plugins

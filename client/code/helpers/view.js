@@ -5,7 +5,7 @@ import Viewport from 'code/helpers/viewport';
 let resolveCounter = 0;
 
 export default class View extends Component {
-    static generate(title: string, route: string = '') {
+    static generate(title: string, route: string = '', heading: string = '') {
         return class ViewImpl extends View {
             static propTypes = {
                 viewport: PropTypes.instanceOf(Viewport).isRequired
@@ -17,6 +17,10 @@ export default class View extends Component {
 
             static get route() {
                 return route;
+            }
+
+            static generateHeading() {
+                return heading;
             }
         };
     }
@@ -39,6 +43,10 @@ export default class View extends Component {
 
     static get hasSubviews() {
         return this.subviews !== View.subviews;
+    }
+
+    static generateHeading() {
+        return this.title;
     }
 
     static isSubroute(subroute) {

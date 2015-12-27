@@ -1,0 +1,26 @@
+@import 'vars';
+
+.breakout-block--1 {
+  background-color: $breakout-bar-fg;
+}
+
+.breakout-block-0 {
+  background-color: hsl(0, 0, 20);
+}
+
+@for $i from 1 through $breakout-block-count {
+  .breakout-block-#{$i} {
+    background-color: hsl($i * 180 / $breakout-block-count, 50, 50);
+  }
+}
+
+.block-description-container {
+  display: flex;
+  margin-bottom: 2.5rem;
+
+  .block-description {
+    width: 100%;
+    text-align: center;
+    color: $black;
+  }
+}

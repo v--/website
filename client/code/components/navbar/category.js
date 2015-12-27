@@ -1,7 +1,7 @@
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 import { createElement, Component, PropTypes } from 'react';
 
-import NavbarSubCategory from 'code/components/navbarSubCategory';
+import NavbarSubCategory from 'code/components/navbar/subCategory';
 import Fa from 'code/components/fa';
 import View from 'code/helpers/view';
 import NavigationContext from 'code/helpers/navigationContext';

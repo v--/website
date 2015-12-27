@@ -56,8 +56,11 @@ const PLUMBER_CONFIG = {
 
 let dub, app;
 
-jade.filters.katex = function(input) {
-    return katex.render(input, { displayMode: true }).body;
+jade.filters.katex = function(input, config) {
+    if (config.displayMode === undefined)
+        config.displayMode = true;
+
+    return katex.render(input, { displayMode: config.displayMode }).body;
 };
 
 jade.filters.highlight = function(input, config) {
@@ -108,8 +111,8 @@ gulp.task('webpack', function() {
 
 gulp.task('views', function() {
     return gulp.src([
-        'client/views/**/*.jade',
-        '!client/views/**/_*.jade'
+        'client/views/static/**/*.jade',
+        '!client/views/static/**/_*.jade'
     ])
     .pipe(plumber(PLUMBER_CONFIG))
     .pipe(runMode.development(gulpJade({
@@ -151,11 +154,11 @@ gulp.task('watch', function() {
         gulp.start('server');
     });
 
-    watch('client/views/**/*.jade', function() {
+    watch('client/views/static/**/*.jade', function() {
         gulp.start('views');
     });
 
-    watch(['client/code/**/*.js', 'client/jade/**/*.jade'], function() {
+    watch(['client/code/**/*.js', 'client/views/**/*.jade', 'client/views/!static'], function() {
         gulp.start('webpack');
     });
 

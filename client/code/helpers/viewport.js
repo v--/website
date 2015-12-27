@@ -12,4 +12,8 @@ export default class Viewport {
         const { left, top, right, bottom, width, height } = rect;
         this.merge({ left, top, right, bottom, width, height });
     }
+
+    clone() {
+        return new Viewport(this);
+    }
 }

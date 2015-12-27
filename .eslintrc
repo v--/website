@@ -1,6 +1,20 @@
 parser: babel-eslint
-extends: google
-rules:
+
+env:
+    browser: true
+
+extends:
+    - eslint:recommended
+
+plugins:
+    - filenames
+    - react
+
+env:
+    browser: true
+
+globals:
+    semi: 2
     indent: [1, 4]
     curly: [1, multi, consistent]
     func-names: 0
@@ -13,7 +27,3 @@ rules:
     require-jsdoc: [0]
     no-var: 1
     no-inline-comments: 0
-plugins:
-    - filenames
-env:
-    browser: true

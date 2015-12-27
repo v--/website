@@ -1,7 +1,7 @@
 import { createElement, Component, PropTypes } from 'react';
 
 import Dispatcher from 'code/helpers/dispatcher';
-import SortDemoSorter from 'code/components/sortDemoSorter';
+import SortDemoSorter from 'code/components/sorting/sortDemoSorter';
 import SortingAlgorithm from 'code/helpers/sortingAlgorithm';
 
 export default class SortDemo extends Component {

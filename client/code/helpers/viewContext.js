@@ -2,7 +2,7 @@ import { createElement } from 'react';
 
 import View from 'code/helpers/view';
 
-class Empty extends View {
+class Empty extends View.generate('empty') {
     render() {
         return createElement('div');
     }

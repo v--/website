@@ -4,7 +4,7 @@ import { createElement, Component } from 'react';
 import Dispatcher from 'code/helpers/dispatcher';
 import classSet from 'code/helpers/classSet';
 import NavigationContext from 'code/helpers/navigationContext';
-import SidebarCategory from 'code/components/navbarCategory';
+import SidebarCategory from 'code/components/navbar/category';
 import Fa from 'code/components/fa';
 import { TABLET_WIDTH } from 'code/constants/style';
 import { VIEWS } from 'code/router';

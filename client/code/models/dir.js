@@ -37,6 +37,10 @@ export default class Dir extends FSNode {
         return this.children.filter(x => x.isDirectory);
     }
 
+    get hasDescription() {
+        return this.markdown !== '';
+    }
+
     constructor(path: string, modified: string, size: number, markdown: string, children: Array) {
         super(path, modified, size);
         this.markdown = markdown;

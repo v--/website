@@ -12,6 +12,7 @@ import Files from 'code/views/files';
 import Code from 'code/views/code';
 import CodeForex from 'code/views/code/forex';
 import CodeSorting from 'code/views/code/sorting';
+import CodeBreakout from 'code/views/code/breakout';
 import Slides from 'code/views/slides';
 import Pacman from 'code/views/pacman';
 
@@ -92,18 +93,24 @@ page('/code', function() {
     updateWindowTitle(['code']);
 });
 
-page('/code/sorting', function() {
-    dispatchView(CodeSorting);
-    dispatchNav(Code, Code.subviews(), CodeSorting);
-    updateWindowTitle(['code', 'sorting']);
-});
-
 page('/code/forex', function() {
     CodeForex.resolve().then(function(data) {
         dispatchView(CodeForex, data);
         dispatchNav(Code, Code.subviews(), CodeForex);
         updateWindowTitle(['code', 'forex']);
     }).catch(dispatchError);
+});
+
+page('/code/sorting', function() {
+    dispatchView(CodeSorting);
+    dispatchNav(Code, Code.subviews(), CodeSorting);
+    updateWindowTitle(['code', 'sorting']);
+});
+
+page('/code/breakout', function() {
+    dispatchView(CodeBreakout);
+    dispatchNav(Code, Code.subviews(), CodeBreakout);
+    updateWindowTitle(['code', 'breakout']);
 });
 
 page('/slides', function() {

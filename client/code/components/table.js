@@ -1,3 +1,4 @@
+
 import { createElement, Component, PropTypes } from 'react';
 
 import Fa from 'code/components/fa';
@@ -5,13 +6,22 @@ import classSet from 'code/helpers/classSet';
 import Viewport from 'code/helpers/viewport';
 import { TABLE_ROW_HEIGHT, PAGINATION_BUTTON_WIDTH } from 'code/constants/style';
 
+const ROW_BONUS = 2;
+
 export default class Table extends Component {
     static defaultProps = {
-        staticData: [],
-        perPageTransform: Function.identity
+        initialSort: {
+            columnIndex: -1,
+            ascending: true
+        },
+        staticData: []
     }
 
     static propTypes = {
+        initialSort: PropTypes.shape({
+            columnIndex: PropTypes.number.isRequired,
+            ascending: PropTypes.bool
+        }),
         columns: PropTypes.arrayOf(
             PropTypes.shape({
                 name: PropTypes.string.isRequired,
@@ -26,8 +36,7 @@ export default class Table extends Component {
         ).isRequired,
         data: PropTypes.array.isRequired,
         viewport: PropTypes.instanceOf(Viewport).isRequired,
-        staticData: PropTypes.array,
-        perPageTransform: PropTypes.func
+        staticData: PropTypes.array
     }
 
     static calcWidthPercentages(columns: Array) {
@@ -52,9 +61,7 @@ export default class Table extends Component {
     }
 
     get perPage() {
-        return Math.max(1, this.props.perPageTransform(
-            Math.floor(this.props.viewport.height / TABLE_ROW_HEIGHT)
-        ) - this.props.staticData.length);
+        return Math.max(1, Math.floor(this.props.viewport.height / TABLE_ROW_HEIGHT) - this.props.staticData.length - ROW_BONUS);
     }
 
     get maxPaginationButtons() {
@@ -107,8 +114,9 @@ export default class Table extends Component {
 
     // @override
     componentWillMount() {
+        const { columnIndex, ascending = true } = this.props.initialSort;
         this.state.columnWidths = Table.calcWidthPercentages(this.props.columns);
-        this.sortBy(this.state.sortedBy);
+        this.sort(columnIndex, ascending, this.props.data);
     }
 
     // @override
@@ -125,7 +133,7 @@ export default class Table extends Component {
             {
                 key: index,
                 title: column.name,
-                onClick: e => this.sortBy(column.name, e),
+                onClick: e => this.sortBy(index, e),
                 width: this.state.columnWidths[index]
             },
             createElement(Fa, { name: icon }),
@@ -193,10 +201,10 @@ export default class Table extends Component {
     }
 
     sort(index: number, ascending: boolean, data: Array) {
-        const accessor = this.props.columns[index].accessors.value;
+        const accessor = this.props.columns.query(`${index}.accessors.value`);
 
         this.setState({
-            data: data.sortBy(accessor, !ascending),
+            data: accessor === undefined ? data : data.sortBy(accessor, !ascending),
             sortedBy: index,
             ascending: ascending
         });

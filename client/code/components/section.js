@@ -6,16 +6,15 @@ import Viewport from 'code/helpers/viewport';
 
 export default class Section extends Component {
     get viewport() {
-        if (this.element === null)
+        if (this.state.element === null)
             return Viewport.default;
 
-        return new Viewport(this.element.getBoundingClientRect());
+        return new Viewport(this.state.element.getBoundingClientRect());
     }
 
     constructor() {
         super();
-        this.state = { context: ViewContext.empty };
-        this.element = null;
+        this.state = { context: ViewContext.empty, element: null };
         this.unregViewListener = Dispatcher.view.register(::this.onViewUpdate);
         this.unregResizeListener = Dispatcher.resize.register(::this.onResize);
     }
@@ -24,9 +23,12 @@ export default class Section extends Component {
     render() {
         const { context } = this.state;
 
-        return createElement('section', { ref: ::this.setElement },
-            createElement(context.view,
-                { data: context.data, viewport: this.viewport }
+        return createElement('section', null,
+            createElement('h1', { className: 'ellipsis' }, context.view.generateHeading(context.data)),
+            createElement('div', { className: 'view-container', ref: ::this.setElement },
+                createElement(context.view,
+                    { data: context.data, viewport: this.viewport }
+                )
             )
         );
     }
@@ -44,10 +46,13 @@ export default class Section extends Component {
 
     onResize() {
         if (this.state.context.view.updateOnResize)
-            this.forceUpdate.debounce(50);
+            this.forceUpdate();
     }
 
     setElement(element) {
-        this.element = element;
+        if (this.state.element === null)
+            this.setState({
+                element: element
+            });
     }
 }

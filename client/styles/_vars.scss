@@ -30,15 +30,24 @@ $nav-subbutton:        #303030;
 $nav-subbutton-active: $paleblue;
 $nav-subbutton-hover:  $lightblue;
 
+$breakout-background: $darkgray;
+$breakout-ball-fg:    $white;
+$breakout-bar-fg:     $white;
 
 $anim-duration:        250ms;
 
 
 $tablet-width:         800px;
-$navbar-width:        200px;
+$navbar-width:         200px;
 $button-height:        38px;
 $view-padding-base:    40px;
 $view-padding-side:    50px;
+$header-line-height:   60px;
+$header-line-margin:   20px;
+$breakout-padding:     20px;
+
+
+$breakout-block-count: 3;
 
 
 @mixin ellipsis() {

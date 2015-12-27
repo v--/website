@@ -22,6 +22,10 @@ a {
   }
 }
 
+h1 {
+  line-height: $header-line-height;
+}
+
 code {
   border: 0;
   overflow: auto;
@@ -67,4 +71,8 @@ button, .button {
 
 .semitransparent {
   opacity: 0.5;
+}
+
+.hidden {
+  display: none;
 }

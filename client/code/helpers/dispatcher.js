@@ -3,6 +3,7 @@ export default class Dispatcher {
     static view = new Dispatcher();
     static nav = new Dispatcher();
     static resize = new Dispatcher();
+    static keyDown = new Dispatcher();
 
     constructor() {
         this.listeners = [];
@@ -23,6 +24,10 @@ export default class Dispatcher {
     }
 }
 
-addEventListener('resize', function() {
+window.addEventListener('resize', function() {
     Dispatcher.resize.dispatch({ width: innerWidth, height: innerHeight });
+});
+
+window.addEventListener('keydown', function(e) {
+    Dispatcher.keyDown.dispatch(e);
 });
