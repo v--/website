@@ -39,7 +39,7 @@ export default class Files extends View {
 
     // @override
     static subviews(files: Dir) {
-        return files.dirs.map(node => View.generate(node.name, node.path));
+        return files.dirs.sortBy('name').map(node => View.generate(node.name, node.path));
     }
 
     static onNameClick(e, data: Object) {
@@ -72,7 +72,7 @@ export default class Files extends View {
 
         return createElement('div', null,
             createElement(Table, {
-                initialSort: { columnIndex: 0 },
+                initialSort: { columnIndex: 1 },
                 viewport: croppedViewport,
                 data: data.children,
                 staticData: parent && [parent],
@@ -83,15 +83,15 @@ export default class Files extends View {
                 }, {
                     name: 'Type',
                     width: 2,
-                    accessors: { value: 'type' }
+                    accessors: { value: 'typeAccessor', view: 'type' }
                 }, {
                     name: 'Size',
                     width: 2,
-                    accessors: { value: 'size', view: 'sizeString' }
+                    accessors: { value: 'sizeAccessor', view: 'sizeString' }
                 }, {
                     name: 'Modified',
                     width: 3,
-                    accessors: { value: 'modified', view: 'modifiedString' }
+                    accessors: { value: 'modifiedAccessor', view: 'modifiedString' }
                 }]
             }),
             data.hasDescription && createElement(Markdown, { source: data.markdown })

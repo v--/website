@@ -13,6 +13,22 @@ export default class FSNode {
         return (new Date(this.modified)).toLocaleString();
     }
 
+    get typeAccessor() {
+        return this.type + this.name;
+    }
+
+    get sizeAccessor() {
+        return this.size + this.name;
+    }
+
+    get modifiedAccessor() {
+        return this.modified + this.name;
+    }
+
+    get isDirectory() {
+        throw new Error('FSNode#isDirectory must be overriden');
+    }
+
     constructor(path: string, modified: string, size: number) {
         this.path = path;
         this.size = size;
