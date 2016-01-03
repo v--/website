@@ -41,35 +41,38 @@ class Dir: FSNode
         return _children;
     }
 
-    this(DirEntry de, FSNameTransformer transformer, int depth = -1)
+    this(DirEntry de, FSNameTransformer transformer, int availableDepth = -1)
     {
+        auto childDepth = availableDepth - (availableDepth > 0 ? 1 : 0);
+
         super(de, transformer);
 
-        if (depth == 0)
-            return;
-
-        foreach (entry; dirEntries(de.name, SpanMode.shallow).array)
-        {
-            auto childName = entry.name.baseName;
-
-            if (childName == ".readme.md")
+        if (availableDepth != 0)
+            foreach (entry; dirEntries(de.name, SpanMode.shallow).array)
             {
-                _markdown = readText(entry.name);
+                auto childName = entry.name.baseName;
+
+                if (childName == ".readme.md")
+                {
+                    _markdown = readText(entry.name);
+                }
+
+                else if (!childName.startsWith("."))
+                {
+                    if (!entry.isDir)
+                        addChild(new File(entry, transformer));
+                    else
+                        addChild(new Dir(entry, transformer, childDepth));
+                }
             }
 
-            else if (!childName.startsWith("."))
-            {
-                if (!entry.isDir)
-                    addChild(new File(entry, transformer));
-                else
-                    addChild(new Dir(entry, transformer, depth + 1));
-            }
-        }
+        else if (exists(buildPath(de.name, ".readme.md")))
+            _markdown = readText(buildPath(de.name, ".readme.md"));
     }
 
-    this(string dir, FSNameTransformer FSNameTransformer, int depth = -1)
+    this(string dir, FSNameTransformer FSNameTransformer, int availableDepth = -1)
     {
-        this(DirEntry(dir), FSNameTransformer, depth);
+        this(DirEntry(dir), FSNameTransformer, availableDepth);
     }
 
     override Json toJSON()
