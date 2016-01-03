@@ -6,4 +6,5 @@ public import ivasilev.models.currency,
               ivasilev.models.file,
               ivasilev.models.dir,
               ivasilev.models.slide,
-              ivasilev.models.pacman_package;
+              ivasilev.models.pacman_package,
+              ivasilev.models.doc;

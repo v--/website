@@ -30,11 +30,16 @@ void initializeRouter(ApplicationSettings settings, HTTPServerSettings vibedSett
             FSNameTransformer transformer = x => x.replaceFirst(settings.dirs.slides, "/slides");
             auto name = req.params["name"];
 
-            foreach (File file; scoped!Dir(settings.dirs.slides, transformer, false).files)
+            foreach (File file; scoped!Dir(settings.dirs.slides, transformer, 1).files)
                 if (Slide.transformFileName(file.name) == name)
                     return file.getContents();
 
             throw new HTTPStatusException(400, "Invalid slide " ~ name);
+        });
+
+        Get("/docs/*", delegate ubyte[] (req, res) {
+            auto path = buildPath(settings.dirs.pacman, req.path.replaceFirst("docs", settings.dirs.docs));
+            return serveFileOrWebapp(path, req, res);
         });
 
         with(Scope("/api"))
@@ -48,7 +53,7 @@ void initializeRouter(ApplicationSettings settings, HTTPServerSettings vibedSett
 
             Get("/slides", ContentType.json.utf8, delegate string (req, res) {
                 FSNameTransformer transformer = x => x.replaceFirst(settings.dirs.slides, "/slides");
-                return scoped!Dir(settings.dirs.slides, transformer, false)
+                return scoped!Dir(settings.dirs.slides, transformer, 1)
                     .files
                     .map!(file => scoped!Slide(file).toJSON)
                     .array
@@ -101,10 +106,20 @@ void initializeRouter(ApplicationSettings settings, HTTPServerSettings vibedSett
 
             Get("/pacman", ContentType.json.utf8, delegate string (req, res) {
                 FSNameTransformer transformer = x => x.replaceFirst(settings.dirs.pacman, "/pacman");
-                return scoped!Dir(settings.dirs.pacman, transformer, false)
+                return scoped!Dir(settings.dirs.pacman, transformer, 1)
                     .files
                     .filter!(file => file.extension == ".xz")
                     .map!(file => scoped!PacmanPackage(file).toJSON)
+                    .array
+                    .Json
+                    .toString();
+            });
+
+            Get("/docs", ContentType.json.utf8, delegate string (req, res) {
+                FSNameTransformer transformer = x => x.replaceFirst(settings.dirs.docs, "/docs");
+                return scoped!Dir(settings.dirs.docs, transformer, 1)
+                    .dirs
+                    .map!(dir => scoped!Doc(dir).toJSON)
                     .array
                     .Json
                     .toString();

@@ -40,7 +40,7 @@ struct ApplicationSettings
 
     struct DirectorySettings
     {
-        string files, slides, pacman;
+        string files, slides, pacman, docs;
 
         void importTOML(TOMLValue value)
         {
@@ -48,6 +48,7 @@ struct ApplicationSettings
             files = value["files"].str;
             slides = value["slides"].str;
             pacman = value["pacman"].str;
+            docs = value["docs"].str;
         }
     }
 

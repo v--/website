@@ -21,29 +21,6 @@ class Dir: FSNode
         ulong _size;
     }
 
-    this(DirEntry de, FSNameTransformer transformer, bool recursive = true)
-    {
-        super(de, transformer);
-
-        foreach (entry; dirEntries(de.name, SpanMode.shallow).array)
-        {
-            auto childName = entry.name.baseName;
-
-            if (childName == ".readme.md")
-            {
-                _markdown = readText(entry.name);
-            }
-
-            else if (!childName.startsWith("."))
-            {
-                if (!entry.isDir)
-                    addChild(new File(entry, transformer));
-                else if (recursive)
-                    addChild(new Dir(entry, transformer, recursive));
-            }
-        }
-    }
-
     override @property bool isDirectory()
     {
         return true;
@@ -64,9 +41,35 @@ class Dir: FSNode
         return _children;
     }
 
-    this(string dir, FSNameTransformer FSNameTransformer, bool recursive = true)
+    this(DirEntry de, FSNameTransformer transformer, int depth = -1)
     {
-        this(DirEntry(dir), FSNameTransformer, recursive);
+        super(de, transformer);
+
+        if (depth == 0)
+            return;
+
+        foreach (entry; dirEntries(de.name, SpanMode.shallow).array)
+        {
+            auto childName = entry.name.baseName;
+
+            if (childName == ".readme.md")
+            {
+                _markdown = readText(entry.name);
+            }
+
+            else if (!childName.startsWith("."))
+            {
+                if (!entry.isDir)
+                    addChild(new File(entry, transformer));
+                else
+                    addChild(new Dir(entry, transformer, depth + 1));
+            }
+        }
+    }
+
+    this(string dir, FSNameTransformer FSNameTransformer, int depth = -1)
+    {
+        this(DirEntry(dir), FSNameTransformer, depth);
     }
 
     override Json toJSON()

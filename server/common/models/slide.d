@@ -8,10 +8,7 @@ import ivasilev.models;
 
 class Slide: IJSON
 {
-    immutable
-    {
-        string path, name;
-    }
+    immutable string path, name;
 
     static string transformFileName(string name)
     {

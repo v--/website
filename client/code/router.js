@@ -15,6 +15,7 @@ import CodeSorting from 'code/views/code/sorting';
 import CodeBreakout from 'code/views/code/breakout';
 import Slides from 'code/views/slides';
 import Pacman from 'code/views/pacman';
+import Docs from 'code/views/docs';
 
 const NotFoundError = new HTTPError(404, 'Not Found');
 
@@ -23,7 +24,8 @@ export const VIEWS = [
     Files,
     Code,
     Slides,
-    Pacman
+    Pacman,
+    Docs
 ];
 
 export function startRouter(config: Object) {
@@ -126,6 +128,14 @@ page('/pacman', function() {
         dispatchView(Pacman, data);
         dispatchNav(Pacman);
         updateWindowTitle(['pacman']);
+    }).catch(dispatchError);
+});
+
+page('/docs', function() {
+    Docs.resolve().then(function(data) {
+        dispatchView(Docs, data);
+        dispatchNav(Docs);
+        updateWindowTitle(['docs']);
     }).catch(dispatchError);
 });
 
