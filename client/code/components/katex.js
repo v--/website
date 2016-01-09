@@ -1,7 +1,7 @@
 import katex from 'katex';
 import { createElement, Component, PropTypes } from 'react';
 
-export default class Jade extends Component {
+export default class Katex extends Component {
     static propTypes = {
         string: PropTypes.string.isRequired
     }

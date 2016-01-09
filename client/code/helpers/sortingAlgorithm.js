@@ -31,7 +31,7 @@ export default class SortingAlgorithm {
 SortingAlgorithm.save(
     'Insertion sort',
     new TimeComplexity('\\mathcal{O}(n^2)'),
-    new SpaceComplexity('\\mathcal{O}(n)'),
+    new SpaceComplexity('\\Theta(n) + \\Theta(1)'),
 
     function *(array) {
         for (let i = 1; i < array.length; ++i)
@@ -42,8 +42,8 @@ SortingAlgorithm.save(
 
 SortingAlgorithm.save(
     'Selection sort',
-    new TimeComplexity('\\mathcal{O}(n^2)'),
-    new SpaceComplexity('\\mathcal{O}(n)'),
+    new TimeComplexity('\\Theta(n^2)'),
+    new SpaceComplexity('\\Theta(n) + \\Theta(1)'),
 
     function *(array) {
         for (let i = 0; i < array.length - 1; ++i)
@@ -57,7 +57,7 @@ SortingAlgorithm.save(
 SortingAlgorithm.save(
     'Bubble sort',
     new TimeComplexity('\\mathcal{O}(n^2)'),
-    new SpaceComplexity('\\mathcal{O}(n)'),
+    new SpaceComplexity('\\Theta(n) + \\Theta(1)'),
 
     function *(array) {
         let ordered = true;
@@ -79,7 +79,7 @@ SortingAlgorithm.save(
 SortingAlgorithm.save(
     'Shell sort',
     new TimeComplexity('\\mathcal{O}(n \\log n)'),
-    new SpaceComplexity('\\mathcal{O}(n)'),
+    new SpaceComplexity('\\Theta(n) + \\Theta(1)'),
 
     function *(array) {
         for (let gap of [5, 3, 1]) {
@@ -98,7 +98,7 @@ SortingAlgorithm.save(
 SortingAlgorithm.save(
     'Merge sort',
     new TimeComplexity('\\mathcal{O}(n \\log n)'),
-    new SpaceComplexity('\\mathcal{O}(n)'),
+    new SpaceComplexity('\\Theta(n) + \\mathcal{O}(n)'),
 
     function *(array) {
         for (let i = 2; i <= array.length * 2; i *= 2)
@@ -124,7 +124,7 @@ SortingAlgorithm.save(
 SortingAlgorithm.save(
     'Heap sort',
     new TimeComplexity('\\mathcal{O}(n \\log n)'),
-    new SpaceComplexity('\\mathcal{O}(n)'),
+    new SpaceComplexity('\\Theta(n) + \\Theta(1)'),
 
     function *(array) {
         function heapCheck(heapSize, i) {
@@ -155,25 +155,8 @@ SortingAlgorithm.save(
     }
 );
 
-SortingAlgorithm.save(
-    'Quicksort',
-    new TimeComplexity('\\mathcal{O}(n^2)'),
-    new SpaceComplexity('\\mathcal{O}(n)'),
-
-    function *(array) {
-        function *partition(lower, upper) {
-            const last = array[upper];
-            let pivot = lower;
-
-            for (let i = lower; i < upper; ++i)
-                if (array[i] <= last)
-                    yield new SortResponse(i, pivot++, true);
-                else
-                    yield new SortResponse(i, pivot, false);
-
-            yield new SortResponse(upper, pivot, true);
-        }
-
+function quickSort(partitionGenerator: Function) {
+    return function *(array) {
         let queue = [[0, array.length - 1]];
 
         while (queue.length) {
@@ -184,18 +167,60 @@ SortingAlgorithm.save(
             if (lower >= upper)
                 continue;
 
-            let pivotIter = partition(lower, upper),
+            let pivotIter = partitionGenerator(array, lower, upper),
                 pivotResponse = pivotIter.next(),
-                pivot;
+                p;
 
             while (!pivotResponse.done) {
                 yield pivotResponse.value;
-                pivot = pivotResponse.value.b;
+                p = pivotResponse.value.b;
                 pivotResponse = pivotIter.next();
             }
 
-            queue.unshift([lower, pivot - 1]);
-            queue.unshift([pivot + 1, upper]);
+            queue.unshift([lower, p - 1]);
+            queue.unshift([p + 1, upper]);
         }
     }
+}
+
+SortingAlgorithm.save(
+    'Quicksort (Lomuto)',
+    new TimeComplexity('\\mathcal{O}(n^2)'),
+    new SpaceComplexity('\\Theta(n) + \\mathcal{O}(n)'),
+
+    quickSort(function *(array, lower, upper) {
+        let p = lower;
+        const pivot = array[upper];
+
+        for (let i = lower; i < upper; ++i)
+            if (array[i] <= pivot)
+                yield new SortResponse(i, p++, true);
+            else
+                yield new SortResponse(i, p, false);
+
+        yield new SortResponse(upper, p, true);
+    })
+);
+
+SortingAlgorithm.save(
+    'Quicksort (rand. Lomuto)',
+    new TimeComplexity('\\mathcal{O}(n^2)'),
+    new SpaceComplexity('\\Theta(n) + \\mathcal{O}(n)'),
+
+    quickSort(function *(array, lower, upper) {
+        let p = lower;
+
+        const pivotIndex = Number.random(lower, upper),
+              pivot = array[pivotIndex];
+
+        yield new SortResponse(pivotIndex, upper, pivotIndex !== upper);
+
+        for (let i = lower; i < upper; ++i)
+            if (array[i] <= pivot)
+                yield new SortResponse(i, p++, true);
+            else
+                yield new SortResponse(i, p, false);
+
+        yield new SortResponse(upper, p, true);
+    })
 );

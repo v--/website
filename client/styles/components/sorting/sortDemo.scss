@@ -18,23 +18,24 @@
 
   .sort-demo {
     display: flex;
-  }
-
-  .sort-demo-section {
-    display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    padding: 5px 10px;
 
-    padding: 10px;
-    width: 100px;
-  }
+    .sort-demo-section {
+      display: flex;
+      justify-content: space-between;
 
-  .sort-demo-heading {
-    color: $gray;
-  }
+      width: 250px;
 
-  .sort-demo-title {
-    font-size: 1.2em;
-    color: $paleblue;
+      .sort-demo-heading {
+        color: $gray;
+      }
+
+      .sort-demo-title {
+        @include ellipsis();
+        font-size: 1.2em;
+        color: $paleblue;
+      }
+    }
   }
 }

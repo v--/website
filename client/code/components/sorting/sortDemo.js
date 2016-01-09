@@ -35,17 +35,28 @@ export default class SortDemo extends Component {
             createElement('div', { className: 'sort-demo' },
                 createElement('div', { className: 'sort-demo-section' },
                     createElement('p', { className: 'sort-demo-title' }, this.props.algorithm.name),
-                    createElement('p', { className: 'sort-demo-heading' }, 'Worst-case time complexity:'),
-                    createElement(Katex, { string: this.props.algorithm.time.worst }),
-                    createElement('p', { className: 'sort-demo-heading' }, 'Worst-case space complexity:'),
-                    createElement(Katex, { string: this.props.algorithm.space.worst }),
-                    createElement('button', { onClick: ::this.sort }, 'Sort')
                 ),
 
                 createElement('div', { className: 'sort-demo-section' },
                     createElement(SortDemoSorter, { name: 'Ordered', array: SortDemo.ORDERED }.merge(common)),
                     createElement(SortDemoSorter, { name: 'Shuffled', array: SortDemo.SHUFFLED }.merge(common)),
                     createElement(SortDemoSorter, { name: 'Reversed', array: SortDemo.REVERSED }.merge(common))
+                ),
+
+                createElement('div', { className: 'sort-demo-section' },
+                    createElement('div', null,
+                        createElement('p', { className: 'sort-demo-heading' }, 'Time complexity:'),
+                        createElement(Katex, { string: this.props.algorithm.time.worst }),
+                    ),
+
+                    createElement('div', null,
+                        createElement('p', { className: 'sort-demo-heading' }, 'Space complexity:'),
+                        createElement(Katex, { string: this.props.algorithm.space.worst }),
+                    )
+                ),
+
+                createElement('div', { className: 'sort-demo-section' },
+                    createElement('button', { onClick: ::this.sort }, 'Sort')
                 )
             )
         );

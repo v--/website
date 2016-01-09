@@ -1,19 +1,24 @@
 @import 'vars';
 
-.sort-demo-line {
-  background: $blue;
-  height: 1px;
-  margin: 2px;
+.sort-demo-sorter {
+  width: 100%;
+  margin: 0 5px;
 
-  &.still {
-    background: $danger;
-  }
+  .sort-demo-line {
+    background: $blue;
+    height: 1px;
+    margin: 2px;
 
-  &.swapped {
-    background: $success;
-  }
+    &.still {
+      background: $danger;
+    }
 
-  &.ready {
-    background: $success;
+    &.swapped {
+      background: $success;
+    }
+
+    &.ready {
+      background: $success;
+    }
   }
 }
