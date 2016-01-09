@@ -3,7 +3,6 @@
 .sort-demo-container {
   border-radius: 5px;
   background-color: $darkgray;
-  text-align: center;
   display: inline-block;
   margin: 0 30px 30px 0;
 
@@ -13,7 +12,7 @@
 
   button {
     width: 100%;
-    margin: 15px auto 5px;
+    margin: 5px auto;
   }
 
   .sort-demo {
@@ -24,17 +23,20 @@
     .sort-demo-section {
       display: flex;
       justify-content: space-between;
-
-      width: 250px;
-
-      .sort-demo-heading {
-        color: $gray;
-      }
+      width: 350px;
 
       .sort-demo-title {
         @include ellipsis();
         font-size: 1.2em;
         color: $paleblue;
+      }
+
+      .sort-demo-subsection {
+        margin: 0 5px;
+
+        .sort-demo-heading {
+          color: $gray;
+        }
       }
     }
   }

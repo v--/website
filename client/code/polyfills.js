@@ -20,7 +20,7 @@ Array.prototype.defineMethod('groupBy', function(accessorArg) {
     return result;
 });
 
-Array.prototype.defineMethod('swap', function(i1, i2) {
+Object.prototype.defineMethod('swap', function(i1, i2) {
     var temp = this[i1];
     this[i1] = this[i2];
     this[i2] = temp;

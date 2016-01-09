@@ -1,130 +1,136 @@
+import Queue from 'code/helpers/queue';
+
 class SortResponse {
     constructor(a: number, b: number, swap: boolean) {
         this.merge({ a, b, swap });
     }
 }
 
-class Complexity {
-    constructor(worst: string) {
-        this.merge({ worst });
-    }
-}
-
-class TimeComplexity extends Complexity {}
-class SpaceComplexity extends Complexity {}
-
 export default class SortingAlgorithm {
     static SortResponse = SortResponse;
-    static TimeComplexity = TimeComplexity;
-    static SpaceComplexity = SpaceComplexity;
     static algorithms = [];
 
-    static save(name: string, time: TimeComplexity, space: SpaceComplexity, generator: Function) {
-        SortingAlgorithm.algorithms.push(new SortingAlgorithm(name, time, space, generator));
+    static save(name: string, stable: boolean, time: string, space: string, generator: Function) {
+        const algorithm = new SortingAlgorithm(name, stable, time, space, generator);
+        SortingAlgorithm.algorithms.push(algorithm);
     }
 
-    constructor(name: string, time: TimeComplexity, space: SpaceComplexity, generator: Function) {
-        this.merge({ name, time, space, generator });
+    constructor(name: string, stable: boolean, time: string, space: string, generator: Function) {
+        this.merge({ name, stable, time, space, generator });
     }
 }
 
 SortingAlgorithm.save(
-    'Insertion sort',
-    new TimeComplexity('\\mathcal{O}(n^2)'),
-    new SpaceComplexity('\\Theta(n) + \\Theta(1)'),
+    'Insertion sort', true, '\\mathcal{O}(n^2)', '\\Theta(1)',
 
     function *(array) {
-        for (let i = 1; i < array.length; ++i)
-            for (let j = i; j > 0 && array[j - 1] > array[j]; --j)
-                yield new SortResponse(j - 1, j, true);
+        for (let i = 1; i < array.length; i++)
+            for (let j = i; j > 0; --j)
+                yield new SortResponse(j - 1, j, array[j - 1] > array[j]);
     }
 );
 
 SortingAlgorithm.save(
-    'Selection sort',
-    new TimeComplexity('\\Theta(n^2)'),
-    new SpaceComplexity('\\Theta(n) + \\Theta(1)'),
+    'Selection sort', false, '\\Theta(n^2)', '\\Theta(1)',
 
     function *(array) {
-        for (let i = 0; i < array.length - 1; ++i)
-            for (let j = 0; j < array.length - 1; ++j)
-                yield new SortResponse(j, j + 1,
-                    array.slice(j).min() !== array[j]
-                );
+        for (let i = 0; i < array.length - 1; i++) {
+            let min = i;
+
+            for (let j = i; j < array.length; j++) {
+                yield new SortResponse(i, j, false);
+
+                if (array[j] < array[min])
+                    min = j;
+            }
+
+            yield new SortResponse(min, i, min !== i);
+        }
     }
 );
 
 SortingAlgorithm.save(
-    'Bubble sort',
-    new TimeComplexity('\\mathcal{O}(n^2)'),
-    new SpaceComplexity('\\Theta(n) + \\Theta(1)'),
+    'Bubble sort', true, '\\mathcal{O}(n^2)', '\\Theta(1)',
 
     function *(array) {
-        let ordered = true;
+        let ordered = false;
 
-        for (let i = 1; i < array.length; ++i) {
-            let current = array[i - 1] < array[i];
-            ordered = ordered && current;
+        while (!ordered) {
+            ordered = true;
 
-            yield new SortResponse(i - 1, i, !current);
-
-            if (i === array.length - 1 && !ordered) {
-                ordered = true;
-                i = 0;
+            for (let i = 1; i < array.length; i++) {
+                const current = array[i - 1] <= array[i];
+                ordered &= current;
+                yield new SortResponse(i - 1, i, !current);
             }
         }
     }
 );
 
 SortingAlgorithm.save(
-    'Shell sort',
-    new TimeComplexity('\\mathcal{O}(n \\log n)'),
-    new SpaceComplexity('\\Theta(n) + \\Theta(1)'),
+    'Shell sort', false, '\\mathcal{O}(n^2)', '\\Theta(1)',
 
     function *(array) {
-        for (let gap of [5, 3, 1]) {
-            for (let i = gap; i < array.length; ++i) {
-                let temp = array[i], j;
+        for (let gap = Math.pow(2, array.length.log(2).floor()); gap >= 1; gap /= 2)
+            for (let i = gap; i < array.length; i++) {
+                let j = i,
+                    swappable = i;
 
-                for (j = i; j >= gap && array[j - gap] > temp; j -= gap)
-                    yield new SortResponse(j, j - gap, true);
+                while (j >= gap) {
+                    const result = new SortResponse(j, j - gap, array[j - gap] > array[swappable]);
+                    yield result;
 
-                yield new SortResponse(j, array.indexOf(temp), true);
-            }
-        }
-    }
-);
+                    if (result.swap) {
+                        if (swappable === result.b) swappable = result.a;
+                        if (swappable === result.a) swappable = result.b;
+                    } else {
+                        break;
+                    }
 
-SortingAlgorithm.save(
-    'Merge sort',
-    new TimeComplexity('\\mathcal{O}(n \\log n)'),
-    new SpaceComplexity('\\Theta(n) + \\mathcal{O}(n)'),
-
-    function *(array) {
-        for (let i = 2; i <= array.length * 2; i *= 2)
-            for (let j = 0; j < Math.ceil(array.length / i); ++j) {
-                let start = i * j,
-                    segment = array.slice(start, start + i);
-
-                for (let k = 0; k < segment.length - 1; ++k) {
-                    let subsegment = segment.slice(k),
-                        min = subsegment.min(),
-                        minIndex = segment.indexOf(min),
-                        isMin = subsegment[0] === min;
-
-                    if (!isMin)
-                        segment.swap(k, minIndex);
-
-                    yield new SortResponse(start + k, start + minIndex, !isMin);
+                    j -= gap;
                 }
+
+                yield new SortResponse(j, swappable, true);
             }
     }
 );
 
 SortingAlgorithm.save(
-    'Heap sort',
-    new TimeComplexity('\\mathcal{O}(n \\log n)'),
-    new SpaceComplexity('\\Theta(n) + \\Theta(1)'),
+    'Merge sort (bottom-up)', true, '\\mathcal{O}(n \\log n)', '\\mathcal{O}(n)',
+
+    function *(array) {
+        // To ensure a bijection for the lookup table
+        let buffer = new Array(array.length),
+            unique = array.map((x, i) => array.length * x + i),
+            lookup = Object.zip(unique, unique.map((x, i) => i));
+
+        for (let span = 1; span <= array.length; span *= 2)
+            for (let start = 0; start < array.length; start += 2 * span) {
+                const middle = Math.min(start + span, array.length),
+                      end = Math.min(start + 2 * span, array.length);
+
+                let left = start,
+                    right = middle;
+
+                for (let i = start; i < end; i++)
+                    if (left < middle && (end === right || unique[left] < unique[right]))
+                        buffer[i] = unique[left++];
+                    else
+                        buffer[i] = unique[right++];
+
+                for (let i = start; i < end; i++) {
+                    const index = lookup[buffer[i]];
+                    lookup.swap(buffer[i], buffer[index]);
+                    unique.swap(i, index);
+                    lookup = Object.zip(unique, unique.map((x, i) => i));
+                    yield new SortResponse(i, index, i !== index);
+                }
+        }
+    }
+);
+
+SortingAlgorithm.save(
+    'Heap sort', false, '\\mathcal{O}(n \\log n)', '\\Theta(1)',
 
     function *(array) {
         function heapCheck(heapSize, i) {
@@ -136,10 +142,8 @@ SortingAlgorithm.save(
             let result = heapCheck(array.length, i);
             yield result;
 
-            while (result.swap) {
-                result = heapCheck(array.length, result.b);
-                yield result;
-            }
+            while (result.swap)
+                yield result = heapCheck(array.length, result.b);
         }
 
         for (let i = array.length - 1; i >= 1; --i) {
@@ -147,19 +151,21 @@ SortingAlgorithm.save(
             let result = heapCheck(i, 0);
             yield result;
 
-            while (result.swap) {
-                result = heapCheck(i, result.b);
-                yield result;
-            }
+            while (result.swap)
+                yield result = heapCheck(i, result.b);
         }
     }
 );
 
-function quickSort(partitionGenerator: Function) {
-    return function *(array) {
-        let queue = [[0, array.length - 1]];
+SortingAlgorithm.save(
+    'Quicksort (Hoare partitioning)', false, '\\mathcal{O}(n^2)', '\\mathcal{O}(n)',
 
-        while (queue.length) {
+    function *(array) {
+        let queue = new Queue();
+
+        queue.push([0, array.length - 1]);
+
+        while (!queue.isEmpty) {
             const config = queue.pop(),
                   lower = config[0],
                   upper = config[1];
@@ -167,60 +173,18 @@ function quickSort(partitionGenerator: Function) {
             if (lower >= upper)
                 continue;
 
-            let pivotIter = partitionGenerator(array, lower, upper),
-                pivotResponse = pivotIter.next(),
-                p;
+            const pivot = array[lower];
+            let i = lower - 1,
+                p = upper + 1;
 
-            while (!pivotResponse.done) {
-                yield pivotResponse.value;
-                p = pivotResponse.value.b;
-                pivotResponse = pivotIter.next();
+            while (i < p) {
+                do i++; while (array[i] < pivot);
+                do p--; while (array[p] > pivot);
+                yield new SortResponse(i, p, i < p);
             }
 
-            queue.unshift([lower, p - 1]);
-            queue.unshift([p + 1, upper]);
+            queue.push([lower, p]);
+            queue.push([p + 1, upper]);
         }
     }
-}
-
-SortingAlgorithm.save(
-    'Quicksort (Lomuto)',
-    new TimeComplexity('\\mathcal{O}(n^2)'),
-    new SpaceComplexity('\\Theta(n) + \\mathcal{O}(n)'),
-
-    quickSort(function *(array, lower, upper) {
-        let p = lower;
-        const pivot = array[upper];
-
-        for (let i = lower; i < upper; ++i)
-            if (array[i] <= pivot)
-                yield new SortResponse(i, p++, true);
-            else
-                yield new SortResponse(i, p, false);
-
-        yield new SortResponse(upper, p, true);
-    })
-);
-
-SortingAlgorithm.save(
-    'Quicksort (rand. Lomuto)',
-    new TimeComplexity('\\mathcal{O}(n^2)'),
-    new SpaceComplexity('\\Theta(n) + \\mathcal{O}(n)'),
-
-    quickSort(function *(array, lower, upper) {
-        let p = lower;
-
-        const pivotIndex = Number.random(lower, upper),
-              pivot = array[pivotIndex];
-
-        yield new SortResponse(pivotIndex, upper, pivotIndex !== upper);
-
-        for (let i = lower; i < upper; ++i)
-            if (array[i] <= pivot)
-                yield new SortResponse(i, p++, true);
-            else
-                yield new SortResponse(i, p, false);
-
-        yield new SortResponse(upper, p, true);
-    })
 );

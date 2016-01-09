@@ -20,7 +20,7 @@ export default class CodeSorting extends View {
     }
 
     static get summary() {
-        return 'A visual comparison of sorting algorithms.';
+        return 'A visual comparison of array sorting algorithms.';
     }
 
     constructor() {

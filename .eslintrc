@@ -13,9 +13,9 @@ plugins:
 env:
     browser: true
 
-globals:
-    semi: 2
-    indent: [1, 4]
+rules:
+    semi: [2, always]
+    indent: [0, 4]
     curly: [1, multi, consistent]
     func-names: 0
     one-var: 0

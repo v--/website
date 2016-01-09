@@ -181,7 +181,7 @@ gulp.task('lint', ['lint:code', 'lint:styles']);
 
 // TODO: fix deploy
 gulp.task('client', ['views', 'styles', 'webpack']);
-gulp.task('default', ['server', 'watch']);
+gulp.task('default', ['server', 'views', 'watch']);
 gulp.task('build', ['dub:release', 'forex', 'client']);
 // gulp.task('scp', ['build'], function() {
 //     return gulp.src(['config', 'views', 'public', 'dbconfig.yml', 'ivasilev', 'ivasilev_forex'])
