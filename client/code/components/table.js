@@ -115,12 +115,14 @@ export default class Table extends Component {
     // @override
     componentWillMount() {
         const { columnIndex, ascending = true } = this.props.initialSort;
+        this.state.currentPage = 0;
         this.state.columnWidths = Table.calcWidthPercentages(this.props.columns);
         this.sort(columnIndex, ascending, this.props.data);
     }
 
     // @override
     componentWillReceiveProps(props: Object) {
+        this.state.currentPage = 0;
         this.state.columnWidths = Table.calcWidthPercentages(props.columns);
         this.sort(this.state.sortedBy, this.state.ascending, props.data);
     }

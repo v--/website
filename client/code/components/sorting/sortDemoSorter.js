@@ -29,8 +29,8 @@ export default class SortDemoSorter extends Component {
 
     // @override
     render() {
-        return createElement('div', { className: 'sort-demo-sorter' },
-            createElement('p', null, `${this.props.name}:`),
+        return createElement('div', null,
+            createElement('p', { className: 'sort-demo-heading' }, `${this.props.name}:`),
             createElement('div', null,
                 this.state.array.map(::this.drawLine)
             )

@@ -4,22 +4,34 @@ class SortResponse {
     }
 }
 
+class Complexity {
+    constructor(worst: string) {
+        this.merge({ worst });
+    }
+}
+
+class TimeComplexity extends Complexity {}
+class SpaceComplexity extends Complexity {}
+
 export default class SortingAlgorithm {
     static SortResponse = SortResponse;
+    static TimeComplexity = TimeComplexity;
+    static SpaceComplexity = SpaceComplexity;
     static algorithms = [];
 
-    static save(name: string, generator: Function) {
-        SortingAlgorithm.algorithms.push(new SortingAlgorithm(name, generator));
+    static save(name: string, time: TimeComplexity, space: SpaceComplexity, generator: Function) {
+        SortingAlgorithm.algorithms.push(new SortingAlgorithm(name, time, space, generator));
     }
 
-    // replace constraint with GeneratorFunction
-    constructor(name: string, generator: Function) {
-        this.merge({ name, generator });
+    constructor(name: string, time: TimeComplexity, space: SpaceComplexity, generator: Function) {
+        this.merge({ name, time, space, generator });
     }
 }
 
 SortingAlgorithm.save(
     'Insertion sort',
+    new TimeComplexity('\\mathcal{O}(n^2)'),
+    new SpaceComplexity('\\mathcal{O}(n)'),
 
     function *(array) {
         for (let i = 1; i < array.length; ++i)
@@ -30,6 +42,8 @@ SortingAlgorithm.save(
 
 SortingAlgorithm.save(
     'Selection sort',
+    new TimeComplexity('\\mathcal{O}(n^2)'),
+    new SpaceComplexity('\\mathcal{O}(n)'),
 
     function *(array) {
         for (let i = 0; i < array.length - 1; ++i)
@@ -42,6 +56,8 @@ SortingAlgorithm.save(
 
 SortingAlgorithm.save(
     'Bubble sort',
+    new TimeComplexity('\\mathcal{O}(n^2)'),
+    new SpaceComplexity('\\mathcal{O}(n)'),
 
     function *(array) {
         let ordered = true;
@@ -62,6 +78,8 @@ SortingAlgorithm.save(
 
 SortingAlgorithm.save(
     'Shell sort',
+    new TimeComplexity('\\mathcal{O}(n \\log n)'),
+    new SpaceComplexity('\\mathcal{O}(n)'),
 
     function *(array) {
         for (let gap of [5, 3, 1]) {
@@ -79,6 +97,8 @@ SortingAlgorithm.save(
 
 SortingAlgorithm.save(
     'Merge sort',
+    new TimeComplexity('\\mathcal{O}(n \\log n)'),
+    new SpaceComplexity('\\mathcal{O}(n)'),
 
     function *(array) {
         for (let i = 2; i <= array.length * 2; i *= 2)
@@ -98,5 +118,84 @@ SortingAlgorithm.save(
                     yield new SortResponse(start + k, start + minIndex, !isMin);
                 }
             }
+    }
+);
+
+SortingAlgorithm.save(
+    'Heap sort',
+    new TimeComplexity('\\mathcal{O}(n \\log n)'),
+    new SpaceComplexity('\\mathcal{O}(n)'),
+
+    function *(array) {
+        function heapCheck(heapSize, i) {
+            const largest = [i, 2 * i + 1, 2 * i + 2].filter(x => x < heapSize).max(x => array[x]);
+            return new SortResponse(i, largest, i !== largest);
+        }
+
+        for (let i = Math.floor(array.length / 2); i >= 0; --i) {
+            let result = heapCheck(array.length, i);
+            yield result;
+
+            while (result.swap) {
+                result = heapCheck(array.length, result.b);
+                yield result;
+            }
+        }
+
+        for (let i = array.length - 1; i >= 1; --i) {
+            yield new SortResponse(0, i, true);
+            let result = heapCheck(i, 0);
+            yield result;
+
+            while (result.swap) {
+                result = heapCheck(i, result.b);
+                yield result;
+            }
+        }
+    }
+);
+
+SortingAlgorithm.save(
+    'Quicksort',
+    new TimeComplexity('\\mathcal{O}(n^2)'),
+    new SpaceComplexity('\\mathcal{O}(n)'),
+
+    function *(array) {
+        function *partition(lower, upper) {
+            const last = array[upper];
+            let pivot = lower;
+
+            for (let i = lower; i < upper; ++i)
+                if (array[i] <= last)
+                    yield new SortResponse(i, pivot++, true);
+                else
+                    yield new SortResponse(i, pivot, false);
+
+            yield new SortResponse(upper, pivot, true);
+        }
+
+        let queue = [[0, array.length - 1]];
+
+        while (queue.length) {
+            const config = queue.pop(),
+                  lower = config[0],
+                  upper = config[1];
+
+            if (lower >= upper)
+                continue;
+
+            let pivotIter = partition(lower, upper),
+                pivotResponse = pivotIter.next(),
+                pivot;
+
+            while (!pivotResponse.done) {
+                yield pivotResponse.value;
+                pivot = pivotResponse.value.b;
+                pivotResponse = pivotIter.next();
+            }
+
+            queue.unshift([lower, pivot - 1]);
+            queue.unshift([pivot + 1, upper]);
+        }
     }
 );

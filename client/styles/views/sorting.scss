@@ -5,3 +5,14 @@
   margin: 0 auto 3em;
   width: 100%;
 }
+
+.sorting-slider-container {
+  display: flex;
+  margin-bottom: 3.5rem;
+  align-items: center;
+
+  .sorting-slider-label {
+    flex-shrink: 0;
+    margin-right: 1rem;
+  }
+}

@@ -11,5 +11,5 @@ document.addEventListener('DOMContentLoaded', function() {
     );
 
     document.body.removeAttribute('class');
-    startRouter({ click: false });
+    startRouter({ decodeURLComponents: true, click: false });
 });

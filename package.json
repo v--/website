@@ -20,11 +20,13 @@
     "cookie-monster": "^0.1.0",
     "font-awesome": "^4.4.0",
     "ianis.js": "^3.0.18",
+    "match-at": "^0.1.0",
     "page": "^1.6.4",
     "react": "^0.14.2",
     "react-addons-css-transition-group": "^0.14.2",
     "react-dom": "^0.14",
     "react-remarkable": "^1.1.1",
+    "react-slider": "^0.6.0",
     "skeleton-css": "^2.0.4",
     "sugar": "^1.4.1",
     "whatwg-fetch": "^0.10.0"

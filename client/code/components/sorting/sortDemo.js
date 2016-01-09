@@ -1,8 +1,9 @@
 import { createElement, Component, PropTypes } from 'react';
 
 import Dispatcher from 'code/helpers/dispatcher';
-import SortDemoSorter from 'code/components/sorting/sortDemoSorter';
 import SortingAlgorithm from 'code/helpers/sortingAlgorithm';
+import SortDemoSorter from 'code/components/sorting/sortDemoSorter';
+import Katex from 'code/components/katex';
 
 export default class SortDemo extends Component {
     static propTypes = {
@@ -30,12 +31,23 @@ export default class SortDemo extends Component {
             generator: this.props.algorithm.generator
         };
 
-        return createElement('div', { className: 'sort-demo' },
-            createElement('p', null, this.props.algorithm.name),
-            createElement(SortDemoSorter, { name: 'Ordered', array: SortDemo.ORDERED }.merge(common)),
-            createElement(SortDemoSorter, { name: 'Shuffled', array: SortDemo.SHUFFLED }.merge(common)),
-            createElement(SortDemoSorter, { name: 'Reversed', array: SortDemo.REVERSED }.merge(common)),
-            createElement('button', { onClick: ::this.sort }, 'Sort'),
+        return createElement('div', { className: 'sort-demo-container' },
+            createElement('div', { className: 'sort-demo' },
+                createElement('div', { className: 'sort-demo-section' },
+                    createElement('p', { className: 'sort-demo-title' }, this.props.algorithm.name),
+                    createElement('p', { className: 'sort-demo-heading' }, 'Worst-case time complexity:'),
+                    createElement(Katex, { string: this.props.algorithm.time.worst }),
+                    createElement('p', { className: 'sort-demo-heading' }, 'Worst-case space complexity:'),
+                    createElement(Katex, { string: this.props.algorithm.space.worst }),
+                    createElement('button', { onClick: ::this.sort }, 'Sort')
+                ),
+
+                createElement('div', { className: 'sort-demo-section' },
+                    createElement(SortDemoSorter, { name: 'Ordered', array: SortDemo.ORDERED }.merge(common)),
+                    createElement(SortDemoSorter, { name: 'Shuffled', array: SortDemo.SHUFFLED }.merge(common)),
+                    createElement(SortDemoSorter, { name: 'Reversed', array: SortDemo.REVERSED }.merge(common))
+                )
+            )
         );
     }
 

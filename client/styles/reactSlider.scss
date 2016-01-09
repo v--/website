@@ -1,0 +1,25 @@
+@import 'vars';
+
+.slider {
+  width: 100%;
+  height: 15px;
+
+  .bar {
+    border-radius: 5px;
+    background-color: $darkgray;
+    height: 10px;
+    top: 2.5px;
+  }
+
+ .handle {
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    background-color: $blue;
+    cursor: pointer;
+
+    &.active {
+      background-color: $paleblue;
+    }
+  }
+}
