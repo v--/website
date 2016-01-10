@@ -12,7 +12,7 @@ export default class Queue {
         this._front = this._back = null;
     }
 
-    push(value) {
+    enqueue(value) {
         const next = {
             next: null,
             value: value
@@ -27,7 +27,7 @@ export default class Queue {
             this._front = this._back;
     }
 
-    pop() {
+    dequeue() {
         if (this.isEmpty) throw new Error('Queue is empty');
 
         const value = this.peek,

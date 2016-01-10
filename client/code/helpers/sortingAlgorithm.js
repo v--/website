@@ -99,12 +99,11 @@ SortingAlgorithm.save(
     'Merge sort (bottom-up)', true, '\\mathcal{O}(n \\log n)', '\\mathcal{O}(n)',
 
     function *(array) {
-        // To ensure a bijection for the lookup table
-        let buffer = new Array(array.length),
-            unique = array.map((x, i) => array.length * x + i),
-            lookup = Object.zip(unique, unique.map((x, i) => i));
+        // To ensure a bijection
+        let unique = array.map((x, i) => array.length * x + i),
+            buffer = new Array(array.length);
 
-        for (let span = 1; span <= array.length; span *= 2)
+        for (let span = 1; span < array.length; span *= 2)
             for (let start = 0; start < array.length; start += 2 * span) {
                 const middle = Math.min(start + span, array.length),
                       end = Math.min(start + 2 * span, array.length);
@@ -118,11 +117,11 @@ SortingAlgorithm.save(
                     else
                         buffer[i] = unique[right++];
 
+                // This function is only relevant because of the nature of the visualization as increases the time complexity
+                // A simple array copy should be done here
                 for (let i = start; i < end; i++) {
-                    const index = lookup[buffer[i]];
-                    lookup.swap(buffer[i], buffer[index]);
-                    unique.swap(i, index);
-                    lookup = Object.zip(unique, unique.map((x, i) => i));
+                    const index = unique.indexOf(buffer[i]);
+                    unique.swap(index, i);
                     yield new SortResponse(i, index, i !== index);
                 }
         }
@@ -158,33 +157,37 @@ SortingAlgorithm.save(
 );
 
 SortingAlgorithm.save(
-    'Quicksort (Hoare partitioning)', false, '\\mathcal{O}(n^2)', '\\mathcal{O}(n)',
+    'Quicksort (randomized Lomuto partitioning)', false, '\\mathcal{O}(n^2)', '\\mathcal{O}(n)',
 
     function *(array) {
         let queue = new Queue();
 
-        queue.push([0, array.length - 1]);
+        queue.enqueue([0, array.length - 1]);
 
         while (!queue.isEmpty) {
-            const config = queue.pop(),
+            const config = queue.dequeue(),
                   lower = config[0],
-                  upper = config[1];
+                  upper = config[1],
+                  pivotIndex = Number.random(lower, upper),
+                  pivot = array[pivotIndex];
 
-            if (lower >= upper)
-                continue;
+            let p = lower;
 
-            const pivot = array[lower];
-            let i = lower - 1,
-                p = upper + 1;
+            yield new SortResponse(pivotIndex, upper, pivotIndex !== upper);
 
-            while (i < p) {
-                do i++; while (array[i] < pivot);
-                do p--; while (array[p] > pivot);
-                yield new SortResponse(i, p, i < p);
-            }
+            for (let i = lower; i < upper; ++i)
+                if (array[i] < pivot)
+                    yield new SortResponse(i, p++, true);
+                else
+                    yield new SortResponse(i, p, false);
 
-            queue.push([lower, p]);
-            queue.push([p + 1, upper]);
+            yield new SortResponse(upper, p, true);
+
+            if (lower < p)
+                queue.enqueue([lower, p]);
+
+            if (upper > p + 1)
+                queue.enqueue([p + 1, upper]);
         }
     }
 );
