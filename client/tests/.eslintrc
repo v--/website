@@ -1,0 +1,14 @@
+extends:
+    - ../../.eslintrc-mocha
+
+plugins:
+    - mocha
+
+env:
+    mocha: true
+
+globals:
+    expect: true
+
+rules:
+    mocha/no-synchronous-tests: 0

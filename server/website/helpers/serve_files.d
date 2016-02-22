@@ -5,7 +5,7 @@ import vibe.d;
 
 import ivasilev.logger;
 
-private enum WEBAPP_ENTRY = "./views/application.html";
+private enum WEBAPP_ENTRY = "./views/index.html";
 
 ubyte[] serveFile(string path, HTTPServerRequest, HTTPServerResponse res)
 {

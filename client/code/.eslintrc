@@ -1,0 +1,14 @@
+extends:
+    - ../../.eslintrc-lodash
+
+plugins:
+    - lodash
+
+env:
+    browser: true
+    es6: true
+    node: false
+
+rules:
+    lodash/prefer-constant: 0
+    lodash/prefer-noop: 0

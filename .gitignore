@@ -3,6 +3,7 @@ config/config.toml
 node_modules
 ivasilev
 ivasilev_forex
-public/code/application.js*
+public/code/*
+public/styles/katex.css*
 public/styles/application.css*
 /views

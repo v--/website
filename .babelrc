@@ -1,4 +1,20 @@
 {
-    "stage": 0,
-    "optional": ["es7.functionBind"]
+    "presets": ["es2015", "stage-0"],
+    "env": {
+        "development": {
+            "plugins": [
+                "transform-runtime",
+                "transform-flow-strip-types",
+                "syntax-flow",
+                "typecheck"
+            ]
+        },
+        "production": {
+            "plugins": [
+                "transform-runtime",
+                "transform-flow-strip-types",
+                "syntax-flow"
+            ]
+        }
+    }
 }

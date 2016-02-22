@@ -1,8 +1,5 @@
 parser: babel-eslint
 
-env:
-    browser: true
-
 extends:
     - eslint:recommended
 
@@ -11,19 +8,8 @@ plugins:
     - react
 
 env:
-    browser: true
+    node: true
 
 rules:
     semi: [2, always]
-    indent: [0, 4]
-    curly: [1, multi, consistent]
-    func-names: 0
-    one-var: 0
-    max-len: [1, 100, 4, { ignoreComments: true, ignoreUrls: true }]
-    complexity: [1, 10]
-    object-curly-spacing: 0
-    no-extend-native: 0
-    guard-for-in: 0
-    require-jsdoc: [0]
-    no-var: 1
-    no-inline-comments: 0
+    no-unused-vars: [2, { vars: "all", args: "all", argsIgnorePattern: "^_" }]
