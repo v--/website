@@ -62,7 +62,7 @@ void initializeRouter(ApplicationSettings settings, HTTPServerSettings vibedSett
             });
 
             Get("/forex/currencies", ContentType.json.utf8, delegate string (req, res) {
-                return Currency.all.map!(x => x.toJSON).array.Json.toString();
+                return Rate.getCurrencies().to!string;
             });
 
             Get("/forex/rates/:currency", ContentType.json.utf8, delegate string (req, res) {
@@ -85,20 +85,19 @@ void initializeRouter(ApplicationSettings settings, HTTPServerSettings vibedSett
                 }
 
                 string rawLimit = req.query.get("limit", null),
-                       currencyName = req.params["currency"].toUpper();
+                    currencyName = req.params["currency"];
 
-                long limit = parseLimitString(rawLimit);
                 auto result = Json.emptyObject;
 
-                if (!Currency.isValidName(currencyName))
+                if (!Rate.isValidCurrency(currencyName))
                     throw new HTTPStatusException(400, "Invalid currency " ~ currencyName);
 
-                auto currency = Currency.find("name", currencyName.toUpper);
+                long limit = parseLimitString(rawLimit);
 
-                if (currency is null)
-                    throw new HTTPStatusException(400, "Invalid currency " ~ currencyName);
+                if (limit == 0)
+                    return "{}";
 
-                foreach (rate; Rate.forCurrency(currency, limit))
+                foreach (rate; Rate.forCurrency(currencyName, limit))
                     result[rate.date.toISOExtString()] = rate.value;
 
                 return result.toString();

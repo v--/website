@@ -1,7 +1,6 @@
 module ivasilev.models;
 
-public import ivasilev.models.currency,
-              ivasilev.models.rate,
+public import ivasilev.models.rate,
               ivasilev.models.fsnode,
               ivasilev.models.file,
               ivasilev.models.dir,

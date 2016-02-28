@@ -25,7 +25,7 @@ void syncRates(ApplicationSettings settings)
 {
     DateRange dateRange = Rate.queryDateRange();
 
-    if (dateRange.isEmpty)
+    if (dateRange is null)
         logger.info("The forex DB has never been updated");
     else
         logger.infof("The forex DB has not been updated for %s", dateRange.age);
@@ -47,20 +47,13 @@ void importXML(string document, DateRange dateRange)
     import std.conv: to;
 
     logger.info("Importing the forex database from the ECB");
-    auto currencyCache = Currency.indexable;
-    auto rateAppender = appender!(Rate[]);
-
-    Currency currencyByName(string name)
-    {
-        return currencyCache[name] = currencyCache.get(name, Currency.getOrCreate(name));
-    }
 
     foreach (cube; readDocument(document).parseXPath("/gesmes:Envelope/Cube/Cube"))
     {
         import std.string: toUpper;
         auto currentDate = cube.getAttribute("time").parseDate();
 
-        if (!dateRange.isEmpty && dateRange.includes(currentDate))
+        if (dateRange !is null && dateRange.includes(currentDate))
         {
             logger.info("Ignored date ", currentDate);
             continue;
@@ -69,12 +62,12 @@ void importXML(string document, DateRange dateRange)
         foreach (node; cube.parseXPath("/Cube"))
         {
             auto name = node.getAttribute("currency").toUpper();
-            auto rate = node.getAttribute("rate").to!double;
-            rateAppender.put(new Rate(currencyByName(name), rate, currentDate));
+            auto value = node.getAttribute("rate").to!double;
+            auto rate = new Rate(name, value, currentDate);
+            rate.insert();
+            rate.destroy();
         }
 
         logger.info("Parsed date ", currentDate);
     }
-
-    Rate.bulkInsert(rateAppender.data);
 }

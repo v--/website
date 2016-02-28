@@ -25,16 +25,12 @@ struct ApplicationSettings
 
     struct DatabaseSettings
     {
-        string address, name, user, pass;
-        ushort port;
+        string host, name;
 
         void importTOML(TOMLValue value)
         {
-            address = value["address"].str;
-            port = value["port"].integer.to!ushort;
+            host = value["host"].str;
             name = value["name"].str;
-            user = value["user"].str;
-            pass = value["pass"].str;
         }
     }
 
@@ -68,7 +64,7 @@ struct ApplicationSettings
             import core.time: dur;
             alias days = dur!"days";
 
-            if (dateRange.isEmpty || dateRange.age >= days(90))
+            if (dateRange is null || dateRange.age >= days(90))
             {
                 logger.info("Fetching full log");
                 return full;
