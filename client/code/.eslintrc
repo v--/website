@@ -10,5 +10,6 @@ env:
     node: false
 
 rules:
+    no-unused-labels: 0
     lodash/prefer-constant: 0
     lodash/prefer-noop: 0

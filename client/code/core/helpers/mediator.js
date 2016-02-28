@@ -19,12 +19,8 @@ export class Dispatcher {
     }
 
     unregister(listener: Function) {
-        const index = this.listeners.indexOf(listener);
-
-        if (index in this.listeners)
-            delete this.listeners[index];
-        else
-            throw CoolError('Cannot unregister an unexisting listener');
+        pre: this.listeners.indexOf(listener) !== -1;
+        delete this.listeners[this.listeners.indexOf(listener)];
     }
 
     dispatch(...message) {
@@ -68,14 +64,12 @@ export class Mediator {
     }
 
     off(channel: string, listener: ?Function) {
-        if (channel in this.channels) {
-            if (listener)
-                this.channels[channel].dispatch(listener);
-            else
-                this.channels[channel].destroy();
-        } else {
-            throw CoolError('Cannot unregister from an unexisting channel');
-        }
+        pre: channel in this.channels;
+
+        if (listener)
+            this.channels[channel].dispatch(listener);
+        else
+            this.channels[channel].destroy();
     }
 }
 

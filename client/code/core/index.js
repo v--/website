@@ -1,5 +1,4 @@
-// import 'core-js/shim';
-// import 'babel-polyfill';
+import 'whatwg-fetch';
 
 import ReactDOM from 'react-dom';
 

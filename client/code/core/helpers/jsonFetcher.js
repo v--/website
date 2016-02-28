@@ -7,7 +7,7 @@ export default function jsonFetcher(url: string, parser: Function = Function.ide
     if (cache.has(url))
         return Promise.resolve(cache.get(url));
 
-    return fetch(url).then(function (response: Object) {
+    return window.fetch(url).then(function (response: Object) {
         if (response.ok)
             return response.json();
 

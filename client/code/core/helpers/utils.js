@@ -1,3 +1,5 @@
+import CoolError from 'code/core/helpers/coolError';
+
 const SIZES = 'KMGTP';
 let utils = {};
 

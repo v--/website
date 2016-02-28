@@ -29,10 +29,6 @@ export default class Breakout extends View {
         return true;
     }
 
-    constructor() {
-        super();
-    }
-
     // @override
     render() {
         const blockSize = Math.round(Math.min(

@@ -1,7 +1,6 @@
 import { Component as ReactComponent, PropTypes, createElement } from 'react';
 import _ from 'lodash';
 
-import CoolError from 'code/core/helpers/coolError';
 import mediator from 'code/core/helpers/mediator';
 
 export class Component extends ReactComponent {
@@ -11,10 +10,20 @@ export class Component extends ReactComponent {
     }
 
     subscribe(channel, methodName) {
-        if (methodName in this)
-            this.unreg.push(mediator.on(channel, this[methodName].bind(this)));
-        else
-            throw new CoolError('Invalid method name ' + methodName);
+        pre: methodName in this;
+        this.unreg.push(mediator.on(channel, this[methodName].bind(this)));
+    }
+
+    componentDidMount() {
+        this.onUpdate();
+    }
+
+    componentDidUpdate() {
+        this.onUpdate();
+    }
+
+    componentWillReceiveProps(props) {
+        this.onProps(props);
     }
 
     componentWillUnmount() {
@@ -22,6 +31,8 @@ export class Component extends ReactComponent {
         _.invokeMap(this.unreg, 'call');
     }
 
+    onProps(_props) {}
+    onUpdate(_props) {}
     onUnmount() {}
 }
 

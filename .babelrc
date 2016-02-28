@@ -6,14 +6,16 @@
                 "transform-runtime",
                 "transform-flow-strip-types",
                 "syntax-flow",
-                "typecheck"
+                "typecheck",
+                "contracts"
             ]
         },
         "production": {
             "plugins": [
                 "transform-runtime",
                 "transform-flow-strip-types",
-                "syntax-flow"
+                "syntax-flow",
+                ["contracts", { "strip": true }]
             ]
         }
     }

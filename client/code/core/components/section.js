@@ -4,15 +4,15 @@ import { Component, $ } from 'code/core/helpers/component';
 
 export default class Section extends Component {
     get viewport() {
-        if (this.state.element === null)
+        if (!this.refs.viewContainer)
             return Viewport.default;
 
-        return new Viewport(this.state.element.getBoundingClientRect());
+        return new Viewport(this.refs.viewContainer.getBoundingClientRect());
     }
 
     constructor() {
         super();
-        this.state = { context: ViewContext.empty, element: null };
+        this.state = { context: ViewContext.empty };
         this.subscribe('view:new', 'onViewUpdate');
         this.subscribe('resize', 'onResize');
     }
@@ -23,7 +23,7 @@ export default class Section extends Component {
 
         return $('section', null,
             $('h1', { className: 'ellipsis' }, context.view.generateHeading(context.data)),
-            $('div', { className: 'view-container', ref: ::this.setElement },
+            $('div', { className: 'view-container', ref: 'viewContainer' },
                 $(context.view,
                     { data: context.data, viewport: this.viewport }
                 )
@@ -38,12 +38,5 @@ export default class Section extends Component {
     onResize() {
         if (this.state.context.view.updateOnResize)
             this.forceUpdate();
-    }
-
-    setElement(element) {
-        if (this.state.element === null)
-            this.setState({
-                element: element
-            });
     }
 }
