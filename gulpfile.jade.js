@@ -13,7 +13,15 @@ jade.filters.katex = function (input, config) {
     if (config.displayMode === undefined)
         config.displayMode = true;
 
-    return katex.render(input, { displayMode: config.displayMode }).body;
+    if (config.nowrap === undefined)
+        config.nowrap = true;
+
+    var result = katex.render(input, { displayMode: config.displayMode }).body;
+
+    if (config.nowrap)
+        return result;
+    else
+        return `<p>${result}</p>`;
 };
 
 jade.filters.highlight = function (input, config) {

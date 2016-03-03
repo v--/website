@@ -25,17 +25,13 @@
       justify-content: space-between;
       width: 350px;
 
-      .sort-demo-title {
-        @include ellipsis();
-        font-size: 1.2em;
-        color: $paleblue;
-      }
+      p:first-of-type {
+        color: $gray;
 
-      .sort-demo-subsection {
-        margin: 0 5px;
-
-        .sort-demo-heading {
-          color: $gray;
+        &.sort-demo-title {
+          @include ellipsis();
+          font-size: 1.2em;
+          color: $paleblue;
         }
       }
     }

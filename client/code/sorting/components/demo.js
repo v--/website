@@ -1,15 +1,14 @@
 import _ from 'lodash';
 
 import mediator from 'code/core/helpers/mediator';
-import Katex from 'code/core/components/katex';
-import Algorithm from 'code/sorting/helpers/algorithm';
+import Jade from 'code/core/components/jade';
 import Sorter from 'code/sorting/components/sorter';
 import { Component, props, $ } from 'code/core/helpers/component';
 
 export default class Demo extends Component {
     static propTypes = {
         period: props.number.isRequired,
-        algorithm: props.instanceOf(Algorithm).isRequired
+        algorithm: props.func.isRequired
     };
 
     static ORDERED =  [1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25];
@@ -29,13 +28,13 @@ export default class Demo extends Component {
         const common = {
             parentId: this.id,
             period: this.props.period,
-            generator: this.props.algorithm.generator
+            algorithm: this.props.algorithm
         };
 
         return $('div', { className: 'sort-demo-container' },
             $('div', { className: 'sort-demo' },
                 $('div', { className: 'sort-demo-section' },
-                    $('p', { className: 'sort-demo-title' }, this.props.algorithm.name),
+                    $('p', { className: 'sort-demo-title' }, this.props.algorithm.title),
                 ),
 
                 $('div', { className: 'sort-demo-section' },
@@ -45,22 +44,7 @@ export default class Demo extends Component {
                     $(Sorter, _.merge({ name: 'Groupped', array: Demo.GROUPPED }, common))
                 ),
 
-                $('div', { className: 'sort-demo-section' },
-                    $('div', { className: 'sort-demo-subsection' },
-                        $('p', { className: 'sort-demo-heading' }, 'Stable:'),
-                        $('p', null, this.props.algorithm.stable ? 'True' : 'False')
-                    ),
-
-                    $('div', { className: 'sort-demo-subsection' },
-                        $('p', { className: 'sort-demo-heading' }, 'Time complexity:'),
-                        $(Katex, { string: this.props.algorithm.time }),
-                    ),
-
-                    $('div', { className: 'sort-demo-subsection' },
-                        $('p', { className: 'sort-demo-heading' }, 'Space complexity:'),
-                        $(Katex, { string: this.props.algorithm.space }),
-                    )
-                ),
+                $(Jade, { template: this.props.algorithm.template }),
 
                 $('div', { className: 'sort-demo-section' },
                     $('button', { onClick: ::this.sort }, 'Sort')

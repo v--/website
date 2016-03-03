@@ -1,4 +1,4 @@
-import viewTemplate from 'views/code/forex';
+import viewTemplate from 'views/core/code/forex';
 import View from 'code/core/helpers/view';
 import Jade from 'code/core/components/jade';
 import { $ } from 'code/core/helpers/component';

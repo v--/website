@@ -48,9 +48,7 @@ gulp.task('views', function () {
 });
 
 gulp.task('server', function (_callback) {
-    const fs = require('fs'),
-        path = require('path'),
-        request = require('request'),
+    const request = require('request'),
         express = require('express'),
         webpack = require('webpack'),
         middleware = require('webpack-dev-middleware');

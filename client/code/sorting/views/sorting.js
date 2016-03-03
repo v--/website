@@ -4,11 +4,11 @@ import _ from 'lodash';
 import ReactSlider from 'react-slider';
 
 import mediator from 'code/core/helpers/mediator';
-import viewTemplate from 'views/code/sorting';
+import viewTemplate from 'views/sorting/index';
 import View from 'code/core/helpers/view';
 import Jade from 'code/core/components/jade';
 import Demo from 'code/sorting/components/demo';
-import Algorithm from 'code/sorting/helpers/algorithm';
+import algorithms from 'code/sorting/algos/index';
 import { $ } from 'code/core/helpers/component';
 
 export default class Sorting extends View {
@@ -55,7 +55,7 @@ export default class Sorting extends View {
                 className: 'sorting-sortall'
             }, 'Sort all'),
 
-            _.map(Algorithm.algorithms, (algorithm, index) =>
+            _.map(algorithms, (algorithm, index) =>
                 $(Demo, { algorithm, key: index, period: this.state.period })
             )
         );

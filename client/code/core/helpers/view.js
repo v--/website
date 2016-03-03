@@ -32,11 +32,11 @@ export default class View extends Component {
     }
 
     static get title() {
-        throw new Error('View#title must be overriden');
+        pre: this.constructor !== View;
     }
 
     static get route() {
-        throw new Error('View#route must be overriden');
+        pre: this.constructor !== View;
     }
 
     static get icon() {

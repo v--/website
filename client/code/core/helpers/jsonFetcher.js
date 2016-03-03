@@ -3,7 +3,7 @@ import Cache from 'code/core/helpers/cache';
 
 const cache = new Cache(10 * 1000);
 
-export default function jsonFetcher(url: string, parser: Function = Function.identity) {
+export default function jsonFetcher(url: string, parser: Function = _.identity) {
     if (cache.has(url))
         return Promise.resolve(cache.get(url));
 

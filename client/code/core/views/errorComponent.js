@@ -1,6 +1,6 @@
 import View from 'code/core/helpers/view';
 import Jade from 'code/core/components/jade';
-import viewTemplate from 'views/error';
+import viewTemplate from 'views/core/error';
 import { MAILTO } from 'code/core/constants/contacts';
 import { $ } from 'code/core/helpers/component';
 

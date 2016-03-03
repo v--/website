@@ -1,4 +1,4 @@
-import viewTemplate from 'views/home';
+import viewTemplate from 'views/core/home';
 import View from 'code/core/helpers/view';
 import Jade from 'code/core/components/jade';
 import { CONTACTS } from 'code/core/constants/contacts';

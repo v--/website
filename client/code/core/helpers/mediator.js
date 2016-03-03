@@ -1,7 +1,5 @@
 import _ from 'lodash';
 
-import CoolError from 'code/core/helpers/coolError';
-
 export class Dispatcher {
     constructor() {
         this.listeners = [];
@@ -20,11 +18,11 @@ export class Dispatcher {
 
     unregister(listener: Function) {
         pre: this.listeners.indexOf(listener) !== -1;
-        delete this.listeners[this.listeners.indexOf(listener)];
+        this.listeners.splice(this.listeners.indexOf(listener), 1);
     }
 
     dispatch(...message) {
-        _.invokeMap(this.listeners, 'call', window, ...message);
+        _.invokeMap(this.listeners, 'apply', window, message);
         _.forEach(this.nonces, listener => {
             listener(...message);
             this.unregister(listener);

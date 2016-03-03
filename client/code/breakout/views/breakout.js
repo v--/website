@@ -1,5 +1,5 @@
 import mediator from 'code/core/helpers/mediator';
-import viewTemplate from 'views/code/breakout';
+import viewTemplate from 'views/core/code/breakout';
 import View from 'code/core/helpers/view';
 import Jade from 'code/core/components/jade';
 import { $ } from 'code/core/helpers/component';

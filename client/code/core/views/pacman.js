@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import viewTemplate from 'views/pacman';
+import viewTemplate from 'views/core/pacman';
 import View from 'code/core/helpers/view';
 import Jade from 'code/core/components/jade';
 import jsonFetcher from 'code/core/helpers/jsonFetcher';

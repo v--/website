@@ -14,15 +14,12 @@ const DEFAULT_STATE = {
 
 export default class Sorter extends Component {
     static propTypes = {
-        name: props.string.isRequired,
-        array: props.arrayOf(props.number).isRequired,
         period: props.number.isRequired,
-        generator: props.func.isRequired
+        algorithm: props.func.isRequired
     };
 
     constructor() {
         super();
-        this.dom = [];
         this.state = _.merge({ array: [] }, DEFAULT_STATE);
         this.scheduler = new Scheduler(10, ::this.sortIteration);
         this.subscribe('sorting:sort', 'onSort');
@@ -59,15 +56,15 @@ export default class Sorter extends Component {
         this.scheduler.period = props.period;
     }
 
-    resetState(config: Object = {}, callback = Function.identity) {
+    resetState(config: Object = {}, callback = _.noop) {
         this.scheduler.stop();
         this.setState(_.merge({}, DEFAULT_STATE, config), callback);
     }
 
     drawLine(value: number, index: number) {
         return $('div', {
-            key: index,
-            ref: _.partial(::this.updateLineElement, index),
+            key: Date.now() + index,
+            ref: index,
             className: classSet(this.state.ready && 'ready'),
             style: {
                 width: this.getWidth(value)
@@ -82,7 +79,7 @@ export default class Sorter extends Component {
 
     sort() {
         this.resetState({ array: _.clone(this.props.array) }, () => {
-            this.sortIter = this.props.generator(this.state.array);
+            this.sortIter = new this.props.algorithm(this.state.array);
             this.scheduler.start();
         });
     }
@@ -99,14 +96,14 @@ export default class Sorter extends Component {
             return;
         }
 
-        const nodeA = this.dom[value.a],
-            nodeB = this.dom[value.b];
+        const nodeA = this.refs[value.a],
+            nodeB = this.refs[value.b];
 
         if (this.state.a)
-            this.dom[this.state.a].className = '';
+            this.refs[this.state.a].className = '';
 
         if (this.state.b)
-            this.dom[this.state.b].className = '';
+            this.refs[this.state.b].className = '';
 
         if (value.swap) {
             utils.swap(this.state.array, value.a, value.b);
@@ -119,9 +116,5 @@ export default class Sorter extends Component {
         nodeB.style.width = this.getWidth(this.state.array[value.b]);
 
         _.merge(this.state, value);
-    }
-
-    updateLineElement(id, element) {
-        this.dom[id] = element;
     }
 }
