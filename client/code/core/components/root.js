@@ -2,18 +2,14 @@ import Vue from 'vue';
 
 import Navbar from 'code/core/components/navbar';
 import ErrorComponent from 'code/core/components/error';
-import utils from 'code/core/helpers/utils';
 import views from 'code/core/views/index';
 import template from 'views/core/components/root';
 
 export default Vue.extend({
+    name: 'i-root',
     replace: false,
     template: template,
-
-    components: Object.assign(utils.mapObject(views, view => `i-${view.name}`, view => view.component), {
-        'i-navbar': Navbar,
-        'i-error': ErrorComponent
-    }),
+    components: [Navbar, ErrorComponent].concat(views.map(view => view.component)),
 
     computed: {
         hasError:  context => context.error !== null,

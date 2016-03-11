@@ -125,15 +125,6 @@ const module = {
         return result;
     },
 
-    mapObject(object: Object, transformKey: Function, transformValue: Function): Object {
-        let result = {};
-
-        for (let key in object)
-            result[transformKey(object[key], key)] = transformValue(object[key]);
-
-        return result;
-    },
-
     accessor(accessor: ?Function | ?string): Function {
         if (accessor instanceof Function)
             return accessor;

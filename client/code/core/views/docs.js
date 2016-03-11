@@ -7,7 +7,9 @@ import browser from 'code/core/helpers/browser';
 import template from 'views/core/views/docs';
 
 const component = Vue.extend({
+    name: 'i-docs',
     template: template,
+    components: [Table],
 
     data: () => ({
         columns: [
@@ -17,10 +19,6 @@ const component = Vue.extend({
             }
         ]
     }),
-
-    components: {
-        'i-table': Table
-    },
 
     vuex: {
         getters: {

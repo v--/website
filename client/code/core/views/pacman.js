@@ -1,5 +1,3 @@
-import Vue from 'vue';
-
 import { KEY, KEYSERVERS } from 'code/core/constants/gpgKeys';
 import PacmanPackage from 'code/core/models/pacmanPackage';
 import View from 'code/core/classes/view';
@@ -10,7 +8,8 @@ import template from 'views/core/views/pacman';
 export default new View({
     name: 'pacman',
 
-    component: Vue.extend({
+    component: {
+        name: 'i-pacman',
         template: template,
 
         data: () => ({
@@ -23,7 +22,7 @@ export default new View({
                 packages: state => utils.groupBy(state.core.page.data, 'arch')
             }
         }
-    }),
+    },
 
     resolve(_path: string) {
         return browser.fetchJSON('/api/pacman').then(function (data) {

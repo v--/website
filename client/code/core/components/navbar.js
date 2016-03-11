@@ -7,11 +7,9 @@ import actions from 'code/core/actions';
 import template from 'views/core/components/navbar';
 
 export default Vue.extend({
+    name: 'i-navbar',
     template: template,
-
-    components: {
-        'i-icon': Icon
-    },
+    components: [Icon],
 
     data: utils.returnsDumbCopy({
         routes: Routes

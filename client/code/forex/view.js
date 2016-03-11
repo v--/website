@@ -8,6 +8,7 @@ export default new View({
     title: ['code', 'forex'],
     inject: true,
     component: Vue.extend({
+        name: 'i-code-forex',
         template: template
     })
 });

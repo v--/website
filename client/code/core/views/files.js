@@ -11,9 +11,11 @@ import browser from 'code/core/helpers/browser';
 import template from 'views/core/views/files';
 
 const component = Vue.extend({
+    name: 'i-files',
     template: template,
+    components: [Table],
 
-    data: () => ({
+    data: utils.returns({
         columns: [
             {
                 name: 'Name',
@@ -53,10 +55,6 @@ const component = Vue.extend({
             }
         ]
     }),
-
-    components: {
-        'i-table': Table
-    },
 
     computed: {
         description: context => context.data.description,

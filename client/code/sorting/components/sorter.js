@@ -9,6 +9,7 @@ import template from 'views/sorting/components/sorter';
 const PERIOD = 20;
 
 export default Vue.extend({
+    name: 'i-sorting-sorter',
     template: template,
 
     props: {

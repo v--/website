@@ -8,11 +8,9 @@ import sorters from 'code/sorting/constants/sorters';
 import template from 'views/sorting/components/demo';
 
 export default Vue.extend({
+    name: 'i-sorting-demo',
     template: template,
-
-    components: {
-        'i-sorting-sorter': Sorter
-    },
+    components: [Sorter],
 
     props: {
         algorithm: { type: Algorithm, required: true }

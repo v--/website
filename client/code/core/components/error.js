@@ -7,11 +7,9 @@ import template from 'views/core/components/error';
 import utils from 'code/core/helpers/utils';
 
 export default Vue.extend({
+    name: 'i-error',
     template: template,
-
-    components: {
-        'i-icon': Icon
-    },
+    components: [Icon],
 
     data: utils.returnsDumbCopy({
         bugurl: BUGREPORT

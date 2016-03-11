@@ -12,13 +12,11 @@ export default new View({
     title: ['code', 'sorting'],
     inject: true,
     component: Vue.extend({
+        name: 'i-code-sorting',
         template: template,
+        components: [Demo],
 
         data: utils.returnsDumbCopy({ algorithms }),
-
-        components: {
-            'i-sorting-demo': Demo
-        },
 
         methods: {
             sortall() {

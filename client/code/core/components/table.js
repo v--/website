@@ -19,11 +19,9 @@ function descendingComparator(a, b) {
 }
 
 export default Vue.extend({
+    name: 'i-table',
     template: template,
-
-    components: {
-        'i-icon': Icon
-    },
+    components: [Icon],
 
     props: {
         sort:       { type: Number, default: 1 },

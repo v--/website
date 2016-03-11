@@ -11,7 +11,9 @@ export default new View({
     name: 'code',
 
     component: Vue.extend({
+        name: 'i-code',
         template: template,
+        components: [Table],
 
         data: () => ({
             bundles: utils.dumbCopy(BUNDLES),
@@ -31,10 +33,6 @@ export default new View({
                     accessors: { value: 'summary' }
                 }
             ]
-        }),
-
-        components: {
-            'i-table': Table
-        }
+        })
     })
 });

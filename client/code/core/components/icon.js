@@ -2,11 +2,11 @@ import Vue from 'vue';
 
 import CoolError from 'code/core/classes/coolError';
 import spritesheet from 'code/core/helpers/spritesheet';
+import utils from 'code/core/helpers/utils';
 import template from 'views/core/components/icon';
 
-let counter = 0;
-
 export default Vue.extend({
+    name: 'i-icon',
     template: template,
 
     props: {
@@ -17,8 +17,7 @@ export default Vue.extend({
         horizontalFlip: { type: Boolean, default: false }
     },
 
-    data: () => ({
-        id: counter++,
+    data: utils.returnsDumbCopy({
         oldName: null,
         code: ''
     }),
@@ -61,6 +60,7 @@ export default Vue.extend({
     },
 
     ready() {
+        // throw new Error('p');
         if (this.oldName !== this.name)
             this.updateCode(this.name);
     }

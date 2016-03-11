@@ -11,11 +11,10 @@ export default new View({
     testPath: path => path === '/',
 
     component: Vue.extend({
+        name: 'i-home',
         template: template,
 
-        components: {
-            'i-icon': Icon
-        },
+        components: [Icon],
 
         data: utils.returnsDumbCopy({
             contacts: CONTACTS

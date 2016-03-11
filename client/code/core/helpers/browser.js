@@ -33,7 +33,7 @@ const module = {
         return promise;
     },
 
-    injectScript(name: string) {
+    injectScript(name: string): Promise {
         if (module.injected.has(name))
             return Promise.resolve();
 
@@ -50,6 +50,9 @@ const module = {
     },
 
     injectStylesheet(name: string) {
+        if (module.injected.has(name))
+            return;
+
         const tag = document.createElement('link');
         tag.rel = 'stylesheet';
         tag.href = `/styles/${name}.css`;
