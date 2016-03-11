@@ -3,6 +3,7 @@
     "env": {
         "development": {
             "plugins": [
+                "transform-inline-environment-variables",
                 "transform-runtime",
                 "transform-flow-strip-types",
                 "syntax-flow",
@@ -12,6 +13,7 @@
         },
         "production": {
             "plugins": [
+                "transform-inline-environment-variables",
                 "transform-runtime",
                 "transform-flow-strip-types",
                 "syntax-flow",

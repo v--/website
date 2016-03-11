@@ -1,41 +1,31 @@
 import utils from 'code/core/helpers/utils';
 
 export default class FSNode {
-    get name() {
-        return utils.basename(this.path);
+    get name(): string {
+        return this._name || utils.basename(this.path);
     }
 
-    get sizeString() {
-        return utils.humanizeSize(this.size);
-    }
-
-    get modifiedString() {
-        return (new Date(this.modified)).toLocaleString();
-    }
-
-    get typeAccessor() {
-        return this.type + this.name;
-    }
-
-    get sizeAccessor() {
-        return this.size + this.name;
-    }
-
-    get modifiedAccessor() {
-        return this.modified + this.name;
+    set name(name: string) {
+        this._name = name;
     }
 
     get isDirectory() {
         throw new Error('FSNode#isDirectory must be overriden');
     }
 
-    constructor(path: string, modified: string, size: number) {
+    constructor(path: string, modified: Date, size: number) {
+        pre: this.constructor !== FSNode;
         this.path = path;
         this.size = size;
-        this.modified = (new Date(modified)).getTime();
+        this.modified = modified;
+        this.parent = null;
     }
 
-    matchesPath(path: string) {
+    matchesPath(path: string): boolean {
         return this.path === path.replace(/\/$/, '');
+    }
+
+    setParent(parent: FSNode) {
+        this.parent = parent;
     }
 }

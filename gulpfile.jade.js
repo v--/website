@@ -10,13 +10,13 @@ const katex = jsTransformer(katexTransformer),
     highlight = jsTransformer(highlightTransformer);
 
 jade.filters.katex = function (input, config) {
-    if (config.displayMode === undefined)
+    if (!('displayMode' in config))
         config.displayMode = true;
 
-    if (config.nowrap === undefined)
-        config.nowrap = true;
+    if (!('nowrap' in config))
+        config.nowrap = false;
 
-    var result = katex.render(input, { displayMode: config.displayMode }).body;
+    const result = katex.render(input, { displayMode: config.displayMode }).body;
 
     if (config.nowrap)
         return result;
@@ -25,7 +25,15 @@ jade.filters.katex = function (input, config) {
 };
 
 jade.filters.highlight = function (input, config) {
-    return highlight.render(input, { lang: config.lang }).body;
+    if (!('nowrap' in config))
+        config.nowrap = false;
+
+    const result = highlight.render(input, { lang: config.lang }).body;
+
+    if (config.nowrap)
+        return result;
+    else
+        return `<pre><code>${result}</code></pre>`;
 };
 
 module.exports = jade;

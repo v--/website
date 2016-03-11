@@ -1,120 +1,99 @@
-import _ from 'lodash';
+import Vue from 'vue';
 
+import Scheduler from 'code/core/classes/scheduler';
 import utils from 'code/core/helpers/utils';
-import classSet from 'code/core/helpers/classSet';
-import Scheduler from 'code/core/helpers/scheduler';
-import { Component, props, $ } from 'code/core/helpers/component';
 
-const DEFAULT_STATE = {
-    a: null,
-    b: null,
-    swap: null,
-    ready: false
-};
+import Algorithm from 'code/sorting/classes/algorithm';
+import template from 'views/sorting/components/sorter';
 
-export default class Sorter extends Component {
-    static propTypes = {
-        period: props.number.isRequired,
-        algorithm: props.func.isRequired
-    };
+const PERIOD = 20;
 
-    constructor() {
-        super();
-        this.state = _.merge({ array: [] }, DEFAULT_STATE);
-        this.scheduler = new Scheduler(10, ::this.sortIteration);
-        this.subscribe('sorting:sort', 'onSort');
-    }
+export default Vue.extend({
+    template: template,
 
-    // @override
-    render() {
-        return $('div', { className: 'sort-demo-subsection sort-demo-sorter' },
-            $('p', { className: 'sort-demo-heading' }, this.props.name),
-            $('div', { className: 'sort-demo-lines' },
-                _.map(this.state.array, ::this.drawLine)
-            )
-        );
-    }
+    props: {
+        name:  { type: String, required: true },
+        prototype: { type: Array, required: true },
+        algorithm: { type: Algorithm, required: true }
+    },
 
-    // @override
-    componentWillMount() {
-        this.updateNativeState(this.props);
-        this.setState({ array: _.clone(this.props.array) });
-    }
+    data: () => ({
+        scheduler: new Scheduler(PERIOD),
+        iterator: null,
+        complete: false,
+        lastChanged: [],
+        array: []
+    }),
 
-    // @override
-    onUnmount() {
-        this.scheduler.stop();
-    }
+    computed: {
+        ratio: context => 100 / context.array.length,
+        rawNodes: context => context.$el.lastChild.children
+    },
 
-    // @override
-    componentWillReceiveProps(props: Object) {
-        this.updateNativeState(props);
-        this.resetState({ array: _.clone(props.array) });
-    }
+    methods: {
+        getWidth(item: number) {
+            return `${item * this.ratio}%`;
+        },
 
-    updateNativeState(props: Object) {
-        this.scheduler.period = props.period;
-    }
+        swap(a: number, b: number) {
+            const temp = this.array[a];
+            this.array.$set(a, this.array[b]);
+            this.array.$set(b, temp);
+        },
 
-    resetState(config: Object = {}, callback = _.noop) {
-        this.scheduler.stop();
-        this.setState(_.merge({}, DEFAULT_STATE, config), callback);
-    }
+        clearLastChanged() {
+            for (let index of this.lastChanged)
+                this.rawNodes[index].className = '';
 
-    drawLine(value: number, index: number) {
-        return $('div', {
-            key: Date.now() + index,
-            ref: index,
-            className: classSet(this.state.ready && 'ready'),
-            style: {
-                width: this.getWidth(value)
+            this.lastChanged = [];
+        },
+
+        // The update itself is done cleanly with Vue, hovewer changing the css classes is not
+        iteration() {
+            const result = this.iterator.next();
+            this.clearLastChanged();
+
+            if (result.done) {
+                this.complete = true;
+                return;
             }
-        });
-    }
 
-    onSort(parentId) {
-        if (this.props.parentId === parentId)
-            this.sort();
-    }
+            const { a, b } = result.value;
 
-    sort() {
-        this.resetState({ array: _.clone(this.props.array) }, () => {
-            this.sortIter = new this.props.algorithm(this.state.array);
+            if (result.value.swap)
+                this.swap(a, b);
+
+        try {
+            this.rawNodes[a].className = this.rawNodes[b].className = result.value.swap ? 'swapped' : 'still';
+        } catch (e) {
+            this.scheduler.stop();
+        }
+            this.lastChanged = [a, b];
+        },
+
+        reinitialize() {
+            this.complete = false;
+            this.scheduler.stop();
+            this.array = utils.dumbCopy(this.prototype);
+            this.iterator = this.algorithm.generator(this.array);
+        }
+    },
+
+    events: {
+        sort() {
+            this.reinitialize();
             this.scheduler.start();
-        });
-    }
-
-    getWidth(value) {
-        return value * 100 / this.state.array.length + '%';
-    }
-
-    sortIteration() {
-        const { done, value } = this.sortIter.next();
-
-        if (done) {
-            this.resetState({ ready: true });
-            return;
         }
+    },
 
-        const nodeA = this.refs[value.a],
-            nodeB = this.refs[value.b];
-
-        if (this.state.a)
-            this.refs[this.state.a].className = '';
-
-        if (this.state.b)
-            this.refs[this.state.b].className = '';
-
-        if (value.swap) {
-            utils.swap(this.state.array, value.a, value.b);
-            nodeA.className = nodeB.className = 'swapped';
-        } else {
-            nodeA.className = nodeB.className = 'still';
+    watch: {
+        prototype() {
+            this.reinitialize();
         }
+    },
 
-        nodeA.style.width = this.getWidth(this.state.array[value.a]);
-        nodeB.style.width = this.getWidth(this.state.array[value.b]);
-
-        _.merge(this.state, value);
+    ready() {
+        this.reinitialize();
+        this.scheduler.callback = ::this.iteration;
     }
-}
+});

@@ -1,14 +1,12 @@
-div.sort-demo-section
-    div
-        p Stable:
-        p False
+extends views/sorting/algos/index
 
-    div
-        p Time complexity:
-        :katex(displayMode=false)
-            \Theta(n^2)
+block stable
+    p False
 
-    div
-        p Space complexity:
-        :katex(displayMode=false)
-            \Theta(1)
+block time
+    :katex(displayMode=false)
+        \Theta(n^2)
+
+block space
+    :katex(displayMode=false)
+        \Theta(1)

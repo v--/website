@@ -1,6 +1,10 @@
 export default class Slide {
-    constructor(raw) {
-        this.path = raw.path;
-        this.name = raw.name;
+    constructor(path, name) {
+        this.path = path;
+        this.name = name;
+    }
+
+    dup() {
+        return new Slide(this.path, this.name);
     }
 }

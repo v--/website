@@ -5,7 +5,6 @@ extends:
 
 plugins:
     - filenames
-    - react
 
 env:
     node: true

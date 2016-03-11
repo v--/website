@@ -1,6 +1,10 @@
 export default class Doc {
-    constructor(raw) {
-        this.path = raw.path;
-        this.name = raw.name;
+    constructor(path, name) {
+        this.path = path;
+        this.name = name;
+    }
+
+    dup() {
+        return new Doc(this.path, this.name);
     }
 }

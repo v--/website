@@ -2,7 +2,7 @@ import { Component, props, $ } from 'code/core/helpers/component';
 
 export default class Jade extends Component {
     static propTypes = {
-        template: props.func.isRequired,
+        template: props.func.required,
         data: props.any
     }
 

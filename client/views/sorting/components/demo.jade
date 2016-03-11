@@ -1,0 +1,13 @@
+div.sorting-demo-container: div.sorting-demo
+    div.sorting-demo-section: p.sorting-demo-title {{ algorithm.name }}
+
+    div.sorting-demo-section
+        i-sorting-sorter.sorting-demo-subsection(
+            v-for="sorter in sorters",
+            :name="sorter.name",
+            :algorithm="algorithm",
+            :prototype="sorter.prototype"
+        )
+
+    div.sorting-demo-section {{{ algorithm.description }}}
+    div.sorting-demo-section: button(@click="sort") Sort

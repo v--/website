@@ -1,11 +1,9 @@
-import _ from 'lodash';
-
 import FSNode from 'code/core/models/fsNode';
 
 export default class File extends FSNode {
     get type() {
         const name = this.name,
-            type = _.last(this.name.split('.'));
+            type = this.name.split('.').pop();
 
         if (type === name || type === '')
             return 'Dotfile';
@@ -17,7 +15,11 @@ export default class File extends FSNode {
         return false;
     }
 
-    constructor(path: string, modified: string, size: number) {
-        super(path, modified, size);
+    constructor(path: string, modified: Date, size: number, parent: ?FSNode) {
+        super(path, modified, size, parent);
+    }
+
+    dupSingle() {
+        return new File(this.path, this.modified, this.size, this.parent);
     }
 }

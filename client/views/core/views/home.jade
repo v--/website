@@ -1,0 +1,20 @@
+:marked
+    # Welcome!
+
+    This is a simple personal website - nothing more and nothing less.
+
+    ## About me
+
+    My name is Ianis Vasilev (pronounce it however you want). For some reason, I am studying statistics at Sofia University. According to my contract I am a programmer and according to my ego I am also a musician. Otherwise I am a relatively sane person.
+
+    ## About this website
+
+    This website contains random stuff that otherwise would be uploaded to other websites. Since you got here you probably need my [file server](/files) or my [code experiments](/code). [pacman](/pacman) contains information about a custom Arch Linux pacman repository. All other sections should be pretty self-descriptive.
+
+h2 Contacts
+
+ul
+    li(v-for="contact in contacts")
+        a.home-contact(:href.once="contact.uri")
+            i-icon(:name.once="contact.icon")
+            span {{* contact.name }}

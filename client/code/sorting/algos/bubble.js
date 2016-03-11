@@ -1,29 +1,18 @@
-import Algorithm from 'code/sorting/helpers/algorithm';
+import Algorithm from 'code/sorting/classes/algorithm';
 import template from 'views/sorting/algos/bubble';
 
-export default class BubbleSort extends Algorithm {
-    /// @override
-    static get title() {
-        return 'Bubble sort';
-    }
+function *generator(array) {
+    let ordered = false;
 
-    /// @override
-    static get template() {
-        return template;
-    }
+    while (!ordered) {
+        ordered = true;
 
-    /// @override
-    *createIterator() {
-        let ordered = false;
-
-        while (!ordered) {
-            ordered = true;
-
-            for (let i = 1; i < this.array.length; i++) {
-                const current = this.array[i - 1] <= this.array[i];
-                ordered &= current;
-                yield new Algorithm.Response(i - 1, i, !current);
-            }
+        for (let i = 1; i < array.length; i++) {
+            const current = array[i - 1] <= array[i];
+            ordered &= current;
+            yield new Algorithm.Response(i - 1, i, !current);
         }
     }
 }
+
+export default new Algorithm('Bubble sort', template, generator);

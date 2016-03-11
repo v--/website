@@ -1,59 +1,28 @@
-import _ from 'lodash';
+import Vue from 'vue';
 
-import mediator from 'code/core/helpers/mediator';
-import Jade from 'code/core/components/jade';
+import utils from 'code/core/helpers/utils';
+
+import Algorithm from 'code/sorting/classes/algorithm';
 import Sorter from 'code/sorting/components/sorter';
-import { Component, props, $ } from 'code/core/helpers/component';
+import sorters from 'code/sorting/constants/sorters';
+import template from 'views/sorting/components/demo';
 
-export default class Demo extends Component {
-    static propTypes = {
-        period: props.number.isRequired,
-        algorithm: props.func.isRequired
-    };
+export default Vue.extend({
+    template: template,
 
-    static ORDERED =  [1,  2,  3,  4,  5,  6,  7,  8,  9,  10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25];
-    static SHUFFLED = [13, 4,  3,  19, 6,  15, 9,  22, 16, 21, 12, 8,  7,  24, 18, 2,  25, 1,  23, 5,  14, 17, 20, 10, 11];
-    static REVERSED = [25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9,  8,  7,  6,  5,  4,  3,  2,  1];
-    static GROUPPED = [25, 20, 10, 15, 25, 25, 5,  5,  5,  20, 10, 5,  15, 20, 15, 25, 15, 20, 25, 10, 15, 10, 5, 20, 10];
+    components: {
+        'i-sorting-sorter': Sorter
+    },
 
-    // @override
-    constructor() {
-        super();
-        this.id = Demo.count = Demo.count + 1 || 0;
-        this.subscribe('sorting:all', 'sort');
+    props: {
+        algorithm: { type: Algorithm, required: true }
+    },
+
+    data: utils.returnsDumbCopy({ sorters }),
+
+    methods: {
+        sort() {
+            this.$broadcast('sort');
+        }
     }
-
-    // @override
-    render() {
-        const common = {
-            parentId: this.id,
-            period: this.props.period,
-            algorithm: this.props.algorithm
-        };
-
-        return $('div', { className: 'sort-demo-container' },
-            $('div', { className: 'sort-demo' },
-                $('div', { className: 'sort-demo-section' },
-                    $('p', { className: 'sort-demo-title' }, this.props.algorithm.title),
-                ),
-
-                $('div', { className: 'sort-demo-section' },
-                    $(Sorter, _.merge({ name: 'Ordered', array: Demo.ORDERED }, common)),
-                    $(Sorter, _.merge({ name: 'Shuffled', array: Demo.SHUFFLED }, common)),
-                    $(Sorter, _.merge({ name: 'Reversed', array: Demo.REVERSED }, common)),
-                    $(Sorter, _.merge({ name: 'Groupped', array: Demo.GROUPPED }, common))
-                ),
-
-                $(Jade, { template: this.props.algorithm.template }),
-
-                $('div', { className: 'sort-demo-section' },
-                    $('button', { onClick: ::this.sort }, 'Sort')
-                )
-            )
-        );
-    }
-
-    sort() {
-        mediator.emit('sorting:sort', this.id);
-    }
-}
+});

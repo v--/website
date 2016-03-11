@@ -1,0 +1,9 @@
+@import 'vars';
+
+.pacman-packages {
+  display: flex;
+
+  > div:not(:last-child) {
+    min-width: 350px;
+  }
+}

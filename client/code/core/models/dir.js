@@ -1,59 +1,55 @@
-import _ from 'lodash';
-
 import FSNode from 'code/core/models/fsNode';
 import File from 'code/core/models/file';
 
 export default class Dir extends FSNode {
-    static parseServerResponse = function (res: Object) {
-        if (!res.isDirectory)
-            return new File(res.path, res.modified, res.size);
+    static parseServerResponse = function (res: Object): FSNode {
+        const modified = new Date(res.modified);
 
-        return new Dir(res.path, res.modified, res.size, res.markdown, res.children);
+        if (!res.isDirectory)
+            return new File(res.path, modified, res.size);
+
+        return new Dir(res.path, modified, res.size, res.description, res.children.map(Dir.parseServerResponse));
     };
 
-    /* eslint no-cond-assign: 2 */
-    get ancestors() {
-        let current = this, stack = [];
-
-        do
-            stack.push(current);
-        while (current = current.parent);
-
-        return stack.reverse();
-    }
-    /* eslint no-cond-assign: 0 */
-
-    get type() {
+    get type(): string {
         return 'Directory';
     }
 
-    get isDirectory() {
+    get isDirectory(): boolean {
         return true;
     }
 
-    get files() {
-        return _.reject(this.children, 'isDirectory');
+    get files(): File[] {
+        return this.children.filter(this.children, child => child.isDirectory);
     }
 
-    get dirs() {
-        return _.filter(this.children, 'isDirectory');
+    get dirs(): Dir[] {
+        return this.children.filter(this.children, child => !child.isDirectory);
     }
 
-    get hasDescription() {
-        return this.markdown !== '';
+    get hasDescription(): boolean {
+        return this.description !== '';
     }
 
-    constructor(path: string, modified: string, size: number, markdown: string, children: Array) {
+    get ancestors() {
+        let current = this, stack = [];
+
+        do {
+            stack.push(current);
+            current = current.parent;
+        } while (current);
+
+        return stack.reverse();
+    }
+
+    constructor(path: string, modified: Date, size: number, description: string, children: FSNode[] = []) {
         super(path, modified, size);
-        this.markdown = markdown;
-        this.children = [];
-
-        _.forEach(children, child => {
-            this.addChild(Dir.parseServerResponse(child));
-        });
+        this.description = description;
+        this.children = children;
+        children.forEach(child => child.setParent(this));
     }
 
-    findByPath(path: string) {
+    findByPath(path: string): Dir | null {
         if (this.matchesPath(path))
             return this;
 
@@ -73,8 +69,17 @@ export default class Dir extends FSNode {
         return null;
     }
 
-    addChild(child: FSNode) {
-        child.parent = this;
-        this.children.push(child);
+    dupSingle() {
+        return new Dir(this.path, this.modified, this.size, this.description);
+    }
+
+    dupShallow() {
+        const dup = new Dir(this.path, this.modified, this.size, this.description, this.children.map(child => child.dupSingle()));
+
+        if (this.parent !== null)
+            dup.setParent(this.parent);
+
+        dup.children.forEach(child => child.setParent(this));
+        return dup;
     }
 }

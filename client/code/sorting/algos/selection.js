@@ -1,30 +1,19 @@
-import Algorithm from 'code/sorting/helpers/algorithm';
+import Algorithm from 'code/sorting/classes/algorithm';
 import template from 'views/sorting/algos/selection';
 
-export default class SelectionSort extends Algorithm {
-    /// @override
-    static get title() {
-        return 'Selection sort';
-    }
+function *generator(array) {
+    for (let i = 0; i < array.length - 1; i++) {
+        let min = i;
 
-    /// @override
-    static get template() {
-        return template;
-    }
+        for (let j = i; j < array.length; j++) {
+            yield new Algorithm.Response(i, j, false);
 
-    /// @override
-    *createIterator() {
-        for (let i = 0; i < this.array.length - 1; i++) {
-            let min = i;
-
-            for (let j = i; j < this.array.length; j++) {
-                yield new Algorithm.Response(i, j, false);
-
-                if (this.array[j] < this.array[min])
-                    min = j;
-            }
-
-            yield new Algorithm.Response(min, i, min !== i);
+            if (array[j] < array[min])
+                min = j;
         }
+
+        yield new Algorithm.Response(min, i, min !== i);
     }
 }
+
+export default new Algorithm('Selection sort', template, generator);

@@ -17,7 +17,7 @@ class Dir: FSNode
     private
     {
         FSNode[] _children;
-        string _markdown;
+        string _description;
         ulong _size;
     }
 
@@ -31,9 +31,9 @@ class Dir: FSNode
         return _size;
     }
 
-    @property string markdown()
+    @property string description()
     {
-        return _markdown;
+        return _description;
     }
 
     @property FSNode[] children()
@@ -54,7 +54,8 @@ class Dir: FSNode
 
                 if (childName == ".readme.md")
                 {
-                    _markdown = readText(entry.name);
+                    import vibe.textfilter.markdown: filterMarkdown;
+                    _description = filterMarkdown(readText(entry.name));
                 }
 
                 else if (!childName.startsWith("."))
@@ -67,7 +68,7 @@ class Dir: FSNode
             }
 
         else if (exists(buildPath(de.name, ".readme.md")))
-            _markdown = readText(buildPath(de.name, ".readme.md"));
+            _description = readText(buildPath(de.name, ".readme.md"));
     }
 
     this(string dir, FSNameTransformer FSNameTransformer, int availableDepth = -1)
@@ -78,7 +79,7 @@ class Dir: FSNode
     override Json toJSON()
     {
         auto json = FSNode.toJSON;
-        json["markdown"] = _markdown;
+        json["description"] = _description;
         json["children"] = Json(_children.map!(node => node.toJSON()).array);
         return json;
     }

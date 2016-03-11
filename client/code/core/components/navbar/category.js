@@ -2,8 +2,8 @@ import _ from 'lodash';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 
 import NavbarSubCategory from 'code/core/components/navbar/subCategory';
-import Fa from 'code/core/components/fa';
-import View from 'code/core/helpers/view';
+import Icon from 'code/core/components/icon';
+import View from 'code/core/classes/view';
 import NavigationContext from 'code/core/helpers/navigationContext';
 import classSet from 'code/core/helpers/classSet';
 import { go } from 'code/core/router';
@@ -52,7 +52,7 @@ export default class NavbarCategory extends Component {
                     )
                 },
 
-                $(Fa,
+                $(Icon,
                     {
                         name: this.props.view.icon,
                         fixedWidth: true,
@@ -66,7 +66,7 @@ export default class NavbarCategory extends Component {
                     this.props.view.title
                 ),
 
-                $(Fa, {
+                $(Icon, {
                     style: {
                         visibility: this.props.view.hasSubviews ? 'visible' : 'hidden'
                     },

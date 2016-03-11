@@ -1,0 +1,46 @@
+table
+    thead: tr.column-names
+        th(
+            v-for="column in parsedColumns",
+            track-by="$index",
+            :title="column.name",
+            :style="{ width: columnWidth(column) }",
+            @click="sortByColumn($index)"
+        )
+            i-icon(:name="sortIcon(column)")
+            p {{ column.name }}
+
+    tbody: tr(v-for="row in fragment"): td(
+        v-for="column in parsedColumns",
+        :title="column.name"
+    )
+        a(
+            v-if="column.hasLink",
+            :href="column.accessors.hyperlink(row)",
+            @click="onClick($event, column, row)"
+        ) {{ column.accessors.view(row) }}
+
+        p(v-else) {{ column.accessors.view(row) }}
+
+    thead: tr: th(:colspan="columns.length")
+        div.pagination
+            i-icon(
+                name="chevron-right",
+                v-if="true",
+                :class="{ disabled: page === 0 }",
+                :horizontal-flip.once="true",
+                @click="changePage(page - 1)"
+            )
+
+            span(
+                v-for="i in pages",
+                :class="{ active: i === page }",
+                @click="changePage(i)"
+            ) {{ i + 1 }}
+
+            i-icon(
+                name="chevron-right",
+                v-if="true",
+                :class="{ disabled: page === pageCount - 1 }",
+                @click="changePage(page + 1)"
+            )

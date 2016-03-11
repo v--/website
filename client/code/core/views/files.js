@@ -1,104 +1,97 @@
-import _ from 'lodash';
-import Markdown from 'react-remarkable';
+import Vue from 'vue';
 
-import View from 'code/core/helpers/view';
-import Table from 'code/core/components/table';
-import jsonFetcher from 'code/core/helpers/jsonFetcher';
+import CoolError from 'code/core/classes/coolError';
+import FSNode from 'code/core/models/fsNode';
 import Dir from 'code/core/models/dir';
-import { go } from 'code/core/router';
-import { $ } from 'code/core/helpers/component';
+import View from 'code/core/classes/view';
+import Table from 'code/core/components/table';
+import actions from 'code/core/actions';
+import utils from 'code/core/helpers/utils';
+import browser from 'code/core/helpers/browser';
+import template from 'views/core/views/files';
 
-export default class Files extends View {
-    // @override
-    static get title() {
-        return 'files';
-    }
+const component = Vue.extend({
+    template: template,
 
-    // @override
-    static get route() {
-        return '/files';
-    }
+    data: () => ({
+        columns: [
+            {
+                name: 'Name',
+                width: 2,
+                accessors: { value: 'name', hyperlink: 'path' },
+                onClick: function (e, row: FSNode) {
+                    if (!row.isDirectory)
+                        return;
 
-    // @override
-    static get icon() {
-        return 'files-o';
-    }
+                    e.preventDefault();
+                    actions.updatePath(this.$store, row.path);
+                }
+            },
 
-    // @override
-    static get updateOnResize() {
-        return true;
-    }
+            {
+                name: 'Type',
+                width: 2,
+                accessors: { value: 'type' }
+            },
 
-    static generateHeading(data) {
-        return `Contents of "${data.path}"`;
-    }
+            {
+                name: 'Size',
+                width: 2,
+                accessors: {
+                    value: 'size',
+                    view: node => utils.humanizeSize(node.size)
+                }
+            },
 
-    // @override
-    static resolver() {
-        return jsonFetcher('/api/files', Dir.parseServerResponse);
-    }
+            {
+                name: 'Modified',
+                width: 3,
+                accessors: {
+                    value: node => node.modified.getTime(),
+                    view: node => node.modified.toLocaleString()
+                }
+            }
+        ]
+    }),
 
-    // @override
-    static subviews(files: Dir) {
-        return _(files.dirs)
-            .sortBy('name')
-            .map(node => View.generate(node.name, node.path))
-            .value();
-    }
+    components: {
+        'i-table': Table
+    },
 
-    static onNameClick(e, data: Object) {
-        if (!data.isDirectory) return;
-        e.preventDefault();
-        go(data.path);
-    }
+    computed: {
+        description: context => context.data.description,
+        staticData: context => {
+            if (context.data.parent === null)
+                return [];
 
-    static createMockParent(actual) {
-        return _(actual)
-            .pick(['path', 'type', 'sizeString', 'dateString'])
-            .merge({ name: '..', isDirectory: true })
-            .value();
-    }
-
-    // @override
-    render() {
-        const { data } = this.props,
-            parent = data.parent && Files.createMockParent(data.parent);
-
-        let croppedViewport = this.props.viewport.clone();
-
-        // HACK: BEGIN
-        if (data.hasDescription) {
-            let padding = croppedViewport.height * 1 / 3;
-            croppedViewport.height -= padding;
-            croppedViewport.bottom -= padding;
+            const mock = context.data.parent.dupSingle();
+            mock.name = '..';
+            return [mock];
         }
-        // HACK: END
+    },
 
-        return $('div', null,
-            $(Table, {
-                initialSort: { columnIndex: 1 },
-                viewport: croppedViewport,
-                data: data.children,
-                staticData: parent && [parent],
-                columns: [{
-                    name: 'Name',
-                    width: 2,
-                    accessors: { value: 'name', hyperlink: 'path', click: ::Files.onNameClick }
-                }, {
-                    name: 'Type',
-                    width: 2,
-                    accessors: { value: 'typeAccessor', view: 'type' }
-                }, {
-                    name: 'Size',
-                    width: 2,
-                    accessors: { value: 'sizeAccessor', view: 'sizeString' }
-                }, {
-                    name: 'Modified',
-                    width: 3,
-                    accessors: { value: 'modifiedAccessor', view: 'modifiedString' }
-                }]
-            }),
-            data.hasDescription && $(Markdown, { source: data.markdown })
-        );
+    vuex: {
+        getters: {
+            data: state => state.core.page.data.dupShallow()
+        }
     }
-}
+});
+
+export default new View({
+    name: 'files',
+    title: dir => dir.ancestors.map(node => node.name),
+    testPath: path => utils.startsWithString(path, '/files'),
+
+    component: component,
+
+    resolve(path: string) {
+        return browser.fetchJSON('/api/files').then(function (data) {
+            const root = Dir.parseServerResponse(data).findByPath(path);
+
+            if (root === null)
+                throw CoolError.HTTP.notFound;
+
+            return root;
+        });
+    }
+});

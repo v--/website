@@ -12,6 +12,12 @@ body {
   background-color: $background;
   background-repeat: no-repeat;
   background-size: cover;
+
+  flex-direction: row;
+  display: flex;
+  position: relative;
+  height: 100vh;
+  overflow-y: hidden;
 }
 
 a {
@@ -49,6 +55,10 @@ button, .button {
   }
 }
 
+svg {
+  shape-rendering: "crispEdges";
+}
+
 .secondary {
   color: $secondary;
 }
@@ -70,9 +80,13 @@ button, .button {
 }
 
 .semitransparent {
-  opacity: 0.5;
+  opacity: 0.6;
 }
 
 .hidden {
   display: none;
+}
+
+.icon {
+  height: 1em;
 }

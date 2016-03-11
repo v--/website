@@ -1,57 +1,40 @@
-import { $ } from 'code/core/helpers/component';
+import Vue from 'vue';
 
+import BUNDLES from 'code/core/constants/bundles';
+import View from 'code/core/classes/view';
 import Table from 'code/core/components/table';
-import View from 'code/core/helpers/view';
+import utils from 'code/core/helpers/utils';
+import actions from 'code/core/actions';
+import template from 'views/core/views/code';
 
-export default class Code extends View {
-    // @override
-    static get title() {
-        return 'code';
-    }
+export default new View({
+    name: 'code',
 
-    // @override
-    static get route() {
-        return '/code';
-    }
+    component: Vue.extend({
+        template: template,
 
-    // @override
-    static get icon() {
-        return 'code';
-    }
+        data: () => ({
+            bundles: utils.dumbCopy(BUNDLES),
+            columns: [
+                {
+                    name: 'Name',
+                    accessors: { value: 'name', hyperlink: 'path' },
+                    onClick: function (e, row) {
+                        e.preventDefault();
+                        actions.updatePath(this.$store, row.path);
+                    }
+                },
 
-    // @override
-    static get updateOnResize() {
-        return true;
-    }
+                {
+                    name: 'Summary',
+                    width: 2,
+                    accessors: { value: 'summary' }
+                }
+            ]
+        }),
 
-    // @override
-    static generateHeading() {
-        return 'JS + HTML5 playground';
-    }
-
-    // @override
-    static subviews() {
-        return [
-            View.generate('FOREX', '/code/forex', 'A comparison of FOREX market models.'),
-            View.generate('Sorting', '/code/sorting', 'A visual comparison of array sorting algorithms.'),
-            View.generate('Breakout', '/code/breakout', 'A randomly-generated Breakout game clone.')
-        ];
-    }
-
-    // @override
-    render() {
-        return $(Table, {
-            viewport: this.props.viewport,
-            data: this.props.data,
-            columns: [{
-                name: 'Name',
-                width: 3,
-                accessors: { value: 'title', hyperlink: 'route' }
-            }, {
-                name: 'Summary',
-                width: 5,
-                accessors: { value: 'summary' }
-            }]
-        });
-    }
-}
+        components: {
+            'i-table': Table
+        }
+    })
+});

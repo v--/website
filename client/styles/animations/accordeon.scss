@@ -1,0 +1,10 @@
+@import 'vars';
+
+.accordeon {
+  transition: height $anim-duration;
+  height: 10px;
+}
+
+.accordeon-enter, .accordeon-leave {
+  height: 0;
+}

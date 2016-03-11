@@ -6,8 +6,7 @@ html(lang="en")
         include _head
         base(href="/")
 
-        link(rel="stylesheet", href="styles/index.css")
-        link(rel="stylesheet", href="styles/katex.css")
+        link(rel="stylesheet" href="styles/index.css")
 
         - if (!production)
             script(src="http://localhost:35729/livereload.js")
@@ -17,5 +16,5 @@ html(lang="en")
         script(src="code/core.js")
         script(src="code/main.js")
         title ivasilev.net
-    body
-        div.preload
+
+    body.preload

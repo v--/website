@@ -1,0 +1,14 @@
+@import 'vars';
+
+.error-container {
+  text-align: center;
+
+  .icon-container {
+    fill: $error-icon;
+  }
+
+  .icon {
+    font-size: 150px;
+    padding: 25px;
+  }
+}

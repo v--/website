@@ -82,4 +82,18 @@ describe('utils', function () {
             expect(object).to.deep.equal({ a: 1, b: 0 });
         });
     });
+
+    describe('utils.trim(string)', function () {
+        it('does nothing with a string without whitespace', function () {
+            expect(utils.trim('lorem')).to.equal('lorem');
+        });
+
+        it('does nothing with a string with a whitespace between letters', function () {
+            expect(utils.trim('lorem ipsum')).to.equal('lorem ipsum');
+        });
+
+        it('trims whitespaces at the ends of a string', function () {
+            expect(utils.trim('  lorem\t')).to.equal('lorem');
+        });
+    });
 });

@@ -1,5 +1,5 @@
-import ViewContext from 'code/core/helpers/viewContext';
-import Viewport from 'code/core/helpers/viewport';
+import ViewContext from 'code/core/classes/viewContext';
+import Viewport from 'code/core/classes/viewport';
 import { Component, $ } from 'code/core/helpers/component';
 
 export default class Section extends Component {

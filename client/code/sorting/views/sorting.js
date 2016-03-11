@@ -5,7 +5,7 @@ import ReactSlider from 'react-slider';
 
 import mediator from 'code/core/helpers/mediator';
 import viewTemplate from 'views/sorting/index';
-import View from 'code/core/helpers/view';
+import View from 'code/core/classes/view';
 import Jade from 'code/core/components/jade';
 import Demo from 'code/sorting/components/demo';
 import algorithms from 'code/sorting/algos/index';

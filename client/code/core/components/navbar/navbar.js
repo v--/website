@@ -4,7 +4,7 @@ import monster from 'cookie-monster';
 import classSet from 'code/core/helpers/classSet';
 import NavigationContext from 'code/core/helpers/navigationContext';
 import SidebarCategory from 'code/core/components/navbar/category';
-import Fa from 'code/core/components/fa';
+import Icon from 'code/core/components/icon';
 import { Component, $ } from 'code/core/helpers/component';
 import { TABLET_WIDTH } from 'code/core/constants/style';
 import { VIEWS } from 'code/core/router';
@@ -25,9 +25,9 @@ export default class Navbar extends Component {
         return $('aside',
             { className: classSet('navbar', !this.state.expanded && 'navbar-hidden') },
             $('div', { className: 'navbar-contents' },
-                $(Fa, {
+                $(Icon, {
                     name: 'chevron-circle-right',
-                    className: 'navbar-icon navbar-hide-icon',
+                    className: 'navbar-icon navbar-toggle-icon',
                     title: 'Toggle navbar',
                     onClick: ::this.toggleClick,
                     horizontalFlip: this.state.expanded,

@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import NavigationContext from 'code/core/helpers/navigationContext';
 import classSet from 'code/core/helpers/classSet';
-import View from 'code/core/helpers/view';
+import View from 'code/core/classes/view';
 import { Component, props, $ } from 'code/core/helpers/component';
 import { go } from 'code/core/router';
 

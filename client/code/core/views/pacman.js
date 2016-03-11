@@ -1,51 +1,33 @@
-import _ from 'lodash';
+import Vue from 'vue';
 
-import viewTemplate from 'views/core/pacman';
-import View from 'code/core/helpers/view';
-import Jade from 'code/core/components/jade';
-import jsonFetcher from 'code/core/helpers/jsonFetcher';
-import PacmanPackage from 'code/core/models/pacmanPackage';
 import { KEY, KEYSERVERS } from 'code/core/constants/gpgKeys';
-import { $ } from 'code/core/helpers/component';
+import PacmanPackage from 'code/core/models/pacmanPackage';
+import View from 'code/core/classes/view';
+import utils from 'code/core/helpers/utils';
+import browser from 'code/core/helpers/browser';
+import template from 'views/core/views/pacman';
 
-export default class Pacman extends View {
-        // @override
-    static get title() {
-        return 'pacman';
-    }
+export default new View({
+    name: 'pacman',
 
-    // @override
-    static get route() {
-        return '/pacman';
-    }
+    component: Vue.extend({
+        template: template,
 
-    // @override
-    static get icon() {
-        return 'cloud-download';
-    }
+        data: () => ({
+            key: KEY,
+            keyservers: KEYSERVERS
+        }),
 
-    // @override
-    static generateHeading() {
-        return 'pacman repository';
-    }
-
-    // @override
-    static resolver() {
-        return jsonFetcher('/api/pacman', res => _.map(res, pkg => new PacmanPackage(pkg)));
-    }
-
-    get grouppedPackages() {
-        return _.groupBy(this.props.data, 'arch');
-    }
-
-    // @override
-    render() {
-        return $(Jade, {
-            template: viewTemplate, data: {
-                key: KEY,
-                packages: this.grouppedPackages,
-                keyservers: KEYSERVERS
+        vuex: {
+            getters: {
+                packages: state => utils.groupBy(state.core.page.data, 'arch')
             }
+        }
+    }),
+
+    resolve(_path: string) {
+        return browser.fetchJSON('/api/pacman').then(function (data) {
+            return data.map(utils.constructs(PacmanPackage));
         });
     }
-}
+});

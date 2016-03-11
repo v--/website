@@ -1,0 +1,9 @@
+div.error-container
+    i-icon(name="warning")
+
+    h1 {{ displayError.title }}
+    h4 {{ displayError.message }}
+
+    p
+        span Please try refreshing the browser or&nbsp;
+        a(:href.once="bugurl") reporting a bug

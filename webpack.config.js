@@ -1,6 +1,7 @@
 'use strict';
 
-const path = require('path'),
+const fs = require('fs'),
+    path = require('path'),
     webpack = require('webpack'),
     WebpackLivereloadPlugin = require('webpack-livereload-plugin'),
     WebpackNotifier = require('webpack-notifier'),
@@ -12,16 +13,16 @@ function absolutize(file) {
 
 require('./gulpfile.jade'); // Ensure that the Jade plugin uses the patched Jade version
 
+const bundles = fs.readdirSync('client/code');
+
 let plugins = [
     new WebpackNotifier(),
     new SplitByPathPlugin([
-        { name: 'vendor', path: absolutize('node_modules') },
-        { name: 'templates', path: absolutize('client/views') },
-        { name: 'core', path: absolutize('client/code/core') },
-        { name: 'sorting', path: absolutize('client/code/sorting') },
-        { name: 'forex', path: absolutize('client/code/forex') },
-        { name: 'breakout', path: absolutize('client/code/breakout') }
-    ])
+        { name: 'vendor',    path: absolutize('node_modules') },
+        { name: 'templates', path: absolutize('client/views') }
+    ].concat(bundles.map(function (bundle) {
+        return { name: bundle,  path: absolutize(`client/code/${bundle}`) };
+    })))
 ];
 
 if (process.env.NODE_ENV === 'production') {
@@ -65,6 +66,11 @@ module.exports = {
                 loader: 'jade'
             }
         ]
+    },
+    resolveLoader: {
+        alias: {
+            "jade": absolutize('./webpack.jade')
+        }
     },
     resolve: {
         root: __dirname,

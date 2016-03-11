@@ -1,0 +1,26 @@
+@import 'vars';
+
+.sorting-sorter {
+  width: 70px;
+}
+
+.sorting-demo-lines {
+  > div {
+    background: $blue;
+    height: 1px;
+    margin: 2px;
+
+    &.still {
+      background: $danger;
+    }
+
+    &.swapped {
+      background: $success;
+    }
+
+  }
+
+  &.complete > div {
+    background: $success;
+  }
+}

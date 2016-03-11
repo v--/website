@@ -1,34 +1,24 @@
-import viewTemplate from 'views/core/home';
-import View from 'code/core/helpers/view';
-import Jade from 'code/core/components/jade';
+import Vue from 'vue';
+
 import { CONTACTS } from 'code/core/constants/contacts';
-import { $ } from 'code/core/helpers/component';
+import View from 'code/core/classes/view';
+import Icon from 'code/core/components/icon';
+import utils from 'code/core/helpers/utils';
+import template from 'views/core/views/home';
 
-export default class Home extends View {
-    // @override
-    static get title() {
-        return 'home';
-    }
+export default new View({
+    name: 'home',
+    testPath: path => path === '/',
 
-    // @override
-    static get route() {
-        return '';
-    }
+    component: Vue.extend({
+        template: template,
 
-    // @override
-    static get icon() {
-        return 'home';
-    }
+        components: {
+            'i-icon': Icon
+        },
 
-    // @override
-    static generateHeading() {
-        return 'Welcome!';
-    }
-
-    // @override
-    render() {
-        return $(Jade, {
-            template: viewTemplate, data: { contacts: CONTACTS }
-        });
-    }
-}
+        data: utils.returnsDumbCopy({
+            contacts: CONTACTS
+        })
+    })
+});

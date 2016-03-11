@@ -1,52 +1,40 @@
-import _ from 'lodash';
+import Vue from 'vue';
 
-import Table from 'code/core/components/table';
-import View from 'code/core/helpers/view';
-import jsonFetcher from 'code/core/helpers/jsonFetcher';
 import Slide from 'code/core/models/slide';
-import { $ } from 'code/core/helpers/component';
+import View from 'code/core/classes/view';
+import Table from 'code/core/components/table';
+import browser from 'code/core/helpers/browser';
+import template from 'views/core/views/slides';
 
-export default class Slides extends View {
-        // @override
-    static get title() {
-        return 'slides';
-    }
+const component = Vue.extend({
+    template: template,
 
-    // @override
-    static get route() {
-        return '/slides';
-    }
-
-    // @override
-    static get icon() {
-        return 'line-chart';
-    }
-
-    // @override
-    static get updateOnResize() {
-        return true;
-    }
-
-    // @override
-    static generateHeading() {
-        return 'reveal.js presentations';
-    }
-
-    // @override
-    static resolver() {
-        return jsonFetcher('/api/slides', res => _.map(res, slide => new Slide(slide)));
-    }
-
-    // @override
-    render() {
-        return $(Table, {
-            initialSort: { columnIndex: 0 },
-            viewport: this.props.viewport,
-            data: this.props.data,
-            columns: [{
+    data: () => ({
+        columns: [
+            {
                 name: 'Name',
                 accessors: { value: 'name', hyperlink: 'path' }
-            }]
+            }
+        ]
+    }),
+
+    components: {
+        'i-table': Table
+    },
+
+    vuex: {
+        getters: {
+            data: state => state.core.page.data.map(x => x.dup())
+        }
+    }
+});
+
+export default new View({
+    name: 'slides',
+    component: component,
+    resolve() {
+        return browser.fetchJSON('/api/slides').then(function (data) {
+            return data.map(raw => new Slide(raw.path, raw.name));
         });
     }
-}
+});

@@ -1,0 +1,122 @@
+@import 'vars';
+
+.navbar {
+  background-color: $nav-background;
+  direction: rtl;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.navbar-contents {
+  direction: ltr;
+}
+
+.navbar-icon {
+  font-size: 20px;
+
+  > .icon {
+    vertical-align: text-top;
+    transition: $anim-duration;
+  }
+
+}
+
+.navbar-button {
+  padding-left: 5px;
+  padding-right: 5px;
+
+  display: block;
+  overflow: hidden;
+
+  margin-bottom: 0;
+  border-radius: 0;
+  border: 0;
+  width: 100%;
+}
+
+.navbar-route-button {
+  align-content: center;
+  display: flex;
+  transition: opacity $anim-duration, background-color $anim-duration;
+
+  color: $white;
+  fill: $white;
+  opacity: 0.7;
+
+  &.active {
+    background-color: $nav-button-active;
+  }
+
+  &:hover, &:active, &:focus {
+    color: $white;
+  }
+
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.navbar-button-toggle {
+  background: $nav-toggle-bg;
+  transition: background-color $anim-duration;
+  color: $white;
+
+  &:hover {
+    background: $nav-toggle-bg-hover;
+    color: $white;
+  }
+}
+
+.navbar-toggle-icon {
+  position: absolute;
+  left: 10px;
+  top: 3px;
+  transition: opacity $anim-duration, transform $anim-duration;
+
+  .icon {
+    opacity: 0.7;
+    background-color: $white;
+    fill: $black;
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
+
+  }
+
+  &.expanded > .icon {
+    opacity: 1;
+    fill: $nav-toggle-bg;
+
+    &:hover {
+      fill: $nav-toggle-bg-hover;
+    }
+  }
+}
+
+.navbar-route-icon {
+  flex-basis: 30px;
+}
+
+.navbar-route-text {
+  flex: 1;
+}
+
+.navbar-subroute-button {
+  background-color: $nav-subbutton;
+  padding-right: 2em;
+  padding-left: 2em;
+  transition: color $anim-duration, height $anim-duration;
+  display: block;
+
+  &.active {
+    color: $nav-subbutton-active;
+  }
+
+  &:hover {
+    color: $nav-subbutton-hover;
+  }
+}

@@ -5,6 +5,15 @@
 const concat = require('gulp-concat'),
     gulp = require('gulp');
 
+function values(object) {
+    let result = [];
+
+    for (let key in object)
+        result.push(object[key]);
+
+    return result;
+}
+
 gulp.task('styles', function () {
     const sass = require('gulp-sass');
 
@@ -45,6 +54,30 @@ gulp.task('views', function () {
             locals: { jade: jade, production: process.env.NODE_ENV === 'production' }
         }))
         .pipe(gulp.dest('views'));
+});
+
+gulp.task('icons', function () {
+    const fs = require('fs'),
+        svgstore = require('gulp-svgstore'),
+        rename = require('gulp-rename');
+
+    const icons = JSON.parse(fs.readFileSync('./client/icons/icons.json', 'utf-8'));
+
+    return gulp.src(values(icons).map(icon => `${icon}.svg`), { 'cwd': 'client/icons/**' })
+        .pipe(rename(function (path) {
+            const full = `${path.dirname}/${path.basename}`;
+            path.dirname = '.';
+
+            for (let key in icons) {
+                if (icons[key] === full) {
+                    path.basename = key;
+                    break;
+                }
+            }
+        }))
+        .pipe(svgstore())
+        .pipe(rename('icons.svg'))
+        .pipe(gulp.dest('public/images'));
 });
 
 gulp.task('server', function (_callback) {

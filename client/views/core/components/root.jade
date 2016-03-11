@@ -1,0 +1,7 @@
+i-navbar
+
+main(v-if="hasError")
+    i-error
+
+main(v-if="!hasError && hasView")
+    component(:is="component")
