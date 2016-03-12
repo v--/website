@@ -32,7 +32,7 @@ export default Vue.extend({
 
     data: utils.returnsDumbCopy({
         page: 0,
-        sortBy: 0,
+        sortBy: -1,
         ascending: true
     }),
 
