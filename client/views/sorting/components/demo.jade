@@ -4,6 +4,7 @@ div.sorting-demo-container: div.sorting-demo
     div.sorting-demo-section
         i-sorting-sorter.sorting-demo-subsection(
             v-for="sorter in sorters",
+            :period="period",
             :name="sorter.name",
             :algorithm="algorithm",
             :prototype="sorter.prototype"

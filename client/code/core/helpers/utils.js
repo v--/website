@@ -40,6 +40,11 @@ const module = {
         object[b] = tmp;
     },
 
+    last(array: Array) {
+        pre: array.length > 0;
+        return array[array.length - 1];
+    },
+
     noop() {},
 
     noopAsync() {
@@ -77,7 +82,7 @@ const module = {
     },
 
     returnsDumbCopy(value) {
-        return module.returns(value, module.dumbCopy);
+        return () => module.dumbCopy(value);
     },
 
     constructs(constructor: Function) {

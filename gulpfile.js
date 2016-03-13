@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable no-console */
 
 'use strict';
 
@@ -6,7 +7,6 @@ const SSH_SERVER = 'ivasilev.net',
     SSH_SERVER_ROOT = '/srv/http/ivasilev';
 
 const livereload = require('gulp-livereload'),
-    runSequence = require('run-sequence'),
     concat = require('gulp-concat'),
     shell = require('gulp-shell'),
     env = require('gulp-environments'),
@@ -25,15 +25,24 @@ function values(object) {
 
 // Build
 gulp.task('build:styles', function () {
-    const sass = require('gulp-sass');
+    const libnotify = require('libnotify'),
+        sass = require('gulp-sass');
+
+    const pluginStream = sass({
+        outputStyle: 'compressed',
+        includePaths: [
+            'node_modules'
+        ]
+    });
+
+    pluginStream.on('error', function(error) {
+        libnotify.notify(error.relativePath, { title: 'Gulp error' });
+        console.error(error.stack);
+        pluginStream.end();
+    });
 
     return gulp.src('client/styles/**/*.scss')
-        .pipe(sass({
-            outputStyle: 'compressed',
-            includePaths: [
-                'node_modules'
-            ]
-        }))
+        .pipe(pluginStream)
         .pipe(concat('index.css'))
         .pipe(gulp.dest('public/styles'))
         .pipe(env.development(livereload()));
@@ -63,7 +72,7 @@ gulp.task('build:views', function () {
             '!client/views/static/**/_*.jade'
         ])
         .pipe(gulpJade({
-            locals: { jade: jade, production: env.production() === 'production' }
+            locals: { jade: jade, production: env.production() }
         }))
         .pipe(gulp.dest('views'))
         .pipe(env.development(livereload()));
@@ -100,11 +109,11 @@ gulp.task('build:code', function (callback) {
 
     webpack(config).run(function (error, stats) {
         if (error)
-            throw error; // eslint-disable-line no-console
+            throw error;
         if (stats.toJson().errors.length)
             throw stats.toJson().errors;
         else
-            console.log(stats.toString({ chunkModules: false, colors: true })); // eslint-disable-line no-console
+            console.log(stats.toString({ chunkModules: false, colors: true }));
 
         callback();
     });
@@ -124,26 +133,32 @@ gulp.task('build:forex', function () {
 
 // Misc
 gulp.task('dev-server', function (_callback) {
-    const request = require('request'),
-        express = require('express'),
-        webpack = require('webpack'),
-        middleware = require('webpack-dev-middleware');
+    const webpack = require('webpack'),
+        watch = require('gulp-watch');
 
     const webpackConfig = require('./webpack.config.dev.js');
+    livereload.listen();
 
-    const app = express(),
-        compiler = webpack(webpackConfig);
+    webpack(webpackConfig).watch({}, function (error, stats) {
+        if (error) {
+            console.error(error);
+            return;
+        }
 
-    app.use(middleware(compiler, {
-        noInfo: true,
-        publicPath: webpackConfig.output.publicPath
-    }));
+        if (stats.toJson().errors.length) {
+            console.error(stats.toJson().errors[0]);
+            return;
+        }
 
-    app.get('*', function (req, res) {
-        request(`http://localhost:8000${req.url}`).pipe(res);
+        console.log(stats.toString({ chunkModules: false, colors: true }));
+
+        gulp.src('public/code/**/*js')
+            .pipe(livereload());
     });
 
-    app.listen(8001);
+    watch('client/styles/**/*.scss', function() {
+        gulp.start('build:styles');
+    });
 });
 
 gulp.task('productionize', function () {
@@ -160,6 +175,7 @@ gulp.task('deploy:views', ['productionize', 'build:views'], function () {
 
     return gulp.src('views')
         .pipe(rsync({
+            incremental: true,
             root: 'views',
             hostname: SSH_SERVER,
             destination: path.join(SSH_SERVER_ROOT, 'views'),
@@ -168,11 +184,23 @@ gulp.task('deploy:views', ['productionize', 'build:views'], function () {
         }));
 });
 
-gulp.task('deploy:client', ['deploy:views', 'build:styles', 'build:styles:katex', 'build:icons', 'build:code'], function () {
+gulp.task('deploy:katex-fonts', ['productionize'], function () {
+    const rsync = require('gulp-rsync');
+
+    return gulp.src('public/styles/fonts/*')
+        .pipe(rsync({
+            incremental: true,
+            hostname: SSH_SERVER,
+            destination: SSH_SERVER_ROOT
+        }));
+});
+
+gulp.task('deploy:client', ['deploy:views', 'deploy:katex-fonts', 'build:styles', 'build:styles:katex', 'build:icons', 'build:code'], function () {
     const rsync = require('gulp-rsync');
 
     return gulp.src('public')
         .pipe(rsync({
+            incremental: true,
             root: 'public',
             hostname: SSH_SERVER,
             destination: path.join(SSH_SERVER_ROOT, 'public'),
@@ -197,12 +225,14 @@ gulp.task('deploy:server:rsync', function () {
             'ivasilev.forex'
         ])
         .pipe(rsync({
+            incremental: true,
             hostname: SSH_SERVER,
             destination: SSH_SERVER_ROOT
         }));
 });
 
 gulp.task('deploy:server', ['productionize'], function (callback) {
+    const runSequence = require('run-sequence');
     runSequence(['build:forex', 'build:server', 'deploy:server:stop', 'deploy:server:rsync', 'deploy:server:start'], callback);
 });
 

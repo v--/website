@@ -13,6 +13,7 @@ export default Vue.extend({
     components: [Sorter],
 
     props: {
+        period: { type: Number, required: true },
         algorithm: { type: Algorithm, required: true }
     },
 

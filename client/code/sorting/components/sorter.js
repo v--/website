@@ -3,23 +3,23 @@ import Vue from 'vue';
 import Scheduler from 'code/core/classes/scheduler';
 import utils from 'code/core/helpers/utils';
 
+import { DEFAULT_PERIOD } from 'code/sorting/constants/periods';
 import Algorithm from 'code/sorting/classes/algorithm';
 import template from 'views/sorting/components/sorter';
-
-const PERIOD = 20;
 
 export default Vue.extend({
     name: 'i-sorting-sorter',
     template: template,
 
     props: {
-        name:  { type: String, required: true },
+        period:  { type: Number, required: true },
+        name:    { type: String, required: true },
         prototype: { type: Array, required: true },
         algorithm: { type: Algorithm, required: true }
     },
 
     data: () => ({
-        scheduler: new Scheduler(PERIOD),
+        scheduler: new Scheduler(DEFAULT_PERIOD),
         iterator: null,
         complete: false,
         lastChanged: [],
@@ -73,10 +73,11 @@ export default Vue.extend({
         },
 
         reinitialize() {
-            this.complete = false;
             this.scheduler.stop();
+            this.clearLastChanged();
             this.array = utils.dumbCopy(this.prototype);
             this.iterator = this.algorithm.generator(this.array);
+            this.complete = false;
         }
     },
 
@@ -90,6 +91,16 @@ export default Vue.extend({
     watch: {
         prototype() {
             this.reinitialize();
+        },
+
+        period() {
+            const start = this.scheduler.isRunning;
+
+            this.scheduler.stop();
+            this.scheduler.period = this.period;
+
+            if (start)
+                this.scheduler.start();
         }
     },
 

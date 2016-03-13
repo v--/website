@@ -8,7 +8,6 @@ $lightgray:            #f0f0f0;
 $blue:                 #0fa0ce;
 $darkblue:             #014156;
 $lightblue:            lighten($blue, 15%);
-$paleblue:             lighten($blue, 25%);
 
 $success:              #228b22;
 $danger:               #cc0000;
@@ -24,18 +23,28 @@ $error-icon:           #ffff66;
 $table-border:         #888888;
 $button-color:         #bbbbbb;
 $button-hover:         $gray;
+$input-border:         #bbbbbb;
+$highlight:            $lightblue;
+
 $nav-toggle-bg:        $lightblue;
 $nav-toggle-bg-hover:  lighten($blue, 5%);
 $nav-background:       $darkgray;
 $nav-button-active:    $darkblue;
 $nav-subbutton:        #303030;
-$nav-subbutton-active: $paleblue;
+$nav-subbutton-active: $lightblue;
 $nav-subbutton-hover:  $lightblue;
 
 $breakout-background: $darkgray;
 $breakout-ball-fg:    $white;
 $breakout-bar-fg:     $white;
 
+$radio-active:        $lightblue;
+
+$sorting-demo-container: $darkgray;
+$sorting-demo-title:     $lightgray;
+$sorting-sorter-line:    $blue;
+$sorting-sorter-still:   $danger;
+$sorting-sorter-swapped: $success;
 
 $anim-duration:        250ms;
 
@@ -48,6 +57,9 @@ $view-padding-side:    50px;
 $header-line-height:   60px;
 $header-line-margin:   20px;
 $breakout-padding:     20px;
+$margin-top:           0.5rem;
+$margin-bottom:        2rem;
+$border-radius:        4px;
 
 
 $breakout-block-count: 3;

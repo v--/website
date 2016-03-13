@@ -6,21 +6,21 @@
 
 .sorting-demo-lines {
   > div {
-    background: $blue;
+    background: $sorting-sorter-line;
     height: 1px;
     margin: 2px;
 
     &.still {
-      background: $danger;
+      background: $sorting-sorter-still;
     }
 
     &.swapped {
-      background: $success;
+      background: $sorting-sorter-swapped;
     }
 
   }
 
   &.complete > div {
-    background: $success;
+    background: $sorting-sorter-swapped;
   }
 }

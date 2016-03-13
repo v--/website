@@ -2,8 +2,8 @@
 config/config.toml
 node_modules
 ivasilev
-ivasilev_forex
+ivasilev.forex
 public/code/*
 public/styles/katex.css*
-public/styles/application.css*
+public/styles/index.css*
 /views
