@@ -10,6 +10,7 @@ name = "ivasilev"
 files = "files"
 slides = "slides"
 pacman = "pacman"
+docs = "docs"
 
 [ecb_history]
 daily = "http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml"

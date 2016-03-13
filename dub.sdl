@@ -15,6 +15,7 @@ subPackage {
     name "forex"
     description "ivasilev.net forex service"
     targetType "executable"
+    targetName "ivasilev.forex"
 
     libs "curl"
     sourcePaths "server/common" "server/forex"
