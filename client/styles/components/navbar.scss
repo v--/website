@@ -13,12 +13,12 @@
 
 .navbar-icon {
   font-size: 20px;
+  display: flex;
+  justify-content: center;
 
   > .icon {
-    vertical-align: text-top;
-    transition: $anim-duration;
+    align-self: center;
   }
-
 }
 
 .navbar-button {
@@ -35,7 +35,6 @@
 }
 
 .navbar-route-button {
-  align-content: center;
   display: flex;
   transition: opacity $anim-duration, background-color $anim-duration;
 
@@ -70,7 +69,7 @@
 .navbar-toggle-icon {
   position: absolute;
   left: 10px;
-  top: 3px;
+  top: 8px;
   transition: opacity $anim-duration, transform $anim-duration;
 
   .icon {
@@ -84,7 +83,6 @@
     &:hover {
       opacity: 1;
     }
-
   }
 
   &.expanded > .icon {
