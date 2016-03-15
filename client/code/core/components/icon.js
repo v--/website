@@ -17,7 +17,7 @@ export default Vue.extend({
         horizontalFlip: { type: Boolean, default: false }
     },
 
-    data: utils.returnsDumbCopy({
+    data: () => ({
         oldName: null,
         code: ''
     }),

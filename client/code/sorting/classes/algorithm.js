@@ -11,9 +11,6 @@ export default class Algorithm {
         this.name = name;
         this.description = description;
         this.generator = generator;
-    }
-
-    dup() {
-        return new Algorithm(this.name, this.description, this.generator);
+        Object.freeze(this);
     }
 }

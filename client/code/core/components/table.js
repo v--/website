@@ -30,7 +30,7 @@ export default Vue.extend({
         staticData: { type: Array, default: () => [] }
     },
 
-    data: utils.returnsDumbCopy({
+    data: () => ({
         page: 0,
         sortBy: -1,
         ascending: true

@@ -11,6 +11,10 @@ const component = Vue.extend({
     template: template,
     components: [Table],
 
+    props: {
+        data: { type: Array, required: true }
+    },
+
     data: () => ({
         columns: [
             {
@@ -18,13 +22,7 @@ const component = Vue.extend({
                 accessors: { value: 'name', hyperlink: 'path' }
             }
         ]
-    }),
-
-    vuex: {
-        getters: {
-            data: state => state.core.page.data.map(x => x.dup())
-        }
-    }
+    })
 });
 
 export default new View({

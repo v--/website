@@ -1,7 +1,4 @@
-i-navbar
+i-navbar(:page="page")
 
-main(v-if="hasError")
-    i-error
-
-main(v-if="!hasError && hasView")
-    component(:is="component")
+main(v-if="page.view !== null")
+    component(:is="component", :data="page.data")

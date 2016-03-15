@@ -52,15 +52,12 @@ const module = {
     },
 
     dumbCopy(source: Object): Object {
-        if ('dup' in source)
-            return source.dup();
-
         let result = source instanceof Array ? [] : {};
 
         for (let key in source) {
             const value = source[key];
 
-            if (value instanceof Object)
+            if (value instanceof Object && !(value instanceof Function))
                 result[key] = module.dumbCopy(value);
             else
                 result[key] = value;
@@ -79,10 +76,6 @@ const module = {
 
     returnsAsync(value) {
         return module.returns(value, ::Promise.resolve);
-    },
-
-    returnsDumbCopy(value) {
-        return () => module.dumbCopy(value);
     },
 
     constructs(constructor: Function) {

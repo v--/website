@@ -4,7 +4,6 @@ import BUNDLES from 'code/core/constants/bundles';
 import View from 'code/core/classes/view';
 import Table from 'code/core/components/table';
 import utils from 'code/core/helpers/utils';
-import actions from 'code/core/actions';
 import template from 'views/core/views/code';
 
 export default new View({
@@ -12,6 +11,7 @@ export default new View({
 
     component: Vue.extend({
         name: 'i-code',
+        replace: false,
         template: template,
         components: [Table],
 
@@ -23,7 +23,7 @@ export default new View({
                     accessors: { value: 'name', hyperlink: 'path' },
                     onClick: function (e, row) {
                         e.preventDefault();
-                        actions.updatePath(this.$store, row.path);
+                        this.$emit('updatePath', row.path);
                     }
                 },
 

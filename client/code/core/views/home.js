@@ -12,12 +12,13 @@ export default new View({
 
     component: Vue.extend({
         name: 'i-home',
+        replace: false,
         template: template,
 
         components: [Icon],
 
-        data: utils.returnsDumbCopy({
-            contacts: CONTACTS
+        data: () => ({
+            contacts: utils.dumbCopy(CONTACTS)
         })
     })
 });

@@ -14,10 +14,12 @@ export default Vue.extend({
 
     props: {
         period: { type: Number, required: true },
-        algorithm: { type: Algorithm, required: true }
+        algorithm: { type: Object, required: true }
     },
 
-    data: utils.returnsDumbCopy({ sorters }),
+    data: () => ({
+        sorters: utils.dumbCopy(sorters)
+    }),
 
     methods: {
         sort() {

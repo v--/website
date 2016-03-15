@@ -15,7 +15,7 @@ export default Vue.extend({
         period:  { type: Number, required: true },
         name:    { type: String, required: true },
         prototype: { type: Array, required: true },
-        algorithm: { type: Algorithm, required: true }
+        algorithm: { type: Object, required: true }
     },
 
     data: () => ({
@@ -107,5 +107,9 @@ export default Vue.extend({
     ready() {
         this.reinitialize();
         this.scheduler.callback = ::this.iteration;
+    },
+
+    beforeDestroy() {
+        this.scheduler.stop();
     }
 });

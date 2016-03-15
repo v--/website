@@ -10,17 +10,20 @@ export default new View({
 
     component: {
         name: 'i-pacman',
+        replace: false,
         template: template,
+
+        props: {
+            data: { type: Array, required: true }
+        },
 
         data: () => ({
             key: KEY,
-            keyservers: KEYSERVERS
+            keyservers: utils.dumbCopy(KEYSERVERS)
         }),
 
-        vuex: {
-            getters: {
-                packages: state => utils.groupBy(state.core.page.data, 'arch')
-            }
+        computed: {
+            packages: context => utils.groupBy(context.data, 'arch')
         }
     },
 

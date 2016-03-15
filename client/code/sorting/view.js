@@ -16,13 +16,14 @@ export default new View({
 
     component: Vue.extend({
         name: 'i-code-sorting',
+        replace: false,
         template: template,
         components: [Radio, Demo],
 
-        data: utils.returnsDumbCopy({
-            algorithms: algorithms,
+        data: () => ({
+            algorithms: utils.dumbCopy(algorithms),
             period: DEFAULT_PERIOD,
-            domain: PERIODS
+            domain: utils.dumbCopy(PERIODS)
         }),
 
         methods: {

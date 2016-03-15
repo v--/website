@@ -5,17 +5,21 @@ import FSNode from 'code/core/models/fsNode';
 import Dir from 'code/core/models/dir';
 import View from 'code/core/classes/view';
 import Table from 'code/core/components/table';
-import actions from 'code/core/actions';
 import utils from 'code/core/helpers/utils';
 import browser from 'code/core/helpers/browser';
 import template from 'views/core/views/files';
 
 const component = Vue.extend({
     name: 'i-files',
+    replace: false,
     template: template,
     components: [Table],
 
-    data: utils.returns({
+    props: {
+        data: { type: Dir, required: true }
+    },
+
+    data: () => ({
         columns: [
             {
                 name: 'Name',
@@ -26,7 +30,7 @@ const component = Vue.extend({
                         return;
 
                     e.preventDefault();
-                    actions.updatePath(this.$store, row.path);
+                    this.$dispatch('updatePath', row.path);
                 }
             },
 
@@ -62,15 +66,9 @@ const component = Vue.extend({
             if (context.data.parent === null)
                 return [];
 
-            const mock = context.data.parent.dupSingle();
+            const mock = context.data.parent.dup();
             mock.name = '..';
             return [mock];
-        }
-    },
-
-    vuex: {
-        getters: {
-            data: state => state.core.page.data.dupShallow()
         }
     }
 });

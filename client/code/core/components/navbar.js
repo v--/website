@@ -1,41 +1,38 @@
 import Vue from 'vue';
 
-import Routes from 'code/core/routes/index';
-import Icon from 'code/core/components/icon';
+import routes from 'code/core/routes/index';
+import Page from 'code/core/classes/page';
 import utils from 'code/core/helpers/utils';
-import actions from 'code/core/actions';
+import Icon from 'code/core/components/icon';
 import template from 'views/core/components/navbar';
+import browser from 'code/core/helpers/browser';
+import cookies from 'code/core/helpers/cookies';
 
 export default Vue.extend({
     name: 'i-navbar',
     template: template,
     components: [Icon],
 
-    data: utils.returnsDumbCopy({
-        routes: Routes
+    props: {
+        page: { page: Page, required: true }
+    },
+
+    data: () => ({
+        expanded: browser.inTabletMode() && cookies.get('expanded') !== 'false',
+        routes: utils.dumbCopy(routes)
     }),
 
     methods: {
         isActive(route) {
-            return !this.hasError && this.page.route && route.path === this.page.route.path;
+            return this.page.route && route.path === this.page.route.path;
         },
 
         toggleExpanded() {
-            this.setExpanded(!this.expanded);
+            this.expanded = !this.expanded;
         },
 
         hideNavbar() {
-            this.setExpanded(false);
+            this.expanded = false;
         }
-    },
-
-    vuex: {
-        getters: {
-            hasError: state => state.core.error !== null,
-            expanded: state => state.core.expanded,
-            page: state => state.core.page
-        },
-
-        actions: actions
     }
 });

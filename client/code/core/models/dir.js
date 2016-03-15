@@ -69,17 +69,7 @@ export default class Dir extends FSNode {
         return null;
     }
 
-    dupSingle() {
+    dup() {
         return new Dir(this.path, this.modified, this.size, this.description);
-    }
-
-    dupShallow() {
-        const dup = new Dir(this.path, this.modified, this.size, this.description, this.children.map(child => child.dupSingle()));
-
-        if (this.parent !== null)
-            dup.setParent(this.parent);
-
-        dup.children.forEach(child => child.setParent(this));
-        return dup;
     }
 }

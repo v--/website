@@ -18,8 +18,4 @@ export default class File extends FSNode {
     constructor(path: string, modified: Date, size: number, parent: ?FSNode) {
         super(path, modified, size, parent);
     }
-
-    dupSingle() {
-        return new File(this.path, this.modified, this.size, this.parent);
-    }
 }

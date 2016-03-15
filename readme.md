@@ -9,5 +9,4 @@
 ## TODO:
 
 * Navbar hiding bug with tables
-* Slided for the sorting levels
 * Breakout
