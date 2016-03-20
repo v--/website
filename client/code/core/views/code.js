@@ -23,7 +23,7 @@ export default new View({
                     accessors: { value: 'name', hyperlink: 'path' },
                     onClick: function (e, row) {
                         e.preventDefault();
-                        this.$emit('updatePath', row.path);
+                        this.$dispatch('updatePath', row.path);
                     }
                 },
 

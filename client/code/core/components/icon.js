@@ -2,7 +2,6 @@ import Vue from 'vue';
 
 import CoolError from 'code/core/classes/coolError';
 import spritesheet from 'code/core/helpers/spritesheet';
-import utils from 'code/core/helpers/utils';
 import template from 'views/core/components/icon';
 
 export default Vue.extend({
@@ -18,8 +17,7 @@ export default Vue.extend({
     },
 
     data: () => ({
-        oldName: null,
-        code: ''
+        oldName: null
     }),
 
     computed: {
@@ -47,8 +45,15 @@ export default Vue.extend({
                 if (!hash.has(name))
                     throw new CoolError(`Cannot find SVG sprite "${name}"`);
 
-                const node = hash.get(name);
-                this.code = node.innerHTML;
+                const node = hash.get(name),
+                    clone = node.cloneNode(true),
+                    container = this.$el.querySelector('svg');
+
+                while (container.firstChild)
+                    container.removeChild(container.firstChild);
+
+                while (clone.firstChild)
+                    container.appendChild(clone.firstChild);
             });
         }
     },
@@ -60,7 +65,6 @@ export default Vue.extend({
     },
 
     ready() {
-        // throw new Error('p');
         if (this.oldName !== this.name)
             this.updateCode(this.name);
     }

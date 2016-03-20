@@ -4,7 +4,6 @@ import Scheduler from 'code/core/classes/scheduler';
 import utils from 'code/core/helpers/utils';
 
 import { DEFAULT_PERIOD } from 'code/sorting/constants/periods';
-import Algorithm from 'code/sorting/classes/algorithm';
 import template from 'views/sorting/components/sorter';
 
 export default Vue.extend({
