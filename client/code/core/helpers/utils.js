@@ -135,6 +135,49 @@ const module = {
 
     clam(value: number, min: number, max: number): number {
         return Math.max(min, Math.min(max, value));
+    },
+
+    isBetween(value: number, min: number, max: number): boolean {
+        return value >= min && value <= max;
+    },
+
+    extendTo(value: number, min: number, max: number): number {
+        pre: module.isBetween(value, 0, 1);
+        return min + (max - min) * value;
+    },
+
+    pixelize(value: number): string {
+        return `${value}px`;
+    },
+
+    percentize(value: number): string {
+        pre: module.isBetween(value, 0, 1);
+        return `${module.extendTo(value, 0, 100)}%`;
+    },
+
+    enumerize(array: Array): Object {
+        let result = {};
+
+        for (let index in array)
+            result[array[index]] = index;
+
+        return Object.freeze(result);
+    },
+
+    modulo(number: number, modulo: number) {
+        return (number % modulo + modulo) % modulo;
+    },
+
+    sqr(number: number) {
+        return number * number;
+    },
+
+    defaultAngle(angle: number) {
+        return module.modulo(angle + Math.PI, 2 * Math.PI) - Math.PI;
+    },
+
+    direction(condition: boolean): number {
+        return condition ? 1 : -1;
     }
 };
 

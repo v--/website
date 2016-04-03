@@ -7,7 +7,7 @@ import browser from 'code/core/helpers/browser';
 import template from 'views/core/views/docs';
 
 const component = Vue.extend({
-    name: 'i-docs',
+    name: 'iv-docs',
     template: template,
     components: [Table],
 

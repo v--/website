@@ -9,7 +9,7 @@ export default new View({
     inject: true,
     component: Vue.extend({
         replace: false,
-        name: 'i-code-forex',
+        name: 'iv-code-forex',
         template: template
     })
 });

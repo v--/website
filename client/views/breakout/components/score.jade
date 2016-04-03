@@ -1,0 +1,5 @@
+div.score
+    b Score:&nbsp;
+    span {{ store.score }}
+    span(v-if="paused") &nbsp;(Paused)
+    span(v-if="stopped") &nbsp;(Game over)

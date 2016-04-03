@@ -24,13 +24,14 @@ function values(object) {
 }
 
 // Build
-gulp.task('build:styles', function () {
+gulp.task('build:styles', function (callback) {
     const libnotify = require('libnotify'),
         sass = require('gulp-sass');
 
     const pluginStream = sass({
         outputStyle: 'compressed',
         includePaths: [
+            'client/styles',
             'node_modules'
         ]
     });
@@ -38,7 +39,7 @@ gulp.task('build:styles', function () {
     pluginStream.on('error', function(error) {
         libnotify.notify(error.relativePath, { title: 'Gulp error' });
         console.error(error.stack);
-        pluginStream.end();
+        callback();
     });
 
     return gulp.src('client/styles/**/*.scss')

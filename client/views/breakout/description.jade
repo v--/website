@@ -1,4 +1,11 @@
-p Left/right buttons move the bar.
+:marked
+    ### Description:
+
+    #### Controls
+
+    Space toggles the game start/pause mode. Left/right buttons move the bar.
+
+    #### Details
 
 div.block-description-container
     div.block-description.breakout-block-1 Weak organism
@@ -6,13 +13,11 @@ div.block-description-container
     div.block-description.breakout-block-3 Strong organism
 
 :marked
+    This breakout clone is based on a stochastic cellular automaton simulation.
+
     The goal is to 'clear' the level by eliminating all organisms (non-empty cells) from the scene. Different organisms have different levels. When hit, an organism is either brought to a lower level or, if it's level is 1, eliminated. At random, the game either brings organisms to a higher level or spawns new ones next to old ones.
 
-    #### Description
-
-    A 5/8 &pi; angle for the ball launch is chosen initially.
-
-    This breakout clone is based on a stochastic cellular automata simulation.
+    The upper part of the bottom bar is an ellipse. It's reflection angle is actually that of a circle with a diameter the width of the bar, because otherwise the resulting angles are very acute.
 
     There are currently 3 levels of organisms. Every three seconds a random cell is selected and 'upgraded' according to the rules bellow:
 
@@ -26,9 +31,9 @@ div.block-description-container
 
     The task is to obtain random 2D positions in a square lattice structure.
 
-    My approach here is to create a simple RNG that generates symmetric, mean-weighted random variables and use such variables for finding both coordinates for each initial organism position. In other words, each initial position is a 2D random variable whose coordinates are independently distributed. The simplest approach would be to apply the embedded uniform JavaScript RNG to the inverse of the cumulative density functions of a continuous random variable. To ensure integer values, the result can be rounded.
+    My approach here is to create a simple RNG that generates symmetric, mean-weighted random variables and use such variables for finding both coordinates for each initial organism position. In other words, each initial position is a 2D random variable whose coordinates are independently distributed. The simplest approach would be to apply the embedded uniform JavaScript RNG to the quantile function (the inverse of the cumulative density function) of a continuous random variable. To ensure integer values, the result can be rounded.
 
-    Let X be a [Laplace-distributed](https://en.wikipedia.org/wiki/Laplace_distribution) random variable (this is the most mean-weighted of all popular distributions). Because we want a simple RNG and JavaScript provides a uniform one, we need to find the inverse of the CDF so that it can be passed values from the JavaScript RNG. Since it's PDF has infinite support, in addition to rounding it's result should be bounded (in this case - hard-limited).
+    Let X be a [Laplace-distributed](https://en.wikipedia.org/wiki/Laplace_distribution) random variable (this is the most mean-weighted of all popular distributions). Because we want a simple RNG and JavaScript provides a uniform one, we need to find the quantile function so that it can be passed values from the JavaScript RNG. Since it's PDF has infinite support, in addition to rounding it's result should be bounded (in this case - hard-limited).
 
 :katex
     \text{Let } X \in \text{Laplace}(\mu, \sigma), \; \mu \in \mathbb{R}, \; \sigma \in (0, \infty].
@@ -62,12 +67,12 @@ div.block-description-container
 p
     span Let&nbsp;
 
-    :katex(displayMode=false)
+    :katex(nowrap=true, displayMode=false)
         O_i, O_j
 
     span &nbsp;be the coordinates of the organism's cell and let&nbsp;
 
-    :katex(displayMode=false)
+    :katex(nowrap=true, displayMode=false)
         m, n
 
     span &nbsp;be the height and width of the grid. Next, a new cell is selected by using the above RNG on the interval:

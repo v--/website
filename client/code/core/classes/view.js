@@ -32,7 +32,7 @@ export default class View {
         });
 
         if (config.inject)
-            Vue.component(`i-${config.name}`, config.component);
+            Vue.component(`iv-${config.name}`, config.component);
 
         Object.freeze(this);
     }

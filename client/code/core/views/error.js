@@ -2,13 +2,13 @@ import Vue from 'vue';
 
 import { BUGREPORT } from 'code/core/constants/contacts';
 import CoolError from 'code/core/classes/coolError';
+import View from 'code/core/classes/view';
 import Icon from 'code/core/components/icon';
 import template from 'views/core/views/error';
 import utils from 'code/core/helpers/utils';
-import View from 'code/core/classes/view';
 
 const component = Vue.extend({
-    name: 'i-error',
+    name: 'iv-error',
     replace: false,
     template: template,
     components: [Icon],

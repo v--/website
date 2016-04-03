@@ -10,7 +10,7 @@ import browser from 'code/core/helpers/browser';
 import template from 'views/core/views/files';
 
 const component = Vue.extend({
-    name: 'i-files',
+    name: 'iv-files',
     replace: false,
     template: template,
     components: [Table],

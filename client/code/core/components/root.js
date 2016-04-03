@@ -20,7 +20,7 @@ export default Vue.extend({
     }),
 
     computed: {
-        component: context => `i-${context.page.view.name}`
+        component: context => `iv-${context.page.view.name}`
     },
 
     events: {

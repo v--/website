@@ -1,9 +1,9 @@
 import Vue from 'vue';
 
-import routes from 'code/core/routes/index';
 import Page from 'code/core/classes/page';
-import utils from 'code/core/helpers/utils';
 import Icon from 'code/core/components/icon';
+import routes from 'code/core/routes/index';
+import utils from 'code/core/helpers/utils';
 import template from 'views/core/components/navbar';
 import browser from 'code/core/helpers/browser';
 import cookies from 'code/core/helpers/cookies';

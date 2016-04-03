@@ -8,10 +8,7 @@ import template from 'views/core/components/table';
 const ROWS = 10;
 
 function ascendingComparator(a, b) {
-    if (a === b)
-        return 0;
-
-    return a > b ? 1 : -1;
+    return a === b ? 0 : utils.direction(a > b);
 }
 
 function descendingComparator(a, b) {
@@ -48,8 +45,8 @@ export default Vue.extend({
             return context.staticData.concat(context.sorted.slice(start, start + count));
         },
 
-        widthCoefficient(context) {
-            return 100 / context.parsedColumns.reduce((payload, col) => payload + col.width, 0);
+        totalWidth(context) {
+            return context.parsedColumns.reduce((payload, col) => payload + col.width, 0);
         },
 
         pageCount(context) {
@@ -102,7 +99,7 @@ export default Vue.extend({
         },
 
         columnWidth(column: TableColumn) {
-            return `${column.width * this.widthCoefficient}%`;
+            return utils.percentize(column.width / this.totalWidth);
         },
 
         sortByColumn(index: number) {

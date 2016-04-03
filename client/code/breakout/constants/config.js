@@ -1,0 +1,19 @@
+export const LEVEL_COUNT = 3,
+    UPDATE_PERIOD = 3000,
+    RENDER_PERIOD = 15,
+    BALL_RADIUS = 1 / 2,
+
+    BAR_WIDTH = 6,
+    BAR_HEIGHT = 2,
+
+    BLOCK_SIDE = 1,
+
+    BAR_PERIOD = 20,
+    BAR_SPEED = RENDER_PERIOD / BAR_PERIOD,
+
+    BALL_PERIOD = 60,
+    BALL_SPEED = RENDER_PERIOD / BALL_PERIOD,
+
+    ROWS = 30,
+    COLS = 40;
+

@@ -1,7 +1,10 @@
 @import 'vars';
 
-.breakout-block--1 {
-  background-color: $breakout-bar-fg;
+.breakout-block {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: percentage(1 / $breakout-cols);
+  height: percentage(1 / $breakout-rows);
 }
 
 .breakout-block-0 {

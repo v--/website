@@ -12,6 +12,7 @@ export default class Scheduler {
     }
 
     start() {
+        this.stop();
         this.interval = setInterval(this.callback, this.period);
     }
 

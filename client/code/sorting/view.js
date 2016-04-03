@@ -15,7 +15,7 @@ export default new View({
     inject: true,
 
     component: Vue.extend({
-        name: 'i-code-sorting',
+        name: 'iv-code-sorting',
         replace: false,
         template: template,
         components: [Radio, Demo],

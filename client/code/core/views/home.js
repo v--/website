@@ -11,7 +11,7 @@ export default new View({
     testPath: path => path === '/',
 
     component: Vue.extend({
-        name: 'i-home',
+        name: 'iv-home',
         replace: false,
         template: template,
 

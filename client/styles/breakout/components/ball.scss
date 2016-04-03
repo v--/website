@@ -1,0 +1,10 @@
+@import 'vars';
+
+.breakout-ball {
+  position: absolute;
+  border-radius: 50%;
+  background: $breakout-ball-fg;
+  width: percentage(1 / $breakout-cols);
+  transform: translate(-50%, -50%);
+  height: percentage(1 / $breakout-rows);
+}

@@ -7,7 +7,7 @@ import browser from 'code/core/helpers/browser';
 import template from 'views/core/views/slides';
 
 const component = Vue.extend({
-    name: 'i-slides',
+    name: 'iv-slides',
     template: template,
     components: [Table],
 

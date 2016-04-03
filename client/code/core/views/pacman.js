@@ -9,7 +9,7 @@ export default new View({
     name: 'pacman',
 
     component: {
-        name: 'i-pacman',
+        name: 'iv-pacman',
         replace: false,
         template: template,
 

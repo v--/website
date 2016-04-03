@@ -105,7 +105,7 @@ export default Vue.extend({
 
     ready() {
         this.reinitialize();
-        this.scheduler.callback = ::this.iteration;
+        this.scheduler.callback = this.iteration;
     },
 
     beforeDestroy() {

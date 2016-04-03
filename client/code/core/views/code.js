@@ -10,7 +10,7 @@ export default new View({
     name: 'code',
 
     component: Vue.extend({
-        name: 'i-code',
+        name: 'iv-code',
         replace: false,
         template: template,
         components: [Table],
