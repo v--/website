@@ -3,6 +3,8 @@
 .breakout-block {
   position: absolute;
   transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  border: 2px solid $breakout-block-bdr;
   width: percentage(1 / $breakout-cols);
   height: percentage(1 / $breakout-rows);
 }

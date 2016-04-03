@@ -1,8 +1,7 @@
 import Vue from 'vue';
 
-import utils from 'code/core/helpers/utils';
-
 import Block from 'code/breakout/classes/block';
+import StylePos from 'code/breakout/classes/stylePos';
 import template from 'views/breakout/components/block';
 
 export default Vue.extend({
@@ -14,17 +13,7 @@ export default Vue.extend({
     },
 
     computed: {
-        class() {
-            return `breakout-block-${this.block.value}`;
-        },
-
-        style() {
-            const pos = this.block.unitPos;
-
-            return {
-                left: utils.percentize(pos.x),
-                top: utils.percentize(pos.y)
-            };
-        }
+        class: context => `breakout-block-${context.block.value}`,
+        style: context => new StylePos(context.block.pos)
     }
 });

@@ -4,6 +4,7 @@ import Scheduler from 'code/core/classes/scheduler';
 import utils from 'code/core/helpers/utils';
 
 import { RENDER_PERIOD, BAR_SPEED } from 'code/breakout/constants/config';
+import StylePos from 'code/breakout/classes/stylePos';
 import store from 'code/breakout/store';
 import browser from 'code/core/helpers/browser';
 import keycodes from 'code/core/constants/keycodes';
@@ -27,9 +28,7 @@ export default Vue.extend({
 
     computed: {
         bar: context => context.store.bar,
-        style: context => ({
-            left: utils.percentize(context.bar.unitPos.x)
-        })
+        style: context => new StylePos(context.bar.pos)
     },
 
     methods: {

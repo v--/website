@@ -1,14 +1,21 @@
-import { BALL_RADIUS } from 'code/breakout/constants/config';
+import { COLS, ROWS, BALL_RADIUS } from 'code/breakout/constants/config';
 import Vector from 'code/core/classes/vector';
-import Figure from 'code/breakout/classes/figure';
 
-export default class Ball extends Figure {
+export default class Ball {
+    static default() {
+        return new Ball(new Vector(COLS / 2, ROWS / 2 + 1), Math.PI / 2);
+    }
+
     get front() {
         return Vector.fromPolar(BALL_RADIUS, this.angle).add(this.pos);
     }
 
-    constructor(x: number, y: number, angle: number) {
-        super(x, y);
+    get back() {
+        return Vector.fromPolar(-BALL_RADIUS, this.angle).add(this.pos);
+    }
+
+    constructor(pos: Vector, angle: number) {
+        this.pos = pos;
         this.angle = angle;
     }
 

@@ -1,32 +1,37 @@
 import Vector from 'code/core/classes/vector';
+import utils from 'code/core/helpers/utils';
 
-import { BALL_RADIUS, COLS, ROWS } from 'code/breakout/constants/config';
+import { COLS, ROWS } from 'code/breakout/constants/config';
 import Intersection from 'code/breakout/classes/intersection';
+import Ball from 'code/breakout/classes/ball';
+
+const EPSILON = 0.001;
 
 export default class Figure {
-    get unitPos() {
-        return new Vector(this.pos.x / COLS, this.pos.y / ROWS);
-    }
+    constructor(pos: Vector) {
+        pre: {
+            utils.isBetween(pos.x, 0, COLS);
+            utils.isBetween(pos.y, 0, ROWS);
+        }
 
-    constructor(x: number, y: number) {
-        this.pos = new Vector(x, y);
+        this.pos = pos;
     }
 
     intersectionPoint(_point: Vector, _angle: number) {
         pre: this.constructor !== Figure;
     }
 
-    reflection(_point: Vector, _angle: number) {
+    reflection(_ball: Ball) {
         pre: this.constructor !== Figure;
     }
 
-    intersection(point: Vector, angle: number) {
-        const intersection = this.intersectionPoint(point, angle),
-            distance = intersection.distance(point),
-            reflection = this.reflection(point, angle),
-            back = Vector.fromPolar(BALL_RADIUS, Vector.xReflect(angle)).add(point),
-            direction = distance < back.distance(intersection);
+    intersection(ball: Ball) {
+        const intersection = this.intersectionPoint(ball),
+            distance = ball.pos.distance(intersection),
+            reflection = this.reflection(ball),
+            prev = Vector.fromPolar(-EPSILON, ball.angle).add(ball.pos),
+            direction = distance < prev.distance(intersection);
 
-        return new Intersection(intersection, reflection, direction ? distance : Infinity);
+        return new Intersection(this, intersection, reflection, direction ? distance : Infinity);
     }
 }

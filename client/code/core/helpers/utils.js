@@ -34,6 +34,13 @@ const module = {
         return min + Math.round(Math.random() * (max - min));
     },
 
+    randomElement(array: Array) {
+        if (array.length === 0)
+            return null;
+
+        return array[module.randomInt(0, array.length - 1)];
+    },
+
     swap(object: Object, a: string|number, b: string|number) {
         const tmp = object[a];
         object[a] = object[b];
@@ -178,6 +185,25 @@ const module = {
 
     direction(condition: boolean): number {
         return condition ? 1 : -1;
+    },
+
+    deleteItem(array: Array, item: any): boolean {
+        for (let i = 0; i < array.length; i++)
+            if (array[i] === item) {
+                array.splice(i, 1);
+                return true;
+            }
+
+        return false;
+    },
+
+    times(times: number, filler: Function): Array {
+        let result = [];
+
+        for (let i = 0; i < times; i++)
+            result[i] = filler(i);
+
+        return result;
     }
 };
 

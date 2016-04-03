@@ -2,10 +2,10 @@ import Vector from 'code/core/classes/vector';
 import utils from 'code/core/helpers/utils';
 
 import Figure from 'code/breakout/classes/figure';
+import Ball from 'code/breakout/classes/ball';
 
 type RectangleConfig = {
-    xCenter: number,
-    yCenter: number,
+    pos: Vector,
     left: number,
     right: number,
     top: number,
@@ -14,7 +14,7 @@ type RectangleConfig = {
 
 export default class Rectangle extends Figure {
     constructor(config: RectangleConfig) {
-        super(config.xCenter, config.yCenter);
+        super(config.pos);
 
         this.top = config.top;
         this.bottom = config.bottom;
@@ -28,29 +28,29 @@ export default class Rectangle extends Figure {
     }
 
     /// @override
-    intersectionPoint(point: Vector, _angle: number): Vector {
-        const centralAngle = Vector.angle(this.pos, point);
+    intersectionPoint(ball: Ball): Vector {
+        const centralAngle = Vector.angle(this.pos, ball.pos);
 
         if (this.inTopSector(centralAngle))
-            return new Vector(point.x, this.top);
+            return new Vector(utils.clam(ball.pos.x, this.left, this.right), this.top);
 
         if (this.inBottomSector(centralAngle))
-            return new Vector(point.x, this.bottom);
+            return new Vector(utils.clam(ball.pos.x, this.left, this.right), this.bottom);
 
         if (this.inRightSector(centralAngle))
-            return new Vector(this.right, point.y);
+            return new Vector(this.right, utils.clam(ball.pos.y, this.top, this.bottom));
 
-        return new Vector(this.left, point.y);
+        return new Vector(this.left, utils.clam(ball.pos.y, this.top, this.bottom));
     }
 
     /// @override
-    reflection(point: Vector, angle: number): number {
-        const centralAngle = Vector.angle(this.pos, point);
+    reflection(ball: Ball): number {
+        const centralAngle = Vector.angle(this.pos, ball.pos);
 
         if (this.inTopSector(centralAngle) || this.inBottomSector(centralAngle))
-            return Vector.yReflect(angle);
+            return Vector.yReflect(ball.angle);
         else
-            return Vector.xReflect(angle);
+            return Vector.xReflect(ball.angle);
     }
 
     inTopSector(angle: number): boolean {

@@ -3,8 +3,12 @@ import utils from 'code/core/helpers/utils';
 export default class Vector {
     static null = new Vector(0, 0);
 
+    static fullReflect(angle: number) {
+        return utils.defaultAngle(Math.PI + angle);
+    }
+
     static xReflect(angle: number) {
-        return -utils.defaultAngle(Math.PI + angle);
+        return -this.fullReflect(angle);
     }
 
     static yReflect(angle: number) {
@@ -30,6 +34,14 @@ export default class Vector {
     constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
+    }
+
+    toString() {
+        return `${this.x},${this.y}`;
+    }
+
+    equals(vector: Vector) {
+        return this.x === vector.x && this.y === vector.y;
     }
 
     add(addend: Vector) {

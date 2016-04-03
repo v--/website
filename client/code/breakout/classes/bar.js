@@ -3,15 +3,18 @@ import utils from 'code/core/helpers/utils';
 
 import { COLS, ROWS, BAR_WIDTH, BAR_HEIGHT } from 'code/breakout/constants/config';
 import Figure from 'code/breakout/classes/figure';
+import Ball from 'code/breakout/classes/ball';
 
 const DIMENTION_RATIO = BAR_WIDTH / BAR_HEIGHT,
-    ANGLE_INVERSION_TRESHOLD = 0.1,
     LEFT_LIMIT = BAR_WIDTH / 2,
     RIGHT_LIMIT = COLS - LEFT_LIMIT,
-    TOP = COLS - BAR_HEIGHT / 2,
-    BOTTOM = COLS;
+    CENTER = ROWS + 1;
 
 export default class Bar extends Figure {
+    static default() {
+        return new Bar(COLS / 2);
+    }
+
     get left() {
         return this.pos.x - BAR_WIDTH / 2;
     }
@@ -22,25 +25,19 @@ export default class Bar extends Figure {
 
     /// @override
     constructor(x: number) {
-        super(x, ROWS + 1.5); // TODO: Why not 1?
+        super(new Vector(x, ROWS));
     }
 
     /// @override
-    intersectionPoint(point: Vector, angle: number): Vector {
-        if (Math.abs(angle) < ANGLE_INVERSION_TRESHOLD)
-            return new Vector(this.left, utils.clam(point.y, TOP, BOTTOM));
-
-        if (Math.abs(Math.PI - angle) < ANGLE_INVERSION_TRESHOLD)
-            return new Vector(this.right, utils.clam(point.y, TOP, BOTTOM));
-
-        return this.ellipseIntersection(point, angle);
+    intersectionPoint(ball: Ball): Vector {
+        return this.ellipseIntersection(ball);
     }
 
-    ellipseIntersection(point: Vector, angle: number): Vector {
+    ellipseIntersection(ball: Ball): Vector {
         const
             // Helper coefficients
-            m = Math.tan(angle),
-            d = -m * point.x + point.y - this.pos.y,
+            m = Math.tan(ball.angle),
+            d = -m * ball.pos.x + ball.pos.y - CENTER,
 
             // Quadratic equation coefficients
             a = utils.sqr(1 / BAR_WIDTH) + utils.sqr(m / BAR_HEIGHT),
@@ -56,20 +53,17 @@ export default class Bar extends Figure {
             .map(rootSign => (-b + rootSign * Math.sqrt(disc)) / (2 * a))
             .map(root => {
                 const x = utils.clam(root, this.left, this.right),
-                    y = -BAR_HEIGHT * Math.sqrt(1 - Math.pow((point.x - this.pos.x) / BAR_WIDTH, 2)) + this.pos.y;
+                    y = -BAR_HEIGHT * Math.sqrt(1 - Math.pow((ball.pos.x - this.pos.x) / BAR_WIDTH, 2)) + CENTER;
 
-                return new Vector(x, y);
+                return new Vector(x, y + 1 / 2);
             })
-            .reduce((a, b) => point.distance(a) < point.distance(b) ? a : b);
+            .reduce((a, b) => ball.pos.distance(a) < ball.pos.distance(b) ? a : b);
     }
 
     /// @override
-    reflection(point: Vector, angle: number): number {
-        if (Math.abs(angle) < ANGLE_INVERSION_TRESHOLD || Math.abs(Math.PI - angle) < ANGLE_INVERSION_TRESHOLD)
-            return Vector.xReflect(angle);
-
-        const normal = Math.atan2(DIMENTION_RATIO * (point.y - this.pos.y), point.x - this.pos.x);
-        return utils.defaultAngle(2 * normal - (angle + Math.PI));
+    reflection(ball: Ball): number {
+        const normal = Math.atan2(DIMENTION_RATIO * (ball.pos.y - CENTER), ball.pos.x - this.pos.x);
+        return utils.defaultAngle(2 * normal - (ball.angle + Math.PI));
     }
 
     move(amount: number) {
