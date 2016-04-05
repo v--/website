@@ -1,13 +1,13 @@
 @import 'vars';
 
 .viewbox-container {
-  background-color: $breakout-background;
+  background-color: $viewport-background;
   border-radius: $border-radius;
   min-height: 200px;
 }
 
 .viewbox {
-  background: $breakout-stage;
+  background: $viewport-stage;
   height: 100%;
   margin: auto;
 }

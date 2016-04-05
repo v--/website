@@ -1,47 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-	<url>
-		<loc>http://ivasilev.net</loc>
-		<priority>1.000</priority>
-	</url>
+    <url>
+        <loc>http://ivasilev.net</loc>
+        <priority>1.000</priority>
+    </url>
 
-	<url>
-		<loc>http://ivasilev.net/files</loc>
-		<priority>1.000</priority>
-	</url>
+    <url>
+        <loc>http://ivasilev.net/files</loc>
+        <priority>1.000</priority>
+    </url>
 
-	<url>
-		<loc>http://ivasilev.net/code</loc>
-		<priority>1.000</priority>
-	</url>
+    <url>
+        <loc>http://ivasilev.net/code</loc>
+        <priority>1.000</priority>
+    </url>
 
-	<url>
-		<loc>http://ivasilev.net/code/forex</loc>
-		<priority>1.000</priority>
-	</url>
+    <url>
+        <loc>http://ivasilev.net/code/forex</loc>
+        <priority>1.000</priority>
+    </url>
 
-	<url>
-		<loc>http://ivasilev.net/code/sorting</loc>
-		<priority>1.000</priority>
-	</url>
+    <url>
+        <loc>http://ivasilev.net/code/sorting</loc>
+        <priority>1.000</priority>
+    </url>
 
-	<url>
-		<loc>http://ivasilev.net/code/breakout</loc>
-		<priority>1.000</priority>
-	</url>
+    <url>
+        <loc>http://ivasilev.net/slides</loc>
+        <priority>1.000</priority>
+    </url>
 
-	<url>
-		<loc>http://ivasilev.net/slides</loc>
-		<priority>1.000</priority>
-	</url>
+    <url>
+        <loc>http://ivasilev.net/pacman</loc>
+        <priority>1.000</priority>
+    </url>
 
-	<url>
-		<loc>http://ivasilev.net/pacman</loc>
-		<priority>1.000</priority>
-	</url>
-
-	<url>
-		<loc>http://ivasilev.net/docs</loc>
-		<priority>1.000</priority>
-	</url>
+    <url>
+        <loc>http://ivasilev.net/docs</loc>
+        <priority>1.000</priority>
+    </url>
 </urlset>

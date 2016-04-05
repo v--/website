@@ -34,12 +34,8 @@ $nav-subbutton:        #303030;
 $nav-subbutton-active: $lightblue;
 $nav-subbutton-hover:  $lightblue;
 
-$breakout-background: $darkgray;
-$breakout-stage:      $disabled;
-$breakout-pitfall:    $danger;
-$breakout-ball-fg:    $white;
-$breakout-bar-fg:     $white;
-$breakout-block-bdr:  $black;
+$viewport-background: $darkgray;
+$viewport-stage:      $disabled;
 
 $radio-active:        $lightblue;
 
@@ -62,14 +58,6 @@ $header-line-margin:   20px;
 $margin-top:           0.5rem;
 $margin-bottom:        2rem;
 $border-radius:        4px;
-
-$breakout-padding:     16em;
-
-
-$breakout-block-count: 3;
-$breakout-cols: 40;
-$breakout-rows: 30;
-$breakout-bar-width: 6;
 
 
 @mixin ellipsis() {

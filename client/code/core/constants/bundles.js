@@ -9,11 +9,5 @@ export default Object.freeze([
         name: 'FOREX',
         path: '/code/forex',
         summary: 'A comparison of FOREX market models'
-    },
-
-    {
-        name: 'Breakout',
-        path: '/code/breakout',
-        summary: 'A breakout clone infused with stochastic automata'
     }
 ]);
