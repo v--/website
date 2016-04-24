@@ -8,7 +8,7 @@ import ivasilev.models;
 
 class File: FSNode
 {
-    immutable
+    private immutable
     {
         ulong _size;
         string _actualPath;

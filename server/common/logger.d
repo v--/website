@@ -1,3 +1,3 @@
 module ivasilev.logger;
 
-import logger = std.experimental.logger;
+public import logger = std.experimental.logger;

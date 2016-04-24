@@ -71,9 +71,9 @@ class Dir: FSNode
             _description = readText(buildPath(de.name, ".readme.md"));
     }
 
-    this(string dir, FSNameTransformer FSNameTransformer, int availableDepth = -1)
+    this(string dir, FSNameTransformer transformer, int availableDepth = -1)
     {
-        this(DirEntry(dir), FSNameTransformer, availableDepth);
+        this(DirEntry(dir), transformer, availableDepth);
     }
 
     override Json toJSON()

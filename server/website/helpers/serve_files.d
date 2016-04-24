@@ -5,31 +5,24 @@ import vibe.d;
 
 import ivasilev.logger;
 
-private enum WEBAPP_ENTRY = "./views/index.html";
+private enum WEBAPP_ENTRY = Path("./views/index.html");
 
-ubyte[] serveFile(string path, HTTPServerRequest, HTTPServerResponse res)
+void serveFile(string path, HTTPServerRequest req, HTTPServerResponse res)
 {
-    import vibe.inet.mimetypes: getMimeTypeForFile;
-    import ivasilev.website.helpers.content_type: utf8;
-
-    if (res !is null)
-        res.contentType = getMimeTypeForFile(path).utf8;
-
-    return cast(ubyte[]) read(path);
+    logger.info("Serving requested file ", path);
+    sendFile(req, res, Path(path));
 }
 
-ubyte[] serveWebapp(HTTPServerRequest req, HTTPServerResponse res) {
-    return serveFile(WEBAPP_ENTRY, req, res);
+void serveWebapp(string path, HTTPServerRequest req, HTTPServerResponse res)
+{
+    logger.infof("Requested file %s was not found", path);
+    sendFile(req, res, WEBAPP_ENTRY);
 }
 
-ubyte[] serveFileOrWebapp(string path, HTTPServerRequest req, HTTPServerResponse res)
+void serveFileOrWebapp(string path, HTTPServerRequest req, HTTPServerResponse res)
 {
     if (exists(path) && isFile(path))
-    {
-        logger.info("Serving requested file ", path);
-        return serveFile(path, req, res);
-    }
-
-    logger.infof("Requested file %s was not found", path);
-    return serveWebapp(req, res);
+        serveFile(path, req, res);
+    else
+        serveWebapp(path, req, res);
 }

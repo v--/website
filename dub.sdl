@@ -7,7 +7,6 @@ targetType "executable"
 sourcePaths "server/common" "server/website"
 stringImportPaths "server/website"
 dependency "vibe-d" version="~>0.7.28"
-dependency "vibrant-d" version="~>0.1.6"
 dependency "toml-d" version="~>0.3.0"
 dependency "ivasilev:forex" version="*"
 
