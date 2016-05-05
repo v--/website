@@ -133,7 +133,7 @@ gulp.task('build:forex', function () {
 });
 
 // Misc
-gulp.task('dev-server', function (_callback) {
+gulp.task('dev-server', ['build:views'], function (_callback) {
     const webpack = require('webpack'),
         watch = require('gulp-watch');
 
