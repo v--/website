@@ -21,7 +21,7 @@ export default Vue.extend({
     components: [Icon],
 
     props: {
-        sort:       { type: Number, default: 1 },
+        sort:       { type: Number, default: 0 },
         columns:    { type: Array, required: true },
         data:       { type: Array, required: true },
         staticData: { type: Array, default: () => [] }
@@ -29,7 +29,7 @@ export default Vue.extend({
 
     data: () => ({
         page: 0,
-        sortBy: -1,
+        sortBy: 0,
         ascending: true
     }),
 
@@ -103,6 +103,7 @@ export default Vue.extend({
         },
 
         sortByColumn(index: number) {
+            console.warn(index);
             if (this.sortBy === index) {
                 this.ascending = !this.ascending;
             } else {
