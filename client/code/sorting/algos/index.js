@@ -1,6 +1,7 @@
 import Insertion from 'code/sorting/algos/insertion';
 import Selection from 'code/sorting/algos/selection';
 import Bubble from 'code/sorting/algos/bubble';
+import Gnome from 'code/sorting/algos/gnome';
 import Shell from 'code/sorting/algos/shell';
 import Merge from 'code/sorting/algos/merge';
 import Heap from 'code/sorting/algos/heap';
@@ -10,6 +11,7 @@ export default [
     Insertion,
     Selection,
     Bubble,
+    Gnome,
     Shell,
     Merge,
     Heap,
