@@ -19,7 +19,8 @@
     "entypo-plus": "https://github.com/chancancode/entypo-plus"
   },
   "bundledDependencies": [
-    "katex"
+    "katex",
+    "entypo-plus"
   ],
   "dependencies": {
     "babel-polyfill": "^6.8.0",
