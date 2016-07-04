@@ -1,9 +1,9 @@
 module ivasilev.models;
 
-public import ivasilev.models.rate,
-              ivasilev.models.fsnode,
-              ivasilev.models.file,
-              ivasilev.models.dir,
-              ivasilev.models.slide,
-              ivasilev.models.pacman_package,
-              ivasilev.models.doc;
+public import ivasilev.models.rate;
+public import ivasilev.models.fsnode;
+public import ivasilev.models.file;
+public import ivasilev.models.dir;
+public import ivasilev.models.slide;
+public import ivasilev.models.pacman_package;
+public import ivasilev.models.doc;
