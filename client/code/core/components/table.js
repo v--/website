@@ -29,7 +29,7 @@ export default Vue.extend({
 
     data: () => ({
         page: 0,
-        sortBy: 0,
+        sortBy: -1,
         ascending: true
     }),
 
@@ -103,7 +103,6 @@ export default Vue.extend({
         },
 
         sortByColumn(index: number) {
-            console.warn(index);
             if (this.sortBy === index) {
                 this.ascending = !this.ascending;
             } else {
