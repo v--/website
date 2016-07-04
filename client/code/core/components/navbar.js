@@ -6,7 +6,6 @@ import routes from 'code/core/routes/index';
 import utils from 'code/core/helpers/utils';
 import template from 'views/core/components/navbar';
 import browser from 'code/core/helpers/browser';
-import cookies from 'code/core/helpers/cookies';
 
 export default Vue.extend({
     name: 'i-navbar',
@@ -18,7 +17,7 @@ export default Vue.extend({
     },
 
     data: () => ({
-        expanded: browser.inTabletMode() && cookies.get('expanded') !== 'false',
+        expanded: browser.inTabletMode(),
         routes: utils.dumbCopy(routes)
     }),
 
