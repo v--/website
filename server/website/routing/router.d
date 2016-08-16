@@ -22,6 +22,20 @@ class Router
     }
 
     @method(HTTPMethod.GET)
+    @path("/errors/old")
+    void oldBrowser(HTTPServerRequest req, HTTPServerResponse res)
+    {
+        serveFile("./views/errors/old.html", req, res);
+    }
+
+    @method(HTTPMethod.GET)
+    @path("/errors/nojs")
+    void noJS(HTTPServerRequest req, HTTPServerResponse res)
+    {
+        serveFile("./views/errors/nojs.html", req, res);
+    }
+
+    @method(HTTPMethod.GET)
     @path("/files/*")
     void files(HTTPServerRequest req, HTTPServerResponse res)
     {
@@ -69,6 +83,6 @@ class Router
     void wildcard(HTTPServerRequest req, HTTPServerResponse res)
     {
         auto path = buildPath("public", req.path["/".length..$]);
-        return serveFileOrWebapp(path, req, res);
+        serveFileOrWebapp(path, req, res);
     }
 }

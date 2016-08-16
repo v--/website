@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
+import { dumbCopy } from 'code/core/support/misc';
 import Scheduler from 'code/core/classes/scheduler';
-import utils from 'code/core/helpers/utils';
 
 import { DEFAULT_PERIOD } from 'code/sorting/constants/periods';
 import template from 'views/sorting/components/sorter';
@@ -31,11 +31,11 @@ export default Vue.extend({
     },
 
     methods: {
-        getWidth(item: number) {
+        getWidth(item) {
             return `${item * this.ratio}%`;
         },
 
-        swap(a: number, b: number) {
+        swap(a, b) {
             const temp = this.array[a];
             this.array.$set(a, this.array[b]);
             this.array.$set(b, temp);
@@ -74,8 +74,8 @@ export default Vue.extend({
         reinitialize() {
             this.scheduler.stop();
             this.clearLastChanged();
-            this.array = utils.dumbCopy(this.prototype);
-            this.iterator = this.algorithm.generator(this.array);
+            this.array = dumbCopy(this.prototype);
+            this.iterator = this.algorithm.instantiate(this.array);
             this.complete = false;
         }
     },

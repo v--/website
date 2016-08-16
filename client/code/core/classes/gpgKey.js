@@ -1,9 +1,0 @@
-export default class GPGKey {
-    constructor(url: string) {
-        const anchor = document.createElement('a');
-        anchor.href = url;
-        this.url = url;
-        this.origin = anchor.origin || url;
-        this.path = url.slice(this.origin.length);
-    }
-}

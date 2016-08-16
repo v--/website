@@ -1,0 +1,19 @@
+doctype html
+html(lang="en")
+    head
+        include _nojs
+        include _oldcheck
+        include _head
+        base(href="/")
+
+        link(rel="stylesheet" href="styles/index.css")
+
+        - if (!production)
+            script(src="http://localhost:35729/livereload.js")
+
+        script(src="code/vendor/vue.min.js")
+        script(src="code/core.js")
+
+        title ivasilev.net
+
+    body

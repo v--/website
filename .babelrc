@@ -1,22 +1,17 @@
 {
-    "presets": ["es2015", "stage-0"],
+    "presets": ["es2015"],
+    "plugins": [
+        "transform-class-properties",
+        "transform-function-bind"
+     ],
     "env": {
         "development": {
             "plugins": [
-                "transform-inline-environment-variables",
-                "transform-runtime",
-                "transform-flow-strip-types",
-                "syntax-flow",
-                "typecheck",
                 "contracts"
             ]
         },
         "production": {
             "plugins": [
-                "transform-inline-environment-variables",
-                "transform-runtime",
-                "transform-flow-strip-types",
-                "syntax-flow",
                 ["contracts", { "strip": true }]
             ]
         }

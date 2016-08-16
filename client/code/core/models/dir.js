@@ -2,7 +2,7 @@ import FSNode from 'code/core/models/fsNode';
 import File from 'code/core/models/file';
 
 export default class Dir extends FSNode {
-    static parseServerResponse = function (res: Object): FSNode {
+    static parseServerResponse = function (res) {
         const modified = new Date(res.modified);
 
         if (!res.isDirectory)
@@ -11,28 +11,29 @@ export default class Dir extends FSNode {
         return new Dir(res.path, modified, res.size, res.description, res.children.map(Dir.parseServerResponse));
     };
 
-    get type(): string {
+    get type() {
         return 'Directory';
     }
 
-    get isDirectory(): boolean {
+    get isDirectory() {
         return true;
     }
 
-    get files(): File[] {
+    get files() {
         return this.children.filter(this.children, child => child.isDirectory);
     }
 
-    get dirs(): Dir[] {
+    get dirs() {
         return this.children.filter(this.children, child => !child.isDirectory);
     }
 
-    get hasDescription(): boolean {
+    get hasDescription() {
         return this.description !== '';
     }
 
     get ancestors() {
-        let current = this, stack = [];
+        let current = this;
+        const stack = [];
 
         do {
             stack.push(current);
@@ -42,14 +43,14 @@ export default class Dir extends FSNode {
         return stack.reverse();
     }
 
-    constructor(path: string, modified: Date, size: number, description: string, children: FSNode[] = []) {
+    constructor(path, modified, size, description, children) {
         super(path, modified, size);
         this.description = description;
         this.children = children;
         children.forEach(child => child.setParent(this));
     }
 
-    findByPath(path: string): Dir | null {
+    findByPath(path) {
         if (this.matchesPath(path))
             return this;
 

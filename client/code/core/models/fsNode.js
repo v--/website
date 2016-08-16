@@ -1,11 +1,11 @@
-import utils from 'code/core/helpers/utils';
+import { basename } from 'code/core/support/misc';
 
 export default class FSNode {
-    get name(): string {
-        return this._name || utils.basename(this.path);
+    get name() {
+        return this._name || basename(this.path);
     }
 
-    set name(name: string) {
+    set name(name) {
         this._name = name;
     }
 
@@ -13,7 +13,7 @@ export default class FSNode {
         throw new Error('FSNode#isDirectory must be overriden');
     }
 
-    constructor(path: string, modified: Date, size: number) {
+    constructor(path, modified, size) {
         pre: this.constructor !== FSNode;
         this.path = path;
         this.size = size;
@@ -21,11 +21,11 @@ export default class FSNode {
         this.parent = null;
     }
 
-    matchesPath(path: string): boolean {
+    matchesPath(path) {
         return this.path === path.replace(/\/$/, '');
     }
 
-    setParent(parent: FSNode) {
+    setParent(parent) {
         this.parent = parent;
     }
 }

@@ -17,8 +17,3 @@ main {
     padding: $view-padding-base ($view-padding-side * 3 / 4);
   }
 }
-
-.view-container {
-  height: calc(100% - #{$header-line-height + $header-line-margin});
-  width: 100%;
-}

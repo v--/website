@@ -2,8 +2,8 @@ import FSNode from 'code/core/models/fsNode';
 
 export default class File extends FSNode {
     get type() {
-        const name = this.name,
-            type = this.name.split('.').pop();
+        const name = this.name;
+        const type = this.name.split('.').pop();
 
         if (type === name || type === '')
             return 'Dotfile';
@@ -15,7 +15,7 @@ export default class File extends FSNode {
         return false;
     }
 
-    constructor(path: string, modified: Date, size: number, parent: ?FSNode) {
+    constructor(path, modified, size, parent) {
         super(path, modified, size, parent);
     }
 }

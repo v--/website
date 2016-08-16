@@ -1,5 +1,7 @@
 module ivasilev.website.routing.api;
 
+import std.algorithm : filter, map;
+import std.array : array;
 import vibe.d;
 
 import ivasilev.settings;
@@ -55,12 +57,5 @@ class API: IAPI
             .map!(dir => scoped!Doc(dir).toJSON)
             .array
             .Json();
-    }
-
-    string getYomomma()
-    {
-        import std.net.curl: get;
-        auto joke = cast(string) get("http://api.yomomma.info/");
-        return parseJson(joke)["joke"].toString()[1..$ - 1];
     }
 }

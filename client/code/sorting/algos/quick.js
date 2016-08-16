@@ -1,39 +1,36 @@
-import Queue from 'code/core/classes/queue';
-import utils from 'code/core/helpers/utils';
+import { randomInt } from 'code/core/support/numeric';
 
 import Algorithm from 'code/sorting/classes/algorithm';
 import template from 'views/sorting/algos/quick';
 
-function *generator(array) {
-    let queue = new Queue();
-
-    queue.enqueue([0, array.length - 1]);
-
-    while (!queue.isEmpty) {
-        const config = queue.dequeue(),
-              lower = config[0],
-              upper = config[1],
-              pivotIndex = utils.randomInt(lower, upper),
-              pivot = array[pivotIndex];
-
+function sorter(array) {
+    function partition(lower, upper) {
+        const pivotIndex = randomInt(lower, upper);
+        const pivot = array[pivotIndex];
         let p = lower;
 
-        yield new Algorithm.Response(pivotIndex, upper, pivotIndex !== upper);
+        array.swap(pivotIndex, upper, pivotIndex !== upper);
 
-        for (let i = lower; i < upper; ++i)
+        for (let i = lower; i < upper; i++)
             if (array[i] < pivot)
-                yield new Algorithm.Response(i, p++, true);
+                array.swap(i, p++, true);
             else
-                yield new Algorithm.Response(i, p, false);
+                array.swap(i, p, false);
 
-        yield new Algorithm.Response(upper, p, true);
-
-        if (lower < p)
-            queue.enqueue([lower, p]);
-
-        if (upper > p + 1)
-            queue.enqueue([p + 1, upper]);
+        return array.swap(p, upper, true).a;
     }
+
+    function quicksort(lower, upper) {
+        const pivotIndex = partition(lower, upper);
+
+        if (lower < pivotIndex)
+            quicksort(lower, pivotIndex);
+
+        if (upper > pivotIndex + 1)
+            quicksort(pivotIndex + 1, upper);
+    }
+
+    quicksort(0, array.length - 1);
 }
 
-export default new Algorithm('QuickSort (randomized Lomuto partitioning)', template, generator);
+export default new Algorithm('QuickSort (randomized Lomuto partitioning)', template, sorter);

@@ -1,51 +1,43 @@
-import utils from 'code/core/helpers/utils';
+import { startsWith } from 'code/core/support/misc';
+import { asyncFactorize } from 'code/core/support/functional';
 import views from 'code/core/views/index';
 
-type RouteConfig = {
-    name: string,
-    path: string,
-    resolve: ?Function,
-    children: ?Function | ?Route[],
-};
+function getChildrenResolver(children) {
+    if (!children)
+        return asyncFactorize([]);
 
-function getChildrenResolver(config: RouteConfig) {
-    if (!('children' in config))
-        return utils.returnsAsync([]);
+    if (children instanceof Function)
+        return path => Promise.resolve(children(path));
 
-    if (config.children instanceof Function)
-        return path => Promise.resolve(config.children(path));
-
-    return utils.returnsAsync(config.children);
+    return asyncFactorize(children);
 }
 
-function getResolver(config: RouteConfig) {
-    if (!('resolve' in config)) {
-        const view = views.find(view => view.testPath(config.path));
-
-        return function (path) {
-            return new Promise(resolve => view.testPath(path) ? resolve(view) : resolve);
-        };
+function wrapResolver(resolver, path) {
+    if (resolver) {
+        return path => Promise.resolve(resolver(path));
     }
 
-    return path => Promise.resolve(config.resolve(path));
+    const view = views.find(view => view.testPath(path));
+
+    return function (path) {
+        return new Promise(resolve => view.testPath(path) ? resolve(view) : resolve([]));
+    };
 }
 
 export default class Route {
-    constructor(config: RouteConfig) {
-        this.hasChildren = 'children' in config;
-
+    constructor({ name, path, children, resolve: resolver }) {
         Object.assign(this, {
-            name: config.name,
-            path: config.path,
-            pathFragments: config.path.split('/'),
-            resolveChildren: getChildrenResolver(config),
-            resolve: getResolver(config)
+            name, path,
+            hasChildren: children !== undefined,
+            pathFragments: path.split('/'),
+            resolveChildren: getChildrenResolver(children),
+            resolve: wrapResolver(resolver, path)
         });
 
         Object.freeze(this);
     }
 
-    testPath(path: string): boolean {
-        return utils.startsWith(path.split('/'), this.pathFragments);
+    testPath(path) {
+        return startsWith(path.split('/'), this.pathFragments);
     }
 }

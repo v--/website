@@ -1,13 +1,13 @@
 import Vue from 'vue';
 
-import CoolError from 'code/core/classes/coolError';
-import FSNode from 'code/core/models/fsNode';
+import CoolError from 'code/core/classes/cool_error';
 import Dir from 'code/core/models/dir';
 import View from 'code/core/classes/view';
 import Table from 'code/core/components/table';
-import utils from 'code/core/helpers/utils';
-import browser from 'code/core/helpers/browser';
 import template from 'views/core/views/files';
+import { fetchJSON } from 'code/core/support/browser';
+import { humanizeSize } from 'code/core/support/numeric';
+import { startsWithString } from 'code/core/support/misc';
 
 const component = Vue.extend({
     name: 'iv-files',
@@ -25,7 +25,7 @@ const component = Vue.extend({
                 name: 'Name',
                 width: 2,
                 accessors: { value: 'name', hyperlink: 'path' },
-                onClick: function (e, row: FSNode) {
+                onClick (e, row) {
                     if (!row.isDirectory)
                         return;
 
@@ -45,7 +45,7 @@ const component = Vue.extend({
                 width: 2,
                 accessors: {
                     value: 'size',
-                    view: node => utils.humanizeSize(node.size)
+                    view: node => humanizeSize(node.size)
                 }
             },
 
@@ -76,12 +76,12 @@ const component = Vue.extend({
 export default new View({
     name: 'files',
     title: dir => dir.ancestors.map(node => node.name),
-    testPath: path => utils.startsWithString(path, '/files'),
+    testPath: path => startsWithString(path, '/files'),
 
     component: component,
 
-    resolve(path: string) {
-        return browser.fetchJSON('/api/files').then(function (data) {
+    resolve(path) {
+        return fetchJSON('/api/files').then(function (data) {
             const root = Dir.parseServerResponse(data).findByPath(path);
 
             if (root === null)

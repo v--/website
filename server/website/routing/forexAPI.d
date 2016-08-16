@@ -14,6 +14,8 @@ class ForexAPI
     @path("/currencies")
     Json currencies(HTTPServerRequest req, HTTPServerResponse res) // Cannot remove argument names
     {
+        import std.algorithm : map;
+        import std.array : array;
         return Json(Rate.getCurrencies().map!Json.array);
     }
 

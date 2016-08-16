@@ -1,14 +1,16 @@
 import Vue from 'vue';
 
 import Icon from 'code/core/components/icon';
-import TableColumn from 'code/core/classes/tableColumn';
-import utils from 'code/core/helpers/utils';
+import TableColumn from 'code/core/classes/table_column';
+import { dumbCopy } from 'code/core/support/misc';
+import { constructs } from 'code/core/support/functional';
+import { direction, clam, percentize } from 'code/core/support/numeric';
 import template from 'views/core/components/table';
 
 const ROWS = 10;
 
 function ascendingComparator(a, b) {
-    return a === b ? 0 : utils.direction(a > b);
+    return a === b ? 0 : direction(a > b);
 }
 
 function descendingComparator(a, b) {
@@ -35,12 +37,12 @@ export default Vue.extend({
 
     computed: {
         parsedColumns(context) {
-            return context.columns.map(utils.constructs(TableColumn));
+            return dumbCopy(context.columns.map(constructs(TableColumn)));
         },
 
         fragment(context) {
-            const count = Math.max(1, ROWS - context.staticData.length),
-                start = this.page * count;
+            const count = Math.max(1, ROWS - context.staticData.length);
+            const start = this.page * count;
 
             return context.staticData.concat(context.sorted.slice(start, start + count));
         },
@@ -76,8 +78,8 @@ export default Vue.extend({
     },
 
     methods: {
-        changePage(page: number) {
-            const normalized = utils.clam(page, 0, this.pageCount - 1);
+        changePage(page) {
+            const normalized = clam(page, 0, this.pageCount - 1);
 
             if (normalized > 0 && page === this.page)
                 return;
@@ -85,24 +87,24 @@ export default Vue.extend({
             this.page = normalized;
         },
 
-        updateSort(sort: number) {
+        updateSort(sort) {
             pre: Math.abs(sort) <= this.columns.length;
             this.sortBy = Math.abs(sort) - 1;
             this.ascending = sort > 0;
         },
 
-        sortIcon(column: TableColumn) {
+        sortIcon(column) {
             if (column !== this.sortColumn)
                 return 'sort-both';
 
             return this.ascending ? 'sort-up' : 'sort-down';
         },
 
-        columnWidth(column: TableColumn) {
-            return utils.percentize(column.width / this.totalWidth);
+        columnWidth(column) {
+            return percentize(column.width / this.totalWidth);
         },
 
-        sortByColumn(index: number) {
+        sortByColumn(index) {
             if (this.sortBy === index) {
                 this.ascending = !this.ascending;
             } else {
@@ -117,11 +119,11 @@ export default Vue.extend({
     },
 
     watch: {
-        sort: function () {
+        sort () {
             this.updateSort(this.sort);
         },
 
-        data: function () {
+        data () {
             this.changePage(0);
         }
     },

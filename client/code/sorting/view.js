@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 import View from 'code/core/classes/view';
 import Radio from 'code/core/components/radio';
-import utils from 'code/core/helpers/utils';
+import { dumbCopy } from 'code/core/support/misc';
 
 import { PERIODS, DEFAULT_PERIOD } from 'code/sorting/constants/periods';
 import Demo from 'code/sorting/components/demo';
@@ -21,9 +21,9 @@ export default new View({
         components: [Radio, Demo],
 
         data: () => ({
-            algorithms: utils.dumbCopy(algorithms),
+            algorithms: algorithms,
             period: DEFAULT_PERIOD,
-            domain: utils.dumbCopy(PERIODS)
+            domain: dumbCopy(PERIODS)
         }),
 
         methods: {

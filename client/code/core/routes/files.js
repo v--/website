@@ -1,15 +1,15 @@
 import Route from 'code/core/classes/route';
-import utils from 'code/core/helpers/utils';
-import browser from 'code/core/helpers/browser';
+import { fetchJSON } from 'code/core/support/browser';
+import { basename } from 'code/core/support/misc';
 
 export default new Route({
     name: 'files',
     path: '/files',
 
-    children: function () {
-        return browser.fetchJSON('/api/files').then(function (data: Object) {
+    children () {
+        return fetchJSON('/api/files').then(function (data) {
             return data.children.filter(child => child.isDirectory).map(child => new Route({
-                name: utils.basename(child.path),
+                name: basename(child.path),
                 path: child.path
             }));
         });

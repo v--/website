@@ -1,0 +1,25 @@
+[
+    {
+        "name": "core",
+        "entry": "client/code/core/index",
+        "modules": {
+            "vue": "Vue"
+        }
+    },
+
+    {
+        "name": "sorting",
+        "entry": "client/code/sorting/view",
+        "modules": {
+            "vue": "Vue"
+        }
+    },
+
+    {
+        "name": "forex",
+        "entry": "client/code/forex/view",
+        "modules": {
+            "vue": "Vue"
+        }
+    }
+]

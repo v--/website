@@ -1,24 +1,31 @@
-import 'code/core/configure';
+import 'whatwg-fetch';
+import Vue from 'vue';
+
+import { DEBUG } from 'code/core/config';
+import 'code/core/directives/index';
+
 import Root from 'code/core/components/root';
-import spritesheet from 'code/core/helpers/spritesheet';
-import browser from 'code/core/helpers/browser';
+import { loadSheet } from 'code/core/support/spritesheet';
+import { documentReadyResolver, getPath, on } from 'code/core/support/browser';
 
-spritesheet.fetch();
+if (DEBUG)
+    Vue.config.debug = true;
 
-browser.documentReadyResolver().then(function () {
+loadSheet(); // This is only called here to ensure that the sheets start loading ASAP
+documentReadyResolver().then(function () {
     const root = new Root({ el: document.body });
 
     window.onunhandledrejection = function onError(e) {
         root.$emit('handleError', e.reason);
     };
 
-    browser.on('error', function (e) {
+    on('error', function (e) {
         root.$emit('handleError', e.error);
     });
 
-    browser.on('popstate', function () {
-        root.$emit('updatePage', browser.getPath());
+    on('popstate', function () {
+        root.$emit('updatePage', getPath());
     });
 
-    root.$emit('updatePage', browser.getPath());
+    root.$emit('updatePage', getPath());
 });

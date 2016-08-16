@@ -13,5 +13,4 @@ interface IAPI
     Json getSlides();
     Json getPacman();
     Json getDocs();
-    string getYomomma();
 }

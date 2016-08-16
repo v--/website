@@ -1,8 +1,9 @@
-import { KEY, KEYSERVERS } from 'code/core/constants/gpgKeys';
-import PacmanPackage from 'code/core/models/pacmanPackage';
+import { KEY, KEYSERVERS } from 'code/core/constants/gpg_keys';
+import { dumbCopy, groupBy } from 'code/core/support/misc';
+import { constructs } from 'code/core/support/functional';
+import { fetchJSON } from 'code/core/support/browser';
+import PacmanPackage from 'code/core/models/pacman_package';
 import View from 'code/core/classes/view';
-import utils from 'code/core/helpers/utils';
-import browser from 'code/core/helpers/browser';
 import template from 'views/core/views/pacman';
 
 export default new View({
@@ -19,17 +20,17 @@ export default new View({
 
         data: () => ({
             key: KEY,
-            keyservers: utils.dumbCopy(KEYSERVERS)
+            keyservers: dumbCopy(KEYSERVERS)
         }),
 
         computed: {
-            packages: context => utils.groupBy(context.data, 'arch')
+            packages: context => groupBy(context.data, 'arch')
         }
     },
 
-    resolve(_path: string) {
-        return browser.fetchJSON('/api/pacman').then(function (data) {
-            return data.map(utils.constructs(PacmanPackage));
+    resolve(_path) {
+        return fetchJSON('/api/pacman').then(function (data) {
+            return data.map(constructs(PacmanPackage));
         });
     }
 });

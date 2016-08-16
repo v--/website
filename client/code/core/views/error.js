@@ -1,11 +1,11 @@
 import Vue from 'vue';
 
 import { BUGREPORT } from 'code/core/constants/contacts';
-import CoolError from 'code/core/classes/coolError';
+import CoolError from 'code/core/classes/cool_error';
 import View from 'code/core/classes/view';
 import Icon from 'code/core/components/icon';
 import template from 'views/core/views/error';
-import utils from 'code/core/helpers/utils';
+import { factorize } from 'code/core/support/functional';
 
 const component = Vue.extend({
     name: 'iv-error',
@@ -22,7 +22,7 @@ const component = Vue.extend({
     }),
 
     computed: {
-        error: function () {
+        error () {
             if (this.data instanceof CoolError)
                 return this.data;
             else
@@ -33,6 +33,6 @@ const component = Vue.extend({
 
 export default new View({
     name: 'error',
-    testPath: utils.returns(false),
+    testPath: factorize(false),
     component: component
 });

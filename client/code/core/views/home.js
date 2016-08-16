@@ -1,9 +1,9 @@
 import Vue from 'vue';
 
 import { CONTACTS } from 'code/core/constants/contacts';
+import { dumbCopy } from 'code/core/support/misc';
 import View from 'code/core/classes/view';
 import Icon from 'code/core/components/icon';
-import utils from 'code/core/helpers/utils';
 import template from 'views/core/views/home';
 
 export default new View({
@@ -18,7 +18,7 @@ export default new View({
         components: [Icon],
 
         data: () => ({
-            contacts: utils.dumbCopy(CONTACTS)
+            contacts: dumbCopy(CONTACTS)
         })
     })
 });

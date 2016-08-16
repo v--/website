@@ -6,6 +6,7 @@ targetType "executable"
 
 sourcePaths "server/common" "server/website"
 stringImportPaths "server/website"
+dependency "colored-logger" version="~>0.1.0"
 dependency "vibe-d" version="~>0.7.29"
 dependency "toml-d" version="~>0.3.0"
 dependency "ivasilev:forex" version="*"
@@ -18,6 +19,7 @@ subPackage {
 
     libs "curl"
     sourcePaths "server/common" "server/forex"
+    dependency "colored-logger" version="~>0.1.0"
     dependency "vibe-d" version="~>0.7.29"
     dependency "toml-d" version="~>0.3.0"
     dependency "kxml" version="~>1.0.1"

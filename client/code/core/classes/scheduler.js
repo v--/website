@@ -1,14 +1,14 @@
-import utils from 'code/core/helpers/utils';
+import { noop } from 'code/core/support/functional';
 
 export default class Scheduler {
     get isRunning() {
         return this.interval !== null;
     }
 
-    constructor(period: number, callback: Function | null = null) {
+    constructor(period, callback = null) {
         this.interval = null;
         this.period = period;
-        this.callback = callback || utils.noop;
+        this.callback = callback || noop;
     }
 
     start() {

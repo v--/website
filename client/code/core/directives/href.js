@@ -12,7 +12,7 @@ export default Vue.directive('i-href', {
         this.el.addEventListener('click', this.onClick);
     },
 
-    update: function (href) {
+    update (href) {
         this.href = href;
         this.el.setAttribute('href', href);
     },

@@ -1,29 +1,29 @@
 export default class Cache {
-    constructor(timeout: number) {
+    constructor(timeout) {
         this.cleaners = new Map();
         this.payload = new Map();
         this.timeout = timeout;
     }
 
-    add(key: string, value: any) {
+    add(key, value) {
         this.payload.set(key, value);
         this.resetTimer(key);
     }
 
-    get(key: string) {
+    get(key) {
         return this.payload.get(key);
     }
 
-    has(key: string) {
+    has(key) {
         return this.payload.has(key);
     }
 
-    remove(key: string) {
+    remove(key) {
         this.payload.delete(key);
         this.cleaners.delete(key);
     }
 
-    resetTimer(key: string) {
+    resetTimer(key) {
         if (this.cleaners.has(key))
             clearTimeout(this.cleaners.get(key));
 

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 
-import utils from 'code/core/helpers/utils';
+import { dumbCopy } from 'code/core/support/misc';
 
 import Sorter from 'code/sorting/components/sorter';
 import sorters from 'code/sorting/constants/sorters';
@@ -17,7 +17,7 @@ export default Vue.extend({
     },
 
     data: () => ({
-        sorters: utils.dumbCopy(sorters)
+        sorters: dumbCopy(sorters)
     }),
 
     methods: {

@@ -1,10 +1,10 @@
 import Vue from 'vue';
 
-import BUNDLES from 'code/core/constants/bundles';
+import bundles from 'code/core/constants/bundles';
 import View from 'code/core/classes/view';
 import Table from 'code/core/components/table';
-import utils from 'code/core/helpers/utils';
 import template from 'views/core/views/code';
+import { dumbCopy } from 'code/core/support/misc';
 
 export default new View({
     name: 'code',
@@ -16,12 +16,12 @@ export default new View({
         components: [Table],
 
         data: () => ({
-            bundles: utils.dumbCopy(BUNDLES),
+            bundles: dumbCopy(bundles),
             columns: [
                 {
                     name: 'Name',
                     accessors: { value: 'name', hyperlink: 'path' },
-                    onClick: function (e, row) {
+                    onClick (e, row) {
                         e.preventDefault();
                         this.$dispatch('updatePath', row.path);
                     }

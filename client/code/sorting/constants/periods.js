@@ -1,4 +1,4 @@
-import utils from 'code/core/helpers/utils';
+import { last } from 'code/core/support/misc';
 
 export const PERIODS = [
     { 'text': 'Slow',   value: 500 },
@@ -6,4 +6,4 @@ export const PERIODS = [
     { 'text': 'Fast',   value: 10 }
 ];
 
-export const DEFAULT_PERIOD = utils.last(PERIODS).value;
+export const DEFAULT_PERIOD = last(PERIODS).value;

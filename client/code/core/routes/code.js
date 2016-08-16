@@ -6,7 +6,7 @@ export default new Route({
     name: 'code',
     path: '/code',
     children: bundles,
-    resolve(path: string) {
+    resolve(path) {
         if (path === '/code')
             return Code;
 

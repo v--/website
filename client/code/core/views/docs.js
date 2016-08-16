@@ -3,8 +3,8 @@ import Vue from 'vue';
 import Doc from 'code/core/models/doc';
 import View from 'code/core/classes/view';
 import Table from 'code/core/components/table';
-import browser from 'code/core/helpers/browser';
 import template from 'views/core/views/docs';
+import { fetchJSON } from 'code/core/support/browser';
 
 const component = Vue.extend({
     name: 'iv-docs',
@@ -29,7 +29,7 @@ export default new View({
     name: 'docs',
     component: component,
     resolve() {
-        return browser.fetchJSON('/api/docs').then(function (data) {
+        return fetchJSON('/api/docs').then(function (data) {
             return data.map(raw => new Doc(raw.path, raw.name));
         });
     }

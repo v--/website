@@ -1,38 +1,27 @@
 import Vue from 'vue';
 
-import utils from 'code/core/helpers/utils';
+import { factorize, functionize, noopAsync } from 'code/core/support/functional';
 
-type ViewConfig = {
-    name: string,
-    component: Object,
-    title: string | ?string[] | ?Function,
-    inject: ?boolean,
-    testPath: ?Function,
-    resolve: ?Function
-};
+function getTitle(name, title) {
+    if (!title)
+        return factorize([name]);
 
-function getTitle(config: ViewConfig) {
-    if (!('title' in config))
-        return utils.returns([config.name]);
+    if (typeof title === 'string')
+        return factorize([title]);
 
-    if (typeof config.title === 'string')
-        return utils.returns([config.title]);
-
-    return utils.functionize(config.title);
+    return functionize(title);
 }
 
 export default class View {
-    constructor(config: ViewConfig) {
+    constructor({ name, title, component, testPath, inject = false, resolve = noopAsync }) {
         Object.assign(this, {
-            name: config.name,
-            component: config.component,
-            testPath: config.testPath || (path => path === `/${config.name}`),
-            getTitle: getTitle(config),
-            resolve: config.resolve || utils.noopAsync
+            name, component, resolve,
+            testPath: testPath || (path => path === `/${name}`),
+            getTitle: getTitle(name, title),
         });
 
-        if (config.inject)
-            Vue.component(`iv-${config.name}`, config.component);
+        if (inject)
+            Vue.component(`iv-${name}`, component);
 
         Object.freeze(this);
     }

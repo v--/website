@@ -1,8 +1,8 @@
 import Vue from 'vue';
 
-import CoolError from 'code/core/classes/coolError';
-import spritesheet from 'code/core/helpers/spritesheet';
+import CoolError from 'code/core/classes/cool_error';
 import template from 'views/core/components/icon';
+import { loadSheet } from 'code/core/support/spritesheet';
 
 export default Vue.extend({
     name: 'i-icon',
@@ -11,7 +11,7 @@ export default Vue.extend({
     props: {
         name:    { type: String, required: true },
         title:   { type: String, default: '' },
-        rotate:  { type: String, default: null },
+        rotate:  { type: Number, default: 0 },
         verticalFlip: { type: Boolean, default: false },
         horizontalFlip: { type: Boolean, default: false }
     },
@@ -38,16 +38,16 @@ export default Vue.extend({
     },
 
     methods: {
-        updateCode(name: string) {
+        updateCode(name) {
             this.oldName = name;
 
-            spritesheet.fetch().then(hash => {
+            loadSheet().then(hash => {
                 if (!hash.has(name))
                     throw new CoolError(`Cannot find SVG sprite "${name}"`);
 
-                const node = hash.get(name),
-                    clone = node.cloneNode(true),
-                    container = this.$el.querySelector('svg');
+                const node = hash.get(name);
+                const clone = node.cloneNode(true);
+                const container = this.$el.querySelector('svg');
 
                 while (container.firstChild)
                     container.removeChild(container.firstChild);
@@ -59,7 +59,7 @@ export default Vue.extend({
     },
 
     watch: {
-        name: function () {
+        name () {
             this.updateCode(this.name);
         }
     },
