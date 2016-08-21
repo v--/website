@@ -1,5 +1,5 @@
-import { join } from 'path';
 import babelrc from 'babelrc-rollup';
+import { join } from 'path';
 
 import nodeResolve from 'rollup-plugin-node-resolve';
 import alias from 'rollup-plugin-alias';

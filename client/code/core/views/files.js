@@ -3,23 +3,24 @@ import Vue from 'vue';
 import CoolError from 'code/core/classes/cool_error';
 import Dir from 'code/core/models/dir';
 import View from 'code/core/classes/view';
-import Table from 'code/core/components/table';
+import Grid from 'code/core/components/grid';
 import template from 'views/core/views/files';
+import bus from 'code/core/event_bus';
 import { fetchJSON } from 'code/core/support/browser';
 import { humanizeSize } from 'code/core/support/numeric';
+import { factorize } from 'code/core/support/functional';
 import { startsWithString } from 'code/core/support/misc';
 
 const component = Vue.extend({
-    name: 'iv-files',
-    replace: false,
+    name: 'FilesView',
     template: template,
-    components: [Table],
+    components: { Grid },
 
     props: {
         data: { type: Dir, required: true }
     },
 
-    data: () => ({
+    data: factorize({
         columns: [
             {
                 name: 'Name',
@@ -30,7 +31,7 @@ const component = Vue.extend({
                         return;
 
                     e.preventDefault();
-                    this.$dispatch('updatePath', row.path);
+                    bus.$emit('updatePath', row.path);
                 }
             },
 

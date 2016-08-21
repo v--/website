@@ -10,11 +10,7 @@ export default class Page {
     }
 
     constructor(config) {
-        // BEGIN HACK: Vue expects enumerable properties to set up watchers. Hahaha.
-        for (let key in config)
-            Object.defineProperty(this, key, { value: config[key] });
-        // END HACK
-
+        Object.assign(this, config);
         Object.freeze(this);
     }
 }

@@ -1,1 +1,1 @@
-export const DEBUG = typeof PRODUCTION === 'boolean';
+export const DEBUG = typeof PRODUCTION === 'undefined';

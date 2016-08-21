@@ -1,11 +1,10 @@
 import Vue from 'vue';
 
 import Icon from 'code/core/components/icon';
-import TableColumn from 'code/core/classes/table_column';
-import { dumbCopy } from 'code/core/support/misc';
+import GridColumn from 'code/core/classes/grid_column';
+import template from 'views/core/components/grid';
 import { constructs } from 'code/core/support/functional';
 import { direction, clam, percentize } from 'code/core/support/numeric';
-import template from 'views/core/components/table';
 
 const ROWS = 10;
 
@@ -18,9 +17,8 @@ function descendingComparator(a, b) {
 }
 
 export default Vue.extend({
-    name: 'i-table',
     template: template,
-    components: [Icon],
+    components: { Icon },
 
     props: {
         sort:       { type: Number, default: 0 },
@@ -37,7 +35,7 @@ export default Vue.extend({
 
     computed: {
         parsedColumns(context) {
-            return dumbCopy(context.columns.map(constructs(TableColumn)));
+            return context.columns.map(constructs(GridColumn));
         },
 
         fragment(context) {
@@ -119,16 +117,16 @@ export default Vue.extend({
     },
 
     watch: {
-        sort () {
+        sort() {
             this.updateSort(this.sort);
         },
 
-        data () {
+        data() {
             this.changePage(0);
         }
     },
 
-    ready() {
+    mounted() {
         this.updateSort(this.sort);
     }
 });

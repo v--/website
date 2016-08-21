@@ -1,9 +1,9 @@
 div.error-container
-    i-icon(name="warning")
+    Icon(name="warning")
 
     h1 {{ error.title }}
     h4 {{ error.message }}
 
     p
         span Please try refreshing the browser or&nbsp;
-        a(:href.once="bugurl") reporting a bug
+        a(:href="bugurl") reporting a bug

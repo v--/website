@@ -5,25 +5,30 @@ import CoolError from 'code/core/classes/cool_error';
 import Navbar from 'code/core/components/navbar';
 import ErrorView from 'code/core/views/error';
 import views from 'code/core/views/index';
+import bus from 'code/core/event_bus';
 import routes from 'code/core/routes/index';
 import template from 'views/core/components/root';
+import { mapToObject } from 'code/core/support/misc';
+import { factorize } from 'code/core/support/functional';
 import { updateWindowTitle, getPath, pushState } from 'code/core/support/browser';
 
 export default Vue.extend({
-    name: 'i-root',
-    replace: false,
     template: template,
-    components: views.map(view => view.component).concat([ErrorView.component, Navbar]),
+    components: {
+        ...mapToObject(views, view => [view.component.options.name, view.component]),
+        ErrorView: ErrorView.component,
+        Navbar
+    },
 
-    data: () => ({
+    data: factorize({
         page: Page.blank
     }),
 
     computed: {
-        component: context => `iv-${context.page.view.name}`
+        component: context => context.page.view.component.options.name
     },
 
-    events: {
+    methods: {
         updatePage(path) {
             const route = routes.find(route => route.testPath(path));
 
@@ -44,7 +49,7 @@ export default Vue.extend({
                     return view.resolve(path).then(data => {
                         const page = new Page({ view, route, subroutes, subroute, data });
                         updateWindowTitle(view.getTitle(data));
-                        this.page = page;
+                        Vue.set(this, 'page', page);
                     });
                 });
         },
@@ -53,13 +58,26 @@ export default Vue.extend({
             if (getPath() !== path)
                 pushState(path);
 
-            this.$emit('updatePage', path);
+            bus.$emit('updatePage', path);
         },
 
         handleError(error) {
+            pre: error instanceof Error;
             updateWindowTitle(['error']);
             console.error(`${error.name}: ${error.message}`); // eslint-disable-line no-console
-            this.page = Page.fromError(error);
+            Vue.set(this, 'page', Page.fromError(error));
         }
+    },
+
+    mounted() {
+        bus.$on('updatePage', this.updatePage);
+        bus.$on('updatePath', this.updatePath);
+        bus.$on('handleError', this.handleError);
+    },
+
+    beforeDestroy() {
+        bus.$off('updatePage', this.updatePage);
+        bus.$off('updatePath', this.updatePath);
+        bus.$off('handleError', this.handleError);
     }
 });

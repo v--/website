@@ -1,23 +1,23 @@
 import Vue from 'vue';
+import bus from 'code/core/event_bus';
 
 export default Vue.directive('i-href', {
     deep: true,
 
-    bind() {
-        this.onClick = e => {
+    bind(el, binding) {
+        binding.onClick = function(e) {
             e.preventDefault();
-            this.vm.$dispatch('updatePath', this.href);
+            bus.$emit('updatePath', binding.value);
         };
 
-        this.el.addEventListener('click', this.onClick);
+        el.addEventListener('click', binding.onClick);
     },
 
-    update (href) {
-        this.href = href;
-        this.el.setAttribute('href', href);
+    update (el, binding) {
+        el.setAttribute('href', binding.value);
     },
 
-    unbind() {
-        this.el.removeEventListener('click', this.onClick);
+    unbind(el, binding) {
+        el.removeEventListener('click', binding.onClick);
     }
 });

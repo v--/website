@@ -1,10 +1,10 @@
 @import 'vars';
 
-.navbar-transition {
+.navbar-enter-active, .navbar-leave-active {
   transition: margin-left $anim-duration;
-  width: $navbar-width;
 }
 
-.navbar-enter, .navbar-leave {
+.navbar-enter, .navbar-leave-active {
   margin-left: -$navbar-width;
+  width: $navbar-width;
 }

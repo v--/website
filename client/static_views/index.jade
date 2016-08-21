@@ -11,9 +11,14 @@ html(lang="en")
         - if (!production)
             script(src="http://localhost:35729/livereload.js")
 
-        script(src="code/vendor/vue.min.js")
+        - if (production)
+            script(src="code/vendor/vue.min.js")
+        - else
+            script(src="code/vendor/vue.js")
+
         script(src="code/core.js")
 
         title ivasilev.net
 
     body
+        div.root

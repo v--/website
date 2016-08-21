@@ -1,12 +1,11 @@
 import Vue from 'vue';
 
-import { pixelize } from 'code/core/support/numeric';
 import browser from 'code/core/support/browser';
 import template from 'views/core/components/viewbox';
+import { pixelize } from 'code/core/support/numeric';
 
 // This component seems a little pointless all by itself, but does nice stuff in conjunction with max-height
 export default Vue.extend({
-    name: 'i-viewbox',
     template: template,
 
     props: {
@@ -24,7 +23,7 @@ export default Vue.extend({
         browser.on('resize', this.resize);
     },
 
-    ready() {
+    mounted() {
         this.resize();
     },
 

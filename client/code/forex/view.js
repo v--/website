@@ -4,12 +4,11 @@ import View from 'code/core/classes/view';
 import template from 'views/forex/view';
 
 export default new View({
-    name: 'code-forex',
+    name: 'code/forex',
     title: ['code', 'forex'],
     inject: true,
     component: Vue.extend({
-        replace: false,
-        name: 'iv-code-forex',
+        name: 'CodeForexView',
         template: template
     })
 });

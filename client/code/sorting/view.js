@@ -2,33 +2,33 @@ import Vue from 'vue';
 
 import View from 'code/core/classes/view';
 import Radio from 'code/core/components/radio';
-import { dumbCopy } from 'code/core/support/misc';
+import { factorize } from 'code/core/support/functional';
 
-import { PERIODS, DEFAULT_PERIOD } from 'code/sorting/constants/periods';
 import Demo from 'code/sorting/components/demo';
 import algorithms from 'code/sorting/algos/index';
+import bus from 'code/core/event_bus';
 import template from 'views/sorting/view';
+import { PERIODS, DEFAULT_PERIOD } from 'code/sorting/constants/periods';
 
 export default new View({
-    name: 'code-sorting',
+    name: 'code/sorting',
     title: ['code', 'sorting'],
     inject: true,
 
     component: Vue.extend({
-        name: 'iv-code-sorting',
-        replace: false,
+        name: 'CodeSorting',
         template: template,
-        components: [Radio, Demo],
+        components: { Radio, Demo },
 
-        data: () => ({
+        data: factorize({
             algorithms: algorithms,
             period: DEFAULT_PERIOD,
-            domain: dumbCopy(PERIODS)
+            domain: PERIODS
         }),
 
         methods: {
             sortall() {
-                this.$broadcast('sort');
+                bus.$emit('sort');
             }
         }
     })

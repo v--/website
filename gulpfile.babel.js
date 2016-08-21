@@ -7,7 +7,7 @@ import './build/gulpfile.build.js';
 import './build/gulpfile.deploy.js';
 import armor from './build/gulpfile.armor.js';
 
-gulp.task('start', function (done) {
+gulp.task('watch', function (done) {
     livereload.listen();
 
     gulp.watch('client/static_views/**/*.jade', armor(gulp.series('build:views')));
@@ -21,4 +21,4 @@ gulp.task('start', function (done) {
     });
 });
 
-gulp.task('default', gulp.series('build:views', 'build:code', 'build:styles', 'start'));
+gulp.task('default', gulp.series('build:views', 'build:code', 'build:styles', 'watch'));

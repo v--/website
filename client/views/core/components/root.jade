@@ -1,4 +1,5 @@
-i-navbar(:page="page")
+div.root-wrapper
+    Navbar(:page="page")
 
-main(v-if="page.view !== null")
-    component(:is="component", :data="page.data")
+    main(v-if="page.view !== null")
+        component(:is="component", :data="page.data")

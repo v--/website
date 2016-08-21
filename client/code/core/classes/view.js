@@ -21,7 +21,7 @@ export default class View {
         });
 
         if (inject)
-            Vue.component(`iv-${name}`, component);
+            Vue.component(component.options.name, component);
 
         Object.freeze(this);
     }

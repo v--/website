@@ -18,26 +18,11 @@ export function last(array) {
     return array[array.length - 1];
 }
 
-export function dumbCopy(source) {
-    let result = source instanceof Array ? [] : {};
-
-    for (let key in source) {
-        const value = source[key];
-
-        if (value instanceof Object && !(value instanceof Function))
-            result[key] = dumbCopy(value);
-        else
-            result[key] = value;
-    }
-
-    return result;
-}
-
 export function groupBy(source, prop = identity) {
     const result = {};
     const getter = accessor(prop);
 
-    for (let item of source) {
+    for (const item of source) {
         const key = getter(item);
 
         if (key in result)
@@ -49,10 +34,26 @@ export function groupBy(source, prop = identity) {
     return result;
 }
 
+export function mapToObject(source, transform) {
+    const result = {};
+
+    for (const item of source) {
+        const value = transform(item);
+        result[value[0]] = value[1];
+    }
+
+    return result;
+}
+
 export function startsWith(array, subarr) {
     return subarr.every((element, i) => array[i] === element);
 }
 
 export function startsWithString(string, substr) {
     return string.slice(0, substr.length) === substr;
+}
+
+export function capitalize(string) {
+    if (string.length === 0) return '';
+    return string[0].toUpperCase() + string.substr(1);
 }

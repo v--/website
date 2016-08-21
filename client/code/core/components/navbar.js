@@ -4,21 +4,20 @@ import Page from 'code/core/classes/page';
 import Icon from 'code/core/components/icon';
 import routes from 'code/core/routes/index';
 import template from 'views/core/components/navbar';
-import { inTabletMode } from 'code/core/support/browser';
-import { dumbCopy } from 'code/core/support/misc';
+import { inGridtMode } from 'code/core/support/browser';
+import { factorize } from 'code/core/support/functional';
 
 export default Vue.extend({
-    name: 'i-navbar',
     template: template,
-    components: [Icon],
+    components: { Icon },
 
     props: {
         page: { page: Page, required: true }
     },
 
-    data: () => ({
-        expanded: inTabletMode(),
-        routes: dumbCopy(routes)
+    data: factorize({
+        expanded: inGridtMode(),
+        routes: routes
     }),
 
     methods: {

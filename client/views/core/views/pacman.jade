@@ -1,28 +1,29 @@
-:marked
-    # [pacman](https://www.archlinux.org/pacman/) repository
+div.pacman-view
+    :marked
+        # [pacman](https://www.archlinux.org/pacman/) repository
 
-    The repo contains a variety of packages, mostly my own software and AUR builds.
+        The repo contains a variety of packages, mostly my own software and AUR builds.
 
-    I mantain __'any'__ and __'x86\_64'__ repos. __'x86\_64'__ includes packages from __'any'__. __$arch__ can be replaced with any of the two:
+        I mantain __'any'__ and __'x86\_64'__ repos. __'x86\_64'__ includes packages from __'any'__. __$arch__ can be replaced with any of the two:
 
-:highlight(lang="ini")
-    [ivasilev]
-    Server = http://ivasilev.net/pacman/$arch
-    # Server = http://ivasilev.net/pacman/any
-    # Server = http://ivasilev.net/pacman/x86_64
+    :highlight(lang="ini")
+        [ivasilev]
+        Server = http://ivasilev.net/pacman/$arch
+        # Server = http://ivasilev.net/pacman/any
+        # Server = http://ivasilev.net/pacman/x86_64
 
-p All packages are signed, so you can import my GPG key ({{ key }}) into the pacman keychain. The key can be downloaded from:
+    p All packages are signed, so you can import my GPG key ({{ key }}) into the pacman keychain. The key can be downloaded from:
 
-ul: li(v-for="server in keyservers")
-    a(:href.once="server.url")
-        span {{* server.origin }}
-        span.semitransparent {{* server.path }}
+    ul: li(v-for="server in keyservers")
+        a(:href="server.url")
+            span(v-text="server.origin")
+            span.semitransparent(v-text="server.path")
 
-h2 Packages:
+    h2 Packages:
 
-div.pacman-packages
-    div(v-for="(arch, packageGroup) in packages")
-        h3 {{ arch }}
+    div.pacman-packages
+        div(v-for="(packageGroup, arch) in packages")
+            h3 {{ arch }}
 
-        ul
-            li(v-for="pkg in packageGroup") {{ pkg.name }} {{ pkg.version }}
+            ul
+                li(v-for="pkg in packageGroup") {{ pkg.name }} {{ pkg.version }}

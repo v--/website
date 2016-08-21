@@ -2,20 +2,21 @@ import Vue from 'vue';
 
 import Slide from 'code/core/models/slide';
 import View from 'code/core/classes/view';
-import Table from 'code/core/components/table';
+import Grid from 'code/core/components/grid';
 import template from 'views/core/views/slides';
 import { fetchJSON } from 'code/core/support/browser';
+import { factorize } from 'code/core/support/functional';
 
 const component = Vue.extend({
-    name: 'iv-slides',
+    name: 'SlidesView',
     template: template,
-    components: [Table],
+    components: { Grid },
 
     props: {
         data: { type: Array, required: true }
     },
 
-    data: () => ({
+    data: factorize({
         columns: [
             {
                 name: 'Name',
@@ -27,7 +28,6 @@ const component = Vue.extend({
 
 export default new View({
     name: 'slides',
-    replace: false,
     component: component,
     resolve() {
         return fetchJSON('/api/slides').then(function (data) {

@@ -2,28 +2,28 @@ import Vue from 'vue';
 
 import bundles from 'code/core/constants/bundles';
 import View from 'code/core/classes/view';
-import Table from 'code/core/components/table';
+import Grid from 'code/core/components/grid';
 import template from 'views/core/views/code';
-import { dumbCopy } from 'code/core/support/misc';
+import bus from 'code/core/event_bus';
+import { factorize } from 'code/core/support/functional';
 
 export default new View({
     name: 'code',
 
     component: Vue.extend({
-        name: 'iv-code',
-        replace: false,
+        name: 'CodeView',
         template: template,
-        components: [Table],
+        components: { Grid },
 
-        data: () => ({
-            bundles: dumbCopy(bundles),
+        data: factorize({
+            bundles: bundles,
             columns: [
                 {
                     name: 'Name',
                     accessors: { value: 'name', hyperlink: 'path' },
-                    onClick (e, row) {
+                    onClick(e, row) {
                         e.preventDefault();
-                        this.$dispatch('updatePath', row.path);
+                        bus.$emit('updatePath', row.path);
                     }
                 },
 

@@ -9,10 +9,10 @@ import less from 'gulp-less';
 import gulp from 'gulp';
 import env from 'gulp-environments';
 
+import CleanCSS from 'less-plugin-clean-css';
 import { join as joinPath } from 'path';
 import { rollup } from 'rollup';
 import { exec } from 'child_process';
-import CleanCSS from 'less-plugin-clean-css';
 
 import jadeAPI from './jade';
 import rollupConfigFactory from './rollup.factory.js';
@@ -59,7 +59,6 @@ gulp.task('build:styles:katex', function () {
             plugins: [new CleanCSS({ advanced: true })]
         }))
         .pipe(chmod(644))
-        .pipe(concat('katex.css'))
         .pipe(gulp.dest('public/styles'))
         .pipe(env.development(livereload()));
 });
@@ -70,7 +69,8 @@ gulp.task('build:views', function () {
             '!client/static_views/**/_*.jade'
         ])
         .pipe(jade({
-            locals: { jade: jadeAPI, production: env.production() }
+            jade: jadeAPI,
+            locals: { production: env.production() }
         }))
         .pipe(gulp.dest('views'))
         .pipe(env.development(livereload()));

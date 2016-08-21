@@ -5,14 +5,13 @@ import template from 'views/core/components/icon';
 import { loadSheet } from 'code/core/support/spritesheet';
 
 export default Vue.extend({
-    name: 'i-icon',
     template: template,
 
     props: {
-        name:    { type: String, required: true },
-        title:   { type: String, default: '' },
-        rotate:  { type: Number, default: 0 },
-        verticalFlip: { type: Boolean, default: false },
+        name:           { type: String, required: true },
+        title:          { type: String, default: '' },
+        rotate:         { type: Number, default: 0 },
+        verticalFlip:   { type: Boolean, default: false },
         horizontalFlip: { type: Boolean, default: false }
     },
 
@@ -39,7 +38,7 @@ export default Vue.extend({
 
     methods: {
         updateCode(name) {
-            this.oldName = name;
+            Vue.set(this, 'oldName', name);
 
             loadSheet().then(hash => {
                 if (!hash.has(name))
@@ -64,7 +63,7 @@ export default Vue.extend({
         }
     },
 
-    ready() {
+    created() {
         if (this.oldName !== this.name)
             this.updateCode(this.name);
     }

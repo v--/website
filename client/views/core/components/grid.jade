@@ -1,13 +1,12 @@
 table
     thead: tr.column-names
         th(
-            v-for="column in parsedColumns",
-            track-by="$index",
+            v-for="(column, index) in parsedColumns",
             :title="column.name",
             :style="{ width: columnWidth(column) }",
-            @click="sortByColumn($index)"
+            @click="sortByColumn(index)"
         )
-            i-icon(:name="sortIcon(column)")
+            Icon(:name="sortIcon(column)")
             p {{ column.name }}
 
     tbody: tr(v-for="row in fragment"): td(
@@ -24,11 +23,10 @@ table
 
     thead: tr: th(:colspan="columns.length")
         div.pagination
-            i-icon(
+            Icon(
                 name="chevron-right",
-                v-if="true",
                 :class="{ disabled: page === 0 }",
-                :horizontal-flip.once="true",
+                :horizontal-flip="true",
                 @click="changePage(page - 1)"
             )
 
@@ -38,9 +36,8 @@ table
                 @click="changePage(i)"
             ) {{ i + 1 }}
 
-            i-icon(
+            Icon(
                 name="chevron-right",
-                v-if="true",
                 :class="{ disabled: page === pageCount - 1 }",
                 @click="changePage(page + 1)"
             )

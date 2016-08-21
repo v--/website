@@ -2,20 +2,21 @@ import Vue from 'vue';
 
 import Doc from 'code/core/models/doc';
 import View from 'code/core/classes/view';
-import Table from 'code/core/components/table';
+import Grid from 'code/core/components/grid';
 import template from 'views/core/views/docs';
+import { factorize } from 'code/core/support/functional';
 import { fetchJSON } from 'code/core/support/browser';
 
 const component = Vue.extend({
-    name: 'iv-docs',
+    name: 'DocsView',
     template: template,
-    components: [Table],
+    components: { Grid },
 
     props: {
         data: { type: Array, required: true }
     },
 
-    data: () => ({
+    data: factorize({
         columns: [
             {
                 name: 'Name',

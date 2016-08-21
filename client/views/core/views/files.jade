@@ -1,5 +1,4 @@
-h1 {{ data.path }}
-
-i-table(:columns.once="columns", :data="data.children", :static-data="staticData")
-
-div {{{ description }}}
+div.files-view
+    h1(v-text="data.path")
+    Grid(:columns="columns", :data="data.children", :static-data="staticData")
+    div(v-html="description")

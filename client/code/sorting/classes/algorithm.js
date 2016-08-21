@@ -29,7 +29,7 @@ export default class Algorithm {
 
     constructor(name, description, sorter) {
         Object.assign(this, { name, description, sorter });
-        // Object.freeze(this);
+        Object.freeze(this);
     }
 
     instantiate(array) {

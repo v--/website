@@ -3,6 +3,5 @@ div.sorting-sorter
     div.sorting-demo-lines(:class="{ complete: complete }")
         div(
             v-for="item in array",
-            track-by="$index",
             :style="{ width: getWidth(item) }"
         )

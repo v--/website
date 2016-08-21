@@ -4,8 +4,8 @@ import jsTransformer from 'jstransformer';
 import katexTransformer from 'jstransformer-katex';
 import highlightTransformer from 'jstransformer-highlight';
 
-const katex = jsTransformer(katexTransformer),
-    highlight = jsTransformer(highlightTransformer);
+const katex = jsTransformer(katexTransformer);
+const highlight = jsTransformer(highlightTransformer);
 
 jade.filters.katex = function (input, { displayMode = true, nowrap = false }) {
     const result = katex.render(input, { displayMode: displayMode }).body;

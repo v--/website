@@ -1,6 +1,6 @@
 import { noop, accessor } from 'code/core/support/functional';
 
-export default class TableColumn {
+export default class GridColumn {
     constructor({ name, width = 1, onClick = noop, accessors = {}}) {
         Object.assign(this, { name, width, onClick });
         const valueAccessor = accessor(accessors.value);

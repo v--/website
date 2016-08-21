@@ -1,6 +1,6 @@
+import views from 'code/core/views/index';
 import { startsWith } from 'code/core/support/misc';
 import { asyncFactorize } from 'code/core/support/functional';
-import views from 'code/core/views/index';
 
 function getChildrenResolver(children) {
     if (!children)

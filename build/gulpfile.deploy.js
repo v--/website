@@ -2,9 +2,9 @@ import rsync from 'gulp-rsync';
 import gulp from 'gulp';
 import env from 'gulp-environments';
 
+import './gulpfile.build.js';
 import { join as joinPath } from 'path';
 import { exec } from 'child_process';
-import './gulpfile.build.js';
 
 const SSH_SERVER = 'ivasilev.net';
 const SSH_SERVER_ROOT = '/srv/http/ivasilev';

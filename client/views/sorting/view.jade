@@ -1,16 +1,17 @@
-:marked
-    # Sorting
+div.code-sorting-view
+    :marked
+        # Sorting
 
-    A visual comparison of array sorting algorithms. Inspired by [sorting-algorithms.com](http://sorting-algorithms.com).
+        A visual comparison of array sorting algorithms. Inspired by [sorting-algorithms.com](http://sorting-algorithms.com).
 
-b.highlight Legend:
+    b.highlight Legend:
 
-:marked
-    The worst-case time and auxiliary space complexities are presented. After clicking one of the ___'sort'___ buttons, the small lines will begin to rearrange and change colors. Green means that the two lines were swapped, red means that they were not. You can run all algorithms at once to compare them.
+    :marked
+        The worst-case time and auxiliary space complexities are presented. After clicking one of the ___'sort'___ buttons, the small lines will begin to rearrange and change colors. Green means that the two lines were swapped, red means that they were not. You can run all algorithms at once to compare them.
 
-b.highlight Animation speed:
-i-radio.sorting-radio(:value.sync="period", :domain="domain")
-button.sorting-sortall(@click="sortall") Sort all
+    b.highlight Animation speed:
+    Radio.sorting-radio(:value.sync="period", :domain="domain")
+    button.sorting-sortall(@click="sortall") Sort all
 
-template(v-for="algorithm in algorithms")
-    i-sorting-demo(:algorithm="algorithm", :period="period")
+    template(v-for="algorithm in algorithms")
+        Demo(:algorithm="algorithm", :period="period")

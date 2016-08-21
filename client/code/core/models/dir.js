@@ -43,7 +43,7 @@ export default class Dir extends FSNode {
         return stack.reverse();
     }
 
-    constructor(path, modified, size, description, children) {
+    constructor(path, modified, size, description, children = []) {
         super(path, modified, size);
         this.description = description;
         this.children = children;

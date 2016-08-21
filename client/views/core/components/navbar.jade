@@ -1,35 +1,37 @@
-i-icon.navbar-icon.navbar-toggle-icon(
-    name="chevron-right",
-    title="Toggle navbar",
-    :class="{ expanded: expanded }",
-    :horizontal-flip="expanded"
-    @click="toggleExpanded"
-)
+div.navbar-wrapper
+    Icon.navbar-icon.navbar-toggle-icon(
+        name="chevron-right",
+        title="Toggle navbar",
+        :class="{ expanded: expanded }",
+        :horizontal-flip="expanded",
+        @click.native="toggleExpanded"
+    )
 
-aside.navbar(v-if="expanded", transition="navbar")
-    div.navbar-contents
-        button.button.navbar-button.navbar-button-toggle(@click="hideNavbar") Hide navbar
+    transition(name="navbar")
+        aside.navbar(v-if="expanded")
+            div.navbar-contents
+                button.button.navbar-button.navbar-button-toggle(@click="hideNavbar") Hide navbar
 
-        div(v-for="route in routes")
-            a.button.navbar-button.navbar-route-button(
-                v-i-href="route.path",
-                :class="{ active: isActive(route) }",
-            )
+                div(v-for="route in routes")
+                    a.button.navbar-button.navbar-route-button(
+                        v-i-href="route.path",
+                        :class="{ active: isActive(route) }",
+                    )
 
-                i-icon.navbar-icon.navbar-route-icon(:name="route.name")
-                span.navbar-route-text {{ route.name }}
+                        Icon.navbar-icon.navbar-route-icon(:name="route.name")
+                        span.navbar-route-text {{ route.name }}
 
-                i-icon.navbar-icon.navbar-route-icon.navbar-route-chevron(
-                    name="chevron-up",
-                    :style="{ visibility: route.hasChildren ? 'visible' : 'hidden' }",
-                    :vertical-flip="isActive(route)"
-                )
+                        Icon.navbar-icon.navbar-route-icon.navbar-route-chevron(
+                            name="chevron-up",
+                            :style="{ visibility: route.hasChildren ? 'visible' : 'hidden' }",
+                            :vertical-flip="isActive(route)"
+                        )
 
-            template(v-if="isActive(route)")
-                a.button.navbar-button.navbar-subroute-button(
-                    v-for="subroute in page.subroutes",
-                    v-i-href="subroute.path",
-                    track-by="path",
-                    transition="accordeon",
-                    :class="{ active: page.subroute === subroute }",
-                ) {{ subroute.name }}
+                    div(v-if="isActive(route)")
+                        transition-group(name="accordeon" appear=true)
+                            a.button.navbar-button.navbar-subroute-button(
+                                :key="subroute.path"
+                                v-for="subroute in page.subroutes",
+                                v-i-href="subroute.path",
+                                :class="{ active: page.subroute === subroute }",
+                            ) {{ subroute.name }}

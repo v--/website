@@ -1,4 +1,4 @@
-import { basename, dirname } from 'code/core/support/misc';
+import { basename, dirname, capitalize } from 'code/core/support/misc';
 
 describe('basename', function () {
     it('factorize an empty string for an empty string', function () {
@@ -38,7 +38,7 @@ describe('basename', function () {
     });
 });
 
-describe('dirname(string)', function () {
+describe('dirname', function () {
     it('factorize an empty string for an empty string', function () {
         expect(dirname('')).to.equal('');
     });
@@ -57,5 +57,19 @@ describe('dirname(string)', function () {
 
     it('counts multiple neighboring slashes at the end as one', function () {
         expect(dirname('lorem/ipsum///')).to.equal('lorem');
+    });
+});
+
+describe('capitalize', function() {
+    it('returns an empty string when passed an empty string', function() {
+        expect(capitalize('')).to.equal('');
+    });
+
+    it('capitalizes a single word', function() {
+        expect(capitalize('lorem')[0]).to.equal('L');
+    });
+
+    it('does not change the entire word', function() {
+        expect(capitalize('LoreM')).to.equal('LoreM');
     });
 });

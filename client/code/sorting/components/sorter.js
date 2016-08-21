@@ -1,13 +1,12 @@
 import Vue from 'vue';
 
-import { dumbCopy } from 'code/core/support/misc';
 import Scheduler from 'code/core/classes/scheduler';
 
 import { DEFAULT_PERIOD } from 'code/sorting/constants/periods';
 import template from 'views/sorting/components/sorter';
+import bus from 'code/core/event_bus';
 
 export default Vue.extend({
-    name: 'i-sorting-sorter',
     template: template,
 
     props: {
@@ -37,8 +36,8 @@ export default Vue.extend({
 
         swap(a, b) {
             const temp = this.array[a];
-            this.array.$set(a, this.array[b]);
-            this.array.$set(b, temp);
+            Vue.set(this.array, a, this.array[b]);
+            Vue.set(this.array, b, temp);
         },
 
         clearLastChanged() {
@@ -74,16 +73,16 @@ export default Vue.extend({
         reinitialize() {
             this.scheduler.stop();
             this.clearLastChanged();
-            this.array = dumbCopy(this.prototype);
+            this.array = Object.create(this.prototype);
             this.iterator = this.algorithm.instantiate(this.array);
             this.complete = false;
-        }
-    },
+        },
 
-    events: {
-        sort() {
-            this.reinitialize();
-            this.scheduler.start();
+        sort(algorithm) {
+            if (!algorithm || algorithm === this.algorithm) {
+                this.reinitialize();
+                this.scheduler.start();
+            }
         }
     },
 
@@ -103,12 +102,14 @@ export default Vue.extend({
         }
     },
 
-    ready() {
+    mounted() {
         this.reinitialize();
         this.scheduler.callback = this.iteration;
+        bus.$on('sort', this.sort);
     },
 
     beforeDestroy() {
         this.scheduler.stop();
+        bus.$off('sort', this.sort);
     }
 });

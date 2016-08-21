@@ -61,7 +61,7 @@ export function updateWindowTitle(subtitles) {
     document.title = ['ivasilev.net'].concat(subtitles).join(' :: ');
 }
 
-export function inTabletMode() {
+export function inGridtMode() {
     return window.innerWidth >= TABLET_WIDTH;
 }
 

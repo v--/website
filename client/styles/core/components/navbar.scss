@@ -1,6 +1,11 @@
 @import 'vars';
 
+.navbar-wrapper {
+  display: flex;
+}
+
 .navbar {
+  width: $navbar-width;
   background-color: $nav-background;
   direction: rtl;
   overflow-y: auto;
@@ -18,6 +23,7 @@
 
   > .icon {
     align-self: center;
+    transition: transform $anim-duration;
   }
 }
 
