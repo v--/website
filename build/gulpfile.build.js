@@ -2,6 +2,7 @@ import livereload from 'gulp-livereload';
 import svgstore from 'gulp-svgstore';
 import concat from 'gulp-concat';
 import rename from 'gulp-rename';
+import inline from 'gulp-inline-source';
 import chmod from 'gulp-chmod';
 import jade from 'gulp-jade';
 import sass from 'gulp-sass';
@@ -71,6 +72,9 @@ gulp.task('build:views', function () {
         .pipe(jade({
             jade: jadeAPI,
             locals: { production: env.production() }
+        }))
+        .pipe(inline({
+            'rootpath': 'public/',
         }))
         .pipe(gulp.dest('views'))
         .pipe(env.development(livereload()));

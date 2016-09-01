@@ -4,7 +4,7 @@ body {
     width: 100%;
     position: absolute;
     text-align: center;
-    background-color: #000;
+    background-color: #000000;
     top: 40%;
     padding: 0;
     margin: 0;
@@ -18,7 +18,7 @@ h1, h2 {
 }
 
 h1 {
-    color: #fff;
+    color: #ffffff;
     font-size: 45px;
 }
 
@@ -27,12 +27,6 @@ h2 {
     font-size: 30px;
 }
 
-a {
-    transition: color 150ms;
-    text-decoration: none;
-    color: #90c0f0;
-}
-
-a:hover {
-    color: #d0e0f0;
+h3 {
+    font-size: 25px;
 }
