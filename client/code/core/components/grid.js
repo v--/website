@@ -63,7 +63,7 @@ export default Vue.extend({
                 return context.data;
 
             const accessor = context.sortColumn.accessors.value;
-            return context.data.sort((a, b) => this.comparator(accessor(a), accessor(b)));
+            return context.data.slice().sort((a, b) => this.comparator(accessor(a), accessor(b)));
         },
 
         sortColumn(context) {

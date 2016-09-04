@@ -8,7 +8,16 @@
   }
 
   .icon {
-    font-size: 150px;
+    font-size: 125px;
     padding: 25px;
+  }
+
+  pre {
+    margin-top: 0;
+  }
+
+  code {
+    display: inline-block;
+    background-color: transparent;
   }
 }

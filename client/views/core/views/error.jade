@@ -1,8 +1,7 @@
 div.error-container
     Icon(name="warning")
 
-    h1 {{ error.title }}
-    h4 {{ error.message }}
+    pre: code {{ message }}
 
     p
         span Please try refreshing the browser or&nbsp;

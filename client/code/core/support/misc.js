@@ -57,3 +57,7 @@ export function capitalize(string) {
     if (string.length === 0) return '';
     return string[0].toUpperCase() + string.substr(1);
 }
+
+export function repeat(value, goal) {
+    return new Array(goal + 1).join(value);
+}

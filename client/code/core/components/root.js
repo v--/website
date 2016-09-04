@@ -33,7 +33,7 @@ export default Vue.extend({
             const route = routes.find(route => route.testPath(path));
 
             if (route === undefined) {
-                this.$emit('handleError', CoolError.HTTP.notFound);
+                bus.$emit('handleError', CoolError.HTTP.notFound);
                 return;
             }
 
@@ -42,7 +42,7 @@ export default Vue.extend({
                     const subroute = subroutes.find(route => route.testPath(path));
 
                     if (view === undefined) {
-                        this.$emit('handleError', CoolError.HTTP.notFound);
+                        bus.$emit('handleError', CoolError.HTTP.notFound);
                         return;
                     }
 
