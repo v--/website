@@ -20,7 +20,7 @@ export default Vue.extend({
     }),
 
     computed: {
-        transform: context => {
+        transform(context) {
             let transforms = [];
 
             if (context.verticalFlip)

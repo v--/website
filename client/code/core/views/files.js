@@ -63,7 +63,7 @@ const component = Vue.extend({
 
     computed: {
         description: context => context.data.description,
-        staticData: context => {
+        staticData(context) {
             if (context.data.parent === null)
                 return [];
 
