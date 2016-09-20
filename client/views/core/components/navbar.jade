@@ -35,3 +35,10 @@ div.navbar-wrapper
                                 v-i-href="subroute.path",
                                 :class="{ active: page.subroute === subroute }",
                             ) {{ subroute.name }}
+
+            a(href="https://creativecommons.org/publicdomain/zero/1.0/")
+                img(
+                    class="navbar-license",
+                    alt="CC0 Public Domain",
+                    src="images/cc-zero.svg"
+                )

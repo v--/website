@@ -1,6 +1,5 @@
 name "ivasilev"
 description "ivasilev.net"
-copyright "Copyright © 2014-2015 Ianis G. Vasilev"
 authors "Ianis G. Vasilev"
 targetType "executable"
 
