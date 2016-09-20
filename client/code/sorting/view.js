@@ -29,6 +29,10 @@ export default new View({
         methods: {
             sortall() {
                 bus.$emit('sort');
+            },
+
+            onPeriodChange(value) {
+                this.period = value;
             }
         }
     })

@@ -7,6 +7,7 @@ export default Vue.extend({
 
     props: {
         value:    { required: true },
-        domain:   { type: Array, required: true }
+        domain:   { type: Array, required: true },
+        onChange: { type: Function, required: true }
     }
 });
