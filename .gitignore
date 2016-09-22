@@ -4,6 +4,7 @@ node_modules
 ivasilev
 ivasilev.forex
 public/code/*
+public/images/icons.svg
 public/styles/katex.css*
 public/styles/index.css*
 /views
