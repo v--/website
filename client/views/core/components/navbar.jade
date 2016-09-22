@@ -27,14 +27,14 @@ div.navbar-wrapper
                             :vertical-flip="isActive(route)"
                         )
 
-                    div(v-if="isActive(route)")
-                        transition-group(name="accordeon" appear=true)
-                            a.button.navbar-button.navbar-subroute-button(
-                                :key="subroute.path"
-                                v-for="subroute in page.subroutes",
-                                v-i-href="subroute.path",
-                                :class="{ active: page.subroute === subroute }",
-                            ) {{ subroute.name }}
+                    transition-group(name="accordeon")
+                        a.button.navbar-button.navbar-subroute-button(
+                            :key="subroute.path"
+                            v-if="isActive(route)"
+                            v-for="subroute in page.subroutes",
+                            v-i-href="subroute.path",
+                            :class="{ active: page.subroute === subroute }",
+                        ) {{ subroute.name }}
 
             a(href="https://creativecommons.org/publicdomain/zero/1.0/")
                 img(
