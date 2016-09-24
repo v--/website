@@ -10,9 +10,9 @@ import armor from './build/gulpfile.armor.js';
 gulp.task('watch', function (done) {
     livereload.listen();
 
-    gulp.watch('client/static_views/**/*.jade', armor(gulp.series('build:views')));
+    gulp.watch('client/static_views/**/*.pug', armor(gulp.series('build:views')));
     gulp.watch('client/styles/**/*.scss', armor(gulp.series('build:styles')));
-    gulp.watch('client/views/**/*.jade', armor(gulp.series('build:code')));
+    gulp.watch('client/views/**/*.pug', armor(gulp.series('build:code')));
     gulp.watch(`client/code/**/*.js`, armor(gulp.series(`build:code`)));
 
     process.on('SIGINT', function () {

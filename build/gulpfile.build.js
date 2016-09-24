@@ -4,18 +4,18 @@ import concat from 'gulp-concat';
 import rename from 'gulp-rename';
 import inline from 'gulp-inline-source';
 import chmod from 'gulp-chmod';
-import jade from 'gulp-jade';
 import sass from 'gulp-sass';
 import less from 'gulp-less';
 import gulp from 'gulp';
 import env from 'gulp-environments';
+import pug from 'gulp-pug';
 
 import CleanCSS from 'less-plugin-clean-css';
 import { join as joinPath } from 'path';
 import { rollup } from 'rollup';
 import { exec } from 'child_process';
 
-import jadeAPI from './jade';
+import pugAPI from './pug';
 import rollupConfigFactory from './rollup.factory.js';
 
 import bundles from './bundles.json';
@@ -66,11 +66,11 @@ gulp.task('build:styles:katex', function () {
 
 gulp.task('build:views', function () {
     return gulp.src([
-            'client/static_views/**/*.jade',
-            '!client/static_views/**/_*.jade'
+            'client/static_views/**/*.pug',
+            '!client/static_views/**/_*.pug'
         ])
-        .pipe(jade({
-            jade: jadeAPI,
+        .pipe(pug({
+            pug: pugAPI,
             locals: { production: env.production() }
         }))
         .pipe(inline({

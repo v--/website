@@ -4,6 +4,8 @@ node_modules
 ivasilev
 ivasilev.forex
 public/code/*
+!public/code/vendor/
+!public/code/vendor/*
 public/images/icons.svg
 public/styles/katex.css*
 public/styles/index.css*

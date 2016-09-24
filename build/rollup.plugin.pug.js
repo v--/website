@@ -1,15 +1,15 @@
-import jade from './jade';
+import pug from './pug';
 
-const EXT = /\.jade$/;
+const EXT = /\.pug$/;
 
 export default function () {
     return {
-        name: 'jade',
+        name: 'pug',
 
         transform (src, id) {
             if ( !EXT.test(id) ) return null;
 
-            const rendered = jade.render(src, { filename: 'client/views' }).replace(/"/g, '\\"').replace(/\n/g, '\\n');
+            const rendered = pug.render(src, { filename: 'client/views' }).replace(/"/g, '\\"').replace(/\n/g, '\\n');
 
             return {
                 code: `export default "${rendered}";`,

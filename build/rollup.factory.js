@@ -5,7 +5,7 @@ import nodeResolve from 'rollup-plugin-node-resolve';
 import alias from 'rollup-plugin-alias';
 import babel from 'rollup-plugin-babel';
 import uglify from 'rollup-plugin-uglify';
-import jade from './rollup.plugin.jade';
+import pug from './rollup.plugin.pug';
 
 function absolutize(...segments) {
     return join(__dirname, '..', ...segments);
@@ -19,11 +19,11 @@ export default function rollupConfigFactory(entry, globals = {}, productionMode,
 
         plugins: [
             alias({
-                resolve: ['.js', '.jade'],
+                resolve: ['.js', '.pug'],
                 code: absolutize('client', 'code'),
                 views: absolutize('client', 'views')
             }),
-            jade(),
+            pug(),
             babel(Object.assign({
                 externalHelpers: false,
                 runtimeHelpers: true
