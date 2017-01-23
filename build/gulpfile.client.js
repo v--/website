@@ -83,7 +83,7 @@ gulp.task('client:images', function () {
 
 gulp.task('client:assets', function () {
     return gulp.src('client/assets/**/*')
-        .pipe(gulp.symlink('dist/public'));
+        .pipe(gulp.dest('dist/public'));
 });
 
 bundles.forEach(function (bundle) {
