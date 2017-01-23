@@ -52,25 +52,6 @@ class Router
     }
 
     @method(HTTPMethod.GET)
-    @path("/slides/:name")
-    void slides(HTTPServerRequest req, HTTPServerResponse res)
-    {
-        FSNameTransformer transformer = path => path;
-        auto name = req.params["name"];
-
-        foreach (File file; scoped!Dir(settings.dirs.slides, transformer, 1).files)
-        {
-            if (Slide.transformFileName(file.name) == name)
-            {
-                serveFile(file.path, req, res);
-                return;
-            }
-        }
-
-        serveWebapp(req.path, req, res);
-    }
-
-    @method(HTTPMethod.GET)
     @path("/docs/*")
     void docs(HTTPServerRequest req, HTTPServerResponse res)
     {

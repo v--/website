@@ -1,3 +1,1 @@
-Sitemap: sitemap.xml
-User-agent: *
-Disallow: /error
+/src/ivasilev/client/assets/robots.txt

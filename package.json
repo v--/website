@@ -57,6 +57,7 @@
     "gulp-rsync": "github:stigmergic/gulp-rsync",
     "gulp-sass": "2.3.2",
     "gulp-sourcemaps": "1.6.0",
+    "gulp-svgo": "1.0.3",
     "gulp-svgstore": "6.0.0",
     "highlight.js": "9.6.0",
     "jstransformer": "1.0.0",

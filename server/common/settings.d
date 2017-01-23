@@ -23,26 +23,14 @@ struct ApplicationSettings
         }
     }
 
-    struct DatabaseSettings
-    {
-        string host, name;
-
-        void importTOML(TOMLValue value)
-        {
-            host = value["host"].str;
-            name = value["name"].str;
-        }
-    }
-
     struct DirectorySettings
     {
-        string files, slides, pacman, docs;
+        string files, pacman, docs;
 
         void importTOML(TOMLValue value)
         {
 
             files = value["files"].str;
-            slides = value["slides"].str;
             pacman = value["pacman"].str;
             docs = value["docs"].str;
         }
@@ -82,7 +70,6 @@ struct ApplicationSettings
     }
 
     ServerSettings server;
-    DatabaseSettings db;
     DirectorySettings dirs;
     ECBHistorySettings ecbHistory;
 
@@ -102,7 +89,6 @@ struct ApplicationSettings
     {
         auto config = parseFile(file);
         server.importTOML(config["server"]);
-        db.importTOML(config["db"]);
         dirs.importTOML(config["dirs"]);
         ecbHistory.importTOML(config["ecb_history"]);
     }

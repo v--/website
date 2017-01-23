@@ -10,7 +10,6 @@ import ivasilev.models;
 interface IAPI
 {
     Json getFiles();
-    Json getSlides();
     Json getPacman();
     Json getDocs();
 }

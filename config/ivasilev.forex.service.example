@@ -1,7 +1,0 @@
-[Service]
-WorkingDirectory=/srv/http/ivasilev
-ExecStart=/srv/http/ivasilev/ivasilev.forex
-
-[Unit]
-Requires=mongodb.service
-After=mongodb.service

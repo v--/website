@@ -3,20 +3,19 @@
     "chevron-up":    "Entypo+/chevron-up",
     "warning":       "Entypo+/warning",
 
-    "sort-up":       "Custom/sort-up",
-    "sort-down":     "Custom/sort-down",
-    "sort-both":     "Custom/sort-both",
+    "sort-up":       "custom/sort-up",
+    "sort-down":     "custom/sort-down",
+    "sort-both":     "custom/sort-both",
 
     "home":          "Entypo+/home",
     "files":         "Entypo+/folder",
     "code":          "Entypo+/code",
-    "slides":        "Entypo+/blackboard",
     "pacman":        "Entypo+/download",
     "docs":          "Entypo+/book",
 
     "email":         "Entypo+/mail",
     "github":        "Entypo+ Social Extension/github",
-    "deviantart":    "Custom/deviant-art",
+    "deviantart":    "custom/deviantart",
     "linkedin":      "Entypo+ Social Extension/linkedin",
     "facebook":      "Entypo+ Social Extension/facebook"
 }

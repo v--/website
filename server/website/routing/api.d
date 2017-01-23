@@ -28,16 +28,6 @@ class API: IAPI
         return scoped!Dir(settings.dirs.files, transformer).toJSON();
     }
 
-    Json getSlides()
-    {
-        FSNameTransformer transformer = x => x.replaceFirst(settings.dirs.slides, "/slides");
-        return scoped!Dir(settings.dirs.slides, transformer, 1)
-            .files
-            .map!(file => scoped!Slide(file).toJSON)
-            .array
-            .Json();
-    }
-
     Json getPacman()
     {
         FSNameTransformer transformer = x => x.replaceFirst(settings.dirs.pacman, "/pacman");

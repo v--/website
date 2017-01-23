@@ -2,13 +2,8 @@
 address = "0.0.0.0"
 port = 8000
 
-[db]
-host = "127.0.0.1"
-name = "ivasilev"
-
 [dirs]
 files = "files"
-slides = "slides"
 pacman = "pacman"
 docs = "docs"
 

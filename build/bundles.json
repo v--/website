@@ -13,13 +13,5 @@
         "modules": {
             "vue": "Vue"
         }
-    },
-
-    {
-        "name": "forex",
-        "entry": "client/code/forex/view",
-        "modules": {
-            "vue": "Vue"
-        }
     }
 ]
