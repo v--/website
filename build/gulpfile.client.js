@@ -33,7 +33,7 @@ gulp.task('client:styles', function () {
             ]
         }))
         .pipe(concat('index.css'))
-        .pipe(gulp.dest('public/styles'));
+        .pipe(gulp.dest('dist/public/styles'));
 });
 
 gulp.task('client:styles:katex', function () {
@@ -42,7 +42,7 @@ gulp.task('client:styles:katex', function () {
             plugins: [new CleanCSS({ advanced: true })]
         }))
         .pipe(chmod(644))
-        .pipe(gulp.dest('public/styles'));
+        .pipe(gulp.dest('dist/public/styles'));
 });
 
 gulp.task('client:views', function () {
@@ -54,7 +54,7 @@ gulp.task('client:views', function () {
             pug: pugAPI,
             locals: { production: env.production() }
         }))
-        .pipe(gulp.dest('views'));
+        .pipe(gulp.dest('dist/views'));
 });
 
 gulp.task('client:icons', function () {
@@ -71,18 +71,18 @@ gulp.task('client:icons', function () {
                 removeUselessDefs: false
             }]
         }))
-        .pipe(gulp.dest('public/images'));
+        .pipe(gulp.dest('dist/public/images'));
 });
 
 gulp.task('client:images', function () {
     return gulp.src('client/images/**/*.svg')
         .pipe(svgo())
-        .pipe(gulp.dest('public/images'));
+        .pipe(gulp.dest('dist/public/images'));
 });
 
 gulp.task('client:assets', function () {
     return gulp.src('client/assets/**/*')
-        .pipe(gulp.symlink('public'));
+        .pipe(gulp.symlink('dist/public'));
 });
 
 bundles.forEach(function (bundle) {
@@ -92,7 +92,7 @@ bundles.forEach(function (bundle) {
         sourceMap: true,
         moduleName: `modules.${bundle.name}`,
         globals: bundle.modules,
-        dest: joinPath('public', 'code', `${bundle.name}.js`)
+        dest: joinPath('dist/public', 'code', `${bundle.name}.js`)
     };
 
     gulp.task(`client:code:${bundle.name}`, function () {

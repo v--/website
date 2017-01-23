@@ -2,6 +2,7 @@ name "ivasilev"
 description "ivasilev.net"
 authors "Ianis G. Vasilev"
 targetType "executable"
+targetPath "dist"
 
 sourcePaths "server/common" "server/website"
 stringImportPaths "server/website"

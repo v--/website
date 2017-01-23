@@ -1,6 +1,6 @@
 /.dub
 /config/config.toml
 /node_modules
-/ivasilev
-/public
-/views
+/dist
+
+*.pyc

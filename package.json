@@ -54,7 +54,6 @@
     "gulp-pug": "3.0.4",
     "gulp-rename": "1.2.2",
     "gulp-rollup": "2.3.0",
-    "gulp-rsync": "github:stigmergic/gulp-rsync",
     "gulp-sass": "2.3.2",
     "gulp-sourcemaps": "1.6.0",
     "gulp-svgo": "1.0.3",

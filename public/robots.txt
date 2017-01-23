@@ -1,1 +1,0 @@
-/src/ivasilev/client/assets/robots.txt
