@@ -15,14 +15,11 @@ def reconfigure():
 
 
 def build():
-    local('gulp build')
+    local('env NODE_ENV=production gulp build')
 
 
 @hosts('http@ivasilev.net')
-def deploy():
-    build()
-    run('sudo systemctl stop website.service')
-
+def sync():
     with lcd('dist'):
         rsync_project(
             local_dir='.',
@@ -31,4 +28,10 @@ def deploy():
             delete=True
         )
 
+@hosts('http@ivasilev.net')
+def deploy():
+    build()
+    run('sudo systemctl stop website.service')
+    sync()
+    run('sudo systemctl daemon-reload')
     run('sudo systemctl start website.service')

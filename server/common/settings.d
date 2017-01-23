@@ -7,7 +7,7 @@ import ivasilev.exception;
 import ivasilev.logger;
 import ivasilev.helpers.daterange;
 
-enum DEFAULT_CONFIG_FILE = "config/config.toml";
+enum DEFAULT_CONFIG_FILE = "config.toml";
 
 struct ApplicationSettings
 {
@@ -36,42 +36,8 @@ struct ApplicationSettings
         }
     }
 
-    struct ECBHistorySettings
-    {
-        string daily, quaterly, full;
-
-        void importTOML(TOMLValue value)
-        {
-            daily = value["daily"].str;
-            quaterly = value["quaterly"].str;
-            full = value["full"].str;
-        }
-
-        string getURL(DateRange dateRange)
-        {
-            import core.time: dur;
-            alias days = dur!"days";
-
-            if (dateRange is null || dateRange.age >= days(90))
-            {
-                logger.info("Fetching full log");
-                return full;
-            }
-
-            if (dateRange.age > days(1))
-            {
-                logger.info("Fetching 90-day log");
-                return quaterly;
-            }
-
-            logger.info("Fetching the 1-day log");
-            return daily;
-        }
-    }
-
     ServerSettings server;
     DirectorySettings dirs;
-    ECBHistorySettings ecbHistory;
 
     this(string file)
     {
@@ -90,6 +56,5 @@ struct ApplicationSettings
         auto config = parseFile(file);
         server.importTOML(config["server"]);
         dirs.importTOML(config["dirs"]);
-        ecbHistory.importTOML(config["ecb_history"]);
     }
 }

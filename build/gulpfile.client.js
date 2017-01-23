@@ -58,7 +58,7 @@ gulp.task('client:views', function () {
 });
 
 gulp.task('client:icons', function () {
-    return gulp.src(iconFiles, { 'cwd': 'client/icons/**/*.svg' })
+    return gulp.src(iconFiles, { 'cwd': 'client/icons/**' }) // Do not touch this glob
         .pipe(rename(function (path) {
             const full = joinPath(basename(path.dirname), path.basename);
             path.basename = iconLookup.get(full);
@@ -66,11 +66,12 @@ gulp.task('client:icons', function () {
         }))
         .pipe(svgstore())
         .pipe(rename('icons.svg'))
-        .pipe(svgo({
-            plugins: [{
-                removeUselessDefs: false
-            }]
-        }))
+        // TODO: enable and fix missing symbol ids
+        // .pipe(svgo({
+        //     plugins: [{
+        //         removeUselessDefs: false
+        //     }]
+        // }))
         .pipe(gulp.dest('dist/public/images'));
 });
 

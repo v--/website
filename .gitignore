@@ -1,5 +1,5 @@
 /.dub
-/config/config.toml
+/config.toml
 /node_modules
 /dist
 

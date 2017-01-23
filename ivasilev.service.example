@@ -1,3 +1,0 @@
-[Service]
-WorkingDirectory=/srv/http/ivasilev
-ExecStart=/srv/http/ivasilev/ivasilev
