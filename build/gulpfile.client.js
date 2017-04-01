@@ -66,12 +66,11 @@ gulp.task('client:icons', function () {
         }))
         .pipe(svgstore())
         .pipe(rename('icons.svg'))
-        // TODO: enable and fix missing symbol ids
-        // .pipe(svgo({
-        //     plugins: [{
-        //         removeUselessDefs: false
-        //     }]
-        // }))
+        .pipe(svgo({
+            plugins: [{
+                removeUselessDefs: false
+            }]
+        }))
         .pipe(gulp.dest('dist/public/images'));
 });
 
