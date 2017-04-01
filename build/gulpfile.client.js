@@ -68,6 +68,7 @@ gulp.task('client:icons', function () {
         .pipe(rename('icons.svg'))
         .pipe(svgo({
             plugins: [{
+                cleanupIDs: false,
                 removeUselessDefs: false
             }]
         }))
