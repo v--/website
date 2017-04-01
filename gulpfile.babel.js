@@ -1,11 +1,9 @@
-#!/usr/bin/env node
-
 import gulp from 'gulp';
 import livereload from 'gulp-livereload';
 
-import './build/gulpfile.client.js';
-import './build/gulpfile.server.js';
-import armor from './build/gulpfile.armor.js';
+import 'build/gulpfile.client';
+import 'build/gulpfile.server';
+import armor from 'build/gulpfile.armor';
 
 gulp.task('reload', function (done) {
     livereload.reload();
@@ -22,11 +20,13 @@ gulp.task('watch', function (done) {
     gulp.watch('client/assets/**/*.svg', armor(gulp.series('client:assets', 'reload')));
     gulp.watch(`client/code/**/*.js`, armor(gulp.series(`client:code`, 'reload')));
 
+    gulp.watch(`server/**/*.js`, armor(gulp.series(`server:restart`, 'reload')));
+
     process.on('SIGINT', function () {
         done();
         process.exit();
     });
 });
 
-gulp.task('build', gulp.parallel('server', 'client'));
-gulp.task('default', gulp.series(armor(gulp.series('build')), 'watch'));
+gulp.task('build', gulp.parallel('server:build', 'client'));
+gulp.task('default', gulp.series(armor(gulp.parallel('server:restart', 'client')), 'watch'));

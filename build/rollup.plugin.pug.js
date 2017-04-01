@@ -1,4 +1,4 @@
-import pug from './pug';
+import pug from 'pug';
 
 const EXT = /\.pug$/;
 

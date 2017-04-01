@@ -14,11 +14,11 @@ import CleanCSS from 'less-plugin-clean-css';
 import { join as joinPath, basename } from 'path';
 import { rollup } from 'rollup';
 
-import pugAPI from './pug';
-import rollupConfigFactory from './rollup.factory.js';
+import pugAPI from 'build/pug';
+import rollupConfigFactory from 'build/rollup.factory.js';
 
-import bundles from './bundles.json';
-import icons from '../client/icons/icons.json';
+import bundles from 'build/bundles.json';
+import icons from 'client/icons/icons.json';
 
 const iconLookup = new Map(Object.entries(icons).map(([key, value]) => [value, key]));
 const iconFiles = Array.from(iconLookup.keys()).map(icon => `${icon}.svg`);
@@ -86,7 +86,7 @@ gulp.task('client:assets', function () {
         .pipe(gulp.dest('dist/public'));
 });
 
-bundles.forEach(function (bundle) {
+for (const bundle of bundles) {
     let cache;
     const writeConfig = {
         format: 'iife',
@@ -106,7 +106,7 @@ bundles.forEach(function (bundle) {
                 livereload.reload();
             });
     });
-});
+}
 
 gulp.task('client:code', gulp.series(bundles.map(bundle => `client:code:${bundle.name}`)));
 

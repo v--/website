@@ -5,7 +5,8 @@ import nodeResolve from 'rollup-plugin-node-resolve';
 import alias from 'rollup-plugin-alias';
 import babel from 'rollup-plugin-babel';
 import uglify from 'rollup-plugin-uglify';
-import pug from './rollup.plugin.pug';
+
+import pug from 'build/rollup.plugin.pug';
 
 function absolutize(...segments) {
     return join(__dirname, '..', ...segments);
