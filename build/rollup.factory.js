@@ -1,18 +1,18 @@
-import babelrc from 'babelrc-rollup';
-import { join } from 'path';
+const babelrc = require('babelrc-rollup').default;
+const { join } = require('path');
 
-import nodeResolve from 'rollup-plugin-node-resolve';
-import alias from 'rollup-plugin-alias';
-import babel from 'rollup-plugin-babel';
-import uglify from 'rollup-plugin-uglify';
+const nodeResolve = require('rollup-plugin-node-resolve');
+const alias = require('rollup-plugin-alias');
+const babel = require('rollup-plugin-babel');
+const uglify = require('rollup-plugin-uglify');
 
-import pug from 'build/rollup.plugin.pug';
+const pug = require('./rollup.plugin.pug');
 
 function absolutize(...segments) {
     return join(__dirname, '..', ...segments);
 }
 
-export default function rollupConfigFactory(entry, globals = {}, productionMode, cache) {
+module.exports = function rollupConfigFactory(entry, globals = {}, productionMode, cache) {
     return {
         sourceMap: true,
         external: Object.keys(globals),
@@ -41,4 +41,4 @@ export default function rollupConfigFactory(entry, globals = {}, productionMode,
             })
         ]
     };
-}
+};

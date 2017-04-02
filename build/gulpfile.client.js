@@ -1,24 +1,24 @@
-import livereload from 'gulp-livereload';
-import svgstore from 'gulp-svgstore';
-import concat from 'gulp-concat';
-import rename from 'gulp-rename';
-import chmod from 'gulp-chmod';
-import svgo from 'gulp-svgo';
-import sass from 'gulp-sass';
-import less from 'gulp-less';
-import gulp from 'gulp';
-import env from 'gulp-environments';
-import pug from 'gulp-pug';
+const livereload = require('gulp-livereload');
+const svgstore = require('gulp-svgstore');
+const concat = require('gulp-concat');
+const rename = require('gulp-rename');
+const chmod = require('gulp-chmod');
+const svgo = require('gulp-svgo');
+const sass = require('gulp-sass');
+const less = require('gulp-less');
+const gulp = require('gulp');
+const env = require('gulp-environments');
+const pug = require('gulp-pug');
 
-import CleanCSS from 'less-plugin-clean-css';
-import { join as joinPath, basename } from 'path';
-import { rollup } from 'rollup';
+const CleanCSS = require('less-plugin-clean-css');
+const { join: joinPath, basename } = require('path');
+const { rollup } = require('rollup');
 
-import pugAPI from 'build/pug';
-import rollupConfigFactory from 'build/rollup.factory.js';
+const pugAPI = require('./pug');
+const rollupConfigFactory = require('./rollup.factory.js');
 
-import bundles from 'build/bundles.json';
-import icons from 'client/icons/icons.json';
+const bundles = require('./bundles.json');
+const icons = require('../client/icons/icons.json');
 
 const iconLookup = new Map(Object.entries(icons).map(([key, value]) => [value, key]));
 const iconFiles = Array.from(iconLookup.keys()).map(icon => `${icon}.svg`);

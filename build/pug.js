@@ -1,8 +1,8 @@
-import pug from 'pug';
+const pug = require('pug');
 
-import jsTransformer from 'jstransformer';
-import katexTransformer from 'jstransformer-katex';
-import highlightTransformer from 'jstransformer-highlight';
+const jsTransformer = require('jstransformer');
+const katexTransformer = require('jstransformer-katex');
+const highlightTransformer = require('jstransformer-highlight');
 
 const katex = jsTransformer(katexTransformer);
 const highlight = jsTransformer(highlightTransformer);
@@ -25,4 +25,4 @@ pug.filters.highlight = function (input, { lang, nowrap = false }) {
         return `<pre><code>${result}</code></pre>`;
 };
 
-export default pug;
+module.exports = pug;

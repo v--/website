@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import libnotify from 'libnotify';
+const libnotify = require('libnotify');
 
-export default function armor(task) {
+module.exports = function armor(task) {
     function armored(done) {
         task(function (error) {
             if (error)

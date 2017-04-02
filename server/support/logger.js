@@ -1,8 +1,7 @@
-import moment from 'moment';
-import colors from 'colors/safe';
+const moment = require('moment');
+const colors = require('colors/safe');
 
-
-export default class Logger {
+module.exports = class Logger {
     constructor(name, verbose=false) {
         this.name = name;
         this.verbose = verbose;
@@ -30,4 +29,4 @@ export default class Logger {
         this.log('FATAL', colors.red(message), process.stderr);
         process.exit(1);
     }
-}
+};

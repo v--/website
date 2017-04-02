@@ -1,9 +1,9 @@
-import gulp from 'gulp';
-import livereload from 'gulp-livereload';
+const gulp = require('gulp');
+const livereload = require('gulp-livereload');
 
-import 'build/gulpfile.client';
-import 'build/gulpfile.server';
-import armor from 'build/gulpfile.armor';
+require('./build/gulpfile.client');
+require('./build/gulpfile.server');
+const armor = require('./build/gulpfile.armor');
 
 gulp.task('reload', function (done) {
     livereload.reload();
@@ -29,4 +29,4 @@ gulp.task('watch', function (done) {
 });
 
 gulp.task('build', gulp.parallel('server:build', 'client'));
-gulp.task('default', gulp.series(armor(gulp.parallel('server:restart', 'client')), 'watch'));
+gulp.task('default', gulp.series(armor(gulp.series('client')), 'watch'));

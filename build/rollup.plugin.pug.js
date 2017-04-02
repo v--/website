@@ -1,8 +1,8 @@
-import pug from 'pug';
+const pug = require('pug');
 
 const EXT = /\.pug$/;
 
-export default function () {
+module.exports = function () {
     return {
         name: 'pug',
 
@@ -17,4 +17,4 @@ export default function () {
             };
         }
     };
-}
+};
