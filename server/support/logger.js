@@ -2,9 +2,8 @@ const moment = require('moment');
 const colors = require('colors/safe');
 
 module.exports = class Logger {
-    constructor(name, verbose=false) {
+    constructor(name) {
         this.name = name;
-        this.verbose = verbose;
     }
 
     log(level, message, dest=process.stdout) {
@@ -13,8 +12,7 @@ module.exports = class Logger {
     }
 
     debug(message) {
-        if (this.debug)
-            this.log('DEBUG', colors.green(message), process.stdout);
+        this.log('DEBUG', colors.green(message), process.stdout);
     }
 
     info(message) {
@@ -23,10 +21,5 @@ module.exports = class Logger {
 
     warn(message) {
         this.log('WARN', colors.yellow(message), process.stderr);
-    }
-
-    fatal(message) {
-        this.log('FATAL', colors.red(message), process.stderr);
-        process.exit(1);
     }
 };
