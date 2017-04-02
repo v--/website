@@ -1,4 +1,4 @@
-const { execSync } = require('child_process');
+const { fork } = require('child_process');
 
 const gulp = require('gulp');
 
@@ -7,8 +7,20 @@ gulp.task('server:build', function (done) {
     done();
 });
 
-gulp.task('server:restart', function (done) {
-    // HACK: Manually restarting node.js turned out to be a nightmare.
-    execSync('systemctl --user restart ivasilev:server.service');
-    done();
-});
+{
+    let child;
+
+    gulp.task('server:restart', function (done) {
+        new Promise(resolve => {
+            if (child) {
+                child.on('exit', resolve);
+                child.kill();
+            } else {
+                resolve();
+            }
+        }).then(function () {
+            child = fork('server/index');
+            done();
+        });
+    });
+}

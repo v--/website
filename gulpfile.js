@@ -20,7 +20,7 @@ gulp.task('watch', function (done) {
     gulp.watch('client/assets/**/*.svg', armor(gulp.series('client:assets', 'reload')));
     gulp.watch(`client/code/**/*.js`, armor(gulp.series(`client:code`, 'reload')));
 
-    gulp.watch(`server/**/*.js`, armor(gulp.series(`server:restart`, 'reload')));
+    gulp.watch(`server/**/*.js`, gulp.series(`server:restart`));
 
     process.on('SIGINT', function () {
         done();
@@ -29,4 +29,4 @@ gulp.task('watch', function (done) {
 });
 
 gulp.task('build', gulp.parallel('server:build', 'client'));
-gulp.task('default', gulp.series(armor(gulp.series('client')), 'watch'));
+gulp.task('default', gulp.series(armor(gulp.parallel('server:restart', 'client')), 'watch'));
