@@ -2,9 +2,9 @@ const { fork } = require('child_process');
 
 const gulp = require('gulp');
 
-gulp.task('server:build', function (done) {
-    // TODO: Add build process
-    done();
+gulp.task('server:build', function () {
+    return gulp.src('server/**/*.js')
+        .pipe(gulp.dest('dist/server'));
 });
 
 {
@@ -20,6 +20,10 @@ gulp.task('server:build', function (done) {
             }
         }).then(function () {
             child = fork('server/index');
+            child.on('exit', function () {
+                child = null;
+            });
+
             done();
         });
     });

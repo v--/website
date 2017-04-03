@@ -1,9 +1,9 @@
 const gulp = require('gulp');
 const livereload = require('gulp-livereload');
 
-require('./build/gulpfile.client');
-require('./build/gulpfile.server');
-const armor = require('./build/gulpfile.armor');
+require('build/gulpfile.client');
+require('build/gulpfile.server');
+const armor = require('build/gulpfile.armor');
 
 gulp.task('reload', function (done) {
     livereload.reload();

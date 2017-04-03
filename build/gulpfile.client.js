@@ -14,11 +14,11 @@ const CleanCSS = require('less-plugin-clean-css');
 const { join: joinPath, basename } = require('path');
 const { rollup } = require('rollup');
 
-const pugAPI = require('./pug');
-const rollupConfigFactory = require('./rollup.factory.js');
+const pugAPI = require('build/pug');
+const rollupConfigFactory = require('build/rollup.factory');
 
-const bundles = require('./bundles.json');
-const icons = require('../client/icons/icons.json');
+const bundles = require('build/bundles.json');
+const icons = require('client/icons/icons.json');
 
 const iconLookup = new Map(Object.entries(icons).map(([key, value]) => [value, key]));
 const iconFiles = Array.from(iconLookup.keys()).map(icon => `${icon}.svg`);

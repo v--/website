@@ -6,7 +6,7 @@ const alias = require('rollup-plugin-alias');
 const babel = require('rollup-plugin-babel');
 const uglify = require('rollup-plugin-uglify');
 
-const pug = require('./rollup.plugin.pug');
+const pug = require('build/rollup.plugin.pug');
 
 function absolutize(...segments) {
     return join(__dirname, '..', ...segments);

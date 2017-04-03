@@ -1,8 +1,7 @@
 const http = require('http');
-const fs = require('fs');
 
-const Logger = require('./support/logger');
-
+const Logger = require('server/support/logger');
+const router = require('server/router');
 
 module.exports = class HTTPServer {
     constructor(port) {
@@ -18,19 +17,19 @@ module.exports = class HTTPServer {
     }
 
     requestHandler(request, response) {
-        if (request.method !== 'GET') {
-            this.logger.warn(`${request.method} on ${request.url}`);
-            response.status(404);
-        } else {
+        if (request.method === 'GET' || request.method === 'HEAD') {
             this.logger.debug(`${request.method} on ${request.url}`);
-            response.end(fs.readFileSync('dist/views/index.html').toString('utf-8'));
+            router(request, response).then(Function);
+        } else {
+            this.logger.warn(`${request.method} on ${request.url}`);
+            response.writeHead(404);
+            response.end();
         }
     }
 
     close() {
-        this.server.close(() => {
+        return this.server.close(() => {
             this.logger.info('Server shut down.');
-            process.exit();
         });
     }
 };

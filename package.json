@@ -12,7 +12,8 @@
   "scripts": {
     "install": "napa",
     "test": "NODE_PATH=client mocha --opts client/tests/mocha.opts client/tests",
-    "lint": "eslint client/code"
+    "lint": "eslint client/code",
+    "start": "NODE_PATH=. gulp"
   },
   "napa": {
     "katex": "https://github.com/Khan/KaTeX",
@@ -23,8 +24,7 @@
     "entypo-plus"
   ],
   "dependencies": {
-    "colors": "1.1.2",
-    "moment": "2.18.1",
+    "mime-types": "2.1.15",
     "skeleton-css": "2.0.4",
     "vue": "2.2.6",
     "whatwg-fetch": "2.0.3"
