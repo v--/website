@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const { promisory } = require('server/support/async');
+const { promisory } = require('common/support/async');
 
 module.exports = {
     stat: promisory(fs.stat),

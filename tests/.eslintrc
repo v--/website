@@ -11,6 +11,6 @@ globals:
     expect: true
 
 rules:
-    mocha/valid-test-description: 0
-    mocha/valid-suite-description: 0
-    mocha/no-synchronous-tests: 0
+    mocha/valid-test-description: "off"
+    mocha/valid-suite-description: "off"
+    mocha/no-synchronous-tests: "off"

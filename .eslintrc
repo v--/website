@@ -4,8 +4,11 @@ extends:
     - eslint:recommended
 
 env:
-    node: true
     es6: true
+
+globals:
+  require: true
+  module: true
 
 rules:
     semi:

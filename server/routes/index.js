@@ -1,12 +1,12 @@
 // module.exports = {
-//     '':     require('common/routes/home'),
-//     files:  require('common/routes/files'),
-//     code:   require('common/routes/code'),
-//     pacman: require('common/routes/pacman'),
-//     docs:   require('common/routes/docs'),
-//     api:    require('common/routes/api')
+//     '':     require('server/routes/home'),
+//     files:  require('server/routes/files'),
+//     code:   require('server/routes/code'),
+//     pacman: require('server/routes/pacman'),
+//     docs:   require('server/routes/docs'),
+//     api:    require('server/routes/api')
 // };
 
 module.exports = {
-    '':     require('common/routes/home')
+    '':     require('server/routes/home')
 };
