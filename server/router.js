@@ -45,8 +45,8 @@ class ResponseFactory {
 
 module.exports = async function router(request, response) {
     const file = await ResponseFactory.first(
-        join('dist', 'public', request.url),
-        'dist/views/index.html'
+        join('public', request.url),
+        'views/index.html'
     );
 
     response.writeHead(file.status, file.headers);

@@ -1,7 +1,45 @@
 const http = require('http');
 
 const Logger = require('server/support/logger');
-const router = require('server/router');
+const routes = require('server/routes/index');
+
+const { HTTPError, NotFoundError } = require('common/http');
+const URL = require('common/support/url');
+const trivialConstructor = require('common/support/trivial_constructor');
+
+class RequestContext extends trivialConstructor('request', 'response') {
+    process(logger) {
+        const url = new URL(this.request.url);
+
+        if (routes.hasOwnProperty(url.route)) {
+            try {
+                const res = routes[url.route]({
+                    url: url.subroute
+                });
+
+                this.response.writeHead(200, {
+                    'Content-Type': res.mimeType,
+                    'Content-Length': res.size
+                });
+
+                res.stream.pipe(this.response);
+            } catch (e) {
+                if (e instanceof HTTPError)
+                    this.writeHTTPError(e);
+                else
+                    logger.warn(e);
+            }
+        } else {
+            this.writeHTTPError(new NotFoundError());
+        }
+    }
+
+    writeHTTPError(error) {
+        this.response.writeHead(error.code);
+        this.response.write(String(error));
+        this.response.end();
+    }
+}
 
 module.exports = class HTTPServer {
     constructor(port) {
@@ -17,13 +55,14 @@ module.exports = class HTTPServer {
     }
 
     requestHandler(request, response) {
+        const context = new RequestContext(request, response);
+
         if (request.method === 'GET' || request.method === 'HEAD') {
             this.logger.debug(`${request.method} on ${request.url}`);
-            router(request, response).then(Function);
+            context.process();
         } else {
-            this.logger.warn(`${request.method} on ${request.url}`);
-            response.writeHead(404);
-            response.end();
+            this.logger.warn(`Unexpected method ${request.method} on ${request.url}`);
+            context.writeNotFound();
         }
     }
 

@@ -8,5 +8,14 @@ env:
     es6: true
 
 rules:
-    semi: [2, always]
-    no-unused-vars: [2, { vars: "all", args: "all", argsIgnorePattern: "^_" }]
+    semi:
+      - error
+      - always
+
+    no-unused-vars:
+      - warn
+      - { vars: "all", args: "all", argsIgnorePattern: "^_" }
+
+    quotes:
+      - warn
+      - single

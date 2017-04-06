@@ -14,7 +14,7 @@ gulp.task('server:build', function () {
         new Promise(resolve => {
             if (child) {
                 child.on('exit', resolve);
-                child.kill();
+                child.kill('SIGKILL');
             } else {
                 resolve();
             }

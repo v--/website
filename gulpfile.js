@@ -18,9 +18,8 @@ gulp.task('watch', function (done) {
     gulp.watch('client/icons/**/*.svg', armor(gulp.series('client:icons', 'reload')));
     gulp.watch('client/images/**/*.svg', armor(gulp.series('client:images', 'reload')));
     gulp.watch('client/assets/**/*.svg', armor(gulp.series('client:assets', 'reload')));
-    gulp.watch(`client/code/**/*.js`, armor(gulp.series(`client:code`, 'reload')));
-
-    gulp.watch(`server/**/*.js`, gulp.series(`server:restart`));
+    gulp.watch('client/code/**/*.js', armor(gulp.series('client:code', 'reload')));
+    gulp.watch('server/**/*.js', gulp.series('server:restart'));
 
     process.on('SIGINT', function () {
         done();

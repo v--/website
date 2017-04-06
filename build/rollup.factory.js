@@ -25,9 +25,10 @@ module.exports = function rollupConfigFactory(entry, globals = {}, productionMod
                 views: absolutize('client', 'views')
             }),
             pug(),
-            babel(Object.assign({
-                externalHelpers: false,
-                runtimeHelpers: true
+            babel(
+                Object.assign({
+                    externalHelpers: false,
+                    runtimeHelpers: true
                 },
                 babelrc()
             )),
