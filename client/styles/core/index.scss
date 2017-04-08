@@ -1,4 +1,3 @@
-@import 'vars';
 @import 'static';
 
 // remove blue webkit outline
@@ -6,88 +5,7 @@
   outline: 0;
 }
 
-body {
-  color: $primary;
-  font-family: sans-serif;
-  background-color: $background;
-  background-repeat: no-repeat;
-  background-size: cover;
-
-  flex-direction: row;
-  display: flex;
-  position: relative;
-  height: 100vh;
-  overflow-y: hidden;
-}
-
-a {
-  color: $link;
-
-  &:hover {
-    color: $link-hover;
-  }
-}
-
-h1 {
-  line-height: $header-line-height;
-}
-
-code {
-  border: 0;
-  overflow: auto;
-  background-color: $codebox;
-  text-align: left;
-}
-
-button, .button {
-  @include ellipsis();
-  color: $button-color;
-  border-color: $button-color;
-  transition: background-color $anim-duration;
-
-  &:focus {
-    color: $button-color;
-    border-color: $button-color;
-  }
-
-  &:hover {
-    color: $button-hover;
-    border-color: $button-hover;
-  }
-}
-
+// Fix occational SVG ugly rendering
 svg {
   shape-rendering: "crispEdges";
-}
-
-.secondary {
-  color: $secondary;
-}
-
-.centered {
-  text-align: center;
-}
-
-.ellipsis {
-  @include ellipsis;
-}
-
-.success {
-  color: $success;
-}
-
-.danger {
-  color: $danger;
-}
-
-.semitransparent {
-  opacity: 0.6;
-}
-
-.hidden {
-  display: none;
-}
-
-.highlight {
-  color: $highlight;
 }

@@ -1,3 +1,2 @@
 Sitemap: https://ivasilev.net/sitemap.xml
 User-agent: *
-Disallow: /error

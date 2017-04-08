@@ -1,9 +1,0 @@
-@import 'vars';
-
-.accordeon-enter-active, .accordeon-leave-active {
-  transition: height $anim-duration;
-}
-
-.accordeon-enter, .accordeon-leave-active {
-  height: 0;
-}

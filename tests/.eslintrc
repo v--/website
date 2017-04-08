@@ -1,16 +1,16 @@
 extends:
-    - ../.eslintrc-mocha
+  - ../.eslintrc-mocha
 
 plugins:
-    - mocha
+  - mocha
 
 env:
-    mocha: true
+  mocha: true
 
 globals:
-    expect: true
+  expect: true
 
 rules:
-    mocha/valid-test-description: "off"
-    mocha/valid-suite-description: "off"
-    mocha/no-synchronous-tests: "off"
+  mocha/valid-test-description: "off"
+  mocha/valid-suite-description: "off"
+  mocha/no-synchronous-tests: "off"
