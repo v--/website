@@ -1,6 +1,2 @@
-/.dub
-/config.toml
 /node_modules
-/dist
-
-*.pyc
+/public

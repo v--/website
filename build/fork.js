@@ -9,7 +9,7 @@ module.exports = class Fork {
 
     start() {
         this.instance = fork('code/server/index', this.options);
-        this.instance.on('error', () => {
+        this.instance.on('exit', () => {
             this.instance = null;
         });
     }
@@ -18,7 +18,7 @@ module.exports = class Fork {
         if (!this.instance)
             return Promise.resolve();
 
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject) => {
             this.instance.on('exit', resolve);
             this.instance.on('error', reject);
             this.instance.kill('SIGKILL');

@@ -18,8 +18,11 @@ rules:
 
   no-unused-vars:
     - warn
-    - { vars: "all", args: "all", argsIgnorePattern: "^_" }
+    - vars: "all"
+      args: "all"
+      argsIgnorePattern: "^_"
 
   quotes:
     - warn
     - single
+    - avoidEscape: true

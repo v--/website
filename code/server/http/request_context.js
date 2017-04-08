@@ -1,34 +1,12 @@
-const { join } = require('path');
-
 const { HTTPError, NotFoundError } = require('common/errors');
-const URL = require('common/support/url');
 const trivialConstructor = require('common/support/trivial_constructor');
 
-const ResponseContext = require('server/http/response_context');
-
-const routes = require('server/routes/index');
+const router = require('server/router');
 
 module.exports = class RequestContext extends trivialConstructor('request', 'response') {
     async process() {
-        const publicFile = await ResponseContext.forFile(join('dist', 'public', this.request.url));
-
-        if (publicFile) {
-            this.writeResponseContext(publicFile);
-            return;
-        }
-
-        const url = new URL(this.request.url);
-
-        if (!routes.hasOwnProperty(url.route)) {
-            this.writeNotFound();
-            return;
-        }
-
         try {
-            const responseContext = await routes[url.route]({
-                url: url.subroute
-            });
-
+            const responseContext = await router(this.request.url);
             this.writeResponseContext(responseContext);
         } catch (e) {
             if (e instanceof HTTPError)
@@ -39,12 +17,20 @@ module.exports = class RequestContext extends trivialConstructor('request', 'res
     }
 
     writeResponseContext(context) {
-        this.response.writeHead(200, {
-            'Content-Type': context.mimeType,
-            'Content-Length': context.size
+        context.stream.on('data', data => {
+            this.response.write(data);
         });
 
-        context.stream.pipe(this.response);
+        context.stream.on('size', size => {
+            this.response.writeHead(200, {
+                'Content-Type': context.mimeType,
+                'Content-Length': size
+            });
+        });
+
+        context.stream.on('end', () => {
+            this.response.end();
+        });
     }
 
     writeHTTPError(error) {

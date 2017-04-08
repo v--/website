@@ -1,5 +1,26 @@
 module.exports = {
-    zip: function* (...iterables) {
+    *map(func, iter) {
+        for (const value of iter)
+            yield func(value);
+    },
+
+    *chain(...iterables) {
+        for (const iterable in iterables)
+            yield* iterable;
+    },
+
+    *take(iterable, count) {
+        let counter = 0;
+
+        for (const value of iterable) {
+            yield value;
+
+            if (++counter === count)
+                return;
+        }
+    },
+
+    *zip(...iterables) {
         if (iterables.length === 0) {
             return [];
         }

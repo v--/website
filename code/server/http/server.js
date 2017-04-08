@@ -18,7 +18,9 @@ class HTTPServer {
 
         if (request.method === 'GET' || request.method === 'HEAD') {
             this.logger.debug(`${request.method} on ${request.url}`);
-            context.process().catch(Logger.prototype.warn.bind(this.logger));
+            context.process().catch(err => {
+                this.logger.warn(err.stack);
+            });
         } else {
             this.logger.warn(`Unexpected method ${request.method} on ${request.url}`);
             context.writeNotFound();

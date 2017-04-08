@@ -4,7 +4,7 @@ class InvalidKeyError extends CoolError {}
 
 const fortificationHandler = {
     has(target, key) {
-        return target.hasOwnProperty(key);
+        return target.has(key);
     },
 
     get(target, key) {

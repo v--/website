@@ -27,7 +27,7 @@ describe('zip', function () {
         ]);
     });
 
-    it("Zips three equinumerous arrays", function () {
+    it('Zips three equinumerous arrays', function () {
         const zipped = zip(['a', 'b', 'c'], ['а', 'б', 'в'], [1, 2, 3]);
         expect(Array.from(zipped)).to.deep.equal([
             ['a', 'а', 1],

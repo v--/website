@@ -1,59 +1,31 @@
 const { join } = require('path');
 
-const mime = require('mime-types');
+const { NotFoundError } = require('common/errors');
+const URL = require('common/support/url');
 
-const fs = require('fs-promise');
+const ResponseContext = require('server/http/response_context');
+const h = require('server/h');
 
-class File {
-    constructor(path, stat) {
-        this.path = path;
-        this.stat = stat;
-    }
-
-    exists() {
-        return this.stat.isFile();
-    }
-
-    get status() {
-        return 200;
-    }
-
-    get headers() {
-        return {
-            'Content-Type': mime.lookup(this.path),
-            'Content-Length': this.stat.size
-        };
-    }
-
-    read() {
-        return fs.createReadStream(this.path);
-    }
+function home(h) {
+    return h('div', null, [
+            h('h1', null, 'stuff'),
+            h('h2', null, 'more stuff')
+        ]);
 }
 
-class ResponseFactory {
-    static async first(...paths) {
-        for (const path of paths) {
-            const stat = await fs.stat(path);
+module.exports = async function router(requestUrl) {
+    const publicFile = await ResponseContext.forFile(join('dist', 'public', requestUrl));
 
-            if (stat.isFile())
-                return new File(path, stat);
-        }
-
-        return null;
-    }
-}
-
-module.exports = async function router(request, response) {
-    const file = await ResponseFactory.first(
-        join('public', request.url),
-        'views/index.html'
-    );
-
-    response.writeHead(file.status, file.headers);
-
-    if (request.method === 'HEAD') {
-        response.end();
+    if (publicFile) {
+        return publicFile;
     }
 
-    file.read().pipe(response);
+    const url = new URL(requestUrl);
+
+    if (url.route === '' && url.subroute === '') {
+        const stream = home(h);
+        return new ResponseContext(stream, stream.size, 'text/html');
+    }
+
+    throw new NotFoundError();
 };

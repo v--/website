@@ -2,6 +2,7 @@
   "version": "3.0.0",
   "private": true,
   "dependencies": {
+    "fs-promise": "2.0.2",
     "skeleton-css": "2.0.4"
   },
   "devDependencies": {
@@ -10,7 +11,6 @@
     "eslint-plugin-filenames": "1.1.0",
     "eslint-plugin-mocha": "4.9.0",
     "font-awesome": "4.7.0",
-    "fs-promise": "2.0.2",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-concat": "2.6.1",
     "gulp-environments": "0.1.2",

@@ -1,8 +1,8 @@
 gulp task='default':
     NODE_PATH=./ gulp {{task}}
 
-tests:
-    NODE_PATH=code/ mocha --opts tests/mocha.opts tests/
+tests file='tests/':
+    NODE_PATH=code/ mocha --opts tests/mocha.opts -- {{file}}
 
 lint:
     eslint build/ code/
