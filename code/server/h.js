@@ -40,7 +40,7 @@ class HStream extends Readable {
     }
 }
 
-function *hImpl(type, options = null, contents) {
+function *hStringImpl(type, options = null, contents) {
     if (voidTags.has(type) && contents !== undefined)
         throw new CoolError('Void tags cannot have contents');
 
@@ -59,7 +59,7 @@ function *hImpl(type, options = null, contents) {
     if (contents) {
         for (const content of (contents instanceof Array ? contents : [contents]))
             if (content instanceof HStream)
-                yield *content;
+                yield* content;
             else
                 yield content;
     }
@@ -67,6 +67,15 @@ function *hImpl(type, options = null, contents) {
     yield `</${type}>`;
 }
 
-module.exports = function h(...args) {
-    return new HStream(hImpl(...args));
-};
+function *hFunctionImpl(type, options = null, contents) {
+    yield* type({ h, options, contents });
+}
+
+function h(type, options = null, contents) {
+    if (type instanceof Function)
+        return new HStream(hFunctionImpl(type, options, contents));
+
+    return new HStream(hStringImpl(type, options, contents));
+}
+
+module.exports = h;

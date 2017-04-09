@@ -47,4 +47,22 @@ describe('Server-side h', function() {
 
         expect(rendered).to.equal('<div>nested1<span>nested2</span></div>');
     });
+
+    it('Can render components', function() {
+        const component = ({ h }) => h('div');
+        const rendered = render(component);
+        expect(rendered).to.equal('<div></div>');
+    });
+
+    it('Allows passing options to components', function() {
+        const component = ({ h, options }) => h('div', null, h(options.tag));
+        const rendered = render(component, { tag: 'span' });
+        expect(rendered).to.equal('<div><span></span></div>');
+    });
+
+    it('Properly transcludes components', function() {
+        const component = ({ h, contents }) => h('div', null, contents);
+        const rendered = render(component, null, [h('span')]);
+        expect(rendered).to.equal('<div><span></span></div>');
+    });
 });
