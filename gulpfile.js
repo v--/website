@@ -3,9 +3,9 @@
 const gulp = require('gulp');
 const livereload = require('gulp-livereload');
 
-require('build/client');
-require('build/server');
-const armor = require('build/armor');
+require('./build/client');
+require('./build/server');
+const armor = require('./build/armor');
 
 gulp.task('reload', function (done) {
     livereload.reload();
@@ -16,8 +16,8 @@ gulp.task('watch', function (done) {
     livereload.listen();
 
     gulp.watch('client/styles/**/*.scss', armor(gulp.series('client:styles', 'reload')));
-    gulp.watch('client/images/**/*.svg', armor(gulp.series('client:images', 'reload')));
     gulp.watch('client/assets/**/*', armor(gulp.series('client:assets', 'reload')));
+    gulp.watch('client/svgs/**/*.svg', armor(gulp.series('client:svgs', 'reload')));
 
     gulp.watch('code/client/**/*.js', armor(gulp.series('client:code', 'reload')));
     gulp.watch('code/server/**/*.js', gulp.series('server:restart'));

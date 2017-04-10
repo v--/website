@@ -1,6 +1,6 @@
 const gulp = require('gulp');
 
-const Fork = require('build/fork');
+const Fork = require('./fork');
 
 gulp.task('server:build', function () {
     return gulp.src('server/**/*.js')
@@ -14,12 +14,9 @@ gulp.task('server:build', function () {
         }
     });
 
-    const killChild = Fork.prototype.kill.bind(child);
-
     gulp.task('server:restart', function () {
         return child.restart();
     });
 
-    process.on('SIGINT', killChild);
-    process.on('SIGTERM', killChild);
+    process.on('SIGINT', Fork.prototype.kill.bind(child));
 }

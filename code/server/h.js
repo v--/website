@@ -1,7 +1,7 @@
 const { Readable } = require('stream');
 
 const StringBuffer = require('common/support/string_buffer');
-const { map } = require('common/support/itertools');
+const { map, filter } = require('common/support/itertools');
 const { CoolError } = require('common/errors');
 const { voidTags } = require('common/h');
 
@@ -40,42 +40,43 @@ class HStream extends Readable {
     }
 }
 
-function *hStringImpl(type, options = null, contents) {
-    if (voidTags.has(type) && contents !== undefined)
-        throw new CoolError('Void tags cannot have contents');
-
+function *hStringImpl(type, options, contents) {
     yield `<${type}`;
 
-    if (options) {
-        for (const [key, value] of Object.entries(options))
-            yield ` ${key}="${value}"`;
-    }
+    for (const [key, value] of Object.entries(options))
+        yield ` ${key}="${value}"`;
 
     yield '>';
 
     if (voidTags.has(type))
         return;
 
-    if (contents) {
-        for (const content of (contents instanceof Array ? contents : [contents]))
-            if (content instanceof HStream)
-                yield* content;
-            else
-                yield content;
-    }
+    for (const content of contents)
+        if (content instanceof HStream)
+            yield* content;
+        else
+            yield content;
 
     yield `</${type}>`;
 }
 
-function *hFunctionImpl(type, options = null, contents) {
+function *hFunctionImpl(type, options, contents) {
     yield* type({ h, options, contents });
 }
 
-function h(type, options = null, contents) {
-    if (type instanceof Function)
-        return new HStream(hFunctionImpl(type, options, contents));
+function h(type, options = {}, ...contents) {
+    const filteredContents = filter(Boolean, contents);
 
-    return new HStream(hStringImpl(type, options, contents));
+    if (options === null)
+        options = {};
+
+    if (type instanceof Function)
+        return new HStream(hFunctionImpl(type, options, filteredContents));
+
+    if (voidTags.has(type) && contents.length > 0)
+        throw new CoolError('Void tags cannot have contents.');
+
+    return new HStream(hStringImpl(type, options, filteredContents));
 }
 
 module.exports = h;

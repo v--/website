@@ -2,7 +2,6 @@
   "version": "3.0.0",
   "private": true,
   "dependencies": {
-    "fs-promise": "2.0.2",
     "skeleton-css": "2.0.4"
   },
   "devDependencies": {
@@ -15,15 +14,17 @@
     "gulp-concat": "2.6.1",
     "gulp-environments": "0.1.2",
     "gulp-livereload": "3.8.1",
-    "gulp-rollup": "2.11.0",
     "gulp-sass": "3.1.0",
     "gulp-svgo": "1.0.3",
     "libnotify": "1.0.4",
     "mdi-svg": "1.1.319",
     "mocha": "3.2.0",
     "rollup": "0.41.6",
+    "rollup-plugin-alias": "1.2.1",
+    "rollup-plugin-commonjs": "8.0.2",
     "rollup-plugin-node-resolve": "3.0.0",
     "rollup-plugin-uglify": "1.0.1",
-    "svgo": "github:svg/svgo#master"
+    "svgo": "github:svg/svgo#master",
+    "vinyl-source-stream": "1.1.0"
   }
 }

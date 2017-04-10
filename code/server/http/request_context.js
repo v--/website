@@ -7,7 +7,11 @@ module.exports = class RequestContext extends trivialConstructor('request', 'res
     async process() {
         try {
             const responseContext = await router(this.request.url);
-            this.writeResponseContext(responseContext);
+
+            if (this.request.method === 'HEAD')
+                this.writeResponseHead(responseContext);
+            else
+                this.writeResponseContext(responseContext);
         } catch (e) {
             if (e instanceof HTTPError)
                 this.writeHTTPError(e);
@@ -17,11 +21,18 @@ module.exports = class RequestContext extends trivialConstructor('request', 'res
     }
 
     writeResponseContext(context) {
+        if (context.mimeType === 'text/html')
+            this.response.write('<!DOCTYPE html>');
+
         context.stream.on('data', data => {
             this.response.write(data);
         });
 
-        context.stream.on('size', size => {
+        context.stream.on('error', err => {
+            throw err;
+        });
+
+        context.getSize().then(size => {
             this.response.writeHead(200, {
                 'Content-Type': context.mimeType,
                 'Content-Length': size
@@ -31,6 +42,14 @@ module.exports = class RequestContext extends trivialConstructor('request', 'res
         context.stream.on('end', () => {
             this.response.end();
         });
+    }
+
+    writeResponseHead(context) {
+        this.response.writeHead(200, {
+            'Content-Type': context.mimeType
+        });
+
+        this.response.end();
     }
 
     writeHTTPError(error) {

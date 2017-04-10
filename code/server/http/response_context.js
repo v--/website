@@ -1,7 +1,8 @@
-const fs = require('fs-promise');
-
 const trivialConstructor = require('common/support/trivial_constructor');
 const { fortify } = require('common/support/enumerize');
+
+const fs = require('server/support/fs');
+const h = require('server/h');
 
 // These are only necessary for the files in public/, nginx should handle serving files in production
 const MIMETypeMap = fortify({
@@ -33,5 +34,20 @@ module.exports = class ResponseContext extends trivialConstructor('stream', 'siz
             // Assume the error is the result of the file not existing and ignore it.
             return null;
         }
+    }
+
+    static async forView(view) {
+        const stream = h(await view());
+        return new ResponseContext(stream, null, 'text/html');
+    }
+
+    async getSize() {
+        if (this.size !== null)
+            return this.size;
+
+        return new Promise((resolve, reject) => {
+            this.stream.on('size', resolve);
+            this.stream.on('error', reject);
+        });
     }
 };

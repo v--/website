@@ -4,6 +4,12 @@ module.exports = {
             yield func(value);
     },
 
+    *filter(func, iter) {
+        for (const value of iter)
+            if (func(value))
+                yield value;
+    },
+
     *chain(...iterables) {
         for (const iterable in iterables)
             yield* iterable;

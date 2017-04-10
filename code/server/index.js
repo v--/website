@@ -8,6 +8,6 @@ for (const signal of ['SIGINT', 'SIGTERM'])
     process.on(signal, function () {
         if (server.state === HTTPServer.State.running) {
             server.logger.info(`Received signal ${signal}. Shutting down server.`);
-            server.stop(signal, process.exit.bind(process));
+            server.stop(signal);
         }
     });

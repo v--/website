@@ -31,19 +31,19 @@ describe('Server-side h', function() {
     });
 
     it('Properly renders a div with multiple nested component', function() {
-        const rendered = render('div', null, [
+        const rendered = render('div', null,
             h('span', null, 'nested1'),
             h('span', null, 'nested2')
-        ]);
+        );
 
         expect(rendered).to.equal('<div><span>nested1</span><span>nested2</span></div>');
     });
 
     it('Properly renders a div with multiple mixed component', function() {
-        const rendered = render('div', null, [
+        const rendered = render('div', null,
             'nested1',
             h('span', null, 'nested2')
-        ]);
+        );
 
         expect(rendered).to.equal('<div>nested1<span>nested2</span></div>');
     });
@@ -61,8 +61,8 @@ describe('Server-side h', function() {
     });
 
     it('Properly transcludes components', function() {
-        const component = ({ h, contents }) => h('div', null, contents);
-        const rendered = render(component, null, [h('span')]);
+        const component = ({ h, contents }) => h('div', null, ...contents);
+        const rendered = render(component, null, h('span'));
         expect(rendered).to.equal('<div><span></span></div>');
     });
 });
