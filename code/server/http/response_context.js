@@ -1,8 +1,9 @@
 const trivialConstructor = require('common/support/trivial_constructor');
 const { fortify } = require('common/support/enumerize');
+const index = require('common/components/index');
 
 const fs = require('server/support/fs');
-const h = require('server/h');
+const render = require('server/render');
 
 // These are only necessary for the files in public/, nginx should handle serving files in production
 const MIMETypeMap = fortify({
@@ -37,7 +38,7 @@ module.exports = class ResponseContext extends trivialConstructor('stream', 'siz
     }
 
     static async forView(view) {
-        const stream = h(await view());
+        const stream = render(index, null, render(await view()));
         return new ResponseContext(stream, null, 'text/html');
     }
 

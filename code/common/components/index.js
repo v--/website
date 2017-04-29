@@ -1,19 +1,20 @@
-module.exports = function index({ h, contents }) {
-    return h('html', { lang: 'en-US' },
-        h('head', null,
-            h('title', null, 'ivasilev.net'),
-            h('meta', { charset: 'UTF-8' }),
-            h('meta', { name: 'viewport', content: 'width=device-width, initial-scale=1' }),
-            h('link', { rel: 'icon', href: 'images/favicon.png' }),
-            h('link', { rel: 'stylesheet', href: 'styles/index.css' }),
-            h('script', { src: 'code/core.js' }),
-            h('script', { src: 'http://localhost:35729/livereload.js' })
+const c = require('common/component');
+
+module.exports = function index({ contents }) {
+    return c('html', { lang: 'en-US' },
+        c('head', null,
+            c('title', null, 'ivasilev.net'),
+            c('meta', { charset: 'UTF-8' }),
+            c('meta', { name: 'viewport', content: 'width=device-width, initial-scale=1' }),
+            c('link', { rel: 'icon', href: 'images/favicon.png' }),
+            c('link', { rel: 'stylesheet', href: 'styles/index.css' }),
+            c('script', { src: 'code/core.js' }),
+            c('script', { src: 'http://localhost:35729/livereload.js' })
         ),
 
-        h('body', null,
-            h('aside', null, 'navigation'),
-            h('main', null, ...contents)
+        c('body', null,
+            c('aside', null, 'navigation'),
+            c('main', null, ...contents)
         )
     );
 };
-

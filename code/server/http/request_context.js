@@ -9,42 +9,47 @@ module.exports = class RequestContext extends trivialConstructor('request', 'res
             const responseContext = await router(this.request.url);
 
             if (this.request.method === 'HEAD')
-                this.writeResponseHead(responseContext);
+                await this.writeResponseHead(responseContext);
             else
-                this.writeResponseContext(responseContext);
+                await this.writeResponseContext(responseContext);
         } catch (e) {
             if (e instanceof HTTPError)
-                this.writeHTTPError(e);
+                await this.writeHTTPError(e);
             else
                 throw e;
         }
     }
 
-    writeResponseContext(context) {
-        if (context.mimeType === 'text/html')
-            this.response.write('<!DOCTYPE html>');
+    async writeResponseContext(context) {
+        const response = this.response;
 
-        context.stream.on('data', data => {
-            this.response.write(data);
-        });
+        return new Promise(function (resolve, reject) {
+            if (context.mimeType === 'text/html')
+                response.write('<!DOCTYPE html>');
 
-        context.stream.on('error', err => {
-            throw err;
-        });
-
-        context.getSize().then(size => {
-            this.response.writeHead(200, {
-                'Content-Type': context.mimeType,
-                'Content-Length': size
+            context.stream.on('data', function (data) {
+                response.write(data);
             });
-        });
 
-        context.stream.on('end', () => {
-            this.response.end();
+            context.stream.on('error', function (err) {
+                reject(err);
+            });
+
+            context.getSize().then(function (size) {
+                response.writeHead(200, {
+                    'Content-Type': context.mimeType,
+                    'Content-Length': size
+                });
+            });
+
+            context.stream.on('end', function () {
+                response.end();
+                resolve();
+            });
         });
     }
 
-    writeResponseHead(context) {
+    async writeResponseHead(context) {
         this.response.writeHead(200, {
             'Content-Type': context.mimeType
         });
@@ -52,13 +57,13 @@ module.exports = class RequestContext extends trivialConstructor('request', 'res
         this.response.end();
     }
 
-    writeHTTPError(error) {
+    async writeHTTPError(error) {
         this.response.writeHead(error.code);
         this.response.write(String(error));
         this.response.end();
     }
 
-    writeNotFound() {
+    async writeNotFound() {
         this.writeHTTPError(new NotFoundError());
     }
 };

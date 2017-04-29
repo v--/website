@@ -2,27 +2,34 @@ const { CoolError } = require('common/errors');
 
 class InvalidKeyError extends CoolError {}
 
+class FortifiedMap extends Map {
+    get(key) {
+        if (this.has(key))
+            return super.get(key);
+
+        const keys = JSON.stringify(this.keys());
+        throw new InvalidKeyError(`Invalid key "${key}". Expected one of ${keys}.`);
+    }
+}
+
 const fortificationHandler = {
     has(target, key) {
         return target.has(key);
     },
 
     get(target, key) {
-        if (target.has(key)) {
-            return target.get(key);
-        }
-
-        throw new InvalidKeyError(`Invalid key "${key}". Expected one of ${JSON.stringify(target.keys())}.`);
+        return target.get(key);
     }
 };
 
 function fortify(object) {
-    const map = new Map(Object.keys(object).map(key => [key, object[key]]));
+    const map = new Map(Object.entries(object));
     return new Proxy(map, fortificationHandler);
 }
 
 module.exports = {
     InvalidKeyError,
+    FortifiedMap,
     fortify,
 
     enumerize(...values) {

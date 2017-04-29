@@ -1,12 +1,10 @@
-const index = require('common/components/index');
+const c = require('common/component');
 
 module.exports = async function view() {
-    return function home({ h }) {
-        return h(index, null,
-                h('div', null,
-                    h('h1', null, 'stuff'),
-                    h('h2', null, 'more stuff')
-            )
+    return function home() {
+        return c('div', null,
+            c('h1', null, 'stuff'),
+            c('h2', null, 'more stuff')
         );
     };
 };
