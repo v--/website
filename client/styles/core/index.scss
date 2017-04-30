@@ -9,3 +9,21 @@
 svg {
   shape-rendering: "crispEdges";
 }
+
+body {
+    display: flex;
+}
+
+aside {
+    width: 400px;
+    height: 100vh;
+    background: blue;
+    overflow-y: auto;
+}
+
+main {
+    width: 100%;
+    height: 100vh;
+    background: red;
+    overflow-y: auto;
+}

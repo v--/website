@@ -6,7 +6,7 @@ server.start();
 
 for (const signal of ['SIGINT', 'SIGTERM'])
     process.on(signal, function () {
-        if (server.state === HTTPServer.State.running) {
+        if (server.state === HTTPServer.State.get('running')) {
             server.logger.info(`Received signal ${signal}. Shutting down server.`);
             server.stop(signal);
         }

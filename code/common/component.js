@@ -1,4 +1,4 @@
-const { FortifiedMap } = require('common/support/enumerize');
+const FortifiedMap = require('common/support/fortified_map');
 const { CoolError } = require('common/errors');
 
 const voidTags = new Set([
@@ -21,6 +21,17 @@ const voidTags = new Set([
 ]);
 
 class ReactiveMap extends FortifiedMap {
+    constructor(source) {
+        super(source);
+        this.listeners = new Set();
+    }
+
+    set(key, value) {
+        super.set(key, value);
+
+        for (const listener of this.listeners.values())
+            listener();
+    }
 }
 
 class Component {
@@ -28,7 +39,7 @@ class Component {
         this.type = type;
 
         if (options === null)
-            this.options = new ReactiveMap();
+            this.options = new ReactiveMap(null);
         else
             this.options = new ReactiveMap(Object.entries(options));
 

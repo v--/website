@@ -1,12 +1,12 @@
-const trivialConstructor = require('common/support/trivial_constructor');
-const { fortify } = require('common/support/enumerize');
+const FortifiedMap = require('common/support/fortified_map');
 const index = require('common/components/index');
+const c = require('common/component');
 
 const fs = require('server/support/fs');
-const render = require('server/render');
+const ServerRenderer = require('server/renderer');
 
 // These are only necessary for the files in public/, nginx should handle serving files in production
-const MIMETypeMap = fortify({
+const MIMETypeMap = FortifiedMap.fromObject({
     'js':  'application/javascript',
     'xml': 'application/xml',
     'txt': 'text/plain',
@@ -15,7 +15,7 @@ const MIMETypeMap = fortify({
     'png': 'image/png'
 });
 
-module.exports = class ResponseContext extends trivialConstructor('stream', 'size', 'mimeType') {
+module.exports = class ResponseContext {
     static async forFile(path) {
         try {
             const stat = await fs.stat(path);
@@ -26,7 +26,7 @@ module.exports = class ResponseContext extends trivialConstructor('stream', 'siz
                 return new ResponseContext(
                     fs.createReadStream(path),
                     stat.size,
-                    MIMETypeMap[ext] || 'application/octet-stream'
+                    MIMETypeMap.get(ext, 'application/octet-stream')
                 );
             }
 
@@ -38,8 +38,15 @@ module.exports = class ResponseContext extends trivialConstructor('stream', 'siz
     }
 
     static async forView(view) {
-        const stream = render(index, null, render(await view()));
-        return new ResponseContext(stream, null, 'text/html');
+        const component = c(index, null, await view());
+        const renderer = new ServerRenderer(component);
+        return new ResponseContext(renderer.renderToStream(), null, 'text/html');
+    }
+
+    constructor(stream, size, mimeType) {
+        this.stream = stream;
+        this.size = size;
+        this.mimeType = mimeType;
     }
 
     async getSize() {

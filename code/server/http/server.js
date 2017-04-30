@@ -1,6 +1,6 @@
 const http = require('http');
 
-const { enumerize } = require('common/support/enumerize');
+const FortifiedMap = require('common/support/fortified_map');
 const { CoolError } = require('common/errors');
 
 const RequestContext = require('server/http/request_context');
@@ -10,7 +10,7 @@ class HTTPServer {
     constructor(port) {
         this.port = port;
         this.logger = new Logger('HTTP');
-        this.state = HTTPServer.State.inactive;
+        this.state = HTTPServer.State.get('inactive');
     }
 
     requestHandler(request, response) {
@@ -28,29 +28,29 @@ class HTTPServer {
     }
 
     start() {
-        this.state = HTTPServer.State.starting;
+        this.state = HTTPServer.State.get('starting');
 
         this.server = http.createServer(this.requestHandler.bind(this)).listen(this.port, err =>  {
             if (err)
                 this.logger.fatal(err);
 
             this.logger.info(`Started web server on http://localhost:${this.port}.`);
-            this.state = HTTPServer.State.running;
+            this.state = HTTPServer.State.get('running');
         });
     }
 
     stop() {
-        CoolError.assert(this.state === HTTPServer.State.running, 'The server is not running.');
-        this.state = HTTPServer.State.stopping;
+        CoolError.assert(this.state === HTTPServer.State.get('running'), 'The server is not running.');
+        this.state = HTTPServer.State.get('stopping');
 
         return this.server.close(() => {
             this.logger.info('Server stopped.');
-            this.state = HTTPServer.State.inactive;
+            this.state = HTTPServer.State.get('inactive');
         });
     }
 }
 
-HTTPServer.State = enumerize(
+HTTPServer.State = FortifiedMap.enumerize(
     'starting',
     'running',
     'stopping',

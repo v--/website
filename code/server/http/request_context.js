@@ -1,9 +1,13 @@
 const { HTTPError, NotFoundError } = require('common/errors');
-const trivialConstructor = require('common/support/trivial_constructor');
 
 const router = require('server/router');
 
-module.exports = class RequestContext extends trivialConstructor('request', 'response') {
+module.exports = class RequestContext {
+    constructor(request, response) {
+        this.request = request;
+        this.response = response;
+    }
+
     async process() {
         try {
             const responseContext = await router(this.request.url);
