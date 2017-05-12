@@ -1,4 +1,4 @@
-const Component = require('common/component');
+const { Component } = require('common/component');
 const { NotImplementedError } = require('common/errors');
 
 module.exports = class Renderer {

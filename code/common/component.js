@@ -1,5 +1,5 @@
 const FortifiedMap = require('common/support/fortified_map');
-const { CoolError } = require('common/errors');
+const { CoolError, NotImplementedError } = require('common/errors');
 
 const voidTags = new Set([
     'area',
@@ -20,87 +20,6 @@ const voidTags = new Set([
     'wbr'
 ]);
 
-const svgTags = new Set([
-    'altGlyph',
-    'altGlyphDef',
-    'altGlyphItem',
-    'animate',
-    'animateColor',
-    'animateMotion',
-    'animateTransform',
-    'circle',
-    'clipPath',
-    'color-profile',
-    'cursor',
-    'defs',
-    'desc',
-    'ellipse',
-    'feBlend',
-    'feColorMatrix',
-    'feComponentTransfer',
-    'feComposite',
-    'feConvolveMatrix',
-    'feDiffuseLighting',
-    'feDisplacementMap',
-    'feDistantLight',
-    'feFlood',
-    'feFuncA',
-    'feFuncB',
-    'feFuncG',
-    'feFuncR',
-    'feGaussianBlur',
-    'feImage',
-    'feMerge',
-    'feMergeNode',
-    'feMorphology',
-    'feOffset',
-    'fePointLight',
-    'feSpecularLighting',
-    'feSpotLight',
-    'feTile',
-    'feTurbulence',
-    'filter',
-    'font',
-    'font-face',
-    'font-face-format',
-    'font-face-name',
-    'font-face-src',
-    'font-face-uri',
-    'foreignObject',
-    'g',
-    'glyph',
-    'glyphRef',
-    'hkern',
-    'image',
-    'line',
-    'linearGradient',
-    'marker',
-    'mask',
-    'metadata',
-    'missing-glyph',
-    'mpath',
-    'path',
-    'pattern',
-    'polygon',
-    'polyline',
-    'radialGradient',
-    'rect',
-    'script',
-    'set',
-    'stop',
-    'style',
-    'svg',
-    'switch',
-    'symbol',
-    'text',
-    'textPath',
-    'title',
-    'tref',
-    'tspan',
-    'use',
-    'view'
-]);
-
 class ReactiveMap extends FortifiedMap {
     constructor(source) {
         super(source);
@@ -116,8 +35,8 @@ class ReactiveMap extends FortifiedMap {
 }
 
 class Component {
-    static c(...args)  {
-        return new Component(...args);
+    get namespace() {
+        throw new NotImplementedError();
     }
 
     constructor(type, options = null, ...children) {
@@ -130,11 +49,37 @@ class Component {
 
         this.children = children.filter(Boolean);
         this.isVoid = voidTags.has(type);
-        this.isSVG = svgTags.has(type);
 
         if (this.isVoid && this.children.length > 0)
             throw new CoolError('Void tags cannot have children.');
     }
 }
 
-module.exports = Component;
+class HTMLComponent extends Component {
+    get namespace() {
+        return 'http://www.w3.org/1999/xhtml';
+    }
+}
+
+class SVGComponent extends Component {
+    get namespace() {
+        return 'http://www.w3.org/2000/svg';
+    }
+}
+
+function html(...args) {
+    return new HTMLComponent(...args);
+}
+
+function svg(...args) {
+    return new SVGComponent(...args);
+}
+
+module.exports = {
+    Component,
+    HTMLComponent,
+    SVGComponent,
+    html,
+    svg,
+    h: html
+};

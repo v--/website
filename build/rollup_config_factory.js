@@ -1,6 +1,6 @@
 const nodeResolve = require('rollup-plugin-node-resolve');
 const commonjs = require('rollup-plugin-commonjs');
-const uglify = require('rollup-plugin-uglify');
+const babili = require('rollup-plugin-babili');
 const alias = require('rollup-plugin-alias');
 
 module.exports = function rollupConfigFactory(entry, productionMode, cache) {
@@ -14,13 +14,7 @@ module.exports = function rollupConfigFactory(entry, productionMode, cache) {
             }),
             nodeResolve(),
             commonjs(),
-            productionMode && uglify({
-                compress: {
-                    global_defs: {
-                        PRODUCTION: productionMode
-                    }
-                }
-            })
+            productionMode && babili()
         ]
     };
 };

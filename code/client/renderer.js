@@ -17,13 +17,6 @@ module.exports = class ClientRenderer extends Renderer {
         });
     }
 
-    createElement() {
-        if (this.component.isSVG)
-            return document.createElementNS('http://www.w3.org/2000/svg', this.component.type);
-
-        return document.createElement(this.component.type);
-    }
-
     async rerenderImpl() {
         const parent = this.element.parentNode;
         const oldElement = this.element;
@@ -33,7 +26,7 @@ module.exports = class ClientRenderer extends Renderer {
     }
 
     async renderComponentImpl() {
-        const element = this.createElement();
+        const element = document.createElementNS(this.component.namespace, this.component.type);
 
         for (const [key, value] of this.component.options)
             if (value instanceof Function)

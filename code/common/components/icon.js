@@ -1,4 +1,4 @@
-const { c } = require('common/component');
+const { svg } = require('common/component');
 
 module.exports = async function icon({ db, options }) {
     const icons = await db.getIcons();
@@ -10,7 +10,7 @@ module.exports = async function icon({ db, options }) {
         options.set('sorted', !options.get('sorted', false));
     }
 
-    return c('svg', { viewBox: '0 0 20 20', click: toggleSorted },
-        c('path', { d: icon })
+    return svg('svg', { viewBox: '0 0 20 20', click: toggleSorted },
+        svg('path', { d: icon })
     );
 };
