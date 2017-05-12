@@ -1,6 +1,6 @@
-const c = require('common/component');
+const { c } = require('common/component');
 
-module.exports = function index({ contents }) {
+module.exports = function index({ children }) {
     return c('html', { lang: 'en-US' },
         c('head', null,
             c('title', null, 'ivasilev.net'),
@@ -14,7 +14,7 @@ module.exports = function index({ contents }) {
 
         c('body', null,
             c('aside', null, 'navigation'),
-            c('main', null, ...contents)
+            c('main', null, ...children)
         )
     );
 };

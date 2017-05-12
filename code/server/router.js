@@ -10,15 +10,16 @@ const home = require('common/views/home');
 module.exports = async function router(requestUrl) {
     const publicFile = await ResponseContext.forFile(join('public', requestUrl));
 
-    if (publicFile) {
+    if (publicFile)
         return publicFile;
-    }
 
     const url = new URL(requestUrl);
 
-    if (url.route === '' && url.subroute === '') {
+    if (url.route === '' && url.subroute === '')
         return await ResponseContext.forView(home);
-    }
+
+    if (url.route === 'api' && url.subroute === 'icons')
+        return await ResponseContext.forFile('public/icons.json');
 
     throw new NotFoundError();
 };

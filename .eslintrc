@@ -16,12 +16,6 @@ rules:
     - error
     - always
 
-  no-unused-vars:
-    - warn
-    - vars: "all"
-      args: "all"
-      argsIgnorePattern: "^_"
-
   quotes:
     - warn
     - single

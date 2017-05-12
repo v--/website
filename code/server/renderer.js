@@ -4,6 +4,8 @@ const StringBuffer = require('common/support/string_buffer');
 const Renderer = require('common/renderer');
 const { map } = require('common/support/itertools');
 
+const fs = require('server/support/fs');
+
 class RenderStream extends Readable {
     constructor(iter) {
         super();
@@ -31,31 +33,51 @@ class RenderStream extends Readable {
 }
 
 module.exports = class ServerRenderer extends Renderer {
-    *renderComponent() {
+    get db() {
+        return {
+            async getIcons() {
+                return JSON.parse(await fs.readFile('public/icons.json'));
+            }
+        };
+    }
+
+    *renderComponentImpl(renderedChildren) {
         yield `<${this.component.type}`;
 
         for (const [key, value] of this.component.options)
-            yield ` ${key}="${value}"`;
+            if (!(value instanceof Function))
+                yield ` ${key}="${value}"`;
 
         yield '>';
 
         if (this.component.isVoid)
             return;
 
-        for (const content of this.component.contents)
-            if (typeof content === 'string')
-                yield content;
+        for (const child of renderedChildren)
+            if (typeof child === 'string')
+                yield child;
             else
-                yield* new this.constructor(content).render();
+                yield* child;
 
         yield `</${this.component.type}>`;
     }
 
-    renderToStream() {
-        return new RenderStream(this.render());
+    async renderComponent() {
+        const renderingChildren = this.component.children.map(child => {
+            if (typeof child === 'string')
+                return child;
+
+            return new this.constructor(child).render();
+        });
+
+        return this.renderComponentImpl(await Promise.all(renderingChildren));
     }
 
-    renderToString() {
-        return Array.from(this.render()).join('');
+    async renderToStream() {
+        return new RenderStream(await this.render());
+    }
+
+    async renderToString() {
+        return Array.from(await this.render()).join('');
     }
 };

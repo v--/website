@@ -1,6 +1,6 @@
 const FortifiedMap = require('common/support/fortified_map');
 const index = require('common/components/index');
-const c = require('common/component');
+const { c } = require('common/component');
 
 const fs = require('server/support/fs');
 const ServerRenderer = require('server/renderer');
@@ -40,7 +40,12 @@ module.exports = class ResponseContext {
     static async forView(view) {
         const component = c(index, null, await view());
         const renderer = new ServerRenderer(component);
-        return new ResponseContext(renderer.renderToStream(), null, 'text/html');
+
+        return new ResponseContext(
+            await renderer.renderToStream(),
+            null,
+            'text/html'
+        );
     }
 
     constructor(stream, size, mimeType) {

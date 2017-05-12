@@ -20,6 +20,87 @@ const voidTags = new Set([
     'wbr'
 ]);
 
+const svgTags = new Set([
+    'altGlyph',
+    'altGlyphDef',
+    'altGlyphItem',
+    'animate',
+    'animateColor',
+    'animateMotion',
+    'animateTransform',
+    'circle',
+    'clipPath',
+    'color-profile',
+    'cursor',
+    'defs',
+    'desc',
+    'ellipse',
+    'feBlend',
+    'feColorMatrix',
+    'feComponentTransfer',
+    'feComposite',
+    'feConvolveMatrix',
+    'feDiffuseLighting',
+    'feDisplacementMap',
+    'feDistantLight',
+    'feFlood',
+    'feFuncA',
+    'feFuncB',
+    'feFuncG',
+    'feFuncR',
+    'feGaussianBlur',
+    'feImage',
+    'feMerge',
+    'feMergeNode',
+    'feMorphology',
+    'feOffset',
+    'fePointLight',
+    'feSpecularLighting',
+    'feSpotLight',
+    'feTile',
+    'feTurbulence',
+    'filter',
+    'font',
+    'font-face',
+    'font-face-format',
+    'font-face-name',
+    'font-face-src',
+    'font-face-uri',
+    'foreignObject',
+    'g',
+    'glyph',
+    'glyphRef',
+    'hkern',
+    'image',
+    'line',
+    'linearGradient',
+    'marker',
+    'mask',
+    'metadata',
+    'missing-glyph',
+    'mpath',
+    'path',
+    'pattern',
+    'polygon',
+    'polyline',
+    'radialGradient',
+    'rect',
+    'script',
+    'set',
+    'stop',
+    'style',
+    'svg',
+    'switch',
+    'symbol',
+    'text',
+    'textPath',
+    'title',
+    'tref',
+    'tspan',
+    'use',
+    'view'
+]);
+
 class ReactiveMap extends FortifiedMap {
     constructor(source) {
         super(source);
@@ -35,7 +116,11 @@ class ReactiveMap extends FortifiedMap {
 }
 
 class Component {
-    constructor(type, options = null, ...contents) {
+    static c(...args)  {
+        return new Component(...args);
+    }
+
+    constructor(type, options = null, ...children) {
         this.type = type;
 
         if (options === null)
@@ -43,14 +128,13 @@ class Component {
         else
             this.options = new ReactiveMap(Object.entries(options));
 
-        this.contents = contents.filter(Boolean);
+        this.children = children.filter(Boolean);
         this.isVoid = voidTags.has(type);
+        this.isSVG = svgTags.has(type);
 
-        if (this.isVoid && this.contents.length > 0)
-            throw new CoolError('Void tags cannot have contents.');
+        if (this.isVoid && this.children.length > 0)
+            throw new CoolError('Void tags cannot have children.');
     }
 }
 
-module.exports = function c(...args) {
-    return new Component(...args);
-};
+module.exports = Component;

@@ -1,25 +1,33 @@
-const c = require('common/component');
+const Component = require('common/component');
+const { NotImplementedError } = require('common/errors');
 
 module.exports = class Renderer {
     constructor(component) {
         if (component instanceof Function)
-            this.component = c(component);
-        else
+            this.component = new Component(component);
+        else if (component instanceof Component)
             this.component = component;
+        else
+            throw new NotImplementedError(`Invalid component: ${component}.`);
     }
 
-    renderComponent() {
-        throw new Error('Not implemented');
+    get db() {
+        throw new NotImplementedError();
     }
 
-    renderFactory() {
-        return new this.constructor(this.component.type({
+    async renderComponent() {
+        throw new NotImplementedError();
+    }
+
+    async renderFactory() {
+        return new this.constructor(await this.component.type({
+            db: this.db,
             options: this.component.options,
-            contents: this.component.contents
+            children: this.component.children
         })).render();
     }
 
-    render() {
+    async render() {
         if (this.component.type instanceof Function)
             return this.renderFactory();
 
