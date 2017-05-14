@@ -1,4 +1,8 @@
 module.exports = {
+    *empty() {
+        return;
+    },
+
     *map(func, iter) {
         for (const value of iter)
             yield func(value);
@@ -11,7 +15,7 @@ module.exports = {
     },
 
     *chain(...iterables) {
-        for (const iterable in iterables)
+        for (const iterable of iterables)
             yield* iterable;
     },
 

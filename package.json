@@ -5,7 +5,9 @@
     "skeleton-css": "2.0.4"
   },
   "devDependencies": {
+    "benchmark": "2.1.4",
     "chai": "3.5.0",
+    "chai-iterator": "1.1.4",
     "eslint": "3.19.0",
     "eslint-plugin-filenames": "1.2.0",
     "eslint-plugin-mocha": "4.9.0",

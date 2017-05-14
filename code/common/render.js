@@ -1,10 +1,10 @@
-const { Component } = require('common/component');
+const { Component, FactoryComponent } = require('common/component');
 const { NotImplementedError } = require('common/errors');
 
 module.exports = class Renderer {
     constructor(component) {
         if (component instanceof Function)
-            this.component = new Component(component);
+            this.component = new FactoryComponent(component);
         else if (component instanceof Component)
             this.component = component;
         else

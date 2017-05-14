@@ -4,8 +4,8 @@ const sass = require('gulp-sass');
 const svgo = require('gulp-svgo');
 const gulp = require('gulp');
 const env = require('gulp-environments');
-
 const SVGO = require('svgo');
+
 const { rollup } = require('rollup');
 
 const rollupConfigFactory = require('./rollup_config_factory');
@@ -35,16 +35,27 @@ gulp.task('client:svgs', function () {
 });
 
 gulp.task('client:icons', async function () {
-    const icons = require('../client/icons.json')
-        .map(name => ({ [name]: require(`mdi-svg/d/${name}`) }))
-        .reduce((accum, value) => Object.assign(accum, value));
+    const iconNames = require('../client/icons.json');
+    const svgo = new SVGO({
+        plugins: [{
+            cleanupIDs: false,
+            removeUselessDefs: false
+        }]
+    });
 
-    const stream = source('icons.json');
+    const icons = iconNames.map(function (name) {
+        const path = `<path d="${require(`mdi-svg/d/${name}`)}"></path>`;
+        return `<symbol id="${name}">${path}</symbol>`;
+    });
 
-    stream.write(JSON.stringify(icons));
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg">${icons.join('\n')}</svg>`;
+    const file = await svgo.optimize(svg);
+    const stream = source('icons.svg');
+
+    stream.write(file.data);
     stream.end();
 
-    return stream.pipe(gulp.dest('public'));
+    return stream.pipe(gulp.dest('public/images'));
 });
 
 {

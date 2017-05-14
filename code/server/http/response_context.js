@@ -1,9 +1,10 @@
 const FortifiedMap = require('common/support/fortified_map');
 const index = require('common/components/index');
-const { h } = require('common/component');
+const { f } = require('common/component');
 
 const fs = require('server/support/fs');
-const ServerRenderer = require('server/renderer');
+const render = require('server/render');
+const StringBufferStream = require('server/support/string_buffer_stream');
 
 // These are only necessary for the files in public/, nginx should handle serving files in production
 const MIMETypeMap = FortifiedMap.fromObject({
@@ -38,11 +39,12 @@ module.exports = class ResponseContext {
     }
 
     static async forView(view) {
-        const component = h(index, null, await view());
-        const renderer = new ServerRenderer(component);
+        const component = f(index, null,
+            f(view.component, { data: await view.fetchData() })
+        );
 
         return new ResponseContext(
-            await renderer.renderToStream(),
+            new StringBufferStream(await render(component)),
             null,
             'text/html'
         );

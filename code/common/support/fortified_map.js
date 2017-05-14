@@ -42,4 +42,8 @@ module.exports = class FortifiedMap {
     [Symbol.iterator]() {
         return this.payload.entries();
     }
+
+    dup() {
+        return new this.constructor(this);
+    }
 };

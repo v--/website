@@ -1,10 +1,10 @@
 const home = require('common/views/home');
 
-const ClientRenderer = require('client/renderer');
+const render = require('client/render');
 
 async function stuff() {
-    const component = await home();
-    const stuff = await new ClientRenderer(component).render();
+    const component = home.component();
+    const stuff = render(component);
     const main = document.querySelector('main');
 
     while (main.firstChild)
