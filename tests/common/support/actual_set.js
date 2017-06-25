@@ -1,3 +1,5 @@
+const { describe, it, expect } = require('tests');
+
 const ActualSet = require('common/support/actual_set');
 
 describe('ActualSet', function () {

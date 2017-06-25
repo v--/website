@@ -10,14 +10,22 @@ module.exports = class ReactiveMap extends FortifiedMap {
 
     set(key, value) {
         super.set(key, value);
+        this.triggerListeners();
+    }
 
-        for (const listener of this.listeners.values())
-            listener();
+    delete(key) {
+        super.delete(key);
+        this.triggerListeners();
+    }
+
+    setMultiple(object) {
+        super.setMultiple(object);
+        this.triggerListeners();
     }
 
     *updated(other) {
-        const aKeys = new ActualSet(this.payload.keys());
-        const bKeys = new ActualSet(other.payload.keys());
+        const aKeys = new ActualSet(this._payload.keys());
+        const bKeys = new ActualSet(other._payload.keys());
 
         for (const key of aKeys.intersection(bKeys).values())
             if (this.get(key) !== other.get(key))
@@ -25,7 +33,7 @@ module.exports = class ReactiveMap extends FortifiedMap {
     }
 
     *diff(other) {
-        for (const key of this.payload.keys())
+        for (const key of this._payload.keys())
             if (!other.has(key))
                 yield key;
     }
@@ -33,5 +41,10 @@ module.exports = class ReactiveMap extends FortifiedMap {
     equals(other) {
         const iter = chain(this.updated(other), this.diff(other), other.diff(this));
         return iter.next().done;
+    }
+
+    triggerListeners() {
+        for (const listener of this.listeners.values())
+            listener();
     }
 };

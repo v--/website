@@ -10,7 +10,8 @@ module.exports = function rollupConfigFactory(entry, productionMode, cache) {
         plugins: [
             alias({
                 client: __dirname + '/../code/client',
-                common: __dirname + '/../code/common'
+                common: __dirname + '/../code/common',
+                framework: __dirname + '/../code/framework'
             }),
             nodeResolve(),
             commonjs(),

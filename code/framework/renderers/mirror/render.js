@@ -4,15 +4,15 @@ const AbstractXMLComponent = require('framework/components/xml');
 const TextComponent = require('framework/components/text');
 const FactoryComponent = require('framework/components/factory');
 
-const DOMXMLRenderer = require('client/renderers/xml');
-const DOMTextRenderer = require('client/renderers/text');
+const MirrorXMLRenderer = require('framework/renderers/mirror/xml');
+const MirrorTextRenderer = require('framework/renderers/mirror/text');
 const FactoryRenderer = require('framework/renderers/factory');
 
 const render = overloader(
     {
         type: AbstractXMLComponent,
         impl(component) {
-            return new DOMXMLRenderer(component, render).render();
+            return new MirrorXMLRenderer(component, render).render();
         }
     },
 
@@ -26,7 +26,7 @@ const render = overloader(
     {
         type: TextComponent,
         impl(component) {
-            return new DOMTextRenderer(component, render).render();
+            return new MirrorTextRenderer(component, render).render();
         }
     }
 );

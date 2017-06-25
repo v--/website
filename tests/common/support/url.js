@@ -1,3 +1,5 @@
+const { describe, it, expect } = require('tests');
+
 const URL = require('common/support/url');
 
 describe('URL', function () {

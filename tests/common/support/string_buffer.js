@@ -1,3 +1,5 @@
+const { describe, it, expect } = require('tests');
+
 const StringBuffer = require('common/support/string_buffer');
 
 describe('StringBuffer', function () {

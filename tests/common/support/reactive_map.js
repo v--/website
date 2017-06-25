@@ -1,3 +1,5 @@
+const { describe, it, expect } = require('tests');
+
 const ReactiveMap = require('common/support/reactive_map');
 
 describe('ReactiveMap', function () {

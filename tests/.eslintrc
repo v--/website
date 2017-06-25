@@ -4,12 +4,6 @@ extends:
 plugins:
   - mocha
 
-env:
-  mocha: true
-
-globals:
-  expect: true
-
 rules:
   mocha/valid-test-description: "off"
   mocha/valid-suite-description: "off"

@@ -1,16 +1,50 @@
+const { CoolError } = require('common/errors');
+
 module.exports = {
+    all(predicate, iter) {
+        for (const value of iter)
+            if (!predicate(value))
+                return false;
+
+        return true;
+    },
+
+    reduce(reducer, iterable, initial) {
+        const iter = iterable[Symbol.iterator]();
+        let accum;
+
+        if (initial) {
+            accum = initial;
+        } else {
+            const state = iter.next();
+
+            if (state.done)
+                throw CoolError('Nothing to reduce');
+
+            accum = state.value;
+        }
+
+        for (const value of iter) {
+            reducer(value, accum);
+        }
+
+        return accum;
+    },
+
+    /* eslint-disable require-yield */
     *empty() {
         return;
     },
+    /* eslint-enable require-yield */
 
-    *map(func, iter) {
+    *map(transform, iter) {
         for (const value of iter)
-            yield func(value);
+            yield transform(value);
     },
 
-    *filter(func, iter) {
+    *filter(predicate, iter) {
         for (const value of iter)
-            if (func(value))
+            if (predicate(value))
                 yield value;
     },
 

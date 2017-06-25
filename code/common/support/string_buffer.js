@@ -23,8 +23,7 @@ module.exports = class StringBuffer {
         if (result.length === size && this.buffer)
             return result;
 
-        // for (const value of this.iter) { // Somehow this skips the last element sometimes.
-        for (let { value, done } = this.iter.next(); !done; { value, done } = this.iter.next()) {
+        for (const value of this.iter) {
             const diff = size - result.length;
             result += value.substr(0, diff);
 

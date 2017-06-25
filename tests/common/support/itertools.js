@@ -1,3 +1,5 @@
+const { describe, it, expect } = require('tests');
+
 const { zip } = require('common/support/itertools');
 
 describe('zip', function () {

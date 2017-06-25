@@ -13,7 +13,7 @@ gulp.task('reload', function (done) {
 });
 
 gulp.task('watch', function (done) {
-    livereload.listen();
+    livereload.listen({ port: 3001 });
 
     gulp.watch('client/styles/**/*.scss', armor(gulp.series('client:styles', 'reload')));
     gulp.watch('client/assets/**/*', armor(gulp.series('client:assets', 'reload')));

@@ -1,17 +1,12 @@
 const overloader = require('common/support/overloader');
 
-const { FactoryComponent, XMLComponent } = require('common/component');
+const AbstractXMLComponent = require('framework/components/xml');
+const TextComponent = require('framework/components/text');
+const FactoryComponent = require('framework/components/factory');
 
 const render = overloader(
     {
-        type: FactoryComponent,
-        impl(component) {
-            return render(component.evaluate());
-        }
-    },
-
-    {
-        type: XMLComponent,
+        type: AbstractXMLComponent,
         *impl(component) {
             yield `<${component.type}`;
 
@@ -25,12 +20,23 @@ const render = overloader(
                 return;
 
             for (const child of component.children)
-                if (typeof child === 'string')
-                    yield child;
-                else
-                    yield* render(child);
+                yield* render(child);
 
             yield `</${component.type}>`;
+        }
+    },
+
+    {
+        type: FactoryComponent,
+        *impl(component) {
+            yield* render(component.evaluate());
+        }
+    },
+
+    {
+        type: TextComponent,
+        *impl(component) {
+            yield component.text;
         }
     }
 );

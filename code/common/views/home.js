@@ -1,4 +1,4 @@
-const { h, f } = require('common/component');
+const c = require('framework/c');
 
 const icon = require('common/components/icon');
 
@@ -8,9 +8,9 @@ module.exports = {
     },
 
     component() {
-        return h('div', null,
-            h('h1', null, 'stuff'),
-            f(icon)
+        return c('div', null,
+            c('h1', null, 'stuff'),
+            c(icon)
         );
     }
 };

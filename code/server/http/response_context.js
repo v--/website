@@ -1,6 +1,6 @@
 const FortifiedMap = require('common/support/fortified_map');
 const index = require('common/components/index');
-const { f } = require('common/component');
+const c = require('framework/c');
 
 const fs = require('server/support/fs');
 const render = require('server/render');
@@ -39,8 +39,8 @@ module.exports = class ResponseContext {
     }
 
     static async forView(view) {
-        const component = f(index, null,
-            f(view.component, { data: await view.fetchData() })
+        const component = c(index, null,
+            c(view.component, { data: await view.fetchData() })
         );
 
         return new ResponseContext(
