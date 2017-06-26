@@ -1,7 +1,7 @@
+/* global console */
 /* eslint-disable no-console */
 
 const Benchmark = require('benchmark')
-
 
 module.exports = function run(...benchmarks) {
     const suite = new Benchmark.Suite()
