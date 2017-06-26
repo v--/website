@@ -1,3 +1,5 @@
+/* eslint-env node */
+
 const HTTPServer = require('server/http/server')
 
 const server = new HTTPServer(8000)

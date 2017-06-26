@@ -1,3 +1,5 @@
+/* eslint-env node */
+
 module.exports = class Logger {
     constructor(name) {
         this.name = name

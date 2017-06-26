@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 const home = require('common/views/home')
 
 const render = require('client/render')
