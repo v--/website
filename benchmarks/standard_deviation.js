@@ -1,4 +1,4 @@
-const run = require('./run')
+const { run } = require('benchmarks')
 
 const { map, reduce } = require('common/support/itertools')
 

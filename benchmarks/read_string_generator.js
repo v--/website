@@ -1,4 +1,4 @@
-const run = require('./run')
+const { run } = require('benchmarks')
 
 const { take } = require('common/support/itertools')
 const StringBuffer = require('common/support/string_buffer')
