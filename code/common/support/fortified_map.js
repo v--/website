@@ -1,5 +1,5 @@
-const { map } = require('common/support/itertools');
-const { CoolError } = require('common/errors');
+const { map } = require('common/support/itertools')
+const { CoolError } = require('common/errors')
 
 class InvalidKeyError extends CoolError {}
 
@@ -10,51 +10,51 @@ class InvalidKeyError extends CoolError {}
  */
 class FortifiedMap {
     static enumerize(...values) {
-        return new this(map(value => [value, Symbol(value)], values));
+        return new this(map(value => [value, Symbol(value)], values))
     }
 
     static fromObject(object) {
-        return new this(Object.entries(object));
+        return new this(Object.entries(object))
     }
 
     constructor(iterable) {
-        this._payload = new Map(iterable);
+        this._payload = new Map(iterable)
     }
 
     set(key, value) {
-        this._payload.set(key, value);
+        this._payload.set(key, value)
     }
 
     setMultiple(object) {
         for (const [key, value] in Object.entries(object))
-            this._payload.set(key, value);
+            this._payload.set(key, value)
     }
 
     has(key) {
-        return this._payload.has(key);
+        return this._payload.has(key)
     }
 
     get(key, defaultValue) {
         if (this.has(key))
-            return this._payload.get(key);
+            return this._payload.get(key)
 
         if (defaultValue !== undefined)
-            return defaultValue;
+            return defaultValue
 
-        throw new InvalidKeyError(`Invalid key "${key}".`);
+        throw new InvalidKeyError(`Invalid key "${key}".`)
     }
 
     delete(key) {
-        this._payload.delete(key);
+        this._payload.delete(key)
     }
 
     [Symbol.iterator]() {
-        return this._payload.entries();
+        return this._payload.entries()
     }
 
     dup() {
-        return new this.constructor(this);
+        return new this.constructor(this)
     }
 }
 
-module.exports = FortifiedMap;
+module.exports = FortifiedMap

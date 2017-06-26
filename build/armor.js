@@ -1,4 +1,4 @@
-const libnotify = require('libnotify');
+const libnotify = require('libnotify')
 
 module.exports = function armor(task) {
     function armored(done) {
@@ -6,12 +6,12 @@ module.exports = function armor(task) {
             if (error)
                 libnotify.notify(error.message, {
                     title: 'Gulp error'
-                });
+                })
 
-            done();
-        });
+            done()
+        })
     }
 
-    armored.displayName = task.displayName;
-    return armored;
-};
+    armored.displayName = task.displayName
+    return armored
+}

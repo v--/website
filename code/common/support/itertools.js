@@ -1,89 +1,89 @@
-const { CoolError } = require('common/errors');
+const { CoolError } = require('common/errors')
 
 module.exports = {
     all(predicate, iter) {
         for (const value of iter)
             if (!predicate(value))
-                return false;
+                return false
 
-        return true;
+        return true
     },
 
     reduce(reducer, iterable, initial) {
-        const iter = iterable[Symbol.iterator]();
-        let accum;
+        const iter = iterable[Symbol.iterator]()
+        let accum
 
         if (initial) {
-            accum = initial;
+            accum = initial
         } else {
-            const state = iter.next();
+            const state = iter.next()
 
             if (state.done)
-                throw CoolError('Nothing to reduce');
+                throw CoolError('Nothing to reduce')
 
-            accum = state.value;
+            accum = state.value
         }
 
         for (const value of iter) {
-            reducer(value, accum);
+            reducer(value, accum)
         }
 
-        return accum;
+        return accum
     },
 
     /* eslint-disable require-yield */
     *empty() {
-        return;
+        return
     },
     /* eslint-enable require-yield */
 
     *map(transform, iter) {
         for (const value of iter)
-            yield transform(value);
+            yield transform(value)
     },
 
     *filter(predicate, iter) {
         for (const value of iter)
             if (predicate(value))
-                yield value;
+                yield value
     },
 
     *chain(...iterables) {
         for (const iterable of iterables)
-            yield* iterable;
+            yield* iterable
     },
 
     *take(iterable, count) {
-        let counter = 0;
+        let counter = 0
 
         for (const value of iterable) {
-            yield value;
+            yield value
 
             if (++counter === count)
-                return;
+                return
         }
     },
 
     *zip(...iterables) {
         if (iterables.length === 0) {
-            return [];
+            return []
         }
 
-        const iterators = iterables.map(iterable => iterable[Symbol.iterator]());
+        const iterators = iterables.map(iterable => iterable[Symbol.iterator]())
 
         while (true) { // eslint-disable-line no-constant-condition
-            const values = Array.of(iterators.length);
+            const values = Array.of(iterators.length)
 
             for (const i in iterators) {
-                const { done, value } = iterators[i].next();
+                const { done, value } = iterators[i].next()
 
                 if (done)
-                    return;
+                    return
 
-                values[i] = value;
+                values[i] = value
             }
 
-            yield values;
+            yield values
         }
     }
-};
+}

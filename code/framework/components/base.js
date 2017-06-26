@@ -1,7 +1,7 @@
-const { abstractMethodChecker } = require('common/support/classtools');
+const { abstractMethodChecker } = require('common/support/classtools')
 
 module.exports = class AbstractComponent {
     constructor() {
-        abstractMethodChecker(this, ['equals', 'dup']);
+        abstractMethodChecker(this, ['equals', 'dup'])
     }
-};
+}

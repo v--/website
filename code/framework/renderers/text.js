@@ -1,24 +1,24 @@
-const { abstractMethodChecker } = require('common/support/classtools');
-const Renderer = require('framework/renderers/base');
+const { abstractMethodChecker } = require('common/support/classtools')
+const Renderer = require('framework/renderers/base')
 
 module.exports = class AbstractTextRenderer extends Renderer {
     constructor(component, renderComponent) {
-        super(component, renderComponent);
-        abstractMethodChecker(this, ['_createNode', '_updateText']);
-        this.renderedText = null;
+        super(component, renderComponent)
+        abstractMethodChecker(this, ['_createNode', '_updateText'])
+        this.renderedText = null
     }
 
     render() {
-        this.renderedText = this.component.text;
-        return this.element = this._createNode();
+        this.renderedText = this.component.text
+        return this.element = this._createNode()
     }
 
     rerender() {
         if (this.component.text === this.renderedText)
-            return;
+            return
 
-        this._updateText();
+        this._updateText()
     }
 
     destroy() {}
-};
+}

@@ -4,11 +4,11 @@ module.exports = {
             return new Promise(function (resolve, reject) {
                 func(...args, function (err, value) {
                     if (err)
-                        reject(err);
+                        reject(err)
                     else
-                        resolve(value);
-                });
-            });
-        };
+                        resolve(value)
+                })
+            })
+        }
     }
-};
+}

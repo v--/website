@@ -1,4 +1,4 @@
-const c = require('framework/c');
+const c = require('framework/c')
 
 module.exports = function index({ children }) {
     return c('html', { lang: 'en-US' },
@@ -16,5 +16,5 @@ module.exports = function index({ children }) {
             c('aside', null, 'navigation'),
             c('main', null, ...children)
         )
-    );
-};
+    )
+}

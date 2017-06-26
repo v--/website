@@ -1,6 +1,6 @@
-const fs = require('fs');
+const fs = require('fs')
 
-const { promisory } = require('server/support/async');
+const { promisory } = require('server/support/async')
 
 module.exports = {
     stat: promisory(fs.stat),
@@ -8,4 +8,4 @@ module.exports = {
 
     createReadStream: fs.createReadStream,
     createWriteStream: fs.createWriteStream
-};
+}

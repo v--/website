@@ -1,11 +1,11 @@
-const { describe, it, expect } = require('tests');
+const { describe, it, expect } = require('tests')
 
-const { MethodNotImplementedError, abstractMethodChecker } = require('code/common/support/classtools');
+const { MethodNotImplementedError, abstractMethodChecker } = require('code/common/support/classtools')
 
 describe('abstractMethodChecker', () => {
     class Abstract {
         constructor() {
-            abstractMethodChecker(this, ['_abstractMethod']);
+            abstractMethodChecker(this, ['_abstractMethod'])
         }
     }
 
@@ -14,11 +14,11 @@ describe('abstractMethodChecker', () => {
             _abstractMethod() {}
         }
 
-        expect(() => new Valid()).to.not.throw(MethodNotImplementedError);
-    });
+        expect(() => new Valid()).to.not.throw(MethodNotImplementedError)
+    })
 
     it('throws when the abstract methods are not inherited', function () {
         class Invalid extends Abstract {}
-        expect(() => new Invalid()).to.throw(MethodNotImplementedError);
-    });
-});
+        expect(() => new Invalid()).to.throw(MethodNotImplementedError)
+    })
+})

@@ -1,11 +1,11 @@
-const { NotImplementedError } = require('common/errors');
+const { NotImplementedError } = require('common/errors')
 
 class MethodNotImplementedError extends NotImplementedError {}
 
 function abstractMethodChecker(context, abstract = []) {
     for (const methodName of abstract) {
         if (!(methodName in context)) {
-            throw new MethodNotImplementedError(`${context.constructor.name} did not implement ${methodName}`);
+            throw new MethodNotImplementedError(`${context.constructor.name} did not implement ${methodName}`)
         }
     }
 }
@@ -13,4 +13,4 @@ function abstractMethodChecker(context, abstract = []) {
 module.exports = {
     abstractMethodChecker,
     MethodNotImplementedError
-};
+}
