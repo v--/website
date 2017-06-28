@@ -13,10 +13,26 @@ globals:
 
 rules:
   semi:
-    - error
+    - warn
     - never
 
   quotes:
     - warn
     - single
     - avoidEscape: true
+
+  space-before-function-paren:
+    - warn
+    - named: "never"
+
+  prefer-const:
+    - warn
+
+  indent:
+    - warn
+
+  new-cap:
+    - error
+
+  no-new-wrappers:
+    - error

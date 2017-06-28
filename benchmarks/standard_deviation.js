@@ -1,54 +1,47 @@
+const { it, expect } = require('tests')
 const { run } = require('benchmarks')
 
-const { map, reduce } = require('common/support/itertools')
+const { map, reduce, range } = require('common/support/itertools')
 
-class Integers {
-    constructor(start, end) {
-        this.start = start
-        this.end = end
-    }
+const data = Array.from(range(0, 10 ** 5))
 
-    *[Symbol.iterator]() {
-        for (let i = this.start; i < this.end; i++)
-            yield i
-    }
-}
+it('loops are fastest, the other options are non-deterministic', async function () {
+    const sortedResults = await run(
+        function arrays() {
+            const n = data.length
+            const mean = data.reduce((a, b) => a + b / n, 0)
+            const variance = data
+                .map(x => ((x - mean) ** 2) / (n - 1))
+                .reduce((a, b) => a + b)
 
-const data = Array.from(new Integers(0, 10 ** 7))
+            const sd = variance ** 0.5
+            return sd
+        },
 
-run(
-    function arrays() {
-        const n = data.length
-        const mean = data.reduce((a, b) => a + b / n, 0)
-        const variance = data
-            .map(x => ((x - mean) ** 2) / (n - 1))
-            .reduce((a, b) => a + b)
+        function generators() {
+            const n = data.length
+            const mean = reduce((a, b) => a + b / n, data, 0)
+            const variance = reduce((a, b) => a + b, map(x => ((x - mean) ** 2) / (n - 1), data))
+            const sd = variance ** 0.5
+            return sd
+        },
 
-        const sd = variance ** 0.5
-        return sd
-    },
+        function loops() {
+            const n = data.length
 
-    function generators() {
-        const n = data.length
-        const mean = reduce((a, b) => a + b / n, data, 0)
-        const variance = reduce((a, b) => a + b, map(x => ((x - mean) ** 2) / (n - 1), data))
-        const sd = variance ** 0.5
-        return sd
-    },
+            let mean = 0
+            let variance = 0
 
-    function loops() {
-        const n = data.length
+            for (const value of data)
+                mean += value / n
 
-        let mean = 0
-        let variance = 0
+            for (const value of data)
+                variance += ((value - mean) ** 2) / (n - 1)
 
-        for (const value of data)
-            mean += value / n
+            const sd = variance ** 0.5
+            return sd
+        }
+    )
 
-        for (const value of data)
-            variance += ((value - mean) ** 2) / (n - 1)
-
-        const sd = variance ** 0.5
-        return sd
-    }
-)
+    expect(sortedResults[0].name === 'loops')
+})

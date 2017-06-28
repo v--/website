@@ -19,7 +19,7 @@ module.exports = {
             const state = iter.next()
 
             if (state.done)
-                throw CoolError('Nothing to reduce')
+                throw new CoolError('Nothing to reduce')
 
             accum = state.value
         }
@@ -36,6 +36,11 @@ module.exports = {
         return
     },
     /* eslint-enable require-yield */
+
+    *range(from, to, step) {
+        for (let i = from; i < to; i += step)
+            yield i
+    },
 
     *map(transform, iter) {
         for (const value of iter)

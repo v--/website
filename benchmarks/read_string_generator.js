@@ -1,3 +1,4 @@
+const { it, expect } = require('tests')
 const { run } = require('benchmarks')
 
 const { take } = require('common/support/itertools')
@@ -19,26 +20,33 @@ function *flattenStringIterable(iterable) {
         yield* element
 }
 
-run(
-    function iterators() {
-        const flattened = flattenStringIterable(generator())
-        let result
-        let delta
+it("A string buffer is faster than it's corresponding generator approach", async function () {
+    const sortedResults = await run(
+        function iterators() {
+            const flattened = flattenStringIterable(generator())
+            let result
+            let delta
 
-        do
-            result += delta = Array.from(take(flattened, 100)).join('')
-        while (delta)
+            do
+                result += delta = Array.from(take(flattened, 100)).join('')
+            while (delta)
 
-        return result
-    },
+            return result
+        },
 
-    function buffered() {
-        const buffer = new StringBuffer(generator())
-        let result = '' // Make sure that things don't get optimized out
+        function buffered() {
+            const buffer = new StringBuffer(generator())
+            let result = '' // Make sure that things don't get optimized out
 
-        while (!buffer.exhausted)
-            result += buffer.read(100)
+            while (!buffer.exhausted)
+                result += buffer.read(100)
 
-        return result
-    }
-)
+            return result
+        }
+    )
+
+    expect(sortedResults.map(suite => suite.name)).to.deep.equal([
+        'buffered',
+        'iterators'
+    ])
+})
