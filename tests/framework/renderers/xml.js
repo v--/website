@@ -1,4 +1,5 @@
-const { describe, it, expect } = require('tests')
+const { expect } = require('tests')
+
 const render = require('framework/renderers/mirror/render')
 
 const ReactiveMap = require('common/support/reactive_map')

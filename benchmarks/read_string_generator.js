@@ -1,4 +1,4 @@
-const { it, expect } = require('tests')
+const { expect } = require('tests')
 const { run } = require('benchmarks')
 
 const { take } = require('common/support/itertools')

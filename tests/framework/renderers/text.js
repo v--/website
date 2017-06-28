@@ -1,4 +1,4 @@
-const { describe, it, expect } = require('tests')
+const { expect } = require('tests')
 
 const TextComponent = require('framework/components/text')
 const MirrorTextRenderer = require('framework/renderers/mirror/text')

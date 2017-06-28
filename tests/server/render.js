@@ -1,4 +1,4 @@
-const { describe, it, expect } = require('tests')
+const { expect } = require('tests')
 
 const c = require('framework/c')
 const render = require('server/render')

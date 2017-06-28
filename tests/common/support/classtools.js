@@ -1,6 +1,6 @@
-const { describe, it, expect } = require('tests')
+const { expect } = require('tests')
 
-const { MethodNotImplementedError, abstractMethodChecker } = require('code/common/support/classtools')
+const { MethodNotImplementedError, abstractMethodChecker } = require('common/support/classtools')
 
 describe('abstractMethodChecker', () => {
     class Abstract {

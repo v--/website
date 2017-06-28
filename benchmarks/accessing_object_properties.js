@@ -1,4 +1,3 @@
-const { it } = require('tests')
 const { run } = require('benchmarks')
 
 const { writeFile } = require('server/support/fs')

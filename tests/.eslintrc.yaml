@@ -1,11 +1,10 @@
 plugins:
   - mocha
 
-rules:
-  mocha/valid-test-description:  off
-  mocha/valid-suite-description: off
-  mocha/no-synchronous-tests:    off
+env:
+  mocha: true
 
+rules:
   mocha/no-exclusive-tests:      error
   mocha/no-global-tests:         error
   mocha/no-pending-tests:        error

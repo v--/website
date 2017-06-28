@@ -1,4 +1,4 @@
-const { describe, it, expect } = require('tests')
+const { expect } = require('tests')
 
 const URL = require('common/support/url')
 

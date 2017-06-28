@@ -1,4 +1,4 @@
-const { describe, it, expect } = require('tests')
+const { expect } = require('tests')
 
 const ReactiveMap = require('common/support/reactive_map')
 
