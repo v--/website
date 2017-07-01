@@ -1,3 +1,4 @@
+const { all } = require('common/support/itertools')
 const { NotImplementedError } = require('common/errors')
 
 class MethodNotImplementedError extends NotImplementedError {}
@@ -10,7 +11,19 @@ function abstractMethodChecker(context, abstract = []) {
     }
 }
 
+function interfaceFactory(...props) {
+    return {
+        [Symbol.hasInstance](instance) {
+            if (instance instanceof Object)
+                return all(prop => prop in instance, props)
+
+            return false
+        }
+    }
+}
+
 module.exports = {
+    interfaceFactory,
     abstractMethodChecker,
     MethodNotImplementedError
 }
