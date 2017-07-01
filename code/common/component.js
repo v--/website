@@ -4,7 +4,6 @@ const { map } = require('common/support/itertools')
 const { repr, join } = require('common/support/strtools')
 const { CoolError } = require('common/errors')
 const Interface = require('common/support/interface')
-const { IString } = require('common/interfaces')
 
 const htmlVoidTags = new Set([
     'area',
@@ -46,7 +45,7 @@ class Component {
         const state = args.length === 0 ? null : args.shift()
         const children = Array.from(processChildren(args))
 
-        if (typeof state !== 'object') // Yep, null is allowed too
+        if (!(state instanceof Interface.IObject || state instanceof Interface.INull))
             throw new ComponentCreationError(`Expected either an object or null as an state object, but got ${repr(state)}`)
 
         const component = new this(type, state || {}, children)
@@ -81,14 +80,14 @@ class Component {
     destroy() {}
 }
 
-const IXMLComponent = Interface.create('namespace')
+const IXMLComponent = Interface.create({ namespace: Interface.IString })
 
 class XMLComponent extends Component {
     checkSanity() {
         super.checkSanity()
         IXMLComponent.assert(this)
 
-        if (typeof this.type !== 'string')
+        if (!(this.type instanceof Interface.IString))
             throw new ComponentSanityError(`${repr(this)} must have a string type, not ${repr(this.type)}`)
 
         if (this.type.length === 0)
@@ -122,7 +121,7 @@ class FactoryComponent extends Component {
     checkSanity() {
         super.checkSanity()
 
-        if (!(this.type instanceof Function))
+        if (!(this.type instanceof Interface.IFunction))
             throw new ComponentSanityError(`${repr(this)} must have a type function, not ${repr(this.type)}`)
     }
 
@@ -154,12 +153,12 @@ module.exports = {
 
     c: overloader(
         {
-            type: IString,
+            iface: Interface.IString,
             impl: bind(HTMLComponent, 'safeCreate')
         },
 
         {
-            type: Function,
+            iface: Interface.IFunction,
             impl: bind(FactoryComponent, 'safeCreate')
         }
     )

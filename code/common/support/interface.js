@@ -1,37 +1,237 @@
-const { all } = require('common/support/itertools')
 const { repr } = require('common/support/strtools')
 const { CoolError } = require('common/errors')
 
 class InterfaceNotImplementedError extends CoolError {}
 
 class Interface {
-    static create(...props) {
-        return new this(props)
+    static methods(...methods) {
+        return new this(methods.map(method => ({ name: method, iface: Interface.IFunction })))
+    }
+
+    static create(props) {
+        return new this(Object.entries(props).map(([name, iface]) => ({ name, iface })))
     }
 
     constructor(props) {
+        for (const iface of props) {
+            Interface.IObject.assert(iface)
+            Interface.IString.assert(iface.name)
+            Interface.IInterface.assert(iface.iface)
+        }
+
         this.props = props
     }
 
     assert(instance) {
-        if (!(instance instanceof Object))
+        if (!(instance instanceof Interface.IObject))
             throw new InterfaceNotImplementedError(`${repr(instance)} must be an object`)
 
-        for (const propName of this.props)
-            if (!(propName in instance))
-                throw new InterfaceNotImplementedError(`${repr(instance)} did not implement ${propName}`)
+        for (const { name, iface } of this.props)
+            if (!(name in instance && instance[name] instanceof iface))
+                throw new InterfaceNotImplementedError(`${repr(instance)} does not implement ${repr(iface)} ${name}`)
     }
 
     [Symbol.hasInstance](instance) {
-        if (instance instanceof Object)
-            return all(prop => prop in instance, this.props)
+        if (!(instance instanceof Interface.IObject))
+            return false
 
-        return false
+        for (const { name, iface } of this.props)
+            if (!(name in instance && instance[name] instanceof iface))
+                return false
+
+        return true
     }
 }
 
 Object.defineProperty(Interface, 'InterfaceNotImplementedError', { value: InterfaceNotImplementedError })
-Object.defineProperty(Interface, 'IEmpty', { value: Interface.create() })
-Object.defineProperty(Interface, 'IInterface', { value: Interface.create('assert', Symbol.hasInstance) })
+
+/* eslint-disable no-unused-vars */
+Object.defineProperty(Interface, 'IEmpty', {
+    value: {
+        assert(instance) {},
+        [Symbol.hasInstance](instance) {
+            return true
+        },
+
+        toString() {
+            return 'string'
+        }
+    }
+})
+/* eslint-enable no-unused-vars */
+
+Object.defineProperty(Interface, 'IString', {
+    value: {
+        assert(instance) {
+            if (!(instance instanceof this))
+                throw new InterfaceNotImplementedError(`${repr(instance)} must be a string`)
+        },
+
+        [Symbol.hasInstance](instance) {
+            return typeof instance === 'string'
+        },
+
+        toString() {
+            return 'string'
+        }
+    }
+})
+
+Object.defineProperty(Interface, 'INumber', {
+    value: {
+        assert(instance) {
+            if (!(instance instanceof this))
+                throw new InterfaceNotImplementedError(`${repr(instance)} must be a number`)
+        },
+
+        [Symbol.hasInstance](instance) {
+            return typeof instance === 'number'
+        },
+
+        toString() {
+            return 'number'
+        }
+    }
+})
+
+Object.defineProperty(Interface, 'IBoolean', {
+    value: {
+        assert(instance) {
+            if (!(instance instanceof this))
+                throw new InterfaceNotImplementedError(`${repr(instance)} must be a boolean`)
+        },
+
+        [Symbol.hasInstance](instance) {
+            return typeof instance === 'boolean'
+        },
+
+        toString() {
+            return 'boolean'
+        }
+    }
+})
+
+Object.defineProperty(Interface, 'IUndefined', {
+    value: {
+        assert(instance) {
+            if (!(instance instanceof this))
+                throw new InterfaceNotImplementedError(`${repr(instance)} must be undefined`)
+        },
+
+        [Symbol.hasInstance](instance) {
+            return typeof instance === 'undefined'
+        },
+
+        toString() {
+            return 'undefined'
+        }
+    }
+})
+
+Object.defineProperty(Interface, 'INull', {
+    value: {
+        assert(instance) {
+            if (!(instance instanceof this))
+                throw new InterfaceNotImplementedError(`${repr(instance)} must be null`)
+        },
+
+        [Symbol.hasInstance](instance) {
+            return instance === null
+        },
+
+        toString() {
+            return 'null'
+        }
+    }
+})
+
+Object.defineProperty(Interface, 'ISymbol', {
+    value: {
+        assert(instance) {
+            if (!(instance instanceof this))
+                throw new InterfaceNotImplementedError(`${repr(instance)} must be null`)
+        },
+
+        [Symbol.hasInstance](instance) {
+            return instance === null
+        },
+
+        toString() {
+            return 'Symbol'
+        }
+    }
+})
+
+Object.defineProperty(Interface, 'IFunction', {
+    value: {
+        assert(instance) {
+            if (!(instance instanceof this))
+                throw new InterfaceNotImplementedError(`${repr(instance)} must be a function`)
+        },
+
+        [Symbol.hasInstance](instance) {
+            return typeof instance === 'function'
+        },
+
+        toString() {
+            return 'function'
+        }
+    }
+})
+
+Object.defineProperty(Interface, 'IObject', {
+    value: {
+        assert(instance) {
+            if (!(instance instanceof this))
+                throw new InterfaceNotImplementedError(`${repr(instance)} must be an object`)
+        },
+
+        [Symbol.hasInstance](instance) {
+            return typeof instance === 'function' || typeof instance === 'object' && instance !== null
+        },
+
+        toString() {
+            return 'Object'
+        }
+    }
+})
+
+Object.defineProperty(Interface, 'IArray', {
+    value: {
+        assert(instance) {
+            if (!(instance instanceof this))
+                throw new InterfaceNotImplementedError(`${repr(instance)} must be an array`)
+        },
+
+        [Symbol.hasInstance](instance) {
+            return Object.prototype.toString.call(instance) === '[object Array]'
+        },
+
+        toString() {
+            return 'Array'
+        }
+    }
+})
+
+Object.defineProperty(Interface, 'IInterface', {
+    value: {
+        assert(instance) {
+            Interface.IObject.assert(instance)
+
+            if (!(instance instanceof this))
+                throw new InterfaceNotImplementedError(`${repr(instance)} must be implement the hasInstance hook`)
+        },
+
+        [Symbol.hasInstance](instance) {
+            return instance instanceof Interface.IObject &&
+                Symbol.hasInstance in instance &&
+                instance[Symbol.hasInstance] instanceof Interface.IFunction
+        },
+
+        toString() {
+            return 'Interface'
+        }
+    }
+})
 
 module.exports = Interface

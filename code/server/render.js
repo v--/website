@@ -1,15 +1,16 @@
 const { overloader } = require('common/support/functools')
+const Interface = require('common/support/interface')
 
 const { Component, XMLComponent, FactoryComponent } = require('common/component')
 
 const render = overloader(
     {
-        type: XMLComponent,
+        iface: XMLComponent,
         *impl(component) {
             yield `<${component.type}`
 
             for (const [key, value] of Object.entries(component.state))
-                if (key !== 'text' && !(value instanceof Function))
+                if (key !== 'text' && !(value instanceof Interface.IFunction))
                     yield ` ${key}="${value}"`
 
             yield '>'
@@ -29,7 +30,7 @@ const render = overloader(
     },
 
     {
-        type: FactoryComponent,
+        iface: FactoryComponent,
         *impl(component) {
             yield* render(component.evaluate())
         }

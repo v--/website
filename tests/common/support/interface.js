@@ -1,44 +1,51 @@
 const { expect } = require('tests')
 
 const Interface = require('common/support/interface')
+const { bind } = require('common/support/functools')
 
 describe('Interface', function () {
     describe('.assert()', () => {
-        const IAbstract = Interface.create('_abstractMethod')
+        const IAbstract = Interface.create({ _abstractMethod: Function })
 
-        class Abstract {
-            constructor() {
-                IAbstract.assert(this)
-            }
-        }
-
-        it('passes when the abstract properties are overridden', function () {
-            class Valid extends Abstract {
-                _abstractMethod() {}
-            }
-
-            expect(() => new Valid()).to.not.throw(Interface.InterfaceNotImplementedError)
+        it('passes if the abstract properties are overridden', function () {
+            const object = { _abstractMethod() {} }
+            expect(bind(IAbstract, 'assert', object)).to.not.throw(Interface.InterfaceNotImplementedError)
         })
 
-        it('throws when the abstract properties are not overridden', function () {
-            class Invalid extends Abstract {}
-            expect(() => new Invalid()).to.throw(Interface.InterfaceNotImplementedError)
+        it('throws if the properties implement wrong interfaces', function () {
+            const object = { _abstractMethod: false }
+            expect(bind(IAbstract, 'assert', object)).to.throw(Interface.InterfaceNotImplementedError)
+        })
+
+        it('throws if the abstract properties are not overridden', function () {
+            const object = {}
+            expect(bind(IAbstract, 'assert', object)).to.throw(Interface.InterfaceNotImplementedError)
         })
     })
 
     describe('hasInstance hook', function () {
-        it('succeeds when an object has all IAbstract properties', function () {
-            const IAbstract = Interface.create('a', 'b')
+        it('succeeds if an object has all IAbstract properties', function () {
+            const IAbstract = Interface.create({ a: Interface.INumber, b: Interface.INumber })
             expect({ a: 1, b: 2 }).to.be.an.instanceof(IAbstract)
         })
 
-        it("fails when an object doesn't implement IAbstract properties", function () {
-            const IAbstract = Interface.create('a', 'b')
+        it("fails if an object has all IAbstract properties, but they don't satisfy their interfaces", function () {
+            const IAbstract = Interface.create({ a: Interface.INumber, b: Interface.INumber })
+            expect({ a: '1', b: 2 }).to.not.be.an.instanceof(IAbstract)
+        })
+
+        it("fails if an object doesn't implement IAbstract properties", function () {
+            const IAbstract = Interface.create({ a: Interface.INumber, b: Interface.INumber })
             expect({ a: 1 }).to.not.be.an.instanceof(IAbstract)
         })
 
         it('fails on non-objects', function () {
-            const IAbstract = Interface.create('a', 'b')
+            const IAbstract = Interface.create({ a: Interface.INumber, b: Interface.INumber })
+            expect(3).to.not.be.an.instanceof(IAbstract)
+        })
+
+        it("fails if an property does not satisfy it's interface", function () {
+            const IAbstract = Interface.create({ a: Interface.INumber, b: Interface.INumber })
             expect(3).to.not.be.an.instanceof(IAbstract)
         })
     })

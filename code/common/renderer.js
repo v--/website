@@ -5,8 +5,8 @@ const { bind } = require('common/support/functools')
 const Interface = require('common/support/interface')
 const { Component, XMLComponent, FactoryComponent, InvalidComponentError } = require('common/component')
 
-const IRendererClass = Interface.create('componentClass')
-const IRenderer = Interface.create('render', 'rerender')
+const IRendererClass = Interface.methods('componentClass')
+const IRenderer = Interface.methods('render', 'rerender')
 
 class Renderer {
     constructor(dispatcher, component) {
@@ -21,7 +21,7 @@ class Renderer {
     destroy() {}
 }
 
-const IXMLRenderer = Interface.create('_createNode', '_setOption', '_updateText', '_deleteOption', '_appendChild')
+const IXMLRenderer = Interface.methods('_createNode', '_setOption', '_updateText', '_deleteOption', '_appendChild')
 
 class XMLRenderer extends Renderer {
     constructor(component, dispatcher) {
@@ -90,7 +90,7 @@ module.exports = {
 
     renderDispatcherFactory(...renderers) {
         const dispather = overloader(...map(Cls => ({
-            type: Cls.componentClass,
+            iface: Cls.componentClass,
             impl: component => new Cls(dispather, component).render()
         }), renderers))
 
