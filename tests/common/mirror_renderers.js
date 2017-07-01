@@ -12,7 +12,7 @@ describe('MirrorXMLRenderer', function () {
             expect(src).to.equalComponent(dest)
         })
 
-        it('renders components with options', function () {
+        it('renders components with state', function () {
             const src = c('div', { a: 0 })
             const dest = render(src)
 
@@ -49,7 +49,7 @@ describe('MirrorFactoryRenderer', function () {
             const src = c(({ text }) => c('span', { text }), { text: 'text' })
             const dest = render(src)
 
-            expect(dest.options.text).to.equal('text')
+            expect(dest.state.text).to.equal('text')
         })
     })
 })

@@ -6,15 +6,15 @@ class MirrorXMLRenderer extends XMLRenderer {
     }
 
     _setOption(key, value) {
-        this.element.options[key] = value
+        this.element.state[key] = value
     }
 
     _updateText() {
-        this.element.options.text = this.component.options.text
+        this.element.state.text = this.component.state.text
     }
 
     _deleteOption(key) {
-        this.element.options.delete(key)
+        this.element.state.delete(key)
     }
 
     _appendChild(child) {

@@ -42,38 +42,38 @@ class Component {
      * Do sanity checks before creating the actual component instance.
      */
     static safeCreate(type, ...args) {
-        const options = args.length === 0 ? null : args.shift()
+        const state = args.length === 0 ? null : args.shift()
         const children = Array.from(processChildren(args))
 
-        if (typeof options !== 'object') // Yep, null is allowed too
-            throw new ComponentCreationError(`Expected either an object or null as an options object, but got ${repr(options)}`)
+        if (typeof state !== 'object') // Yep, null is allowed too
+            throw new ComponentCreationError(`Expected either an object or null as an state object, but got ${repr(state)}`)
 
-        const component = new this(type, options || {}, children)
+        const component = new this(type, state || {}, children)
         component.checkSanity()
         return component
     }
 
-    constructor(type, options, children) {
+    constructor(type, state, children) {
         this.type = type
-        this.options = options
+        this.state = state
         this.children = children
     }
 
-    [dup](type, options, children) {
-        return new this.constructor(type, options, children)
+    [dup](type, state, children) {
+        return new this.constructor(type, state, children)
     }
 
     toString() {
         const cls = repr(this.constructor)
         const type = repr(this.type)
-        const options = repr(this.options)
+        const state = repr(this.state)
 
         if (this.children.length) {
             const children = join(',\n\t', map(String, this.children))
-            return `${cls}(${type}, ${options},\n\t${children}\n)`
+            return `${cls}(${type}, ${state},\n\t${children}\n)`
         }
 
-        return `${cls}(${type}, ${options})`
+        return `${cls}(${type}, ${state})`
     }
 
     checkSanity() {}
@@ -91,7 +91,7 @@ class XMLComponent extends Component {
         if (this.type.length === 0)
             throw new ComponentSanityError(`${repr(this)}'s type string cannot be empty`)
 
-        if ('text' in this.options && this.children.length > 0)
+        if ('text' in this.state && this.children.length > 0)
             throw new ComponentSanityError(`${repr(this)} cannot have both text and children`)
     }
 }
@@ -103,7 +103,7 @@ class HTMLComponent extends XMLComponent {
         if (this.isVoid && this.children.length > 0)
             throw new ComponentSanityError(`${repr(this)} cannot have children`)
 
-        if (this.isVoid && 'text' in this.options)
+        if (this.isVoid && 'text' in this.state)
             throw new ComponentSanityError(`${repr(this)} cannot have text`)
     }
 
@@ -127,7 +127,7 @@ class FactoryComponent extends Component {
         let root = this
 
         while (root instanceof FactoryComponent) {
-            const component = root.type(root.options, root.children)
+            const component = root.type(root.state, root.children)
 
             if (!(component instanceof Component))
                 throw new InvalidComponentError(`Expected ${this} to return a component, not ${repr(component)}.`)

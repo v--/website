@@ -18,15 +18,15 @@ describe('Component', function () {
             const component = Component.safeCreate('div')
             expect(component).to.deep.equal({
                 type: 'div',
-                options: {},
+                state: {},
                 children: []
             })
         })
 
-        it('preserves the options object', function () {
-            const options = {}
-            const component = Component.safeCreate('div', options)
-            expect(component.options).to.equal(options)
+        it('preserves the state object', function () {
+            const state = {}
+            const component = Component.safeCreate('div', state)
+            expect(component.state).to.equal(state)
         })
 
         it('filters falsy children', function () {
@@ -36,7 +36,7 @@ describe('Component', function () {
             expect(component.children).to.include(child)
         })
 
-        it('throws if the options is an invalid data type', function () {
+        it('throws if the state is an invalid data type', function () {
             function factory() {
                 return Component.safeCreate('div', undefined)
             }
@@ -176,8 +176,8 @@ describe('FactoryComponent', function () {
                 return HTMLComponent.safeCreate('div', { text })
             }
 
-            function factory(options) {
-                return FactoryComponent.safeCreate(subfactory, options)
+            function factory(state) {
+                return FactoryComponent.safeCreate(subfactory, state)
             }
 
             const evaluated = FactoryComponent.safeCreate(factory, { 'text': 'text' }).evaluate()

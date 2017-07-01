@@ -12,7 +12,7 @@ class DOMXMLRenderer extends XMLRenderer {
     }
 
     _updateText() {
-        this.element.innerText = this.component.options.text
+        this.element.innerText = this.component.state.text
     }
 
     _deleteOption(key) {

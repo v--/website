@@ -1,6 +1,6 @@
 const { c } = require('common/component')
 
-module.exports = function index(options, children) {
+module.exports = function index(state, children) {
     return c('html', { lang: 'en-US' },
         c('head', null,
             c('title', { text: 'ivasilev.net' }),

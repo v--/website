@@ -28,12 +28,12 @@ class XMLRenderer extends Renderer {
         const component = this.component
         this.element = this._createNode()
 
-        for (const [key, value] of Object.entries(component.options))
+        for (const [key, value] of Object.entries(component.state))
             if (key !== 'text')
                 this._setOption(key, value)
 
-        if ('text' in this.component.options)
-            this._updateText(this.component.options.text)
+        if ('text' in this.component.state)
+            this._updateText(this.component.state.text)
 
         for (const child of component.children)
             this._appendChild(this.dispatcher(child))

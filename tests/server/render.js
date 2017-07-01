@@ -18,7 +18,7 @@ describe('Server-side render', function () {
         expect(renderToString(component)).to.equal('<div></div>')
     })
 
-    it('Properly renders a blank div tag with class and style options', function () {
+    it('Properly renders a blank div tag with class and style state', function () {
         const component = c('div', { class: 'cool', style: 'background: yellow;' })
         expect(renderToString(component)).to.equal('<div class="cool" style="background: yellow;"></div>')
     })
@@ -48,14 +48,14 @@ describe('Server-side render', function () {
         expect(component).to.equal('<div></div>')
     })
 
-    it('Allows passing options to components', function () {
+    it('Allows passing state to components', function () {
         const factory = ({ tag }) => c('div', null, c(tag))
         const component = c(factory, { tag: 'span' })
         expect(renderToString(component)).to.equal('<div><span></span></div>')
     })
 
     it('Properly transcludes components', function () {
-        const factory = (options, children) => c('div', null, ...children)
+        const factory = (state, children) => c('div', null, ...children)
         const component = c(factory, null, c('span'))
         expect(renderToString(component)).to.equal('<div><span></span></div>')
     })

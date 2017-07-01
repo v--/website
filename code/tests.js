@@ -6,11 +6,11 @@ const { all, zip } = require('common/support/itertools')
 chai.use(chaiIterator)
 
 function cmpComponents(a, b) {
-    const aKeys = Object.keys(a.options).sort()
-    const bKeys = Object.keys(b.options).sort()
+    const aKeys = Object.keys(a.state).sort()
+    const bKeys = Object.keys(b.state).sort()
 
     function cmpKeys([aKey, bKey]) {
-        return aKey === bKey && a.options[aKey] === b.options[bKey]
+        return aKey === bKey && a.state[aKey] === b.state[bKey]
     }
 
     return a.constructor === b.constructor &&
