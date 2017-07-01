@@ -2,13 +2,16 @@ const { dup } = require('common/symbols')
 const { overloader } = require('common/support/functools')
 const { map } = require('common/support/itertools')
 const { bind } = require('common/support/functools')
-const { assertInterface } = require('common/support/interface')
+const Interface = require('common/support/interface')
 const { Component, XMLComponent, FactoryComponent, InvalidComponentError } = require('common/component')
+
+const IRendererClass = Interface.create('componentClass')
+const IRenderer = Interface.create('render', 'rerender')
 
 class Renderer {
     constructor(dispatcher, component) {
-        assertInterface(this.constructor, ['componentClass'])
-        assertInterface(this, ['render', 'rerender'])
+        IRendererClass.assert(this.constructor)
+        IRenderer.assert(this)
         this.boundRerender = bind(this, 'rerender')
         this.dispatcher = dispatcher
         this.component = component
@@ -18,10 +21,12 @@ class Renderer {
     destroy() {}
 }
 
+const IXMLRenderer = Interface.create('_createNode', '_setOption', '_updateText', '_deleteOption', '_appendChild')
+
 class XMLRenderer extends Renderer {
     constructor(component, dispatcher) {
         super(component, dispatcher)
-        assertInterface(this, ['_createNode', '_setOption', '_updateText', '_deleteOption', '_appendChild'])
+        IXMLRenderer.assert(this)
     }
 
     render() {

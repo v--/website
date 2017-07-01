@@ -4,27 +4,32 @@ const { CoolError } = require('common/errors')
 
 class InterfaceNotImplementedError extends CoolError {}
 
-function interfaceFactory(...props) {
-    return {
-        [Symbol.hasInstance](instance) {
-            if (instance instanceof Object)
-                return all(prop => prop in instance, props)
+class Interface {
+    static create(...props) {
+        return new this(props)
+    }
 
-            return false
-        }
+    constructor(props) {
+        this.props = props
+    }
+
+    assert(instance) {
+        if (!(instance instanceof Object))
+            throw new InterfaceNotImplementedError(`${repr(instance)} must be an object`)
+
+        for (const propName of this.props)
+            if (!(propName in instance))
+                throw new InterfaceNotImplementedError(`${repr(instance)} did not implement ${propName}`)
+    }
+
+    [Symbol.hasInstance](instance) {
+        if (instance instanceof Object)
+            return all(prop => prop in instance, this.props)
+
+        return false
     }
 }
 
-function assertInterface(context, abstract = []) {
-    for (const propName of abstract) {
-        if (!(propName in context)) {
-            throw new InterfaceNotImplementedError(`${repr(context)} did not implement ${propName}`)
-        }
-    }
-}
+Object.defineProperty(Interface, 'InterfaceNotImplementedError', { value: InterfaceNotImplementedError })
 
-module.exports = {
-    InterfaceNotImplementedError,
-    interfaceFactory,
-    assertInterface
-}
+module.exports = Interface

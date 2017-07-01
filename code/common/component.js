@@ -3,7 +3,7 @@ const { overloader, bind } = require('common/support/functools')
 const { map } = require('common/support/itertools')
 const { repr, join } = require('common/support/strtools')
 const { CoolError } = require('common/errors')
-const { assertInterface } = require('common/support/interface')
+const Interface = require('common/support/interface')
 
 const htmlVoidTags = new Set([
     'area',
@@ -80,10 +80,12 @@ class Component {
     destroy() {}
 }
 
+const IXMLComponent = Interface.create('namespace')
+
 class XMLComponent extends Component {
     checkSanity() {
         super.checkSanity()
-        assertInterface(this, ['namespace'])
+        IXMLComponent.assert(this)
 
         if (typeof this.type !== 'string')
             throw new ComponentSanityError(`${repr(this)} must have a string type, not ${repr(this.type)}`)
