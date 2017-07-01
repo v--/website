@@ -1,25 +1,25 @@
 const { expect } = require('tests')
 
-const { MethodNotImplementedError, abstractMethodChecker, interfaceFactory } = require('common/support/classtools')
+const { InterfaceNotImplementedError, assertInterface, interfaceFactory } = require('common/support/interface')
 
-describe('abstractMethodChecker()', () => {
+describe('assertInterface()', () => {
     class Abstract {
         constructor() {
-            abstractMethodChecker(this, ['_abstractMethod'])
+            assertInterface(this, ['_abstractMethod'])
         }
     }
 
-    it('passes when the abstract methods are inherited', function () {
+    it('passes when the abstract properties are overridden', function () {
         class Valid extends Abstract {
             _abstractMethod() {}
         }
 
-        expect(() => new Valid()).to.not.throw(MethodNotImplementedError)
+        expect(() => new Valid()).to.not.throw(InterfaceNotImplementedError)
     })
 
-    it('throws when the abstract methods are not inherited', function () {
+    it('throws when the abstract properties are not overridden', function () {
         class Invalid extends Abstract {}
-        expect(() => new Invalid()).to.throw(MethodNotImplementedError)
+        expect(() => new Invalid()).to.throw(InterfaceNotImplementedError)
     })
 })
 

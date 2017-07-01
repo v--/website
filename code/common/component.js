@@ -3,7 +3,7 @@ const { overloader, bind } = require('common/support/functools')
 const { map } = require('common/support/itertools')
 const { repr, join } = require('common/support/strtools')
 const { CoolError } = require('common/errors')
-const { abstractMethodChecker } = require('common/support/classtools')
+const { assertInterface } = require('common/support/interface')
 
 const htmlVoidTags = new Set([
     'area',
@@ -83,7 +83,7 @@ class Component {
 class XMLComponent extends Component {
     checkSanity() {
         super.checkSanity()
-        abstractMethodChecker(this, ['namespace'])
+        assertInterface(this, ['namespace'])
 
         if (typeof this.type !== 'string')
             throw new ComponentSanityError(`${repr(this)} must have a string type, not ${repr(this.type)}`)

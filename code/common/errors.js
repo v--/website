@@ -5,8 +5,6 @@ class CoolError extends Error {
     }
 }
 
-class NotImplementedError extends Error {}
-
 class HTTPError extends CoolError {
     constructor(code, message) {
         super(message)
@@ -22,7 +20,6 @@ class HTTPError extends CoolError {
 module.exports = {
     CoolError,
     HTTPError,
-    NotImplementedError,
 
     NotFoundError: class NotFoundError extends HTTPError {
         constructor() {

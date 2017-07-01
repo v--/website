@@ -2,13 +2,13 @@ const { dup } = require('common/symbols')
 const { overloader } = require('common/support/functools')
 const { map } = require('common/support/itertools')
 const { bind } = require('common/support/functools')
-const { abstractMethodChecker } = require('common/support/classtools')
+const { assertInterface } = require('common/support/interface')
 const { Component, XMLComponent, FactoryComponent, InvalidComponentError } = require('common/component')
 
 class Renderer {
     constructor(dispatcher, component) {
-        abstractMethodChecker(this.constructor, ['componentClass'])
-        abstractMethodChecker(this, ['render', 'rerender'])
+        assertInterface(this.constructor, ['componentClass'])
+        assertInterface(this, ['render', 'rerender'])
         this.boundRerender = bind(this, 'rerender')
         this.dispatcher = dispatcher
         this.component = component
@@ -21,7 +21,7 @@ class Renderer {
 class XMLRenderer extends Renderer {
     constructor(component, dispatcher) {
         super(component, dispatcher)
-        abstractMethodChecker(this, ['_createNode', '_setOption', '_updateText', '_deleteOption', '_appendChild'])
+        assertInterface(this, ['_createNode', '_setOption', '_updateText', '_deleteOption', '_appendChild'])
     }
 
     render() {

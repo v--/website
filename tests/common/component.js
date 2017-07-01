@@ -1,7 +1,7 @@
 const { expect } = require('tests')
 
 const { bind } = require('common/support/functools')
-const { MethodNotImplementedError } = require('common/support/classtools')
+const { InterfaceNotImplementedError } = require('common/support/interface')
 const {
     Component,
     XMLComponent,
@@ -87,7 +87,7 @@ describe('XMLComponent', function () {
                 return XMLComponent.safeCreate('div')
             }
 
-            expect(factory).to.throw(MethodNotImplementedError)
+            expect(factory).to.throw(InterfaceNotImplementedError)
         })
 
         it('succeeds if a namespace exists in the class', function () {
@@ -95,7 +95,7 @@ describe('XMLComponent', function () {
                 return SVGComponent.safeCreate('g')
             }
 
-            expect(factory).to.not.throw(MethodNotImplementedError)
+            expect(factory).to.not.throw(InterfaceNotImplementedError)
         })
 
         it('throws if the type is not a string', function () {

@@ -1,4 +1,6 @@
-const { NotImplementedError } = require('common/errors')
+const { CoolError } = require('common/errors')
+
+class MissingInterfaceError extends CoolError {}
 
 module.exports = {
     overloader(...impls) {
@@ -8,7 +10,7 @@ module.exports = {
                     (typeof type === 'string' && typeof primary === type))
                     return impl(primary, ...args)
 
-            throw new NotImplementedError(`No method matches ${primary}`)
+            throw new MissingInterfaceError(`No method matches ${primary}`)
         }
     },
 
