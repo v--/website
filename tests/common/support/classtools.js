@@ -2,7 +2,7 @@ const { expect } = require('tests')
 
 const { MethodNotImplementedError, abstractMethodChecker } = require('common/support/classtools')
 
-describe('abstractMethodChecker', () => {
+describe('abstractMethodChecker()', () => {
     class Abstract {
         constructor() {
             abstractMethodChecker(this, ['_abstractMethod'])

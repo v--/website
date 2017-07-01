@@ -1,9 +1,9 @@
-const c = require('framework/c')
+const { c } = require('common/component')
 
-module.exports = function index({ children }) {
+module.exports = function index(options, children) {
     return c('html', { lang: 'en-US' },
         c('head', null,
-            c('title', null, 'ivasilev.net'),
+            c('title', { text: 'ivasilev.net' }),
             c('meta', { charset: 'UTF-8' }),
             c('meta', { name: 'viewport', content: 'width=device-width, initial-scale=1' }),
             c('link', { rel: 'icon', href: 'images/favicon.png' }),
@@ -13,7 +13,7 @@ module.exports = function index({ children }) {
         ),
 
         c('body', null,
-            c('aside', null, 'navigation'),
+            c('aside', { text: 'navigation' }),
             c('main', null, ...children)
         )
     )

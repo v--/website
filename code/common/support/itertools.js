@@ -1,6 +1,12 @@
 const { CoolError } = require('common/errors')
 
+class IterError extends CoolError {}
+class EmptyIterError extends IterError {}
+
 module.exports = {
+    IterError,
+    EmptyIterError,
+
     all(predicate, iter) {
         for (const value of iter)
             if (!predicate(value))
@@ -19,13 +25,13 @@ module.exports = {
             const state = iter.next()
 
             if (state.done)
-                throw new CoolError('Nothing to reduce')
+                throw new EmptyIterError('Nothing to reduce')
 
             accum = state.value
         }
 
         for (const value of iter) {
-            reducer(value, accum)
+            accum = reducer(value, accum)
         }
 
         return accum
@@ -37,7 +43,12 @@ module.exports = {
     },
     /* eslint-enable require-yield */
 
-    *range(from, to, step) {
+    *range(from, to, step = 1) {
+        if (to === undefined) {
+            to = from
+            from = 0
+        }
+
         for (let i = from; i < to; i += step)
             yield i
     },

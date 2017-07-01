@@ -1,6 +1,6 @@
 const FortifiedMap = require('common/support/fortified_map')
 const index = require('common/components/index')
-const c = require('framework/c')
+const { c } = require('common/component')
 
 const fs = require('server/support/fs')
 const render = require('server/render')

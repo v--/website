@@ -1,17 +1,15 @@
-const overloader = require('common/support/overloader')
+const { overloader } = require('common/support/functools')
 
-const AbstractXMLComponent = require('framework/components/xml')
-const TextComponent = require('framework/components/text')
-const FactoryComponent = require('framework/components/factory')
+const { Component, XMLComponent, FactoryComponent } = require('common/component')
 
 const render = overloader(
     {
-        type: AbstractXMLComponent,
+        type: XMLComponent,
         *impl(component) {
             yield `<${component.type}`
 
-            for (const [key, value] of component.options)
-                if (!(value instanceof Function))
+            for (const [key, value] of Object.entries(component.options))
+                if (key !== 'text' && !(value instanceof Function))
                     yield ` ${key}="${value}"`
 
             yield '>'
@@ -19,8 +17,12 @@ const render = overloader(
             if (component.isVoid)
                 return
 
+            if (component.options.text)
+                yield component.options.text
+
             for (const child of component.children)
-                yield* render(child)
+                if (child instanceof Component)
+                    yield* render(child)
 
             yield `</${component.type}>`
         }
@@ -30,13 +32,6 @@ const render = overloader(
         type: FactoryComponent,
         *impl(component) {
             yield* render(component.evaluate())
-        }
-    },
-
-    {
-        type: TextComponent,
-        *impl(component) {
-            yield component.text
         }
     }
 )

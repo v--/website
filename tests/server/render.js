@@ -1,6 +1,6 @@
 const { expect } = require('tests')
 
-const c = require('framework/c')
+const { c } = require('common/component')
 const render = require('server/render')
 
 function renderToString(component) {
@@ -24,47 +24,38 @@ describe('Server-side render', function () {
     })
 
     it('Properly renders a div tag with a string inside', function () {
-        const component = c('div', null, 'stuff')
+        const component = c('div', { text: 'stuff' })
         expect(renderToString(component)).to.equal('<div>stuff</div>')
     })
 
     it('Properly renders a div with a nested component', function () {
-        const component = c('div', null, c('span', null, 'nested'))
+        const component = c('div', null, c('span', { text: 'nested' }))
         expect(renderToString(component)).to.equal('<div><span>nested</span></div>')
     })
 
     it('Properly render a div with multiple nested component', function () {
         const component = c('div', null,
-            c('span', null, 'nested1'),
-            c('span', null, 'nested2')
+            c('span', { text: 'nested1' }),
+            c('span', { text: 'nested2' })
         )
 
         expect(renderToString(component)).to.equal('<div><span>nested1</span><span>nested2</span></div>')
     })
 
-    it('Properly render a div with multiple mixed component', function () {
-        const component = c('div', null,
-            'nested1',
-            c('span', null, 'nested2')
-        )
-
-        expect(renderToString(component)).to.equal('<div>nested1<span>nested2</span></div>')
-    })
-
-    it('Can render components', function () {
+    it('Can render factory components', function () {
         const factory = c(() => c('div'))
         const component = renderToString(factory)
         expect(component).to.equal('<div></div>')
     })
 
     it('Allows passing options to components', function () {
-        const factory = ({ options }) => c('div', null, c(options.get('tag')))
+        const factory = ({ tag }) => c('div', null, c(tag))
         const component = c(factory, { tag: 'span' })
         expect(renderToString(component)).to.equal('<div><span></span></div>')
     })
 
     it('Properly transcludes components', function () {
-        const factory = ({ children }) => c('div', null, ...children)
+        const factory = (options, children) => c('div', null, ...children)
         const component = c(factory, null, c('span'))
         expect(renderToString(component)).to.equal('<div><span></span></div>')
     })
