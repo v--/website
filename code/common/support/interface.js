@@ -31,5 +31,7 @@ class Interface {
 }
 
 Object.defineProperty(Interface, 'InterfaceNotImplementedError', { value: InterfaceNotImplementedError })
+Object.defineProperty(Interface, 'IEmpty', { value: Interface.create() })
+Object.defineProperty(Interface, 'IInterface', { value: Interface.create('assert', Symbol.hasInstance) })
 
 module.exports = Interface

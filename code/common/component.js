@@ -4,6 +4,7 @@ const { map } = require('common/support/itertools')
 const { repr, join } = require('common/support/strtools')
 const { CoolError } = require('common/errors')
 const Interface = require('common/support/interface')
+const { IString } = require('common/interfaces')
 
 const htmlVoidTags = new Set([
     'area',
@@ -153,7 +154,7 @@ module.exports = {
 
     c: overloader(
         {
-            type: 'string',
+            type: IString,
             impl: bind(HTMLComponent, 'safeCreate')
         },
 
