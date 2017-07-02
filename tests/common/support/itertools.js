@@ -5,17 +5,17 @@ const { EmptyIterError, reduce, range, zip } = require('common/support/itertools
 describe('zip()', function () {
     it('zips nothing', function () {
         const zipped = zip()
-        expect(Array.from(zipped)).to.deep.equal([])
+        expect(zipped).to.deep.iterate.over([])
     })
 
     it('zips single array', function () {
         const zipped = zip(['a', 'b'])
-        expect(Array.from(zipped)).to.deep.equal([['a'], ['b']])
+        expect(zipped).to.deep.iterate.over([['a'], ['b']])
     })
 
     it('zips two equinumerous array', function () {
         const zipped = zip(['a', 'b'], [1, 2])
-        expect(Array.from(zipped)).to.deep.equal([
+        expect(zipped).to.deep.iterate.over([
             ['a', 1],
             ['b', 2]
         ])
@@ -23,7 +23,7 @@ describe('zip()', function () {
 
     it("zips two non-equinumerous array by stopping at the shorter one's size", function () {
         const zipped = zip(['a', 'b', 'c'], [1, 2])
-        expect(Array.from(zipped)).to.deep.equal([
+        expect(zipped).to.deep.iterate.over([
             ['a', 1],
             ['b', 2]
         ])
@@ -31,7 +31,7 @@ describe('zip()', function () {
 
     it('zips three equinumerous arrays', function () {
         const zipped = zip(['a', 'b', 'c'], ['а', 'б', 'в'], [1, 2, 3])
-        expect(Array.from(zipped)).to.deep.equal([
+        expect(zipped).to.deep.iterate.over([
             ['a', 'а', 1],
             ['b', 'б', 2],
             ['c', 'в', 3]
