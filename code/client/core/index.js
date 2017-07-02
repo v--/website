@@ -2,19 +2,13 @@
 
 const home = require('common/views/home')
 
-const render = require('client/render')
+const render = require('client/core/render')
+const { onDocumentReady } = require('client/core/support/domtools')
 
-async function stuff() {
+onDocumentReady().then(async function () {
     const component = home.component()
-    const stuff = render(component)
+    const rendered = render(component)
+
     const main = document.querySelector('main')
-
-    while (main.firstChild)
-        main.removeChild(main.firstChild)
-
-    main.appendChild(stuff)
-}
-
-setTimeout(function () {
-    stuff().then(Function)
+    main.replaceChild(rendered, main.firstChild)
 })
