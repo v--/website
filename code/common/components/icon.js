@@ -6,10 +6,45 @@ class SVGComponent extends XMLComponent {
     }
 }
 
-module.exports = function icon({ sorted = false }) {
-    const iconName = sorted ? 'images/icons.svg#sort-descending' : 'images/icons.svg#sort-ascending'
+class PipelineObservable {
+    constructor(def) {
+        this.default = def
+        this.observers = new Set()
+    }
 
-    return SVGComponent.safeCreate('svg', { viewBox: '0 0 20 20' },
-        SVGComponent.safeCreate('use', { 'href': iconName })
+    subscribe(observer) {
+        this.observers.add(observer)
+    }
+
+    unsubscribe(observer) {
+        this.observers.delete(observer)
+    }
+
+    emit(value) {
+        for (const observer of this.observers)
+            observer.next(value)
+    }
+
+    complete() {
+        for (const observer of this.observers)
+            observer.complete()
+    }
+}
+
+module.exports = function icon() {
+    const observable = new PipelineObservable({ href: 'images/icons.svg#sort-descending' })
+    let ascending = false
+
+    function update() {
+        if (ascending)
+            observable.emit({ href: 'images/icons.svg#sort-descending' })
+        else
+            observable.emit({ href: 'images/icons.svg#sort-ascending' })
+
+        ascending = !ascending
+    }
+
+    return SVGComponent.safeCreate('svg', { viewBox: '0 0 20 20', click: update },
+        SVGComponent.safeCreate('use', observable)
     )
 }

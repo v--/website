@@ -3,6 +3,7 @@ const { overloader, bind } = require('common/support/functools')
 const { map } = require('common/support/itertools')
 const { repr, join } = require('common/support/strtools')
 const { CoolError } = require('common/errors')
+const { IObservable } = require('common/interfaces')
 const Interface = require('common/support/interface')
 
 const htmlVoidTags = new Set([
@@ -37,18 +38,44 @@ function *processChildren(children) {
     }
 }
 
+class ComponentState {
+    constructor(source, current) {
+        this.source = source
+
+        if (current)
+            this.current = current
+        else if (source instanceof IObservable)
+            this.current = source.default
+        else if (source instanceof Interface.INull)
+            this.current = {}
+        else
+            this.current = source
+    }
+
+    subscribe(observer) {
+        if (this.source instanceof IObservable)
+            this.source.subscribe(observer)
+    }
+
+    unsubscribe(observer) {
+        if (this.source instanceof IObservable)
+            this.source.unsubscribe(observer)
+    }
+}
+
 class Component {
     /**
      * Do sanity checks before creating the actual component instance.
      */
     static safeCreate(type, ...args) {
-        const state = args.length === 0 ? null : args.shift()
+        const stateSource = args.length === 0 ? null : args.shift()
         const children = Array.from(processChildren(args))
 
-        if (!(state instanceof Interface.IObject || state instanceof Interface.INull))
-            throw new ComponentCreationError(`Expected either an object or null as an state object, but got ${repr(state)}`)
+        if (!(stateSource instanceof Interface.IObject || stateSource instanceof Interface.INull))
+            throw new ComponentCreationError(`Expected either an object or null as an state source, but got ${repr(stateSource)}`)
 
-        const component = new this(type, state || {}, children)
+        const state = new ComponentState(stateSource)
+        const component = new this(type, state, children)
         component.checkSanity()
         return component
     }
@@ -59,14 +86,27 @@ class Component {
         this.children = children
     }
 
-    [dup](type, state, children) {
-        return new this.constructor(type, state, children)
+    updateState(stateObject) {
+        if (!(stateObject instanceof Interface.IObject))
+            throw new ComponentSanityError('You can only update the state with an object')
+
+        // Create a temporary component to verify that the new state is sane
+        const newState = new ComponentState(this.state.source, stateObject)
+        const newComponent = new this.constructor(this.type, newState, this.children)
+        newComponent.checkSanity()
+
+        // If everything is fine, update the current state
+        this.state.current = stateObject
+    }
+
+    [dup]() {
+        return new this.constructor(this.type, this.state, this.children)
     }
 
     toString() {
         const cls = repr(this.constructor)
         const type = repr(this.type)
-        const state = repr(this.state)
+        const state = repr(this.state.current)
 
         if (this.children.length) {
             const children = join(',\n\t', map(String, this.children))
@@ -77,7 +117,6 @@ class Component {
     }
 
     checkSanity() {}
-    destroy() {}
 }
 
 const IXMLComponent = Interface.create({ namespace: Interface.IString })
@@ -93,7 +132,7 @@ class XMLComponent extends Component {
         if (this.type.length === 0)
             throw new ComponentSanityError(`${repr(this)}'s type string cannot be empty`)
 
-        if ('text' in this.state && this.children.length > 0)
+        if ('text' in this.state.current && this.children.length > 0)
             throw new ComponentSanityError(`${repr(this)} cannot have both text and children`)
     }
 }
@@ -105,7 +144,7 @@ class HTMLComponent extends XMLComponent {
         if (this.isVoid && this.children.length > 0)
             throw new ComponentSanityError(`${repr(this)} cannot have children`)
 
-        if (this.isVoid && 'text' in this.state)
+        if (this.isVoid && 'text' in this.state.current)
             throw new ComponentSanityError(`${repr(this)} cannot have text`)
     }
 
@@ -129,7 +168,7 @@ class FactoryComponent extends Component {
         let root = this
 
         while (root instanceof FactoryComponent) {
-            const component = root.type(root.state, root.children)
+            const component = root.type(root.state.current, root.children)
 
             if (!(component instanceof Component))
                 throw new InvalidComponentError(`Expected ${this} to return a component, not ${repr(component)}.`)
@@ -147,6 +186,7 @@ module.exports = {
     InvalidComponentError,
 
     Component,
+    ComponentState,
     XMLComponent,
     HTMLComponent,
     FactoryComponent,

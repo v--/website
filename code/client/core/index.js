@@ -2,7 +2,7 @@
 
 const home = require('common/views/home')
 
-const { render } = require('client/renderer')
+const render = require('client/render')
 
 async function stuff() {
     const component = home.component()

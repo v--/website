@@ -33,7 +33,7 @@ function repr(value) {
         return `'${value}'`
 
     if (typeof value === 'function')
-        return value.name
+        return value.name || 'anonymous'
 
     if (Object.prototype.toString.call(value) === '[object Array]')
         return '[' + join(', ', map(repr, value)) + ']'

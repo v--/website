@@ -9,7 +9,7 @@ const render = overloader(
         *impl(component) {
             yield `<${component.type}`
 
-            for (const [key, value] of Object.entries(component.state))
+            for (const [key, value] of Object.entries(component.state.current))
                 if (key !== 'text' && !(value instanceof Interface.IFunction))
                     yield ` ${key}="${value}"`
 
@@ -18,8 +18,8 @@ const render = overloader(
             if (component.isVoid)
                 return
 
-            if (component.state.text)
-                yield component.state.text
+            if ('text' in component.state.current)
+                yield component.state.current.text
 
             for (const child of component.children)
                 if (child instanceof Component)

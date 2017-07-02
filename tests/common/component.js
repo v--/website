@@ -16,17 +16,15 @@ describe('Component', function () {
     describe('.safeCreate()', function () {
         it('creates components using only a type', function () {
             const component = Component.safeCreate('div')
-            expect(component).to.deep.equal({
-                type: 'div',
-                state: {},
-                children: []
-            })
+            expect(component.type).to.equal('div')
+            expect(component.state.current).to.deep.equal({})
+            expect(component.children).to.deep.equal([])
         })
 
         it('preserves the state object', function () {
             const state = {}
             const component = Component.safeCreate('div', state)
-            expect(component.state).to.equal(state)
+            expect(component.state.current).to.equal(state)
         })
 
         it('filters falsy children', function () {

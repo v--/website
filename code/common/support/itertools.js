@@ -101,5 +101,9 @@ module.exports = {
 
             yield values
         }
+    },
+
+    unique(iter) {
+        return new Set(iter).values()
     }
 }

@@ -28,6 +28,10 @@ describe('repr()', function () {
         expect(repr(frobnicate)).to.equal('frobnicate')
     })
 
+    it('works for anonymous functions', function () {
+        expect(repr(function () {})).to.equal('anonymous')
+    })
+
     it('works for arrays', function () {
         expect(repr([0, 1, 2])).to.equal('[0, 1, 2]')
     })
