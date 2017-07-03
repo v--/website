@@ -74,6 +74,9 @@ class Component {
         if (!(stateSource instanceof Interface.IObject || stateSource instanceof Interface.INull))
             throw new ComponentCreationError(`Expected either an object or null as an state source, but got ${repr(stateSource)}`)
 
+        if (stateSource instanceof Component)
+            throw new ComponentCreationError(`To prevent common errors, components are not allowed as state sources (got ${repr(stateSource)})`)
+
         const state = new ComponentState(stateSource)
         const component = new this(type, state, children)
         component.checkSanity()
