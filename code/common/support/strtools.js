@@ -38,7 +38,7 @@ function repr(value) {
     if (Object.prototype.toString.call(value) === '[object Array]')
         return '[' + join(', ', map(repr, value)) + ']'
 
-    if (typeof value === 'object' && value !== null && value.toString === Object.prototype.toString) {
+    if (typeof value === 'object' && value !== null && (!('toSting' in value) || value.toString === Object.prototype.toString)) {
         const object = serializeObject(value)
 
         if (value.constructor === Object)
@@ -52,5 +52,9 @@ function repr(value) {
 
 module.exports = {
     join,
-    repr
+    repr,
+    splitURL(url) {
+        const [,, route = '', subroute = ''] = url.match(/^\/((\w+)\/?)?(.*)$/)
+        return { route, subroute }
+    }
 }

@@ -1,0 +1,21 @@
+.home-page {
+    .contact {
+        list-style-type: none;
+        line-height: 2em;
+
+        a {
+            display: inline-flex;
+            align-items: center;
+
+            > .icon {
+                height: 1.5em;
+                width: 1.5em;
+                margin-top: -0.1em;
+            }
+
+            > span {
+                margin-left: 0.75em;
+            }
+        }
+    }
+}

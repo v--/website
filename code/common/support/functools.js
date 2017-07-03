@@ -1,4 +1,5 @@
 const { CoolError } = require('common/errors')
+const { repr }= require('common/support/strtools')
 const Interface = require('common/support/interface')
 
 function bind(object, methodName, ...args) {
@@ -21,7 +22,7 @@ module.exports = {
                 if (primary instanceof iface)
                     return impl(primary, ...args)
 
-            throw new MissingInterfaceError(`No method matches ${primary}`)
+            throw new MissingInterfaceError(`No method matches ${repr(primary)}`)
         }
     }
 }

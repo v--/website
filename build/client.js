@@ -21,7 +21,7 @@ gulp.task('client:styles', function () {
             outputStyle: 'compressed',
             includePaths: [
                 'client/styles',
-                'node_modules'
+                'node_modules/skeleton-sass-official'
             ]
         }))
         .pipe(concat('index.css'))

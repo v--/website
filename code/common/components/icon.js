@@ -6,45 +6,23 @@ class SVGComponent extends XMLComponent {
     }
 }
 
-class PipelineObservable {
-    constructor(def) {
-        this.default = def
-        this.observers = new Set()
-    }
+module.exports = function icon({ name, rotate = 0, verticalFlip = false, horizontalFlip = false }) {
+    const rootState = { class: 'icon', viewBox: '0 0 24 24' }
+    const transforms = []
 
-    subscribe(observer) {
-        this.observers.add(observer)
-    }
+    if (verticalFlip)
+        transforms.push('scaleY(-1)')
 
-    unsubscribe(observer) {
-        this.observers.delete(observer)
-    }
+    if (horizontalFlip)
+        transforms.push('scaleX(-1)')
 
-    emit(value) {
-        for (const observer of this.observers)
-            observer.next(value)
-    }
+    if (rotate)
+        transforms.push(`rotate(${rotate}deg)`)
 
-    complete() {
-        for (const observer of this.observers)
-            observer.complete()
-    }
-}
+    if (transforms.length > 0)
+        rootState.style = `transform: ${transforms.join(' ')};`
 
-module.exports = function icon() {
-    const observable = new PipelineObservable({ href: 'images/icons.svg#sort-descending' })
-    let ascending = false
-
-    function update() {
-        if (ascending)
-            observable.emit({ href: 'images/icons.svg#sort-descending' })
-        else
-            observable.emit({ href: 'images/icons.svg#sort-ascending' })
-
-        ascending = !ascending
-    }
-
-    return SVGComponent.safeCreate('svg', { viewBox: '0 0 20 20', click: update },
-        SVGComponent.safeCreate('use', observable)
+    return SVGComponent.safeCreate('svg', rootState,
+        SVGComponent.safeCreate('use', { href: `images/icons.svg#${name}` })
     )
 }

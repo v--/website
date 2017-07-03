@@ -28,9 +28,6 @@ module.exports = class RequestContext {
         const response = this.response
 
         return new Promise(function (resolve, reject) {
-            if (context.mimeType === 'text/html')
-                response.write('<!DOCTYPE html>')
-
             context.stream.on('data', function (data) {
                 response.write(data)
             })

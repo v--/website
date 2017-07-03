@@ -2,8 +2,8 @@ const { dup } = require('common/symbols')
 const { overloader, bind } = require('common/support/functools')
 const { map } = require('common/support/itertools')
 const { repr, join } = require('common/support/strtools')
+const { IObservable } = require('common/support/observation')
 const { CoolError } = require('common/errors')
-const { IObservable } = require('common/interfaces')
 const Interface = require('common/support/interface')
 
 const htmlVoidTags = new Set([
