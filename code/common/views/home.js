@@ -37,7 +37,7 @@ module.exports = function home() {
                 text: [
                     'This website contains random stuff that would otherwise be uploaded to other websites.',
                     'Since you got here you probably need my [file server](/files) or my [pacman repo](/pacman).',
-                    'I also have a [playground](/playground).',
+                    'I also have a [web playground](/playground).',
                     'Everything here should be pretty self-descriptive.'
                 ].join(' ')
             })

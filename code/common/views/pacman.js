@@ -20,7 +20,8 @@ function packages({ arch, packages }) {
     )
 }
 
-const PGP_KEY = '53065C70'
+const PGP_FINGERPRINT = 'DD4D0AEFDDAF29CCE3B5865D30C4A2E653065C70'
+const PGP_KEY_ID_SHORT = PGP_FINGERPRINT.substr(PGP_FINGERPRINT.length - 8)
 
 module.exports = function pacman({ data }) {
     const arches = new Map()
@@ -38,28 +39,18 @@ module.exports = function pacman({ data }) {
             }),
 
             c(text, {
-                text: 'I mantain "any" and "x86_64" repos. "x86_64" includes packages from "any". $arch can be overridden by both.'
+                text: 'I mantain `any` and `x86_64` repos. `x86_64` includes packages from `any`. `$arch` can be overridden by both.'
             }),
 
             c('pre', null,
                 c('code', {
                     text: '[ivasilev]\nServer = https://ivasilev.net/pacman/$arch'
                 })
-            )
-        ),
+            ),
 
-        c(section, { title: 'Package verification' },
             c(text, {
-                text: [
-                    `All packages are signed, so you can import my PGP key (${PGP_KEY}) into the pacman keychain and use it to verify my packages.`,
-                    'The key can be downloaded from:'
-                ].join(' ')
-            }),
-
-            c('ul', null,
-                c('li', null, c(link, { href: 'https://ivasilev.net/files/ianis@ivasilev.net.asc' })),
-                c('li', null, c(link, { href: 'https://pgp.mit.edu/pks/lookup?op=vindex&search=0x30C4A2E653065C70' }))
-            )
+                text: `All packages are signed and can be verified using my PGP public key [${PGP_KEY_ID_SHORT}](https://pgp.mit.edu/pks/lookup?op=vindex&search=0x${PGP_FINGERPRINT}).`
+            })
         ),
 
         c(section, { title: 'Packages' },
