@@ -1,4 +1,5 @@
 const { XMLComponent } = require('common/component')
+const icons = require('common/icons')
 
 class SVGComponent extends XMLComponent {
     get namespace() {
@@ -23,6 +24,6 @@ module.exports = function icon({ name, class: classNames, rotate = 0, verticalFl
         rootState.style = `transform: ${transforms.join(' ')};`
 
     return SVGComponent.safeCreate('svg', rootState,
-        SVGComponent.safeCreate('use', { href: `images/icons.svg#${name}` })
+        SVGComponent.safeCreate('path', { d: icons[name] })
     )
 }

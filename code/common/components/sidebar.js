@@ -3,19 +3,14 @@ const { c } = require('common/component')
 
 const icon = require('common/components/icon')
 
-const home = require('common/views/home')
-const files = require('common/views/files')
-const playground = require('common/views/playground')
-const pacman = require('common/views/pacman')
-
-module.exports = function sidebar({ redirect, factory, collapsed, toggleCollapsed }) {
+module.exports = function sidebar({ id, redirect, collapsed, toggleCollapsed }) {
     function entry(state) {
         function click(e) {
             e.preventDefault()
             redirect(state.link)
         }
 
-        const classes = classlist('button', 'entry', state.factory === factory && 'active')
+        const classes = classlist('button', 'entry', state.id === id && 'active')
 
         return c('a', { class: classes, href: state.link, click },
             c(icon, { class: 'entry-icon', name: state.icon }),
@@ -32,31 +27,31 @@ module.exports = function sidebar({ redirect, factory, collapsed, toggleCollapse
         ),
 
         c(entry, {
+            id: 'home',
             text: 'Home page',
             icon: 'home',
-            link: '/',
-            factory: home
+            link: '/'
         }),
 
         c(entry, {
+            id: 'files',
             text: 'File server',
             icon: 'folder',
-            link: '/files',
-            factory: files
+            link: '/files'
         }),
 
         c(entry, {
+            id: 'playground',
             text: 'Playground',
             icon: 'code-greater-than',
-            link: '/playground',
-            factory: playground
+            link: '/playground'
         }),
 
         c(entry, {
+            id: 'pacman',
             text: 'Pacman repo',
             icon: 'download',
-            link: '/pacman',
-            factory: pacman
+            link: '/pacman'
         })
     )
 }

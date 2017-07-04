@@ -4,7 +4,6 @@ const sass = require('gulp-sass')
 const svgo = require('gulp-svgo')
 const gulp = require('gulp')
 const env = require('gulp-environments')
-const SVGO = require('svgo')
 
 const { rollup } = require('rollup')
 
@@ -35,27 +34,18 @@ gulp.task('client:svgs', function () {
 })
 
 gulp.task('client:icons', async function () {
-    const iconNames = require('../client/icons.json')
-    const svgo = new SVGO({
-        plugins: [{
-            cleanupIDs: false,
-            removeUselessDefs: false
-        }]
-    })
+    const icons = require('../client/icons.json')
+    const result = {}
 
-    const icons = iconNames.map(function (name) {
-        const path = `<path d="${require(`mdi-svg/d/${name}`)}"></path>`
-        return `<symbol id="${name}">${path}</symbol>`
-    })
+    for (const icon of icons)
+        result[icon] = require(`mdi-svg/d/${icon}`)
 
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg">${icons.join('\n')}</svg>`
-    const file = await svgo.optimize(svg)
-    const stream = source('icons.svg')
+    const stream = source('icons.js')
 
-    stream.write(file.data)
+    stream.write('module.exports = ' + JSON.stringify(result) + '; // eslint-disable-line')
     stream.end()
 
-    return stream.pipe(gulp.dest('public/images'))
+    return stream.pipe(gulp.dest('code/common'))
 })
 
 {
@@ -89,6 +79,9 @@ gulp.task('client', gulp.parallel(
     'client:assets',
     'client:styles',
     'client:svgs',
-    'client:icons',
-    'client:code'
+
+    gulp.series(
+        'client:icons',
+        'client:code'
+    )
 ))

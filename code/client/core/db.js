@@ -8,13 +8,13 @@ module.exports = class DB {
         this.cache.set(dbID, data)
     }
 
-    async retrieve(dbID) {
-        if (this.cache.has(dbID))
-            return this.cache.get(dbID)
+    async retrieve(id) {
+        if (this.cache.has(id))
+            return this.cache.get(id)
 
-        const data = await window.fetch(`/api/${dbID}`)
+        const data = await window.fetch(`/api/${id}`)
         const json = await data.json()
-        this.cache.set(dbID, json)
+        this.cache.set(id, json)
         return json
     }
 }

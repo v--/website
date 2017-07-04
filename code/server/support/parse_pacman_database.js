@@ -1,4 +1,3 @@
-const { Transform } = require('stream')
 const tar = require('tar-stream')
 const lzma = require('lzma-native')
 

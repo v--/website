@@ -1,10 +1,13 @@
-const StringBufferStream = require('server/support/string_buffer_stream')
-const { createReadStream } = require('server/support/fs')
-const render = require('server/render')
-
 const FortifiedMap = require('common/support/fortified_map')
 const { chain } = require('common/support/itertools')
 const { c } = require('common/component')
+
+const index = require('server/components/index')
+
+const StringBufferStream = require('server/support/string_buffer_stream')
+const { createReadStream } = require('server/support/fs')
+const { readFile } = require('server/support/fs')
+const render = require('server/render')
 
 // These are only necessary for the files in public/, nginx should handle serving files in production
 const MIMETypeMap = FortifiedMap.fromObject({
@@ -32,17 +35,16 @@ module.exports = class Response {
         )
     }
 
-    static view(component, code) {
+    static view(state, code) {
         return new this(
-            new StringBufferStream(chain('<!DOCTYPE html>', render(component))),
+            new StringBufferStream(chain('<!DOCTYPE html>', render(c(index, { state, favicon: this.favicon })))),
             'text/html',
             code
         )
     }
 
-    static notFound(url) {
-        const component = c('h1', { text: 'Fuck you ' + url })
-        return this.view(component, 404)
+    static async load() {
+        this.favicon = await readFile('public/images/favicon.png', 'base64')
     }
 
     constructor(stream, mimeType, code = 200) {

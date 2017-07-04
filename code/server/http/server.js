@@ -6,9 +6,9 @@ const { bind } = require('common/support/functools')
 
 const { promisory } = require('server/support/async')
 const Logger = require('server/support/logger')
+const Response = require('server/http/response')
 const DB = require('server/db')
 const router = require('server/router')
-const Response = require('server/http/response')
 
 class HTTPServer {
     constructor(config) {
@@ -19,18 +19,13 @@ class HTTPServer {
     }
 
     async requestHandler(request, response) {
-        let context
-
-        if (request.method === 'GET' || request.method === 'HEAD') {
-            this.logger.debug(`${request.method} on ${request.url}`)
-            context = await router(this.db, request.url)
-        } else {
+        if (request.method !== 'GET' && request.method !== 'HEAD') {
             this.logger.warn(`Unexpected method ${request.method} on ${request.url}`)
-            context = null
+            return Promise.then()
         }
 
-        if (context === null)
-            context = Response.notFound(request.url)
+        this.logger.debug(`${request.method} on ${request.url}`)
+        const context = await router(this.db, request.url)
 
         response.writeHead(context.code, {
             'Content-Type': context.mimeType
@@ -70,6 +65,7 @@ class HTTPServer {
         }.bind(this))
 
         await this.db.load()
+        await Response.load()
         await (promisory(bind(this.server, 'listen')))(this.socket)
         this.logger.info(`Started web server on unix:${this.socket}.`)
         this.state = HTTPServer.State.get('running')
