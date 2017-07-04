@@ -216,7 +216,7 @@ describe('MirrorFactoryRenderer', function () {
         })
 
         // This one is actually a test for a bugfix. The component would not replace the old child properly.
-        it.only('can rerender multiple with subcomponent replacements', function () {
+        it('can rerender multiple with subcomponent replacements', function () {
             const observable = new Observable({ type: 'div' })
 
             function factory({ type }) {

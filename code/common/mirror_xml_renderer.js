@@ -9,12 +9,16 @@ module.exports = class MirrorXMLRenderer extends XMLRenderer {
         this.element.state.current[key] = value
     }
 
-    _deleteAttribute(key, oldValue) { // eslint-disable-line no-unused-vars
+    _removeAttribute(key, oldValue) { // eslint-disable-line no-unused-vars
         delete this.element.state.current[key]
     }
 
-    _updateText() {
+    _setText() {
         this.element.state.current.text = this.component.state.current.text
+    }
+
+    _removeText() {
+        delete this.element.state.current.text
     }
 
     _appendChild(child) {

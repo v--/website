@@ -2,7 +2,7 @@
 
 const HTTPServer = require('server/http/server')
 
-const server = new HTTPServer(8000)
+const server = new HTTPServer(8001)
 
 server.start()
 

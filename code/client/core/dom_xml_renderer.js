@@ -15,15 +15,19 @@ module.exports = class DOMXMLRenderer extends XMLRenderer {
             this.element.setAttribute(key, String(value))
     }
 
-    _deleteAttribute(key, oldValue) {
+    _removeAttribute(key, oldValue) {
         if (oldValue instanceof Interface.IFunction)
             this.element.removeEventListener(key, oldValue)
         else
             this.element.removeAttribute(key)
     }
 
-    _updateText() {
+    _setText() {
         this.element.innerText = this.component.state.current.text
+    }
+
+    _removeText() {
+        this.element.innerText = ''
     }
 
     _appendChild(child) {

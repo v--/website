@@ -40,8 +40,9 @@ class Renderer {
 const IXMLRenderer = Interface.methods(
     '_createNode',
     '_setAttribute',
-    '_deleteAttribute',
-    '_updateText',
+    '_removeAttribute',
+    '_setText',
+    '_removeText',
     '_appendChild',
     '_replaceChild',
     '_removeChild'
@@ -64,7 +65,7 @@ class XMLRenderer extends Renderer {
                 this._setAttribute(key, value)
 
         if ('text' in state)
-            this._updateText(state.text)
+            this._setText(state.text)
 
         for (const child of component.children)
             this._appendChild(this.dispatcher(child))
@@ -80,17 +81,17 @@ class XMLRenderer extends Renderer {
             if (key in oldState && key in newState) {
                 if (oldState[key] !== newState[key])
                     if (key === 'text')
-                        this._updateText(newState[key])
+                        this._setText(newState[key])
                     else
                         this._setAttribute(key, newState[key])
             } else if (key in oldState) {
                 if (key === 'text')
-                    this._updateText('')
+                    this._removeText()
                 else
-                    this._deleteAttribute(key, oldState[key])
+                    this._removeAttribute(key, oldState[key])
             } else if (key in newState) {
                 if (key === 'text')
-                    this._updateText(newState[key])
+                    this._setText(newState[key])
                 else
                     this._setAttribute(key, newState[key])
             }
