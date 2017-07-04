@@ -25,20 +25,18 @@ function serializeObject(object) {
     return '{}'
 }
 
-/**
- * No interfaces here, since interface implementations use repr
- */
+// No interfaces here, since interface implementations use repr
 function repr(value) {
     if (typeof value === 'string')
         return `'${value}'`
 
-    if (typeof value === 'function')
+    if (value instanceof Function)
         return value.name || 'anonymous'
 
-    if (Object.prototype.toString.call(value) === '[object Array]')
+    if (value instanceof Array)
         return '[' + join(', ', map(repr, value)) + ']'
 
-    if (typeof value === 'object' && value !== null && (!('toSting' in value) || value.toString === Object.prototype.toString)) {
+    if (value instanceof Object && (!('toString' in value) || value.toString === Object.prototype.toString)) {
         const object = serializeObject(value)
 
         if (value.constructor === Object)
@@ -54,7 +52,13 @@ module.exports = {
     join,
     repr,
     splitURL(url) {
-        const [,, route = '', subroute = ''] = url.match(/^\/((\w+)\/?)?(.*)$/)
-        return { route, subroute }
+        const match = url.match(/^\/((\w+)\/?)?(.*)$/)
+
+        if (match) {
+            const [,, route = '', subroute = ''] = match
+            return { route, subroute }
+        } else {
+            return { route: '', subroute: '' }
+        }
     }
 }

@@ -46,7 +46,7 @@ describe('MirrorXMLRenderer', function () {
             const observable = new Observable({})
             const src = c('div', observable)
             const dest = render(src)
-            observable.emit({ text: 'text' })
+            observable.replace({ text: 'text' })
             expect(dest.state.current.text).to.equal('text')
         })
 
@@ -54,7 +54,7 @@ describe('MirrorXMLRenderer', function () {
             const observable = new Observable({ text: 'text' })
             const src = c('div', observable)
             const dest = render(src)
-            observable.emit({ text: 'updated text' })
+            observable.replace({ text: 'updated text' })
             expect(dest.state.current.text).to.equal('updated text')
         })
 
@@ -62,7 +62,7 @@ describe('MirrorXMLRenderer', function () {
             const observable = new Observable({ text: 'text' })
             const src = c('div', observable)
             const dest = render(src)
-            observable.emit({})
+            observable.replace({})
             expect(dest.state.current).to.not.have.keys('text')
         })
 
@@ -71,7 +71,18 @@ describe('MirrorXMLRenderer', function () {
             const src = c('div', observable, c('span'))
             render(src)
 
-            expect(bind(observable, 'emit', { text: 'text' })).to.throw(ComponentSanityError)
+            expect(bind(observable, 'replace', { text: 'text' })).to.throw(ComponentSanityError)
+        })
+
+        it('can rerender multiple times', function () {
+            const observable = new Observable({ text: 'basic' })
+
+            const src = c('div', observable)
+            const dest = render(src)
+            observable.replace({ text: 'extended' })
+            observable.replace({ text: 'premium' })
+
+            expect(dest.state.current.text).to.equal('premium')
         })
     })
 })
@@ -109,14 +120,14 @@ describe('MirrorFactoryRenderer', function () {
             const observable = new Observable({ type: 'div' })
             const src = c(({ type }) => c(type), observable)
             render(src)
-            expect(bind(observable, 'emit', { type: 'span' })).to.throw(RenderError)
+            expect(bind(observable, 'replace', { type: 'span' })).to.throw(RenderError)
         })
 
         it('adds root children', function () {
             const observable = new Observable({ add: false })
             const src = c(({ add }) => c('div', null, add && c('span')), observable)
             const dest = render(src)
-            observable.emit({ add: true })
+            observable.replace({ add: true })
             expect(dest.children).to.not.be.empty
         })
 
@@ -124,7 +135,7 @@ describe('MirrorFactoryRenderer', function () {
             const observable = new Observable({ text: 'text' })
             const src = c(({ text }) => c('div', { text }), observable)
             const dest = render(src)
-            observable.emit({ text: 'updated text' })
+            observable.replace({ text: 'updated text' })
             expect(dest.state.current.text).to.equal('updated text')
         })
 
@@ -132,7 +143,7 @@ describe('MirrorFactoryRenderer', function () {
             const observable = new Observable({ type: 'div' })
             const src = c(({ type }) => c('div', null, c(type)), observable)
             const dest = render(src)
-            observable.emit({ type: 'span' })
+            observable.replace({ type: 'span' })
             expect(dest.children[0].type).to.equal('span')
         })
 
@@ -140,7 +151,7 @@ describe('MirrorFactoryRenderer', function () {
             const observable = new Observable({ add: true })
             const src = c(({ add }) => c('div', null, add && c('span')), observable)
             const dest = render(src)
-            observable.emit({ add: false })
+            observable.replace({ add: false })
             expect(dest.children).to.be.empty
         })
 
@@ -153,7 +164,7 @@ describe('MirrorFactoryRenderer', function () {
 
             const src = c(factory, observable)
             const dest = render(src)
-            observable.emit({ components: ['h3', 'h2', 'h1'] })
+            observable.replace({ components: ['h3', 'h2', 'h1'] })
 
             expect(dest.children.map(child => child.type)).to.deep.equal(['h3', 'h2', 'h1'])
         })
@@ -170,7 +181,7 @@ describe('MirrorFactoryRenderer', function () {
             const src = c(factory, observable)
             render(src)
 
-            expect(bind(observable, 'emit', { components: [h3, h2, h1] })).to.throw(RenderError)
+            expect(bind(observable, 'replace', { components: [h3, h2, h1] })).to.throw(RenderError)
         })
 
         it('handles nested component swapping', function () {
@@ -184,9 +195,40 @@ describe('MirrorFactoryRenderer', function () {
 
             const src = c(factory, observable)
             const dest = render(src)
-            observable.emit({ components: ['h3', 'h2', 'h1'] })
+            observable.replace({ components: ['h3', 'h2', 'h1'] })
 
             expect(dest.children[0].children.map(child => child.type)).to.deep.equal(['h3', 'h2', 'h1'])
+        })
+
+        it('can rerender multiple times', function () {
+            const observable = new Observable({ text: 'basic' })
+
+            function factory({ text }) {
+                return c('span', { text })
+            }
+
+            const src = c(factory, observable)
+            const dest = render(src)
+            observable.replace({ text: 'extended' })
+            observable.replace({ text: 'premium' })
+
+            expect(dest.state.current.text).to.equal('premium')
+        })
+
+        // This one is actually a test for a bugfix. The component would not replace the old child properly.
+        it.only('can rerender multiple with subcomponent replacements', function () {
+            const observable = new Observable({ type: 'div' })
+
+            function factory({ type }) {
+                return c('div', null, c(type))
+            }
+
+            const src = c(factory, observable)
+            const dest = render(src)
+            observable.replace({ type: 'span' })
+            observable.replace({ type: 'div' })
+
+            expect(dest.type).to.equal('div')
         })
     })
 })

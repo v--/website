@@ -4,17 +4,17 @@ const text = require('common/components/text')
 const icon = require('common/components/icon')
 const link = require('common/components/link')
 
-function contact({ text, icon: name, href }) {
+function contact(state) {
     return c('li', { class: 'contact' },
-        c(link, { href },
-            c(icon, { name }),
-            c('span', { text })
+        c(link, { link: state.link },
+            c(icon, { name: state.icon }),
+            c('span', { text: state.text })
         )
     )
 }
 
 module.exports = function home() {
-    return c('div', { class: 'page home-page' },
+    return c('main', { class: 'home-page' },
         c(section, { title: 'Welcome!' },
             c(text, {
                 text: 'This is my personal website - nothing more.'
@@ -48,19 +48,19 @@ module.exports = function home() {
                 c(contact, {
                     text: 'Email',
                     icon: 'email',
-                    href: 'mailto:ianis@ivasilev.net'
+                    link: 'mailto:ianis@ivasilev.net'
                 }),
 
                 c(contact, {
                     text: 'GitHub',
                     icon: 'github',
-                    href: 'https://github.com/v--'
+                    link: 'https://github.com/v--'
                 }),
 
                 c(contact, {
                     text: 'Facebook',
                     icon: 'facebook',
-                    href: 'https://www.facebook.com/ianis.vasilev'
+                    link: 'https://www.facebook.com/ianis.vasilev'
                 })
             )
         )

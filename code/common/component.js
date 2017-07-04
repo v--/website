@@ -45,7 +45,7 @@ class ComponentState {
         if (current)
             this.current = current
         else if (source instanceof IObservable)
-            this.current = source.default
+            this.current = source.current
         else if (source instanceof Interface.INull)
             this.current = {}
         else

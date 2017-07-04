@@ -29,6 +29,8 @@ class Interface {
         for (const { name, iface } of this.props)
             if (!(name in instance && instance[name] instanceof iface))
                 throw new InterfaceNotImplementedError(`${repr(instance)} does not implement ${repr(iface)} ${name}`)
+
+        return instance
     }
 
     [Symbol.hasInstance](instance) {
@@ -48,7 +50,10 @@ Object.defineProperty(Interface, 'InterfaceNotImplementedError', { value: Interf
 /* eslint-disable no-unused-vars */
 Object.defineProperty(Interface, 'IEmpty', {
     value: {
-        assert(instance) {},
+        assert(instance) {
+            return instance
+        },
+
         [Symbol.hasInstance](instance) {
             return true
         },
@@ -65,6 +70,8 @@ Object.defineProperty(Interface, 'IString', {
         assert(instance) {
             if (!(instance instanceof this))
                 throw new InterfaceNotImplementedError(`${repr(instance)} must be a string`)
+
+            return instance
         },
 
         [Symbol.hasInstance](instance) {
@@ -82,6 +89,8 @@ Object.defineProperty(Interface, 'INumber', {
         assert(instance) {
             if (!(instance instanceof this))
                 throw new InterfaceNotImplementedError(`${repr(instance)} must be a number`)
+
+            return instance
         },
 
         [Symbol.hasInstance](instance) {
@@ -99,6 +108,8 @@ Object.defineProperty(Interface, 'IBoolean', {
         assert(instance) {
             if (!(instance instanceof this))
                 throw new InterfaceNotImplementedError(`${repr(instance)} must be a boolean`)
+
+            return instance
         },
 
         [Symbol.hasInstance](instance) {
@@ -116,6 +127,8 @@ Object.defineProperty(Interface, 'IUndefined', {
         assert(instance) {
             if (!(instance instanceof this))
                 throw new InterfaceNotImplementedError(`${repr(instance)} must be undefined`)
+
+            return instance
         },
 
         [Symbol.hasInstance](instance) {
@@ -133,6 +146,8 @@ Object.defineProperty(Interface, 'INull', {
         assert(instance) {
             if (!(instance instanceof this))
                 throw new InterfaceNotImplementedError(`${repr(instance)} must be null`)
+
+            return instance
         },
 
         [Symbol.hasInstance](instance) {
@@ -150,6 +165,8 @@ Object.defineProperty(Interface, 'ISymbol', {
         assert(instance) {
             if (!(instance instanceof this))
                 throw new InterfaceNotImplementedError(`${repr(instance)} must be null`)
+
+            return instance
         },
 
         [Symbol.hasInstance](instance) {
@@ -167,6 +184,8 @@ Object.defineProperty(Interface, 'IFunction', {
         assert(instance) {
             if (!(instance instanceof this))
                 throw new InterfaceNotImplementedError(`${repr(instance)} must be a function`)
+
+            return instance
         },
 
         [Symbol.hasInstance](instance) {
@@ -184,6 +203,8 @@ Object.defineProperty(Interface, 'IObject', {
         assert(instance) {
             if (!(instance instanceof this))
                 throw new InterfaceNotImplementedError(`${repr(instance)} must be an object`)
+
+            return instance
         },
 
         [Symbol.hasInstance](instance) {
@@ -201,6 +222,8 @@ Object.defineProperty(Interface, 'IArray', {
         assert(instance) {
             if (!(instance instanceof this))
                 throw new InterfaceNotImplementedError(`${repr(instance)} must be an array`)
+
+            return instance
         },
 
         [Symbol.hasInstance](instance) {
@@ -220,6 +243,8 @@ Object.defineProperty(Interface, 'IInterface', {
 
             if (!(instance instanceof this))
                 throw new InterfaceNotImplementedError(`${repr(instance)} must be implement the hasInstance hook`)
+
+            return instance
         },
 
         [Symbol.hasInstance](instance) {

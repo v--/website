@@ -3,7 +3,6 @@ const { c } = require('common/component')
 
 const section = require('common/components/section')
 const text = require('common/components/text')
-const link = require('common/components/link')
 
 function pkg({ name, version }) {
     return c('li', { class: 'package' },
@@ -32,7 +31,7 @@ module.exports = function pacman({ data }) {
         else
             arches.get(pkg.arch).push(pkg)
 
-    return c('div', { class: 'page pacman-page' },
+    return c('main', { class: 'pacman-page' },
         c(section, { title: 'pacman repository' },
             c(text, {
                 text: 'The repo contains a variety of packages, mostly my own software and AUR builds.'

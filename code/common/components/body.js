@@ -1,18 +1,20 @@
 const { c } = require('common/component')
+const { Observable } = require('common/support/observation')
 
-function main(parsedURL, [child]) {
-    return c('main', null, child)
-}
+const sidebar = require('common/components/sidebar')
 
-function sidebar({ route }) {
-    return c('aside', null,
-        c('h1', { text: route })
-    )
-}
+module.exports = function body(state) {
+    const sidebarState = new Observable({
+        redirect: state.redirect,
+        factory: state.factory,
+        collapsed: false,
+        toggleCollapsed() {
+            sidebarState.update({ collapsed: !sidebarState.current.collapsed })
+        }
+    })
 
-module.exports = function body(parsedURL, [child]) {
     return c('body', null,
-        c(sidebar, parsedURL),
-        c(main, parsedURL, child)
+        c(sidebar, sidebarState),
+        c(state.factory, state)
     )
 }

@@ -6,8 +6,8 @@ class SVGComponent extends XMLComponent {
     }
 }
 
-module.exports = function icon({ name, rotate = 0, verticalFlip = false, horizontalFlip = false }) {
-    const rootState = { class: 'icon', viewBox: '0 0 24 24' }
+module.exports = function icon({ name, class: classNames, rotate = 0, verticalFlip = false, horizontalFlip = false }) {
+    const rootState = { class: classNames ? `icon ${classNames}` : 'icon', viewBox: '0 0 24 24' }
     const transforms = []
 
     if (verticalFlip)
