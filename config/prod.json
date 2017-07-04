@@ -1,0 +1,10 @@
+{
+    "server": {
+        "socket": "/run/ivasilev/server.sock"
+    },
+
+    "directories": {
+        "files": "/var/files",
+        "pacman": "/var/pacman"
+    }
+}

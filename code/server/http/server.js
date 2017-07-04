@@ -2,13 +2,15 @@ const http = require('http')
 
 const FortifiedMap = require('common/support/fortified_map')
 const { CoolError } = require('common/errors')
+const { bind } = require('common/support/functools')
 
+const { promisory } = require('server/support/async')
 const RequestContext = require('server/http/request_context')
 const Logger = require('server/support/logger')
 
 class HTTPServer {
-    constructor(port) {
-        this.port = port
+    constructor(socket) {
+        this.socket = socket
         this.logger = new Logger('HTTP')
         this.state = HTTPServer.State.get('inactive')
     }
@@ -27,34 +29,46 @@ class HTTPServer {
         }
     }
 
-    start() {
+    async start() {
+        CoolError.assert(this.state === HTTPServer.State.get('inactive'), 'The server is already running.')
+
         this.state = HTTPServer.State.get('starting')
+        this.server = http.createServer(bind(this, 'requestHandler'))
 
-        this.server = http.createServer(this.requestHandler.bind(this)).listen(this.port, err =>  {
-            if (err)
-                this.logger.fatal(err)
-
-            this.logger.info(`Started web server on http://localhost:${this.port}.`)
+        try  {
+            await (promisory(bind(this.server, 'listen')))(this.socket)
+            this.logger.info(`Started web server on unix:${this.socket}.`)
             this.state = HTTPServer.State.get('running')
-        })
+        } catch (e) {
+            this.logger.fatal(e)
+        }
     }
 
-    stop() {
+    async stop(signal = null) {
         CoolError.assert(this.state === HTTPServer.State.get('running'), 'The server is not running.')
+
+        if (signal)
+            this.logger.info(`Received signal ${signal}. Shutting down server.`)
+
         this.state = HTTPServer.State.get('stopping')
 
-        return this.server.close(() => {
+        try  {
+            await (promisory(bind(this.server, 'close')))()
             this.logger.info('Server stopped.')
             this.state = HTTPServer.State.get('inactive')
-        })
+        } catch (e) {
+            this.logger.fatal(e)
+        }
     }
 }
 
-HTTPServer.State = FortifiedMap.enumerize(
-    'starting',
-    'running',
-    'stopping',
-    'inactive'
-)
+Object.defineProperty(HTTPServer, 'State', {
+    value: FortifiedMap.enumerize(
+        'starting',
+        'running',
+        'stopping',
+        'inactive'
+    )
+})
 
 module.exports = HTTPServer

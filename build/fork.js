@@ -21,7 +21,7 @@ module.exports = class Fork {
         return new Promise((resolve, reject) => {
             this.instance.on('exit', resolve)
             this.instance.on('error', reject)
-            this.instance.kill('SIGKILL')
+            this.instance.kill('SIGINT')
         })
     }
 
