@@ -3,8 +3,8 @@
         "socket": "/tmp/ivasilev.sock"
     },
 
-    "directories": {
+    "db": {
         "files": "/home/ianis/Documents",
-        "pacman": "/var/cache/pacman/pkg"
+        "pacman": "/var/lib/pacman/sync/ivasilev.db"
     }
 }

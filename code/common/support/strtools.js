@@ -51,6 +51,9 @@ function repr(value) {
 module.exports = {
     join,
     repr,
+    startsWith(string, substring) {
+        return string.substr(0, substring.length) === substring
+    },
     splitURL(url) {
         const match = url.match(/^\/((\w+)\/?)?(.*)$/)
 

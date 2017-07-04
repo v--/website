@@ -32,7 +32,7 @@ async function routerImpl(db, route, subroute) {
             return {
                 title: 'pacman',
                 factory: pacman,
-                data: await db.pacman()
+                data: await db.retrieve('pacman')
             }
         }
     }
@@ -44,6 +44,6 @@ const IState = Interface.create({ title: Interface.IString, factory: Interface.I
 
 module.exports = async function router(db, url) {
     const { route, subroute } = splitURL(url)
-    const { title, factory, data = null } = IState.assert(await routerImpl(db, route, subroute))
+    const { factory, data = null, title } = IState.assert(await routerImpl(db, route, subroute))
     return { route, subroute, title, factory, data }
 }

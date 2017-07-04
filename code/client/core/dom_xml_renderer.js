@@ -23,11 +23,11 @@ module.exports = class DOMXMLRenderer extends XMLRenderer {
     }
 
     _setText() {
-        this.element.innerText = this.component.state.current.text
+        this.element.textContent = this.component.state.current.text
     }
 
     _removeText() {
-        this.element.innerText = ''
+        this.element.textContent = ''
     }
 
     _appendChild(child) {

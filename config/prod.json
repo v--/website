@@ -3,8 +3,8 @@
         "socket": "/run/ivasilev/server.sock"
     },
 
-    "directories": {
+    "db": {
         "files": "/var/files",
-        "pacman": "/var/pacman"
+        "pacman": "/var/lib/pacman/sync/ivasilev.db"
     }
 }

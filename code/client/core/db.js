@@ -1,17 +1,20 @@
-module.exports = {
-    async pacman() {
-        return [
-            {
-                name: 'wintoggle',
-                version: '3.0.2-3',
-                arch:'x86_64'
-            },
+/* eslint-env browser */
 
-            {
-                name:'nginx-site',
-                version:'0.1-2',
-                arch:'any'
-            }
-        ]
+const Cache = require('client/support/cache')
+
+module.exports = class DB {
+    constructor({ dbID, data }) {
+        this.cache = new Cache(60 * 1000)
+        this.cache.set(dbID, data)
+    }
+
+    async retrieve(dbID) {
+        if (this.cache.has(dbID))
+            return this.cache.get(dbID)
+
+        const data = await window.fetch(`/api/${dbID}`)
+        const json = await data.json()
+        this.cache.set(dbID, json)
+        return json
     }
 }

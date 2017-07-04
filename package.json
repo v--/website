@@ -1,6 +1,12 @@
 {
   "version": "3.0.0",
   "private": true,
+  "dependencies": {
+    "jsonstream": "1.0.3",
+    "lzma": "2.3.2",
+    "lzma-native": "3.0.0",
+    "tar-stream": "1.5.4"
+  },
   "devDependencies": {
     "benchmark": "2.1.4",
     "chai": "3.5.0",
@@ -10,7 +16,6 @@
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-concat": "2.6.1",
     "gulp-environments": "0.1.2",
-    "gulp-livereload": "3.8.1",
     "gulp-sass": "3.1.0",
     "gulp-svgo": "1.0.3",
     "libnotify": "1.0.4",

@@ -1,28 +1,20 @@
 /* eslint-env node */
 
 const gulp = require('gulp')
-const livereload = require('gulp-livereload')
 
 require('./build/client')
 require('./build/server')
 const armor = require('./build/armor')
 
-gulp.task('reload', function (done) {
-    livereload.reload()
-    done()
-})
-
 gulp.task('watch', function (done) {
-    livereload.listen()
+    gulp.watch('client/styles/**/*.scss', armor(gulp.series('client:styles')))
+    gulp.watch('client/assets/**/*', armor(gulp.series('client:assets')))
+    gulp.watch('client/svgs/**/*.svg', armor(gulp.series('client:svgs')))
+    gulp.watch('client/icons.json', armor(gulp.series('client:icons')))
 
-    gulp.watch('client/styles/**/*.scss', armor(gulp.series('client:styles', 'reload')))
-    gulp.watch('client/assets/**/*', armor(gulp.series('client:assets', 'reload')))
-    gulp.watch('client/svgs/**/*.svg', armor(gulp.series('client:svgs', 'reload')))
-    gulp.watch('client/icons.json', armor(gulp.series('client:icons', 'reload')))
-
-    gulp.watch('code/client/**/*.js', armor(gulp.series('client:code', 'reload')))
+    gulp.watch('code/client/**/*.js', armor(gulp.series('client:code')))
     gulp.watch('code/server/**/*.js', armor(gulp.series('server:restart')))
-    gulp.watch('code/common/**/*.js', armor(gulp.series('server:restart', 'client:code', 'reload')))
+    gulp.watch('code/common/**/*.js', armor(gulp.series('server:restart', 'client:code')))
 
     process.on('SIGINT', function () {
         done()

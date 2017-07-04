@@ -228,7 +228,7 @@ module.exports = {
             impl: component => new Cls(dispatcher, component).render()
         }), renderers))
 
-        dispatcher.cache = new Map()
+        dispatcher.cache = new WeakMap()
         return dispatcher
     }
 }
