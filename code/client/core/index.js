@@ -1,4 +1,5 @@
 /* eslint-env browser */
+
 const { c } = require('common/component')
 
 const body = require('common/components/body')

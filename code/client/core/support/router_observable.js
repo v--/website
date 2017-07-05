@@ -1,9 +1,9 @@
 /* eslint-env browser */
-const router = require('common/router')
 const { bind } = require('common/support/functools')
 const { Observable } = require('common/support/observation')
 
 const DB = require('client/core/db')
+const router = require('client/router')
 
 module.exports = class RouterObservable extends Observable {
     static async create(url) {

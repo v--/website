@@ -1,11 +1,11 @@
 const { splitURL } = require('common/support/strtools')
+const { NotFoundError } = require('common/errors')
 const RouterState = require('common/support/router_state')
 
 const home = require('common/views/home')
 const files = require('common/views/files')
 const playground = require('common/views/playground')
 const pacman = require('common/views/pacman')
-const error = require('common/views/error')
 
 async function routerImpl(db, route, subroute) {
     if (subroute === '') {
@@ -27,7 +27,7 @@ async function routerImpl(db, route, subroute) {
         }
     }
 
-    throw { factory: error }
+    throw new NotFoundError()
 }
 
 module.exports = async function router(db, url) {

@@ -23,13 +23,7 @@ module.exports = {
 
     NotFoundError: class NotFoundError extends HTTPError {
         constructor() {
-            super(404, 'Resource Not Found')
-        }
-    },
-
-    ServerError: class ServerError extends HTTPError {
-        constructor() {
-            super(500, 'Internal Server error')
+            super(404, 'Resource not found')
         }
     }
 }

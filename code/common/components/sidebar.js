@@ -41,17 +41,17 @@ module.exports = function sidebar({ id, redirect, collapsed, toggleCollapsed }) 
         }),
 
         c(entry, {
-            id: 'playground',
-            text: 'Playground',
-            icon: 'code-greater-than',
-            link: '/playground'
-        }),
-
-        c(entry, {
             id: 'pacman',
             text: 'Pacman repo',
             icon: 'download',
             link: '/pacman'
+        }),
+
+        c(entry, {
+            id: 'playground',
+            text: 'Playground',
+            icon: 'code-greater-than',
+            link: '/playground'
         })
     )
 }

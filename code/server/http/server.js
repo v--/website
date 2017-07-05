@@ -1,8 +1,10 @@
 const http = require('http')
 
 const FortifiedMap = require('common/support/fortified_map')
-const { CoolError } = require('common/errors')
+const { HTTPError, CoolError } = require('common/errors')
 const { bind } = require('common/support/functools')
+const { NotFoundError } = require('common/errors')
+const RouterState = require('common/support/router_state')
 
 const { promisory } = require('server/support/async')
 const Logger = require('server/support/logger')
@@ -25,8 +27,10 @@ class HTTPServer {
         }
 
         this.logger.debug(`${request.method} on ${request.url}`)
-        const context = await router(this.db, request.url)
+        this.writeResponse(response, await router(this.db, request.url))
+    }
 
+    async writeResponse(response, context) {
         response.writeHead(context.code, {
             'Content-Type': context.mimeType
         })
@@ -60,7 +64,15 @@ class HTTPServer {
             try {
                 await this.requestHandler(request, response)
             } catch (e) {
-                this.logger.warn(`Error while processing ${request.method} ${request.url}: ${e}`)
+                if (e instanceof NotFoundError)
+                    this.logger.warn(`No resource found for ${request.method} ${request.url}`)
+                else
+                    this.logger.warn(`Error while processing ${request.method} ${request.url}: ${e} ${e.stack}`)
+
+                this.writeResponse(
+                    response,
+                    Response.view(RouterState.error(request.url, e), e instanceof HTTPError && e.code)
+                )
             }
         }.bind(this))
 
