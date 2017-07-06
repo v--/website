@@ -3,7 +3,7 @@ const { c } = require('common/component')
 
 const icon = require('common/components/icon')
 
-module.exports = function sidebar({ id, redirect, collapsed, toggleCollapsed }) {
+module.exports = function sidebar({ id, redirect, isCollapsed, toggleCollapsed }) {
     function entry(state) {
         function click(e) {
             e.preventDefault()
@@ -14,16 +14,15 @@ module.exports = function sidebar({ id, redirect, collapsed, toggleCollapsed }) 
 
         return c('a', { class: classes, href: state.link, click },
             c(icon, { class: 'entry-icon', name: state.icon }),
-            c('span', { class: 'entry-text', text: state.text }),
-            c('span', { class: 'entry-icon empty-icon' })
+            c('span', { class: 'entry-text', text: state.text })
         )
     }
 
-    return c('aside', { class: classlist(collapsed && 'collapsed') },
+    return c('aside', { class: classlist(isCollapsed && 'collapsed') },
         c('button', { class: 'entry', click: toggleCollapsed },
-            c('span', { class: 'entry-icon empty-icon' }),
-            c('span', { class: 'entry-text', text: 'Hide sidebar' }),
-            c('span', { class: 'entry-icon empty-icon' })
+            c(icon, { class: 'entry-icon', name: 'chevron-left' }),
+            // c('span', { class: 'entry-icon empty-icon' }),
+            c('span', { class: 'entry-text', text: 'Hide sidebar' })
         ),
 
         c(entry, {

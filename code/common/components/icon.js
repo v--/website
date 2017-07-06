@@ -7,23 +7,15 @@ class SVGComponent extends XMLComponent {
     }
 }
 
-module.exports = function icon({ name, class: classNames, rotate = 0, verticalFlip = false, horizontalFlip = false }) {
-    const rootState = { class: classNames ? `icon ${classNames}` : 'icon', viewBox: '0 0 24 24' }
-    const transforms = []
+module.exports = function icon(state) {
+    const rootState = Object.assign({ viewBox: '0 0 24 24' }, state)
 
-    if (verticalFlip)
-        transforms.push('scaleY(-1)')
-
-    if (horizontalFlip)
-        transforms.push('scaleX(-1)')
-
-    if (rotate)
-        transforms.push(`rotate(${rotate}deg)`)
-
-    if (transforms.length > 0)
-        rootState.style = `transform: ${transforms.join(' ')};`
+    if ('class' in state)
+        rootState.class = `icon ${state.class}`
+    else
+        rootState.class = 'icon'
 
     return SVGComponent.safeCreate('svg', rootState,
-        SVGComponent.safeCreate('path', { d: icons[name] })
+        SVGComponent.safeCreate('path', { d: icons[state.name] })
     )
 }
