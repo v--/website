@@ -4,7 +4,6 @@
 aside {
   flex-shrink: 0;
   width: $sidebar-width;
-  height: 100vh;
   background: $button-bg-color;
   overflow-y: auto;
   transition: margin-left $sidebar-transition;
@@ -20,6 +19,7 @@ aside {
   }
 
   > .entry {
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-items: space-between;

@@ -2,13 +2,14 @@
 @import 'vars';
 
 body {
-  display: flex;
   margin: 0;
+  display: flex;
+  height: 100vh;
 }
 
 main {
-  width: 100%;
   overflow-y: auto;
+  width: 100%;
   padding: $main-vpadding $main-hpadding;
 }
 
