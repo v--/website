@@ -1,15 +1,22 @@
 @import 'static';
 @import 'vars';
 
+html {
+  overflow-y: hidden; // This is pointless but it seems to solve overscrolling bugs
+}
+
 body {
   margin: 0;
   display: flex;
   height: 100vh;
+  overflow-x: auto;
 }
 
 main {
   overflow-y: auto;
-  width: 100%;
+  flex-shrink: 0;
+  flex-grow: 1;
+  flex-basis: $main-base-width;
   padding: $main-vpadding $main-hpadding;
 }
 

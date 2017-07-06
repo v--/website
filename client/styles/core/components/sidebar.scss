@@ -1,9 +1,11 @@
 @import 'static';
 @import 'vars';
 
-aside {
+.sidebar {
+  flex-grow: 0;
   flex-shrink: 0;
-  width: $sidebar-width;
+  flex-basis: $sidebar-width;
+
   background: $button-bg-color;
   overflow-y: auto;
   transition: margin-left $sidebar-transition;
