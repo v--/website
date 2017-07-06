@@ -6,3 +6,4 @@ benchmark file='benchmarks/':
 
 lint:
     eslint benchmarks/ build/ code/ tests/
+    sass-lint --verbose

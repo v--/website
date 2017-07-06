@@ -1,21 +1,21 @@
 .home-page {
-    .contact {
-        list-style-type: none;
-        line-height: 2.5em;
+  .contact {
+    list-style-type: none;
+    line-height: 2.5em;
 
-        a {
-            display: inline-flex;
-            align-items: center;
+    a {
+      display: inline-flex;
+      align-items: center;
 
-            > .icon {
-                height: 1.5em;
-                width: 1.5em;
-                margin-top: -0.1em;
-            }
+      > .icon {
+        height: 1.5em;
+        width: 1.5em;
+        margin-top: -.1em;
+      }
 
-            > span {
-                margin-left: 0.75em;
-            }
-        }
+      > span {
+        margin-left: .75em;
+      }
     }
+  }
 }

@@ -4,52 +4,54 @@ $sidebar-width: 250px;
 $bar-transition: 250ms;
 
 aside {
-    flex-shrink: 0;
-    width: $sidebar-width;
-    height: 100vh;
-    background: $button-bg-color;
-    overflow-y: auto;
-    transition: margin-left $bar-transition;
+  flex-shrink: 0;
+  width: $sidebar-width;
+  height: 100vh;
+  background: $button-bg-color;
+  overflow-y: auto;
+  transition: margin-left $bar-transition;
 
+  display: flex;
+  flex-direction: column;
+
+  &.collapsed {
+    margin-left: -$sidebar-width;
+  }
+
+  > .entry {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-items: space-between;
 
-    &.collapsed {
-        margin-left: -$sidebar-width;
+    // Make sure that the anchors look like the buttons
+    font-size: .9em;
+
+    &:hover,
+    &:visited {
+      color: $button-color;
     }
 
-    > .entry {
-        display: flex;
-        align-items: center;
-        justify-items: space-between;
-
-        > .empty-icon {
-            width: 24px;
-            height: 24px;
-        }
-
-        > .entry-icon, .entry-indicator {
-            font-size: 2em;
-            flex-grow: 0;
-            flex-shrink: 0;
-            fill: $button-color;
-        }
-
-        > .entry-icon {
-            transition: transform $bar-transition;
-        }
-
-        > .entry-text {
-            flex-grow: 1;
-            text-align: left;
-            margin-left: 1.5em;
-        }
-
-        // Make sure that the anchors look like the buttons
-        font-size: 0.9em;
-
-        &:hover, &:visited {
-            color: $button-color;
-        }
+    > .empty-icon {
+      width: 24px;
+      height: 24px;
     }
+
+    > .entry-icon,
+    > .entry-indicator {
+      font-size: 2em;
+      flex-grow: 0;
+      flex-shrink: 0;
+      fill: $button-color;
+    }
+
+    > .entry-icon {
+      transition: transform $bar-transition;
+    }
+
+    > .entry-text {
+      flex-grow: 1;
+      text-align: left;
+      margin-left: 1.5em;
+    }
+  }
 }

@@ -1,40 +1,28 @@
 @import 'static';
 
-// remove blue webkit outline
-*:focus {
-  outline: 0;
-}
-
-// Fix occasional ugly SVG rendering
-svg {
-  shape-rendering: "crispEdges";
-}
-
-* {
-    font-family: sans;
-}
-
 body {
-    display: flex;
-    margin: 0;
+  display: flex;
+  margin: 0;
 }
 
 main {
-    width: 100%;
-    overflow-y: auto;
-    padding: 1.5em 5em;
+  width: 100%;
+  overflow-y: auto;
+  padding: 1.5em 5em;
 }
 
 a {
-    svg {
-        fill: $link-color;
-    }
+  svg {
+    fill: $link-color;
+  }
 
-    &:hover svg {
-        fill: $link-hover;
+  &:hover {
+    svg {
+      fill: $link-hover;
     }
+  }
 }
 
 code {
-    font-family: monospace;
+  font-family: monospace;
 }
