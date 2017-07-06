@@ -14,7 +14,7 @@ function contact(state) {
     )
 }
 
-module.exports = function home() {
+module.exports = function home({ redirect }) {
     return c('main', { class: 'home-page' },
         c(section, { title: 'Welcome!' },
             c(text, {
@@ -35,6 +35,7 @@ module.exports = function home() {
 
         c(section, { title: 'About this website' },
             c(text, {
+                urlHandler: redirect,
                 text: [
                     'This website contains random stuff that would otherwise be uploaded to other websites.',
                     'Since you got here you probably need my [file server](/files) or my [pacman repo](/pacman).',

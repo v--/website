@@ -1,20 +1,30 @@
 const link = require('common/components/link')
 const { c } = require('common/component')
 
-module.exports = function text({ text }) {
+module.exports = function text({ text, urlHandler }) {
     const re = /\[(.+?)\]\((.+?)\)|`(.+?)`/g
     const children = []
     let last = 0
 
     for (let match = re.exec(text); match; match = re.exec(text)) {
+        const [all, content, url, code] = match
         children.push(c('span', { text: text.substring(last, match.index) }))
 
-        if (match[3])
-            children.push(c('code', { text: match[3] }))
-        else
-            children.push(c(link, { text: match[1], link: match[2] }))
+        if (code) {
+            children.push(c('code', { text: code }))
+        } else {
+            const context = { text: content, link: url }
 
-        last = match.index + match[0].length
+            if (urlHandler)
+                context.click = function (e) {
+                    e.preventDefault()
+                    urlHandler(url)
+                }
+
+            children.push(c(link, context))
+        }
+
+        last = match.index + all.length
     }
 
     children.push(c('span', { text: text.substring(last) }))

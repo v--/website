@@ -1,10 +1,18 @@
+const { startsWith } = require('common/support/strtools')
 const { c } = require('common/component')
 
 module.exports = function link(state, children) {
-    const childState = Object.assign({ target: '_blank', href: state.link }, state)
-    delete childState.link
+    const childState = { href: state.link }
 
-    if (children.length === 0 && !('text' in state))
+    if (state.click)
+        childState.click = state.click
+
+    if (startsWith(state.link, 'http')) // Probably an external link
+        childState.target = '_blank'
+
+    if ('text' in state)
+        childState.text = state.text
+    else if (children.length === 0)
         childState.text = state.link
 
     return c('a', childState, ...children)
