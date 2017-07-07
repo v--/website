@@ -24,7 +24,7 @@ class Observable {
     }
 
     update(value) {
-        this.current = Object.assign({}, this.current, value)
+        Object.assign(this.current, value)
         this.emitCurrent()
     }
 
