@@ -3,7 +3,7 @@ const section = require('common/components/section')
 const text = require('common/components/text')
 
 module.exports = function files() {
-    return c('main', { class: 'files-page' },
+    return c('div', { class: 'page files-page' },
         c(section, { title: '/files' },
             c(text, {
                 text: 'uhmmm'

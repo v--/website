@@ -5,5 +5,5 @@ benchmark file='benchmarks/':
     NODE_PATH=code/ mocha --recursive --no-timeouts -- {{file}}
 
 lint:
-    eslint benchmarks/ build/ code/ tests/
+    eslint benchmarks/ build/ code/ tests/ client/assets/
     sass-lint --verbose

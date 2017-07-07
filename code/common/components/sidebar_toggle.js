@@ -6,7 +6,7 @@ const icon = require('common/components/icon')
 module.exports = function sidebar({ isCollapsed, toggleCollapsed }) {
     return c(icon, {
         name: 'chevron-left',
-        class: classlist('sidebar-toggle', isCollapsed && 'collapsed'),
+        class: classlist('sidebar-toggle button', isCollapsed && 'collapsed'),
         click: toggleCollapsed
     })
 }

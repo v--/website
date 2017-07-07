@@ -9,10 +9,16 @@ module.exports = class DOMXMLRenderer extends XMLRenderer {
     }
 
     _setAttribute(key, value) {
-        if (value instanceof Interface.IFunction)
+        if (value instanceof Interface.IFunction) {
             this.element.addEventListener(key, value)
-        else
+        } else if (value instanceof Interface.IBoolean) {
+            if (value)
+                this.element.setAttribute(key)
+            else
+                this.element.removeAttribute(key)
+        } else {
             this.element.setAttribute(key, String(value))
+        }
     }
 
     _removeAttribute(key, oldValue) {

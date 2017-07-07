@@ -36,8 +36,13 @@ module.exports = class Response {
     }
 
     static view(state, code) {
+        const component = c(index, {
+            state: Object.assign({ collapsed: false, redirect() {} }, state),
+            favicon: this.favicon
+        })
+
         return new this(
-            new StringBufferStream(chain('<!DOCTYPE html>', render(c(index, { state, favicon: this.favicon })))),
+            new StringBufferStream(chain('<!DOCTYPE html>', render(component))),
             'text/html',
             code
         )

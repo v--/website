@@ -8,13 +8,15 @@
   cursor: pointer;
   z-index: 1;
 
+  // Override button properties to act properly
+  padding: 0;
+  margin: 0;
+
   width: 1em;
   height: 1em;
 
   left: calc((#{$main-hpadding} - 1em) / 2);
   top: calc(#{$sidebar-vpadding} + 22px); // Just an empirically obtained offset
-
-  transform: scaleX(-1);
 
   background-color: $button-bg-color;
   fill: $button-color;

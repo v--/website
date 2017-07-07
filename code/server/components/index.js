@@ -1,6 +1,7 @@
 const { c } = require('common/component')
 
-const body = require('common/components/body')
+const nojs = require('common/components/nojs')
+const main = require('common/components/main')
 const title = require('common/components/title')
 
 module.exports = function index({ state, favicon }) {
@@ -18,9 +19,14 @@ module.exports = function index({ state, favicon }) {
                 c('link', { rel: 'shortcut icon', type: 'image/x-icon', href: `data:image/png;base64,${favicon}` }),
                 c('link', { rel: 'stylesheet', href: 'styles/index.css' }),
                 c('script', { id: 'data', type: 'application/json', text: serializedData }),
-                c('script', { src: 'code/core.js' })
+                c('script', { src: 'code/core.js' }),
+                c('script', { src: 'code/compatibility.js' })
             ),
-            c(body, state)
+
+            c('body', null,
+                c(nojs, state),
+                c(main, state)
+            )
         )
     )
 }

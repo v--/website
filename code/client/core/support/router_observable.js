@@ -23,10 +23,6 @@ module.exports = class RouterObservable extends Observable {
             this.update({ isCollapsed: !this.current.isCollapsed })
         }.bind(this)
 
-        // setInterval(function () {
-        //     this.current.toggleCollapsed()
-        // }.bind(this), 1000)
-
         this.db = db
         this.url = url
 

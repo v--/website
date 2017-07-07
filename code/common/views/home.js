@@ -15,7 +15,7 @@ function contact(state) {
 }
 
 module.exports = function home({ redirect }) {
-    return c('main', { class: 'home-page' },
+    return c('div', { class: 'page home-page' },
         c(section, { title: 'Welcome!' },
             c(text, {
                 text: 'This is my personal website - nothing more.'

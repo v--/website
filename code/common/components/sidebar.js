@@ -19,9 +19,8 @@ module.exports = function sidebar({ id, redirect, isCollapsed, toggleCollapsed }
     }
 
     return c('aside', { class: classlist('sidebar', isCollapsed && 'collapsed') },
-        c('button', { class: 'entry', click: toggleCollapsed },
+        c('button', { class: 'entry', click: toggleCollapsed, disabled: toggleCollapsed === undefined },
             c(icon, { class: 'entry-icon', name: 'chevron-left' }),
-            // c('span', { class: 'entry-icon empty-icon' }),
             c('span', { class: 'entry-text', text: 'Hide sidebar' })
         ),
 

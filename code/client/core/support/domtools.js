@@ -2,6 +2,9 @@
 
 module.exports = {
     onDocumentReady() {
+        if (!window.COMPATIBLE_INTERPRETER)
+            return new Promise(function () {})
+
         if (document.readyState === 'complete')
             return Promise.resolve()
 

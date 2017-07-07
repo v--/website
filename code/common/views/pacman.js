@@ -29,7 +29,7 @@ module.exports = function pacman({ data }) {
         else
             arches.get(pkg.arch).push(pkg)
 
-    return c('main', { class: 'pacman-page' },
+    return c('div', { class: 'page pacman-page' },
         c(section, { title: 'Pacman repository' },
             c(text, {
                 text: 'The repo contains a variety of packages, mostly my own software and AUR builds.'

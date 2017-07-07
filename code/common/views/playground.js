@@ -3,7 +3,7 @@ const section = require('common/components/section')
 const text = require('common/components/text')
 
 module.exports = function playground() {
-    return c('main', { class: 'playground-page' },
+    return c('div', { class: 'page playground-page' },
         c(section, { title: '/playground' },
             c(text, {
                 text: 'uhmmm'

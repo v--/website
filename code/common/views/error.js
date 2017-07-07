@@ -7,7 +7,7 @@ const icon = require('common/components/icon')
 module.exports = function error({ data: err }) {
     const title = err instanceof HTTPError ? err.message : 'Error'
 
-    return c('main', { class: 'error-page' },
+    return c('div', { class: 'page error-page' },
         c('br'),
         c(icon, { class: 'alert', name: 'alert' }),
         c('h1', { text: title }),
