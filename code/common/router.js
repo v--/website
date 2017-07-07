@@ -25,8 +25,11 @@ async function routerImpl(db, route, subroute) {
     }
 
     if (route === 'files') {
+        const data = await db.retrieve(subroute ? `files/${subroute}` : 'files')
+
         return {
-            data: await db.retrieve(`${route}/${subroute}`),
+            data,
+            title: `index of /files${subroute ? '/' + subroute.replace(/\/$/, '') : ''}`,
             factory: files
         }
     }

@@ -21,7 +21,7 @@ module.exports = class DB {
         if (id === 'pacman')
             return this.packages
 
-        if (startsWith(id, 'files/'))
+        if (startsWith(id, 'files'))
             return await parseFilesDirectory(this.config.files, id)
 
         return null
