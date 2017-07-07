@@ -1,14 +1,11 @@
 @import 'static';
 @import 'vars';
 
-html {
-  overflow-y: hidden; // This is pointless but it seems to solve overscrolling bugs
-}
-
 body {
   margin: 0; // I'm not sure where the original margin comes from
   display: flex;
   flex-direction: column;
+  height: 100vh;
 }
 
 a {

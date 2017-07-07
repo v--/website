@@ -5,7 +5,7 @@ main {
   position: relative;
   display: flex;
   height: 100vh;
-  overflow-x: auto;
+  overflow: auto;
 
   .page {
     overflow-y: auto;

@@ -3,8 +3,14 @@
 function showError() {
     const nojs = document.querySelector('.nojs')
     const div = document.createElement('div')
+    const span = document.createElement('span')
+
+    div.appendChild(span)
+
     div.setAttribute('class', 'nojs')
-    div.textContent = nojs.textContent
+    span.setAttribute('class', 'content')
+    span.textContent = nojs.textContent
+
     nojs.parentNode.replaceChild(div, nojs)
 }
 
