@@ -3,9 +3,9 @@
 const Cache = require('client/support/cache')
 
 module.exports = class DB {
-    constructor({ dbID, data }) {
+    constructor({ id, data }) {
         this.cache = new Cache(60 * 1000)
-        this.cache.set(dbID, data)
+        this.cache.set(id, data)
     }
 
     async retrieve(id) {
