@@ -11,7 +11,7 @@ const render = overloader(
             for (const [key, value] of Object.entries(component.state.current))
                 if (value === true)
                     yield ` ${key}`
-                else if (typeof value === 'string')
+                else if (typeof value === 'string' && key !== 'text')
                     yield ` ${key}="${value}"`
 
             yield '>'
