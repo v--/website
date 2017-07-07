@@ -33,6 +33,7 @@ module.exports = class RouterObservable extends Observable {
 
     async changeURL(url) {
         history.pushState({ path: this.url }, null, url)
+        this.url = url
         this.update(await router(this.db, url))
     }
 }

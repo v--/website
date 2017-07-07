@@ -19,6 +19,7 @@ module.exports = class RouterState {
 
         return new this({
             route, subroute,
+            id: err.viewID || 'error',
             title: err instanceof HTTPError ? err.message.toLowerCase() : 'error',
             factory: error,
             data: err

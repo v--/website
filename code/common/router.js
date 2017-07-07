@@ -13,9 +13,6 @@ async function routerImpl(db, route, subroute) {
         case '':
             return { factory: home }
 
-        case 'files':
-            return { factory: files }
-
         case 'playground':
             return { factory: playground }
 
@@ -24,6 +21,13 @@ async function routerImpl(db, route, subroute) {
                 data: await db.retrieve('pacman'),
                 factory: pacman
             }
+        }
+    }
+
+    if (route === 'files') {
+        return {
+            data: await db.retrieve(`${route}/${subroute}`),
+            factory: files
         }
     }
 

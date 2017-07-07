@@ -6,10 +6,13 @@ class CoolError extends Error {
 }
 
 class HTTPError extends CoolError {
-    constructor(code, message) {
+    constructor(code, message, viewID) {
         super(message)
         this.code = code
         this.message = message
+
+        if (viewID)
+            this.viewID = viewID
     }
 
     toString() {
@@ -22,8 +25,8 @@ module.exports = {
     HTTPError,
 
     NotFoundError: class NotFoundError extends HTTPError {
-        constructor() {
-            super(404, 'Resource not found')
+        constructor(viewID) {
+            super(404, 'Resource not found', viewID)
         }
     }
 }
