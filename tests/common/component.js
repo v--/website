@@ -167,21 +167,6 @@ describe('FactoryComponent', function () {
             expect(evaluated).to.equalComponent(component)
         })
 
-        it('handles nested factories', function () {
-            const component = HTMLComponent.safeCreate('div', { text: 'text' })
-
-            function subfactory({ text }) {
-                return HTMLComponent.safeCreate('div', { text })
-            }
-
-            function factory(state) {
-                return FactoryComponent.safeCreate(subfactory, state)
-            }
-
-            const evaluated = FactoryComponent.safeCreate(factory, { 'text': 'text' }).evaluate()
-            expect(evaluated).to.equalComponent(component)
-        })
-
         it("throws if the factory doesn't return a component", function () {
             function factory() {
                 return null

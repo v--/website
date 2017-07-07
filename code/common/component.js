@@ -168,18 +168,12 @@ class FactoryComponent extends Component {
     }
 
     evaluate() {
-        let root = this
+        const component = this.type(this.state.current, this.children)
 
-        while (root instanceof FactoryComponent) {
-            const component = root.type(root.state.current, root.children)
+        if (!(component instanceof Component))
+            throw new InvalidComponentError(`Expected ${this} to return a component, not ${repr(component)}.`)
 
-            if (!(component instanceof Component))
-                throw new InvalidComponentError(`Expected ${this} to return a component, not ${repr(component)}.`)
-
-            root = component
-        }
-
-        return root
+        return component
     }
 }
 
