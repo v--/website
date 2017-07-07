@@ -83,7 +83,7 @@ class XMLRenderer extends Renderer {
                     if (key === 'text')
                         this._setText(newState[key])
                     else
-                        this._setAttribute(key, newState[key])
+                        this._setAttribute(key, newState[key], oldState[key])
             } else if (key in oldState) {
                 if (key === 'text')
                     this._removeText()

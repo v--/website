@@ -1,25 +1,25 @@
 /* eslint-env browser */
 
 const { XMLRenderer } = require('common/renderer')
-const Interface = require('common/support/interface')
 
 module.exports = class DOMXMLRenderer extends XMLRenderer {
     _createNode() {
         return document.createElementNS(this.component.namespace, this.component.type)
     }
 
-    _setAttribute(key, value) {
+    _setAttribute(key, value, oldValue) {
         if (value === true) {
             this.element.setAttribute(key)
         } else if (typeof value === 'string') {
             this.element.setAttribute(key, value)
         } else if (value instanceof Function) {
+            this.element.removeEventListener(key, oldValue)
             this.element.addEventListener(key, value)
         }
     }
 
     _removeAttribute(key, oldValue) {
-        if (oldValue instanceof Interface.IFunction)
+        if (oldValue instanceof Function)
             this.element.removeEventListener(key, oldValue)
         else
             this.element.removeAttribute(key)
