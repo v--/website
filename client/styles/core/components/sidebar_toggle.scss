@@ -20,4 +20,8 @@
 
   background-color: $button-bg-color;
   fill: $button-color;
+
+  > svg {
+    transform: scaleX(-1) translateY(-1px);
+  }
 }
