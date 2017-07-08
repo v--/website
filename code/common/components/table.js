@@ -14,10 +14,10 @@ function sliceData({ columns, data, fixedData, sorting, page }) {
     const ascending = sorting > 0 ? 1 : -1
 
     function comparator(a, b) {
-        if (a[column.prop] === b[column.prop])
+        if (a[column.raw] === b[column.raw])
             return 0
 
-        return ascending * (a[column.prop] > b[column.prop] ? 1 : -1)
+        return ascending * (a[column.raw] > b[column.raw] ? 1 : -1)
     }
 
     const pageStart = (page - 1) * MAXIMUM_ITEMS_PER_PAGE
@@ -66,7 +66,7 @@ function *headers(columns, sorting, sort) {
 
 function *row(columns, datum) {
     for (const column of columns) {
-        const value = datum[column.prop]
+        const value = datum[column.value]
 
         const context =  { text: value }
 
@@ -77,7 +77,7 @@ function *row(columns, datum) {
             }
 
         if ('link' in column)
-            context.link = column.link(datum)
+            context.link = datum[column.link]
 
         yield c('td', { title: value, class: column.cssClass },
             c('link' in context ? link : 'span', context)

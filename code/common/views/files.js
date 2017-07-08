@@ -35,17 +35,6 @@ function getFileSize(file) {
     return 'Invalid size'
 }
 
-function *userFriendlyEntries(entries) {
-    for (const entry of entries) {
-        yield {
-            name: entry.name,
-            type: getFileType(entry),
-            size: getFileSize(entry),
-            modified: new Date(entry.modified).toLocaleString(),
-        }
-    }
-}
-
 module.exports = function files({ data, id, redirect }) {
     function getLink(entry) {
         if (entry.name === '..') {
@@ -57,12 +46,25 @@ module.exports = function files({ data, id, redirect }) {
         return `/${id}/${entry.name}`
     }
 
+    function *processEntries(entries) {
+        for (const entry of entries) {
+            yield Object.assign({
+                link: getLink(entry),
+                typeString: getFileType(entry),
+                sizeString: getFileSize(entry),
+                modifiedRaw: Date.parse(entry.modified),
+                modifiedString: new Date(entry.modified).toLocaleString(),
+            }, entry)
+        }
+    }
+
     const columns = [
         {
             label: 'Name',
-            prop: 'name',
             cssClass: 'col-name',
-            link: getLink,
+            raw: 'name',
+            value: 'name',
+            link: 'link',
             click(entry) {
                 redirect(getLink(entry))
             }
@@ -71,26 +73,29 @@ module.exports = function files({ data, id, redirect }) {
         {
             label: 'Type',
             cssClass: 'col-type',
-            prop: 'type'
+            raw: 'typeString',
+            value: 'typeString'
         },
 
         {
             label: 'Size',
             cssClass: 'col-size',
-            prop: 'size'
+            raw: 'size',
+            value: 'sizeString'
         },
 
         {
             label: 'Modified',
             cssClass: 'col-modified',
-            prop: 'modified'
+            raw: 'modifiedRaw',
+            value: 'modifiedString'
         }
     ]
 
     const fixed = []
     const dynamic = []
 
-    for (const entry of userFriendlyEntries(data.entries)) {
+    for (const entry of processEntries(data.entries)) {
         if (entry.name === '..')
             fixed.push(entry)
         else
