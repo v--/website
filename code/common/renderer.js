@@ -1,6 +1,6 @@
 const { bind, overloader } = require('common/support/functools')
 const { repr } = require('common/support/strtools')
-const { map, chain, unique, zip } = require('common/support/itertools')
+const { map, chain, unique } = require('common/support/itertools')
 const Interface = require('common/support/interface')
 const { XMLComponent, FactoryComponent } = require('common/component')
 const { CoolError } = require('common/errors')
@@ -150,18 +150,14 @@ class FactoryRenderer extends Renderer {
 
     rerenderChildren(oldRoot, newRoot) {
         const rootRenderer = this.dispatcher.cache.get(oldRoot)
+        const added = new Set()
         const removed = new Set()
         const replaced = new Set()
 
         for (const { i, action } of Array.from(mergeChildren(oldRoot.children, newRoot.children))) {
             switch (action) {
             case 'append': {
-                const newChild = newRoot.children[i]
-
-                this.dispatcher(newChild)
-                const newRenderer = this.dispatcher.cache.get(newChild)
-                oldRoot.children.push(newRenderer.component)
-                rootRenderer._appendChild(newRenderer.element)
+                added.add(i)
                 break
             }
 
@@ -170,8 +166,8 @@ class FactoryRenderer extends Renderer {
                 const newChild = newRoot.children[i]
                 const oldRenderer = this.dispatcher.cache.get(oldChild)
 
-                oldRenderer.rerender(newChild.state.current)
                 this.rerenderChildren(oldChild, newChild)
+                oldRenderer.rerender(newChild.state.current)
                 break
             }
 
@@ -180,32 +176,53 @@ class FactoryRenderer extends Renderer {
                 const newChild = newRoot.children[i]
 
                 newChild.state.updateSource(oldChild.state.source)
-                this.dispatcher(newChild)
-
-                const oldRenderer = this.dispatcher.cache.get(oldChild)
-                const newRenderer = this.dispatcher.cache.get(newChild)
-
                 replaced.add(i)
-                rootRenderer._replaceChild(oldRenderer.element, newRenderer.element)
-                oldRenderer.destroy()
                 break
             }
 
             case 'remove': {
-                const oldRenderer = this.dispatcher.cache.get(oldRoot.children[i])
-
-                rootRenderer._removeChild(oldRenderer.element)
-                oldRenderer.destroy()
                 removed.add(i)
                 break
             }
             }
         }
 
-        oldRoot.children = oldRoot.children.filter((child, i) => !removed.has(i))
+        for (const i of added) {
+            const newChild = newRoot.children[i]
 
-        for (const i of replaced)
-            oldRoot.children[i] = newRoot.children[i]
+            if (rootRenderer instanceof XMLRenderer) {
+                this.dispatcher(newRoot.children[i])
+                const newRenderer = this.dispatcher.cache.get(newChild)
+                rootRenderer._appendChild(newRenderer.element)
+            }
+
+            oldRoot.children.push(newChild)
+        }
+
+        for (const i of replaced) {
+            const oldRenderer = this.dispatcher.cache.get(oldRoot.children[i])
+            const newChild = newRoot.children[i]
+
+            if (rootRenderer instanceof XMLRenderer) {
+                this.dispatcher(newChild)
+                const newRenderer = this.dispatcher.cache.get(newChild)
+                rootRenderer._replaceChild(oldRenderer.element, newRenderer.element)
+            }
+
+            oldRoot.children[i] = newChild
+            oldRenderer.destroy()
+        }
+
+        for (const i of removed) {
+            const oldRenderer = this.dispatcher.cache.get(oldRoot.children[i])
+
+            if (rootRenderer instanceof XMLRenderer)
+                rootRenderer._removeChild(oldRenderer.element)
+
+            oldRenderer.destroy()
+        }
+
+        oldRoot.children = oldRoot.children.filter((child, i) => !removed.has(i))
     }
 
     rerender(newState) {
@@ -223,10 +240,11 @@ class FactoryRenderer extends Renderer {
         if (newRoot.constructor !== oldRoot.constructor || newRoot.type !== oldRoot.type)
             throw new RenderError(`${repr(this.component)} evaluated ${repr(newRoot)}, but expected a ${repr(oldRoot.constructor)} with type ${repr(oldRoot.type)}`)
 
-        oldRoot.state.updateSource(newRoot.state.source)
-        this.dispatcher.cache.get(oldRoot).rerender(newRoot.state.current)
+        const rootRenderer = this.dispatcher.cache.get(oldRoot)
 
+        oldRoot.state.updateSource(newRoot.state.source)
         this.rerenderChildren(oldRoot, newRoot)
+        rootRenderer.rerender(newRoot.state.current)
     }
 
     destroy() {

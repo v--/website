@@ -300,5 +300,32 @@ describe('MirrorFactoryRenderer', function () {
 
             expect(dest.children[0].children[0].state.current.text).to.equal('updated text')
         })
+
+        it('can add new children to transcluded components nested in XML components', function () {
+            const outerObservable = new Observable({ text: null })
+
+            function transcluded(state, children) {
+                return c('main', null, ...children)
+            }
+
+            function factory({ text }) {
+                return c('div', { text })
+            }
+
+            function outerFactory({ text }) {
+                return c('body', null,
+                    c(transcluded, null,
+                        text && c(factory, { text })
+                    )
+                )
+            }
+
+            const src = c(outerFactory, outerObservable)
+            const dest = render(src)
+
+            outerObservable.update({ text: 'text' })
+
+            expect(dest.children[0].children[0].state.current.text).to.equal('text')
+        })
     })
 })
