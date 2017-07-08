@@ -9,7 +9,9 @@ module.exports = class DOMXMLRenderer extends XMLRenderer {
 
     _setAttribute(key, value, oldValue) {
         if (value === true) {
-            this.element.setAttribute(key)
+            this.element.setAttribute(key, '')
+        } else if (value === false) {
+            this.element.removeAttribute(key)
         } else if (typeof value === 'string') {
             this.element.setAttribute(key, value)
         } else if (value instanceof Function) {

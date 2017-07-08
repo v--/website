@@ -2,6 +2,7 @@ const { c } = require('common/component')
 const { zip, range } = require('common/support/itertools')
 const { partial } = require('common/support/functools')
 const { Observable } = require('common/support/observation')
+const classlist = require('common/support/classlist')
 
 const icon = require('common/components/icon')
 const link = require('common/components/link')
@@ -54,8 +55,8 @@ function *headers(columns, sorting, sort) {
         else
             iconName = 'sort-variant'
 
-        yield c('th', { title: column.label, click() { sort(Math.abs(sorting) === i ? -sorting : i) } },
-            c('span', null,
+        yield c('th', { class: column.cssClass, title: column.label, click() { sort(Math.abs(sorting) === i ? -sorting : i) } },
+            c('span', { class: 'heading' },
                 c(icon, { name: iconName }),
                 c('span', { text: column.label })
             )
@@ -75,17 +76,12 @@ function *row(columns, datum) {
                 column.click(datum)
             }
 
-        if ('link' in column) {
+        if ('link' in column)
             context.link = column.link(datum)
 
-            yield c('td', { title: value },
-                c(link, context)
-            )
-        } else {
-            yield c('td', { title: value },
-                c('p', context)
-            )
-        }
+        yield c('td', { title: value, class: column.cssClass },
+            c('link' in context ? link : 'span', context)
+        )
     }
 }
 
@@ -95,41 +91,61 @@ function *rows(columns, data) {
 }
 
 function *pagination(pages, page, goToPage) {
-    yield c('span', {
-        text: '<',
-        click: partial(goToPage, page - 1)
-    })
+    yield c('button',
+        {
+            disabled: page === 1,
+            class: 'paginator paginator-prev',
+            click: partial(goToPage, page - 1)
+        },
+        c(icon, {
+            name: 'chevron-left',
+        })
+    )
 
     for (let i = 1; i <= pages; i++)
-        yield c('span', {
-            text: String(i),
-            click: partial(goToPage, i)
-        })
+        yield c('button',
+            {
+                disabled: page === i,
+                class: 'paginator',
+                click: partial(goToPage, i)
+            },
+            c('span', { text: String(i) })
+        )
 
-    yield c('span', {
-        text: '>',
-        click: partial(goToPage, page + 1)
-    })
+    yield c('button',
+        {
+            disabled: page === pages,
+            class: 'paginator paginator-next',
+            click: partial(goToPage, page + 1)
+        },
+        c(icon, {
+            name: 'chevron-left',
+        })
+    )
 }
 
-function tableImpl({ columns, data, page, goToPage, sliced, sorting, sort }) {
-    return c('table', { class: 'cool-table' },
+function tableImpl({ columns, cssClass, data, page, goToPage, sliced, sorting, sort }) {
+    const pages = Math.ceil(data.length / MAXIMUM_ITEMS_PER_PAGE)
+
+    return c('table', { class: classlist('cool-table', cssClass) },
         c('thead', null,
             c('tr', null, ...headers(columns, sorting, sort))
         ),
 
         c('tbody', null, ...rows(columns, sliced)),
-        c('thead', null,
+        pages > 1 && c('thead', null,
             c('tr', null,
-                c('td', { colspan: 4 },
-                    ...pagination(Math.ceil(data.length / MAXIMUM_ITEMS_PER_PAGE), page, goToPage)
+                c('td', { colspan: '4' },
+                    c('div', { class: 'pagination' },
+                        ...pagination(pages, page, goToPage)
+                    )
                 )
             )
         )
     )
 }
 
-module.exports = function coolTable({ columns, data, fixedData = [] }) {
-    const observable = new TableObservable({ columns, data, fixedData })
+module.exports = function table({ cssClass, columns, data, fixedData = [] }) {
+    const observable = new TableObservable({ cssClass, columns, data, fixedData })
     return c(tableImpl, observable)
 }

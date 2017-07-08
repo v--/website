@@ -2,7 +2,7 @@ const { c } = require('common/component')
 
 const section = require('common/components/section')
 const text = require('common/components/text')
-const coolTable = require('common/components/cool_table')
+const table = require('common/components/table')
 
 function getFileType(file) {
     if (file.type === 'directory')
@@ -61,6 +61,7 @@ module.exports = function files({ data, id, redirect }) {
         {
             label: 'Name',
             prop: 'name',
+            cssClass: 'col-name',
             link: getLink,
             click(entry) {
                 redirect(getLink(entry))
@@ -69,16 +70,19 @@ module.exports = function files({ data, id, redirect }) {
 
         {
             label: 'Type',
+            cssClass: 'col-type',
             prop: 'type'
         },
 
         {
             label: 'Size',
+            cssClass: 'col-size',
             prop: 'size'
         },
 
         {
             label: 'Modified',
+            cssClass: 'col-modified',
             prop: 'modified'
         }
     ]
@@ -95,7 +99,7 @@ module.exports = function files({ data, id, redirect }) {
 
     return c('div', { class: 'page files-page' },
         c(section, { title: `Index of /${id}` },
-            c(coolTable, { columns, data: dynamic, fixedData: fixed }),
+            c(table, { cssClass: 'files-table', columns, data: dynamic, fixedData: fixed }),
             data.readme && c(text, { text: data.readme })
         )
     )
