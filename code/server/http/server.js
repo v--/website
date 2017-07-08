@@ -21,13 +21,15 @@ class HTTPServer {
     }
 
     async requestHandler(request, response) {
+        const decoded = decodeURI(request.url)
+
         if (request.method !== 'GET' && request.method !== 'HEAD') {
-            this.logger.warn(`Unexpected method ${request.method} on ${request.url}`)
+            this.logger.warn(`Unexpected method ${request.method} on ${decoded}`)
             return Promise.then()
         }
 
-        this.logger.debug(`${request.method} on ${request.url}`)
-        this.writeResponse(response, await router(this.db, request.url))
+        this.logger.debug(`${request.method} on ${decoded}`)
+        this.writeResponse(response, await router(this.db, decoded))
     }
 
     async writeResponse(response, context) {
@@ -64,14 +66,16 @@ class HTTPServer {
             try {
                 await this.requestHandler(request, response)
             } catch (e) {
+                const decoded = decodeURI(request.url)
+
                 if (e instanceof NotFoundError)
-                    this.logger.warn(`No resource found for ${request.method} ${request.url}`)
+                    this.logger.warn(`No resource found for ${request.method} ${decoded}`)
                 else
-                    this.logger.warn(`Error while processing ${request.method} ${request.url}: ${e} ${e.stack}`)
+                    this.logger.warn(`Error while processing ${request.method} ${decoded}: ${e} ${e.stack}`)
 
                 this.writeResponse(
                     response,
-                    Response.view(RouterState.error(request.url, e), e instanceof HTTPError && e.code)
+                    Response.view(RouterState.error(decoded, e), e instanceof HTTPError && e.code)
                 )
             }
         }.bind(this))

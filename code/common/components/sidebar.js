@@ -1,3 +1,4 @@
+const { startsWith } = require('common/support/strtools')
 const classlist = require('common/support/classlist')
 const { c } = require('common/component')
 
@@ -10,7 +11,7 @@ module.exports = function sidebar({ id, redirect, isCollapsed, toggleCollapsed }
             redirect(state.link)
         }
 
-        const classes = classlist('button', 'entry', state.id === id && 'active')
+        const classes = classlist('button', 'entry', startsWith(id, state.id) && 'active')
 
         return c('a', { class: classes, href: state.link, click },
             c(icon, { class: 'entry-icon', name: state.icon }),

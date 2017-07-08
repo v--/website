@@ -9,8 +9,10 @@ const DESKTOP_WIDTH = 700
 
 module.exports = class RouterObservable extends Observable {
     static async create(url) {
+        const decoded = decodeURI(url)
+
         const db = new DB(JSON.parse(document.querySelector('#data').textContent))
-        return new this(await router(db, url), db, url)
+        return new this(await router(db, decoded), db, decoded)
     }
 
     constructor(initialState, db, url) {
@@ -32,8 +34,10 @@ module.exports = class RouterObservable extends Observable {
     }
 
     async changeURL(url) {
-        history.pushState({ path: this.url }, null, url)
-        this.url = url
-        this.update(await router(this.db, url))
+        const decoded = decodeURI(url)
+
+        history.pushState({ path: this.url }, null, decoded)
+        this.url = decoded
+        this.update(await router(this.db, decoded))
     }
 }

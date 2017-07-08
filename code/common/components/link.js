@@ -15,5 +15,6 @@ module.exports = function link(state, children) {
     else if (children.length === 0)
         childState.text = state.link
 
+    childState.link = encodeURI(childState.link)
     return c('a', childState, ...children)
 }

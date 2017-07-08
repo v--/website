@@ -1,0 +1,140 @@
+const { c } = require('common/component')
+const { zip, range } = require('common/support/itertools')
+const { partial } = require('common/support/functools')
+const { Observable } = require('common/support/observation')
+
+const icon = require('common/components/icon')
+const link = require('common/components/link')
+
+const MAXIMUM_ITEMS_PER_PAGE = 10
+
+function sliceData({ columns, data, sorting, page }) {
+    const column = columns[Math.abs(sorting) - 1]
+    const ascending = sorting > 0 ? 1 : -1
+
+    function comparator(a, b) {
+        if (a.name === '..')
+            return -1
+
+        if (a.type === 'Directory' && b.type !== 'Directory')
+            return -1
+
+        if (a[column.prop] === b[column.prop])
+            return 0
+
+        return ascending * (a[column.prop] > b[column.prop] ? 1 : -1)
+    }
+
+    const pageStart = (page - 1) * MAXIMUM_ITEMS_PER_PAGE
+
+    return Array.from(data)
+        .sort(comparator)
+        .slice(pageStart, pageStart + MAXIMUM_ITEMS_PER_PAGE)
+}
+
+class TableObservable extends Observable {
+    constructor(initialState) {
+        super(initialState)
+
+        this.current.sorting = 1
+        this.current.page = 1
+        this.current.sliced = sliceData(this.current)
+
+        this.current.sort = function (sorting) {
+            this.update({ sorting, sliced: sliceData(Object.assign({}, this.current, { sorting })) })
+        }.bind(this)
+
+        this.current.goToPage = function (page) {
+            this.update({ page, sliced: sliceData(Object.assign({}, this.current, { page })) })
+        }.bind(this)
+    }
+}
+
+function *headers(columns, sorting, sort) {
+    for (const [i, column] of zip(range(1, columns.length + 1), columns)) {
+        let iconName
+
+        if (Math.abs(sorting) === i)
+            iconName = sorting > 0 ? 'sort-ascending' : 'sort-descending'
+        else
+            iconName = 'sort-variant'
+
+        yield c('th', { title: column.label, click() { sort(Math.abs(sorting) === i ? -sorting : i) } },
+            c('span', null,
+                c(icon, { name: iconName }),
+                c('span', { text: column.label })
+            )
+        )
+    }
+}
+
+function *row(columns, datum) {
+    for (const column of columns) {
+        const value = datum[column.prop]
+
+        const context =  { text: value }
+
+        if ('click' in column)
+            context.click = function (e) {
+                e.preventDefault()
+                column.click(datum)
+            }
+
+        if ('link' in column) {
+            context.link = column.link(datum)
+
+            yield c('td', { title: value },
+                c(link, context)
+            )
+        } else {
+            yield c('td', { title: value },
+                c('p', context)
+            )
+        }
+    }
+}
+
+function *rows(columns, data) {
+    for (const datum of data)
+        yield c('tr', null, ...row(columns, datum))
+}
+
+function *pagination(pages, page, goToPage) {
+    yield c('span', {
+        text: '<',
+        click: partial(goToPage, page - 1)
+    })
+
+    for (let i = 1; i <= pages; i++)
+        yield c('span', {
+            text: String(i),
+            click: partial(goToPage, i)
+        })
+
+    yield c('span', {
+        text: '>',
+        click: partial(goToPage, page + 1)
+    })
+}
+
+function tableImpl({ columns, data, page, goToPage, sliced, sorting, sort }) {
+    return c('table', { class: 'cool-table' },
+        c('thead', null,
+            c('tr', null, ...headers(columns, sorting, sort))
+        ),
+
+        c('tbody', null, ...rows(columns, sliced)),
+        c('thead', null,
+            c('tr', null,
+                c('td', { colspan: 4 },
+                    ...pagination(Math.ceil(data.length / MAXIMUM_ITEMS_PER_PAGE), page, goToPage)
+                )
+            )
+        )
+    )
+}
+
+module.exports = function coolTable({ columns, data }) {
+    const observable = new TableObservable({ columns, data })
+    return c(tableImpl, observable)
+}

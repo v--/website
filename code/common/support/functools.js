@@ -12,6 +12,9 @@ const IImplSpec = Interface.create({ iface: Interface.IInterface, impl: Interfac
 
 module.exports = {
     bind,
+    partial(func, ...args) {
+        return func.bind(this, ...args)
+    },
 
     overloader(...impls) {
         for (const impl of impls)

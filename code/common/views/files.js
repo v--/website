@@ -1,28 +1,91 @@
 const { c } = require('common/component')
-const { map } = require('common/support/itertools')
 
 const section = require('common/components/section')
+const coolTable = require('common/components/cool_table')
 
-function file({ type, name }) {
-    return c('tr', null,
-        c('td', { text: name }),
-        c('td', { text: type })
-    )
+function getFileType(file) {
+    if (file.type === 'directory')
+        return 'Directory'
+
+    const extIndex = file.name.lastIndexOf('.')
+
+    if (~extIndex)
+        return file.name.slice(extIndex + 1).toUpperCase() + ' file'
+
+    return 'Dotfile'
 }
 
-module.exports = function files({ data }) {
-    return c('div', { class: 'page files-page' },
-        c(section, { title: '/files' },
-            c('table', null,
-                c('thead', null,
-                    c('tr', null,
-                        c('th', { text: 'Name' }),
-                        c('th', { text: 'Type' })
-                    )
-                ),
+function getFileSize(file) {
+    if (file.type === 'directory')
+        return '-'
 
-                c('tbody', null, ...map(file, data))
-            )
+    if (file.size < 1024)
+        return `${file.size} Bytes`
+
+    let ratio = file.size / 1024
+
+    for (const size of 'KMGTP') {
+        if (ratio < 512)
+            return `${ratio.toFixed(2)} ${size}iB`
+
+        ratio /= 1024
+    }
+
+    return 'Invalid size'
+}
+
+function *userFriendlyEntries(entries) {
+    for (const entry of entries)
+        yield {
+            name: entry.name,
+            type: getFileType(entry),
+            size: getFileSize(entry),
+            modified: new Date(entry.modified).toLocaleString(),
+        }
+}
+
+module.exports = function files({ data, id, redirect }) {
+    const columns = [
+        {
+            label: 'Name',
+            prop: 'name',
+            link(entry) {
+                if (entry.name === '..') {
+                    const ancestors = id.split('/')
+                    ancestors.pop()
+                    return '/' + ancestors.join('/')
+                }
+
+                return `/${id}/${entry.name}`
+            },
+
+            click(entry) {
+                if (entry.name === '..')
+                    redirect('/' + id)
+                else
+                    redirect(`/${id}/${entry.name}`)
+            }
+        },
+
+        {
+            label: 'Type',
+            prop: 'type'
+        },
+
+        {
+            label: 'Size',
+            prop: 'size'
+        },
+
+        {
+            label: 'Modified',
+            prop: 'modified'
+        }
+    ]
+
+    return c('div', { class: 'page files-page' },
+        c(section, { title: `Index of /${id}` },
+            c(coolTable, { columns, data: Array.from(userFriendlyEntries(data.entries)) })
         )
     )
 }
