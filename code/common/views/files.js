@@ -1,7 +1,7 @@
 const { c } = require('common/component')
 
 const section = require('common/components/section')
-const text = require('common/components/text')
+const markdown = require('common/components/markdown')
 const table = require('common/components/table')
 
 function getFileType(file) {
@@ -105,7 +105,8 @@ module.exports = function files({ data, id, redirect }) {
     return c('div', { class: 'page files-page' },
         c(section, { title: `Index of /${id}` },
             c(table, { cssClass: 'files-table', columns, data: dynamic, fixedData: fixed }),
-            data.readme && c(text, { text: data.readme })
+            data.readme && c('br'),
+            data.readme && c(markdown, { text: data.readme })
         )
     )
 }

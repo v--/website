@@ -1,7 +1,7 @@
 const { c } = require('common/component')
 
 const section = require('common/components/section')
-const text = require('common/components/text')
+const markdown = require('common/components/markdown')
 const icon = require('common/components/icon')
 const link = require('common/components/link')
 
@@ -17,13 +17,13 @@ function contact(state) {
 module.exports = function home({ redirect }) {
     return c('div', { class: 'page home-page' },
         c(section, { title: 'Welcome!' },
-            c(text, {
+            c(markdown, {
                 text: 'This is my personal website - nothing more.'
             }),
         ),
 
         c(section, { title: 'About me' },
-            c(text, {
+            c(markdown, {
                 text: [
                     'My name is Ianis Vasilev (pronounce it however you want).',
                     'For some reason, I am studying statistics at Sofia University.',
@@ -34,7 +34,7 @@ module.exports = function home({ redirect }) {
         ),
 
         c(section, { title: 'About this website' },
-            c(text, {
+            c(markdown, {
                 urlHandler: redirect,
                 text: [
                     'This website contains random stuff that would otherwise be uploaded to other websites.',

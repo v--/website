@@ -2,7 +2,7 @@ const { map } = require('common/support/itertools')
 const { c } = require('common/component')
 
 const section = require('common/components/section')
-const text = require('common/components/text')
+const markdown = require('common/components/markdown')
 
 function pkg({ name, version, description }) {
     return c('li', { class: 'package' },
@@ -31,11 +31,11 @@ module.exports = function pacman({ data }) {
 
     return c('div', { class: 'page pacman-page' },
         c(section, { title: 'Pacman repository' },
-            c(text, {
+            c(markdown, {
                 text: 'The repo contains a variety of packages, mostly my own software and AUR builds.'
             }),
 
-            c(text, {
+            c(markdown, {
                 text: 'I mantain `any` and `x86_64` repos. `x86_64` includes packages from `any`. `$arch` can be overridden by both.'
             }),
 
@@ -45,7 +45,7 @@ module.exports = function pacman({ data }) {
                 })
             ),
 
-            c(text, {
+            c(markdown, {
                 text: `All packages are signed and can be verified using my PGP public key [${PGP_KEY_ID_SHORT}](https://pgp.mit.edu/pks/lookup?op=vindex&search=0x${PGP_FINGERPRINT}).`
             })
         ),

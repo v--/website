@@ -1,7 +1,7 @@
 const { HTTPError } = require('common/errors')
 const { c } = require('common/component')
 
-const text = require('common/components/text')
+const markdown = require('common/components/markdown')
 const icon = require('common/components/icon')
 
 module.exports = function error({ data: err }) {
@@ -11,7 +11,7 @@ module.exports = function error({ data: err }) {
         c('br'),
         c(icon, { class: 'alert', name: 'alert' }),
         c('h1', { text: title }),
-        c(text, {
+        c(markdown, {
             text: 'Please try refreshing the browser or [reporting a bug](mailto:ianis@ivasilev.net).'
         })
     )
