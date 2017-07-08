@@ -1,14 +1,24 @@
+@import 'static';
 @import 'vars';
 
-.home-contact .icon {
-  padding-right: 10px;
-  padding-left: 5px;
-  height: 1.2em;
-  vertical-align: middle;
-  transition: $anim-duration;
-  fill: $link;
+.home-page {
+  .contact {
+    list-style-type: none;
+    line-height: 2.5em;
 
-  &:hover {
-    fill: $link-hover;
+    a {
+      display: inline-flex;
+      align-items: center;
+
+      > .icon {
+        height: 1.5em;
+        width: 1.5em;
+        margin-top: -.1em;
+      }
+
+      > span {
+        margin-left: .75em;
+      }
+    }
   }
 }

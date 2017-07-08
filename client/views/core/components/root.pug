@@ -1,5 +1,0 @@
-div.root-wrapper
-    Navbar(:page="page")
-
-    main(v-if="page.view !== null")
-        component(:is="component", :data="page.data")

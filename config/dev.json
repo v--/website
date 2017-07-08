@@ -1,0 +1,10 @@
+{
+    "server": {
+        "socket": "/tmp/ivasilev.sock"
+    },
+
+    "db": {
+        "files": "/home/ianis/Documents",
+        "pacman": "/var/lib/pacman/sync/ivasilev.db"
+    }
+}

@@ -1,23 +1,10 @@
+@import 'static';
 @import 'vars';
 
-.error-container {
+.error-page {
   text-align: center;
 
-  .icon-container {
-    fill: $error-icon;
-  }
-
-  .icon {
-    font-size: 125px;
-    padding: 25px;
-  }
-
-  pre {
-    margin-top: 0;
-  }
-
-  code {
-    display: inline-block;
-    background-color: transparent;
+  .alert {
+    font-size: 15em;
   }
 }

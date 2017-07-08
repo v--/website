@@ -1,0 +1,31 @@
+@import 'static';
+@import 'vars';
+
+.sidebar-toggle {
+  @extend .button; // sass-lint:disable-line placeholder-in-extend
+
+  position: absolute;
+  font-size: 2.7rem;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1;
+
+  // Override button properties to act properly
+  padding: 0;
+  margin: 0;
+
+  width: 1em;
+  height: 1em;
+
+  left: calc((#{$main-hpadding} - 1em) / 2);
+  top: calc(#{$sidebar-vpadding} + 22px); // Just an empirically obtained offset
+
+  background-color: $button-bg-color;
+  fill: $button-color;
+
+  transform: scaleX(-1);
+
+  &:active {
+    transform: scaleX(-.9) scaleY(.9);
+  }
+}

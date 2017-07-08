@@ -1,0 +1,15 @@
+@import 'static';
+@import 'vars';
+
+.nojs {
+  background-color: $danger;
+  color: $button-color;
+  font-size: 1.5em;
+  text-align: center;
+  flex-grow: 1;
+
+  > .content {
+    display: block;
+    padding: .5em;
+  }
+}

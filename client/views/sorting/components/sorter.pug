@@ -1,7 +1,0 @@
-div.sorting-sorter
-    p.sorting-demo-heading {{ name }}
-    div.sorting-demo-lines(:class="{ complete: complete }")
-        div(
-            v-for="item in array",
-            :style="{ width: getWidth(item) }"
-        )

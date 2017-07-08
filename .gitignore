@@ -1,6 +1,5 @@
-/.dub
-/config.toml
 /node_modules
-/dist
+/public
 
-*.pyc
+/config/active.json
+/code/common/icons.js
