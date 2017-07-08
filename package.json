@@ -2,8 +2,6 @@
   "version": "3.0.0",
   "private": true,
   "dependencies": {
-    "jsonstream": "1.0.3",
-    "lzma": "2.3.2",
     "lzma-native": "3.0.0",
     "tar-stream": "1.5.4"
   },
