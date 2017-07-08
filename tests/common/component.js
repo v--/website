@@ -54,7 +54,7 @@ describe('Component', function () {
     describe('.toString()', function () {
         it('works on flat components', function () {
             const component = Component.safeCreate('div')
-            expect(String(component)).to.equal("Component('div', {})")
+            expect(String(component)).to.equal("Component('div', null)")
         })
 
         it('works on nested components', function () {
@@ -62,9 +62,23 @@ describe('Component', function () {
             const child2 = Component.safeCreate('span', { text: 'text2' })
             const component = Component.safeCreate('div', null, child1, child2)
 
-            const string = `Component('div', {},
+            const string = `Component('div', null,
 \tComponent('span', { text: 'text1' }),
 \tComponent('span', { text: 'text2' })
+)`
+
+            expect(String(component)).to.equal(string)
+        })
+
+        it('works on doubly nested components', function () {
+            const inner = Component.safeCreate('span', { text: 'inner' })
+            const outer = Component.safeCreate('span', { text: 'outer' }, inner)
+            const component = Component.safeCreate('div', null, outer)
+
+            const string = `Component('div', null,
+\tComponent('span', { text: 'outer' },
+\t\tComponent('span', { text: 'inner' })
+\t)
 )`
 
             expect(String(component)).to.equal(string)

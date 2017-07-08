@@ -27,6 +27,7 @@ module.exports = class RouterObservable extends Observable {
 
         this.db = db
         this.url = url
+        history.pushState({ path: this.url }, null, url)
 
         window.addEventListener('popstate', function ({ state }) {
             this.changeURL(state.path)

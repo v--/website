@@ -41,15 +41,36 @@ function *processChildren(children) {
 class ComponentState {
     constructor(source, current) {
         this.source = source
+        this.updateCurrent(current)
+    }
 
+    updateCurrent(current) {
         if (current)
             this.current = current
-        else if (source instanceof IObservable)
-            this.current = source.current
-        else if (source instanceof Interface.INull)
+        else if (this.source instanceof IObservable)
+            this.current = this.source.current
+        else if (this.source === null)
             this.current = {}
         else
-            this.current = source
+            this.current = this.source
+    }
+
+    updateSource(newSource) {
+        const oldSource = this.source
+
+        if (newSource === oldSource)
+            return
+
+        if (oldSource instanceof IObservable) {
+            if (newSource instanceof IObservable)
+                for (const observer of oldSource.observers)
+                    newSource.observers.add(observer)
+
+            for (const observer of oldSource.observers)
+                oldSource.observers.delete(observer)
+        }
+
+        this.source = newSource
     }
 
     subscribe(observer) {
@@ -90,7 +111,7 @@ class Component {
     }
 
     updateState(stateObject) {
-        if (!(stateObject instanceof Interface.IObject))
+        if (!(stateObject instanceof Object))
             throw new ComponentSanityError('You can only update the state with an object')
 
         // Create a temporary component to verify that the new state is sane
@@ -106,17 +127,24 @@ class Component {
         return new this.constructor(this.type, this.state, this.children)
     }
 
+    *iterToString() {
+        yield repr(this.constructor)
+        yield '('
+        yield repr(this.type)
+        yield ', '
+        yield repr(this.state.source === null ? null : this.state.current)
+
+        for (const child of this.children)
+            yield `,\n\t${String(child).replace(/\n/g, '\n\t')}`
+
+        if (this.children.length > 0)
+            yield '\n'
+
+        yield ')'
+    }
+
     toString() {
-        const cls = repr(this.constructor)
-        const type = repr(this.type)
-        const state = repr(this.state.current)
-
-        if (this.children.length) {
-            const children = join(',\n\t', map(String, this.children))
-            return `${cls}(${type}, ${state},\n\t${children}\n)`
-        }
-
-        return `${cls}(${type}, ${state})`
+        return join('', this.iterToString())
     }
 
     checkSanity() {}

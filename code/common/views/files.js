@@ -35,35 +35,34 @@ function getFileSize(file) {
 }
 
 function *userFriendlyEntries(entries) {
-    for (const entry of entries)
+    for (const entry of entries) {
         yield {
             name: entry.name,
             type: getFileType(entry),
             size: getFileSize(entry),
             modified: new Date(entry.modified).toLocaleString(),
         }
+    }
 }
 
 module.exports = function files({ data, id, redirect }) {
+    function getLink(entry) {
+        if (entry.name === '..') {
+            const ancestors = id.split('/')
+            ancestors.pop()
+            return '/' + ancestors.join('/')
+        }
+
+        return `/${id}/${entry.name}`
+    }
+
     const columns = [
         {
             label: 'Name',
             prop: 'name',
-            link(entry) {
-                if (entry.name === '..') {
-                    const ancestors = id.split('/')
-                    ancestors.pop()
-                    return '/' + ancestors.join('/')
-                }
-
-                return `/${id}/${entry.name}`
-            },
-
+            link: getLink,
             click(entry) {
-                if (entry.name === '..')
-                    redirect('/' + id)
-                else
-                    redirect(`/${id}/${entry.name}`)
+                redirect(getLink(entry))
             }
         },
 
@@ -83,9 +82,19 @@ module.exports = function files({ data, id, redirect }) {
         }
     ]
 
+    const fixed = []
+    const dynamic = []
+
+    for (const entry of userFriendlyEntries(data.entries)) {
+        if (entry.name === '..')
+            fixed.push(entry)
+        else
+            dynamic.push(entry)
+    }
+
     return c('div', { class: 'page files-page' },
-        c(section, { title: `Index of /${id}` },
-            c(coolTable, { columns, data: Array.from(userFriendlyEntries(data.entries)) })
+        c(section, { title: id },
+            c(coolTable, { columns, data: dynamic, fixedData: fixed })
         )
     )
 }

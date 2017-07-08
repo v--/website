@@ -118,18 +118,21 @@ class XMLRenderer extends Renderer {
 Object.defineProperty(XMLRenderer, 'componentClass', { value: XMLComponent })
 
 function *mergeChildren(oldChildren, newChildren) {
-    for (const [oldChild, newChild] of zip(oldChildren, newChildren)) {
+    for (let i = 0; i < Math.min(oldChildren.length, newChildren.length); i++) {
+        const oldChild = oldChildren[i]
+        const newChild = newChildren[i]
+
         if (oldChild.constructor === newChild.constructor && oldChild.type === newChild.type)
-            yield { action: 'update', oldChild, newChild }
+            yield { action: 'update', i }
         else
-            yield { action: 'replace', oldChild, newChild }
+            yield { action: 'replace', i }
     }
 
     for (let i = oldChildren.length; i < newChildren.length; i++)
-        yield { action: 'append', newChild: newChildren[i] }
+        yield { action: 'append', i }
 
     for (let i = newChildren.length; i < oldChildren.length; i++)
-        yield { action: 'remove', oldChild: oldChildren[i] }
+        yield { action: 'remove', i }
 }
 
 class FactoryRenderer extends Renderer {
@@ -147,45 +150,62 @@ class FactoryRenderer extends Renderer {
 
     rerenderChildren(oldRoot, newRoot) {
         const rootRenderer = this.dispatcher.cache.get(oldRoot)
+        const removed = new Set()
+        const replaced = new Set()
 
-        for (const { oldChild, newChild, action } of mergeChildren(oldRoot.children, newRoot.children)) {
+        for (const { i, action } of Array.from(mergeChildren(oldRoot.children, newRoot.children))) {
             switch (action) {
             case 'append': {
+                const newChild = newRoot.children[i]
+
                 this.dispatcher(newChild)
                 const newRenderer = this.dispatcher.cache.get(newChild)
-                oldRoot.children.push(newRenderer.element)
+                oldRoot.children.push(newRenderer.component)
                 rootRenderer._appendChild(newRenderer.element)
                 break
             }
 
             case 'update': {
+                const oldChild = oldRoot.children[i]
+                const newChild = newRoot.children[i]
                 const oldRenderer = this.dispatcher.cache.get(oldChild)
+
                 oldRenderer.rerender(newChild.state.current)
-
-                if (oldRenderer instanceof XMLRenderer)
-                    this.rerenderChildren(oldChild, newChild)
-
+                this.rerenderChildren(oldChild, newChild)
                 break
             }
 
             case 'replace': {
-                const oldRenderer = this.dispatcher.cache.get(oldChild)
+                const oldChild = oldRoot.children[i]
+                const newChild = newRoot.children[i]
+
+                newChild.state.updateSource(oldChild.state.source)
                 this.dispatcher(newChild)
+
+                const oldRenderer = this.dispatcher.cache.get(oldChild)
                 const newRenderer = this.dispatcher.cache.get(newChild)
-                oldRoot.children[oldRoot.children.indexOf(oldChild)] = newRenderer.component
+
+                replaced.add(i)
                 rootRenderer._replaceChild(oldRenderer.element, newRenderer.element)
                 oldRenderer.destroy()
                 break
             }
 
             case 'remove': {
-                const oldRenderer = this.dispatcher.cache.get(oldChild)
+                const oldRenderer = this.dispatcher.cache.get(oldRoot.children[i])
+
                 rootRenderer._removeChild(oldRenderer.element)
                 oldRenderer.destroy()
+                removed.add(i)
                 break
             }
             }
         }
+
+        oldRoot.children = oldRoot.children.filter((child, i) => !removed.has(i))
+
+        for (const i of replaced)
+            oldRoot.children[i] = newRoot.children[i]
     }
 
     rerender(newState) {
@@ -203,7 +223,9 @@ class FactoryRenderer extends Renderer {
         if (newRoot.constructor !== oldRoot.constructor || newRoot.type !== oldRoot.type)
             throw new RenderError(`${repr(this.component)} evaluated ${repr(newRoot)}, but expected a ${repr(oldRoot.constructor)} with type ${repr(oldRoot.type)}`)
 
+        oldRoot.state.updateSource(newRoot.state.source)
         this.dispatcher.cache.get(oldRoot).rerender(newRoot.state.current)
+
         this.rerenderChildren(oldRoot, newRoot)
     }
 

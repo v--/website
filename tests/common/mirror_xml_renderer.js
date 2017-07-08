@@ -215,7 +215,8 @@ describe('MirrorFactoryRenderer', function () {
             expect(dest.state.current.text).to.equal('premium')
         })
 
-        // This one is actually a test for a bugfix. The component would not replace the old child properly.
+        // BUGFIXES
+
         it('can rerender multiple with subcomponent replacements', function () {
             const observable = new Observable({ type: 'div' })
 
@@ -229,6 +230,75 @@ describe('MirrorFactoryRenderer', function () {
             observable.replace({ type: 'div' })
 
             expect(dest.type).to.equal('div')
+        })
+
+        it('can rerender on nested observable change', function () {
+            function factory() {
+                const observable = new Observable({
+                    text: 'text',
+                    updateText(text) {
+                        observable.update({ text })
+                    }
+                })
+
+                return c('div', observable)
+            }
+
+            const src = c(factory)
+            const dest = render(src)
+            dest.state.current.updateText('updated text')
+
+            expect(dest.state.current.text).to.equal('updated text')
+        })
+
+        it('can rerender on nested observable change if the parent has also changed', function () {
+            const outerObservable = new Observable({})
+
+            function factory() {
+                const observable = new Observable({
+                    text: 'text',
+                    updateText(text) {
+                        observable.update({ text })
+                    }
+                })
+
+                return c('div', observable)
+            }
+
+            const src = c(factory, outerObservable)
+            const dest = render(src)
+
+            outerObservable.update({})
+            dest.state.current.updateText('updated text')
+
+            expect(dest.state.current.text).to.equal('updated text')
+        })
+
+        it('can rerender on observable change in transcluded components nested in XML components', function () {
+            const outerObservable = new Observable({ text: 'text' })
+
+            function transcluded(state, children) {
+                return c('main', null, ...children)
+            }
+
+            function factory({ text }) {
+                return c('div', { text })
+            }
+
+            function outerFactory({ text }) {
+                return c('body', null,
+                    c(transcluded, null,
+                        c(factory, { text })
+                    )
+                )
+            }
+
+            const src = c(outerFactory, outerObservable)
+            const dest = render(src)
+
+            outerObservable.update({ text: 'updated text' })
+
+            expect(dest.children[0].children[0].state.current.text).to.equal('updated text')
         })
     })
 })

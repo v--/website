@@ -8,17 +8,11 @@ const link = require('common/components/link')
 
 const MAXIMUM_ITEMS_PER_PAGE = 10
 
-function sliceData({ columns, data, sorting, page }) {
+function sliceData({ columns, data, fixedData, sorting, page }) {
     const column = columns[Math.abs(sorting) - 1]
     const ascending = sorting > 0 ? 1 : -1
 
     function comparator(a, b) {
-        if (a.name === '..')
-            return -1
-
-        if (a.type === 'Directory' && b.type !== 'Directory')
-            return -1
-
         if (a[column.prop] === b[column.prop])
             return 0
 
@@ -26,10 +20,11 @@ function sliceData({ columns, data, sorting, page }) {
     }
 
     const pageStart = (page - 1) * MAXIMUM_ITEMS_PER_PAGE
+    const fixed = Array.from(fixedData).sort(comparator)
+    const dynamic = Array.from(data).sort(comparator)
+        .slice(pageStart, pageStart + MAXIMUM_ITEMS_PER_PAGE - fixed.length)
 
-    return Array.from(data)
-        .sort(comparator)
-        .slice(pageStart, pageStart + MAXIMUM_ITEMS_PER_PAGE)
+    return fixed.concat(dynamic)
 }
 
 class TableObservable extends Observable {
@@ -134,7 +129,7 @@ function tableImpl({ columns, data, page, goToPage, sliced, sorting, sort }) {
     )
 }
 
-module.exports = function coolTable({ columns, data }) {
-    const observable = new TableObservable({ columns, data })
+module.exports = function coolTable({ columns, data, fixedData = [] }) {
+    const observable = new TableObservable({ columns, data, fixedData })
     return c(tableImpl, observable)
 }

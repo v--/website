@@ -18,19 +18,18 @@ class Observable {
         this.observers.delete(observer)
     }
 
-    emitCurrent() {
+    emit(value) {
         for (const observer of this.observers)
-            observer.next(this.current)
+            observer.next(value)
     }
 
     update(value) {
-        Object.assign(this.current, value)
-        this.emitCurrent()
+        this.replace(Object.assign({}, this.current, value))
     }
 
     replace(value) {
+        this.emit(value)
         this.current = value
-        this.emitCurrent()
     }
 
     complete() {
