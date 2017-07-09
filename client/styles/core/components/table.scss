@@ -33,6 +33,7 @@
       background-color: $button-color;
       color: $link-color;
       fill: $link-color;
+      display: flex;
 
       &:hover {
         color: $link-hover;
