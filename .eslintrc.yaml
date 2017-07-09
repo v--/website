@@ -36,3 +36,6 @@ rules:
 
   no-new-wrappers:
     - error
+
+  no-shadow:
+    - error

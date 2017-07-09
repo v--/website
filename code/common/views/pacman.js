@@ -4,16 +4,17 @@ const { c } = require('common/component')
 const section = require('common/components/section')
 const markdown = require('common/components/markdown')
 
-function pkg({ name, version, description }) {
-    return c('li', { class: 'package' },
-        c('span', { text: `${name} ${version}: ${description}` }),
-    )
+function *iterPackages(pkgs) {
+    for (const { name, version, description } of pkgs)
+        yield c('li', { class: 'package' },
+            c('span', { text: `${name} ${version}: ${description}` }),
+        )
 }
 
-function packages({ arch, packages }) {
+function packages({ arch, pkgs }) {
     return c('div', { class: 'packages' },
         c('h2', { text: arch }),
-        c('ul', null, ...map(c.bind(null, pkg), packages))
+        c('ul', null, ...iterPackages(pkgs))
     )
 }
 
@@ -51,7 +52,7 @@ module.exports = function pacman({ data }) {
         ),
 
         c(section, { title: 'Packages' },
-            ...map(([arch, pkgs]) => c(packages, { arch, packages: pkgs }), arches.entries())
+            ...map(([arch, pkgs]) => c(packages, { arch, pkgs }), arches.entries())
         )
     )
 }

@@ -35,7 +35,7 @@ class Buffer {
     }
 }
 
-module.exports = function text({ text, urlHandler }) {
+module.exports = function markdown({ text, urlHandler }) {
     const buffers = [new Buffer('text')]
 
     Object.defineProperty(buffers, 'current', {
