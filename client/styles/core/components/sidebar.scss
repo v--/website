@@ -13,6 +13,9 @@
   padding: $sidebar-vpadding $sidebar-hpadding;
   z-index: 2;
 
+  // Make the z-index work on Safari
+  -webkit-transform: translate3d(0, 0, 0); // sass-lint:disable-line no-vendor-prefixes
+
   display: flex;
   flex-direction: column;
 
@@ -52,6 +55,7 @@
     }
 
     > .entry-text {
+      line-height: 2em;
       flex-grow: 1;
       text-align: left;
       margin-left: 1.5em;
