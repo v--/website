@@ -14,7 +14,9 @@ module.exports = function rollupConfigFactory(entry, productionMode, cache) {
             }),
             nodeResolve(),
             commonjs(),
-            productionMode && babili()
+            productionMode && babili({
+                comments: false
+            })
         ]
     }
 }
