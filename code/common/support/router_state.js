@@ -30,8 +30,7 @@ module.exports = class RouterState {
         Interface.IFunction.assert(rawState.factory)
 
         Object.assign(this, {
-            id: rawState.factory.name,
-            title: rawState.factory.name,
+            title: rawState.id,
             data: null
         }, rawState)
 

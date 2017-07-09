@@ -11,13 +11,20 @@ async function routerImpl(db, route, subroute) {
     if (subroute === '') {
         switch (route) {
         case '':
-            return { factory: home }
+            return {
+                id: 'home',
+                factory: home
+            }
 
         case 'playground':
-            return { factory: playground }
+            return {
+                id: 'playground',
+                factory: playground
+            }
 
         case 'pacman':
             return {
+                id: 'pacman',
                 data: await db.retrieve('pacman'),
                 factory: pacman
             }
