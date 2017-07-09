@@ -4,7 +4,7 @@
     },
 
     "db": {
-        "files": "/var/files",
+        "files": "/srv/files",
         "pacman": "/var/lib/pacman/sync/ivasilev.db"
     }
 }
