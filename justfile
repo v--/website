@@ -13,16 +13,14 @@ lint:
 test_all:
 	mocha --recursive -- tests/
 
-build:
-	gulp build
+build_prod:
+	env NODE_ENV=production gulp build
 
-deploy server='ivasilev.net' path='/srv/http/ivasilev.net': lint test_all build
+deploy server='ivasilev.net' path='/srv/http/ivasilev.net': lint test_all build_prod
 	ssh {{server}} sudo systemctl stop website
-	ssh {{server}} sudo rm --recursive --force {{path}}
-	ssh {{server}} sudo mkdir --mode 777 {{path}}
+	ssh {{server}} rm --recursive --force {{path}}
+	ssh {{server}} mkdir {{path}} {{path}}/config
 	scp -rC code public package.json ivasilev.net:{{path}}
-	ssh {{server}} mkdir {{path}}/config
 	scp config/prod.json ivasilev.net:{{path}}/config/active.json
 	ssh {{server}} 'cd {{path}}; npm install'
-	ssh {{server}} sudo chown --recursive http:http {{path}}
 	ssh {{server}} sudo systemctl start website
