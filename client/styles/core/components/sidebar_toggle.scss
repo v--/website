@@ -10,9 +10,6 @@
   cursor: pointer;
   z-index: 1;
 
-  // Make the z-index work on Safari
-  -webkit-transform: translate3d(0, 0, 0); // sass-lint:disable-line no-vendor-prefixes
-
   // Override button properties to act properly
   padding: 0;
   margin: 0;
@@ -26,9 +23,9 @@
   background-color: $button-bg-color;
   fill: $button-color;
 
-  transform: scaleX(-1);
+  transform: scaleX(-1) translate3d(0, 0, 0); // translate3d makes z-index work on webkit
 
   &:active {
-    transform: scaleX(-.9) scaleY(.9);
+    transform: scaleX(-.9) scaleY(.9) translate3d(0, 0, 0); // translate3d makes z-index work on webkit
   }
 }
