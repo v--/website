@@ -72,12 +72,14 @@ function *row(columns, datum) {
 
         if ('click' in column)
             context.click = function (e) {
-                e.preventDefault()
-                column.click(datum)
+                if (column.click(datum))
+                    e.preventDefault()
             }
 
-        if ('link' in column)
+        if ('link' in column) {
             context.link = datum[column.link]
+            context.internal = datum[column.internalLink]
+        }
 
         yield c('td', { title: value, class: column.cssClass },
             c('link' in context ? link : 'span', context)

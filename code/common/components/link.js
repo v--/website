@@ -1,4 +1,3 @@
-const { startsWith } = require('common/support/strtools')
 const { c } = require('common/component')
 
 module.exports = function link(state, children) {
@@ -7,7 +6,7 @@ module.exports = function link(state, children) {
     if (state.click)
         childState.click = state.click
 
-    if (startsWith(state.link, 'http')) // Probably an external link
+    if (!state.internal)
         childState.target = '_blank'
 
     if ('text' in state)
@@ -15,6 +14,8 @@ module.exports = function link(state, children) {
     else if (children.length === 0)
         childState.text = state.link
 
-    childState.link = encodeURI(childState.link)
+    if (childState.link)
+        childState.link = encodeURI(childState.link)
+
     return c('a', childState, ...children)
 }

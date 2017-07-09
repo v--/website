@@ -47,7 +47,7 @@ describe('markdown component', function () {
     it('handles links', function () {
         const src = c(markdown, { text: '[simple](http://example.com)' })
         const dest = c('p', { class: 'markdown' },
-            c(link, { text: 'simple', link: 'http://example.com' })
+            c(link, { text: 'simple', link: 'http://example.com', internal: false })
         )
 
         expect(src.evaluate()).to.equalComponent(dest)
@@ -83,9 +83,9 @@ describe('markdown component', function () {
     it('handles multiple links', function () {
         const src = c(markdown, { text: '[simple](http://example.com) and [not simple](http://example.com)' })
         const dest = c('p', { class: 'markdown' },
-            c(link, { text: 'simple', link: 'http://example.com' }),
+            c(link, { text: 'simple', link: 'http://example.com', internal: false }),
             c('span', { text: ' and ' }),
-            c(link, { text: 'not simple', link: 'http://example.com' })
+            c(link, { text: 'not simple', link: 'http://example.com', internal: false })
         )
 
         expect(src.evaluate()).to.equalComponent(dest)
@@ -108,7 +108,7 @@ describe('markdown component', function () {
             c('span', { text: ' so simple sentence.' }),
             c('br'),
             c('span', { text: 'Okay, visit ' }),
-            c(link, { text: 'this', link: 'http://example.com' }),
+            c(link, { text: 'this', link: 'http://example.com', internal: false }),
             c('span', { text: ' ' }),
             c('code', { text: 'link' }),
             c('span', { text: '.' })

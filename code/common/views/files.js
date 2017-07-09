@@ -50,6 +50,7 @@ module.exports = function files({ data, id, redirect }) {
         for (const entry of entries) {
             yield Object.assign({
                 link: getLink(entry),
+                internalLink: entry.type === 'directory',
                 typeString: getFileType(entry),
                 sizeString: getFileSize(entry),
                 modifiedRaw: Date.parse(entry.modified),
@@ -58,6 +59,7 @@ module.exports = function files({ data, id, redirect }) {
         }
     }
 
+    // TODO: Refactor these bloated column options
     const columns = [
         {
             label: 'Name',
@@ -65,8 +67,14 @@ module.exports = function files({ data, id, redirect }) {
             raw: 'name',
             value: 'name',
             link: 'link',
+            internalLink: 'internalLink',
+
             click(entry) {
+                if (entry.type === 'file')
+                    return false
+
                 redirect(getLink(entry))
+                return true
             }
         },
 

@@ -1,7 +1,10 @@
+// TODO: Find Jesus (and a better way to implement the parser)
+
 const { CoolError } = require('common/errors')
+const { startsWith } = require('common/support/strtools')
+const { c } = require('common/component')
 
 const link = require('common/components/link')
-const { c } = require('common/component')
 
 class MarkdownError extends CoolError {}
 
@@ -129,6 +132,8 @@ module.exports = function text({ text, urlHandler }) {
                             e.preventDefault()
                             urlHandler(url)
                         }
+
+                    context.internal = !startsWith(url, 'http')
 
                     result.children.push(
                         c(link, context)
