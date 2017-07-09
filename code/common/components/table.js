@@ -100,7 +100,7 @@ function *pagination(pages, page, goToPage) {
             click: partial(goToPage, page - 1)
         },
         c(icon, {
-            name: 'chevron-left',
+            name: 'chevron-left'
         })
     )
 
@@ -121,7 +121,7 @@ function *pagination(pages, page, goToPage) {
             click: partial(goToPage, page + 1)
         },
         c(icon, {
-            name: 'chevron-left',
+            name: 'chevron-left'
         })
     )
 }

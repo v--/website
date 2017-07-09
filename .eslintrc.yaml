@@ -39,3 +39,12 @@ rules:
 
   no-shadow:
     - error
+
+  generator-star-spacing:
+    - warn
+    - before: true
+      after: false
+
+  comma-dangle:
+    - warn
+    - never

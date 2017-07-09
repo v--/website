@@ -54,7 +54,7 @@ module.exports = function files({ data, id, redirect }) {
                 typeString: getFileType(entry),
                 sizeString: getFileSize(entry),
                 modifiedRaw: Date.parse(entry.modified),
-                modifiedString: new Date(entry.modified).toLocaleString(),
+                modifiedString: new Date(entry.modified).toLocaleString()
             }, entry)
         }
     }
