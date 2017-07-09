@@ -1,6 +1,6 @@
 const { expect } = require('tests')
 
-const { EmptyIterError, reduce, range, zip } = require('common/support/itertools')
+const { EmptyIterError, reduce, range, zip } = require('common/support/iteration')
 
 describe('zip()', function () {
     it('zips nothing', function () {

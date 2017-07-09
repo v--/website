@@ -1,5 +1,5 @@
 const { HTTPError } = require('common/errors')
-const { splitURL } = require('common/support/strtools')
+const { splitURL } = require('common/support/strings')
 const Interface = require('common/support/interface')
 
 const error = require('common/views/error')

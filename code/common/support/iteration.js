@@ -30,9 +30,8 @@ module.exports = {
             accum = state.value
         }
 
-        for (const value of iter) {
+        for (const value of iter)
             accum = reducer(value, accum)
-        }
 
         return accum
     },
@@ -81,9 +80,8 @@ module.exports = {
     },
 
     *zip(...iterables) {
-        if (iterables.length === 0) {
+        if (iterables.length === 0)
             return []
-        }
 
         const iterators = iterables.map(iterable => iterable[Symbol.iterator]())
 

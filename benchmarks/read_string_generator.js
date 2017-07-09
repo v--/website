@@ -1,7 +1,7 @@
 const { expect } = require('tests')
 const { run } = require('benchmarks')
 
-const { take } = require('common/support/itertools')
+const { take } = require('common/support/iteration')
 const StringBuffer = require('common/support/string_buffer')
 
 const paragraph = `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod

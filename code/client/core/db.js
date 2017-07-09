@@ -8,7 +8,7 @@ module.exports = class DB {
     constructor({ id, error, errorCls, data }) {
         this.cache = new Cache(60 * 1000)
 
-        if (error) {
+        if (error)
             switch (errorCls) {
             case 'NotFoundError':
                 this.error = new NotFoundError(error.viewIDv)
@@ -26,7 +26,6 @@ module.exports = class DB {
                 this.error = new Error(error.message)
                 break
             }
-        }
 
         if (data)
             this.cache.set(id, data)

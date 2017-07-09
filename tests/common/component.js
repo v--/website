@@ -1,6 +1,6 @@
 const { expect } = require('tests')
 
-const { bind } = require('common/support/functools')
+const { bind } = require('common/support/functions')
 const { InterfaceNotImplementedError } = require('common/support/interface')
 const {
     Component,

@@ -48,3 +48,8 @@ rules:
   comma-dangle:
     - warn
     - never
+
+  curly:
+    - warn
+    - multi
+    - consistent

@@ -1,4 +1,4 @@
-const { map } = require('common/support/itertools')
+const { map } = require('common/support/iteration')
 const { CoolError } = require('common/errors')
 
 class InvalidKeyError extends CoolError {}
@@ -50,10 +50,6 @@ class FortifiedMap {
 
     [Symbol.iterator]() {
         return this._payload.entries()
-    }
-
-    dup() {
-        return new this.constructor(this)
     }
 }
 

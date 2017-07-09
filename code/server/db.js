@@ -1,4 +1,4 @@
-const { startsWith } = require('common/support/strtools')
+const { startsWith } = require('common/support/strings')
 
 const parsePacmanDatabase = require('server/db/parse_pacman_database')
 const parseFilesDirectory = require('server/db/parse_files_directory')

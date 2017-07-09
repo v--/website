@@ -1,4 +1,4 @@
-const { EmptyIterError, map, reduce } = require('common/support/itertools')
+const { EmptyIterError, map, reduce } = require('common/support/iteration')
 
 function join(delimiter, iter) {
     try {

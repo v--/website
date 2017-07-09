@@ -1,7 +1,7 @@
 // TODO: Find Jesus (and a better way to implement the parser)
 
 const { CoolError } = require('common/errors')
-const { startsWith } = require('common/support/strtools')
+const { startsWith } = require('common/support/strings')
 const { c } = require('common/component')
 
 const link = require('common/components/link')
@@ -49,7 +49,7 @@ module.exports = function markdown({ text, urlHandler }) {
 
     const result = c('p', { class: 'markdown' })
 
-    for (const char of text) {
+    for (const char of text)
         switch (char) {
         case '\n': {
             if (buffers.current.type !== 'text')
@@ -170,7 +170,6 @@ module.exports = function markdown({ text, urlHandler }) {
             break
         }
         }
-    }
 
     let remainingText = ''
 

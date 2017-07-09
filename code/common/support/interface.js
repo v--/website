@@ -1,4 +1,4 @@
-const { repr } = require('common/support/strtools')
+const { repr } = require('common/support/strings')
 const { CoolError } = require('common/errors')
 
 class InterfaceNotImplementedError extends CoolError {}

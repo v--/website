@@ -1,6 +1,6 @@
 const { join } = require('path')
 
-const { startsWith } = require('common/support/strtools')
+const { startsWith } = require('common/support/strings')
 const { NotFoundError } = require('common/errors')
 
 const { stat, readdir, readFile } = require('server/support/fs')

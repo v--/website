@@ -1,4 +1,4 @@
-const { startsWith } = require('common/support/strtools')
+const { startsWith } = require('common/support/strings')
 const classlist = require('common/support/classlist')
 const { c } = require('common/component')
 

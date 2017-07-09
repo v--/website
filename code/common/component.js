@@ -1,6 +1,5 @@
-const { dup } = require('common/symbols')
-const { overloader, bind } = require('common/support/functools')
-const { repr, join } = require('common/support/strtools')
+const { overloader, bind } = require('common/support/functions')
+const { repr, join } = require('common/support/strings')
 const { IObservable } = require('common/support/observation')
 const { CoolError } = require('common/errors')
 const Interface = require('common/support/interface')
@@ -29,12 +28,11 @@ class ComponentSanityError extends ComponentCreationError {}
 class InvalidComponentError extends CoolError {}
 
 function *processChildren(children) {
-    for (const child of children) {
+    for (const child of children)
         if (child instanceof Component)
             yield child
         else if (child)
             throw new InvalidComponentError(`Expected either a component or falsy value as a child, but got ${repr(child)}`)
-    }
 }
 
 class ComponentState {
@@ -91,7 +89,7 @@ class Component {
         const stateSource = args.length === 0 ? null : args.shift()
         const children = Array.from(processChildren(args))
 
-        if (!(stateSource instanceof Interface.IObject || stateSource instanceof Interface.INull))
+        if (typeof stateSource !== 'object') // Yes, null too
             throw new ComponentCreationError(`Expected either an object or null as an state source, but got ${repr(stateSource)}`)
 
         if (stateSource instanceof Component)
@@ -120,10 +118,6 @@ class Component {
 
         // If everything is fine, update the current state
         this.state.current = stateObject
-    }
-
-    [dup]() {
-        return new this.constructor(this.type, this.state, this.children)
     }
 
     *iterToString() {
@@ -156,7 +150,7 @@ class XMLComponent extends Component {
         super.checkSanity()
         IXMLComponent.assert(this)
 
-        if (!(this.type instanceof Interface.IString))
+        if (typeof this.type !== 'string')
             throw new ComponentSanityError(`${repr(this)} must have a string type, not ${repr(this.type)}`)
 
         if (this.type.length === 0)
@@ -190,7 +184,7 @@ class FactoryComponent extends Component {
     checkSanity() {
         super.checkSanity()
 
-        if (!(this.type instanceof Interface.IFunction))
+        if (typeof this.type !== 'function')
             throw new ComponentSanityError(`${repr(this)} must have a type function, not ${repr(this.type)}`)
     }
 
@@ -222,7 +216,7 @@ module.exports = {
         },
 
         {
-            iface: Interface.IFunction,
+            iface: Function,
             impl: bind(FactoryComponent, 'safeCreate')
         }
     )

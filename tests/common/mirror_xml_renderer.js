@@ -2,10 +2,10 @@ const { expect } = require('tests')
 
 const { ComponentSanityError } = require('common/component')
 const { FactoryRenderer, RenderError, renderDispatcherFactory } = require('common/renderer')
-const { bind } = require('common/support/functools')
+const { bind } = require('common/support/functions')
 const { Observable } = require('common/support/observation')
 const MirrorXMLRenderer = require('common/mirror_xml_renderer')
-const { map } = require('common/support/itertools')
+const { map } = require('common/support/iteration')
 const { c } = require('common/component')
 
 const render = renderDispatcherFactory(MirrorXMLRenderer, FactoryRenderer)

@@ -1,5 +1,5 @@
 const { CoolError } = require('common/errors')
-const { repr }= require('common/support/strtools')
+const { repr }= require('common/support/strings')
 const Interface = require('common/support/interface')
 
 function bind(object, methodName, ...args) {
@@ -8,7 +8,7 @@ function bind(object, methodName, ...args) {
 
 class MissingInterfaceError extends CoolError {}
 
-const IImplSpec = Interface.create({ iface: Interface.IInterface, impl: Interface.IFunction })
+const IImplSpec = Interface.create({ iface: Interface.IInterface, impl: Function })
 
 module.exports = {
     bind,

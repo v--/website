@@ -1,4 +1,4 @@
-const { map } = require('common/support/itertools')
+const { map } = require('common/support/iteration')
 const { c } = require('common/component')
 
 const section = require('common/components/section')

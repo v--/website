@@ -1,6 +1,6 @@
-const { bind, overloader } = require('common/support/functools')
-const { repr } = require('common/support/strtools')
-const { map, chain, unique } = require('common/support/itertools')
+const { bind, overloader } = require('common/support/functions')
+const { repr } = require('common/support/strings')
+const { map, chain, unique } = require('common/support/iteration')
 const Interface = require('common/support/interface')
 const { XMLComponent, FactoryComponent } = require('common/component')
 const { CoolError } = require('common/errors')
@@ -77,7 +77,7 @@ class XMLRenderer extends Renderer {
     updateAttributes(oldState, newState) {
         const keys = unique(chain(Object.keys(oldState), Object.keys(newState)))
 
-        for (const key of keys) {
+        for (const key of keys)
             if (key in oldState && key in newState) {
                 if (oldState[key] !== newState[key])
                     if (key === 'text')
@@ -95,7 +95,6 @@ class XMLRenderer extends Renderer {
                 else
                     this._setAttribute(key, newState[key])
             }
-        }
     }
 
     rerender(newState) {
@@ -154,7 +153,7 @@ class FactoryRenderer extends Renderer {
         const removed = new Set()
         const replaced = new Set()
 
-        for (const { i, action } of Array.from(mergeChildren(oldRoot.children, newRoot.children))) {
+        for (const { i, action } of Array.from(mergeChildren(oldRoot.children, newRoot.children)))
             switch (action) {
             case 'append': {
                 added.add(i)
@@ -185,7 +184,6 @@ class FactoryRenderer extends Renderer {
                 break
             }
             }
-        }
 
         for (const i of added) {
             const newChild = newRoot.children[i]

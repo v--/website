@@ -13,7 +13,7 @@ function parsePacmanInfoStream(stream) {
         stream
             .setEncoding('utf8')
             .on('data', function (data) {
-                for (const char of data) {
+                for (const char of data)
                     switch (char) {
                     case '%':
                         inTitle = !inTitle
@@ -36,7 +36,6 @@ function parsePacmanInfoStream(stream) {
                     default:
                         buffer.push(char)
                     }
-                }
             })
             .on('error', reject)
             .on('end', function () {

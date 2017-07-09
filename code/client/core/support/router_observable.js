@@ -1,5 +1,5 @@
 /* eslint-env browser */
-const { bind } = require('common/support/functools')
+const { bind } = require('common/support/functions')
 const { Observable } = require('common/support/observation')
 
 const DB = require('client/core/db')

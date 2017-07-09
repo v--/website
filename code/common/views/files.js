@@ -47,7 +47,7 @@ module.exports = function files({ data, id, redirect }) {
     }
 
     function *processEntries(entries) {
-        for (const entry of entries) {
+        for (const entry of entries)
             yield Object.assign({
                 link: getLink(entry),
                 internalLink: entry.type === 'directory',
@@ -56,7 +56,6 @@ module.exports = function files({ data, id, redirect }) {
                 modifiedRaw: Date.parse(entry.modified),
                 modifiedString: new Date(entry.modified).toLocaleString()
             }, entry)
-        }
     }
 
     // TODO: Refactor these bloated column options
@@ -103,12 +102,11 @@ module.exports = function files({ data, id, redirect }) {
     const fixed = []
     const dynamic = []
 
-    for (const entry of processEntries(data.entries)) {
+    for (const entry of processEntries(data.entries))
         if (entry.name === '..')
             fixed.push(entry)
         else
             dynamic.push(entry)
-    }
 
     return c('div', { class: 'page files-page' },
         c(section, { title: `Index of /${id}` },

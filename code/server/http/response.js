@@ -1,5 +1,5 @@
 const FortifiedMap = require('common/support/fortified_map')
-const { chain } = require('common/support/itertools')
+const { chain } = require('common/support/iteration')
 const { c } = require('common/component')
 
 const index = require('server/components/index')

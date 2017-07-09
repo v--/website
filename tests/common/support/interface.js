@@ -1,7 +1,7 @@
 const { expect } = require('tests')
 
 const Interface = require('common/support/interface')
-const { bind } = require('common/support/functools')
+const { bind } = require('common/support/functions')
 
 describe('Interface', function () {
     describe('.assert()', () => {

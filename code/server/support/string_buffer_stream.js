@@ -1,7 +1,7 @@
 const { Readable } = require('stream')
 
 const StringBuffer = require('common/support/string_buffer')
-const { map } = require('common/support/itertools')
+const { map } = require('common/support/iteration')
 
 module.exports = class RenderStream extends Readable {
     constructor(iter) {
@@ -17,9 +17,8 @@ module.exports = class RenderStream extends Readable {
             const read = this.buffered.read(maxSize)
             this.push(read)
 
-            if (this.buffered.exhausted) {
+            if (this.buffered.exhausted)
                 this.push(null)
-            }
         } catch (e) {
             this.emit('error', e)
         }

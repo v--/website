@@ -1,4 +1,4 @@
-const { overloader } = require('common/support/functools')
+const { overloader } = require('common/support/functions')
 
 const { Component, XMLComponent, FactoryComponent } = require('common/component')
 

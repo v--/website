@@ -1,7 +1,7 @@
 const { expect } = require('tests')
 const { run } = require('benchmarks')
 
-const { map, reduce, range } = require('common/support/itertools')
+const { map, reduce, range } = require('common/support/iteration')
 
 const data = Array.from(range(0, 10 ** 5))
 

@@ -2,7 +2,7 @@ const http = require('http')
 
 const FortifiedMap = require('common/support/fortified_map')
 const { HTTPError, CoolError } = require('common/errors')
-const { bind } = require('common/support/functools')
+const { bind } = require('common/support/functions')
 const { NotFoundError } = require('common/errors')
 const RouterState = require('common/support/router_state')
 

@@ -1,6 +1,6 @@
 const { c } = require('common/component')
-const { zip, range } = require('common/support/itertools')
-const { partial } = require('common/support/functools')
+const { zip, range } = require('common/support/iteration')
+const { partial } = require('common/support/functions')
 const { Observable } = require('common/support/observation')
 const classlist = require('common/support/classlist')
 

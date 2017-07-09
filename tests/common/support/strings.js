@@ -1,6 +1,6 @@
 const { expect } = require('tests')
 
-const { repr, splitURL } = require('common/support/strtools')
+const { repr, splitURL } = require('common/support/strings')
 
 describe('repr()', function () {
     it('works for strings', function () {

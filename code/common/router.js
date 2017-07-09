@@ -1,4 +1,4 @@
-const { splitURL } = require('common/support/strtools')
+const { splitURL } = require('common/support/strings')
 const { NotFoundError } = require('common/errors')
 const RouterState = require('common/support/router_state')
 
@@ -8,7 +8,7 @@ const playground = require('common/views/playground')
 const pacman = require('common/views/pacman')
 
 async function routerImpl(db, route, subroute) {
-    if (subroute === '') {
+    if (subroute === '')
         switch (route) {
         case '':
             return {
@@ -29,7 +29,6 @@ async function routerImpl(db, route, subroute) {
                 factory: pacman
             }
         }
-    }
 
     if (route === 'files') {
         const id = subroute ? `files/${subroute.replace(/\/$/, '')}` : 'files'
