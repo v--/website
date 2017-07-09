@@ -18,9 +18,9 @@ build_prod:
 
 deploy server='ivasilev.net' path='/srv/http/ivasilev.net': lint test_all build_prod
 	ssh {{server}} sudo systemctl stop website
-	ssh {{server}} rm --recursive --force {{path}}
-	ssh {{server}} mkdir {{path}} {{path}}/config
+	ssh {{server}} find {{path}} -mindepth 1 -delete
+	ssh {{server}} mkdir {{path}}/config
 	scp -rC code public package.json ivasilev.net:{{path}}
 	scp config/prod.json ivasilev.net:{{path}}/config/active.json
-	ssh {{server}} 'cd {{path}}; npm install'
+	ssh {{server}} 'cd {{path}}; npm install --production'
 	ssh {{server}} sudo systemctl start website
