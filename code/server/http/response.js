@@ -4,7 +4,6 @@ const { c } = require('common/component')
 const index = require('server/components/index')
 
 const StringBufferStream = require('server/support/string_buffer_stream')
-const { readFile } = require('server/support/fs')
 const render = require('server/render')
 
 module.exports = class Response {
@@ -15,8 +14,7 @@ module.exports = class Response {
 
     static view(state, code) {
         const component = c(index, {
-            state: Object.assign({ collapsed: false, redirect() {} }, state),
-            favicon: this.favicon
+            state: Object.assign({ collapsed: false, redirect() {} }, state)
         })
 
         return new this(
@@ -24,10 +22,6 @@ module.exports = class Response {
             'text/html',
             code
         )
-    }
-
-    static async load() {
-        this.favicon = await readFile('public/images/favicon.png', 'base64')
     }
 
     constructor(stream, mimeType, code = 200) {

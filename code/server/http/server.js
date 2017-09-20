@@ -81,7 +81,6 @@ class HTTPServer {
         }.bind(this))
 
         await this.db.load()
-        await Response.load()
         await (promisory(bind(this.server, 'listen')))(this.socket)
         this.logger.info(`Started web server on unix:${this.socket}.`)
         this.state = HTTPServer.State.get('running')

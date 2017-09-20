@@ -4,7 +4,7 @@ const nojs = require('common/components/nojs')
 const main = require('common/components/main')
 const title = require('common/components/title')
 
-module.exports = function index({ state, favicon }) {
+module.exports = function index({ state }) {
     let serializedData
 
     if (state.data instanceof Error)
@@ -26,7 +26,7 @@ module.exports = function index({ state, favicon }) {
                 c('meta', { charset: 'UTF-8' }),
                 c('meta', { name: 'viewport', content: 'width=device-width, initial-scale=1' }),
                 c('base', { href: '/' }),
-                c('link', { rel: 'shortcut icon', type: 'image/x-icon', href: `data:image/png;base64,${favicon}` }),
+                c('link', { rel: 'shortcut icon', type: 'image/x-icon', href: 'images/favicon.png' }),
                 c('link', { rel: 'stylesheet', href: 'styles/index.css' }),
                 c('script', { id: 'data', type: 'application/json', text: serializedData }),
                 c('script', { src: 'code/core.js' }),
