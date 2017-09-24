@@ -35,7 +35,7 @@ function getFileSize(file) {
     return 'Invalid size'
 }
 
-module.exports = function files({ data, id, redirect }) {
+module.exports = function files({ data, id }) {
     function getLink(entry) {
         if (entry.name === '..') {
             const ancestors = id.split('/')
@@ -50,7 +50,7 @@ module.exports = function files({ data, id, redirect }) {
         for (const entry of entries)
             yield Object.assign({
                 link: getLink(entry),
-                internalLink: entry.type === 'directory',
+                isInternalLink: entry.type === 'directory',
                 typeString: getFileType(entry),
                 sizeString: getFileSize(entry),
                 modifiedRaw: Date.parse(entry.modified),
@@ -66,15 +66,7 @@ module.exports = function files({ data, id, redirect }) {
             raw: 'name',
             value: 'name',
             link: 'link',
-            internalLink: 'internalLink',
-
-            click(entry) {
-                if (entry.type === 'file')
-                    return false
-
-                redirect(getLink(entry))
-                return true
-            }
+            isInternalLink: 'isInternalLink'
         },
 
         {

@@ -68,25 +68,20 @@ function *row(columns, datum) {
     for (const column of columns) {
         const value = datum[column.value]
 
-        const context =  { text: value }
-
-        if ('click' in column)
-            context.click = function (e) {
-                if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey)
-                    return
-
-                if (column.click(datum))
-                    e.preventDefault()
-            }
-
-        if ('link' in column) {
-            context.link = datum[column.link]
-            context.internal = datum[column.internalLink]
-        }
-
-        yield c('td', { title: value, class: column.cssClass },
-            c('link' in context ? link : 'span', context)
-        )
+        if ('link' in column)
+            yield c('td', { title: value, class: column.cssClass },
+                c(link, {
+                    text: value,
+                    link: datum[column.link],
+                    isInternal: datum[column.isInternalLink]
+                })
+            )
+        else
+            yield c('td', { title: value, class: column.cssClass },
+                c('span', {
+                    text: value
+                })
+            )
     }
 }
 

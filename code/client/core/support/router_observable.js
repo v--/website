@@ -1,5 +1,4 @@
 /* eslint-env browser */
-const { bind } = require('common/support/functions')
 const { Observable } = require('common/support/observation')
 
 const DB = require('client/core/db')
@@ -18,7 +17,6 @@ module.exports = class RouterObservable extends Observable {
     constructor(initialState, db, url) {
         super(initialState)
 
-        this.current.redirect = bind(this, 'changeURL')
         this.current.isCollapsed = window.innerWidth < DESKTOP_WIDTH
 
         this.current.toggleCollapsed = function () {

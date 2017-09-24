@@ -3,20 +3,13 @@ const classlist = require('common/support/classlist')
 const { c } = require('common/component')
 
 const icon = require('common/components/icon')
+const link = require('common/components/link')
 
-module.exports = function sidebar({ id, redirect, isCollapsed, toggleCollapsed }) {
+module.exports = function sidebar({ id, isCollapsed, toggleCollapsed }) {
     function entry(state) {
-        function click(e) {
-            if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey)
-                return
-
-            e.preventDefault()
-            redirect(state.link)
-        }
-
         const classes = classlist('button', 'entry', startsWith(id, state.id) && 'active')
 
-        return c('a', { class: classes, href: state.link, click },
+        return c(link, { class: classes, link: state.link, isInternal: true },
             c(icon, { class: 'entry-icon', name: state.icon }),
             c('span', { class: 'entry-text', text: state.text })
         )

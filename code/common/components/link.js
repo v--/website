@@ -1,21 +1,25 @@
+const { redirection } = require('common/observables')
 const { c } = require('common/component')
 
 module.exports = function link(state, children) {
-    const childState = { href: state.link }
+    const childState = { href: encodeURI(state.link) }
 
-    if (state.click)
-        childState.click = state.click
+    if (state.isInternal)
+        childState.click = function click(event) {
+            if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey)
+                return
 
-    if (!state.internal)
-        childState.target = '_blank'
+            redirection.emit(state.link)
+            event.preventDefault()
+        }
 
     if ('text' in state)
         childState.text = state.text
     else if (children.length === 0)
         childState.text = state.link
 
-    if (childState.link)
-        childState.link = encodeURI(childState.link)
+    if (state.class)
+        childState.class = state.class
 
     return c('a', childState, ...children)
 }

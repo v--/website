@@ -1,5 +1,6 @@
 /* eslint-env browser */
 
+const { redirection } = require('common/observables')
 const { c } = require('common/component')
 
 const main = require('common/components/main')
@@ -29,6 +30,20 @@ function onDocumentReady() {
 
 onDocumentReady().then(async function () {
     const state = await RouterObservable.create(document.location.pathname)
+
+    redirection.subscribe({
+        next(value) {
+            state.changeURL(value)
+        },
+
+        error(err) {
+            state.error(err)
+        },
+
+        complete() {
+            state.complete()
+        }
+    })
 
     document.body.replaceChild(
         render(c(main, state)),

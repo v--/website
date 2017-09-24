@@ -1,7 +1,6 @@
 // TODO: Find Jesus (and a better way to implement the parser)
 
 const { CoolError } = require('common/errors')
-const { startsWith } = require('common/support/strings')
 const { c } = require('common/component')
 
 const link = require('common/components/link')
@@ -128,12 +127,11 @@ module.exports = function markdown({ text, urlHandler }) {
                     const context = { text: label, link: url }
 
                     if (urlHandler)
-                        context.click = function (e) {
-                            e.preventDefault()
+                        context.click = function () {
                             urlHandler(url)
                         }
 
-                    context.internal = !startsWith(url, 'http')
+                    context.isInternal = !/^https?:\/\//.test(url)
 
                     result.children.push(
                         c(link, context)
