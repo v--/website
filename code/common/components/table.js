@@ -72,6 +72,9 @@ function *row(columns, datum) {
 
         if ('click' in column)
             context.click = function (e) {
+                if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey)
+                    return
+
                 if (column.click(datum))
                     e.preventDefault()
             }

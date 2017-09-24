@@ -7,6 +7,9 @@ const icon = require('common/components/icon')
 module.exports = function sidebar({ id, redirect, isCollapsed, toggleCollapsed }) {
     function entry(state) {
         function click(e) {
+            if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey)
+                return
+
             e.preventDefault()
             redirect(state.link)
         }
