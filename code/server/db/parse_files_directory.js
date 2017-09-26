@@ -28,7 +28,7 @@ module.exports = async function parseFilesDirectory(basePath, id) {
     if (id !== 'files')
         result.entries.push({
             name: '..',
-            type: 'directory',
+            isFile: false,
             modified: parentStat.mtime,
             size: parentStat.size
         })
@@ -44,7 +44,7 @@ module.exports = async function parseFilesDirectory(basePath, id) {
 
         result.entries.push({
             name,
-            type: childStat.isFile() ? 'file' : 'directory',
+            isFile: childStat.isFile(),
             modified: childStat.mtime,
             size: childStat.size
         })

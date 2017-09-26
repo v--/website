@@ -4,37 +4,6 @@ const section = require('common/components/section')
 const markdown = require('common/components/markdown')
 const table = require('common/components/table')
 
-function getFileType(file) {
-    if (file.type === 'directory')
-        return 'Directory'
-
-    const extIndex = file.name.lastIndexOf('.')
-
-    if (~extIndex)
-        return file.name.slice(extIndex + 1).toUpperCase() + ' file'
-
-    return 'Dotfile'
-}
-
-function getFileSize(file) {
-    if (file.type === 'directory')
-        return '-'
-
-    if (file.size < 1024)
-        return `${file.size} Bytes`
-
-    let ratio = file.size / 1024
-
-    for (const size of 'KMGTP') {
-        if (ratio < 512)
-            return `${ratio.toFixed(2)} ${size}iB`
-
-        ratio /= 1024
-    }
-
-    return 'Invalid size'
-}
-
 module.exports = function files({ data, id }) {
     function getLink(entry) {
         if (entry.name === '..') {
@@ -46,55 +15,82 @@ module.exports = function files({ data, id }) {
         return `/${id}/${entry.name}`
     }
 
-    function *processEntries(entries) {
-        for (const entry of entries)
-            yield Object.assign({
-                link: getLink(entry),
-                isInternalLink: entry.type === 'directory',
-                typeString: getFileType(entry),
-                sizeString: getFileSize(entry),
-                modifiedRaw: Date.parse(entry.modified),
-                modifiedString: new Date(entry.modified).toLocaleString()
-            }, entry)
-    }
-
-    // TODO: Refactor these bloated column options
     const columns = [
         {
             label: 'Name',
             cssClass: 'col-name',
-            raw: 'name',
-            value: 'name',
-            link: 'link',
-            isInternalLink: 'isInternalLink'
+            value(entry) {
+                return entry.name
+            },
+            link(entry) {
+                return {
+                    url: getLink(entry),
+                    isInternal: !entry.isFile
+                }
+            }
         },
 
         {
             label: 'Type',
             cssClass: 'col-type',
-            raw: 'typeString',
-            value: 'typeString'
+            value(entry) {
+                if (!entry.isFile)
+                    return 'Directory'
+
+                const extIndex = entry.name.lastIndexOf('.')
+
+                if (~extIndex)
+                    return entry.name.slice(extIndex + 1).toUpperCase() + ' file'
+
+                return 'Dotfile'
+            }
         },
 
         {
             label: 'Size',
             cssClass: 'col-size',
-            raw: 'size',
-            value: 'sizeString'
+            view(entry) {
+                if (!entry.isFile)
+                    return '-'
+
+                if (entry.size < 1024)
+                    return `${entry.size} Bytes`
+
+                let ratio = entry.size / 1024
+
+                for (const size of 'KMGTP') {
+                    if (ratio < 512)
+                        return `${ratio.toFixed(2)} ${size}iB`
+
+                    ratio /= 1024
+                }
+
+                return 'Invalid size'
+            },
+            value(entry) {
+                return entry.size
+            }
         },
 
         {
             label: 'Modified',
             cssClass: 'col-modified',
-            raw: 'modifiedRaw',
-            value: 'modifiedString'
+            view(entry) {
+                if (entry.name === '..')
+                    return '-'
+
+                return new Date(entry.modified).toLocaleString()
+            },
+            value(entry) {
+                return Date.parse(entry.modified)
+            }
         }
     ]
 
     const fixed = []
     const dynamic = []
 
-    for (const entry of processEntries(data.entries))
+    for (const entry of data.entries)
         if (entry.name === '..')
             fixed.push(entry)
         else

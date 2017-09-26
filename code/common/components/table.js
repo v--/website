@@ -14,10 +14,10 @@ function sliceData({ columns, data, fixedData, sorting, page }) {
     const ascending = sorting > 0 ? 1 : -1
 
     function comparator(a, b) {
-        if (a[column.raw] === b[column.raw])
+        if (column.value(a) === column.value(b))
             return 0
 
-        return ascending * (a[column.raw] > b[column.raw] ? 1 : -1)
+        return ascending * (column.value(a) > column.value(b) ? 1 : -1)
     }
 
     const pageStart = (page - 1) * MAXIMUM_ITEMS_PER_PAGE
@@ -66,22 +66,25 @@ function *headers(columns, sorting, sort) {
 
 function *row(columns, datum) {
     for (const column of columns) {
-        const value = datum[column.value]
+        const value = (column.view || column.value)(datum)
 
-        if ('link' in column)
+        if ('link' in column) {
+            const { url, isInternal } = column.link(datum)
+
             yield c('td', { title: value, class: column.cssClass },
                 c(link, {
                     text: value,
-                    link: datum[column.link],
-                    isInternal: datum[column.isInternalLink]
+                    link: url,
+                    isInternal: isInternal
                 })
             )
-        else
+        } else {
             yield c('td', { title: value, class: column.cssClass },
                 c('span', {
                     text: value
                 })
             )
+        }
     }
 }
 
