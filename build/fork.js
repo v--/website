@@ -8,7 +8,7 @@ module.exports = class Fork {
     }
 
     start() {
-        this.instance = fork('code/server/index', this.options)
+        this.instance = fork(this.path, this.options)
         this.instance.on('exit', () => {
             this.instance = null
         })
