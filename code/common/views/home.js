@@ -19,7 +19,7 @@ module.exports = function home({ redirect }) {
         c(section, { title: 'Welcome!' },
             c(markdown, {
                 text: 'This is my personal website - nothing more.'
-            }),
+            })
         ),
 
         c(section, { title: 'About me' },
@@ -30,7 +30,7 @@ module.exports = function home({ redirect }) {
                     'According to my contract I am a programmer and according to my ego I am also a musician.',
                     'Otherwise I am a relatively sane person.'
                 ].join(' ')
-            }),
+            })
         ),
 
         c(section, { title: 'About this website' },

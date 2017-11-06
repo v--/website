@@ -30,7 +30,7 @@ module.exports = function index({ state }) {
                 c('link', { rel: 'stylesheet', href: 'styles/index.css' }),
                 c('script', { id: 'data', type: 'application/json', text: serializedData }),
                 c('script', { src: 'code/core.js' }),
-                c('script', { src: 'code/compatibility.js' }),
+                c('script', { src: 'code/compatibility.js' })
             ),
 
             c('body', null,

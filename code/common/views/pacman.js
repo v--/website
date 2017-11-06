@@ -7,7 +7,7 @@ const markdown = require('common/components/markdown')
 function *iterPackages(pkgs) {
     for (const { name, version, description } of pkgs)
         yield c('li', { class: 'package' },
-            c('span', { text: `${name} ${version}: ${description}` }),
+            c('span', { text: `${name} ${version}: ${description}` })
         )
 }
 
