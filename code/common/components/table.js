@@ -1,5 +1,4 @@
 const { c } = require('common/component')
-const { zip, range } = require('common/support/iteration')
 const { partial } = require('common/support/functions')
 const { Observable } = require('common/support/observation')
 const classlist = require('common/support/classlist')
@@ -47,10 +46,11 @@ class TableObservable extends Observable {
 }
 
 function *headers(columns, sorting, sort) {
-    for (const [i, column] of zip(range(1, columns.length + 1), columns)) {
+    for (let i = 0; i < columns.length; i++) {
+        const column = columns[i]
         let iconName
 
-        if (Math.abs(sorting) === i)
+        if (Math.abs(sorting) === i + 1)
             iconName = sorting > 0 ? 'sort-ascending' : 'sort-descending'
         else
             iconName = 'sort-variant'
