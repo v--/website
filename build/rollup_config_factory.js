@@ -1,6 +1,6 @@
 const nodeResolve = require('rollup-plugin-node-resolve')
+const babelMinify = require('rollup-plugin-babel-minify')
 const commonjs = require('rollup-plugin-commonjs')
-const babili = require('rollup-plugin-babili')
 const alias = require('rollup-plugin-alias')
 
 module.exports = function rollupConfigFactory(entry, productionMode, cache) {
@@ -14,7 +14,7 @@ module.exports = function rollupConfigFactory(entry, productionMode, cache) {
             }),
             nodeResolve(),
             commonjs(),
-            productionMode && babili({
+            productionMode && babelMinify({
                 comments: false
             })
         ]

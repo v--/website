@@ -6,6 +6,7 @@ const gulp = require('gulp')
 const env = require('gulp-environments')
 
 const { rollup } = require('rollup')
+const { readFile } = require('mz/fs')
 
 const rollupConfigFactory = require('./rollup_config_factory')
 
@@ -38,7 +39,7 @@ gulp.task('client:icons', async function () {
     const result = {}
 
     for (const icon of icons)
-        result[icon] = require(`mdi-svg/d/${icon}`)
+        result[icon] = (await readFile(`node_modules/mdi-svg/svg/${icon}.svg`, 'utf8')).match(/<path d="(.*)" \/>/)[1]
 
     const stream = source('icons.js')
 
@@ -58,10 +59,10 @@ gulp.task('client:icons', async function () {
 
             const writeConfig = {
                 format: 'iife',
-                sourceMap: true,
+                sourcemap: true,
                 indent: false,
-                moduleName: `modules.${bundle}`,
-                dest: `public/code/${bundle}.js`
+                name: `modules.${bundle}`,
+                file: `public/code/${bundle}.js`
             }
 
             const rollupConfig = rollupConfigFactory(entry, env.production(), cache.get(bundle))

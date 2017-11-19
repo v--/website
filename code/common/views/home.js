@@ -54,7 +54,7 @@ module.exports = function home({ redirect }) {
 
                 c(contact, {
                     text: 'GitHub',
-                    icon: 'github',
+                    icon: 'github-circle',
                     link: 'https://github.com/v--'
                 }),
 
