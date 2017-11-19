@@ -1,14 +1,13 @@
 const concat = require('gulp-concat')
-const source = require('vinyl-source-stream')
 const sass = require('gulp-sass')
 const svgo = require('gulp-svgo')
 const gulp = require('gulp')
 const env = require('gulp-environments')
 
 const { rollup } = require('rollup')
-const { readFile } = require('mz/fs')
 
 const rollupConfigFactory = require('./rollup_config_factory')
+const { getMDIcons } = require('./md_icons')
 
 gulp.task('client:assets', function () {
     return gulp.src('client/assets/**/*')
@@ -34,19 +33,11 @@ gulp.task('client:svgs', function () {
         .pipe(gulp.dest('public/images'))
 })
 
-gulp.task('client:icons', async function () {
-    const icons = require('../client/icons.json')
-    const result = {}
-
-    for (const icon of icons)
-        result[icon] = (await readFile(`node_modules/mdi-svg/svg/${icon}.svg`, 'utf8')).match(/<path d="(.*)" \/>/)[1]
-
-    const stream = source('icons.js')
-
-    stream.write('module.exports = ' + JSON.stringify(result) + '; // eslint-disable-line')
-    stream.end()
-
-    return stream.pipe(gulp.dest('code/common'))
+gulp.task('client:icons', function () {
+    return getMDIcons({
+        icons: require('../client/icons.json'),
+        fileName: 'icons.js'
+    }).pipe(gulp.dest('code/common'))
 })
 
 {

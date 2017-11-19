@@ -23,4 +23,4 @@ gulp.task('watch', function (done) {
 })
 
 gulp.task('build', gulp.parallel('server:build', 'client'))
-gulp.task('default', gulp.series(armor(gulp.parallel('server:restart', 'client')), 'watch'))
+gulp.task('default', armor(gulp.series('client', 'server:restart', 'watch')))
