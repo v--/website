@@ -2,4 +2,4 @@
 /public
 
 /config/active.json
-/code/common/icons.js
+/code/common/icons.mjs

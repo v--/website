@@ -1,0 +1,42 @@
+import { c } from '../../common/component'
+
+import nojs from '../../common/components/nojs'
+import main from '../../common/components/main'
+import title from '../../common/components/title'
+
+export default function index({ state }) {
+    let serializedData
+
+    if (state.data instanceof Error)
+        serializedData = JSON.stringify({
+            id: state.id,
+            error: state.data,
+            errorCls: state.data.constructor.name
+        })
+    else
+        serializedData = JSON.stringify({
+            id: state.id,
+            data: state.data
+        })
+
+    return c('html', { lang: 'en-US' },
+        c('head', null,
+            c('head', null,
+                c(title, state),
+                c('meta', { charset: 'UTF-8' }),
+                c('meta', { name: 'viewport', content: 'width=device-width, initial-scale=1' }),
+                c('base', { href: '/' }),
+                c('link', { rel: 'shortcut icon', type: 'image/x-icon', href: 'images/favicon.png' }),
+                c('link', { rel: 'stylesheet', href: 'styles/index.css' }),
+                c('script', { id: 'data', type: 'application/json', text: serializedData }),
+                c('script', { src: 'code/core.js' }),
+                c('script', { src: 'code/compatibility.js' })
+            ),
+
+            c('body', null,
+                c(nojs, state),
+                c(main, state)
+            )
+        )
+    )
+}
