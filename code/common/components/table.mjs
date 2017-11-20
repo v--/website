@@ -46,11 +46,11 @@ class TableObservable extends Observable {
 }
 
 function *headers(columns, sorting, sort) {
-    for (let i = 0; i < columns.length; i++) {
-        const column = columns[i]
+    for (let i = 1; i <= columns.length; i++) {
+        const column = columns[i - 1]
         let iconName
 
-        if (Math.abs(sorting) === i + 1)
+        if (Math.abs(sorting) === i)
             iconName = sorting > 0 ? 'sort-ascending' : 'sort-descending'
         else
             iconName = 'sort-variant'
