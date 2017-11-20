@@ -1,6 +1,6 @@
 export NODE_PATH = "code/"
 
-test file='tests/**/*.mjs':
+test file:
     mocha --require @std/esm -- {{file}}
 
 benchmark file='benchmarks/*.mjs':
@@ -11,7 +11,7 @@ lint:
     sass-lint --verbose
 
 test_all:
-    just test
+    just test "$(find . -wholename './tests/*.mjs' | tr '\n' ' ')"
 
 build_prod:
     env NODE_ENV=production ./gulp.mjs build
