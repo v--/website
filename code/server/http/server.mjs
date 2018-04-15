@@ -5,6 +5,7 @@ import { HTTPError, CoolError } from '../../common/errors'
 import { bind } from '../../common/support/functions'
 import { NotFoundError } from '../../common/errors'
 import RouterState from '../../common/support/router_state'
+import Path from '../../common/support/path'
 
 import { promisory } from '../support/async'
 import Logger from '../support/logger'
@@ -21,15 +22,15 @@ export default class HTTPServer {
     }
 
     async requestHandler(request, response) {
-        const decoded = decodeURI(request.url)
+        const path = new Path(decodeURI(request.url))
 
         if (request.method !== 'GET' && request.method !== 'HEAD') {
-            this.logger.warn(`Unexpected method ${request.method} on ${decoded}`)
+            this.logger.warn(`Unexpected method ${request.method} on ${path}`)
             return Promise.then()
         }
 
-        this.logger.debug(`${request.method} on ${decoded}`)
-        this.writeResponse(response, await router(this.db, decoded))
+        this.logger.debug(`${request.method} on ${path}`)
+        this.writeResponse(response, await router(this.db, path))
     }
 
     async writeResponse(response, context) {
@@ -66,16 +67,16 @@ export default class HTTPServer {
             try {
                 await this.requestHandler(request, response)
             } catch (e) {
-                const decoded = decodeURI(request.url)
+                const path = new Path(decodeURI(request.url))
 
                 if (e instanceof NotFoundError)
-                    this.logger.warn(`No resource found for ${request.method} ${decoded}`)
+                    this.logger.warn(`No resource found for ${request.method} ${path}`)
                 else
-                    this.logger.warn(`Error while processing ${request.method} ${decoded}: ${e} ${e.stack}`)
+                    this.logger.warn(`Error while processing ${request.method} ${path}: ${e} ${e.stack}`)
 
                 this.writeResponse(
                     response,
-                    Response.view(RouterState.error(decoded, e), e instanceof HTTPError && e.code)
+                    Response.view(RouterState.error(path, e), e instanceof HTTPError && e.code)
                 )
             }
         }.bind(this))

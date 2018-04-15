@@ -51,14 +51,3 @@ export function repr(value) {
 export function startsWith(string, substring) {
     return string.substr(0, substring.length) === substring
 }
-
-export function splitURL(url) {
-    const match = url.match(/^\/((\w+)\/?)?(.*)$/)
-
-    if (match) {
-        const [,, route = '', subroute = ''] = match
-        return { route, subroute }
-    } else {
-        return { route: '', subroute: '' }
-    }
-}

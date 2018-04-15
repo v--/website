@@ -1,5 +1,4 @@
 import { HTTPError } from '../errors'
-import { splitURL } from './strings'
 import Interface, { IFunction, IString, IEmpty } from './interface'
 
 import error from '../views/error'
@@ -8,17 +7,13 @@ const IRouterState = Interface.create({
     factory: IFunction,
     id: IString,
     title: IString,
-    route: IString,
-    subroute: IString,
     data: IEmpty
 })
 
 export default class RouterState {
-    static error(url, err) {
-        const { route, subroute } = splitURL(url)
-
+    static error(path, err) {
         return new this({
-            route, subroute,
+            path,
             id: err.viewID || 'error',
             title: err instanceof HTTPError ? err.message.toLowerCase() : 'error',
             factory: error,

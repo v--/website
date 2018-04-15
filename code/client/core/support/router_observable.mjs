@@ -1,5 +1,6 @@
 /* eslint-env browser */
 import { Observable } from '../../../common/support/observation'
+import Path from '../../../common/support/path'
 
 import DB from '../db'
 import router from '../router'
@@ -8,13 +9,13 @@ const DESKTOP_WIDTH = 700
 
 export default class RouterObservable extends Observable {
     static async create(url) {
-        const decoded = decodeURI(url)
+        const path = new Path(decodeURI(url))
 
         const db = new DB(JSON.parse(document.querySelector('#data').textContent))
-        return new this(await router(db, decoded), db, decoded)
+        return new this(await router(db, path), db, path)
     }
 
-    constructor(initialState, db, url) {
+    constructor(initialState, db, path) {
         super(initialState)
 
         this.current.isCollapsed = window.innerWidth < DESKTOP_WIDTH
@@ -24,8 +25,8 @@ export default class RouterObservable extends Observable {
         }.bind(this)
 
         this.db = db
-        this.url = url
-        history.pushState({ path: this.url }, null, url)
+        this.path = path
+        history.pushState({ path: path.raw }, null, path.raw)
 
         window.addEventListener('popstate', function ({ state }) {
             this.changeURL(state.path)
@@ -33,10 +34,10 @@ export default class RouterObservable extends Observable {
     }
 
     async changeURL(url) {
-        const decoded = decodeURI(url)
+        const path = new Path(decodeURI(url))
 
-        history.pushState({ path: this.url }, null, decoded)
-        this.url = decoded
-        this.update(await router(this.db, decoded))
+        history.pushState({ path: this.path.raw }, null, path)
+        this.url = path
+        this.update(await router(this.db, path))
     }
 }

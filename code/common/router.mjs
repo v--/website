@@ -1,4 +1,3 @@
-import { splitURL } from './support/strings'
 import { NotFoundError } from './errors'
 import RouterState from './support/router_state'
 
@@ -7,15 +6,15 @@ import files from './views/files'
 import playground from './views/playground'
 import pacman from './views/pacman'
 
-async function routerImpl(db, route, subroute) {
-    if (subroute === '')
-        switch (route) {
-        case '':
-            return {
-                id: 'home',
-                factory: home
-            }
+async function routerImpl(db, path) {
+    if (path.segments.length === 0)
+        return {
+            id: 'home',
+            factory: home
+        }
 
+    if (path.segments.length === 1)
+        switch (path.segments[0]) {
         case 'playground':
             return {
                 id: 'playground',
@@ -30,7 +29,8 @@ async function routerImpl(db, route, subroute) {
             }
         }
 
-    if (route === 'files') {
+    if (path.segments[0] === 'files') {
+        const subroute = path.segments.slice(1).join('/')
         const id = subroute ? `files/${subroute.replace(/\/$/, '')}` : 'files'
         const data = await db.retrieve(id)
 
@@ -44,8 +44,7 @@ async function routerImpl(db, route, subroute) {
     throw new NotFoundError()
 }
 
-export default async function router(db, url) {
-    const { route, subroute } = splitURL(url)
-    const rawState = await routerImpl(db, route, subroute)
-    return new RouterState(Object.assign({ route, subroute }, rawState))
+export default async function router(db, path) {
+    const rawState = await routerImpl(db, path)
+    return new RouterState(Object.assign({ path }, rawState))
 }
