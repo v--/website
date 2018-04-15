@@ -46,7 +46,7 @@ gulp.task('client:icons', async function () {
 
     gulp.task('client:code', function () {
         return Promise.all(bundles.map(function (bundle) {
-            const entry = `code/client/${bundle}/index.mjs`
+            const input = `code/client/${bundle}/index.mjs`
 
             const writeConfig = {
                 format: 'iife',
@@ -56,7 +56,7 @@ gulp.task('client:icons', async function () {
                 file: `public/code/${bundle}.js`
             }
 
-            const rollupConfig = rollupConfigFactory(entry, env.production(), cache.get(bundle))
+            const rollupConfig = rollupConfigFactory(input, env.production(), cache.get(bundle))
 
             return rollup.rollup(rollupConfig)
                 .then(function (rollupBundle) {

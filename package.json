@@ -2,31 +2,30 @@
   "version": "3.0.2",
   "private": true,
   "dependencies": {
-    "lzma-native": "3.0.2",
-    "tar-stream": "1.5.4"
+    "lzma-native": "3.0.7",
+    "tar-stream": "1.5.5"
   },
   "devDependencies": {
-    "@std/esm": "0.16.0",
+    "@std/esm": "0.26.0",
     "benchmark": "2.1.4",
-    "chai": "3.5.0",
-    "chai-iterator": "1.1.4",
-    "eslint": "3.19.0",
-    "eslint-plugin-mocha": "4.9.0",
+    "chai": "4.1.2",
+    "eslint": "4.19.1",
+    "eslint-plugin-mocha": "5.0.0",
     "gulp": "github:gulpjs/gulp#4.0",
-    "gulp-cli": "1.4.0",
+    "gulp-cli": "2.0.1",
     "gulp-concat": "2.6.1",
     "gulp-environments": "0.1.2",
-    "gulp-sass": "3.1.0",
-    "gulp-svgo": "1.0.3",
+    "gulp-sass": "4.0.1",
+    "gulp-svgo": "1.4.0",
     "libnotify": "1.0.4",
-    "mdi-svg": "2.0.46",
-    "mocha": "3.3.0",
-    "rollup": "0.51.8",
-    "rollup-plugin-babel-minify": "3.1.2",
-    "rollup-plugin-node-resolve": "3.0.0",
-    "sass-lint": "1.10.2",
-    "skeleton-sass-official": "3.1.4",
+    "mdi-svg": "2.2.43",
+    "mocha": "5.1.0",
+    "rollup": "0.57.1",
+    "rollup-plugin-babel-minify": "4.0.0",
+    "rollup-plugin-node-resolve": "3.3.0",
+    "sass-lint": "1.12.1",
+    "skeleton-sass-official": "3.1.5",
     "svgo": "github:svg/svgo#master",
-    "vinyl-source-stream": "1.1.0"
+    "vinyl-source-stream": "2.0.0"
   }
 }

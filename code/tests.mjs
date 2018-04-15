@@ -1,7 +1,4 @@
 import chai from 'chai'
-import chaiIterator from 'chai-iterator'
-
-chai.use(chaiIterator)
 
 chai.Assertion.addMethod('equalComponent', function (b) {
     const a = this._obj

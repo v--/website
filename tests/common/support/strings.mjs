@@ -1,6 +1,6 @@
 import { expect } from '../../../code/tests'
 
-import { repr, splitURL } from '../../../code/common/support/strings'
+import { repr } from '../../../code/common/support/strings'
 
 describe('repr()', function () {
     it('works for strings', function () {
@@ -67,35 +67,5 @@ describe('repr()', function () {
     it('allows evaluating simple serialized objects', function () {
         const object = { a: 1, b: false, c: null }
         expect(eval('(' + repr(object) + ')')).to.deep.equal(object)
-    })
-})
-
-describe('splitURL', function () {
-    it('Works with single slash', function () {
-        expect(splitURL('/')).to.deep.equal({
-            route: '',
-            subroute: ''
-        })
-    })
-
-    it('Works with a basic route', function () {
-        expect(splitURL('/files')).to.deep.equal({
-            route: 'files',
-            subroute: ''
-        })
-    })
-
-    it('Works with a basic route with an ending slash', function () {
-        expect(splitURL('/files/')).to.deep.equal({
-            route: 'files',
-            subroute: ''
-        })
-    })
-
-    it('Works with a subroute', function () {
-        expect(splitURL('/bamboozled/yet.again')).to.deep.equal({
-            route: 'bamboozled',
-            subroute: 'yet.again'
-        })
     })
 })
