@@ -4,7 +4,7 @@
     },
 
     "db": {
-        "fileRootPath": "/srv/files",
+        "fileRootPath": "/srv/http/files",
         "pacmanDBPath": "/var/lib/pacman/sync/ivasilev.db"
     }
 }
