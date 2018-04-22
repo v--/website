@@ -11,8 +11,9 @@ export default class RouterObservable extends Observable {
     static async create(url) {
         const path = new Path(decodeURI(url))
 
-        const db = new DB(JSON.parse(document.querySelector('#data').textContent))
-        return new this(await router(db, path), db, path)
+        // "data" is the id a script element
+        const db = new DB(JSON.parse(window.data.textContent))
+        return new this(await router(path, db), db, path)
     }
 
     constructor(initialState, db, path) {
@@ -38,6 +39,6 @@ export default class RouterObservable extends Observable {
 
         history.pushState({ path: this.path.raw }, null, path)
         this.url = path
-        this.update(await router(this.db, path))
+        this.update(await router(path, this.db))
     }
 }

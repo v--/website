@@ -1,0 +1,62 @@
+import path from 'path'
+
+import { stat, readFile, readdir } from '../support/fs'
+import { startsWith } from '../../common/support/strings'
+import { CoolError } from '../../common/errors'
+
+export class FileNotFoundError extends CoolError {}
+
+export default class FileCollection {
+    async readDirectory(basePath) {
+        var fullPath = path.join(this.db.config.fileRootPath, basePath)
+
+        const result = {
+            entries: [],
+            readme: null
+        }
+
+        let files
+
+        try {
+            files = await readdir(fullPath, 'utf8')
+        } catch (e) {
+            if (e.code === 'ENOENT' || e.code === 'ENOTDIR')
+                throw new FileNotFoundError(fullPath)
+            else
+                throw e
+        }
+
+        const parentStat = await stat(fullPath)
+
+        if (basePath !== '')
+            result.entries.push({
+                name: '..',
+                isFile: false,
+                modified: String(parentStat.mtime),
+                size: parentStat.size
+            })
+
+        for (const name of files) {
+            const childStat = await stat(path.join(fullPath, name))
+
+            if (name === '.readme.md')
+                result.readme = await readFile(path.join(fullPath, name), 'utf8')
+
+            if (startsWith(name, '.'))
+                continue
+
+            result.entries.push({
+                name,
+                isFile: childStat.isFile(),
+                modified: String(childStat.mtime),
+                size: childStat.size
+            })
+        }
+
+        return result
+    }
+
+    constructor(db) {
+        this.db = db
+    }
+}

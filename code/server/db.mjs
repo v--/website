@@ -1,29 +1,21 @@
-import { startsWith } from '../common/support/strings'
-
-import parsePacmanDatabase from './db/parse_pacman_database'
-import parseFilesDirectory from './db/parse_files_directory'
+import FileCollection from './collections/file'
+import PacmanPackageCollection from './collections/pacman_package'
 
 export default class DB {
     constructor(config) {
         this.config = config
+        this.collections = {
+            files: new FileCollection(this),
+            pacmanPackages: new PacmanPackageCollection(this)
+        }
     }
 
     async load() {
-        this.packages = await parsePacmanDatabase(this.config.pacman)
+        await this.collections.pacmanPackages.cachePackages(this.config.pacmanDBPath)
     }
 
     async reload(config) {
+        await this.collections.pacmanPackages.cachePackages(config.pacmanDBPath)
         this.config = config
-        await this.load()
-    }
-
-    async retrieve(id) {
-        if (id === 'pacman')
-            return this.packages
-
-        if (startsWith(id, 'files'))
-            return await parseFilesDirectory(this.config.files, id)
-
-        return null
     }
 }

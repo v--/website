@@ -44,7 +44,7 @@ function parsePacmanInfoStream(stream) {
     })
 }
 
-export default function parsePacmanDatabase(path) {
+function parsePacmanDatabase(path) {
     const stream = createReadStream(path)
         .pipe(lzma.createDecompressor())
         .pipe(tar.extract())
@@ -57,7 +57,6 @@ export default function parsePacmanDatabase(path) {
             .on('entry', async function (header, entryStream, next) {
                 if (header.type === 'file') {
                     const meta = await parsePacmanInfoStream(entryStream)
-
                     packages.push({
                         name: meta.NAME,
                         version: meta.VERSION,
@@ -72,4 +71,18 @@ export default function parsePacmanDatabase(path) {
                 resolve(packages)
             })
     })
+}
+
+export default class PacmanPackageCollection {
+    async cachePackages(dbPath) {
+        this.cachedPackages = await parsePacmanDatabase(dbPath)
+    }
+
+    async load() {
+        return this.cachedPackages || await parsePacmanDatabase(this.db.config.pacmanDBPath)
+    }
+
+    constructor(db) {
+        this.db = db
+    }
 }

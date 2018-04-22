@@ -11,8 +11,8 @@ const IConfig = Interface.create({
     }),
 
     db: Interface.create({
-        files: IString,
-        pacman: IString
+        fileRootPath: IString,
+        pacmanDBPath: IString
     })
 })
 

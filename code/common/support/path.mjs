@@ -2,6 +2,7 @@ export default class Path {
     constructor(raw) {
         this.raw = raw
         this.segments = raw.split('/').filter(Boolean)
+        this.cooked = '/' + this.segments.join('/')
 
         const queryStringMatch = raw.match(/\?(.*)$/)
         const queryString = queryStringMatch === null ? '' : queryStringMatch[1]
@@ -10,6 +11,6 @@ export default class Path {
     }
 
     toString() {
-        return this.raw
+        return this.cooked
     }
 }

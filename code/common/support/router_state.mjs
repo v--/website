@@ -7,6 +7,7 @@ const IRouterState = Interface.create({
     factory: IFunction,
     id: IString,
     title: IString,
+    dataURL: IEmpty,
     data: IEmpty
 })
 
@@ -17,6 +18,7 @@ export default class RouterState {
             id: err.viewID || 'error',
             title: err instanceof HTTPError ? err.message.toLowerCase() : 'error',
             factory: error,
+            dataURL: null,
             data: err
         })
     }
@@ -26,6 +28,7 @@ export default class RouterState {
 
         Object.assign(this, {
             title: rawState.id,
+            dataURL: null,
             data: null
         }, rawState)
 

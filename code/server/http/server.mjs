@@ -30,7 +30,7 @@ export default class HTTPServer {
         }
 
         this.logger.debug(`${request.method} on ${path}`)
-        this.writeResponse(response, await router(this.db, path))
+        this.writeResponse(response, await router(path, this.db))
     }
 
     async writeResponse(response, context) {

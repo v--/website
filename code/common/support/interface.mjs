@@ -56,7 +56,7 @@ export const IEmpty = {
     },
 
     toString() {
-        return 'string'
+        return 'nothing'
     }
 }
 /* eslint-enable no-unused-vars */
