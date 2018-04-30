@@ -9,46 +9,43 @@ export class InvalidKeyError extends CoolError {}
  * constructors.
  */
 export default class FortifiedMap {
-    static enumerize(...values) {
-        return new this(map(value => [value, Symbol(value)], values))
-    }
+  static enumerize (...values) {
+    return new this(map(value => [value, Symbol(value)], values))
+  }
 
-    static fromObject(object) {
-        return new this(Object.entries(object))
-    }
+  static fromObject (object) {
+    return new this(Object.entries(object))
+  }
 
-    constructor(iterable) {
-        this._payload = new Map(iterable)
-    }
+  constructor (iterable) {
+    this._payload = new Map(iterable)
+  }
 
-    set(key, value) {
-        this._payload.set(key, value)
-    }
+  set (key, value) {
+    this._payload.set(key, value)
+  }
 
-    setMultiple(object) {
-        for (const [key, value] in Object.entries(object))
-            this._payload.set(key, value)
-    }
+  setMultiple (object) {
+    for (const [key, value] in Object.entries(object)) { this._payload.set(key, value) }
+  }
 
-    has(key) {
-        return this._payload.has(key)
-    }
+  has (key) {
+    return this._payload.has(key)
+  }
 
-    get(key, defaultValue) {
-        if (this.has(key))
-            return this._payload.get(key)
+  get (key, defaultValue) {
+    if (this.has(key)) { return this._payload.get(key) }
 
-        if (defaultValue !== undefined)
-            return defaultValue
+    if (defaultValue !== undefined) { return defaultValue }
 
-        throw new InvalidKeyError(`Invalid key "${key}".`)
-    }
+    throw new InvalidKeyError(`Invalid key "${key}".`)
+  }
 
-    delete(key) {
-        this._payload.delete(key)
-    }
+  delete (key) {
+    this._payload.delete(key)
+  }
 
-    [Symbol.iterator]() {
-        return this._payload.entries()
-    }
+  [Symbol.iterator] () {
+    return this._payload.entries()
+  }
 }

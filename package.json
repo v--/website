@@ -17,6 +17,7 @@
     "gulp-environments": "0.1.2",
     "gulp-sass": "4.0.1",
     "gulp-svgo": "1.4.0",
+    "jest": "^22.4.3",
     "libnotify": "1.0.4",
     "mdi-svg": "2.2.43",
     "mocha": "5.1.0",
@@ -25,6 +26,7 @@
     "rollup-plugin-node-resolve": "3.3.0",
     "sass-lint": "1.12.1",
     "skeleton-sass-official": "3.1.5",
+    "standard": "^11.0.1",
     "svgo": "github:svg/svgo#master",
     "vinyl-source-stream": "2.0.0"
   }

@@ -11,47 +11,45 @@ import render from './render'
 
 window.COMPATIBLE_INTERPRETER = Object.hasOwnProperty('assign')
 
-function onDocumentReady() {
-    if (!window.COMPATIBLE_INTERPRETER)
-        return new Promise(function () {})
+function onDocumentReady () {
+  if (!window.COMPATIBLE_INTERPRETER) { return new Promise(function () {}) }
 
-    if (document.readyState === 'complete')
-        return Promise.resolve()
+  if (document.readyState === 'complete') { return Promise.resolve() }
 
-    return new Promise(function (resolve) {
-        function listener() {
-            window.removeEventListener('DOMContentLoaded', listener)
-            resolve()
-        }
+  return new Promise(function (resolve) {
+    function listener () {
+      window.removeEventListener('DOMContentLoaded', listener)
+      resolve()
+    }
 
-        window.addEventListener('DOMContentLoaded', listener)
-    })
+    window.addEventListener('DOMContentLoaded', listener)
+  })
 }
 
 onDocumentReady().then(async function () {
-    const state = await RouterObservable.create(document.location.pathname)
+  const state = await RouterObservable.create(document.location.pathname)
 
-    redirection.subscribe({
-        next(value) {
-            state.changeURL(value)
-        },
+  redirection.subscribe({
+    next (value) {
+      state.changeURL(value)
+    },
 
-        error(err) {
-            state.error(err)
-        },
+    error (err) {
+      state.error(err)
+    },
 
-        complete() {
-            state.complete()
-        }
-    })
+    complete () {
+      state.complete()
+    }
+  })
 
-    document.body.replaceChild(
-        render(c(main, state)),
-        document.querySelector('main')
-    )
+  document.body.replaceChild(
+    render(c(main, state)),
+    document.querySelector('main')
+  )
 
-    document.head.replaceChild(
-        render(c(title, state)),
-        document.querySelector('title')
-    )
+  document.head.replaceChild(
+    render(c(title, state)),
+    document.querySelector('title')
+  )
 })

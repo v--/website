@@ -1,17 +1,18 @@
 import libnotify from 'libnotify'
 
-export default function armor(task) {
-    function armored(done) {
-        task(function (error) {
-            if (error)
-                libnotify.notify(error.message, {
-                    title: 'Gulp error'
-                })
-
-            done()
+export default function armor (task) {
+  function armored (done) {
+    task(function (error) {
+      if (error) {
+        libnotify.notify(error.message, {
+          title: 'Gulp error'
         })
-    }
+      }
 
-    armored.displayName = task.displayName
-    return armored
+      done()
+    })
+  }
+
+  armored.displayName = task.displayName
+  return armored
 }

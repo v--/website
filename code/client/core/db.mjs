@@ -4,63 +4,59 @@ import { CoolError, HTTPError, NotFoundError } from '../../common/errors'
 
 import Cache from '../support/cache'
 
-function restoreError(errorCls, errorData) {
-    switch (errorCls) {
+function restoreError (errorCls, errorData) {
+  switch (errorCls) {
     case 'NotFoundError':
-        return new NotFoundError(errorData.viewIDv)
+      return new NotFoundError(errorData.viewIDv)
 
     case 'HTTPError':
-        return new HTTPError(errorData.code, errorData.message, errorData.viewID)
+      return new HTTPError(errorData.code, errorData.message, errorData.viewID)
 
     case 'CoolError':
-        return new CoolError(errorData.message)
+      return new CoolError(errorData.message)
 
     default:
-        return new Error(errorData.message)
-    }
+      return new Error(errorData.message)
+  }
 }
 
 export default class DB {
-    constructor({ errorData, errorCls, data, dataURL }) {
-        this.cache = new Cache(60 * 1000)
-        this.collections = {
-            files: {
-                readDirectory: async (path) => {
-                    return this.fetchJSON(`/api/files/${path}`)
-                }
-            },
-
-            pacmanPackages: {
-                load: async () => {
-                    return this.fetchJSON('/api/pacman')
-                }
-            }
+  constructor ({ errorData, errorCls, data, dataURL }) {
+    this.cache = new Cache(60 * 1000)
+    this.collections = {
+      files: {
+        readDirectory: async (path) => {
+          return this.fetchJSON(`/api/files/${path}`)
         }
+      },
 
-        if (errorData)
-            this.error = restoreError(errorCls, errorData)
-
-        if (dataURL)
-            this.cache.set(dataURL, data)
+      pacmanPackages: {
+        load: async () => {
+          return this.fetchJSON('/api/pacman')
+        }
+      }
     }
 
-    async fetchJSON(url) {
-        if (this.error) {
-            const error = this.error
-            delete this.error
-            throw error
-        }
+    if (errorData) { this.error = restoreError(errorCls, errorData) }
 
-        if (this.cache.has(url))
-            return this.cache.get(url)
+    if (dataURL) { this.cache.set(dataURL, data) }
+  }
 
-        const response = await window.fetch(url)
-
-        if (response.status === 404)
-            throw new NotFoundError(url)
-
-        const json = await response.json()
-        this.cache.set(url, json)
-        return json
+  async fetchJSON (url) {
+    if (this.error) {
+      const error = this.error
+      delete this.error
+      throw error
     }
+
+    if (this.cache.has(url)) { return this.cache.get(url) }
+
+    const response = await window.fetch(url)
+
+    if (response.status === 404) { throw new NotFoundError(url) }
+
+    const json = await response.json()
+    this.cache.set(url, json)
+    return json
+  }
 }

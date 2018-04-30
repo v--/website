@@ -7,7 +7,7 @@ benchmark file='benchmarks/*.mjs':
     mocha --require @std/esm --no-timeouts -- {{file}}
 
 lint:
-    eslint benchmarks/ build/ code/ tests/ client/assets/
+    eslint --ext js,mjs benchmarks/ build/ code/ tests/ client/assets/ gulpfile.mjs
     sass-lint --verbose
 
 test_all:

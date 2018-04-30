@@ -3,86 +3,87 @@ import lzma from 'lzma-native'
 
 import { createReadStream } from '../support/fs'
 
-function parsePacmanInfoStream(stream) {
-    return new Promise(function (resolve, reject) {
-        let buffer = []
-        let key = ''
-        let inTitle = false
-        const result = {}
+function parsePacmanInfoStream (stream) {
+  return new Promise(function (resolve, reject) {
+    let buffer = []
+    let key = ''
+    let inTitle = false
+    const result = {}
 
-        stream
-            .setEncoding('utf8')
-            .on('data', function (data) {
-                for (const char of data)
-                    switch (char) {
-                    case '%':
-                        inTitle = !inTitle
+    stream
+      .setEncoding('utf8')
+      .on('data', function (data) {
+        for (const char of data) {
+          switch (char) {
+            case '%':
+              inTitle = !inTitle
 
-                        if (!inTitle) {
-                            key = buffer.join('')
-                            buffer = []
-                        }
+              if (!inTitle) {
+                key = buffer.join('')
+                buffer = []
+              }
 
-                        break
+              break
 
-                    case '\n':
-                        if (buffer.length > 0) {
-                            result[key] = buffer.join('')
-                            buffer = []
-                        }
+            case '\n':
+              if (buffer.length > 0) {
+                result[key] = buffer.join('')
+                buffer = []
+              }
 
-                        break
+              break
 
-                    default:
-                        buffer.push(char)
-                    }
-            })
-            .on('error', reject)
-            .on('end', function () {
-                resolve(result)
-            })
-    })
+            default:
+              buffer.push(char)
+          }
+        }
+      })
+      .on('error', reject)
+      .on('end', function () {
+        resolve(result)
+      })
+  })
 }
 
-function parsePacmanDatabase(path) {
-    const stream = createReadStream(path)
-        .pipe(lzma.createDecompressor())
-        .pipe(tar.extract())
+function parsePacmanDatabase (path) {
+  const stream = createReadStream(path)
+    .pipe(lzma.createDecompressor())
+    .pipe(tar.extract())
 
-    return new Promise(function (resolve, reject) {
-        const packages = []
+  return new Promise(function (resolve, reject) {
+    const packages = []
 
-        stream
-            .on('error', reject)
-            .on('entry', async function (header, entryStream, next) {
-                if (header.type === 'file') {
-                    const meta = await parsePacmanInfoStream(entryStream)
-                    packages.push({
-                        name: meta.NAME,
-                        version: meta.VERSION,
-                        description: meta.DESC,
-                        arch: meta.ARCH
-                    })
-                }
+    stream
+      .on('error', reject)
+      .on('entry', async function (header, entryStream, next) {
+        if (header.type === 'file') {
+          const meta = await parsePacmanInfoStream(entryStream)
+          packages.push({
+            name: meta.NAME,
+            version: meta.VERSION,
+            description: meta.DESC,
+            arch: meta.ARCH
+          })
+        }
 
-                next()
-            })
-            .on('finish', function () {
-                resolve(packages)
-            })
-    })
+        next()
+      })
+      .on('finish', function () {
+        resolve(packages)
+      })
+  })
 }
 
 export default class PacmanPackageCollection {
-    async cachePackages(dbPath) {
-        this.cachedPackages = await parsePacmanDatabase(dbPath)
-    }
+  async cachePackages (dbPath) {
+    this.cachedPackages = await parsePacmanDatabase(dbPath)
+  }
 
-    async load() {
-        return this.cachedPackages || await parsePacmanDatabase(this.db.config.pacmanDBPath)
-    }
+  async load () {
+    return this.cachedPackages || parsePacmanDatabase(this.db.config.pacmanDBPath)
+  }
 
-    constructor(db) {
-        this.db = db
-    }
+  constructor (db) {
+    this.db = db
+  }
 }

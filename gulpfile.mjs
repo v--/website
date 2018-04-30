@@ -7,19 +7,19 @@ import './build/server'
 import armor from './build/armor'
 
 gulp.task('watch', function (done) {
-    gulp.watch('client/styles/**/*.scss', armor(gulp.series('client:styles')))
-    gulp.watch('client/assets/**/*', armor(gulp.series('client:assets')))
-    gulp.watch('client/svgs/**/*.svg', armor(gulp.series('client:svgs')))
-    gulp.watch('client/icons.json', armor(gulp.series('client:icons', 'server:restart', 'client:code')))
+  gulp.watch('client/styles/**/*.scss', armor(gulp.series('client:styles')))
+  gulp.watch('client/assets/**/*', armor(gulp.series('client:assets')))
+  gulp.watch('client/svgs/**/*.svg', armor(gulp.series('client:svgs')))
+  gulp.watch('client/icons.json', armor(gulp.series('client:icons', 'server:restart', 'client:code')))
 
-    gulp.watch('code/client/**/*.mjs', armor(gulp.series('client:code')))
-    gulp.watch('code/server/**/*.mjs', armor(gulp.series('server:restart')))
-    gulp.watch('code/common/**/*.mjs', armor(gulp.series('server:restart', 'client:code')))
+  gulp.watch('code/client/**/*.mjs', armor(gulp.series('client:code')))
+  gulp.watch('code/server/**/*.mjs', armor(gulp.series('server:restart')))
+  gulp.watch('code/common/**/*.mjs', armor(gulp.series('server:restart', 'client:code')))
 
-    process.on('SIGINT', function () {
-        done()
-        process.exit()
-    })
+  process.on('SIGINT', function () {
+    done()
+    process.exit()
+  })
 })
 
 gulp.task('build', gulp.parallel('server:build', 'client'))
