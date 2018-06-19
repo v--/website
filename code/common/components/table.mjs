@@ -21,7 +21,7 @@ function sliceData ({ columns, data, fixedData, sorting, page }) {
   const pageStart = (page - 1) * MAXIMUM_ITEMS_PER_PAGE
   const fixed = Array.from(fixedData).sort(comparator)
   const dynamic = Array.from(data).sort(comparator)
-    .slice(pageStart, pageStart + MAXIMUM_ITEMS_PER_PAGE - fixed.length)
+    .slice(pageStart, pageStart + MAXIMUM_ITEMS_PER_PAGE - fixed.length + 1)
 
   return fixed.concat(dynamic)
 }
