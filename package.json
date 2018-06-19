@@ -2,8 +2,8 @@
   "version": "3.0.2",
   "private": true,
   "dependencies": {
-    "lzma-native": "3.0.7",
-    "tar-stream": "1.5.5"
+    "lzma-native": "3.0.8",
+    "tar-stream": "1.6.1"
   },
   "devDependencies": {
     "@std/esm": "0.26.0",
@@ -16,13 +16,13 @@
     "gulp-concat": "2.6.1",
     "gulp-environments": "0.1.2",
     "gulp-sass": "4.0.1",
-    "gulp-svgo": "1.4.0",
-    "jest": "^22.4.3",
+    "gulp-svgo": "1.5.4",
+    "jest": "^23.1.0",
     "libnotify": "1.0.4",
     "mdi-svg": "2.2.43",
-    "mocha": "5.1.0",
-    "rollup": "0.57.1",
-    "rollup-plugin-babel-minify": "4.0.0",
+    "mocha": "5.2.0",
+    "rollup": "0.60.7",
+    "rollup-plugin-babel-minify": "5.0.0",
     "rollup-plugin-node-resolve": "3.3.0",
     "sass-lint": "1.12.1",
     "skeleton-sass-official": "3.1.5",
