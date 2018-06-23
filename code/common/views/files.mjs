@@ -34,11 +34,15 @@ export default function files ({ path, data, id }) {
       label: 'Type',
       cssClass: 'col-type',
       value (entry) {
-        if (!entry.isFile) { return 'Directory' }
+        if (!entry.isFile) {
+          return 'Directory'
+        }
 
         const extIndex = entry.name.lastIndexOf('.')
 
-        if (~extIndex) { return entry.name.slice(extIndex + 1).toUpperCase() + ' file' }
+        if (~extIndex) {
+          return entry.name.slice(extIndex + 1).toUpperCase() + ' file'
+        }
 
         return 'Dotfile'
       }
@@ -48,14 +52,20 @@ export default function files ({ path, data, id }) {
       label: 'Size',
       cssClass: 'col-size',
       view (entry) {
-        if (!entry.isFile) { return '-' }
+        if (!entry.isFile) {
+          return '-'
+        }
 
-        if (entry.size < 1024) { return `${entry.size} Bytes` }
+        if (entry.size < 1024) {
+          return `${entry.size} Bytes`
+        }
 
         let ratio = entry.size / 1024
 
         for (const size of 'KMGTP') {
-          if (ratio < 512) { return `${ratio.toFixed(2)} ${size}iB` }
+          if (ratio < 512) {
+            return `${ratio.toFixed(2)} ${size}iB`
+          }
 
           ratio /= 1024
         }
@@ -71,7 +81,9 @@ export default function files ({ path, data, id }) {
       label: 'Modified',
       cssClass: 'col-modified',
       view (entry) {
-        if (entry.name === '..') { return '-' }
+        if (entry.name === '..') {
+          return '-'
+        }
 
         return new Date(entry.modified).toLocaleString()
       },
@@ -85,12 +97,23 @@ export default function files ({ path, data, id }) {
   const dynamic = []
 
   for (const entry of data.entries) {
-    if (entry.name === '..') { fixed.push(entry) } else { dynamic.push(entry) }
+    if (entry.name === '..') {
+      fixed.push(entry)
+    } else {
+      dynamic.push(entry)
+    }
   }
 
   return c('div', { class: 'page files-page' },
     c(section, { title: `Index of /${id}` },
-      c(table, { cssClass: 'files-table', columns, data: dynamic, fixedData: fixed }),
+      c(table, {
+        cssClass: 'files-table',
+        data: dynamic,
+        fixedData: fixed,
+        columns,
+        path
+      }),
+
       data.readme && c('br'),
       data.readme && c(markdown, { text: data.readme })
     )

@@ -5,42 +5,49 @@ import { expect } from '../../../code/tests'
 import Path from '../../../code/common/support/path'
 
 describe('Path()', function () {
-  it('preserves the raw string form', function () {
-    const path = new Path('/')
-    expect(String(path)).to.equal('/')
-  })
-
   describe('segments', function () {
     it('splits a correct URL into segments', function () {
-      const path = new Path('/lorem/ipsum')
+      const path = Path.parse('/lorem/ipsum')
       expect(path.segments).to.deep.equal(['lorem', 'ipsum'])
     })
 
     it('handles endling slashes', function () {
-      const path = new Path('/lorem/ipsum/')
+      const path = Path.parse('/lorem/ipsum/')
       expect(path.segments).to.deep.equal(['lorem', 'ipsum'])
     })
 
     it('handles double slashes', function () {
-      const path = new Path('/lorem//ipsum')
+      const path = Path.parse('/lorem//ipsum')
       expect(path.segments).to.deep.equal(['lorem', 'ipsum'])
     })
 
     it('handles relative URLs', function () {
-      const path = new Path('lorem/ipsum')
+      const path = Path.parse('lorem/ipsum')
       expect(path.segments).to.deep.equal(['lorem', 'ipsum'])
     })
   })
 
   describe('query', function () {
+    it('strips the query string from the source URL', function () {
+      const path = Path.parse('/url?lorem=ipsum')
+      expect(path.segments).to.deep.equal(['url'])
+    })
+
     it('handles a single parameter', function () {
-      const path = new Path('/url?lorem=ipsum')
+      const path = Path.parse('/url?lorem=ipsum')
       expect(path.query).to.deep.equal(new Map([['lorem', 'ipsum']]))
     })
 
     it('handles multiple parameters', function () {
-      const path = new Path('/url?lorem=ipsum&dolor=sit')
+      const path = Path.parse('/url?lorem=ipsum&dolor=sit')
       expect(path.query).to.deep.equal(new Map([['lorem', 'ipsum'], ['dolor', 'sit']]))
+    })
+  })
+
+  describe('cooked', function () {
+    it('outputs the raw URL if it is nicely formed', function () {
+      const path = Path.parse('/url?lorem=ipsum')
+      expect(path.cooked).to.deep.equal('/url?lorem=ipsum')
     })
   })
 })

@@ -21,27 +21,28 @@ export default class HTTPServer {
   }
 
   async requestHandler (request, response) {
-    const path = new Path(decodeURI(request.url))
+    const path = Path.parse(request.url)
 
     if (request.method !== 'GET' && request.method !== 'HEAD') {
-      this.logger.warn(`Unexpected method ${request.method} on ${path}`)
+      this.logger.warn(`Unexpected method ${request.method} on ${path.cooked}`)
       return Promise.then()
     }
 
-    this.logger.debug(`${request.method} on ${path}`)
-    this.writeResponse(response, await router(path, this.db))
+    this.logger.debug(`${request.method} on ${path.cooked}`)
+    await this.writeResponse(response, await router(path, this.db))
   }
 
-  async writeResponse (response, context) {
+  writeResponse (response, context) {
     response.writeHead(context.code, {
-      'Content-Type': context.mimeType
+      'Content-Type': context.mimeType,
+      'Content-Length': Buffer.byteLength(context.content, 'utf8')
     })
 
     return new Promise(function (resolve, reject) {
-      context.stream
-        .pipe(response)
-        .on('end', resolve)
-        .on('error', reject)
+      response.write(context.content, 'utf8', function () {
+        response.end()
+        resolve()
+      })
     })
   }
 
@@ -66,13 +67,17 @@ export default class HTTPServer {
       try {
         await this.requestHandler(request, response)
       } catch (e) {
-        const path = new Path(decodeURI(request.url))
+        const path = Path.parse(request.url)
 
-        if (e instanceof NotFoundError) { this.logger.warn(`No resource found for ${request.method} ${path}`) } else { this.logger.warn(`Error while processing ${request.method} ${path}: ${e} ${e.stack}`) }
+        if (e instanceof NotFoundError) {
+          this.logger.warn(`No resource found for ${request.method} ${path.cooked}`)
+        } else {
+          this.logger.warn(`Error while processing ${request.method} ${path.cooked}: ${e} ${e.stack}`)
+        }
 
-        this.writeResponse(
+        await this.writeResponse(
           response,
-          Response.view(RouterState.error(path, e), e instanceof HTTPError && e.code)
+          Response.view(RouterState.error(path, e), e instanceof HTTPError ? e.code : 500)
         )
       }
     }.bind(this))

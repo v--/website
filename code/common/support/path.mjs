@@ -1,17 +1,39 @@
 export default class Path {
-  constructor (raw) {
-    const [url, query = ''] = raw.split('?', 2)
-    this.raw = raw
-    this.segments = url.split('/').filter(Boolean)
-    this.cooked = '/' + this.segments.join('/')
-
-    this.query = new Map(query
+  static parse (raw) {
+    const [url, rawQuery = ''] = decodeURI(raw).split('?', 2)
+    const segments = url.split('/').filter(Boolean)
+    const query = new Map(rawQuery
       .split('&')
       .map(tuple => tuple.split('=', 2))
       .filter(tuple => Boolean(tuple[1])))
+
+    return new this(segments, query)
   }
 
-  toString () {
-    return this.cooked
+  constructor (segments, query) {
+    this.segments = segments
+    this.query = query
+  }
+
+  clone () {
+    return new this.constructor(
+      this.segments.slice(),
+      new Map(this.query)
+    )
+  }
+
+  get underCooked () {
+    return '/' + this.segments.join('/')
+  }
+
+  get cooked () {
+    if (this.query.size > 0) {
+      return this.underCooked + '?' + Array.from(this.query.entries())
+        .map(([key, value]) => `${key}=${value}`)
+        .sort()
+        .join('&')
+    } else {
+      return this.underCooked
+    }
   }
 }

@@ -25,7 +25,9 @@ export function reduce (reducer, iterable, initial) {
     accum = state.value
   }
 
-  for (const value of iter) { accum = reducer(value, accum) }
+  for (const value of iter) {
+    accum = reducer(value, accum)
+  }
 
   return accum
 }
@@ -77,9 +79,7 @@ export function * zip (...iterables) {
 
     for (const i in iterators) {
       const { done, value } = iterators[i].next()
-
-      if (done) { return }
-
+      if (done) return
       values[i] = value
     }
 

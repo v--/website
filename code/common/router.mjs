@@ -36,8 +36,8 @@ async function routerImpl (path, db) {
     return {
       id: path.segments.join('/'),
       data: await db.collections.files.readDirectory(path.segments.slice(1).join('/')),
-      dataURL: `/api${path.cooked}`,
-      title: `index of ${path.cooked}`,
+      dataURL: `/api${path.underCooked}`,
+      title: `index of ${path.underCooked}`,
       factory: files
     }
   }

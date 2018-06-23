@@ -1,16 +1,19 @@
 /* eslint-env browser */
 
-import { CoolError, HTTPError, NotFoundError } from '../../common/errors'
+import { CoolError, HTTPError, ClientError, NotFoundError } from '../../common/errors'
 
 import Cache from '../support/cache'
 
 function restoreError (errorCls, errorData) {
   switch (errorCls) {
     case 'NotFoundError':
-      return new NotFoundError(errorData.viewIDv)
+      return new NotFoundError(errorData.viewID)
+
+    case 'ClientError':
+      return new ClientError(errorData.message)
 
     case 'HTTPError':
-      return new HTTPError(errorData.code, errorData.message, errorData.viewID)
+      return new HTTPError(errorData.code, errorData.title, errorData.viewID)
 
     case 'CoolError':
       return new CoolError(errorData.message)
@@ -37,9 +40,13 @@ export default class DB {
       }
     }
 
-    if (errorData) { this.error = restoreError(errorCls, errorData) }
+    if (errorData) {
+      this.error = restoreError(errorCls, errorData)
+    }
 
-    if (dataURL) { this.cache.set(dataURL, data) }
+    if (dataURL) {
+      this.cache.set(dataURL, data)
+    }
   }
 
   async fetchJSON (url) {
@@ -49,11 +56,15 @@ export default class DB {
       throw error
     }
 
-    if (this.cache.has(url)) { return this.cache.get(url) }
+    if (this.cache.has(url)) {
+      return this.cache.get(url)
+    }
 
     const response = await window.fetch(url)
 
-    if (response.status === 404) { throw new NotFoundError(url) }
+    if (response.status === 404) {
+      throw new NotFoundError(url)
+    }
 
     const json = await response.json()
     this.cache.set(url, json)

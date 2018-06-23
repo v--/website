@@ -9,7 +9,7 @@ const DESKTOP_WIDTH = 700
 
 export default class RouterObservable extends Observable {
   static async create (url) {
-    const path = new Path(decodeURI(url))
+    const path = Path.parse(url)
 
     // "data" is the id a script element
     const db = new DB(JSON.parse(window.data.textContent))
@@ -27,7 +27,6 @@ export default class RouterObservable extends Observable {
 
     this.db = db
     this.path = path
-    history.pushState({ path: path.raw }, null, path.raw)
 
     window.addEventListener('popstate', function ({ state }) {
       this.changeURL(state.path)
@@ -35,9 +34,9 @@ export default class RouterObservable extends Observable {
   }
 
   async changeURL (url) {
-    const path = new Path(decodeURI(url))
+    const path = Path.parse(url)
 
-    history.pushState({ path: this.path.raw }, null, path)
+    history.pushState({ path: this.path.cooked }, null, path.cooked)
     this.url = path
     this.update(await router(path, this.db))
   }

@@ -3,13 +3,11 @@ import { c } from '../../common/component'
 
 import index from '../components/index'
 
-import StringBufferStream from '../support/string_buffer_stream'
 import render from '../render'
 
 export default class Response {
   static json (contents, code) {
-    const stream = new StringBufferStream([JSON.stringify(contents)])
-    return new this(stream, 'application/json', code)
+    return new this(JSON.stringify(contents), 'application/json', code)
   }
 
   static view (state, code) {
@@ -18,14 +16,14 @@ export default class Response {
     })
 
     return new this(
-      new StringBufferStream(chain('<!DOCTYPE html>', render(component))),
+      Array.from(chain('<!DOCTYPE html>', render(component))).join(''),
       'text/html',
       code
     )
   }
 
-  constructor (stream, mimeType, code = 200) {
-    this.stream = stream
+  constructor (content, mimeType, code = 200) {
+    this.content = content
     this.mimeType = mimeType
     this.code = code
   }

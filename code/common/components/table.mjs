@@ -1,58 +1,64 @@
 import { c } from '../component'
-import { partial } from '../support/functions'
-import { Observable } from '../support/observation'
+import { ClientError } from '../errors'
 import classlist from '../support/classlist'
+import QueryConfig from '../support/query_config'
 
 import icon from './icon'
 import link from './link'
 
-const MAXIMUM_ITEMS_PER_PAGE = 10
+const QUERY_CONFIG_DEFAULTS = Object.freeze({
+  per_page: 10,
+  sorting: 1,
+  page: 1
+})
 
-function sliceData ({ columns, data, fixedData, sorting, page }) {
+const QUERY_CONFIG_PARSERS = Object.freeze({
+  per_page: Number,
+  sorting: Number,
+  page: Number
+})
+
+function sliceData ({ columns, data, fixedData, config }) {
+  const sorting = config.get('sorting')
+  const perPage = config.get('per_page')
+  const page = config.get('page')
+
   const column = columns[Math.abs(sorting) - 1]
   const ascending = sorting > 0 ? 1 : -1
 
   function comparator (a, b) {
-    if (column.value(a) === column.value(b)) { return 0 }
+    if (column.value(a) === column.value(b)) {
+      return 0
+    }
 
     return ascending * (column.value(a) > column.value(b) ? 1 : -1)
   }
 
-  const pageStart = (page - 1) * MAXIMUM_ITEMS_PER_PAGE
+  const pageStart = (page - 1) * perPage
   const fixed = Array.from(fixedData).sort(comparator)
   const dynamic = Array.from(data).sort(comparator)
-    .slice(pageStart, pageStart + MAXIMUM_ITEMS_PER_PAGE - fixed.length + 1)
+    .slice(pageStart, pageStart + perPage - fixed.length + 1)
 
   return fixed.concat(dynamic)
 }
 
-class TableObservable extends Observable {
-  constructor (initialState) {
-    super(initialState)
+function * headers (columns, config) {
+  const sorting = config.get('sorting')
 
-    this.current.sorting = 1
-    this.current.page = 1
-    this.current.sliced = sliceData(this.current)
-
-    this.current.sort = function (sorting) {
-      this.update({ sorting, sliced: sliceData(Object.assign({}, this.current, { sorting })) })
-    }.bind(this)
-
-    this.current.goToPage = function (page) {
-      this.update({ page, sliced: sliceData(Object.assign({}, this.current, { page })) })
-    }.bind(this)
-  }
-}
-
-function * headers (columns, sorting, sort) {
   for (let i = 1; i <= columns.length; i++) {
     const column = columns[i - 1]
+    const newSortingValue = Math.abs(sorting) === i ? -sorting : i
+
     let iconName
 
-    if (Math.abs(sorting) === i) { iconName = sorting > 0 ? 'sort-ascending' : 'sort-descending' } else { iconName = 'sort-variant' }
+    if (Math.abs(sorting) === i) {
+      iconName = sorting > 0 ? 'sort-ascending' : 'sort-descending'
+    } else {
+      iconName = 'sort-variant'
+    }
 
-    yield c('th', { class: column.cssClass, title: column.label, click () { sort(Math.abs(sorting) === i ? -sorting : i) } },
-      c('span', { class: 'heading' },
+    yield c('th', { class: column.cssClass, title: column.label },
+      c(link, { class: 'heading', isInternal: true, link: config.getUpdatedPath({ sorting: newSortingValue }) },
         c(icon, { name: iconName }),
         c('span', { text: column.label })
       )
@@ -85,15 +91,19 @@ function * row (columns, datum) {
 }
 
 function * rows (columns, data) {
-  for (const datum of data) { yield c('tr', null, ...row(columns, datum)) }
+  for (const datum of data) {
+    yield c('tr', null, ...row(columns, datum))
+  }
 }
 
-function * pagination (pages, page, goToPage) {
-  yield c('button',
+function * pagination (pages, config) {
+  const currentPage = config.get('page')
+
+  yield c(link,
     {
-      disabled: page === 1,
-      class: 'paginator paginator-prev',
-      click: partial(goToPage, page - 1)
+      class: classlist('paginator paginator-prev', currentPage === 1 && 'disabled'),
+      link: currentPage === 1 ? '' : config.getUpdatedPath({ page: currentPage - 1 }),
+      isInternal: true
     },
     c(icon, {
       name: 'chevron-left'
@@ -101,21 +111,22 @@ function * pagination (pages, page, goToPage) {
   )
 
   for (let i = 1; i <= pages; i++) {
-    yield c('button',
+    yield c(link,
       {
-        disabled: page === i,
-        class: 'paginator',
-        click: partial(goToPage, i)
+        class: classlist('paginator', currentPage === i && 'disabled'),
+        link: config.getUpdatedPath({ page: i }),
+        isInternal: true
       },
       c('span', { text: String(i) })
     )
   }
 
-  yield c('button',
+  yield c(link,
     {
-      disabled: page === pages,
-      class: 'paginator paginator-next',
-      click: partial(goToPage, page + 1)
+      disabled: currentPage === pages,
+      class: classlist('paginator paginator-next', currentPage === pages && 'disabled'),
+      link: currentPage === pages ? '' : config.getUpdatedPath({ page: currentPage + 1 }),
+      isInternal: true
     },
     c(icon, {
       name: 'chevron-left'
@@ -123,28 +134,41 @@ function * pagination (pages, page, goToPage) {
   )
 }
 
-function tableImpl ({ columns, cssClass, data, page, goToPage, sliced, sorting, sort }) {
-  const pages = Math.ceil(data.length / MAXIMUM_ITEMS_PER_PAGE)
+export default function table ({ cssClass, columns, data, fixedData = [], path }) {
+  const config = new QueryConfig(path, QUERY_CONFIG_DEFAULTS, QUERY_CONFIG_PARSERS)
+  const perPage = config.get('per_page')
+  const page = config.get('page')
+  const sorting = config.get('sorting')
+  const pages = Math.ceil(data.length / perPage)
+
+  if (page < 1 || (pages !== 0 && page > pages)) {
+    throw new ClientError(`Invalid page index ${page} specified`)
+  }
+
+  if (perPage < 1) {
+    throw new ClientError(`Invalid number of items per page ${perPage} specified`)
+  }
+
+  if (sorting === 0 || Math.abs(sorting) > columns.length) {
+    throw new ClientError(`Invalid column index ${Math.abs(sorting)} specified`)
+  }
+
+  const sliced = sliceData({ columns, data, fixedData, config })
 
   return c('table', { class: classlist('cool-table', cssClass) },
     c('thead', null,
-      c('tr', null, ...headers(columns, sorting, sort))
+      c('tr', null, ...headers(columns, config))
     ),
 
     c('tbody', null, ...rows(columns, sliced)),
     pages > 1 && c('thead', null,
       c('tr', null,
-        c('td', { colspan: '4' },
+        c('td', { colspan: '4', class: 'pagination-wrapper' },
           c('div', { class: 'pagination' },
-            ...pagination(pages, page, goToPage)
+            ...pagination(pages, config)
           )
         )
       )
     )
   )
-}
-
-export default function table ({ cssClass, columns, data, fixedData = [], sorting, page }) {
-  const observable = new TableObservable({ cssClass, columns, data, fixedData, sorting, page })
-  return c(tableImpl, observable)
 }

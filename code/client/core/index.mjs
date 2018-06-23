@@ -12,9 +12,13 @@ import render from './render'
 window.COMPATIBLE_INTERPRETER = Object.hasOwnProperty('assign')
 
 function onDocumentReady () {
-  if (!window.COMPATIBLE_INTERPRETER) { return new Promise(function () {}) }
+  if (!window.COMPATIBLE_INTERPRETER) {
+    return new Promise(function () {})
+  }
 
-  if (document.readyState === 'complete') { return Promise.resolve() }
+  if (document.readyState === 'complete') {
+    return Promise.resolve()
+  }
 
   return new Promise(function (resolve) {
     function listener () {
@@ -27,7 +31,7 @@ function onDocumentReady () {
 }
 
 onDocumentReady().then(async function () {
-  const state = await RouterObservable.create(document.location.pathname)
+  const state = await RouterObservable.create(document.location.href.slice(document.location.origin.length))
 
   redirection.subscribe({
     next (value) {

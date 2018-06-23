@@ -17,15 +17,23 @@
     flex-direction: row;
     align-items: center;
     cursor: pointer;
+    text-decoration: none;
+    color: black;
 
     > .icon {
       margin-right: .5em;
+      fill: black;
     }
+  }
+
+  .pagination-wrapper {
+    padding: .5em;
   }
 
   .pagination {
     display: flex;
     justify-content: space-between;
+    padding: 0;
 
     .paginator {
       margin: 0;
@@ -34,14 +42,29 @@
       color: $link-color;
       fill: $link-color;
       display: flex;
+      text-decoration: none;
+      font-weight: 600;
 
       &:hover {
         color: $link-hover;
       }
 
-      &[disabled] {
+      &.disabled {
         color: $button-bg-color;
-        fill: $button-bg-color;
+
+        > .icon {
+          fill: $button-bg-color;
+        }
+      }
+
+      &.paginator-prev,
+      &.paginator-next {
+        align-self: center;
+
+        > .icon {
+          width: 1.2em;
+          height: 1.2em;
+        }
       }
 
       &.paginator-next {

@@ -1,20 +1,57 @@
 export class CoolError extends Error {
+  constructor (message) {
+    super(message)
+    this.message = message
+  }
+
+  toString () {
+    return this.message
+  }
+
+  toJSON () {
+    return {
+      message: this.message
+    }
+  }
+
   static assert (value, message) {
-    if (!value) { throw new this(message) }
+    if (!value) {
+      throw new this(message)
+    }
+  }
+}
+
+export class ClientError extends CoolError {
+  constructor (message) {
+    super(message)
+    this.title = 'Error'
+  }
+
+  toJSON () {
+    return {
+      title: this.title,
+      message: this.message
+    }
   }
 }
 
 export class HTTPError extends CoolError {
-  constructor (code, message, viewID) {
-    super(message)
+  constructor (code, title, viewID) {
+    super(`HTTP Error ${code}: ${title}`)
     this.code = code
-    this.message = message
+    this.title = title
 
-    if (viewID) { this.viewID = viewID }
+    if (viewID) {
+      this.viewID = viewID
+    }
   }
 
-  toString () {
-    return `HTTP Error ${this.code}: ${this.message}`
+  toJSON () {
+    return {
+      code: this.code,
+      title: this.title,
+      viewID: this.viewID
+    }
   }
 }
 

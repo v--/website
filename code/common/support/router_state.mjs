@@ -1,4 +1,4 @@
-import { HTTPError } from '../errors'
+import { HTTPError, ClientError } from '../errors'
 import Interface, { IFunction, IString, IEmpty } from './interface'
 
 import error from '../views/error'
@@ -16,7 +16,7 @@ export default class RouterState {
     return new this({
       path,
       id: err.viewID || 'error',
-      title: err instanceof HTTPError ? err.message.toLowerCase() : 'error',
+      title: err instanceof HTTPError || err instanceof ClientError ? err.title.toLowerCase() : 'error',
       factory: error,
       dataURL: null,
       data: err

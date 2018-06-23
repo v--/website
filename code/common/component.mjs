@@ -29,7 +29,11 @@ export class InvalidComponentError extends CoolError {}
 
 function * processChildren (children) {
   for (const child of children) {
-    if (child instanceof Component) { yield child } else if (child) { throw new InvalidComponentError(`Expected either a component or falsy value as a child, but got ${repr(child)}`) }
+    if (child instanceof Component) {
+      yield child
+    } else if (child) {
+      throw new InvalidComponentError(`Expected either a component or falsy value as a child, but got ${repr(child)}`)
+    }
   }
 }
 
@@ -40,13 +44,23 @@ export class ComponentState {
   }
 
   updateCurrent (current) {
-    if (current) { this.current = current } else if (this.source instanceof IObservable) { this.current = this.source.current } else if (this.source === null) { this.current = {} } else { this.current = this.source }
+    if (current) {
+      this.current = current
+    } else if (this.source instanceof IObservable) {
+      this.current = this.source.current
+    } else if (this.source === null) {
+      this.current = {}
+    } else {
+      this.current = this.source
+    }
   }
 
   updateSource (newSource) {
     const oldSource = this.source
 
-    if (newSource === oldSource) { return }
+    if (newSource === oldSource) {
+      return
+    }
 
     if (oldSource instanceof IObservable) {
       if (newSource instanceof IObservable) {
@@ -115,9 +129,13 @@ export class Component {
     yield ', '
     yield repr(this.state.source === null ? null : this.state.current)
 
-    for (const child of this.children) { yield `,\n\t${String(child).replace(/\n/g, '\n\t')}` }
+    for (const child of this.children) {
+      yield `,\n\t${String(child).replace(/\n/g, '\n\t')}`
+    }
 
-    if (this.children.length > 0) { yield '\n' }
+    if (this.children.length > 0) {
+      yield '\n'
+    }
 
     yield ')'
   }
@@ -136,11 +154,17 @@ export class XMLComponent extends Component {
     super.checkSanity()
     IXMLComponent.assert(this)
 
-    if (typeof this.type !== 'string') { throw new ComponentSanityError(`${repr(this)} must have a string type, not ${repr(this.type)}`) }
+    if (typeof this.type !== 'string') {
+      throw new ComponentSanityError(`${repr(this)} must have a string type, not ${repr(this.type)}`)
+    }
 
-    if (this.type.length === 0) { throw new ComponentSanityError(`${repr(this)}'s type string cannot be empty`) }
+    if (this.type.length === 0) {
+      throw new ComponentSanityError(`${repr(this)}'s type string cannot be empty`)
+    }
 
-    if ('text' in this.state.current && this.children.length > 0) { throw new ComponentSanityError(`${repr(this)} cannot have both text and children`) }
+    if ('text' in this.state.current && this.children.length > 0) {
+      throw new ComponentSanityError(`${repr(this)} cannot have both text and children`)
+    }
   }
 }
 
@@ -148,9 +172,13 @@ export class HTMLComponent extends XMLComponent {
   checkSanity () {
     super.checkSanity()
 
-    if (this.isVoid && this.children.length > 0) { throw new ComponentSanityError(`${repr(this)} cannot have children`) }
+    if (this.isVoid && this.children.length > 0) {
+      throw new ComponentSanityError(`${repr(this)} cannot have children`)
+    }
 
-    if (this.isVoid && 'text' in this.state.current) { throw new ComponentSanityError(`${repr(this)} cannot have text`) }
+    if (this.isVoid && 'text' in this.state.current) {
+      throw new ComponentSanityError(`${repr(this)} cannot have text`)
+    }
   }
 
   constructor (...args) {
@@ -165,13 +193,17 @@ export class FactoryComponent extends Component {
   checkSanity () {
     super.checkSanity()
 
-    if (typeof this.type !== 'function') { throw new ComponentSanityError(`${repr(this)} must have a type function, not ${repr(this.type)}`) }
+    if (typeof this.type !== 'function') {
+      throw new ComponentSanityError(`${repr(this)} must have a type function, not ${repr(this.type)}`)
+    }
   }
 
   evaluate () {
     const component = this.type(this.state.current, this.children)
 
-    if (!(component instanceof Component)) { throw new InvalidComponentError(`Expected ${this} to return a component, not ${repr(component)}.`) }
+    if (!(component instanceof Component)) {
+      throw new InvalidComponentError(`Expected ${this} to return a component, not ${repr(component)}.`)
+    }
 
     return component
   }
