@@ -1,3 +1,5 @@
+/* globals describe it */
+
 import { expect } from '../../../code/tests'
 
 import { EmptyIterError, reduce, range, zip } from '../../../code/common/support/iteration'

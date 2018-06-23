@@ -1,13 +1,14 @@
 export default class Path {
   constructor (raw) {
+    const [url, query = ''] = raw.split('?', 2)
     this.raw = raw
-    this.segments = raw.split('/').filter(Boolean)
+    this.segments = url.split('/').filter(Boolean)
     this.cooked = '/' + this.segments.join('/')
 
-    const queryStringMatch = raw.match(/\?(.*)$/)
-    const queryString = queryStringMatch === null ? '' : queryStringMatch[1]
-
-    this.query = new Map(queryString.split('&').map(tuple => tuple.split('=', 2)))
+    this.query = new Map(query
+      .split('&')
+      .map(tuple => tuple.split('=', 2))
+      .filter(tuple => Boolean(tuple[1])))
   }
 
   toString () {

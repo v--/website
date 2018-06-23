@@ -1,3 +1,5 @@
+/* globals describe it */
+
 import { expect } from '../../../code/tests'
 
 import Interface, { InterfaceNotImplementedError, INumber } from '../../../code/common/support/interface'

@@ -1,3 +1,5 @@
+/* globals describe it */
+
 import { expect } from '../../code/tests'
 
 import { c, ComponentSanityError } from '../../code/common/component'

@@ -4,7 +4,7 @@ import section from '../components/section'
 import markdown from '../components/markdown'
 import table from '../components/table'
 
-export default function files ({ data, id }) {
+export default function files ({ path, data, id }) {
   function getLink (entry) {
     if (entry.name === '..') {
       const ancestors = id.split('/')

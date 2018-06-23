@@ -1,3 +1,5 @@
+/* globals describe it */
+
 import { expect } from '../../../code/tests'
 
 import { repr } from '../../../code/common/support/strings'

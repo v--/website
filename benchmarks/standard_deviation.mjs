@@ -1,3 +1,5 @@
+/* globals it */
+
 import { expect } from '../code/tests'
 import { run } from '../code/benchmarks'
 

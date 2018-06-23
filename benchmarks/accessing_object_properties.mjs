@@ -1,3 +1,5 @@
+/* globals it */
+
 import { run } from '../code/benchmarks'
 
 import { writeFile } from '../code/server/support/fs'

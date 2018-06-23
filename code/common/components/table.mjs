@@ -144,7 +144,7 @@ function tableImpl ({ columns, cssClass, data, page, goToPage, sliced, sorting, 
   )
 }
 
-export default function table ({ cssClass, columns, data, fixedData = [] }) {
-  const observable = new TableObservable({ cssClass, columns, data, fixedData })
+export default function table ({ cssClass, columns, data, fixedData = [], sorting, page }) {
+  const observable = new TableObservable({ cssClass, columns, data, fixedData, sorting, page })
   return c(tableImpl, observable)
 }

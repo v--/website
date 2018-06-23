@@ -1,3 +1,5 @@
+/* globals describe it */
+
 import { expect } from '../../../code/tests'
 
 import StringBuffer from '../../../code/common/support/string_buffer'

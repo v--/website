@@ -1,3 +1,5 @@
+/* globals describe it */
+
 import { expect } from '../../code/tests'
 
 import { c } from '../../code/common/component'
