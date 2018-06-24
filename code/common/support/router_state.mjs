@@ -8,7 +8,8 @@ const IRouterState = Interface.create({
   id: IString,
   title: IString,
   dataURL: IEmpty,
-  data: IEmpty
+  data: IEmpty,
+  loading: IEmpty
 })
 
 export default class RouterState {
@@ -29,7 +30,8 @@ export default class RouterState {
     Object.assign(this, {
       title: rawState.id,
       dataURL: null,
-      data: null
+      data: null,
+      loading: false
     }, rawState)
 
     IRouterState.assert(this)

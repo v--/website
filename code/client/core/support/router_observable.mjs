@@ -38,6 +38,9 @@ export default class RouterObservable extends Observable {
 
     history.pushState({ path: this.path.cooked }, null, path.cooked)
     this.url = path
-    this.update(await router(path, this.db))
+
+    const route = router(path, this.db)
+    this.update(Object.assign({}, this.current, { loading: true }))
+    this.update(await route)
   }
 }

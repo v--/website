@@ -13,5 +13,34 @@ main {
     flex-grow: 1;
     flex-basis: $main-base-width;
     padding: $main-vpadding $main-hpadding;
+    position: relative;
+
+    &::after {
+      display: block;
+      position: absolute;
+      text-align: center;
+      box-sizing: border-box;
+      height: 100%;
+      width: 100%;
+      padding-top: calc(50vh - 50px);
+      top: 0;
+      margin-left: -$main-hpadding;
+      background: $loading-background;
+      font-size: 50px;
+      font-weight: bold;
+      content: 'Loading...';
+      opacity: 0;
+      transition: opacity $loading-transition;
+      pointer-events: none;
+    }
+  }
+
+  &.loading {
+    .page {
+      &::after {
+        opacity: 1;
+        pointer-events: all;
+      }
+    }
   }
 }

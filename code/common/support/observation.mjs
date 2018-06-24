@@ -19,7 +19,9 @@ export class Observable {
   }
 
   emit (value) {
-    for (const observer of this.observers) { observer.next(value) }
+    for (const observer of this.observers) {
+      observer.next(value)
+    }
   }
 
   update (value) {
@@ -32,7 +34,9 @@ export class Observable {
   }
 
   complete () {
-    for (const observer of this.observers) { observer.complete() }
+    for (const observer of this.observers) {
+      observer.complete()
+    }
   }
 
   map (transform) {
