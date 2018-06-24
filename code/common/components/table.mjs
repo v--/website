@@ -139,18 +139,19 @@ export default function table ({ cssClass, columns, data, fixedData = [], path }
   const perPage = config.get('per_page')
   const page = config.get('page')
   const sorting = config.get('sorting')
-  const pages = Math.ceil(data.length / perPage)
 
-  if (page < 1 || (pages !== 0 && page > pages)) {
-    throw new ClientError(`Invalid page index ${page} specified`)
+  if (sorting === 0 || Math.abs(sorting) > columns.length) {
+    throw new ClientError(`Invalid column index ${Math.abs(sorting)} specified`)
   }
 
   if (perPage < 1) {
     throw new ClientError(`Invalid number of items per page ${perPage} specified`)
   }
 
-  if (sorting === 0 || Math.abs(sorting) > columns.length) {
-    throw new ClientError(`Invalid column index ${Math.abs(sorting)} specified`)
+  const pages = Math.ceil(data.length / perPage)
+
+  if (page < 1 || (pages !== 0 && page > pages)) {
+    throw new ClientError(`Invalid page index ${page} specified`)
   }
 
   const sliced = sliceData({ columns, data, fixedData, config })
