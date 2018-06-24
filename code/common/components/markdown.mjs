@@ -26,16 +26,22 @@ function buildLink (visibleNode, urlNode, urlHandler) {
 }
 
 function buildComponentTree (node, urlHandler) {
-  if (node instanceof NewlineNode) { return c('br') }
+  if (node instanceof NewlineNode) {
+    return c('br')
+  }
 
-  if (node instanceof PlainTextNode) { return c('span', { text: node.text }) }
+  if (node instanceof PlainTextNode) {
+    return c('span', { text: node.text })
+  }
 
   if (node instanceof BacktickNode) {
     if (~node.text.indexOf('\n')) {
       return c('pre', null,
         c('code', { text: node.text })
       )
-    } else { return c('code', { text: node.text }) }
+    } else {
+      return c('code', { text: node.text })
+    }
   }
 
   if (node instanceof NonLeafNode) {
@@ -51,11 +57,19 @@ function buildComponentTree (node, urlHandler) {
       } else {
         const tree = buildComponentTree(child)
 
-        if (node instanceof ParenthesisNode) { result.children.push(c('span', { text: '(' })) } else if (node instanceof BracketNode) { result.children.push(c('span', { text: '[' })) }
+        if (node instanceof ParenthesisNode) {
+          result.children.push(c('span', { text: '(' }))
+        } else if (node instanceof BracketNode) {
+          result.children.push(c('span', { text: '[' }))
+        }
 
         result.children.push(tree)
 
-        if (node instanceof ParenthesisNode) { result.children.push(c('span', { text: ')' })) } else if (node instanceof BracketNode) { result.children.push(c('span', { text: ']' })) }
+        if (node instanceof ParenthesisNode) {
+          result.children.push(c('span', { text: ')' }))
+        } else if (node instanceof BracketNode) {
+          result.children.push(c('span', { text: ']' }))
+        }
       }
     }
 

@@ -21,7 +21,11 @@ export default class DOMXMLRenderer extends XMLRenderer {
   }
 
   _removeAttribute (key, oldValue) {
-    if (oldValue instanceof Function) { this.element.removeEventListener(key, oldValue) } else { this.element.removeAttribute(key) }
+    if (oldValue instanceof Function) {
+      this.element.removeEventListener(key, oldValue)
+    } else {
+      this.element.removeAttribute(key)
+    }
   }
 
   _setText () {

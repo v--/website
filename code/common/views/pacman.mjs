@@ -26,7 +26,11 @@ export default function pacman ({ data }) {
   const arches = new Map()
 
   for (const pkg of data) {
-    if (!arches.has(pkg.arch)) { arches.set(pkg.arch, [pkg]) } else { arches.get(pkg.arch).push(pkg) }
+    if (!arches.has(pkg.arch)) {
+      arches.set(pkg.arch, [pkg])
+    } else {
+      arches.get(pkg.arch).push(pkg)
+    }
   }
 
   return c('div', { class: 'page pacman-page' },

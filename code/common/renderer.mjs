@@ -77,12 +77,24 @@ export class XMLRenderer extends Renderer {
     for (const key of keys) {
       if (key in oldState && key in newState) {
         if (oldState[key] !== newState[key]) {
-          if (key === 'text') { this._setText(newState[key]) } else { this._setAttribute(key, newState[key], oldState[key]) }
+          if (key === 'text') {
+            this._setText(newState[key])
+          } else {
+            this._setAttribute(key, newState[key], oldState[key])
+          }
         }
       } else if (key in oldState) {
-        if (key === 'text') { this._removeText() } else { this._removeAttribute(key, oldState[key]) }
+        if (key === 'text') {
+          this._removeText()
+        } else {
+          this._removeAttribute(key, oldState[key])
+        }
       } else if (key in newState) {
-        if (key === 'text') { this._setText(newState[key]) } else { this._setAttribute(key, newState[key]) }
+        if (key === 'text') {
+          this._setText(newState[key])
+        } else {
+          this._setAttribute(key, newState[key])
+        }
       }
     }
   }
@@ -109,7 +121,11 @@ function * mergeChildren (oldChildren, newChildren) {
     const oldChild = oldChildren[i]
     const newChild = newChildren[i]
 
-    if (oldChild.constructor === newChild.constructor && oldChild.type === newChild.type) { yield { action: 'update', i } } else { yield { action: 'replace', i } }
+    if (oldChild.constructor === newChild.constructor && oldChild.type === newChild.type) {
+      yield { action: 'update', i }
+    } else {
+      yield { action: 'replace', i }
+    }
   }
 
   for (let i = oldChildren.length; i < newChildren.length; i++) { yield { action: 'append', i } }
