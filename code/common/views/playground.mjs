@@ -10,7 +10,8 @@ export default function playground () {
           c(link, {
             class: 'playground-link',
             text: 'Sorting visualizations',
-            link: 'playground/sorting'
+            link: 'playground/sorting',
+            isInternal: true
           })
         )
       )
