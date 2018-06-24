@@ -29,15 +29,18 @@ export default class RouterObservable extends Observable {
     this.path = path
 
     window.addEventListener('popstate', function ({ state }) {
-      this.changeURL(state.path)
+      this.changeURL(state.path, false)
     }.bind(this))
   }
 
-  async changeURL (url) {
+  async changeURL (url, pushState) {
     const path = Path.parse(url)
 
-    history.pushState({ path: this.path.cooked }, null, path.cooked)
-    this.url = path
+    if (pushState) {
+      history.pushState({ path: path.cooked }, null, path.cooked)
+    }
+
+    this.path = path
 
     const route = router(path, this.db)
     this.update(Object.assign({}, this.current, { loading: true }))

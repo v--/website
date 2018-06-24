@@ -35,7 +35,7 @@ onDocumentReady().then(async function () {
 
   redirection.subscribe({
     next (value) {
-      state.changeURL(value)
+      state.changeURL(value, true)
     },
 
     error (err) {
