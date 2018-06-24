@@ -41,7 +41,7 @@ gulp.task('client:icons', async function () {
 })
 
 {
-  const bundles = ['core']
+  const bundles = ['core', 'sorting']
   const cache = new Map()
 
   gulp.task('client:code', function () {
