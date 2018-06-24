@@ -17,7 +17,7 @@ main {
 
     &::after {
       display: block;
-      position: absolute;
+      position: fixed;
       text-align: center;
       box-sizing: border-box;
       height: 100%;

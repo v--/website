@@ -10,6 +10,9 @@
   td {
     padding: .75em .25em;
     border-bottom: 1px solid $button-border-color;
+    text-overflow: ellipsis;
+    white-space: wrap;
+    overflow: hidden;
   }
 
   .heading {

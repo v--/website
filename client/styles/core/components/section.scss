@@ -1,0 +1,11 @@
+@import 'static';
+@import 'vars';
+
+.section {
+  .section-title {
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
