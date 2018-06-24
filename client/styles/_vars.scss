@@ -1,14 +1,18 @@
-$sidebar-width: 250px;
+$sidebar-width: 23rem;
 $sidebar-transition: 500ms;
 
-$main-base-width: 200px;
-$main-hpadding: 7.5rem;
-$main-vpadding: 2.5rem;
+$main-base-width: 25rem;
+$main-hpadding-desktop: 5rem;
+$main-hpadding-mobile: 3.5rem;
+$main-vpadding-desktop: 2.5rem;
+$main-vpadding-mobile: 2rem;
 
-$sidebar-hpadding: 2px;
+$sidebar-hpadding: 0;
 $sidebar-vpadding: 1rem;
 
 $danger: #e11;
 
 $loading-background: transparentize(white, .3);
 $loading-transition: 250ms;
+
+$mobile-width: 550px;

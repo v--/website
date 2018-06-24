@@ -5,7 +5,7 @@
   @extend .button; // sass-lint:disable-line placeholder-in-extend
 
   position: absolute;
-  font-size: 2.7rem;
+  font-size: 1.8em;
   border-radius: 50%;
   cursor: pointer;
   z-index: 1;
@@ -17,8 +17,8 @@
   width: 1em;
   height: 1em;
 
-  left: calc((#{$main-hpadding} - 1em) / 2);
-  top: calc(#{$sidebar-vpadding} + 22px); // Just an empirically obtained offset
+  left: 12px;
+  top: 32px;
 
   background-color: $button-bg-color;
   fill: $button-color;
@@ -27,5 +27,11 @@
 
   &:active {
     transform: scaleX(-.9) scaleY(.9) translate3d(0, 0, 0); // translate3d makes z-index work on webkit
+  }
+}
+
+@media (max-width: $mobile-width) {
+  .sidebar-toggle {
+    left: 4px;
   }
 }
