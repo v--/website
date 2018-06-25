@@ -40,13 +40,13 @@ export default function sidebar ({ id, isCollapsed, toggleCollapsed }) {
       text: 'Pacman repo',
       icon: 'download',
       link: '/pacman'
-    }),
+    // }),
 
-    c(entry, {
-      id: 'playground',
-      text: 'Playground',
-      icon: 'code-greater-than',
-      link: '/playground'
+    // c(entry, {
+    //   id: 'playground',
+    //   text: 'Playground',
+    //   icon: 'code-greater-than',
+    //   link: '/playground'
     })
   )
 }
