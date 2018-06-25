@@ -9,22 +9,32 @@ import rollup from 'rollup'
 import rollupConfigFactory from './rollup_config_factory'
 import { getMDIcons } from './md_icons'
 
+const BUNDLES = ['core', 'sorting']
+
 gulp.task('client:assets', function () {
   return gulp.src('client/assets/**/*')
     .pipe(gulp.dest('public'))
 })
 
 gulp.task('client:styles', function () {
-  return gulp.src('client/styles/**/*.scss')
-    .pipe(sass({
-      outputStyle: 'compressed',
-      includePaths: [
-        'client/styles',
-        'node_modules/skeleton-sass-official'
-      ]
-    }))
-    .pipe(concat('index.css'))
-    .pipe(gulp.dest('public/styles'))
+  return Promise.all(BUNDLES.map(function (bundle) {
+    const files = [`client/styles/${bundle}/**/*.scss`]
+
+    if (bundle === 'core') {
+      files.unshift('client/styles/static.scss')
+    }
+
+    return gulp.src(files)
+      .pipe(sass({
+        outputStyle: 'compressed',
+        includePaths: [
+          'client/styles',
+          'node_modules/skeleton-sass-official'
+        ]
+      }))
+      .pipe(concat(`${bundle}.css`))
+      .pipe(gulp.dest('public/styles'))
+  }))
 })
 
 gulp.task('client:svgs', function () {
@@ -41,11 +51,10 @@ gulp.task('client:icons', async function () {
 })
 
 {
-  const bundles = ['core', 'sorting']
   const cache = new Map()
 
   gulp.task('client:code', function () {
-    return Promise.all(bundles.map(function (bundle) {
+    return Promise.all(BUNDLES.map(function (bundle) {
       const input = `code/client/${bundle}/index.mjs`
 
       const writeConfig = {

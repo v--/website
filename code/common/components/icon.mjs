@@ -8,7 +8,7 @@ class SVGComponent extends XMLComponent {
 }
 
 export default function icon (state) {
-  const rootState = Object.assign({ viewBox: '0 0 24 24' }, state)
+  const rootState = { viewBox: '0 0 24 24' }
 
   if ('class' in state) {
     rootState.class = `icon ${state.class}`

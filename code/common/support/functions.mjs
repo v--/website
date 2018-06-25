@@ -15,11 +15,15 @@ export function partial (func, ...args) {
 }
 
 export function overloader (...impls) {
-  for (const impl of impls) { IImplSpec.assert(impl) }
+  for (const impl of impls) {
+    IImplSpec.assert(impl)
+  }
 
   return function overloaded (primary, ...args) {
     for (const { iface, impl } of impls) {
-      if (primary instanceof iface) { return impl(primary, ...args) }
+      if (primary instanceof iface) {
+        return impl(primary, ...args)
+      }
     }
 
     throw new MissingInterfaceError(`No method matches ${repr(primary)}`)

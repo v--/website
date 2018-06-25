@@ -2,7 +2,7 @@ import { overloader, bind } from './support/functions'
 import { repr, join } from './support/strings'
 import { IObservable } from './support/observation'
 import { CoolError } from './errors'
-import Interface, { IString } from './support/interface'
+import Interface, { IString, IFunction, IArray } from './support/interface'
 
 const htmlVoidTags = new Set([
   'area',
@@ -29,13 +29,26 @@ export class InvalidComponentError extends CoolError {}
 
 function * processChildren (children) {
   for (const child of children) {
-    if (child instanceof Component) {
+    if (child instanceof IComponent) {
       yield child
     } else if (child) {
       throw new InvalidComponentError(`Expected either a component or falsy value as a child, but got ${repr(child)}`)
     }
   }
 }
+
+export const IXMLComponent = Interface.create({
+  type: IString,
+  namespace: IString,
+  children: IArray
+})
+
+export const IFactoryComponent = Interface.create({
+  type: IFunction,
+  children: IArray
+})
+
+export const IComponent = Interface.or(IXMLComponent, IFactoryComponent)
 
 export class ComponentState {
   constructor (source, current) {
@@ -64,21 +77,29 @@ export class ComponentState {
 
     if (oldSource instanceof IObservable) {
       if (newSource instanceof IObservable) {
-        for (const observer of oldSource.observers) { newSource.observers.add(observer) }
+        for (const observer of oldSource.observers) {
+          newSource.observers.add(observer)
+        }
       }
 
-      for (const observer of oldSource.observers) { oldSource.observers.delete(observer) }
+      for (const observer of oldSource.observers) {
+        oldSource.observers.delete(observer)
+      }
     }
 
     this.source = newSource
   }
 
   subscribe (observer) {
-    if (this.source instanceof IObservable) { this.source.subscribe(observer) }
+    if (this.source instanceof IObservable) {
+      this.source.subscribe(observer)
+    }
   }
 
   unsubscribe (observer) {
-    if (this.source instanceof IObservable) { this.source.unsubscribe(observer) }
+    if (this.source instanceof IObservable) {
+      this.source.unsubscribe(observer)
+    }
   }
 }
 
@@ -94,7 +115,7 @@ export class Component {
       throw new ComponentCreationError(`Expected either an object or null as an state source, but got ${repr(stateSource)}`)
     }
 
-    if (stateSource instanceof Component) {
+    if (stateSource instanceof IComponent) {
       throw new ComponentCreationError(`To prevent common errors, components are not allowed as state sources (got ${repr(stateSource)})`)
     }
 
@@ -111,7 +132,9 @@ export class Component {
   }
 
   updateState (stateObject) {
-    if (!(stateObject instanceof Object)) { throw new ComponentSanityError('You can only update the state with an object') }
+    if (!(stateObject instanceof Object)) {
+      throw new ComponentSanityError('You can only update the state with an object')
+    }
 
     // Create a temporary component to verify that the new state is sane
     const newState = new ComponentState(this.state.source, stateObject)
@@ -146,8 +169,6 @@ export class Component {
 
   checkSanity () {}
 }
-
-export const IXMLComponent = Interface.create({ namespace: IString })
 
 export class XMLComponent extends Component {
   checkSanity () {
@@ -201,7 +222,7 @@ export class FactoryComponent extends Component {
   evaluate () {
     const component = this.type(this.state.current, this.children)
 
-    if (!(component instanceof Component)) {
+    if (!(component instanceof IComponent)) {
       throw new InvalidComponentError(`Expected ${this} to return a component, not ${repr(component)}.`)
     }
 

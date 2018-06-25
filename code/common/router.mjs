@@ -5,7 +5,6 @@ import home from './views/home'
 import files from './views/files'
 import pacman from './views/pacman'
 import playground from './views/playground'
-import playgroundSorting from './views/playground/sorting'
 
 async function routerImpl (path, db) {
   if (path.segments.length === 0) {
@@ -43,15 +42,13 @@ async function routerImpl (path, db) {
           id: 'playground',
           factory: playground
         }
-      }
-
-      if (path.segments.length === 2) {
+      } else if (path.segments.length === 2) {
         switch (path.segments[1]) {
           case 'sorting':
             return {
               id: 'playground/sorting',
               title: 'sorting | playground',
-              factory: playgroundSorting
+              bundle: 'sorting'
             }
         }
       }

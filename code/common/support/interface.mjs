@@ -4,6 +4,28 @@ import { CoolError } from '../errors'
 export class InterfaceNotImplementedError extends CoolError {}
 
 export default class Interface {
+  static or (...interfaces) {
+    for (const iface of interfaces) {
+      IInterface.assert(iface)
+    }
+
+    return {
+      assert (instance) {
+        if (!(instance instanceof this)) {
+          throw new InterfaceNotImplementedError(`${repr(instance)} must be one of ${repr(interfaces)}`)
+        }
+
+        return instance
+      },
+
+      [Symbol.hasInstance] (instance) {
+        return interfaces.some(function (iface) {
+          return instance instanceof iface
+        })
+      }
+    }
+  }
+
   static methods (...methods) {
     return new this(methods.map(method => ({ name: method, iface: IFunction })))
   }
@@ -23,20 +45,28 @@ export default class Interface {
   }
 
   assert (instance) {
-    if (!(instance instanceof IObject)) { throw new InterfaceNotImplementedError(`${repr(instance)} must be an object`) }
+    if (!(instance instanceof IObject)) {
+      throw new InterfaceNotImplementedError(`${repr(instance)} must be an object`)
+    }
 
     for (const { name, iface } of this.props) {
-      if (!(name in instance && instance[name] instanceof iface)) { throw new InterfaceNotImplementedError(`${repr(instance)} does not implement ${repr(iface)} ${name}`) }
+      if (!(name in instance && instance[name] instanceof iface)) {
+        throw new InterfaceNotImplementedError(`${repr(instance)} does not implement ${repr(iface)} ${name}`)
+      }
     }
 
     return instance
   }
 
   [Symbol.hasInstance] (instance) {
-    if (!(instance instanceof IObject)) { return false }
+    if (!(instance instanceof IObject)) {
+      return false
+    }
 
     for (const { name, iface } of this.props) {
-      if (!(name in instance && instance[name] instanceof iface)) { return false }
+      if (!(name in instance && instance[name] instanceof iface)) {
+        return false
+      }
     }
 
     return true
@@ -61,7 +91,9 @@ export const IEmpty = {
 
 export const IString = {
   assert (instance) {
-    if (!(instance instanceof this)) { throw new InterfaceNotImplementedError(`${repr(instance)} must be a string`) }
+    if (!(instance instanceof this)) {
+      throw new InterfaceNotImplementedError(`${repr(instance)} must be a string`)
+    }
 
     return instance
   },
@@ -77,7 +109,9 @@ export const IString = {
 
 export const INumber = {
   assert (instance) {
-    if (!(instance instanceof this)) { throw new InterfaceNotImplementedError(`${repr(instance)} must be a number`) }
+    if (!(instance instanceof this)) {
+      throw new InterfaceNotImplementedError(`${repr(instance)} must be a number`)
+    }
 
     return instance
   },
@@ -93,7 +127,9 @@ export const INumber = {
 
 export const IBoolean = {
   assert (instance) {
-    if (!(instance instanceof this)) { throw new InterfaceNotImplementedError(`${repr(instance)} must be a boolean`) }
+    if (!(instance instanceof this)) {
+      throw new InterfaceNotImplementedError(`${repr(instance)} must be a boolean`)
+    }
 
     return instance
   },
@@ -109,7 +145,9 @@ export const IBoolean = {
 
 export const IUndefined = {
   assert (instance) {
-    if (!(instance instanceof this)) { throw new InterfaceNotImplementedError(`${repr(instance)} must be undefined`) }
+    if (!(instance instanceof this)) {
+      throw new InterfaceNotImplementedError(`${repr(instance)} must be undefined`)
+    }
 
     return instance
   },
@@ -125,7 +163,9 @@ export const IUndefined = {
 
 export const INull = {
   assert (instance) {
-    if (!(instance instanceof this)) { throw new InterfaceNotImplementedError(`${repr(instance)} must be null`) }
+    if (!(instance instanceof this)) {
+      throw new InterfaceNotImplementedError(`${repr(instance)} must be null`)
+    }
 
     return instance
   },
@@ -141,7 +181,9 @@ export const INull = {
 
 export const ISymbol = {
   assert (instance) {
-    if (!(instance instanceof this)) { throw new InterfaceNotImplementedError(`${repr(instance)} must be null`) }
+    if (!(instance instanceof this)) {
+      throw new InterfaceNotImplementedError(`${repr(instance)} must be null`)
+    }
 
     return instance
   },
@@ -157,7 +199,9 @@ export const ISymbol = {
 
 export const IFunction = {
   assert (instance) {
-    if (!(instance instanceof this)) { throw new InterfaceNotImplementedError(`${repr(instance)} must be a function`) }
+    if (!(instance instanceof this)) {
+      throw new InterfaceNotImplementedError(`${repr(instance)} must be a function`)
+    }
 
     return instance
   },
@@ -173,7 +217,9 @@ export const IFunction = {
 
 export const IObject = {
   assert (instance) {
-    if (!(instance instanceof this)) { throw new InterfaceNotImplementedError(`${repr(instance)} must be an object`) }
+    if (!(instance instanceof this)) {
+      throw new InterfaceNotImplementedError(`${repr(instance)} must be an object`)
+    }
 
     return instance
   },
@@ -189,7 +235,9 @@ export const IObject = {
 
 export const IArray = {
   assert (instance) {
-    if (!(instance instanceof this)) { throw new InterfaceNotImplementedError(`${repr(instance)} must be an array`) }
+    if (!(instance instanceof this)) {
+      throw new InterfaceNotImplementedError(`${repr(instance)} must be an array`)
+    }
 
     return instance
   },
@@ -207,7 +255,9 @@ export const IInterface = {
   assert (instance) {
     IObject.assert(instance)
 
-    if (!(instance instanceof this)) { throw new InterfaceNotImplementedError(`${repr(instance)} must be implement the hasInstance hook`) }
+    if (!(instance instanceof this)) {
+      throw new InterfaceNotImplementedError(`${repr(instance)} must be implement the hasInstance hook`)
+    }
 
     return instance
   },

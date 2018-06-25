@@ -1,10 +1,9 @@
 import { HTTPError, ClientError } from '../errors'
-import Interface, { IFunction, IString, IEmpty } from './interface'
+import Interface, { IString, IEmpty } from './interface'
 
 import error from '../views/error'
 
 const IRouterState = Interface.create({
-  factory: IFunction,
   id: IString,
   title: IString,
   dataURL: IEmpty,
@@ -25,8 +24,6 @@ export default class RouterState {
   }
 
   constructor (rawState) {
-    IFunction.assert(rawState.factory)
-
     Object.assign(this, {
       title: rawState.id,
       dataURL: null,

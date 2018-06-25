@@ -10,6 +10,7 @@ import RouterObservable from '../../client/core/support/router_observable'
 import render from './render'
 
 window.COMPATIBLE_INTERPRETER = Object.hasOwnProperty('assign')
+window.bundles = new Map()
 
 function onDocumentReady () {
   if (!window.COMPATIBLE_INTERPRETER) {

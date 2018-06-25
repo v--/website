@@ -4,6 +4,7 @@ import Path from '../../../common/support/path'
 
 import DB from '../db'
 import router from '../router'
+import { loadBundle } from '../support/bundles'
 
 const DESKTOP_WIDTH = 700
 
@@ -17,8 +18,13 @@ export default class RouterObservable extends Observable {
   }
 
   constructor (initialState, db, path) {
-    super(initialState)
+    const state = Object.assign({}, initialState)
 
+    if (state.bundle) {
+      state.factory = window.bundles.get(state.bundle)
+    }
+
+    super(state)
     this.current.isCollapsed = window.innerWidth < DESKTOP_WIDTH
 
     this.current.toggleCollapsed = function () {
@@ -35,15 +41,19 @@ export default class RouterObservable extends Observable {
 
   async changeURL (url, pushState) {
     const path = Path.parse(url)
+    this.update(Object.assign({}, this.current, { loading: true }))
 
     if (pushState) {
       history.pushState({ path: path.cooked }, null, path.cooked)
     }
 
     this.path = path
+    const route = await router(path, this.db)
 
-    const route = router(path, this.db)
-    this.update(Object.assign({}, this.current, { loading: true }))
-    this.update(await route)
+    if (route.bundle) {
+      route.factory = await loadBundle(route.bundle)
+    }
+
+    this.update(route)
   }
 }

@@ -20,7 +20,9 @@ export function reduce (reducer, iterable, initial) {
   } else {
     const state = iter.next()
 
-    if (state.done) { throw new EmptyIterError('Nothing to reduce') }
+    if (state.done) {
+      throw new EmptyIterError('Nothing to reduce')
+    }
 
     accum = state.value
   }

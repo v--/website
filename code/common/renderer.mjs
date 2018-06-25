@@ -2,7 +2,7 @@ import { bind, overloader } from './support/functions'
 import { repr } from './support/strings'
 import { map, chain, unique } from './support/iteration'
 import Interface from './support/interface'
-import { XMLComponent, FactoryComponent } from './component'
+import { XMLComponent, FactoryComponent, IXMLComponent, IFactoryComponent } from './component'
 import { CoolError } from './errors'
 
 const IRendererClass = Interface.methods('componentClass')
@@ -115,6 +115,7 @@ export class XMLRenderer extends Renderer {
 }
 
 Object.defineProperty(XMLRenderer, 'componentClass', { value: XMLComponent })
+Object.defineProperty(XMLRenderer, 'componentInterface', { value: IXMLComponent })
 
 function * mergeChildren (oldChildren, newChildren) {
   for (let i = 0; i < Math.min(oldChildren.length, newChildren.length); i++) {
@@ -248,10 +249,11 @@ export class FactoryRenderer extends Renderer {
 }
 
 Object.defineProperty(FactoryRenderer, 'componentClass', { value: FactoryComponent })
+Object.defineProperty(FactoryRenderer, 'componentInterface', { value: IFactoryComponent })
 
 export function renderDispatcherFactory (...renderers) {
   const dispatcher = overloader(...map(Cls => ({
-    iface: Cls.componentClass,
+    iface: Cls.componentInterface,
     impl: component => new Cls(dispatcher, component).render()
   }), renderers))
 
