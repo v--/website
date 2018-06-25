@@ -7,5 +7,9 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+
+    // This padding hack is due to the overflow difference madness
+    padding-bottom: .5em;
+    margin-bottom: -.1em;
   }
 }
