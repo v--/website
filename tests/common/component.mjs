@@ -117,7 +117,7 @@ describe('XMLComponent', function () {
         return SVGComponent.safeCreate(undefined)
       }
 
-      expect(factory).to.throw(ComponentCreationError)
+      expect(factory).to.throw(Error)
     })
 
     it('throws if the type string is empty', function () {

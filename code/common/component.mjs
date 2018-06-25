@@ -36,6 +36,9 @@ function * processChildren (children) {
     }
   }
 }
+export const IComponent = Interface.create({
+  children: IArray
+})
 
 export const IXMLComponent = Interface.create({
   type: IString,
@@ -47,8 +50,6 @@ export const IFactoryComponent = Interface.create({
   type: IFunction,
   children: IArray
 })
-
-export const IComponent = Interface.or(IXMLComponent, IFactoryComponent)
 
 export class ComponentState {
   constructor (source, current) {
