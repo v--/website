@@ -1,4 +1,3 @@
-@import 'static';
 @import 'vars';
 
 .error-page {
@@ -6,5 +5,9 @@
 
   .alert {
     font-size: 15em;
+  }
+
+  .markdown {
+    text-align: center;
   }
 }

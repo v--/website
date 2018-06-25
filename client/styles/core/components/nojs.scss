@@ -1,8 +1,7 @@
-@import 'static';
 @import 'vars';
 
 .nojs {
-  background-color: $danger;
+  background-color: $danger-color;
   color: $button-color;
   font-size: 1.5em;
   text-align: center;

@@ -1,9 +1,6 @@
-@import 'static';
 @import 'vars';
 
 .sidebar-toggle {
-  @extend .button; // sass-lint:disable-line placeholder-in-extend
-
   position: absolute;
   font-size: 1.8em;
   border-radius: 50%;
