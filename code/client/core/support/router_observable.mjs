@@ -54,8 +54,17 @@ export default class RouterObservable extends Observable {
     this.path = path
     const route = await router(path, this.db)
 
+    // Cancel if another route has started loading
+    if (this.path !== path) {
+      return
+    }
+
     if (route.bundle) {
       route.factory = await loadBundle(route.bundle)
+    }
+
+    if (this.path !== path) {
+      return
     }
 
     this.update(route)
