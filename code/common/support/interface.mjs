@@ -272,3 +272,12 @@ export const IInterface = {
     return 'Interface'
   }
 }
+
+export const IError = Interface.create({
+  message: IString
+})
+
+export const IDisplayableError = Interface.create({
+  title: IString,
+  message: IString
+})

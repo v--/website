@@ -35,7 +35,11 @@ export default class RouterObservable extends Observable {
     this.path = path
 
     window.addEventListener('popstate', function ({ state }) {
-      this.changeURL(state.path, false)
+      if (state) {
+        this.changeURL(state.path, false)
+      } else {
+        history.back()
+      }
     }.bind(this))
   }
 
