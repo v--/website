@@ -1,13 +1,16 @@
 import { c } from '../component'
-import classlist from '../support/classlist'
 
 import sidebar from './sidebar'
 import sidebarToggle from './sidebar_toggle'
+import loadingIndicator from './loading_indicator'
 
 export default function body (state) {
-  return c('main', { class: classlist(state.loading && 'loading') },
+  return c('main', null,
     c(sidebarToggle, state),
     c(sidebar, state),
-    c(state.factory, state)
+    c('div', { class: 'page-wrapper' },
+      c(state.factory, state),
+      state.loading && c(loadingIndicator, state)
+    )
   )
 }

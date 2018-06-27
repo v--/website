@@ -1,0 +1,21 @@
+@import '../../_vars';
+
+.loading-indicator-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  background: @loading-background;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .loading-indicator {
+    z-index: 3;
+    font-size: 5em;
+    font-weight: bold;
+    transition: opacity @loading-transition;
+  }
+}
