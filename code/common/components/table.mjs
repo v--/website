@@ -156,7 +156,7 @@ export default function table ({ cssClass, columns, data, fixedData = [], path }
 
   const sliced = sliceData({ columns, data, fixedData, config })
 
-  return c('table', { class: classlist('cool-table', cssClass) },
+  return c('table', { class: cssClass },
     c('thead', null,
       c('tr', null, ...headers(columns, config))
     ),
