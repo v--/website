@@ -1,6 +1,18 @@
 @import '_vars';
 
+.no-focus-outline() {
+  &:focus {
+    outline: 0;
+  }
+
+  &::-moz-focus-inner {
+    border: 0;
+  }
+}
+
 .button() {
+  .no-focus-outline();
+
   cursor: pointer;
   padding: 0.75em 1.25em;
   border: 0;
@@ -15,14 +27,6 @@
     fill: @button-color-hover;
   }
 
-  &:focus {
-    outline: 0;
-  }
-
-  &::-moz-focus-inner {
-    border: 0;
-  }
-
   &.active {
     color: @button-color-background;
     fill: @button-color-background;
@@ -35,6 +39,8 @@
 }
 
 .anchor() {
+  .no-focus-outline();
+
   color: @anchor-color-foreground;
   fill: @anchor-color-foreground;
 
