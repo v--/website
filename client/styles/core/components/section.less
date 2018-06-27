@@ -3,12 +3,7 @@
 .section {
   .section-title {
     width: 100%;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-
-    // This padding hack is due to the overflow difference madness
-    padding-bottom: 0.2em;
-    margin-bottom: -0.1em;
+    white-space: wrap;
+    word-wrap: break-word;
   }
 }
