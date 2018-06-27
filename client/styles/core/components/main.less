@@ -1,4 +1,4 @@
-@import 'vars';
+@import '../../_vars';
 
 main {
   position: relative;
@@ -10,8 +10,8 @@ main {
     overflow-y: auto;
     flex-shrink: 0;
     flex-grow: 1;
-    flex-basis: $main-base-width;
-    padding: $main-vpadding-desktop $main-hpadding-desktop;
+    flex-basis: @main-base-width;
+    padding: @main-vpadding-desktop @main-hpadding-desktop;
     position: relative;
 
     &::after {
@@ -23,13 +23,13 @@ main {
       width: 100%;
       padding-top: calc(50vh - 1em);
       top: 0;
-      margin-left: -$main-hpadding-desktop;
-      background: $loading-background;
+      margin-left: -@main-hpadding-desktop;
+      background: @loading-background;
       font-size: 5em;
       font-weight: bold;
       content: 'Loading...';
       opacity: 0;
-      transition: opacity $loading-transition;
+      transition: opacity @loading-transition;
       pointer-events: none;
     }
   }
@@ -44,13 +44,13 @@ main {
   }
 }
 
-@media (max-width: $mobile-width) {
+@media (max-width: @mobile-width) {
   main {
     .page {
-      padding: $main-vpadding-mobile $main-hpadding-mobile;
+      padding: @main-vpadding-mobile @main-hpadding-mobile;
 
       &::after {
-        margin-left: -$main-hpadding-mobile;
+        margin-left: -@main-hpadding-mobile;
       }
     }
   }

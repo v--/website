@@ -15,7 +15,7 @@
     "gulp-cli": "2.0.1",
     "gulp-concat": "2.6.1",
     "gulp-environments": "0.1.2",
-    "gulp-sass": "4.0.1",
+    "gulp-less": "^3.5.0",
     "gulp-svgo": "1.5.4",
     "jest": "^23.1.0",
     "libnotify": "1.0.4",
@@ -24,8 +24,6 @@
     "rollup": "0.60.7",
     "rollup-plugin-babel-minify": "5.0.0",
     "rollup-plugin-node-resolve": "3.3.0",
-    "sass-lint": "1.12.1",
-    "skeleton-sass-official": "3.1.5",
     "standard": "^11.0.1",
     "svgo": "github:svg/svgo#master",
     "vinyl-source-stream": "2.0.0"

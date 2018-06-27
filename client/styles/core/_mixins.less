@@ -1,0 +1,47 @@
+@import '../_vars';
+
+.button() {
+  cursor: pointer;
+  padding: .75em 1.25em;
+  border: 0;
+
+  color: @button-color-foreground;
+  fill: @button-color-foreground;
+  background-color: @button-color-background;
+  transition: @button-transition;
+
+  &:hover {
+    color: @button-color-hover;
+    fill: @button-color-hover;
+  }
+
+  &:focus {
+    outline: 0;
+  }
+
+  &::-moz-focus-inner {
+    border: 0;
+  }
+
+  &.active {
+    color: @button-color-background;
+    fill: @button-color-background;
+    background-color: @button-color-foreground;
+
+    &:hover {
+      background-color: @button-color-hover;
+    }
+  }
+}
+
+.anchor() {
+  color: @anchor-color-foreground;
+  fill: @anchor-color-foreground;
+
+  &:hover,
+  &:active,
+  &:visited {
+    color: @anchor-color-foreground;
+    fill: @anchor-color-foreground;
+  }
+}

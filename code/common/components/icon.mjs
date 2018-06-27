@@ -10,6 +10,10 @@ class SVGComponent extends XMLComponent {
 export default function icon (state) {
   const rootState = { viewBox: '0 0 24 24' }
 
+  if ('click' in state) {
+    rootState.click = state.click
+  }
+
   if ('class' in state) {
     rootState.class = `icon ${state.class}`
   } else {

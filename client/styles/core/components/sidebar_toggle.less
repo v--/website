@@ -1,8 +1,8 @@
-@import 'vars';
+@import '../../_vars';
 
 .sidebar-toggle {
   position: absolute;
-  font-size: 1.8em;
+  font-size: 26px;
   border-radius: 50%;
   cursor: pointer;
   z-index: 1;
@@ -14,21 +14,18 @@
   width: 1em;
   height: 1em;
 
-  left: 12px;
-  top: 32px;
+  left: .7rem;
+  top: 2.7rem;
 
-  background-color: $button-bg-color;
-  fill: $button-color;
+  background-color: @button-color-background;
+  fill: @button-color-foreground;
 
   transform: scaleX(-1) translate3d(0, 0, 0); // translate3d makes z-index work on webkit
-
-  &:active {
-    transform: scaleX(-.9) scaleY(.9) translate3d(0, 0, 0); // translate3d makes z-index work on webkit
-  }
 }
 
-@media (max-width: $mobile-width) {
+@media (max-width: @mobile-width) {
   .sidebar-toggle {
-    left: 4px;
+    left: .25rem;
+    top: 1.9rem;
   }
 }

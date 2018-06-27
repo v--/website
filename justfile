@@ -8,7 +8,6 @@ benchmark file='benchmarks/*.mjs':
 
 lint:
     standard benchmarks/** build/** code/** tests/** client/assets/**.js gulpfile.mjs
-    sass-lint --verbose
 
 test_all:
     just test "$(find . -wholename './tests/*.mjs' | tr '\n' ' ')"

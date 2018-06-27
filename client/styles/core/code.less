@@ -1,0 +1,14 @@
+@import '../_vars';
+
+code {
+  background-color: @code-color-background;
+  border: 1px solid @code-color-border;
+  padding: .1rem .2rem;
+
+  pre > & {
+    display: block;
+    padding: .5rem .75rem;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+}

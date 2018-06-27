@@ -1,5 +1,5 @@
 import concat from 'gulp-concat'
-import sass from 'gulp-sass'
+import less from 'gulp-less'
 import svgo from 'gulp-svgo'
 import gulp from 'gulp'
 import env from 'gulp-environments'
@@ -16,26 +16,16 @@ gulp.task('client:assets', function () {
     .pipe(gulp.dest('public'))
 })
 
-gulp.task('client:styles', function () {
-  return Promise.all(BUNDLES.map(function (bundle) {
-    const files = [`client/styles/${bundle}/**/*.scss`]
-
-    if (bundle === 'core') {
-      files.unshift('client/styles/static.scss')
-    }
-
-    return gulp.src(files)
-      .pipe(sass({
-        outputStyle: 'compressed',
-        includePaths: [
-          'client/styles',
-          'node_modules/skeleton-sass-official'
-        ]
-      }))
+for (const bundle of BUNDLES) {
+  gulp.task(`client:styles:${bundle}`, function () {
+    return gulp.src(`client/styles/${bundle}/**/*.less`)
+      .pipe(less())
       .pipe(concat(`${bundle}.css`))
       .pipe(gulp.dest('public/styles'))
-  }))
-})
+  })
+}
+
+gulp.task('client:styles', gulp.parallel(...BUNDLES.map(bundle => `client:styles:${bundle}`)))
 
 gulp.task('client:svgs', function () {
   return gulp.src('client/svgs/**/*.svg')

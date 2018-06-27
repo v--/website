@@ -1,8 +1,0 @@
-files:
-  include: client/styles/**/*.scss
-
-rules:
-  property-sort-order: 0
-  nesting-depth: 0
-  no-color-keywords: 0
-  no-color-literals: 0
