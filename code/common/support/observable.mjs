@@ -1,7 +1,7 @@
 import Interface, { IObject } from './interface'
 
 export const IObservable = Interface.create({ subscribe: Function, unsubscribe: Function, current: IObject })
-export const IObserver = Interface.methods('next', 'error', 'complete')
+export const IObserver = IObject
 
 export class Observable {
   constructor (initialValue) {
@@ -20,7 +20,9 @@ export class Observable {
 
   emit (value) {
     for (const observer of this.observers) {
-      observer.next(value)
+      if (observer.next) {
+        observer.next(value)
+      }
     }
   }
 
@@ -33,10 +35,24 @@ export class Observable {
     this.current = value
   }
 
+  error (err) {
+    for (const observer of this.observers) {
+      if (observer.error) {
+        observer.error(err)
+      }
+    }
+  }
+
   complete () {
     for (const observer of this.observers) {
-      observer.complete()
+      if (observer.complete) {
+        observer.complete()
+      }
     }
+  }
+
+  clearObservers () {
+    this.observers = new Set()
   }
 
   map (transform) {

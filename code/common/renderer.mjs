@@ -1,11 +1,14 @@
 import { bind, overloader } from './support/functions'
 import { repr } from './support/strings'
 import { map, chain, unique } from './support/iteration'
-import Interface from './support/interface'
-import { XMLComponent, FactoryComponent, IXMLComponent, IFactoryComponent } from './component'
+import Interface, { IInterface } from './support/interface'
+import { IXMLComponent, IFactoryComponent } from './component'
 import { CoolError } from './errors'
 
-const IRendererClass = Interface.methods('componentClass')
+const IRendererClass = Interface.create({
+  componentInterface: IInterface
+})
+
 const IRenderer = Interface.methods('render', 'rerender')
 
 export class RenderError extends CoolError {}
@@ -17,7 +20,9 @@ export class Renderer {
     this.dispatcher = dispatcher
     this.component = component
 
-    if (this.dispatcher.cache.has(component)) { throw new RenderError(`${component} has already been rendered`) }
+    if (this.dispatcher.cache.has(component)) {
+      throw new RenderError(`${component} has already been rendered`)
+    }
 
     this.dispatcher.cache.set(component, this)
 
@@ -60,12 +65,18 @@ export class XMLRenderer extends Renderer {
     this.element = this._createNode()
 
     for (const [key, value] of Object.entries(state)) {
-      if (key !== 'text') { this._setAttribute(key, value) }
+      if (key !== 'text') {
+        this._setAttribute(key, value)
+      }
     }
 
-    if ('text' in state) { this._setText(state.text) }
+    if ('text' in state) {
+      this._setText(state.text)
+    }
 
-    for (const child of component.children) { this._appendChild(this.dispatcher(child)) }
+    for (const child of component.children) {
+      this._appendChild(this.dispatcher(child))
+    }
 
     component.state.subscribe(this.observer)
     return this.element
@@ -100,7 +111,9 @@ export class XMLRenderer extends Renderer {
   }
 
   rerender (newState) {
-    if (!this.dispatcher.cache.has(this.component)) { throw new RenderError(`${repr(this.component)} cannot be rerendered without being rendered first`) }
+    if (!this.dispatcher.cache.has(this.component)) {
+      throw new RenderError(`${repr(this.component)} cannot be rerendered without being rendered first`)
+    }
 
     const oldState = this.component.state.current
     this.component.updateState(newState)
@@ -110,11 +123,12 @@ export class XMLRenderer extends Renderer {
   destroy () {
     this.component.state.unsubscribe(this.observer)
 
-    for (const child of this.component.children) { this.dispatcher.cache.get(child).destroy() }
+    for (const child of this.component.children) {
+      this.dispatcher.cache.get(child).destroy()
+    }
   }
 }
 
-Object.defineProperty(XMLRenderer, 'componentClass', { value: XMLComponent })
 Object.defineProperty(XMLRenderer, 'componentInterface', { value: IXMLComponent })
 
 function * mergeChildren (oldChildren, newChildren) {
@@ -129,9 +143,13 @@ function * mergeChildren (oldChildren, newChildren) {
     }
   }
 
-  for (let i = oldChildren.length; i < newChildren.length; i++) { yield { action: 'append', i } }
+  for (let i = oldChildren.length; i < newChildren.length; i++) {
+    yield { action: 'append', i }
+  }
 
-  for (let i = newChildren.length; i < oldChildren.length; i++) { yield { action: 'remove', i } }
+  for (let i = newChildren.length; i < oldChildren.length; i++) {
+    yield { action: 'remove', i }
+  }
 }
 
 export class FactoryRenderer extends Renderer {
@@ -215,7 +233,9 @@ export class FactoryRenderer extends Renderer {
     for (const i of removed) {
       const oldRenderer = this.dispatcher.cache.get(oldRoot.children[i])
 
-      if (rootRenderer instanceof XMLRenderer) { rootRenderer._removeChild(oldRenderer.element) }
+      if (rootRenderer instanceof XMLRenderer) {
+        rootRenderer._removeChild(oldRenderer.element)
+      }
 
       oldRenderer.destroy()
     }
@@ -226,17 +246,22 @@ export class FactoryRenderer extends Renderer {
   rerender (newState) {
     this.component.updateState(newState)
 
-    if (!this.dispatcher.cache.has(this.component)) { throw new RenderError(`${repr(this.component)} cannot be rerendered without being rendered first`) }
+    if (!this.dispatcher.cache.has(this.component)) {
+      throw new RenderError(`${repr(this.component)} cannot be rerendered without being rendered first`)
+    }
 
-    if (!this.dispatcher.cache.has(this.root)) { throw new RenderError(`${repr(this.root)} cannot be rerendered without being rendered first`) }
+    if (!this.dispatcher.cache.has(this.root)) {
+      throw new RenderError(`${repr(this.root)} cannot be rerendered without being rendered first`)
+    }
 
     const oldRoot = this.root
     const newRoot = this.component.evaluate()
 
-    if (newRoot.constructor !== oldRoot.constructor || newRoot.type !== oldRoot.type) { throw new RenderError(`${repr(this.component)} evaluated ${repr(newRoot)}, but expected a ${repr(oldRoot.constructor)} with type ${repr(oldRoot.type)}`) }
+    if (newRoot.constructor !== oldRoot.constructor || newRoot.type !== oldRoot.type) {
+      throw new RenderError(`${repr(this.component)} evaluated ${repr(newRoot)}, but expected a ${repr(oldRoot.constructor)} with type ${repr(oldRoot.type)}`)
+    }
 
     const rootRenderer = this.dispatcher.cache.get(oldRoot)
-
     oldRoot.state.updateSource(newRoot.state.source)
     this.rerenderChildren(oldRoot, newRoot)
     rootRenderer.rerender(newRoot.state.current)
@@ -248,7 +273,6 @@ export class FactoryRenderer extends Renderer {
   }
 }
 
-Object.defineProperty(FactoryRenderer, 'componentClass', { value: FactoryComponent })
 Object.defineProperty(FactoryRenderer, 'componentInterface', { value: IFactoryComponent })
 
 export function renderDispatcherFactory (...renderers) {

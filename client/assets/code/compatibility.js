@@ -14,4 +14,6 @@ function showError () {
   nojs.parentNode.replaceChild(div, nojs)
 }
 
-if (!window.COMPATIBLE_INTERPRETER) { window.addEventListener('load', showError) }
+if (!window.COMPATIBLE_INTERPRETER) {
+  window.addEventListener('load', showError)
+}

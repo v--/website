@@ -1,6 +1,7 @@
 /* eslint-env browser */
-import { Observable } from '../../../common/support/observation'
+import { Observable } from '../../../common/support/observable'
 import Path from '../../../common/support/path'
+import RouterState from '../../../common/support/router_state'
 
 import DB from '../db'
 import router from '../router'
@@ -9,12 +10,16 @@ import { loadBundle } from '../support/bundles'
 const DESKTOP_WIDTH = 700
 
 export default class RouterObservable extends Observable {
-  static async create (url) {
-    const path = Path.parse(url)
+  static async initialize () {
+    const path = Path.parse(this.readURL())
 
     // "data" is the id a script element
     const db = new DB(JSON.parse(window.data.textContent))
     return new this(await router(path, db), db, path)
+  }
+
+  static readURL () {
+    return document.location.href.slice(document.location.origin.length)
   }
 
   constructor (initialState, db, path) {
@@ -33,14 +38,14 @@ export default class RouterObservable extends Observable {
 
     this.db = db
     this.path = path
+  }
 
-    window.addEventListener('popstate', function ({ state }) {
-      if (state) {
-        this.changeURL(state.path, false)
-      } else {
-        history.back()
-      }
-    }.bind(this))
+  async digestError (err) {
+    this.update(RouterState.error(this.constructor.readURL(), err))
+  }
+
+  async updateURL () {
+    await this.changeURL(this.constructor.readURL(), false)
   }
 
   async changeURL (url, pushState) {

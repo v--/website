@@ -1,6 +1,6 @@
 import { overloader, bind } from './support/functions'
 import { repr, join } from './support/strings'
-import { IObservable } from './support/observation'
+import { IObservable } from './support/observable'
 import { CoolError } from './errors'
 import Interface, { IString, IFunction, IArray } from './support/interface'
 

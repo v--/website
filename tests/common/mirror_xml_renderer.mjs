@@ -5,7 +5,7 @@ import { expect } from '../../code/tests'
 import { c, ComponentSanityError } from '../../code/common/component'
 import { FactoryRenderer, RenderError, renderDispatcherFactory } from '../../code/common/renderer'
 import { bind } from '../../code/common/support/functions'
-import { Observable } from '../../code/common/support/observation'
+import { Observable } from '../../code/common/support/observable'
 import MirrorXMLRenderer from '../../code/common/mirror_xml_renderer'
 import { map } from '../../code/common/support/iteration'
 

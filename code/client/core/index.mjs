@@ -6,7 +6,7 @@ import { c } from '../../common/component'
 import main from '../../common/components/main'
 import title from '../../common/components/title'
 
-import RouterObservable from '../../client/core/support/router_observable'
+import RouterObservable from '../core/support/router_observable'
 import render from './render'
 
 window.COMPATIBLE_INTERPRETER = Object.hasOwnProperty('assign')
@@ -31,30 +31,62 @@ function onDocumentReady () {
   })
 }
 
-onDocumentReady().then(async function () {
-  const state = await RouterObservable.create(document.location.href.slice(document.location.origin.length))
-
-  redirection.subscribe({
-    next (value) {
-      state.changeURL(value, true)
-    },
-
-    error (err) {
-      state.error(err)
-    },
-
-    complete () {
-      state.complete()
-    }
-  })
-
+function renderObservable (observable) {
   document.body.replaceChild(
-    render(c(main, state)),
+    render(c(main, observable)),
     document.querySelector('main')
   )
 
   document.head.replaceChild(
-    render(c(title, state)),
+    render(c(title, observable)),
     document.querySelector('title')
   )
+}
+
+function renderError (observable, err) {
+  console.error(err)
+  observable.clearObservers()
+  observable.digestError(err)
+  renderObservable(observable)
+}
+
+onDocumentReady().then(async function () {
+  const observable = await RouterObservable.initialize()
+
+  redirection.subscribe({
+    async next (value) {
+      try {
+        await observable.changeURL(value, true)
+      } catch (err) {
+        renderError(observable, err)
+      }
+    },
+
+    error (err) {
+      observable.error(err)
+    },
+
+    complete () {
+      observable.complete()
+    }
+  })
+
+  window.addEventListener('error', function (e) {
+    renderError(observable, e.error)
+    e.preventDefault()
+  })
+
+  window.addEventListener('popstate', async function () {
+    try {
+      await observable.updateURL()
+    } catch (err) {
+      renderError(observable, err)
+    }
+  })
+
+  try {
+    renderObservable(observable)
+  } catch (err) {
+    renderError(observable, err)
+  }
 })
