@@ -1,4 +1,69 @@
 @import '../_vars';
 
+@visualization-color-background: #eee;
+
 .playground-sorting-page {
+  .sorting-card {
+    display: flex;
+    flex-direction: column;
+    width: 14em;
+    text-align: center;
+    background-color: @visualization-color-background;
+    padding: 0 1em;
+
+    .sorting-card-title {
+      margin-top: 0.5em;
+      margin-bottom: 0;
+      font-size: 2.25em;
+    }
+
+    .sorters {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+
+      .sorter {
+        .sorter-bars {
+          width: 6em;
+          height: 2em;
+          display: flex;
+          flex-direction: row;
+          align-items: flex-end;
+
+          .sorter-bar {
+            margin: 1px;
+            background-color: @color-foreground;
+          }
+        }
+      }
+    }
+
+    .quick-info {
+      display: flex;
+      flex-align: row;
+      justify-content: space-between;
+      margin-top: 0.5em;
+
+      .info {
+        .title {
+          font-weight: bold;
+          margin-bottom: 0;
+        }
+
+        .value {
+          margin-top: 0.25em;
+        }
+
+        &.time-info, &.space-info {
+          .value {
+            font-style: italic;
+          }
+        }
+      }
+    }
+
+    .sort-button {
+      margin-bottom: 1em;
+    }
+  }
 }

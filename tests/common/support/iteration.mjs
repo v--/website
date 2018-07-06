@@ -2,7 +2,7 @@
 
 import { expect } from '../../../code/tests'
 
-import { EmptyIterError, reduce, range, zip } from '../../../code/common/support/iteration'
+import { EmptyIterError, reduce, range, zip, sort, shuffle } from '../../../code/common/support/iteration'
 
 describe('zip()', function () {
   it('zips nothing', function () {
@@ -52,5 +52,18 @@ describe('reduce()', function () {
 
   it('correctly sums an array of values', function () {
     expect(reduce((a, b) => a + b, range(5), 0)).to.equal(10)
+  })
+})
+
+describe('shuffle()', function () {
+  it('shuffles an iterator', function () {
+    const shuffled = shuffle(range(1, 6))
+    expect(sort(shuffled)).to.deep.equal([1, 2, 3, 4, 5])
+  })
+
+  it('does not mutate the original array', function () {
+    const array = Array.from(range(0, 100))
+    const copy = Array.from(array)
+    expect(copy).to.deep.equal(array)
   })
 })

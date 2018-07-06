@@ -31,13 +31,15 @@ export default class Interface {
   }
 
   static create (props) {
-    return new this(Object.entries(props).map(([name, iface]) => ({ name, iface })))
+    const keys = Object.getOwnPropertySymbols(props)
+      .concat(Object.keys(props))
+
+    return new this(keys.map(key => ({ name: key, iface: props[key] })))
   }
 
   constructor (props) {
     for (const iface of props) {
       IObject.assert(iface)
-      IString.assert(iface.name)
       IInterface.assert(iface.iface)
     }
 
@@ -280,4 +282,8 @@ export const IError = Interface.create({
 export const IDisplayableError = Interface.create({
   title: IString,
   message: IString
+})
+
+export const IIterable = Interface.create({
+  [Symbol.iterator]: IFunction
 })
