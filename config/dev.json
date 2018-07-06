@@ -1,6 +1,6 @@
 {
     "server": {
-        "socket": "/tmp/ivasilev.sock"
+        "socket": "3010"
     },
 
     "db": {

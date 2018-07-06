@@ -7,6 +7,7 @@ import env from 'gulp-environments'
 import rollup from 'rollup'
 
 import rollupConfigFactory from './rollup_config_factory'
+import sync from './sync'
 import { getMDIcons } from './md_icons'
 
 const BUNDLES = ['core', 'sorting']
@@ -22,6 +23,7 @@ for (const bundle of BUNDLES) {
       .pipe(less())
       .pipe(concat(`${bundle}.css`))
       .pipe(gulp.dest('public/styles'))
+      .pipe(sync.stream())
   })
 }
 
@@ -31,6 +33,7 @@ gulp.task('client:svgs', function () {
   return gulp.src('client/svgs/**/*.svg')
     .pipe(svgo())
     .pipe(gulp.dest('public/images'))
+    .pipe(sync.stream())
 })
 
 gulp.task('client:icons', async function () {
@@ -38,13 +41,14 @@ gulp.task('client:icons', async function () {
     iconsFile: 'client/icons.json',
     outputFile: 'icons.mjs'
   }).pipe(gulp.dest('code/common'))
+    .pipe(sync.stream())
 })
 
 {
   const cache = new Map()
 
   gulp.task('client:code', function () {
-    return Promise.all(BUNDLES.map(function (bundle) {
+    return Promise.all(BUNDLES.map(async function (bundle) {
       const input = `code/client/${bundle}/index.mjs`
 
       const writeConfig = {
@@ -57,11 +61,11 @@ gulp.task('client:icons', async function () {
 
       const rollupConfig = rollupConfigFactory(input, env.production(), cache.get(bundle))
 
-      return rollup.rollup(rollupConfig)
-        .then(function (rollupBundle) {
-          cache.set(bundle, rollupBundle)
-          return rollupBundle.write(writeConfig)
-        })
+      const rollupBundle = await rollup.rollup(rollupConfig)
+
+      cache.set(bundle, rollupBundle)
+      await rollupBundle.write(writeConfig)
+      sync.reload()
     }))
   })
 }

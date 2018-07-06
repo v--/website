@@ -5,6 +5,7 @@ import gulp from 'gulp'
 import './build/client'
 import './build/server'
 import armor from './build/armor'
+import sync from './build/sync'
 
 gulp.task('watch', function (done) {
   gulp.watch('client/styles/**/*.less', armor(gulp.series('client:styles')))
@@ -16,8 +17,11 @@ gulp.task('watch', function (done) {
   gulp.watch('code/server/**/*.mjs', armor(gulp.series('server:restart')))
   gulp.watch('code/common/**/*.mjs', armor(gulp.series('server:restart', 'client:code')))
 
+  sync.init()
+
   process.on('SIGINT', function () {
     done()
+    sync.destruct()
     process.exit()
   })
 })

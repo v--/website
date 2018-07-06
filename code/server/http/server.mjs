@@ -84,7 +84,7 @@ export default class HTTPServer {
 
     await this.db.load()
     await (promisory(bind(this.server, 'listen')))(this.socket)
-    this.logger.info(`Started web server on unix:${this.socket}.`)
+    this.logger.info(`Started web server on socket ${this.socket}.`)
     this.state = HTTPServer.State.get('running')
   }
 
