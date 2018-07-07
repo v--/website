@@ -1,5 +1,7 @@
+import { CoolError } from '../../../common/errors'
 import { swap } from '../../../common/support/iteration'
 import { Observable } from '../../../common/support/observable'
+
 import ActionList from './action_list'
 
 const SORT_INTERVAL = 25
@@ -43,6 +45,7 @@ export default class SortObservable extends Observable {
         states: getStatesAtIndex(actionLists, 0),
         algorithm: algorithm,
         isRunning: false,
+        hasFinished: false,
         run: () => {
           this.run()
         },
@@ -92,7 +95,7 @@ export default class SortObservable extends Observable {
   }
 
   run () {
-    if (this.hasFinished) {
+    if (this.hasFinished || this.current.isRunning) {
       return
     }
 
@@ -100,6 +103,10 @@ export default class SortObservable extends Observable {
     this.update({
       isRunning: true
     })
+
+    if (this._interval !== null) {
+      throw new CoolError('Tried to run a sorting simulation while the previous one has not finished')
+    }
 
     this._interval = window.setInterval(() => {
       this.advance()
@@ -117,7 +124,8 @@ export default class SortObservable extends Observable {
 
     this._actionListIndex += 1
     this.update({
-      states: getStatesAtIndex(this._actionLists, this._actionListIndex)
+      states: getStatesAtIndex(this._actionLists, this._actionListIndex),
+      hasFinished: this.hasFinished
     })
   }
 }

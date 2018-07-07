@@ -2,7 +2,7 @@ import { map } from '../../../common/support/iteration'
 import { c } from '../../../common/component'
 import sorter from './sorter'
 
-export default function sortingCard ({ algorithm, states, isRunning, pause, run, reset }) {
+export default function sortingCard ({ algorithm, states, isRunning, hasFinished, pause, run, reset }) {
   return c('div', { class: 'sorting-card' },
     c('h2', { class: 'sorting-card-title', text: algorithm.name }),
     c('div', { class: 'sorters' },
@@ -31,10 +31,13 @@ export default function sortingCard ({ algorithm, states, isRunning, pause, run,
     c('div', { class: 'buttons' },
       pause && c('button', {
         class: 'sort-button',
-        text: isRunning ? 'Pause' : 'Run',
+        text: isRunning ? 'Pause' : hasFinished ? 'Rerun' : 'Run',
         click () {
           if (isRunning) {
             pause()
+          } else if (hasFinished) {
+            reset()
+            run()
           } else {
             run()
           }
