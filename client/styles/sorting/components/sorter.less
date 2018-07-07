@@ -7,20 +7,17 @@
   .sorter-bars {
     width: 100px;
     height: 2em;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
+    display: block;
 
     .sorter-bar {
-      margin-left: 1px;
-      background-color: @color-foreground;
+      fill: @color-foreground;
 
       &.swapped {
-        background-color: @sorter-bar-color-swapped;
+        fill: @sorter-bar-color-swapped;
       }
 
       &.tinted {
-        background-color: @sorter-bar-color-tinted;
+        fill: @sorter-bar-color-tinted;
       }
     }
   }

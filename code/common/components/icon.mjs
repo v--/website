@@ -1,11 +1,5 @@
-import { XMLComponent } from '../component'
 import icons from '../icons'
-
-class SVGComponent extends XMLComponent {
-  get namespace () {
-    return 'http://www.w3.org/2000/svg'
-  }
-}
+import { SVGComponent } from '../support/svg'
 
 export default function icon (state) {
   const rootState = { viewBox: '0 0 24 24' }

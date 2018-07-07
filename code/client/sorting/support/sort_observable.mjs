@@ -81,7 +81,8 @@ export default class SortObservable extends Observable {
     this._calculateMaxActionListIndex()
 
     this.update({
-      states: getStatesAtIndex(this._actionLists, this._actionListIndex)
+      states: getStatesAtIndex(this._actionLists, this._actionListIndex),
+      hasFinished: false
     })
   }
 
