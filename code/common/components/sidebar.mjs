@@ -1,5 +1,5 @@
 import { startsWith } from '../support/strings'
-import classlist from '../support/classlist'
+import { classlist } from '../support/dom_properties'
 import { c } from '../component'
 
 import icon from './icon'

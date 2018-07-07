@@ -2,7 +2,7 @@
 
 import { expect } from '../../../code/tests'
 
-import { EmptyIterError, reduce, range, zip, sort, shuffle } from '../../../code/common/support/iteration'
+import { EmptyIterError, reduce, range, zip, sort, shuffle, separate } from '../../../code/common/support/iteration'
 
 describe('zip()', function () {
   it('zips nothing', function () {
@@ -65,5 +65,17 @@ describe('shuffle()', function () {
     const array = Array.from(range(0, 100))
     const copy = Array.from(array)
     expect(copy).to.deep.equal(array)
+  })
+})
+
+describe('separate()', function () {
+  it('separates array elements', function () {
+    const source = [1, 1, 1, 2, 2, 3]
+    expect(separate(source)).to.deep.equal([1, 2, 3, 4, 5, 6])
+  })
+
+  it('preserves current ordinal structure', function () {
+    const source = [1, 11, 5, 7, 3]
+    expect(separate(source)).to.deep.equal([1, 5, 3, 4, 2])
   })
 })

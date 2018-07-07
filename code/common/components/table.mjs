@@ -1,6 +1,6 @@
 import { c } from '../component'
 import { ClientError } from '../errors'
-import classlist from '../support/classlist'
+import { classlist } from '../support/dom_properties'
 import QueryConfig from '../support/query_config'
 
 import icon from './icon'

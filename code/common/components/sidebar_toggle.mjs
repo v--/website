@@ -1,5 +1,5 @@
 import { c } from '../component'
-import classlist from '../support/classlist'
+import { classlist } from '../support/dom_properties'
 
 import icon from './icon'
 

@@ -141,3 +141,48 @@ export function * repeat (value, times) {
     yield value
   }
 }
+
+export function counter (iter) {
+  let cntr = new Map()
+
+  for (const value of iter) {
+    if (cntr.has(value)) {
+      cntr.set(value, cntr.get(value) + 1)
+    } else {
+      cntr.set(value, 1)
+    }
+  }
+
+  return cntr
+}
+
+export function separate (array) {
+  const totalCount = counter(array)
+  const usedCount = new Map()
+  const result = []
+
+  for (let i = 0; i < array.length; i++) {
+    const value = array[i]
+    let rank = 1
+
+    for (let j = 1; j < value; j++) {
+      rank += (totalCount.get(j) || 0)
+    }
+
+    const used = (usedCount.get(value) || 0)
+    usedCount.set(value, used + 1)
+    result[i] = rank + used
+  }
+
+  return result
+}
+
+export function swap (array, i, j) {
+  const tmp = array[i]
+  array[i] = array[j]
+  array[j] = tmp
+}
+
+export function sum (iter) {
+  return reduce((a, b) => a + b, iter)
+}

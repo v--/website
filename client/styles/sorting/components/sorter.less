@@ -1,0 +1,27 @@
+@import '../../_vars';
+
+@sorter-bar-color-swapped: @success-color;
+@sorter-bar-color-tinted: @danger-color;
+
+.sorter {
+  .sorter-bars {
+    width: 100px;
+    height: 2em;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+
+    .sorter-bar {
+      margin-left: 1px;
+      background-color: @color-foreground;
+
+      &.swapped {
+        background-color: @sorter-bar-color-swapped;
+      }
+
+      &.tinted {
+        background-color: @sorter-bar-color-tinted;
+      }
+    }
+  }
+}
