@@ -1,5 +1,6 @@
 export default Object.freeze({
   name: 'Quicksort',
+  date: '23 November 2015',
   stable: false,
   time: 'O(n²)',
   space: 'O(n)',
@@ -35,6 +36,6 @@ export default Object.freeze({
       }
     }
 
-    quicksort(0, sortable.n - 1)
+    quicksort(0, sortable.length - 1)
   }
 })

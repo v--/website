@@ -8,7 +8,7 @@ export default class ActionList {
     this.actions = [null]
   }
 
-  get n () {
+  get length () {
     return this.array.length
   }
 

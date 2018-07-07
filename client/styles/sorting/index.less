@@ -1,3 +1,22 @@
 @import '../_vars';
 
-.playground-sorting-page {}
+.playground-sorting-page {
+  .sorting-top-button {
+    width: 10em;
+    margin: 0.5em 0;
+
+    &:not(:first-of-type) {
+      margin-left: 1em;
+    }
+  }
+
+  .sorting-cards {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -1em;
+
+    .sorting-card {
+      margin: 1em;
+    }
+  }
+}

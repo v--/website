@@ -8,7 +8,8 @@ export default function playground () {
     c(section, { title: '/playground' },
       c(markdown, {
         text: [
-          'These are some JavaScript visualizations and simulations I have programmed across the years.'
+          'These are some JavaScript visualizations and simulations I have programmed across the years',
+          '(there are actually more simulations, the others have not yet been ported to the latest version of the website).'
         ].join(' ')
       }),
       c('ul', null,

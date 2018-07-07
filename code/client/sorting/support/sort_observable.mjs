@@ -1,4 +1,4 @@
-import { map, sum, swap } from '../../../common/support/iteration'
+import { swap } from '../../../common/support/iteration'
 import { Observable } from '../../../common/support/observable'
 import ActionList from './action_list'
 
@@ -41,8 +41,16 @@ export default class SortObservable extends Observable {
     super(
       {
         states: getStatesAtIndex(actionLists, 0),
-        sort: () => {
-          this.sort()
+        algorithm: algorithm,
+        isRunning: false,
+        run: () => {
+          this.run()
+        },
+        pause: () => {
+          this.pause()
+        },
+        reset: () => {
+          this.reset()
         }
       }
     )
@@ -55,12 +63,16 @@ export default class SortObservable extends Observable {
     this._calculateMaxActionListIndex()
   }
 
+  get hasFinished () {
+    return this._actionListIndex === this._maxActionListIndex
+  }
+
   _calculateMaxActionListIndex () {
     this._maxActionListIndex = Math.max.apply(null, this._actionLists.map(list => list.actions.length)) - 1
   }
 
   reset () {
-    window.clearInterval(this._interval)
+    this.pause()
     this._actionLists = constructActionLists(this.algorithm, this.sequences)
     this._actionListIndex = 0
     this._calculateMaxActionListIndex()
@@ -70,26 +82,42 @@ export default class SortObservable extends Observable {
     })
   }
 
+  pause () {
+    window.clearInterval(this._interval)
+    this._interval = null
+
+    this.update({
+      isRunning: false
+    })
+  }
+
+  run () {
+    if (this.hasFinished) {
+      return
+    }
+
+    this.advance()
+    this.update({
+      isRunning: true
+    })
+
+    this._interval = window.setInterval(() => {
+      this.advance()
+
+      if (this.hasFinished) {
+        this.pause()
+      }
+    }, SORT_INTERVAL)
+  }
+
   advance () {
-    if (this._actionListIndex === this._maxActionListIndex) {
-      return false
+    if (this.hasFinished) {
+      return
     }
 
     this._actionListIndex += 1
     this.update({
       states: getStatesAtIndex(this._actionLists, this._actionListIndex)
     })
-
-    return true
-  }
-
-  sort () {
-    this.reset()
-    this.advance()
-    this._interval = window.setInterval(() => {
-      if (!this.advance()) {
-        window.clearInterval(this._interval)
-      }
-    }, SORT_INTERVAL)
   }
 }

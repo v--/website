@@ -14,7 +14,39 @@ window.bundles.set('sorting', function playgroundSorting () {
 
   return c('div', { class: 'page playground-sorting-page' },
     c(section, { title: '/playground/sorting' },
-      ...map(observable => c(sortingCard, observable), observables)
+      c('button', {
+        class: 'sorting-top-button',
+        text: 'Run all',
+        click () {
+          for (const observable of observables) {
+            observable.run()
+          }
+        }
+      }),
+
+      c('button', {
+        class: 'sorting-top-button',
+        text: 'Pause all',
+        click () {
+          for (const observable of observables) {
+            observable.pause()
+          }
+        }
+      }),
+
+      c('button', {
+        class: 'sorting-top-button',
+        text: 'Reset all',
+        click () {
+          for (const observable of observables) {
+            observable.reset()
+          }
+        }
+      }),
+
+      c('div', { class: 'sorting-cards' },
+        ...map(observable => c(sortingCard, observable), observables)
+      )
     )
   )
 })
