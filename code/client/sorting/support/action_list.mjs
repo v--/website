@@ -12,29 +12,21 @@ export default class ActionList {
     return this.array.length
   }
 
+  indexOf (value) {
+    return this.separatedArray.indexOf(value)
+  }
+
   get (i) {
     return this.separatedArray[i]
   }
 
-  swap (i, j) {
-    if (i !== j) {
+  update (i, j, swapped) {
+    if (swapped) {
       swap(this.array, i, j)
       swap(this.separatedArray, i, j)
     }
 
-    this.actions.push({
-      i,
-      j,
-      swapped: i !== j
-    })
-  }
-
-  tint (i, j) {
-    this.actions.push({
-      i,
-      j,
-      swapped: false
-    })
+    this.actions.push({ i, j, swapped })
   }
 
   finish () {
