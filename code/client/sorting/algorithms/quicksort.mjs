@@ -30,7 +30,7 @@ function quicksort (sortable, lower, upper) {
 }
 
 export default Object.freeze({
-  name: 'Quicksort',
+  name: 'Randomized quicksort',
   date: '23 November 2015',
   stable: false,
   time: 'O(n²)',
