@@ -10,7 +10,7 @@ import rollupConfigFactory from './rollup_config_factory'
 import sync from './sync'
 import { getMDIcons } from './md_icons'
 
-const BUNDLES = ['core', 'sorting']
+const BUNDLES = ['core', 'sorting', 'curve_fitting']
 
 gulp.task('client:assets', function () {
   return gulp.src('client/assets/**/*')

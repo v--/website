@@ -1,0 +1,21 @@
+@import '../../_vars';
+
+.curve-canvas {
+  background-color: @visualization-color-background;
+
+  .point-grid {
+    .grid-point {
+      fill: @visualization-color-midground;
+
+      &.active {
+        fill: @success-color;
+      }
+    }
+  }
+
+  .largange-polynomial {
+    fill: none;
+    stroke: @danger-color;
+    stroke-width: 0.1;
+  }
+}

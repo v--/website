@@ -1,5 +1,5 @@
 import icons from '../icons'
-import { SVGComponent } from '../support/svg'
+import { s } from '../support/svg'
 
 export default function icon (state) {
   const rootState = { viewBox: '0 0 24 24' }
@@ -14,7 +14,7 @@ export default function icon (state) {
     rootState.class = 'icon'
   }
 
-  return SVGComponent.safeCreate('svg', rootState,
-    SVGComponent.safeCreate('path', { d: icons[state.name] })
+  return s('svg', rootState,
+    s('path', { d: icons[state.name] })
   )
 }

@@ -6,7 +6,7 @@ import { NotFoundError } from '../../common/errors'
 
 export default class FileCollection {
   async readDirectory (basePath) {
-    var fullPath = path.join(this.db.config.fileRootPath, basePath)
+    const fullPath = path.join(this.db.config.fileRootPath, basePath)
 
     const result = {
       entries: [],

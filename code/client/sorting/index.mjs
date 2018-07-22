@@ -13,7 +13,7 @@ window.bundles.set('sorting', function playgroundSorting () {
   })
 
   return c('div', { class: 'page playground-sorting-page' },
-    c(section, { title: '/playground/sorting' },
+    c(section, { title: 'Sorting visualizations' },
       c('button', {
         class: 'sorting-top-button',
         text: 'Run all',

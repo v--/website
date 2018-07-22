@@ -50,6 +50,13 @@ async function routerImpl (path, db) {
               title: 'sorting | playground',
               bundle: 'sorting'
             }
+
+          case 'curve_fitting':
+            return {
+              id: 'playground/curve_fitting',
+              title: 'curve fitting | playground',
+              bundle: 'curve_fitting'
+            }
         }
       }
   }

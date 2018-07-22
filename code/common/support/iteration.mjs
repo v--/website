@@ -91,7 +91,7 @@ export function * zip (...iterables) {
   const iterators = iterables.map(iterable => iterable[Symbol.iterator]())
 
   while (true) { // eslint-disable-line no-constant-condition
-    const values = Array.of(iterators.length)
+    const values = []
 
     for (const i in iterators) {
       const { done, value } = iterators[i].next()
@@ -136,7 +136,7 @@ export function * flatten (iter) {
   }
 }
 
-export function * repeat (value, times) {
+export function * repeat (value, times = Number.Infinity) {
   for (let i = 0; i < times; i++) {
     yield value
   }
@@ -183,6 +183,24 @@ export function swap (array, i, j) {
   array[j] = tmp
 }
 
-export function sum (iter) {
-  return reduce((a, b) => a + b, iter)
+export function * product (...iterables) {
+  function * productImpl (fixed, variable) {
+    if (variable.length === 0) {
+      yield fixed
+      return
+    }
+
+    const current = variable[0]
+    const rest = variable.slice(1)
+
+    for (const value of current) {
+      yield * productImpl(fixed.concat(value), rest)
+    }
+  }
+
+  if (iterables.length === 0) {
+    return
+  }
+
+  yield * productImpl([], iterables.map(iterable => Array.from(iterable)))
 }

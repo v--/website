@@ -2,7 +2,7 @@
 
 import { expect } from '../../../code/tests'
 
-import { EmptyIterError, reduce, range, zip, sort, shuffle, separate } from '../../../code/common/support/iteration'
+import { EmptyIterError, reduce, range, zip, sort, shuffle, separate, product, empty } from '../../../code/common/support/iteration'
 
 describe('zip()', function () {
   it('zips nothing', function () {
@@ -77,5 +77,27 @@ describe('separate()', function () {
   it('preserves current ordinal structure', function () {
     const source = [1, 11, 5, 7, 3]
     expect(separate(source)).to.deep.equal([1, 5, 3, 4, 2])
+  })
+})
+
+describe('product()', function () {
+  it('multiplies zero iterables', function () {
+    const prod = product()
+    expect(Array.from(prod)).to.deep.equal([])
+  })
+
+  it('produces empty iterables when fed at least one empty iterable', function () {
+    const prod = product(range(1, 10), empty())
+    expect(Array.from(prod)).to.deep.equal([])
+  })
+
+  it('produces a cartessian product of one iterable', function () {
+    const prod = product(range(1, 4))
+    expect(Array.from(prod)).to.deep.equal([[1], [2], [3]])
+  })
+
+  it('produces a cartessian product of two iterables', function () {
+    const prod = product(range(1, 3), range(1, 3))
+    expect(Array.from(prod)).to.deep.equal([[1, 1], [1, 2], [2, 1], [2, 2]])
   })
 })

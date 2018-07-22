@@ -20,6 +20,15 @@ export default function playground () {
             link: 'playground/sorting',
             isInternal: true
           })
+        ),
+
+        c('li', null,
+          c(link, {
+            class: 'playground-link',
+            text: 'Curve fitting visualizations',
+            link: 'playground/curve_fitting',
+            isInternal: true
+          })
         )
       )
     )
