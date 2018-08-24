@@ -1,14 +1,12 @@
-import tar from 'tar-stream'
-import lzma from 'lzma-native'
-
-import { createReadStream } from '../support/fs'
+import { spawn } from 'child_process'
 
 function parsePacmanInfoStream (stream) {
   return new Promise(function (resolve, reject) {
     let buffer = []
     let key = ''
     let inTitle = false
-    const result = {}
+    let currentFile = {}
+    const files = []
 
     stream
       .setEncoding('utf8')
@@ -27,8 +25,15 @@ function parsePacmanInfoStream (stream) {
 
             case '\n':
               if (buffer.length > 0) {
-                result[key] = buffer.join('')
+                const value = buffer.join('')
                 buffer = []
+
+                if (key === 'FILENAME') {
+                  currentFile = {}
+                  files.push(currentFile)
+                }
+
+                currentFile[key] = value
               }
 
               break
@@ -40,37 +45,22 @@ function parsePacmanInfoStream (stream) {
       })
       .on('error', reject)
       .on('end', function () {
-        resolve(result)
+        resolve(files)
       })
   })
 }
 
 function parsePacmanDatabase (path) {
-  const stream = createReadStream(path)
-    .pipe(lzma.createDecompressor())
-    .pipe(tar.extract())
-
-  return new Promise(function (resolve, reject) {
-    const packages = []
-
-    stream
-      .on('error', reject)
-      .on('entry', async function (header, entryStream, next) {
-        if (header.type === 'file') {
-          const meta = await parsePacmanInfoStream(entryStream)
-          packages.push({
-            name: meta.NAME,
-            version: meta.VERSION,
-            description: meta.DESC,
-            arch: meta.ARCH
-          })
-        }
-
-        next()
-      })
-      .on('finish', function () {
-        resolve(packages)
-      })
+  var proc = spawn('/usr/bin/tar', ['--extract', '--file', path, '--to-stdout'])
+  return parsePacmanInfoStream(proc.stdout).then(function (packageMeta) {
+    return packageMeta.map(function (meta) {
+      return {
+        name: meta.NAME,
+        version: meta.VERSION,
+        description: meta.DESC,
+        arch: meta.ARCH
+      }
+    })
   })
 }
 
