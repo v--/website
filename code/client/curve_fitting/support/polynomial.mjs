@@ -13,6 +13,10 @@ export default class Polynomial {
     }
 
     this.coefficients = coefficients.slice(leadingZeros)
+
+    if (this.coefficients.length === 0) {
+      this.coefficients.push(0)
+    }
   }
 
   add (other) {
@@ -29,16 +33,12 @@ export default class Polynomial {
   }
 
   multiply (other) {
-    if (this.order === 0 || other.order === 0) {
-      return new Polynomial([])
-    }
-
     let result = new Polynomial([])
 
-    for (let i = 0; i < other.order; i++) {
+    for (let i = 0; i <= other.order; i++) {
       const addendCoefficients = chain(
         map(x => x * other.coefficients[i], this.coefficients),
-        repeat(0, other.order - i - 1)
+        repeat(0, other.order - i)
       )
 
       result = result.add(new Polynomial(Array.from(addendCoefficients)))
@@ -50,31 +50,27 @@ export default class Polynomial {
   evaluate (x) {
     let result = 0
 
-    for (let i = 0; i < this.order - 1; i++) {
+    for (let i = 0; i < this.order; i++) {
       result = x * (this.coefficients[i] + result)
     }
 
-    result += this.coefficients[this.order - 1]
+    result += this.coefficients[this.order]
     return result
   }
 
   get order () {
-    return this.coefficients.length
+    return this.coefficients.length - 1
   }
 
   toString () {
-    if (this.order === 0) {
-      return '0'
-    }
-
     let result = ''
 
-    for (let i = 0; i < this.order; i++) {
+    for (let i = 0; i <= this.order; i++) {
       const a = this.coefficients[i]
       const aString = a === 1 ? '' : String(a)
-      const termOrder = this.order - i - 1
+      const termOrder = this.order - i
 
-      if (a === 0) {
+      if (a === 0 && this.order > 0) {
         continue
       } else {
         if (result !== '') {

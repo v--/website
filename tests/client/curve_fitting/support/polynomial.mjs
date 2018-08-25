@@ -11,6 +11,11 @@ describe('Polynomial', function () {
       const p2 = new Polynomial([1])
       expect(p1.coefficients).to.deep.equal(p2.coefficients)
     })
+
+    it('leaves at least one zero', function () {
+      const p = new Polynomial([])
+      expect(p.coefficients).to.deep.equal([0])
+    })
   })
 
   describe('.add()', function () {
@@ -44,6 +49,7 @@ describe('Polynomial', function () {
   describe('.toString()', function () {
     it('handles the zero polynomial', function () {
       const p = new Polynomial([])
+      console.warn(String(p))
       expect(String(p)).to.equal('0')
     })
 
