@@ -21,5 +21,4 @@ deploy server='ivasilev.net' path='/srv/http/ivasilev.net': lint test_all build_
     ssh {{server}} mkdir {{path}}/config
     scp -rC code public package.json ivasilev.net:{{path}}
     scp config/prod.json ivasilev.net:{{path}}/config/active.json
-    ssh {{server}} 'cd {{path}}; npm install --production'
     ssh {{server}} sudo systemctl start website.service
