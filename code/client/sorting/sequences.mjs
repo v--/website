@@ -25,7 +25,7 @@ export default Object.freeze([
   {
     name: 'Grouped',
     constructArray () {
-      return Array.from(flatten(map(i => repeat(i, 5), range(4, 25, 5))))
+      return shuffle(flatten(map(i => repeat(i, 5), range(4, 25, 5))))
     }
   }
 ])
