@@ -72,6 +72,10 @@ export default class RouterObservable extends Observable {
       return
     }
 
+    if (window.innerWidth < DESKTOP_WIDTH) {
+      route.isCollapsed = true
+    }
+
     this.update(route)
   }
 }
