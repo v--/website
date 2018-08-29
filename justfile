@@ -7,7 +7,7 @@ benchmark file='benchmarks/*.mjs':
     mocha --require @std/esm --no-timeouts -- {{file}}
 
 lint:
-    standard benchmarks/** build/** code/** tests/** client/assets/**.js gulpfile.mjs
+    standard benchmarks/** code/**/*.mjs tests/**/*.mjs client/assets/**.js gulpfile.mjs
 
 test_all:
     just test "$(find . -wholename './tests/*.mjs' | tr '\n' ' ')"

@@ -129,7 +129,7 @@ describe('MirrorFactoryRenderer', function () {
       const src = c(({ add }) => c('div', null, add && c('span')), observable)
       const dest = render(src)
       observable.replace({ add: true })
-      expect(dest.children).to.not.be.empty
+      expect(dest.children).to.not.be.empty // eslint-disable-line no-unused-expressions
     })
 
     it("updates root element's properties", function () {
@@ -153,7 +153,7 @@ describe('MirrorFactoryRenderer', function () {
       const src = c(({ add }) => c('div', null, add && c('span')), observable)
       const dest = render(src)
       observable.replace({ add: false })
-      expect(dest.children).to.be.empty
+      expect(dest.children).to.be.empty // eslint-disable-line no-unused-expressions
     })
 
     it('handles swapping', function () {
