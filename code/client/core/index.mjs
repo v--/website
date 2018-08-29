@@ -6,30 +6,13 @@ import { c } from '../../common/component'
 import main from '../../common/components/main'
 import title from '../../common/components/title'
 
-import RouterObservable from '../core/support/router_observable'
+import RouterObservable from './support/router_observable'
+import { onDocumentReady } from './support/dom'
 import render from './render'
 
 window.COMPATIBLE_INTERPRETER = Object.hasOwnProperty('assign')
 window.bundles = new Map()
-
-function onDocumentReady () {
-  if (!window.COMPATIBLE_INTERPRETER) {
-    return new Promise(function () {})
-  }
-
-  if (document.readyState === 'complete') {
-    return Promise.resolve()
-  }
-
-  return new Promise(function (resolve) {
-    function listener () {
-      window.removeEventListener('DOMContentLoaded', listener)
-      resolve()
-    }
-
-    window.addEventListener('DOMContentLoaded', listener)
-  })
-}
+window.render = render
 
 function renderObservable (observable) {
   document.body.replaceChild(

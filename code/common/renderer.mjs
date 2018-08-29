@@ -3,6 +3,7 @@ import { repr } from './support/strings'
 import { map, chain, unique } from './support/iteration'
 import Interface, { IInterface } from './support/interface'
 import { IXMLComponent, IFactoryComponent } from './component'
+import { Observable } from './support/observable'
 import { CoolError } from './errors'
 
 const IRendererClass = Interface.create({
@@ -79,6 +80,11 @@ export class XMLRenderer extends Renderer {
     }
 
     component.state.subscribe(this.observer)
+    this.dispatcher.observables.create.emit({
+      component: this.component,
+      element: this.element
+    })
+
     return this.element
   }
 
@@ -162,6 +168,12 @@ export class FactoryRenderer extends Renderer {
     this.root = this.component.evaluate()
     this.element = this.dispatcher(this.root)
     this.component.state.subscribe(this.observer)
+
+    this.dispatcher.observables.create.emit({
+      component: this.component,
+      element: this.element
+    })
+
     return this.element
   }
 
@@ -269,6 +281,12 @@ export class FactoryRenderer extends Renderer {
 
   destroy () {
     this.component.state.unsubscribe(this.observer)
+
+    this.dispatcher.observables.destroy.emit({
+      component: this.component,
+      element: this.element
+    })
+
     this.dispatcher.cache.get(this.root).destroy()
   }
 }
@@ -282,5 +300,10 @@ export function renderDispatcherFactory (...renderers) {
   }), renderers))
 
   dispatcher.cache = new WeakMap()
+  dispatcher.observables = {
+    create: new Observable(),
+    destroy: new Observable()
+  }
+
   return dispatcher
 }
