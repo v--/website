@@ -2,7 +2,7 @@ import { c } from '../component'
 
 import section from '../components/section'
 import markdown from '../components/markdown'
-import table from '../components/table'
+import interactiveTable from '../components/interactive_table'
 
 export default function files ({ path, data, id }) {
   function getLink (entry) {
@@ -18,7 +18,7 @@ export default function files ({ path, data, id }) {
   const columns = [
     {
       label: 'Name',
-      cssClass: 'col-name',
+      class: 'col-name',
       value (entry) {
         return entry.name
       },
@@ -32,7 +32,7 @@ export default function files ({ path, data, id }) {
 
     {
       label: 'Type',
-      cssClass: 'col-type',
+      class: 'col-type',
       value (entry) {
         if (!entry.isFile) {
           return 'Directory'
@@ -50,7 +50,7 @@ export default function files ({ path, data, id }) {
 
     {
       label: 'Size',
-      cssClass: 'col-size',
+      class: 'col-size',
       view (entry) {
         if (!entry.isFile) {
           return '-'
@@ -79,7 +79,7 @@ export default function files ({ path, data, id }) {
 
     {
       label: 'Modified',
-      cssClass: 'col-modified',
+      class: 'col-modified',
       view (entry) {
         if (entry.name === '..') {
           return '-'
@@ -106,8 +106,8 @@ export default function files ({ path, data, id }) {
 
   return c('div', { class: 'page files-page' },
     c(section, { title: `Index of /${id}` },
-      c(table, {
-        cssClass: 'files-table',
+      c(interactiveTable, {
+        class: 'files-table',
         data: dynamic,
         fixedData: fixed,
         columns,
