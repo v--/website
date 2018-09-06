@@ -1,20 +1,57 @@
 /* eslint-env browser */
 
+import { Observable } from '../../../common/support/observable'
+
+const DESKTOP_WIDTH = 700
+
 export function onDocumentReady () {
-  if (!window.COMPATIBLE_INTERPRETER) {
-    return new Promise(function () {})
-  }
-
-  if (document.readyState === 'interactive') {
-    return Promise.resolve()
-  }
-
   return new Promise(function (resolve) {
-    function listener () {
-      window.removeEventListener('DOMContentLoaded', listener)
-      resolve()
-    }
+    window.requestAnimationFrame(function () {
+      if (!window.COMPATIBLE_INTERPRETER) {
+        return
+      }
 
-    window.addEventListener('DOMContentLoaded', listener)
+      if (document.readyState === 'interactive' || document.readyState === 'complete') {
+        return resolve()
+      }
+
+      function listener () {
+        window.removeEventListener('DOMContentLoaded', listener)
+        resolve()
+      }
+
+      window.addEventListener('DOMContentLoaded', listener)
+    })
   })
+}
+
+export class ResizeObservable extends Observable {
+  constructor () {
+    super({
+      width: window.innerWidth,
+      height: window.innerHeight,
+      isDesktop: window.innerWidth >= DESKTOP_WIDTH
+    })
+
+    this._triggerUpdate = ResizeObservable.prototype.triggerUpdate.bind(this)
+    window.addEventListener('resize', this._triggerUpdate)
+
+    onDocumentReady().then(function () {
+      window.requestAnimationFrame(function () {
+        this.triggerUpdate()
+      }.bind(this))
+    }.bind(this))
+  }
+
+  complete () {
+    window.removeEventListener('resize', this._triggerUpdate)
+  }
+
+  triggerUpdate () {
+    this.emit({
+      width: window.innerWidth,
+      height: window.innerHeight,
+      isDesktop: window.innerWidth >= DESKTOP_WIDTH
+    })
+  }
 }

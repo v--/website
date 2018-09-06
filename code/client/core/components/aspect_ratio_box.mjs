@@ -1,50 +1,88 @@
-import { c } from '../../../common/component'
-import { onDocumentReady } from '../../core/support/dom'
+import { resize } from '../../core/observables'
+import { CoolError } from '../../../common/errors'
 
-const resizeListenerMap = new WeakMap()
+export class AspectRatioError extends CoolError {}
+export class NodeAlreadyRegisteredError extends AspectRatioError {}
 
-window.render.observables.create.subscribe({
-  next (node) {
-    if (node.component.type !== aspectRatioBox) {
+let currentRoot = null
+let currentBox = null
+
+function tryClamp (x, min, max) {
+  if (typeof min === 'number' && x < min) {
+    return min
+  }
+
+  if (typeof max === 'number' && x > max) {
+    return max
+  }
+
+  return x
+}
+
+const resizeObserver = {
+  next () {
+    if (!currentRoot || !currentBox) {
       return
     }
 
-    function onResize () {
-      const ratio = node.component.state.current.ratio
-      const body = node.element.firstChild
+    const root = currentRoot.element
+    const box = currentBox.element
+    const boxState = currentBox.component.state.current
 
-      let width = node.element.offsetWidth
-      let height = node.element.offsetHeight
+    const availableWidth = root.offsetWidth - root.offsetLeft - 2 * box.offsetLeft // Assume that the left offset describes the element's margin
+    const clampedWidth = tryClamp(availableWidth, boxState.minWidth, boxState.maxWidth)
+    let width = clampedWidth
 
-      if (width / height <= ratio) {
-        height = Math.round(width / ratio)
-      } else {
-        width = Math.round(height * ratio)
-      }
+    const availableHeight = root.offsetHeight - root.offsetTop - box.offsetTop - (boxState.bottomMargin || 0)
+    const clampedHeight = tryClamp(availableHeight, boxState.minHeight, boxState.maxHeight)
+    let height = clampedHeight
 
-      body.style.width = width + 'px'
-      body.style.height = height + 'px'
+    if (clampedWidth / clampedHeight < boxState.ratio) {
+      height = clampedWidth / boxState.ratio
+    } else {
+      width = clampedHeight * boxState.ratio
     }
 
-    resizeListenerMap.set(node.element, onResize)
-    window.addEventListener('resize', onResize)
-    onDocumentReady().then(onResize)
+    box.style.width = width + 'px'
+    box.style.height = height + 'px'
+    box.style.paddingLeft = (availableWidth - width) / 2 + 'px'
+  }
+}
+
+resize.subscribe(resizeObserver)
+
+window.render.observables.create.subscribe({
+  next (node) {
+    if (node.component.type === aspectRatioRoot) {
+      if (currentRoot) {
+        throw new NodeAlreadyRegisteredError('There is already a registered aspect ratio root')
+      }
+
+      currentRoot = node
+    } else if (node.component.type === aspectRatioBox) {
+      if (currentBox) {
+        throw new NodeAlreadyRegisteredError('There is already a registered aspect ratio box')
+      }
+
+      currentBox = node
+    }
   }
 })
 
 window.render.observables.destroy.subscribe({
   next (node) {
-    if (node.component.type !== aspectRatioBox) {
-      return
+    if (node.component.type === aspectRatioRoot) {
+      currentRoot = null
+    } else if (node.component.type === aspectRatioBox) {
+      currentBox = null
     }
-
-    window.removeEventListener('resize', resizeListenerMap.get(node.element))
-    resizeListenerMap.delete(node.element)
   }
 })
 
-export default function aspectRatioBox ({ ratio, item }) {
-  return c('div', { class: 'aspect-ratio-box' },
-    c('div', { class: 'aspect-ratio-box-body' }, item)
-  )
+export function aspectRatioRoot ({ item }) {
+  return item
+}
+
+export function aspectRatioBox ({ item }) {
+  return item
 }

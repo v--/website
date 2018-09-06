@@ -5,9 +5,8 @@ import RouterState from '../../../common/support/router_state'
 
 import DB from '../db'
 import router from '../router'
+import { resize } from '../observables'
 import { loadBundle } from '../support/bundles'
-
-const DESKTOP_WIDTH = 700
 
 export default class RouterObservable extends Observable {
   static async initialize () {
@@ -29,15 +28,43 @@ export default class RouterObservable extends Observable {
       state.factory = window.bundles.get(state.bundle)
     }
 
+    state.isCollapsed = !resize.current.isDesktop
     super(state)
-    this.current.isCollapsed = window.innerWidth < DESKTOP_WIDTH
 
     this.current.toggleCollapsed = function () {
       this.update({ isCollapsed: !this.current.isCollapsed })
+      this._notifyOfDelayedResize()
     }.bind(this)
 
     this.db = db
     this.path = path
+    this._bindToResize()
+  }
+
+  _bindToResize () {
+    this._resizeObserver = {
+      next: ({ isDesktop }) => {
+        if (!this._isResizeTriggered && this.current.isCollapsed !== !isDesktop) {
+          this.update({ isCollapsed: !isDesktop })
+          this._notifyOfDelayedResize()
+        }
+
+        this._isResizeTriggered = false
+      }
+    }
+
+    resize.subscribe(this._resizeObserver)
+  }
+
+  _notifyOfResize () {
+    this._isResizeTriggered = true
+    resize.triggerUpdate()
+  }
+
+  _notifyOfDelayedResize () {
+    window.setTimeout(function () {
+      this._notifyOfResize()
+    }.bind(this), 400)
   }
 
   async digestError (err) {
@@ -72,10 +99,12 @@ export default class RouterObservable extends Observable {
       return
     }
 
-    if (window.innerWidth < DESKTOP_WIDTH) {
-      route.isCollapsed = true
-    }
-
     this.update(route)
+    resize.triggerUpdate()
+  }
+
+  complete () {
+    resize.unsubscribe(this._resizeObserver)
+    super.complete()
   }
 }
