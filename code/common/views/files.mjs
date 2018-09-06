@@ -20,9 +20,13 @@ export default function files ({ path, data, id }) {
       label: 'Name',
       class: 'col-name',
       value (entry) {
-        return entry.name
+        return entry && entry.name
       },
       link (entry) {
+        if (entry === null) {
+          return
+        }
+
         return {
           url: getLink(entry),
           isInternal: !entry.isFile
@@ -34,6 +38,10 @@ export default function files ({ path, data, id }) {
       label: 'Type',
       class: 'col-type',
       value (entry) {
+        if (entry === null) {
+          return
+        }
+
         if (!entry.isFile) {
           return 'Directory'
         }
@@ -52,6 +60,10 @@ export default function files ({ path, data, id }) {
       label: 'Size',
       class: 'col-size',
       view (entry) {
+        if (entry === null) {
+          return
+        }
+
         if (!entry.isFile) {
           return '-'
         }
@@ -73,7 +85,7 @@ export default function files ({ path, data, id }) {
         return 'Invalid size'
       },
       value (entry) {
-        return entry.size
+        return entry && entry.size
       }
     },
 
@@ -81,6 +93,10 @@ export default function files ({ path, data, id }) {
       label: 'Modified',
       class: 'col-modified',
       view (entry) {
+        if (entry === null) {
+          return
+        }
+
         if (entry.name === '..') {
           return '-'
         }
@@ -88,7 +104,7 @@ export default function files ({ path, data, id }) {
         return new Date(entry.modified).toLocaleString()
       },
       value (entry) {
-        return Date.parse(entry.modified)
+        return entry && Date.parse(entry.modified)
       }
     }
   ]

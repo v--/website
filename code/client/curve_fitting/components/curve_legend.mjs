@@ -1,4 +1,5 @@
 import { sort } from '../../../common/support/iteration'
+import { styles } from '../../../common/support/dom_properties'
 
 import { c } from '../../../common/component'
 import table from '../../../common/components/table'
@@ -26,16 +27,26 @@ export default function curveLegend ({ mapping, curves }) {
       data: curves,
       columns: [
         {
+          value: '●',
+          class: 'col-color',
+          style (entry) {
+            return entry && styles({ color: entry.fitter.color })
+          }
+        },
+
+        {
           label: 'Curve name',
+          class: 'col-name',
           value (entry) {
-            return entry.fitter.name
+            return entry && entry.fitter.name
           }
         },
 
         {
           label: 'Expression',
+          class: 'col-expression',
           value (entry) {
-            return String(entry.curve)
+            return entry && String(entry.curve)
           }
         }
       ]

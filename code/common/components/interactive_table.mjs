@@ -82,7 +82,7 @@ function * pagination (pages, config) {
   )
 }
 
-export default function interactiveTable ({ class: cssClass, columns, data, fixedData = [], path }) {
+export default function interactiveTable ({ class: cssClass, style, columns, data, fixedData = [], path }) {
   const config = new QueryConfig(path, QUERY_CONFIG_DEFAULTS, QUERY_CONFIG_PARSERS)
   const perPage = config.get('per_page')
   const page = config.get('page')
@@ -114,7 +114,18 @@ export default function interactiveTable ({ class: cssClass, columns, data, fixe
     }
 
     const newSortingValue = Math.abs(sorting) === columnIndex ? -sorting : columnIndex
-    newColumn.headerLink = config.getUpdatedPath({ sorting: newSortingValue })
+    newColumn.link = function (datum) {
+      if (datum === null) {
+        return {
+          url: config.getUpdatedPath({ sorting: newSortingValue }),
+          isInternal: true
+        }
+      } else if (typeof column.link === 'function') {
+        return column.link(datum)
+      } else {
+        return column.link
+      }
+    }
 
     return newColumn
   })
@@ -122,6 +133,7 @@ export default function interactiveTable ({ class: cssClass, columns, data, fixe
   return c(table,
     {
       class: classlist('interactive-table', cssClass),
+      style: style,
       data: sliced,
       columns: newColumns
     },
