@@ -6,16 +6,35 @@
   .point-grid {
     .grid-point {
       fill: @visualization-color-midground;
+    }
+  }
 
-      &.active {
-        fill: @success-color;
+  .hover-grid {
+    .grid-square {
+      fill: transparent;
+      opacity: 0.75;
+
+      &:hover {
+        fill: @curve-fitting-point-highlight;
       }
     }
   }
 
-  .largange-polynomial {
+  .active-points {
+    pointer-events: none;
+
+    .grid-point {
+      fill: @curve-fitting-point-active;
+    }
+  }
+
+  .curve {
     fill: none;
-    stroke: @danger-color;
+    pointer-events: none;
     stroke-width: 0.1;
+
+    &.newton-polynomial {
+      stroke: @curve-fitting-lagrange-polynomial;
+    }
   }
 }

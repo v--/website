@@ -60,3 +60,9 @@ export class NotFoundError extends HTTPError {
     super(404, 'Resource not found', viewID)
   }
 }
+
+export class NotImplementedError extends Error {
+  constructor () {
+    super('The abstract operation has not been implemented.')
+  }
+}
