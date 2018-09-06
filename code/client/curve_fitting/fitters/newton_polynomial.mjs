@@ -1,15 +1,12 @@
-import { repr } from '../../../common/support/strings'
-import { NoPointsError } from '../errors'
-
 import Polynomial from '../support/polynomial'
 import dividedDifferences from '../support/divided_differences'
 
 export default Object.freeze({
   name: 'Newton polynomial',
-  cssClass: 'newton-polynomial',
+  color: '#b73945',
   fit (f, points) {
     if (points.length === 0) {
-      throw new NoPointsError(`Cannot interpolate ${repr(f)} at zero points`)
+      return new Polynomial([0])
     }
 
     let result = new Polynomial([f(points[0])])

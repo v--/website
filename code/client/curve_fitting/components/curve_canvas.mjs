@@ -1,27 +1,8 @@
 import { zip, map, range, product } from '../../../common/support/iteration'
 import { join } from '../../../common/support/strings'
 import { s } from '../../../common/support/svg'
-import { classlist } from '../../../common/support/dom_properties'
 
-import fitters from '../fitters'
-
-function generateSVGLine (fitter, mapping, domain) {
-  let range
-
-  if (mapping.domain.size > 0) {
-    const curve = fitter.fit(x => mapping.get(x), Array.from(mapping.domain))
-    range = domain.map(x => curve.evaluate(x))
-  } else {
-    range = domain.map(x => 0)
-  }
-
-  return s(
-    'polyline',
-    { class: classlist('curve', fitter.cssClass), points: join(' ', zip(domain, range)) }
-  )
-}
-
-export default function curveCanvas ({ width, height, mapping }) {
+export default function curveCanvas ({ width, height, mapping, curves }) {
   const grid = Array.from(
     map(
       ([x, y]) => ({ x, y }),
@@ -85,7 +66,12 @@ export default function curveCanvas ({ width, height, mapping }) {
     s(
       'g',
       { class: 'curves' },
-      ...fitters.map(fitter => generateSVGLine(fitter, mapping, domain))
+      ...curves.map(function ({ curve, fitter }) {
+        return s(
+          'polyline',
+          { class: 'curve', stroke: fitter.color, points: join(' ', zip(domain, domain.map(x => curve.evaluate(x)))) }
+        )
+      })
     ),
 
     s(

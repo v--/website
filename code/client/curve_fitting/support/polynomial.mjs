@@ -12,7 +12,9 @@ export default class Polynomial {
       }
     }
 
-    this.coefficients = coefficients.slice(leadingZeros)
+    this.coefficients = coefficients
+      .slice(leadingZeros)
+      .map(c => Math.round(c * 1e5) / 1e5)
 
     if (this.coefficients.length === 0) {
       this.coefficients.push(0)

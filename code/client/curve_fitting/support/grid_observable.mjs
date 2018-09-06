@@ -1,4 +1,7 @@
 import { Observable } from '../../../common/support/observable'
+import { sort } from '../../../common/support/iteration'
+
+import fitters from '../fitters'
 
 class DiscreteMap {
   constructor () {
@@ -30,6 +33,19 @@ class DiscreteMap {
   }
 }
 
+function recalculateCurves (mapping) {
+  const points = sort(mapping.domain)
+
+  function fun (x) {
+    return mapping.get(x)
+  }
+
+  return fitters.map(function (fitter) {
+    const curve = fitter.fit(fun, points)
+    return { curve, fitter }
+  })
+}
+
 export default class GridObservable extends Observable {
   constructor (width, height) {
     const mapping = new DiscreteMap()
@@ -42,18 +58,23 @@ export default class GridObservable extends Observable {
     super({
       width,
       height,
+      curves: recalculateCurves(mapping),
       mapping: Object.create(mapping, {
         set: {
           value: (arg, val) => {
             mapping.set(arg, val)
-            this.update()
+            this.update({
+              curves: recalculateCurves(mapping)
+            })
           }
         },
 
         delete: {
           value: (arg) => {
             mapping.delete(arg)
-            this.update()
+            this.update({
+              curves: recalculateCurves(mapping)
+            })
           }
         }
       })
