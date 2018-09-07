@@ -1,5 +1,7 @@
 /* eslint-env browser */
 
+window.COMPATIBLE_INTERPRETER = Object.hasOwnProperty('assign')
+
 function showError () {
   const nojs = document.querySelector('.nojs')
   const div = document.createElement('div')
@@ -15,5 +17,5 @@ function showError () {
 }
 
 if (!window.COMPATIBLE_INTERPRETER) {
-  window.addEventListener('load', showError)
+  window.addEventListener('DOMContentLoaded', showError)
 }

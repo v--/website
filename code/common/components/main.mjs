@@ -9,7 +9,7 @@ export default function body (state) {
     c(sidebarToggle, state),
     c(sidebar, state),
     c('div', { class: 'page-wrapper' },
-      c(state.factory, state),
+      state.factory && c(state.factory, state),
       state.loading && c(loadingIndicator, state)
     )
   )

@@ -10,10 +10,6 @@ import RouterObservable from './support/router_observable'
 import { onDocumentReady } from './support/dom'
 import render from './render'
 
-window.COMPATIBLE_INTERPRETER = Object.hasOwnProperty('assign')
-window.bundles = new Map()
-window.render = render
-
 function renderObservable (observable) {
   document.body.replaceChild(
     render(c(main, observable)),

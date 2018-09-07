@@ -9,7 +9,7 @@ import curveLegend from './components/curve_legend'
 const WIDTH = 20
 const HEIGHT = 16
 
-window.bundles.set('curve_fitting', function playgroundCurveFitting () {
+export default function playgroundCurveFitting () {
   const observable = new GridObservable(WIDTH, HEIGHT)
 
   return c(aspectRatioRoot, {
@@ -33,4 +33,4 @@ window.bundles.set('curve_fitting', function playgroundCurveFitting () {
       c(curveLegend, observable)
     )
   })
-})
+}

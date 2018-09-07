@@ -1,33 +1,27 @@
+import sourcemaps from 'gulp-sourcemaps'
+import replace from 'gulp-replace'
+import rename from 'gulp-rename'
 import concat from 'gulp-concat'
+import terser from 'gulp-uglify-es'
 import less from 'gulp-less'
 import svgo from 'gulp-svgo'
 import gulp from 'gulp'
-import env from 'gulp-environments'
 
-import rollup from 'rollup'
-
-import rollupConfigFactory from './rollup_config_factory'
 import sync from './sync'
 import { getMDIcons } from './md_icons'
-
-const BUNDLES = ['core', 'sorting', 'curve_fitting']
 
 gulp.task('client:assets', function () {
   return gulp.src('client/assets/**/*')
     .pipe(gulp.dest('public'))
 })
 
-for (const bundle of BUNDLES) {
-  gulp.task(`client:styles:${bundle}`, function () {
-    return gulp.src(`client/styles/${bundle}/**/*.less`)
-      .pipe(less())
-      .pipe(concat(`${bundle}.css`))
-      .pipe(gulp.dest('public/styles'))
-      .pipe(sync.stream())
-  })
-}
-
-gulp.task('client:styles', gulp.parallel(...BUNDLES.map(bundle => `client:styles:${bundle}`)))
+gulp.task('client:styles', function () {
+  return gulp.src('client/styles/**/*.less')
+    .pipe(less())
+    .pipe(concat('index.css'))
+    .pipe(gulp.dest('public/styles'))
+    .pipe(sync.stream())
+})
 
 gulp.task('client:svgs', function () {
   return gulp.src('client/svgs/**/*.svg')
@@ -44,31 +38,16 @@ gulp.task('client:icons', async function () {
     .pipe(sync.stream())
 })
 
-{
-  const cache = new Map()
-
-  gulp.task('client:code', function () {
-    return Promise.all(BUNDLES.map(async function (bundle) {
-      const input = `code/client/${bundle}/index.mjs`
-
-      const writeConfig = {
-        format: 'iife',
-        sourcemap: true,
-        indent: false,
-        name: `modules.${bundle}`,
-        file: `public/code/${bundle}.js`
-      }
-
-      const rollupConfig = rollupConfigFactory(input, env.production(), cache.get(bundle))
-
-      const rollupBundle = await rollup.rollup(rollupConfig)
-
-      cache.set(bundle, rollupBundle)
-      await rollupBundle.write(writeConfig)
-      sync.reload()
-    }))
-  })
-}
+gulp.task('client:code', function () {
+  // Much tooling, including gulp-sourcemaps, refuses to work with mjs files, so we rename them to js
+  return gulp.src('code/{client,common}/**/*.mjs')
+    .pipe(rename({ extname: '.js' }))
+    .pipe(replace(/(import|from) '([a-z_./]+)'/g, "$1 '$2.js'"))
+    .pipe(sourcemaps.init())
+    .pipe(terser.default())
+    .pipe(sourcemaps.write('.', { sourceRoot: '.' }))
+    .pipe(gulp.dest('public/code'))
+})
 
 gulp.task('client', gulp.parallel(
   'client:assets',

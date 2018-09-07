@@ -6,7 +6,11 @@ import RouterState from '../../../common/support/router_state'
 import DB from '../db'
 import router from '../router'
 import { resize } from '../observables'
-import { loadBundle } from '../support/bundles'
+import dynamicImport from '../support/dynamic_import'
+
+function loadBundle (bundle) {
+  return dynamicImport(`${location.origin}/code/client/${bundle}/index.js`)
+}
 
 export default class RouterObservable extends Observable {
   static async initialize () {
@@ -14,7 +18,9 @@ export default class RouterObservable extends Observable {
 
     // "data" is the id a script element
     const db = new DB(JSON.parse(window.data.textContent))
-    return new this(await router(path, db), db, path)
+    const state = await router(path, db)
+
+    return new this(state, db, path)
   }
 
   static readURL () {
@@ -25,7 +31,11 @@ export default class RouterObservable extends Observable {
     const state = Object.assign({}, initialState)
 
     if (state.bundle) {
-      state.factory = window.bundles.get(state.bundle)
+      state.loading = true
+      loadBundle(state.bundle).then(factory => {
+        this.update({ factory, loading: false })
+        resize.triggerUpdate()
+      })
     }
 
     state.isCollapsed = !resize.current.isDesktop
@@ -39,6 +49,10 @@ export default class RouterObservable extends Observable {
     this.db = db
     this.path = path
     this._bindToResize()
+
+    window.requestAnimationFrame(function () {
+      resize.triggerUpdate()
+    })
   }
 
   _bindToResize () {

@@ -7,7 +7,7 @@ import sortingCard from './components/sorting_card'
 import algorithms from './algorithms'
 import sequences from './sequences'
 
-window.bundles.set('sorting', function playgroundSorting () {
+export default function playgroundSorting () {
   const observables = algorithms.map(function (algorithm) {
     return new SortObservable(algorithm, sequences)
   })
@@ -49,4 +49,4 @@ window.bundles.set('sorting', function playgroundSorting () {
       )
     )
   )
-})
+}
