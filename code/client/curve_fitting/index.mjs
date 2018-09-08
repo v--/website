@@ -16,7 +16,7 @@ export default function playgroundCurveFitting () {
     item: c('div', { class: 'page playground-curve-fitting-page' },
       c(section, { title: 'Curve fitting visualizations' },
         c('p', {
-          text: 'There is still a lot to be added around here, for now you can play with the interactive chart.'
+          text: 'Click anywhere on the chart to add or move data points.'
         })
       ),
 
