@@ -1,4 +1,5 @@
 import { CoolError } from '../../../common/errors.mjs'
+import { c } from '../../../common/rendering/component.mjs'
 
 import { resize } from '../../core/observables.mjs'
 import dispatcher from '../../core/render_dispatcher.mjs'
@@ -55,7 +56,7 @@ resize.subscribe(resizeObserver)
 
 dispatcher.observables.create.subscribe({
   next (node) {
-    if (node.component.type === aspectRatioRoot) {
+    if (node.component.type === aspectRatioPage) {
       if (currentRoot) {
         throw new NodeAlreadyRegisteredError('There is already a registered aspect ratio root')
       }
@@ -73,7 +74,7 @@ dispatcher.observables.create.subscribe({
 
 dispatcher.observables.destroy.subscribe({
   next (node) {
-    if (node.component.type === aspectRatioRoot) {
+    if (node.component.type === aspectRatioPage) {
       currentRoot = null
     } else if (node.component.type === aspectRatioBox) {
       currentBox = null
@@ -81,8 +82,8 @@ dispatcher.observables.destroy.subscribe({
   }
 })
 
-export function aspectRatioRoot ({ item }) {
-  return item
+export function aspectRatioPage (state, children) {
+  return c('div', state, ...children)
 }
 
 export function aspectRatioBox ({ item }) {
