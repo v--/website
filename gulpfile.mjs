@@ -10,7 +10,7 @@ import sync from './build/sync.mjs'
 gulp.task('watch', function (done) {
   gulp.watch('client/styles/**/*.less', armor(gulp.series('client:build:styles')))
   gulp.watch('client/assets/**/*', armor(gulp.series('client:restart')))
-  gulp.watch('client/svgs/**/*.svg', armor(gulp.series('client:restart')))
+  gulp.watch('client/svgs/**/*.svg', armor(gulp.series('client:build:svgs')))
   gulp.watch('client/icons.json', armor(gulp.series('client:build:icons', 'server:restart')))
 
   gulp.watch('code/server/**/*.mjs', armor(gulp.series('server:restart')))
@@ -26,4 +26,4 @@ gulp.task('watch', function (done) {
   })
 })
 
-gulp.task('default', gulp.series('client:build:minimal', 'server:restart', 'watch'))
+gulp.task('default', gulp.series('client:build', 'server:restart', 'watch'))

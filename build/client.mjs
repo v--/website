@@ -6,11 +6,6 @@ import gulp from 'gulp'
 import sync from './sync.mjs'
 import { getMDIcons } from './md_icons.mjs'
 
-gulp.task('client:build:assets', function () {
-  return gulp.src('client/assets/**/*')
-    .pipe(gulp.dest('public'))
-})
-
 gulp.task('client:build:svgs', function () {
   return gulp.src('client/svgs/**/*.svg')
     .pipe(svgo())
@@ -34,26 +29,13 @@ gulp.task('client:build:icons', async function () {
     .pipe(sync.stream())
 })
 
-gulp.task('client:build:code', async function () {
-  return gulp.src('code/{common,client}/**/*.mjs')
-    .pipe(gulp.dest('public/code'))
-    .pipe(sync.stream())
-})
-
 gulp.task('client:restart', function (done) {
   sync.reload()
   done()
 })
 
-gulp.task('client:build:minimal', gulp.parallel(
-  'client:build:styles',
-  'client:build:icons'
-))
-
 gulp.task('client:build', gulp.parallel(
-  'client:build:assets',
   'client:build:svgs',
   'client:build:styles',
-  'client:build:icons',
-  'client:build:code'
+  'client:build:icons'
 ))

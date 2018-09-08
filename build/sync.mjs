@@ -23,7 +23,7 @@ export default {
 
         {
           route: '/images',
-          dir: ['./client/svgs', './client/assets/images']
+          dir: ['./public/images', './client/assets/images']
         },
 
         {
