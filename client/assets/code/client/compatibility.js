@@ -34,14 +34,8 @@ function hideSidebar () {
 if (!window.COMPATIBLE_INTERPRETER) {
   window.addEventListener('DOMContentLoaded', showError)
 } else {
-  // DOMContentLoaded and load are simply too late to use here
-  var interval = window.setInterval(function () {
-    if (!document.body) {
-      return
-    }
-
-    window.clearInterval(interval)
-
+  // DOMContentLoaded and load kick in too late to use here
+  window.requestAnimationFrame(function () {
     if (window.innerWidth < window.DESKTOP_WIDTH) {
       hideSidebar()
     }
@@ -49,5 +43,5 @@ if (!window.COMPATIBLE_INTERPRETER) {
     if (isPageInteractive) {
       showLoading()
     }
-  }, 10)
+  })
 }
