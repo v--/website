@@ -103,39 +103,33 @@ export default function interactiveTable ({ class: cssClass, style, columns, dat
   }
 
   const sliced = sliceData({ columns, data, fixedData, config })
-  const newColumns = columns.map(function (column, i) {
-    const columnIndex = i + 1
-    const newColumn = Object.assign({}, column)
-
-    if (Math.abs(sorting) === columnIndex) {
-      newColumn.icon = sorting > 0 ? 'sort-ascending' : 'sort-descending'
-    } else {
-      newColumn.icon = 'sort-variant'
-    }
-
-    const newSortingValue = Math.abs(sorting) === columnIndex ? -sorting : columnIndex
-    newColumn.link = function (datum) {
-      if (datum === null) {
-        return {
-          url: config.getUpdatedPath({ sorting: newSortingValue }),
-          isInternal: true
-        }
-      } else if (typeof column.link === 'function') {
-        return column.link(datum)
+  const headers = {
+    icon (column, i) {
+      if (Math.abs(sorting) === i + 1) {
+        return sorting > 0 ? 'sort-ascending' : 'sort-descending'
       } else {
-        return column.link
+        return 'sort-variant'
+      }
+    },
+
+    link (column, i) {
+      const columnIndex = i + 1
+      const newSortingValue = Math.abs(sorting) === columnIndex ? -sorting : columnIndex
+
+      return {
+        url: config.getUpdatedPath({ sorting: newSortingValue }),
+        isInternal: true
       }
     }
-
-    return newColumn
-  })
+  }
 
   return c(table,
     {
       class: classlist('interactive-table', cssClass),
-      style: style,
       data: sliced,
-      columns: newColumns
+      style,
+      columns,
+      headers
     },
     pages > 1 && c('thead', null,
       c('tr', null,

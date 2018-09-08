@@ -3,12 +3,16 @@ import { c } from '../rendering/component.mjs'
 import icon from './icon.mjs'
 import link from './link.mjs'
 
-function evalColumnData (column, datum) {
+function evalMappingData (mapping, datum, index) {
   const result = {}
 
-  for (const [key, value] of Object.entries(column)) {
+  if (!mapping) {
+    return result
+  }
+
+  for (const [key, value] of Object.entries(mapping)) {
     if (typeof value === 'function') {
-      const val = value(datum)
+      const val = value(datum, index)
 
       if (val !== undefined) {
         result[key] = val
@@ -21,13 +25,44 @@ function evalColumnData (column, datum) {
   return result
 }
 
-function * headers (columns) {
-  for (let i = 1; i <= columns.length; i++) {
-    const column = columns[i - 1]
-    const data = evalColumnData(column, null)
+function cellBody ({ link: linkData, text, class: cssClass, style }, children) {
+  const childState = {}
+
+  if (cssClass) {
+    childState.class = cssClass
+  }
+
+  if (style) {
+    childState.style = style
+  }
+
+  if (text) {
+    childState.text = text
+  }
+
+  if (linkData) {
+    childState.isInternal = linkData.isInternal
+    childState.link = linkData.url
+
+    return c(link, childState, ...children)
+  }
+
+  return c('span', childState, ...children)
+}
+
+function * headers (headerConfig, columns) {
+  for (let i = 0; i < columns.length; i++) {
+    const column = columns[i]
+    const data = evalMappingData(headerConfig, column, i)
+
+    for (const [key, value] of Object.entries(column)) {
+      if (!data.hasOwnProperty(key) && typeof value === 'string') {
+        data[key] = value
+      }
+    }
 
     yield c('th', { title: data.label, class: data.class, style: data.style },
-      c(data.link ? link : 'div', { class: 'heading', isInternal: data.link && data.link.isInternal, link: data.link && data.link.url },
+      c(cellBody, { class: 'heading', link: data.link },
         data.icon && c(icon, { name: data.icon }),
         c('span', { text: data.label })
       )
@@ -36,27 +71,18 @@ function * headers (columns) {
 }
 
 function * row (columns, datum) {
-  for (const column of columns) {
-    const data = evalColumnData(column, datum)
+  for (let i = 0; i < columns.length; i++) {
+    const column = columns[i]
+
+    const data = evalMappingData(column, datum, i)
     const value = data.view || data.value
 
-    if ('link' in data) {
-      const { url, isInternal } = data.link
-
-      yield c('td', { title: value, class: data.class, style: data.style },
-        c(link, {
-          text: value,
-          link: url,
-          isInternal: isInternal
-        })
-      )
-    } else {
-      yield c('td', { title: value, class: data.class, style: data.style },
-        c('span', {
-          text: value
-        })
-      )
-    }
+    yield c('td', { title: value, class: data.class, style: data.style },
+      c(cellBody, {
+        text: value,
+        link: data.link
+      })
+    )
   }
 }
 
@@ -66,10 +92,10 @@ function * rows (columns, data) {
   }
 }
 
-export default function table ({ class: cssClass, style, columns, data }, children) {
+export default function table ({ class: cssClass, style, columns, headers: headerConfig, data }, children) {
   return c('table', { class: cssClass, style },
     c('thead', null,
-      c('tr', null, ...headers(columns))
+      c('tr', null, ...headers(headerConfig, columns))
     ),
 
     c('tbody', null, ...rows(columns, data)),

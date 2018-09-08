@@ -30,7 +30,7 @@ export default function curveLegend ({ mapping, curves }) {
           value: '●',
           class: 'col-color',
           style (entry) {
-            return entry && styles({ color: entry.fitter.color })
+            return styles({ color: entry.fitter.color })
           }
         },
 
@@ -38,7 +38,7 @@ export default function curveLegend ({ mapping, curves }) {
           label: 'Curve name',
           class: 'col-name',
           value (entry) {
-            return entry && entry.fitter.name
+            return entry.fitter.name
           }
         },
 
@@ -46,7 +46,7 @@ export default function curveLegend ({ mapping, curves }) {
           label: 'Expression',
           class: 'col-expression',
           value (entry) {
-            return entry && String(entry.curve)
+            return String(entry.curve)
           }
         },
 
@@ -54,7 +54,7 @@ export default function curveLegend ({ mapping, curves }) {
           label: 'Added on',
           class: 'col-date',
           value (entry) {
-            return entry && String(entry.fitter.date)
+            return String(entry.fitter.date)
           }
         }
       ]
