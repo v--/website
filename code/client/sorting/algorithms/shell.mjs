@@ -1,6 +1,6 @@
 export default Object.freeze({
   name: 'Shellsort',
-  date: '13 November 2014',
+  date: '2014-11-13',
   stable: false,
   time: 'O(n²)',
   space: 'Θ(1)',

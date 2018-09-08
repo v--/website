@@ -1,6 +1,6 @@
 export default Object.freeze({
   name: 'Bottom-up merge sort',
-  date: '13 November 2014',
+  date: '2014-11-13',
   stable: true,
   time: 'O(n log n)',
   space: 'O(n)',

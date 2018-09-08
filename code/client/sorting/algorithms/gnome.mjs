@@ -1,6 +1,6 @@
 export default Object.freeze({
   name: 'Gnome sort',
-  date: '20 May 2016',
+  date: '2016-05-20',
   stable: true,
   time: 'O(n²)',
   space: 'Θ(1)',

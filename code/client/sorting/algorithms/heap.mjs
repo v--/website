@@ -16,7 +16,7 @@ function constructHeap (sortable, heapSize, largest, candidateLargest) {
 
 export default Object.freeze({
   name: 'Heapsort',
-  date: '23 November 2015',
+  date: '2015-11-23',
   stable: false,
   time: 'O(n log n)',
   space: 'Θ(1)',

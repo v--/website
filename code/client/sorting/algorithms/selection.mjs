@@ -1,6 +1,6 @@
 export default Object.freeze({
   name: 'Selection sort',
-  date: '13 November 2014',
+  date: '2014-11-13',
   stable: false,
   time: 'Θ(n²)',
   space: 'Θ(1)',

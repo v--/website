@@ -12,7 +12,7 @@ function products (seqA, seqB) {
 
 export default Object.freeze({
   name: 'Linear least squares',
-  date: '06.09.2018',
+  date: '2018-09-06',
   color: '#c35fcd',
   fit (mapping) {
     if (mapping.n === 0) {
