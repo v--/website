@@ -1,21 +1,18 @@
 export NODE_PATH = "code/"
 
-test file:
-    mocha --require @std/esm -- {{file}}
-
 benchmark file='benchmarks/*.mjs':
-    mocha --require @std/esm --no-timeouts -- {{file}}
+    node --experimental-modules {{file}}
+
+test:
+    env NODE_OPTIONS='--experimental-modules' mocha --delay tests/_runner.js
 
 lint:
     standard benchmarks/** code/**/*.mjs tests/**/*.mjs client/assets/**.js gulpfile.mjs
 
-test_all:
-    just test "$(find . -wholename './tests/*.mjs' | tr '\n' ' ')"
-
 build:
     env NODE_ENV=production ./gulp.mjs client:build
 
-deploy server='ivasilev.net' path='/srv/http/ivasilev.net': lint test_all build
+deploy server='ivasilev.net' path='/srv/http/ivasilev.net': lint test build
     ssh {{server}} sudo systemctl stop website.service
     ssh {{server}} find {{path}} -mindepth 1 -delete
 
