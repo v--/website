@@ -2,11 +2,6 @@ import gulp from 'gulp'
 
 import Fork from './fork.mjs'
 
-gulp.task('server:build', function () {
-  return gulp.src('server/**/*.js')
-    .pipe(gulp.dest('dist/server'))
-})
-
 {
   const child = new Fork('code/server/index')
 

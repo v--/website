@@ -13,7 +13,7 @@ export default {
       serveStatic: [
         {
           route: '/code',
-          dir: './public/code'
+          dir: ['./code', './public/code']
         },
 
         {
@@ -23,7 +23,7 @@ export default {
 
         {
           route: '/images',
-          dir: './public/images'
+          dir: ['./client/svgs', './client/assets/images']
         },
 
         {

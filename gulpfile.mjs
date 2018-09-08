@@ -8,14 +8,14 @@ import armor from './build/armor.mjs'
 import sync from './build/sync.mjs'
 
 gulp.task('watch', function (done) {
-  gulp.watch('client/styles/**/*.less', armor(gulp.series('client:styles')))
-  gulp.watch('client/assets/**/*', armor(gulp.series('client:assets')))
-  gulp.watch('client/svgs/**/*.svg', armor(gulp.series('client:svgs')))
-  gulp.watch('client/icons.json', armor(gulp.series('client:code', 'server:restart')))
+  gulp.watch('client/styles/**/*.less', armor(gulp.series('client:build:styles')))
+  gulp.watch('client/assets/**/*', armor(gulp.series('client:restart')))
+  gulp.watch('client/svgs/**/*.svg', armor(gulp.series('client:restart')))
+  gulp.watch('client/icons.json', armor(gulp.series('client:build:icons', 'server:restart')))
 
-  gulp.watch('code/client/**/*.mjs', armor(gulp.series('client:code')))
   gulp.watch('code/server/**/*.mjs', armor(gulp.series('server:restart')))
-  gulp.watch(['code/common/**/*.mjs', '!code/common/icons.mjs'], armor(gulp.parallel('server:restart', 'client:code')))
+  gulp.watch('code/client/**/*.mjs', armor(gulp.series('client:restart')))
+  gulp.watch('code/common/**/*.mjs', armor(gulp.parallel('server:restart', 'client:restart')))
 
   sync.init()
 
@@ -26,5 +26,4 @@ gulp.task('watch', function (done) {
   })
 })
 
-gulp.task('build', gulp.parallel('server:build', 'client'))
-gulp.task('default', gulp.series('client', 'server:restart', 'watch'))
+gulp.task('default', gulp.series('client:build:minimal', 'server:restart', 'watch'))

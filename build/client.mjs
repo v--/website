@@ -1,22 +1,24 @@
-import sourcemaps from 'gulp-sourcemaps'
-import replace from 'gulp-replace'
-import rename from 'gulp-rename'
 import concat from 'gulp-concat'
-import terser from 'gulp-uglify-es'
 import less from 'gulp-less'
 import svgo from 'gulp-svgo'
 import gulp from 'gulp'
 
 import sync from './sync.mjs'
 import { getMDIcons } from './md_icons.mjs'
-import rmdir from './rmdir.mjs'
 
-gulp.task('client:assets', function () {
+gulp.task('client:build:assets', function () {
   return gulp.src('client/assets/**/*')
     .pipe(gulp.dest('public'))
 })
 
-gulp.task('client:styles', function () {
+gulp.task('client:build:svgs', function () {
+  return gulp.src('client/svgs/**/*.svg')
+    .pipe(svgo())
+    .pipe(gulp.dest('public/images'))
+    .pipe(sync.stream())
+})
+
+gulp.task('client:build:styles', function () {
   return gulp.src('client/styles/**/*.less')
     .pipe(less())
     .pipe(concat('index.css'))
@@ -24,18 +26,7 @@ gulp.task('client:styles', function () {
     .pipe(sync.stream())
 })
 
-gulp.task('client:svgs', function () {
-  return gulp.src('client/svgs/**/*.svg')
-    .pipe(svgo())
-    .pipe(gulp.dest('public/images'))
-    .pipe(sync.stream())
-})
-
-gulp.task('client:code:_clean', function () {
-  return rmdir('public/code')
-})
-
-gulp.task('client:code:_icons', async function () {
+gulp.task('client:build:icons', async function () {
   return getMDIcons({
     iconsFile: 'client/icons.json',
     outputFile: 'icons.json'
@@ -43,32 +34,26 @@ gulp.task('client:code:_icons', async function () {
     .pipe(sync.stream())
 })
 
-gulp.task('client:code:_build', function () {
-  // Much tooling, including gulp-sourcemaps, refuses to work with mjs files, so we rename them to js
-  return gulp.src('code/{client,common}/**/*.mjs')
-    .pipe(rename({ extname: '.js' }))
-    .pipe(replace(/(import|from) '([a-z_./]+)'/g, "$1 '$2.js'"))
-    // .pipe(sourcemaps.init())
-    // .pipe(terser.default())
-    // .pipe(sourcemaps.write('.', { sourceRoot: '.' }))
+gulp.task('client:build:code', async function () {
+  return gulp.src('code/{common,client}/**/*.mjs')
     .pipe(gulp.dest('public/code'))
+    .pipe(sync.stream())
 })
 
-gulp.task('client:code:_reload', function (done) {
+gulp.task('client:restart', function (done) {
   sync.reload()
   done()
 })
 
-gulp.task('client:code', gulp.series(
-  'client:code:_icons',
-  'client:code:_clean',
-  'client:code:_build',
-  'client:code:_reload'
+gulp.task('client:build:minimal', gulp.parallel(
+  'client:build:styles',
+  'client:build:icons'
 ))
 
-gulp.task('client', gulp.parallel(
-  'client:assets',
-  'client:styles',
-  'client:svgs',
-  'client:code'
+gulp.task('client:build', gulp.parallel(
+  'client:build:assets',
+  'client:build:svgs',
+  'client:build:styles',
+  'client:build:icons',
+  'client:build:code'
 ))
