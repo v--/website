@@ -48,6 +48,14 @@ export default function curveLegend ({ mapping, curves }) {
           value (entry) {
             return entry && String(entry.curve)
           }
+        },
+
+        {
+          label: 'Date added',
+          class: 'col-date',
+          value (entry) {
+            return entry && String(entry.fitter.date)
+          }
         }
       ]
     })

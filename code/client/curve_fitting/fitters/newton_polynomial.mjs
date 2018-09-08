@@ -3,6 +3,7 @@ import dividedDifferences from '../support/divided_differences'
 
 export default Object.freeze({
   name: 'Newton polynomial',
+  date: '22.07.2018',
   color: '#b73945',
   fit (mapping) {
     if (mapping.n === 0) {
