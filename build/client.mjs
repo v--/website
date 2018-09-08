@@ -9,6 +9,7 @@ import gulp from 'gulp'
 
 import sync from './sync'
 import { getMDIcons } from './md_icons'
+import rmdir from './rmdir'
 
 gulp.task('client:assets', function () {
   return gulp.src('client/assets/**/*')
@@ -30,7 +31,11 @@ gulp.task('client:svgs', function () {
     .pipe(sync.stream())
 })
 
-gulp.task('client:icons', async function () {
+gulp.task('client:code:_clean', function () {
+  return rmdir('public/code')
+})
+
+gulp.task('client:code:_icons', async function () {
   return getMDIcons({
     iconsFile: 'client/icons.json',
     outputFile: 'icons.mjs'
@@ -38,7 +43,7 @@ gulp.task('client:icons', async function () {
     .pipe(sync.stream())
 })
 
-gulp.task('client:code', function () {
+gulp.task('client:code:_build', function () {
   // Much tooling, including gulp-sourcemaps, refuses to work with mjs files, so we rename them to js
   return gulp.src('code/{client,common}/**/*.mjs')
     .pipe(rename({ extname: '.js' }))
@@ -49,13 +54,15 @@ gulp.task('client:code', function () {
     .pipe(gulp.dest('public/code'))
 })
 
+gulp.task('client:code', gulp.series(
+  'client:code:_icons',
+  'client:code:_clean',
+  'client:code:_build'
+))
+
 gulp.task('client', gulp.parallel(
   'client:assets',
   'client:styles',
   'client:svgs',
-
-  gulp.series(
-    'client:icons',
-    'client:code'
-  )
+  'client:code'
 ))

@@ -11,11 +11,11 @@ gulp.task('watch', function (done) {
   gulp.watch('client/styles/**/*.less', armor(gulp.series('client:styles')))
   gulp.watch('client/assets/**/*', armor(gulp.series('client:assets')))
   gulp.watch('client/svgs/**/*.svg', armor(gulp.series('client:svgs')))
-  gulp.watch('client/icons.json', armor(gulp.series('client:icons', 'server:restart', 'client:code')))
+  gulp.watch('client/icons.json', armor(gulp.series('client:code', 'server:restart')))
 
   gulp.watch('code/client/**/*.mjs', armor(gulp.series('client:code')))
   gulp.watch('code/server/**/*.mjs', armor(gulp.series('server:restart')))
-  gulp.watch('code/common/**/*.mjs', armor(gulp.series('server:restart', 'client:code')))
+  gulp.watch('code/common/**/*.mjs', armor(gulp.parallel('server:restart', 'client:code')))
 
   sync.init()
 
