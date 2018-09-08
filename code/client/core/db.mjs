@@ -2,7 +2,7 @@
 
 import { CoolError, HTTPError, ClientError, NotFoundError } from '../../common/errors'
 
-import Cache from '../support/cache'
+import Cache from './support/cache'
 
 function restoreError (errorCls, errorData) {
   switch (errorCls) {

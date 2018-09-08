@@ -26,7 +26,9 @@ export default class Cache {
   }
 
   resetTimer (key) {
-    if (this.cleaners.has(key)) { window.clearTimeout(this.cleaners.get(key)) }
+    if (this.cleaners.has(key)) {
+      window.clearTimeout(this.cleaners.get(key))
+    }
 
     this.cleaners.set(key, window.setTimeout(() => this.remove(key), this.timeout))
   }
