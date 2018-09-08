@@ -1,7 +1,6 @@
 import { map } from '../support/iteration.mjs'
 import { c } from '../rendering/component.mjs'
 
-import section from '../components/section.mjs'
 import markdown from '../components/markdown.mjs'
 
 function * iterPackages (pkgs) {
@@ -34,7 +33,9 @@ export default function pacman ({ data }) {
   }
 
   return c('div', { class: 'page pacman-page' },
-    c(section, { title: 'Pacman repository' },
+    c('div', { class: 'section' },
+      c('h1', { class: 'section-title', text: 'Pacman repository' }),
+
       c(markdown, {
         text: 'The repo contains a variety of packages, mostly my own software and AUR builds.'
       }),
@@ -54,7 +55,8 @@ export default function pacman ({ data }) {
       })
     ),
 
-    c(section, { title: 'Packages' },
+    c('div', { class: 'section' },
+      c('h1', { class: 'section-title', text: 'Packages' }),
       ...map(([arch, pkgs]) => c(packages, { arch, pkgs }), arches.entries())
     )
   )

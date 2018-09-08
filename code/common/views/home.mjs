@@ -1,6 +1,5 @@
 import { c } from '../rendering/component.mjs'
 
-import section from '../components/section.mjs'
 import markdown from '../components/markdown.mjs'
 import icon from '../components/icon.mjs'
 import link from '../components/link.mjs'
@@ -16,13 +15,15 @@ function contact (state) {
 
 export default function home ({ redirect }) {
   return c('div', { class: 'page home-page' },
-    c(section, { title: 'Welcome!' },
+    c('div', { class: 'section' },
+      c('h1', { class: 'section-title', text: 'Welcome!' }),
       c(markdown, {
         text: 'This is my personal website - nothing more.'
       })
     ),
 
-    c(section, { title: 'About me' },
+    c('div', { class: 'section' },
+      c('h1', { class: 'section-title', text: 'About me' }),
       c(markdown, {
         text: [
           'My name is Ianis Vasilev (pronounce it however you want).',
@@ -33,7 +34,8 @@ export default function home ({ redirect }) {
       })
     ),
 
-    c(section, { title: 'About this website' },
+    c('div', { class: 'section' },
+      c('h1', { class: 'section-title', text: 'About this website' }),
       c(markdown, {
         urlHandler: redirect,
         text: [
@@ -44,7 +46,8 @@ export default function home ({ redirect }) {
       })
     ),
 
-    c(section, { title: 'Contacts' },
+    c('div', { class: 'section' },
+      c('h1', { class: 'section-title', text: 'Contacts' }),
       c('ul', null,
         c(contact, {
           text: 'Email',

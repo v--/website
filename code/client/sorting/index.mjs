@@ -1,6 +1,5 @@
 import { map } from '../../common/support/iteration.mjs'
 import { c } from '../../common/rendering/component.mjs'
-import section from '../../common/components/section.mjs'
 
 import SortObservable from './support/sort_observable.mjs'
 import sortingCard from './components/sorting_card.mjs'
@@ -13,7 +12,8 @@ export default function playgroundSorting () {
   })
 
   return c('div', { class: 'page playground-sorting-page' },
-    c(section, { title: 'Sorting visualizations' },
+    c('div', { class: 'section' },
+      c('h1', { class: 'section-title', text: 'Sorting visualizations' }),
       c('div', { class: 'sorting-button-container' },
         c('button', {
           class: 'sorting-top-button',

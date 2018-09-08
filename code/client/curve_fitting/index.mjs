@@ -1,5 +1,4 @@
 import { c } from '../../common/rendering/component.mjs'
-import section from '../../common/components/section.mjs'
 import { aspectRatioPage, aspectRatioBox } from '../core/components/aspect_ratio_page.mjs'
 
 import GridObservable from './support/grid_observable.mjs'
@@ -13,7 +12,8 @@ export default function playgroundCurveFitting () {
   const observable = new GridObservable(WIDTH, HEIGHT)
 
   return c(aspectRatioPage, { class: 'page playground-curve-fitting-page' },
-    c(section, { title: 'Curve fitting visualizations' },
+    c('div', { class: 'section' },
+      c('h1', { class: 'section-title', text: 'Curve fitting visualizations' }),
       c('p', {
         class: 'curve-fitting-subtitle',
         text: 'Click anywhere on the chart to add or move data points.'

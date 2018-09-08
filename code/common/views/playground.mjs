@@ -1,11 +1,11 @@
 import { c } from '../rendering/component.mjs'
-import section from '../components/section.mjs'
 import link from '../components/link.mjs'
 import markdown from '../components/markdown.mjs'
 
 export default function playground () {
   return c('div', { class: 'page playground-page' },
-    c(section, { title: '/playground' },
+    c('div', { class: 'section' },
+      c('h1', { class: 'section-title', text: '/playground' }),
       c(markdown, {
         text: [
           'These are some JavaScript visualizations and simulations I have programmed across the years',

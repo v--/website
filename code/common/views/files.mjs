@@ -1,6 +1,5 @@
 import { c } from '../rendering/component.mjs'
 
-import section from '../components/section.mjs'
 import markdown from '../components/markdown.mjs'
 import interactiveTable from '../components/interactive_table.mjs'
 
@@ -121,7 +120,8 @@ export default function files ({ path, data, id }) {
   }
 
   return c('div', { class: 'page files-page' },
-    c(section, { title: `Index of /${id}` },
+    c('div', { class: 'section' },
+      c('h1', { class: 'section-title', text: `Index of /${id}` }),
       c(interactiveTable, {
         class: 'files-table',
         data: dynamic,
