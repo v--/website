@@ -13,14 +13,15 @@ function products (seqA, seqB) {
 export default Object.freeze({
   name: 'Linear least squares',
   color: '#c35fcd',
-  fit (f, x) {
-    const n = x.length
-
-    if (n === 0) {
+  fit (mapping) {
+    if (mapping.n === 0) {
       return new Polynomial([0])
     }
 
-    const y = x.map(point => f(point))
+    const n = mapping.n
+    const x = mapping.domain
+    const y = mapping.range
+
     const b = (n * sum(products(x, y)) - sum(x) * sum(y)) / (n * sum(products(x, x)) - sum(x) * sum(x))
     const a = sum(y) / n - b * sum(x) / n
 

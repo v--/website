@@ -49,7 +49,6 @@ describe('Polynomial', function () {
   describe('.toString()', function () {
     it('handles the zero polynomial', function () {
       const p = new Polynomial([])
-      console.warn(String(p))
       expect(String(p)).to.equal('0')
     })
 

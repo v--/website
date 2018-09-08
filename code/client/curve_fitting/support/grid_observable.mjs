@@ -3,9 +3,9 @@ import { sort } from '../../../common/support/iteration'
 
 import fitters from '../fitters'
 
-class DiscreteMap {
-  constructor () {
-    this._payload = new Map()
+export class DiscreteMap {
+  constructor (values) {
+    this._payload = new Map(values)
   }
 
   set (arg, val) {
@@ -24,24 +24,22 @@ class DiscreteMap {
     this._payload.delete(arg)
   }
 
+  get n () {
+    return this._payload.size
+  }
+
   get domain () {
-    return new Set(this._payload.keys())
+    return sort(this._payload.keys())
   }
 
   get range () {
-    return new Set(this._payload.values())
+    return this.domain.map(x => this.get(x))
   }
 }
 
 function recalculateCurves (mapping) {
-  const points = sort(mapping.domain)
-
-  function fun (x) {
-    return mapping.get(x)
-  }
-
   return fitters.map(function (fitter) {
-    const curve = fitter.fit(fun, points)
+    const curve = fitter.fit(mapping)
     return { curve, fitter }
   })
 }
