@@ -3,8 +3,8 @@ export class Node {
     this.parent = parent
   }
 
-  addSibling (cls) {
-    const newChild = new cls(this.parent) // eslint-disable-line new-cap
+  addSibling (Cls) {
+    const newChild = new Cls(this.parent)
     this.parent.children.push(newChild)
     return newChild
   }
@@ -42,8 +42,8 @@ export class NonLeafNode extends Node {
     this.children = []
   }
 
-  addChild (cls) {
-    const newChild = new cls(this) // eslint-disable-line new-cap
+  addChild (Cls) {
+    const newChild = new Cls(this)
     this.children.push(newChild)
     return newChild
   }

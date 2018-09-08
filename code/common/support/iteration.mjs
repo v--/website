@@ -90,7 +90,7 @@ export function * zip (...iterables) {
 
   const iterators = iterables.map(iterable => iterable[Symbol.iterator]())
 
-  while (true) { // eslint-disable-line no-constant-condition
+  while (true) {
     const values = []
 
     for (const i in iterators) {

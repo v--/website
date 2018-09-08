@@ -1,5 +1,3 @@
-/* eslint-env browser */
-
 window.COMPATIBLE_INTERPRETER = Object.hasOwnProperty('assign')
 window.DESKTOP_WIDTH = 700
 

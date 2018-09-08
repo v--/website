@@ -1,5 +1,3 @@
-/* eslint-env node */
-
 import HTTPServer from './http/server.mjs'
 import { readFile } from './support/fs.mjs'
 import { iconMap } from '../common/components/icon.mjs'

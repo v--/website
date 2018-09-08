@@ -1,4 +1,3 @@
-/* eslint-env browser */
 import { Observable } from '../../../common/support/observable.mjs'
 import Path from '../../../common/support/path.mjs'
 import RouterState from '../../../common/support/router_state.mjs'

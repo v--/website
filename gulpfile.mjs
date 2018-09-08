@@ -1,5 +1,3 @@
-/* eslint-env node */
-
 import gulp from 'gulp'
 
 import './build/client.mjs'

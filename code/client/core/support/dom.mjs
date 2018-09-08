@@ -1,8 +1,4 @@
-/* eslint-env browser */
-
 import { Observable } from '../../../common/support/observable.mjs'
-
-
 
 export function onDocumentReady () {
   return new Promise(function (resolve) {

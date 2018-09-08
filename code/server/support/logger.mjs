@@ -1,5 +1,3 @@
-/* eslint-env node */
-
 export default class Logger {
   constructor (name) {
     this.name = name

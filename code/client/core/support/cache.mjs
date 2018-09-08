@@ -1,5 +1,3 @@
-/* eslint-env browser */
-
 export default class Cache {
   constructor (timeout) {
     this.cleaners = new Map()

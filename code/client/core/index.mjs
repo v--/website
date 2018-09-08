@@ -1,5 +1,3 @@
-/* eslint-env browser */
-
 import { redirection } from '../../common/observables.mjs'
 import { c } from '../../common/rendering/component.mjs'
 

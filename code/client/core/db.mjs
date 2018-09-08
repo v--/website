@@ -1,5 +1,3 @@
-/* eslint-env browser */
-
 import { CoolError, HTTPError, ClientError, NotFoundError } from '../../common/errors.mjs'
 
 import Cache from './support/cache.mjs'
