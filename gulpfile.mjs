@@ -15,7 +15,7 @@ gulp.task('watch', function (done) {
 
   gulp.watch('code/client/**/*.mjs', armor(gulp.series('client:code')))
   gulp.watch('code/server/**/*.mjs', armor(gulp.series('server:restart')))
-  gulp.watch('code/common/**/*.mjs', armor(gulp.parallel('server:restart', 'client:code')))
+  gulp.watch(['code/common/**/*.mjs', '!code/common/icons.mjs'], armor(gulp.parallel('server:restart', 'client:code')))
 
   sync.init()
 
