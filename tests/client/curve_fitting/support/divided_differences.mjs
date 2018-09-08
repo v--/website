@@ -1,6 +1,6 @@
 /* globals describe it */
 
-import { expect } from '../../../../code/tests.mjs'
+import { expect } from '../../../_common.mjs'
 
 import dividedDifferences from '../../../../code/client/curve_fitting/support/divided_differences.mjs'
 import { NoPointsError, DuplicatePointsError } from '../../../../code/client/curve_fitting/errors.mjs'

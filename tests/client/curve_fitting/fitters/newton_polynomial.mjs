@@ -1,6 +1,6 @@
 /* globals describe it */
 
-import { expect } from '../../../../code/tests.mjs'
+import { expect } from '../../../_common.mjs'
 
 import { DiscreteMap } from '../../../../code/client/curve_fitting/support/grid_observable.mjs'
 import newtonPolynomial from '../../../../code/client/curve_fitting/fitters/newton_polynomial.mjs'

@@ -1,7 +1,7 @@
 /* globals it */
 
-import { expect } from '../code/tests.mjs'
-import { run } from '../code/benchmarks.mjs'
+import { expect } from '../tests/_common.mjs'
+import { run } from './_common.mjs'
 
 import { map, reduce, range } from '../code/common/support/iteration.mjs'
 

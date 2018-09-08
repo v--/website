@@ -2,7 +2,7 @@
 
 /* eslint-disable no-console */
 
-import Benchmark from 'benchmark.mjs'
+import Benchmark from 'benchmark'
 
 export function run (...benchmarks) {
   const suite = new Benchmark.Suite()

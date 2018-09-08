@@ -1,6 +1,6 @@
 /* globals it */
 
-import { run } from '../code/benchmarks.mjs'
+import { run } from './_common.mjs'
 
 import { writeFile } from '../code/server/support/fs.mjs'
 

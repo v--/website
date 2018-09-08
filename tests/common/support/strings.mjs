@@ -1,6 +1,6 @@
 /* globals describe it */
 
-import { expect } from '../../../code/tests.mjs'
+import { expect } from '../../_common.mjs'
 
 import { repr } from '../../../code/common/support/strings.mjs'
 

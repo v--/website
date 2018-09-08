@@ -1,6 +1,6 @@
 /* globals describe it */
 
-import { expect } from '../../../../code/tests.mjs'
+import { expect } from '../../../_common.mjs'
 
 import Polynomial from '../../../../code/client/curve_fitting/support/polynomial.mjs'
 

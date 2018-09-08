@@ -1,6 +1,6 @@
 /* globals describe it */
 
-import { expect } from '../../../code/tests.mjs'
+import { expect } from '../../_common.mjs'
 
 import { EmptyIterError, reduce, range, zip, sort, shuffle, separate, product, empty } from '../../../code/common/support/iteration.mjs'
 

@@ -1,6 +1,6 @@
 /* globals describe it */
 
-import { expect } from '../../../code/tests.mjs'
+import { expect } from '../../_common.mjs'
 
 import markdown from '../../../code/common/support/markdown.mjs'
 

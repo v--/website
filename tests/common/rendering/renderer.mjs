@@ -1,6 +1,6 @@
 /* globals describe it */
 
-import { expect } from '../../../code/tests.mjs'
+import { expect } from '../../_common.mjs'
 
 import { c, XMLComponent, FactoryComponent, ComponentSanityError } from '../../../code/common/rendering/component.mjs'
 import { XMLRenderer, FactoryRenderer, RenderError, RenderDispatcher } from '../../../code/common/rendering/renderer.mjs'
