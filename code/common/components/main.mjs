@@ -4,13 +4,13 @@ import sidebar from './sidebar'
 import sidebarToggle from './sidebar_toggle'
 import loadingIndicator from './loading_indicator'
 
-export default function body (state) {
+export default function main (state) {
   return c('main', null,
     c(sidebarToggle, state),
     c(sidebar, state),
     c('div', { class: 'page-wrapper' },
-      state.factory && c(state.factory, state),
-      state.loading && c(loadingIndicator, state)
+      c(loadingIndicator, { visible: state.loading }),
+      state.factory && c(state.factory, state)
     )
   )
 }

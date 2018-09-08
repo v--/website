@@ -2,7 +2,7 @@ import { c } from '../component'
 
 import icon from '../components/icon'
 
-export default function interactiveWarning ({ path }) {
+export default function interactiveWarning ({ path, loading }) {
   return c('div', { class: 'page interactive-warning-page' },
     c('br'),
     c(icon, { class: 'chart-arc', name: 'chart-arc' }),
@@ -11,7 +11,7 @@ export default function interactiveWarning ({ path }) {
       text: `${path.underCooked} features interactive content that will not work without a modern JavaScript interpreter.`
     }),
     c('em', {
-      text: 'Note: This warning is rendered by the server. It sometimes takes time for the client code to kick in.'
+      text: 'Note: This warning is rendered by the server. It may take some time for the client code to download.'
     })
   )
 }
