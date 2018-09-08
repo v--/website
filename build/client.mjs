@@ -38,8 +38,9 @@ gulp.task('client:code:_clean', function () {
 gulp.task('client:code:_icons', async function () {
   return getMDIcons({
     iconsFile: 'client/icons.json',
-    outputFile: 'icons.mjs'
-  }).pipe(gulp.dest('code/common'))
+    outputFile: 'icons.json'
+  }).pipe(gulp.dest('public'))
+    .pipe(sync.stream())
 })
 
 gulp.task('client:code:_build', function () {

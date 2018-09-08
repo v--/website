@@ -23,7 +23,7 @@ export function getMDIcons ({ iconsFile, outputFile }) {
     const result = iconObjects
       .reduce((accum, icon) => Object.assign(accum, icon), {})
 
-    stream.write('export default ' + JSON.stringify(result) + ' // eslint-disable-line')
+    stream.write(JSON.stringify(result))
     stream.end()
   })
 

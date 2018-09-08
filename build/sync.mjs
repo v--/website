@@ -24,6 +24,11 @@ export default {
         {
           route: '/images',
           dir: './public/images'
+        },
+
+        {
+          route: '/icons.json',
+          dir: ['./public/icons.json']
         }
       ]
     })

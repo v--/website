@@ -1,5 +1,6 @@
-import icons from '../icons.mjs'
 import { s } from '../support/svg.mjs'
+
+export const iconMap = new Map()
 
 export default function icon (state) {
   const rootState = { viewBox: '0 0 24 24' }
@@ -15,6 +16,6 @@ export default function icon (state) {
   }
 
   return s('svg', rootState,
-    s('path', { d: icons[state.name] })
+    s('path', { d: iconMap.get(state.name) })
   )
 }

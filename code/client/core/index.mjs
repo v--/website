@@ -5,6 +5,7 @@ import { c } from '../../common/rendering/component.mjs'
 
 import main from '../../common/components/main.mjs'
 import title from '../../common/components/title.mjs'
+import { iconMap } from '../../common/components/icon.mjs'
 
 import RouterObservable from './support/router_observable.mjs'
 import { onDocumentReady } from './support/dom.mjs'
@@ -29,7 +30,16 @@ function renderError (observable, err) {
   renderObservable(observable)
 }
 
-onDocumentReady().then(async function () {
+async function fetchIcons () {
+  const response = await window.fetch('/icons.json')
+  const icons = await response.json()
+
+  for (const [name, icon] of Object.entries(icons)) {
+    iconMap.set(name, icon)
+  }
+}
+
+Promise.all([onDocumentReady(), fetchIcons()]).then(async function () {
   const observable = await RouterObservable.initialize()
 
   redirection.subscribe({
