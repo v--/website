@@ -40,7 +40,6 @@ gulp.task('client:code:_icons', async function () {
     iconsFile: 'client/icons.json',
     outputFile: 'icons.mjs'
   }).pipe(gulp.dest('code/common'))
-    .pipe(sync.stream())
 })
 
 gulp.task('client:code:_build', function () {
@@ -48,16 +47,22 @@ gulp.task('client:code:_build', function () {
   return gulp.src('code/{client,common}/**/*.mjs')
     .pipe(rename({ extname: '.js' }))
     .pipe(replace(/(import|from) '([a-z_./]+)'/g, "$1 '$2.js'"))
-    .pipe(sourcemaps.init())
-    .pipe(terser.default())
-    .pipe(sourcemaps.write('.', { sourceRoot: '.' }))
+    // .pipe(sourcemaps.init())
+    // .pipe(terser.default())
+    // .pipe(sourcemaps.write('.', { sourceRoot: '.' }))
     .pipe(gulp.dest('public/code'))
+})
+
+gulp.task('client:code:_reload', function (done) {
+  sync.reload()
+  done()
 })
 
 gulp.task('client:code', gulp.series(
   'client:code:_icons',
   'client:code:_clean',
-  'client:code:_build'
+  'client:code:_build',
+  'client:code:_reload'
 ))
 
 gulp.task('client', gulp.parallel(
