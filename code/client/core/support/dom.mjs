@@ -2,7 +2,7 @@
 
 import { Observable } from '../../../common/support/observable'
 
-const DESKTOP_WIDTH = 700
+
 
 export function onDocumentReady () {
   return new Promise(function (resolve) {
@@ -30,7 +30,7 @@ export class ResizeObservable extends Observable {
     super({
       width: window.innerWidth,
       height: window.innerHeight,
-      isDesktop: window.innerWidth >= DESKTOP_WIDTH
+      isDesktop: window.innerWidth >= window.DESKTOP_WIDTH
     })
 
     this._triggerUpdate = ResizeObservable.prototype.triggerUpdate.bind(this)
@@ -51,7 +51,7 @@ export class ResizeObservable extends Observable {
     this.emit({
       width: window.innerWidth,
       height: window.innerHeight,
-      isDesktop: window.innerWidth >= DESKTOP_WIDTH
+      isDesktop: window.innerWidth >= window.DESKTOP_WIDTH
     })
   }
 }

@@ -1,7 +1,9 @@
 /* eslint-env browser */
 
 window.COMPATIBLE_INTERPRETER = Object.hasOwnProperty('assign')
-var isInteractive = new RegExp('^/playground/').test(location.pathname)
+window.DESKTOP_WIDTH = 700
+
+var isPageInteractive = new RegExp('^/playground/').test(location.pathname)
 
 function showError () {
   const nojs = document.querySelector('.nojs')
@@ -23,14 +25,29 @@ function showLoading () {
   indicator.style.visibility = 'visible'
 }
 
+function hideSidebar () {
+  const sidebar = document.querySelector('aside')
+  // Avoid using the "collapsed" class to prevent animations
+  sidebar.style.display = 'none'
+}
+
 if (!window.COMPATIBLE_INTERPRETER) {
   window.addEventListener('DOMContentLoaded', showError)
-} else if (isInteractive) {
-  // DOMContentLoaded and load were simply too slow here
-  var interval = setInterval(function () {
-    if (document.body) {
+} else {
+  // DOMContentLoaded and load are simply too late to use here
+  var interval = window.setInterval(function () {
+    if (!document.body) {
+      return
+    }
+
+    window.clearInterval(interval)
+
+    if (window.innerWidth < window.DESKTOP_WIDTH) {
+      hideSidebar()
+    }
+
+    if (isPageInteractive) {
       showLoading()
-      clearInterval(interval)
     }
   }, 10)
 }
