@@ -1,9 +1,9 @@
-import { c } from '../rendering/component'
+import { c } from '../rendering/component.mjs'
 
-import section from '../components/section'
-import markdown from '../components/markdown'
-import icon from '../components/icon'
-import link from '../components/link'
+import section from '../components/section.mjs'
+import markdown from '../components/markdown.mjs'
+import icon from '../components/icon.mjs'
+import link from '../components/link.mjs'
 
 function contact (state) {
   return c('li', { class: 'contact' },

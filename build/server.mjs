@@ -1,6 +1,6 @@
 import gulp from 'gulp'
 
-import Fork from './fork'
+import Fork from './fork.mjs'
 
 gulp.task('server:build', function () {
   return gulp.src('server/**/*.js')

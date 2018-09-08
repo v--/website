@@ -1,5 +1,5 @@
-import { XMLComponent, FactoryComponent } from '../../common/rendering/component'
-import { XMLRenderer, FactoryRenderer, RenderDispatcher } from '../../common/rendering/renderer'
+import { XMLComponent, FactoryComponent } from '../../common/rendering/component.mjs'
+import { XMLRenderer, FactoryRenderer, RenderDispatcher } from '../../common/rendering/renderer.mjs'
 
 export class DOMXMLRenderer extends XMLRenderer {
   _createNode () {

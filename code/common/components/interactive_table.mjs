@@ -1,12 +1,12 @@
-import { c } from '../rendering/component'
-import { ClientError } from '../errors'
-import { classlist } from '../support/dom_properties'
-import QueryConfig from '../support/query_config'
+import { c } from '../rendering/component.mjs'
+import { ClientError } from '../errors.mjs'
+import { classlist } from '../support/dom_properties.mjs'
+import QueryConfig from '../support/query_config.mjs'
 
-import table from './table'
+import table from './table.mjs'
 
-import icon from './icon'
-import link from './link'
+import icon from './icon.mjs'
+import link from './link.mjs'
 
 const QUERY_CONFIG_DEFAULTS = Object.freeze({
   per_page: 10,

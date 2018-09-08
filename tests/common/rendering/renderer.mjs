@@ -1,11 +1,11 @@
 /* globals describe it */
 
-import { expect } from '../../../code/tests'
+import { expect } from '../../../code/tests.mjs'
 
-import { c, XMLComponent, FactoryComponent, ComponentSanityError } from '../../../code/common/rendering/component'
-import { XMLRenderer, FactoryRenderer, RenderError, RenderDispatcher } from '../../../code/common/rendering/renderer'
-import { Observable } from '../../../code/common/support/observable'
-import { map } from '../../../code/common/support/iteration'
+import { c, XMLComponent, FactoryComponent, ComponentSanityError } from '../../../code/common/rendering/component.mjs'
+import { XMLRenderer, FactoryRenderer, RenderError, RenderDispatcher } from '../../../code/common/rendering/renderer.mjs'
+import { Observable } from '../../../code/common/support/observable.mjs'
+import { map } from '../../../code/common/support/iteration.mjs'
 
 export default class MirrorXMLRenderer extends XMLRenderer {
   _createNode () {

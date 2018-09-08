@@ -1,8 +1,8 @@
 /* eslint-env browser */
 
-import { CoolError, HTTPError, ClientError, NotFoundError } from '../../common/errors'
+import { CoolError, HTTPError, ClientError, NotFoundError } from '../../common/errors.mjs'
 
-import Cache from './support/cache'
+import Cache from './support/cache.mjs'
 
 function restoreError (errorCls, errorData) {
   switch (errorCls) {

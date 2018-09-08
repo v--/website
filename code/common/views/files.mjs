@@ -1,8 +1,8 @@
-import { c } from '../rendering/component'
+import { c } from '../rendering/component.mjs'
 
-import section from '../components/section'
-import markdown from '../components/markdown'
-import interactiveTable from '../components/interactive_table'
+import section from '../components/section.mjs'
+import markdown from '../components/markdown.mjs'
+import interactiveTable from '../components/interactive_table.mjs'
 
 export default function files ({ path, data, id }) {
   function getLink (entry) {

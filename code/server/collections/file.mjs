@@ -1,8 +1,8 @@
 import path from 'path'
 
-import { stat, readFile, readdir } from '../support/fs'
-import { startsWith } from '../../common/support/strings'
-import { NotFoundError } from '../../common/errors'
+import { stat, readFile, readdir } from '../support/fs.mjs'
+import { startsWith } from '../../common/support/strings.mjs'
+import { NotFoundError } from '../../common/errors.mjs'
 
 export default class FileCollection {
   async readDirectory (basePath) {

@@ -1,5 +1,5 @@
-import icons from '../icons'
-import { s } from '../support/svg'
+import icons from '../icons.mjs'
+import { s } from '../support/svg.mjs'
 
 export default function icon (state) {
   const rootState = { viewBox: '0 0 24 24' }

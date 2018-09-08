@@ -1,4 +1,4 @@
-import { chain, repeat, zip, map } from '../../../common/support/iteration'
+import { chain, repeat, zip, map } from '../../../common/support/iteration.mjs'
 
 export default class Polynomial {
   constructor (coefficients) {

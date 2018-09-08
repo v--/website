@@ -1,9 +1,9 @@
 /* globals describe it */
 
-import { expect } from '../../code/tests'
+import { expect } from '../../code/tests.mjs'
 
-import { c } from '../../code/common/rendering/component'
-import dispatcher from '../../code/server/render_dispatcher'
+import { c } from '../../code/common/rendering/component.mjs'
+import dispatcher from '../../code/server/render_dispatcher.mjs'
 
 function renderToString (component) {
   return Array.from(dispatcher.render(component)).join('')

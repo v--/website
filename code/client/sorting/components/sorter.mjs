@@ -1,6 +1,6 @@
-import { c } from '../../../common/rendering/component'
-import { s } from '../../../common/support/svg'
-import { classlist } from '../../../common/support/dom_properties'
+import { c } from '../../../common/rendering/component.mjs'
+import { s } from '../../../common/support/svg.mjs'
+import { classlist } from '../../../common/support/dom_properties.mjs'
 
 export default function sorter ({ sequence, state, lastAction }) {
   const sorterRatio = 100 / state.length

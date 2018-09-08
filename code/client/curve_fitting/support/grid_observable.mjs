@@ -1,7 +1,7 @@
-import { Observable } from '../../../common/support/observable'
-import { sort } from '../../../common/support/iteration'
+import { Observable } from '../../../common/support/observable.mjs'
+import { sort } from '../../../common/support/iteration.mjs'
 
-import fitters from '../fitters'
+import fitters from '../fitters.mjs'
 
 export class DiscreteMap {
   constructor (values) {

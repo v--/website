@@ -2,10 +2,10 @@
 
 import gulp from 'gulp'
 
-import './build/client'
-import './build/server'
-import armor from './build/armor'
-import sync from './build/sync'
+import './build/client.mjs'
+import './build/server.mjs'
+import armor from './build/armor.mjs'
+import sync from './build/sync.mjs'
 
 gulp.task('watch', function (done) {
   gulp.watch('client/styles/**/*.less', armor(gulp.series('client:styles')))

@@ -1,8 +1,8 @@
-import { CoolError } from '../errors'
-import { c } from '../rendering/component'
+import { CoolError } from '../errors.mjs'
+import { c } from '../rendering/component.mjs'
 
-import markdown from '../components/markdown'
-import icon from '../components/icon'
+import markdown from '../components/markdown.mjs'
+import icon from '../components/icon.mjs'
 
 export default function error ({ data: err }) {
   const title = CoolError.isDisplayable(err) ? err.message : 'Error'

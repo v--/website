@@ -1,7 +1,7 @@
-import { c } from '../rendering/component'
+import { c } from '../rendering/component.mjs'
 
-import icon from './icon'
-import link from './link'
+import icon from './icon.mjs'
+import link from './link.mjs'
 
 function evalColumnData (column, datum) {
   const result = {}

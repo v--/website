@@ -1,8 +1,8 @@
 /* globals describe it */
 
-import { expect } from '../../../../code/tests'
+import { expect } from '../../../../code/tests.mjs'
 
-import Polynomial from '../../../../code/client/curve_fitting/support/polynomial'
+import Polynomial from '../../../../code/client/curve_fitting/support/polynomial.mjs'
 
 describe('Polynomial', function () {
   describe('.constructor()', function () {

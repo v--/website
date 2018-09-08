@@ -1,8 +1,8 @@
-import { sort } from '../../../common/support/iteration'
-import { styles } from '../../../common/support/dom_properties'
+import { sort } from '../../../common/support/iteration.mjs'
+import { styles } from '../../../common/support/dom_properties.mjs'
 
-import { c } from '../../../common/rendering/component'
-import table from '../../../common/components/table'
+import { c } from '../../../common/rendering/component.mjs'
+import table from '../../../common/components/table.mjs'
 
 export default function curveLegend ({ mapping, curves }) {
   return c('div', { class: 'curve-legend' },

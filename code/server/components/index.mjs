@@ -1,8 +1,8 @@
-import { c } from '../../common/rendering/component'
+import { c } from '../../common/rendering/component.mjs'
 
-import nojs from '../../common/components/nojs'
-import main from '../../common/components/main'
-import title from '../../common/components/title'
+import nojs from '../../common/components/nojs.mjs'
+import main from '../../common/components/main.mjs'
+import title from '../../common/components/title.mjs'
 
 export default function index ({ state }) {
   let serializedData
@@ -30,8 +30,8 @@ export default function index ({ state }) {
       c('link', { rel: 'shortcut icon', type: 'image/x-icon', href: 'images/favicon.png' }),
       c('link', { rel: 'stylesheet', href: 'styles/index.css' }),
       c('script', { id: 'data', type: 'application/json', text: serializedData }),
-      c('script', { src: 'code/client/core/compatibility.js' }),
-      c('script', { type: 'module', src: 'code/client/core/index.js' })
+      c('script', { src: 'code/client/core/compatibility.mjs' }),
+      c('script', { type: 'module', src: 'code/client/core/index.mjs' })
     ),
 
     c('body', null,

@@ -1,8 +1,8 @@
 /* globals describe it */
 
-import { expect } from '../../../code/tests'
+import { expect } from '../../../code/tests.mjs'
 
-import markdown from '../../../code/common/support/markdown'
+import markdown from '../../../code/common/support/markdown.mjs'
 
 function asJSON (text) {
   return markdown(text).toJSON()

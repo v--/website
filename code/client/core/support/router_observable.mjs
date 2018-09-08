@@ -1,15 +1,15 @@
 /* eslint-env browser */
-import { Observable } from '../../../common/support/observable'
-import Path from '../../../common/support/path'
-import RouterState from '../../../common/support/router_state'
+import { Observable } from '../../../common/support/observable.mjs'
+import Path from '../../../common/support/path.mjs'
+import RouterState from '../../../common/support/router_state.mjs'
 
-import DB from '../db'
-import router from '../router'
-import { resize } from '../observables'
-import dynamicImport from '../support/dynamic_import'
+import DB from '../db.mjs'
+import router from '../router.mjs'
+import { resize } from '../observables.mjs'
+import dynamicImport from '../support/dynamic_import.mjs'
 
 function loadBundle (bundle) {
-  return dynamicImport(`${location.origin}/code/client/${bundle}/index.js`)
+  return dynamicImport(`${location.origin}/code/client/${bundle}/index.mjs`)
 }
 
 export default class RouterObservable extends Observable {

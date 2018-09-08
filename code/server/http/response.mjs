@@ -1,10 +1,10 @@
-import { chain } from '../../common/support/iteration'
-import { c } from '../../common/rendering/component'
+import { chain } from '../../common/support/iteration.mjs'
+import { c } from '../../common/rendering/component.mjs'
 
-import index from '../components/index'
-import interactiveWarning from '../../common/views/interactive_warning'
+import index from '../components/index.mjs'
+import interactiveWarning from '../../common/views/interactive_warning.mjs'
 
-import dispatcher from '../render_dispatcher'
+import dispatcher from '../render_dispatcher.mjs'
 
 export default class Response {
   static json (contents, code) {

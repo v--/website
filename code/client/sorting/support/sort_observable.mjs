@@ -1,8 +1,8 @@
-import { CoolError } from '../../../common/errors'
-import { swap } from '../../../common/support/iteration'
-import { Observable } from '../../../common/support/observable'
+import { CoolError } from '../../../common/errors.mjs'
+import { swap } from '../../../common/support/iteration.mjs'
+import { Observable } from '../../../common/support/observable.mjs'
 
-import ActionList from './action_list'
+import ActionList from './action_list.mjs'
 
 const SORT_INTERVAL = 25
 

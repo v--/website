@@ -1,7 +1,7 @@
 /* eslint-env node */
 
-import HTTPServer from './http/server'
-import { readFile } from './support/fs'
+import HTTPServer from './http/server.mjs'
+import { readFile } from './support/fs.mjs'
 
 async function readConfig () {
   return JSON.parse(await readFile('./config/active.json'))

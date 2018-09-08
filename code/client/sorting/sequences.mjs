@@ -1,4 +1,4 @@
-import { shuffle, range, map, flatten, repeat } from '../../common/support/iteration'
+import { shuffle, range, map, flatten, repeat } from '../../common/support/iteration.mjs'
 
 export default Object.freeze([
   {

@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { promisory } from './async'
+import { promisory } from './async.mjs'
 
 export const stat = promisory(fs.stat)
 export const readFile = promisory(fs.readFile)

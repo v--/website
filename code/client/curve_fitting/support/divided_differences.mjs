@@ -1,6 +1,6 @@
-import { repr } from '../../../common/support/strings'
+import { repr } from '../../../common/support/strings.mjs'
 
-import { NoPointsError, DuplicatePointsError } from '../errors'
+import { NoPointsError, DuplicatePointsError } from '../errors.mjs'
 
 export default function dividedDifferences (f, points) {
   const n = points.length

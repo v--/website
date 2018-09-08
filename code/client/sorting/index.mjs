@@ -1,11 +1,11 @@
-import { map } from '../../common/support/iteration'
-import { c } from '../../common/rendering/component'
-import section from '../../common/components/section'
+import { map } from '../../common/support/iteration.mjs'
+import { c } from '../../common/rendering/component.mjs'
+import section from '../../common/components/section.mjs'
 
-import SortObservable from './support/sort_observable'
-import sortingCard from './components/sorting_card'
-import algorithms from './algorithms'
-import sequences from './sequences'
+import SortObservable from './support/sort_observable.mjs'
+import sortingCard from './components/sorting_card.mjs'
+import algorithms from './algorithms.mjs'
+import sequences from './sequences.mjs'
 
 export default function playgroundSorting () {
   const observables = algorithms.map(function (algorithm) {

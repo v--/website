@@ -1,5 +1,5 @@
-import { CoolError } from '../errors'
-import error from '../views/error'
+import { CoolError } from '../errors.mjs'
+import error from '../views/error.mjs'
 
 export default class RouterState {
   static error (path, err) {

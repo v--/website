@@ -1,6 +1,6 @@
-import { zip, map, range, product } from '../../../common/support/iteration'
-import { join } from '../../../common/support/strings'
-import { s } from '../../../common/support/svg'
+import { zip, map, range, product } from '../../../common/support/iteration.mjs'
+import { join } from '../../../common/support/strings.mjs'
+import { s } from '../../../common/support/svg.mjs'
 
 export default function curveCanvas ({ width, height, mapping, curves }) {
   const grid = Array.from(

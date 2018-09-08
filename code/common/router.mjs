@@ -1,10 +1,10 @@
-import { NotFoundError } from './errors'
-import RouterState from './support/router_state'
+import { NotFoundError } from './errors.mjs'
+import RouterState from './support/router_state.mjs'
 
-import home from './views/home'
-import files from './views/files'
-import pacman from './views/pacman'
-import playground from './views/playground'
+import home from './views/home.mjs'
+import files from './views/files.mjs'
+import pacman from './views/pacman.mjs'
+import playground from './views/playground.mjs'
 
 async function routerImpl (path, db) {
   if (path.segments.length === 0) {

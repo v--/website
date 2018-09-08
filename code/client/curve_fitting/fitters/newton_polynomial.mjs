@@ -1,5 +1,5 @@
-import Polynomial from '../support/polynomial'
-import dividedDifferences from '../support/divided_differences'
+import Polynomial from '../support/polynomial.mjs'
+import dividedDifferences from '../support/divided_differences.mjs'
 
 export default Object.freeze({
   name: 'Newton polynomial',

@@ -1,4 +1,4 @@
-import { separate, swap } from '../../../common/support/iteration'
+import { separate, swap } from '../../../common/support/iteration.mjs'
 
 export default class ActionList {
   constructor (array) {

@@ -1,7 +1,7 @@
-import { repr } from '../support/strings'
-import { chain, unique } from '../support/iteration'
-import { Observable } from '../support/observable'
-import { CoolError } from '../errors'
+import { repr } from '../support/strings.mjs'
+import { chain, unique } from '../support/iteration.mjs'
+import { Observable } from '../support/observable.mjs'
+import { CoolError } from '../errors.mjs'
 
 export class RenderError extends CoolError {}
 

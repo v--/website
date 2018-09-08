@@ -1,6 +1,6 @@
 /* eslint-env browser */
 
-import { Observable } from '../../../common/support/observable'
+import { Observable } from '../../../common/support/observable.mjs'
 
 
 

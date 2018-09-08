@@ -1,6 +1,6 @@
 import source from 'vinyl-source-stream'
 
-import { readFile } from '../code/server/support/fs'
+import { readFile } from '../code/server/support/fs.mjs'
 
 async function readPathFromIconFile (fileName) {
   const svg = await readFile(fileName, 'utf8')

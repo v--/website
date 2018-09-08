@@ -1,8 +1,8 @@
 /* globals describe it */
 
-import { expect } from '../../../code/tests'
+import { expect } from '../../../code/tests.mjs'
 
-import { EmptyIterError, reduce, range, zip, sort, shuffle, separate, product, empty } from '../../../code/common/support/iteration'
+import { EmptyIterError, reduce, range, zip, sort, shuffle, separate, product, empty } from '../../../code/common/support/iteration.mjs'
 
 describe('zip()', function () {
   it('zips nothing', function () {

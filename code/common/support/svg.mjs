@@ -1,4 +1,4 @@
-import { XMLComponent } from '../rendering/component'
+import { XMLComponent } from '../rendering/component.mjs'
 
 // This is in a separate file because proper sanity checks are not done
 // and it's nearly impossible to distinguish an HTML component from an

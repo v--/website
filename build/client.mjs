@@ -7,9 +7,9 @@ import less from 'gulp-less'
 import svgo from 'gulp-svgo'
 import gulp from 'gulp'
 
-import sync from './sync'
-import { getMDIcons } from './md_icons'
-import rmdir from './rmdir'
+import sync from './sync.mjs'
+import { getMDIcons } from './md_icons.mjs'
+import rmdir from './rmdir.mjs'
 
 gulp.task('client:assets', function () {
   return gulp.src('client/assets/**/*')

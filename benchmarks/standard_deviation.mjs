@@ -1,9 +1,9 @@
 /* globals it */
 
-import { expect } from '../code/tests'
-import { run } from '../code/benchmarks'
+import { expect } from '../code/tests.mjs'
+import { run } from '../code/benchmarks.mjs'
 
-import { map, reduce, range } from '../code/common/support/iteration'
+import { map, reduce, range } from '../code/common/support/iteration.mjs'
 
 const data = Array.from(range(0, 10 ** 5))
 

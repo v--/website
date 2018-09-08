@@ -1,6 +1,6 @@
 /* eslint-env browser */
 
-import { CoolError } from '../../../common/errors'
+import { CoolError } from '../../../common/errors.mjs'
 
 window._dynamicImports = new Map()
 

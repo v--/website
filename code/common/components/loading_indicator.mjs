@@ -1,5 +1,5 @@
-import { c } from '../rendering/component'
-import { styles } from '../support/dom_properties'
+import { c } from '../rendering/component.mjs'
+import { styles } from '../support/dom_properties.mjs'
 
 export default function loadingIndicator ({ visible }) {
   return c(

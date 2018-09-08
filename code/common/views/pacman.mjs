@@ -1,8 +1,8 @@
-import { map } from '../support/iteration'
-import { c } from '../rendering/component'
+import { map } from '../support/iteration.mjs'
+import { c } from '../rendering/component.mjs'
 
-import section from '../components/section'
-import markdown from '../components/markdown'
+import section from '../components/section.mjs'
+import markdown from '../components/markdown.mjs'
 
 function * iterPackages (pkgs) {
   for (const { name, version, description } of pkgs) {

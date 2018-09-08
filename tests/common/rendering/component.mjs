@@ -1,6 +1,6 @@
 /* globals describe it */
 
-import { expect } from '../../../code/tests'
+import { expect } from '../../../code/tests.mjs'
 
 import {
   Component,
@@ -10,7 +10,7 @@ import {
   ComponentCreationError,
   ComponentSanityError,
   InvalidComponentError
-} from '../../../code/common/rendering/component'
+} from '../../../code/common/rendering/component.mjs'
 
 describe('Component', function () {
   describe('.safeCreate()', function () {

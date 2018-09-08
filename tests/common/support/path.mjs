@@ -1,8 +1,8 @@
 /* globals describe it */
 
-import { expect } from '../../../code/tests'
+import { expect } from '../../../code/tests.mjs'
 
-import Path from '../../../code/common/support/path'
+import Path from '../../../code/common/support/path.mjs'
 
 describe('Path()', function () {
   describe('segments', function () {

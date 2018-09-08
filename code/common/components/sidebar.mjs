@@ -1,9 +1,9 @@
-import { startsWith } from '../support/strings'
-import { classlist } from '../support/dom_properties'
-import { c } from '../rendering/component'
+import { startsWith } from '../support/strings.mjs'
+import { classlist } from '../support/dom_properties.mjs'
+import { c } from '../rendering/component.mjs'
 
-import icon from './icon'
-import link from './link'
+import icon from './icon.mjs'
+import link from './link.mjs'
 
 export default function sidebar ({ id, isCollapsed, toggleCollapsed }) {
   function entry (state) {

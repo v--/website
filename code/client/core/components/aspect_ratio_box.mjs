@@ -1,7 +1,7 @@
-import { CoolError } from '../../../common/errors'
+import { CoolError } from '../../../common/errors.mjs'
 
-import { resize } from '../../core/observables'
-import dispatcher from '../../core/render_dispatcher'
+import { resize } from '../../core/observables.mjs'
+import dispatcher from '../../core/render_dispatcher.mjs'
 
 export class AspectRatioError extends CoolError {}
 export class NodeAlreadyRegisteredError extends AspectRatioError {}

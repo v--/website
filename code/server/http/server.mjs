@@ -1,15 +1,15 @@
 import http from 'http'
 
-import { HTTPError, CoolError, NotFoundError } from '../../common/errors'
-import RouterState from '../../common/support/router_state'
-import Path from '../../common/support/path'
-import enumerize from '../../common/support/enumerize'
+import { HTTPError, CoolError, NotFoundError } from '../../common/errors.mjs'
+import RouterState from '../../common/support/router_state.mjs'
+import Path from '../../common/support/path.mjs'
+import enumerize from '../../common/support/enumerize.mjs'
 
-import { promisory } from '../support/async'
-import Logger from '../support/logger'
-import Response from '../http/response'
-import DB from '../db'
-import router from '../router'
+import { promisory } from '../support/async.mjs'
+import Logger from '../support/logger.mjs'
+import Response from '../http/response.mjs'
+import DB from '../db.mjs'
+import router from '../router.mjs'
 
 export default class HTTPServer {
   constructor (config) {

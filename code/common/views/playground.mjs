@@ -1,7 +1,7 @@
-import { c } from '../rendering/component'
-import section from '../components/section'
-import link from '../components/link'
-import markdown from '../components/markdown'
+import { c } from '../rendering/component.mjs'
+import section from '../components/section.mjs'
+import link from '../components/link.mjs'
+import markdown from '../components/markdown.mjs'
 
 export default function playground () {
   return c('div', { class: 'page playground-page' },

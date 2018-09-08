@@ -1,5 +1,5 @@
 import path from 'path'
-import * as fs from '../code/server/support/fs'
+import * as fs from '../code/server/support/fs.mjs'
 
 export default function rmdir (dir) {
   return fs.readdir(dir, 'utf8').then(

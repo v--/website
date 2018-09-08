@@ -1,8 +1,8 @@
-import { c } from '../rendering/component'
+import { c } from '../rendering/component.mjs'
 
-import sidebar from './sidebar'
-import sidebarToggle from './sidebar_toggle'
-import loadingIndicator from './loading_indicator'
+import sidebar from './sidebar.mjs'
+import sidebarToggle from './sidebar_toggle.mjs'
+import loadingIndicator from './loading_indicator.mjs'
 
 export default function main (state) {
   return c('main', null,

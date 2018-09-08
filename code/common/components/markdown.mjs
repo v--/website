@@ -1,5 +1,5 @@
-import { c } from '../rendering/component'
-import link from './link'
+import { c } from '../rendering/component.mjs'
+import link from './link.mjs'
 import markdownParser, {
   RootNode,
   NewlineNode,
@@ -9,7 +9,7 @@ import markdownParser, {
   BracketNode,
   NonLeafNode,
   AsteriskNode
-} from '../support/markdown'
+} from '../support/markdown.mjs'
 
 function buildLink (visibleNode, urlNode, urlHandler) {
   const url = urlNode.children.map(String).join('')

@@ -1,4 +1,4 @@
-import { EmptyIterError, map, reduce } from './iteration'
+import { EmptyIterError, map, reduce } from './iteration.mjs'
 
 export function join (delimiter, iter) {
   try {

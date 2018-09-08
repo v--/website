@@ -1,6 +1,6 @@
-import { c } from '../rendering/component'
+import { c } from '../rendering/component.mjs'
 
-import icon from '../components/icon'
+import icon from '../components/icon.mjs'
 
 export default function interactiveWarning ({ path, loading }) {
   return c('div', { class: 'page interactive-warning-page' },

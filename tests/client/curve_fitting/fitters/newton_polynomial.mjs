@@ -1,9 +1,9 @@
 /* globals describe it */
 
-import { expect } from '../../../../code/tests'
+import { expect } from '../../../../code/tests.mjs'
 
-import { DiscreteMap } from '../../../../code/client/curve_fitting/support/grid_observable'
-import newtonPolynomial from '../../../../code/client/curve_fitting/fitters/newton_polynomial'
+import { DiscreteMap } from '../../../../code/client/curve_fitting/support/grid_observable.mjs'
+import newtonPolynomial from '../../../../code/client/curve_fitting/fitters/newton_polynomial.mjs'
 
 function quadraticTest (x) {
   return x ** 2 + 13

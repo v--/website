@@ -1,6 +1,6 @@
-import { map } from '../../../common/support/iteration'
-import { c } from '../../../common/rendering/component'
-import sorter from './sorter'
+import { map } from '../../../common/support/iteration.mjs'
+import { c } from '../../../common/rendering/component.mjs'
+import sorter from './sorter.mjs'
 
 export default function sortingCard ({ algorithm, states, isRunning, hasFinished, pause, run, reset }) {
   return c('div', { class: 'sorting-card' },

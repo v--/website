@@ -1,5 +1,5 @@
-import FileCollection from './collections/file'
-import PacmanPackageCollection from './collections/pacman_package'
+import FileCollection from './collections/file.mjs'
+import PacmanPackageCollection from './collections/pacman_package.mjs'
 
 export default class DB {
   constructor (config) {

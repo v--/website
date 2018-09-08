@@ -1,10 +1,10 @@
-import { c } from '../../common/rendering/component'
-import section from '../../common/components/section'
-import { aspectRatioRoot, aspectRatioBox } from '../core/components/aspect_ratio_box'
+import { c } from '../../common/rendering/component.mjs'
+import section from '../../common/components/section.mjs'
+import { aspectRatioRoot, aspectRatioBox } from '../core/components/aspect_ratio_box.mjs'
 
-import GridObservable from './support/grid_observable'
-import curveCanvas from './components/curve_canvas'
-import curveLegend from './components/curve_legend'
+import GridObservable from './support/grid_observable.mjs'
+import curveCanvas from './components/curve_canvas.mjs'
+import curveLegend from './components/curve_legend.mjs'
 
 const WIDTH = 20
 const HEIGHT = 16

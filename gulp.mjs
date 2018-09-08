@@ -3,6 +3,6 @@
 /* eslint-disable no-console */
 
 import run from 'gulp-cli'
-import './gulpfile'
+import './gulpfile.mjs'
 
 run()

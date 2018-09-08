@@ -1,7 +1,7 @@
-import router from '../common/router'
-import { NotFoundError } from '../common/errors'
+import router from '../common/router.mjs'
+import { NotFoundError } from '../common/errors.mjs'
 
-import Response from './http/response'
+import Response from './http/response.mjs'
 
 export default async function serverRouter (path, db) {
   if (path.segments[0] === 'api') {

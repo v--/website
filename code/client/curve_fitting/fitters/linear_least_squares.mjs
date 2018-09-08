@@ -1,6 +1,6 @@
-import { reduce, zip, map } from '../../../common/support/iteration'
+import { reduce, zip, map } from '../../../common/support/iteration.mjs'
 
-import Polynomial from '../support/polynomial'
+import Polynomial from '../support/polynomial.mjs'
 
 function sum (values) {
   return reduce((value, accum) => value + accum, values, 0)

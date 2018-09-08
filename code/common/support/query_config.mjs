@@ -1,4 +1,4 @@
-import Path from './path'
+import Path from './path.mjs'
 
 export default class QueryConfig {
   constructor (path, defaults, parsers) {

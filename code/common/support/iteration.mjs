@@ -1,4 +1,4 @@
-import { CoolError } from '../errors'
+import { CoolError } from '../errors.mjs'
 
 export class IterError extends CoolError {}
 export class EmptyIterError extends IterError {}

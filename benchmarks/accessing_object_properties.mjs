@@ -1,8 +1,8 @@
 /* globals it */
 
-import { run } from '../code/benchmarks'
+import { run } from '../code/benchmarks.mjs'
 
-import { writeFile } from '../code/server/support/fs'
+import { writeFile } from '../code/server/support/fs.mjs'
 
 it("Freezing an object and/or using getters instead of precomputed properties doesn't affect performance deterministically", async function () {
   let dummy // Try to force the compiler to not optimize out the property access code

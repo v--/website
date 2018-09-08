@@ -1,9 +1,9 @@
 /* globals describe it */
 
-import { expect } from '../../../../code/tests'
+import { expect } from '../../../../code/tests.mjs'
 
-import dividedDifferences from '../../../../code/client/curve_fitting/support/divided_differences'
-import { NoPointsError, DuplicatePointsError } from '../../../../code/client/curve_fitting/errors'
+import dividedDifferences from '../../../../code/client/curve_fitting/support/divided_differences.mjs'
+import { NoPointsError, DuplicatePointsError } from '../../../../code/client/curve_fitting/errors.mjs'
 
 describe('dividedDifferences', function () {
   it('fails when passed no points', function () {

@@ -1,5 +1,5 @@
-import { Component, XMLComponent, FactoryComponent } from '../common/rendering/component'
-import { RenderDispatcher } from '../common/rendering/renderer'
+import { Component, XMLComponent, FactoryComponent } from '../common/rendering/component.mjs'
+import { RenderDispatcher } from '../common/rendering/renderer.mjs'
 
 function * renderXMLComponent (component, dispatcher) {
   yield `<${component.type}`

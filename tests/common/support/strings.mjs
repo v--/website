@@ -1,8 +1,8 @@
 /* globals describe it */
 
-import { expect } from '../../../code/tests'
+import { expect } from '../../../code/tests.mjs'
 
-import { repr } from '../../../code/common/support/strings'
+import { repr } from '../../../code/common/support/strings.mjs'
 
 describe('repr()', function () {
   it('works for strings', function () {

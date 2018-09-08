@@ -1,5 +1,5 @@
-import { filter, map } from './iteration'
-import { join } from './strings'
+import { filter, map } from './iteration.mjs'
+import { join } from './strings.mjs'
 
 export function classlist (...classes) {
   return join(' ', filter(Boolean, classes))

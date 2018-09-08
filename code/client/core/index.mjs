@@ -1,14 +1,14 @@
 /* eslint-env browser */
 
-import { redirection } from '../../common/observables'
-import { c } from '../../common/rendering/component'
+import { redirection } from '../../common/observables.mjs'
+import { c } from '../../common/rendering/component.mjs'
 
-import main from '../../common/components/main'
-import title from '../../common/components/title'
+import main from '../../common/components/main.mjs'
+import title from '../../common/components/title.mjs'
 
-import RouterObservable from './support/router_observable'
-import { onDocumentReady } from './support/dom'
-import dispatcher from './render_dispatcher'
+import RouterObservable from './support/router_observable.mjs'
+import { onDocumentReady } from './support/dom.mjs'
+import dispatcher from './render_dispatcher.mjs'
 
 function renderObservable (observable) {
   document.body.replaceChild(

@@ -1,6 +1,6 @@
-import { repr, join } from '../support/strings'
-import { Observable } from '../support/observable'
-import { CoolError } from '../errors'
+import { repr, join } from '../support/strings.mjs'
+import { Observable } from '../support/observable.mjs'
+import { CoolError } from '../errors.mjs'
 
 const htmlVoidTags = new Set([
   'area',
