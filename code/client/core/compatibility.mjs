@@ -19,29 +19,31 @@ function showError () {
   nojs.parentNode.replaceChild(div, nojs)
 }
 
-function showLoading () {
-  const indicator = document.querySelector('.loading-indicator-wrapper')
-  indicator.style.backgroundColor = 'white'
-  indicator.style.visibility = 'visible'
+function onLoad () {
+  if (window.innerWidth < window.DESKTOP_WIDTH) {
+    const sidebar = document.querySelector('aside')
+    // Avoid using the "collapsed" class to prevent animations
+    sidebar.style.display = 'none'
+  }
+
+  if (isPageInteractive) {
+    const indicator = document.querySelector('.loading-indicator-wrapper')
+    indicator.style.backgroundColor = 'white'
+    indicator.style.visibility = 'visible'
+  }
 }
 
-function hideSidebar () {
-  const sidebar = document.querySelector('aside')
-  // Avoid using the "collapsed" class to prevent animations
-  sidebar.style.display = 'none'
+function onAnimationFrame () {
+  if (document.body) {
+    onLoad()
+  } else {
+    window.requestAnimationFrame(onAnimationFrame)
+  }
 }
 
 if (!window.COMPATIBLE_INTERPRETER) {
   window.addEventListener('DOMContentLoaded', showError)
 } else {
   // DOMContentLoaded and load kick in too late to use here
-  window.requestAnimationFrame(function () {
-    if (window.innerWidth < window.DESKTOP_WIDTH) {
-      hideSidebar()
-    }
-
-    if (isPageInteractive) {
-      showLoading()
-    }
-  })
+  window.requestAnimationFrame(onAnimationFrame)
 }
