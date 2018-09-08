@@ -1,4 +1,4 @@
-import { c } from '../component'
+import { c } from '../rendering/component'
 
 import icon from './icon'
 import link from './link'

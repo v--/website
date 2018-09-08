@@ -1,5 +1,5 @@
 import { map } from '../../../common/support/iteration'
-import { c } from '../../../common/component'
+import { c } from '../../../common/rendering/component'
 import sorter from './sorter'
 
 export default function sortingCard ({ algorithm, states, isRunning, hasFinished, pause, run, reset }) {

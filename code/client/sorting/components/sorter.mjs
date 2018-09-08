@@ -1,4 +1,4 @@
-import { c } from '../../../common/component'
+import { c } from '../../../common/rendering/component'
 import { s } from '../../../common/support/svg'
 import { classlist } from '../../../common/support/dom_properties'
 

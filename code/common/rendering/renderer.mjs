@@ -1,23 +1,12 @@
-import { bind, overloader } from './support/functions'
-import { repr } from './support/strings'
-import { map, chain, unique } from './support/iteration'
-import Interface, { IInterface } from './support/interface'
-import { IXMLComponent, IFactoryComponent } from './component'
-import { Observable } from './support/observable'
-import { CoolError } from './errors'
-
-const IRendererClass = Interface.create({
-  componentInterface: IInterface
-})
-
-const IRenderer = Interface.methods('render', 'rerender')
+import { repr } from '../support/strings'
+import { chain, unique } from '../support/iteration'
+import { Observable } from '../support/observable'
+import { CoolError } from '../errors'
 
 export class RenderError extends CoolError {}
 
 export class Renderer {
-  constructor (dispatcher, component) {
-    IRendererClass.assert(this.constructor)
-    IRenderer.assert(this)
+  constructor (component, dispatcher) {
     this.dispatcher = dispatcher
     this.component = component
 
@@ -29,7 +18,7 @@ export class Renderer {
 
     this.element = null
     this.observer = {
-      next: bind(this, 'rerender'),
+      next: newState => this.rerender(newState),
       complete () {},
       error (error) {
         throw error
@@ -42,23 +31,7 @@ export class Renderer {
   }
 }
 
-const IXMLRenderer = Interface.methods(
-  '_createNode',
-  '_setAttribute',
-  '_removeAttribute',
-  '_setText',
-  '_removeText',
-  '_appendChild',
-  '_replaceChild',
-  '_removeChild'
-)
-
 export class XMLRenderer extends Renderer {
-  constructor (component, dispatcher) {
-    super(component, dispatcher)
-    IXMLRenderer.assert(this)
-  }
-
   render () {
     const component = this.component
     const state = component.state.current
@@ -76,7 +49,7 @@ export class XMLRenderer extends Renderer {
     }
 
     for (const child of component.children) {
-      this._appendChild(this.dispatcher(child))
+      this._appendChild(this.dispatcher.render(child))
     }
 
     component.state.subscribe(this.observer)
@@ -135,8 +108,6 @@ export class XMLRenderer extends Renderer {
   }
 }
 
-Object.defineProperty(XMLRenderer, 'componentInterface', { value: IXMLComponent })
-
 function * mergeChildren (oldChildren, newChildren) {
   for (let i = 0; i < Math.min(oldChildren.length, newChildren.length); i++) {
     const oldChild = oldChildren[i]
@@ -166,7 +137,7 @@ export class FactoryRenderer extends Renderer {
 
   render () {
     this.root = this.component.evaluate()
-    this.element = this.dispatcher(this.root)
+    this.element = this.dispatcher.render(this.root)
     this.component.state.subscribe(this.observer)
 
     this.dispatcher.observables.create.emit({
@@ -220,7 +191,7 @@ export class FactoryRenderer extends Renderer {
       const newChild = newRoot.children[i]
 
       if (rootRenderer instanceof XMLRenderer) {
-        this.dispatcher(newRoot.children[i])
+        this.dispatcher.render(newRoot.children[i])
         const newRenderer = this.dispatcher.cache.get(newChild)
         rootRenderer._appendChild(newRenderer.element)
       }
@@ -233,7 +204,7 @@ export class FactoryRenderer extends Renderer {
       const newChild = newRoot.children[i]
 
       if (rootRenderer instanceof XMLRenderer) {
-        this.dispatcher(newChild)
+        this.dispatcher.render(newChild)
         const newRenderer = this.dispatcher.cache.get(newChild)
         rootRenderer._replaceChild(oldRenderer.element, newRenderer.element)
       }
@@ -291,19 +262,35 @@ export class FactoryRenderer extends Renderer {
   }
 }
 
-Object.defineProperty(FactoryRenderer, 'componentInterface', { value: IFactoryComponent })
+export class RenderDispatcher {
+  static fromRenderers (renderers) {
+    const renderingFunctions = new Map()
 
-export function renderDispatcherFactory (...renderers) {
-  const dispatcher = overloader(...map(Cls => ({
-    iface: Cls.componentInterface,
-    impl: component => new Cls(dispatcher, component).render()
-  }), renderers))
+    for (const [ComponentCls, RendererCls] of renderers.entries()) {
+      renderingFunctions.set(ComponentCls, function (component, dispatcher) {
+        return new RendererCls(component, dispatcher).render()
+      })
+    }
 
-  dispatcher.cache = new WeakMap()
-  dispatcher.observables = {
-    create: new Observable(),
-    destroy: new Observable()
+    return new this(renderingFunctions)
   }
 
-  return dispatcher
+  constructor (renderingFunctions) {
+    this.renderingFunctions = renderingFunctions
+    this.cache = new WeakMap()
+    this.observables = {
+      create: new Observable(),
+      destroy: new Observable()
+    }
+  }
+
+  render (component) {
+    for (const [ComponentCls, renderFun] of this.renderingFunctions.entries()) {
+      if (component instanceof ComponentCls) {
+        return renderFun(component, this)
+      }
+    }
+
+    throw new Error(`No renderer found for component ${repr(component)}`)
+  }
 }

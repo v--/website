@@ -1,11 +1,11 @@
-import { IDisplayableError } from '../support/interface'
-import { c } from '../component'
+import { CoolError } from '../errors'
+import { c } from '../rendering/component'
 
 import markdown from '../components/markdown'
 import icon from '../components/icon'
 
 export default function error ({ data: err }) {
-  const title = err instanceof IDisplayableError ? err.message : 'Error'
+  const title = CoolError.isDisplayable(err) ? err.message : 'Error'
 
   return c('div', { class: 'page error-page' },
     c('br'),

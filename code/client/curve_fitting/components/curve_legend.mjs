@@ -1,7 +1,7 @@
 import { sort } from '../../../common/support/iteration'
 import { styles } from '../../../common/support/dom_properties'
 
-import { c } from '../../../common/component'
+import { c } from '../../../common/rendering/component'
 import table from '../../../common/components/table'
 
 export default function curveLegend ({ mapping, curves }) {

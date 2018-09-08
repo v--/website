@@ -28,7 +28,6 @@ function serializeObject (object) {
   return '{}'
 }
 
-// No interfaces here, since interface implementations use repr
 export function repr (value) {
   if (typeof value === 'string') {
     return `'${value}'`

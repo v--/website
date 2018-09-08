@@ -1,22 +1,60 @@
 /* globals describe it */
 
-import { expect } from '../../code/tests'
+import { expect } from '../../../code/tests'
 
-import { c, ComponentSanityError } from '../../code/common/component'
-import { FactoryRenderer, RenderError, renderDispatcherFactory } from '../../code/common/renderer'
-import { bind } from '../../code/common/support/functions'
-import { Observable } from '../../code/common/support/observable'
-import MirrorXMLRenderer from '../../code/common/mirror_xml_renderer'
-import { map } from '../../code/common/support/iteration'
+import { c, XMLComponent, FactoryComponent, ComponentSanityError } from '../../../code/common/rendering/component'
+import { XMLRenderer, FactoryRenderer, RenderError, RenderDispatcher } from '../../../code/common/rendering/renderer'
+import { Observable } from '../../../code/common/support/observable'
+import { map } from '../../../code/common/support/iteration'
 
-const render = renderDispatcherFactory(MirrorXMLRenderer, FactoryRenderer)
+export default class MirrorXMLRenderer extends XMLRenderer {
+  _createNode () {
+    return this.component.constructor.safeCreate(this.component.type, this.component.state.source)
+  }
+
+  _setAttribute (key, value) {
+    this.element.state.current[key] = value
+  }
+
+  _removeAttribute (key, oldValue) { // eslint-disable-line no-unused-vars
+    delete this.element.state.current[key]
+  }
+
+  _setText () {
+    this.element.state.current.text = this.component.state.current.text
+  }
+
+  _removeText () {
+    delete this.element.state.current.text
+  }
+
+  _appendChild (child) {
+    this.element.children.push(child)
+  }
+
+  _replaceChild (oldChild, newChild) {
+    const index = this.element.children.indexOf(oldChild)
+    this.element.children[index] = newChild
+  }
+
+  _removeChild (child) {
+    const index = this.element.children.indexOf(child)
+    this.element.children.splice(index, 1)
+  }
+}
+
+const dispatcher = RenderDispatcher.fromRenderers(new Map([
+  [XMLComponent, MirrorXMLRenderer],
+  [FactoryComponent, FactoryRenderer]
+]))
+
+const render = RenderDispatcher.prototype.render.bind(dispatcher)
 
 describe('MirrorXMLRenderer', function () {
   describe('.render()', function () {
     it('renders simple components', function () {
       const src = c('div')
       const dest = render(src)
-
       expect(src).to.equalComponent(dest)
     })
 
@@ -72,7 +110,9 @@ describe('MirrorXMLRenderer', function () {
       const src = c('div', observable, c('span'))
       render(src)
 
-      expect(bind(observable, 'replace', { text: 'text' })).to.throw(ComponentSanityError)
+      expect(function () {
+        return observable.replace({ text: 'text' })
+      }).to.throw(ComponentSanityError)
     })
 
     it('can rerender multiple times', function () {
@@ -121,7 +161,10 @@ describe('MirrorFactoryRenderer', function () {
       const observable = new Observable({ type: 'div' })
       const src = c(({ type }) => c(type), observable)
       render(src)
-      expect(bind(observable, 'replace', { type: 'span' })).to.throw(RenderError)
+
+      expect(function () {
+        return observable.replace({ type: 'span' })
+      }).to.throw(RenderError)
     })
 
     it('adds root children', function () {
@@ -184,7 +227,9 @@ describe('MirrorFactoryRenderer', function () {
       const src = c(factory, observable)
       render(src)
 
-      expect(bind(observable, 'replace', { components: [h3, h2, h1] })).to.throw(RenderError)
+      expect(function () {
+        return observable.replace({ components: [h3, h2, h1] })
+      }).to.throw(RenderError)
     })
 
     it('handles nested component swapping', function () {

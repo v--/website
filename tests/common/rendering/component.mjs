@@ -1,9 +1,7 @@
 /* globals describe it */
 
-import { expect } from '../../code/tests'
+import { expect } from '../../../code/tests'
 
-import { bind } from '../../code/common/support/functions'
-import { InterfaceNotImplementedError } from '../../code/common/support/interface'
 import {
   Component,
   XMLComponent,
@@ -12,7 +10,7 @@ import {
   ComponentCreationError,
   ComponentSanityError,
   InvalidComponentError
-} from '../../code/common/component'
+} from '../../../code/common/rendering/component'
 
 describe('Component', function () {
   describe('.safeCreate()', function () {
@@ -101,7 +99,7 @@ describe('XMLComponent', function () {
         return XMLComponent.safeCreate('div')
       }
 
-      expect(factory).to.throw(InterfaceNotImplementedError)
+      expect(factory).to.throw(ComponentSanityError)
     })
 
     it('succeeds if a namespace exists in the class', function () {
@@ -109,7 +107,7 @@ describe('XMLComponent', function () {
         return SVGComponent.safeCreate('g')
       }
 
-      expect(factory).to.not.throw(InterfaceNotImplementedError)
+      expect(factory).to.not.throw(ComponentSanityError)
     })
 
     it('throws if the type is not a string', function () {
@@ -189,7 +187,10 @@ describe('FactoryComponent', function () {
       }
 
       const component = FactoryComponent.safeCreate(factory)
-      expect(bind(component, 'evaluate')).to.throw()
+
+      expect(function () {
+        component.evaluate()
+      }).to.throw()
     })
   })
 })

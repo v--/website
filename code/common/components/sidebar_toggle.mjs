@@ -1,4 +1,4 @@
-import { c } from '../component'
+import { c } from '../rendering/component'
 import { classlist } from '../support/dom_properties'
 
 import icon from './icon'

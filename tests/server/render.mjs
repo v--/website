@@ -2,7 +2,7 @@
 
 import { expect } from '../../code/tests'
 
-import { c } from '../../code/common/component'
+import { c } from '../../code/common/rendering/component'
 import render from '../../code/server/render'
 
 function renderToString (component) {

@@ -19,6 +19,12 @@ export class CoolError extends Error {
       throw new this(message)
     }
   }
+
+  static isDisplayable (err) {
+    return err instanceof CoolError &&
+      typeof err.title === 'string' &&
+      typeof err.message === 'string'
+  }
 }
 
 export class ClientError extends CoolError {

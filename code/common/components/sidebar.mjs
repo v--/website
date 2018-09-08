@@ -1,6 +1,6 @@
 import { startsWith } from '../support/strings'
 import { classlist } from '../support/dom_properties'
-import { c } from '../component'
+import { c } from '../rendering/component'
 
 import icon from './icon'
 import link from './link'

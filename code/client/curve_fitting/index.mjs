@@ -1,4 +1,4 @@
-import { c } from '../../common/component'
+import { c } from '../../common/rendering/component'
 import section from '../../common/components/section'
 import { aspectRatioRoot, aspectRatioBox } from '../core/components/aspect_ratio_box'
 

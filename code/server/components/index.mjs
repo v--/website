@@ -1,4 +1,4 @@
-import { c } from '../../common/component'
+import { c } from '../../common/rendering/component'
 
 import nojs from '../../common/components/nojs'
 import main from '../../common/components/main'

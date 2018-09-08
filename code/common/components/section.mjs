@@ -1,4 +1,4 @@
-import { c } from '../component'
+import { c } from '../rendering/component'
 
 export default function section ({ title }, children) {
   return c('div', { class: 'section' },

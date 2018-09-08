@@ -1,8 +1,6 @@
-import { overloader, bind } from './support/functions'
-import { repr, join } from './support/strings'
-import { IObservable } from './support/observable'
-import { CoolError } from './errors'
-import Interface, { IString, IFunction, IArray } from './support/interface'
+import { repr, join } from '../support/strings'
+import { Observable } from '../support/observable'
+import { CoolError } from '../errors'
 
 const htmlVoidTags = new Set([
   'area',
@@ -25,31 +23,18 @@ const htmlVoidTags = new Set([
 
 export class ComponentCreationError extends CoolError {}
 export class ComponentSanityError extends ComponentCreationError {}
+export class InvalidComponentType extends ComponentCreationError {}
 export class InvalidComponentError extends CoolError {}
 
 function * processChildren (children) {
   for (const child of children) {
-    if (child instanceof IComponent) {
+    if (child instanceof Component) {
       yield child
     } else if (child) {
       throw new InvalidComponentError(`Expected either a component or falsy value as a child, but got ${repr(child)}`)
     }
   }
 }
-export const IComponent = Interface.create({
-  children: IArray
-})
-
-export const IXMLComponent = Interface.create({
-  type: IString,
-  namespace: IString,
-  children: IArray
-})
-
-export const IFactoryComponent = Interface.create({
-  type: IFunction,
-  children: IArray
-})
 
 export class ComponentState {
   constructor (source, current) {
@@ -60,7 +45,7 @@ export class ComponentState {
   updateCurrent (current) {
     if (current) {
       this.current = current
-    } else if (this.source instanceof IObservable) {
+    } else if (Observable.isObservable(this.source)) {
       this.current = this.source.current
     } else if (this.source === null) {
       this.current = {}
@@ -76,8 +61,8 @@ export class ComponentState {
       return
     }
 
-    if (oldSource instanceof IObservable) {
-      if (newSource instanceof IObservable) {
+    if (Observable.isObservable(oldSource)) {
+      if (Observable.isObservable(newSource)) {
         for (const observer of oldSource.observers) {
           newSource.observers.add(observer)
         }
@@ -92,13 +77,13 @@ export class ComponentState {
   }
 
   subscribe (observer) {
-    if (this.source instanceof IObservable) {
+    if (Observable.isObservable(this.source)) {
       this.source.subscribe(observer)
     }
   }
 
   unsubscribe (observer) {
-    if (this.source instanceof IObservable) {
+    if (Observable.isObservable(this.source)) {
       this.source.unsubscribe(observer)
     }
   }
@@ -106,8 +91,8 @@ export class ComponentState {
 
 export class Component {
   /**
-     * Do sanity checks before creating the actual component instance.
-     */
+   * Do sanity checks before creating the actual component instance.
+   */
   static safeCreate (type, ...args) {
     const stateSource = args.length === 0 ? null : args.shift()
     const children = Array.from(processChildren(args))
@@ -116,7 +101,7 @@ export class Component {
       throw new ComponentCreationError(`Expected either an object or null as an state source, but got ${repr(stateSource)}`)
     }
 
-    if (stateSource instanceof IComponent) {
+    if (stateSource instanceof Component) {
       throw new ComponentCreationError(`To prevent common errors, components are not allowed as state sources (got ${repr(stateSource)})`)
     }
 
@@ -174,7 +159,6 @@ export class Component {
 export class XMLComponent extends Component {
   checkSanity () {
     super.checkSanity()
-    IXMLComponent.assert(this)
 
     if (typeof this.type !== 'string') {
       throw new ComponentSanityError(`${repr(this)} must have a string type, not ${repr(this.type)}`)
@@ -186,6 +170,10 @@ export class XMLComponent extends Component {
 
     if ('text' in this.state.current && this.children.length > 0) {
       throw new ComponentSanityError(`${repr(this)} cannot have both text and children`)
+    }
+
+    if (typeof this.namespace !== 'string') {
+      throw new ComponentSanityError(`${repr(this.namespace)} is not a valid namespace`)
     }
   }
 }
@@ -223,7 +211,7 @@ export class FactoryComponent extends Component {
   evaluate () {
     const component = this.type(this.state.current, this.children)
 
-    if (!(component instanceof IComponent)) {
+    if (!(component instanceof Component)) {
       throw new InvalidComponentError(`Expected ${this} to return a component, not ${repr(component)}.`)
     }
 
@@ -231,14 +219,15 @@ export class FactoryComponent extends Component {
   }
 }
 
-export const c = overloader(
-  {
-    iface: IString,
-    impl: bind(HTMLComponent, 'safeCreate')
-  },
+export function c (type, ...args) {
+  switch (typeof type) {
+    case 'string':
+      return HTMLComponent.safeCreate(type, ...args)
 
-  {
-    iface: Function,
-    impl: bind(FactoryComponent, 'safeCreate')
+    case 'function':
+      return FactoryComponent.safeCreate(type, ...args)
+
+    default:
+      throw new InvalidComponentType(`${repr(type)} is not a valid component type.`)
   }
-)
+}

@@ -1,4 +1,4 @@
-import { c } from '../component'
+import { c } from '../rendering/component'
 import { styles } from '../support/dom_properties'
 
 export default function loadingIndicator ({ visible }) {

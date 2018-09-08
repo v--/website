@@ -1,4 +1,4 @@
-import { c } from '../component'
+import { c } from '../rendering/component'
 import { ClientError } from '../errors'
 import { classlist } from '../support/dom_properties'
 import QueryConfig from '../support/query_config'

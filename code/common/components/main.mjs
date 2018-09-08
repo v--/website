@@ -1,4 +1,4 @@
-import { c } from '../component'
+import { c } from '../rendering/component'
 
 import sidebar from './sidebar'
 import sidebarToggle from './sidebar_toggle'

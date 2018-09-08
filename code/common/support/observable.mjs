@@ -1,16 +1,17 @@
-import Interface, { IObject } from './interface'
-
-export const IObservable = Interface.create({ subscribe: Function, unsubscribe: Function, current: IObject })
-export const IObserver = IObject
-
 export class Observable {
+  static isObservable (object) {
+    return object instanceof Object &&
+      object.current instanceof Object &&
+      object.subscribe instanceof Function &&
+      object.unsubscribe instanceof Function
+  }
+
   constructor (initialValue) {
     this.current = initialValue
     this.observers = new Set()
   }
 
   subscribe (observer) {
-    IObserver.assert(observer)
     this.observers.add(observer)
   }
 

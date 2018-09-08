@@ -1,4 +1,4 @@
-import { c } from '../component'
+import { c } from '../rendering/component'
 
 export default function nojs () {
   return c('div', { class: 'nojs' },

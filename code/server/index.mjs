@@ -1,24 +1,10 @@
 /* eslint-env node */
 
-import Interface, { IString } from '../common/support/interface'
-
 import HTTPServer from './http/server'
 import { readFile } from './support/fs'
 
-const IConfig = Interface.create({
-  server: Interface.create({
-    socket: IString
-  }),
-
-  db: Interface.create({
-    fileRootPath: IString,
-    pacmanDBPath: IString
-  })
-})
-
 async function readConfig () {
-  const file = await readFile('./config/active.json')
-  return IConfig.assert(JSON.parse(file))
+  return JSON.parse(await readFile('./config/active.json'))
 }
 
 readConfig().then(async function (config) {
@@ -32,7 +18,7 @@ readConfig().then(async function (config) {
 
   for (const signal of ['SIGINT', 'SIGTERM', 'SIGQUIT']) {
     process.on(signal, async function () {
-      if (server.state === HTTPServer.State.get('running')) {
+      if (server.state === HTTPServer.State.RUNNING) {
         server.logger.info(`Received signal ${signal}. Shutting down server.`)
         await server.stop(signal)
       }

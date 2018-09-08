@@ -1,5 +1,5 @@
 import { redirection } from '../observables'
-import { c } from '../component'
+import { c } from '../rendering/component'
 
 export default function link (state, children) {
   const childState = {}

@@ -1,23 +1,23 @@
 /* eslint-env browser */
 
 import { redirection } from '../../common/observables'
-import { c } from '../../common/component'
+import { c } from '../../common/rendering/component'
 
 import main from '../../common/components/main'
 import title from '../../common/components/title'
 
 import RouterObservable from './support/router_observable'
 import { onDocumentReady } from './support/dom'
-import render from './render'
+import dispatcher from './render_dispatcher'
 
 function renderObservable (observable) {
   document.body.replaceChild(
-    render(c(main, observable)),
+    dispatcher.render(c(main, observable)),
     document.querySelector('main')
   )
 
   document.head.replaceChild(
-    render(c(title, observable)),
+    dispatcher.render(c(title, observable)),
     document.querySelector('title')
   )
 }

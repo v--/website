@@ -1,5 +1,5 @@
 import { map } from '../../common/support/iteration'
-import { c } from '../../common/component'
+import { c } from '../../common/rendering/component'
 import section from '../../common/components/section'
 
 import SortObservable from './support/sort_observable'

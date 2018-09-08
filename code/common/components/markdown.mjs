@@ -1,4 +1,4 @@
-import { c } from '../component'
+import { c } from '../rendering/component'
 import link from './link'
 import markdownParser, {
   RootNode,

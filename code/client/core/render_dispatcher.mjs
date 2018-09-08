@@ -1,8 +1,7 @@
-/* eslint-env browser */
+import { XMLComponent, FactoryComponent } from '../../common/rendering/component'
+import { XMLRenderer, FactoryRenderer, RenderDispatcher } from '../../common/rendering/renderer'
 
-import { XMLRenderer } from '../../common/renderer'
-
-export default class DOMXMLRenderer extends XMLRenderer {
+export class DOMXMLRenderer extends XMLRenderer {
   _createNode () {
     return document.createElementNS(this.component.namespace, this.component.type)
   }
@@ -48,3 +47,8 @@ export default class DOMXMLRenderer extends XMLRenderer {
     this.element.removeChild(child)
   }
 }
+
+export default RenderDispatcher.fromRenderers(new Map([
+  [XMLComponent, DOMXMLRenderer],
+  [FactoryComponent, FactoryRenderer]
+]))

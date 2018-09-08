@@ -1,7 +1,7 @@
 import { CoolError } from '../../../common/errors'
 
 import { resize } from '../../core/observables'
-import render from '../../core/render'
+import dispatcher from '../../core/render_dispatcher'
 
 export class AspectRatioError extends CoolError {}
 export class NodeAlreadyRegisteredError extends AspectRatioError {}
@@ -53,7 +53,7 @@ const resizeObserver = {
 
 resize.subscribe(resizeObserver)
 
-render.observables.create.subscribe({
+dispatcher.observables.create.subscribe({
   next (node) {
     if (node.component.type === aspectRatioRoot) {
       if (currentRoot) {
@@ -71,7 +71,7 @@ render.observables.create.subscribe({
   }
 })
 
-render.observables.destroy.subscribe({
+dispatcher.observables.destroy.subscribe({
   next (node) {
     if (node.component.type === aspectRatioRoot) {
       currentRoot = null

@@ -1,10 +1,10 @@
 import { chain } from '../../common/support/iteration'
-import { c } from '../../common/component'
+import { c } from '../../common/rendering/component'
 
 import index from '../components/index'
 import interactiveWarning from '../../common/views/interactive_warning'
 
-import render from '../render'
+import dispatcher from '../render_dispatcher'
 
 export default class Response {
   static json (contents, code) {
@@ -20,7 +20,7 @@ export default class Response {
     })
 
     return new this(
-      Array.from(chain('<!DOCTYPE html>', render(component))).join(''),
+      Array.from(chain('<!DOCTYPE html>', dispatcher.render(component))).join(''),
       'text/html',
       code
     )

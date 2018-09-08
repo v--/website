@@ -1,10 +1,9 @@
 import http from 'http'
 
-import FortifiedMap from '../../common/support/fortified_map'
 import { HTTPError, CoolError, NotFoundError } from '../../common/errors'
-import { bind } from '../../common/support/functions'
 import RouterState from '../../common/support/router_state'
 import Path from '../../common/support/path'
+import enumerize from '../../common/support/enumerize'
 
 import { promisory } from '../support/async'
 import Logger from '../support/logger'
@@ -16,7 +15,7 @@ export default class HTTPServer {
   constructor (config) {
     this.socket = config.server.socket
     this.logger = new Logger('HTTP')
-    this.state = HTTPServer.State.get('inactive')
+    this.state = HTTPServer.State.INACTIVE
     this.db = new DB(config.db)
   }
 
@@ -60,9 +59,9 @@ export default class HTTPServer {
   }
 
   async start () {
-    CoolError.assert(this.state === HTTPServer.State.get('inactive'), 'The server is already running.')
+    CoolError.assert(this.state === HTTPServer.State.INACTIVE, 'The server is already running.')
 
-    this.state = HTTPServer.State.get('starting')
+    this.state = HTTPServer.State.STARTING
     this.server = http.createServer(async function (request, response) {
       try {
         await this.requestHandler(request, response)
@@ -83,26 +82,26 @@ export default class HTTPServer {
     }.bind(this))
 
     await this.db.load()
-    await (promisory(bind(this.server, 'listen')))(this.socket)
+    await (promisory(this.server.listen.bind(this.server)))(this.socket)
     this.logger.info(`Started web server on socket ${this.socket}.`)
-    this.state = HTTPServer.State.get('running')
+    this.state = HTTPServer.State.RUNNING
   }
 
   async stop () {
-    CoolError.assert(this.state === HTTPServer.State.get('running'), 'The server is not running.')
-    this.state = HTTPServer.State.get('stopping')
+    CoolError.assert(this.state === HTTPServer.State.RUNNING, 'The server is not running.')
+    this.state = HTTPServer.State.STOPPING
 
-    await (promisory(bind(this.server, 'close')))()
+    await (promisory(this.server.close.bind(this.server)))()
     this.logger.info('Server stopped.')
-    this.state = HTTPServer.State.get('inactive')
+    this.state = HTTPServer.State.INACTIVE
   }
 }
 
 Object.defineProperty(HTTPServer, 'State', {
-  value: FortifiedMap.enumerize(
-    'starting',
-    'running',
-    'stopping',
-    'inactive'
+  value: enumerize(
+    'STARTING',
+    'RUNNING',
+    'STOPPING',
+    'INACTIVE'
   )
 })

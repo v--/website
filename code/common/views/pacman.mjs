@@ -1,5 +1,5 @@
 import { map } from '../support/iteration'
-import { c } from '../component'
+import { c } from '../rendering/component'
 
 import section from '../components/section'
 import markdown from '../components/markdown'
