@@ -3,10 +3,10 @@
 import { expect } from '../../code/tests'
 
 import { c } from '../../code/common/rendering/component'
-import render from '../../code/server/render'
+import dispatcher from '../../code/server/render_dispatcher'
 
 function renderToString (component) {
-  return Array.from(render(component)).join('')
+  return Array.from(dispatcher.render(component)).join('')
 }
 
 describe('Server-side .render()', function () {
