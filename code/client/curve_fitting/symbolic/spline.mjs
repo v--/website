@@ -1,4 +1,5 @@
 import { map, zip } from '../../../common/support/iteration.mjs'
+import { stringifyLinearCombination } from '../support/stringify.mjs'
 
 import BSpline from '../symbolic/b_spline.mjs'
 
@@ -58,26 +59,6 @@ export default class Spline {
   }
 
   toString () {
-    let result = ''
-
-    for (const [coef, fun] of zip(this.coef, this.basis)) {
-      if (coef === 0) {
-        continue
-      }
-
-      if (result !== '') {
-        result += coef > 0 ? ' + ' : ' - '
-      }
-
-      if (coef === 0) {
-        continue
-      } else if (Math.abs(coef) === 1) {
-        result += String(fun)
-      } else {
-        result += `${Math.abs(coef)}*${fun}`
-      }
-    }
-
-    return result
+    return stringifyLinearCombination(this.coef, this.basis.map(b => '*' + String(b)))
   }
 }

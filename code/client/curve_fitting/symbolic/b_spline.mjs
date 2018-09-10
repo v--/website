@@ -2,6 +2,7 @@ import { repr } from '../../../common/support/strings.mjs'
 import { CoolError } from '../../../common/errors.mjs'
 
 import dividedDifferences from '../support/divided_differences.mjs'
+import { stringifyNumber } from '../support/stringify.mjs'
 
 export class BSplineError extends CoolError {}
 export class NotEnoughPointsError extends BSplineError {}
@@ -24,6 +25,6 @@ export default class BSpline {
   }
 
   toString () {
-    return `B(${this.points.join(', ')})`
+    return `B(${this.points.map(stringifyNumber).join(', ')})`
   }
 }

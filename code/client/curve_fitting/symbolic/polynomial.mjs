@@ -1,4 +1,17 @@
-import { chain, repeat, zip, map } from '../../../common/support/iteration.mjs'
+import { chain, range, repeat, zip, map } from '../../../common/support/iteration.mjs'
+import { stringifyLinearCombination } from '../support/stringify.mjs'
+
+function monomialString (n) {
+  if (n === 0) {
+    return ''
+  }
+
+  if (n === 1) {
+    return 'x'
+  }
+
+  return `x^${n}`
+}
 
 export default class Polynomial {
   constructor (coef) {
@@ -63,30 +76,7 @@ export default class Polynomial {
   }
 
   toString () {
-    let result = ''
-
-    for (let i = 0; i <= this.order; i++) {
-      const a = this.coef[i]
-      const aString = a === 1 ? '' : String(Math.abs(a))
-      const termOrder = this.order - i
-
-      if (a === 0 && this.order > 0) {
-        continue
-      } else {
-        if (result !== '') {
-          result += a > 0 ? ' + ' : ' - '
-        }
-
-        if (termOrder === 0) {
-          result += Math.abs(a) === 1 ? '1' : aString
-        } else if (termOrder === 1) {
-          result += `${aString}x`
-        } else {
-          result += `${aString}x^${termOrder}`
-        }
-      }
-    }
-
-    return result
+    const monomials = Array.from(map(monomialString, range(this.order, -1, -1)))
+    return stringifyLinearCombination(this.coef, monomials)
   }
 }
