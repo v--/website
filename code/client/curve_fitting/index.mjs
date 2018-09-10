@@ -16,7 +16,7 @@ export default function playgroundCurveFitting () {
       c('h1', { class: 'section-title', text: 'Curve fitting visualizations' }),
       c('p', {
         class: 'curve-fitting-subtitle',
-        text: 'Toggle the curves you want to see from the table below. Click anywhere on the chart to add or move data points.'
+        text: 'Use the table below to toggle the curves you want to see. Click anywhere on the chart to add or move data points.'
       })
     ),
 
