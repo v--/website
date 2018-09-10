@@ -1,7 +1,6 @@
 import path from 'path'
 
 import { stat, readFile, readdir } from '../support/fs.mjs'
-import { startsWith } from '../../common/support/strings.mjs'
 import { NotFoundError } from '../../common/errors.mjs'
 
 export default class FileCollection {
@@ -19,7 +18,7 @@ export default class FileCollection {
       files = await readdir(fullPath, 'utf8')
     } catch (e) {
       if (e.code === 'ENOENT' || e.code === 'ENOTDIR') {
-        throw new NotFoundError(fullPath)
+        throw new NotFoundError()
       } else {
         throw e
       }

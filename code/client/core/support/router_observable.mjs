@@ -28,9 +28,9 @@ export default class RouterObservable extends Observable {
   constructor (initialState, db, path) {
     const state = Object.assign({}, initialState)
 
-    if (state.bundle) {
+    if (typeof state.factory === 'string') {
       state.loading = true
-      loadBundle(state.bundle).then(factory => {
+      loadBundle(state.factory).then(factory => {
         try {
           this.update({ factory, loading: false })
         } catch (err) {
@@ -108,8 +108,8 @@ export default class RouterObservable extends Observable {
       return
     }
 
-    if (route.bundle) {
-      route.factory = await loadBundle(route.bundle)
+    if (typeof route.factory === 'string') {
+      route.factory = await loadBundle(route.factory)
     }
 
     if (this.path !== path) {

@@ -40,14 +40,11 @@ async function fetchIcons () {
 
 function restoreError (data) {
   switch (data.classID) {
-    case 'NotFoundError':
-      return NotFoundError.fromJSON(data)
+    case 'HTTPError':
+      return HTTPError.fromJSON(data)
 
     case 'ClientError':
       return ClientError.fromJSON(data)
-
-    case 'HTTPError':
-      return HTTPError.fromJSON(data)
 
     case 'CoolError':
       return CoolError.fromJSON(data)

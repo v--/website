@@ -53,7 +53,3 @@ export function repr (value) {
 
   return String(value)
 }
-
-export function startsWith (string, substring) {
-  return string.substr(0, substring.length) === substring
-}

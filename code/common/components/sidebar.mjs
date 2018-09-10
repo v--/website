@@ -1,13 +1,21 @@
-import { startsWith } from '../support/strings.mjs'
 import { classlist } from '../support/dom_properties.mjs'
+import enumerize from '../support/enumerize.mjs'
 import { c } from '../rendering/component.mjs'
 
 import icon from './icon.mjs'
 import link from './link.mjs'
 
-export default function sidebar ({ id, isCollapsed, toggleCollapsed }) {
+export const SidebarID = enumerize(
+  'HOME',
+  'FILES',
+  'PACMAN',
+  'PLAYGROUND',
+  'ERROR'
+)
+
+export default function sidebar ({ sidebarID, isCollapsed, toggleCollapsed }) {
   function entry (state) {
-    const classes = classlist('button', 'entry', startsWith(id, state.id) && 'active')
+    const classes = classlist('button', 'entry', sidebarID === state.id && 'active')
 
     return c(link, { class: classes, link: state.link, isInternal: true },
       c(icon, { class: 'entry-icon', name: state.icon }),
@@ -22,28 +30,28 @@ export default function sidebar ({ id, isCollapsed, toggleCollapsed }) {
     ),
 
     c(entry, {
-      id: 'home',
+      id: SidebarID.HOME,
       text: 'Home page',
       icon: 'home',
       link: '/'
     }),
 
     c(entry, {
-      id: 'files',
+      id: SidebarID.FILES,
       text: 'File server',
       icon: 'folder',
       link: '/files'
     }),
 
     c(entry, {
-      id: 'pacman',
+      id: SidebarID.PACMAN,
       text: 'Pacman repo',
       icon: 'download',
       link: '/pacman'
     }),
 
     c(entry, {
-      id: 'playground',
+      id: SidebarID.PLAYGROUND,
       text: 'Playground',
       icon: 'code-greater-than',
       link: '/playground'

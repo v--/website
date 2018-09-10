@@ -1,4 +1,5 @@
 import { NotFoundError } from './errors.mjs'
+import { SidebarID } from './components/sidebar.mjs'
 import RouterState from './support/router_state.mjs'
 
 import home from './views/home.mjs'
@@ -9,19 +10,20 @@ import playground from './views/playground.mjs'
 async function routerImpl (path, db) {
   if (path.segments.length === 0) {
     return {
-      id: 'home',
-      factory: home
+      title: 'home',
+      factory: home,
+      sidebarID: SidebarID.HOME
     }
   }
 
   switch (path.segments[0]) {
     case 'files':
       return {
-        id: path.segments.join('/'),
+        title: `index of ${path.underCooked}`,
+        factory: files,
         data: await db.collections.files.readDirectory(path.segments.slice(1).join('/')),
         dataURL: `/api${path.underCooked}`,
-        title: `index of ${path.underCooked}`,
-        factory: files
+        sidebarID: SidebarID.FILES
       }
 
     case 'pacman':
@@ -30,32 +32,34 @@ async function routerImpl (path, db) {
       }
 
       return {
-        id: 'pacman',
+        title: 'pacman',
+        factory: pacman,
         data: await db.collections.pacmanPackages.load(),
         dataURL: '/api/pacman',
-        factory: pacman
+        sidebarID: SidebarID.PACMAN
       }
 
     case 'playground':
       if (path.segments.length === 1) {
         return {
-          id: 'playground',
-          factory: playground
+          title: 'playground',
+          factory: playground,
+          sidebarID: SidebarID.PLAYGROUND
         }
       } else if (path.segments.length === 2) {
         switch (path.segments[1]) {
           case 'sorting':
             return {
-              id: 'playground/sorting',
               title: 'sorting | playground',
-              bundle: 'sorting'
+              factory: 'sorting',
+              sidebarID: SidebarID.PLAYGROUND
             }
 
           case 'curve_fitting':
             return {
-              id: 'playground/curve_fitting',
               title: 'curve fitting | playground',
-              bundle: 'curve_fitting'
+              factory: 'curve_fitting',
+              sidebarID: SidebarID.PLAYGROUND
             }
         }
       }

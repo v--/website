@@ -59,27 +59,22 @@ export class ClientError extends CoolError {
   }
 }
 
-export class HTTPError extends CoolError {
-  static fromJSON ({ code, title, viewID }) {
-    return new this(code, title, viewID)
+export class HTTPError extends ClientError {
+  static fromJSON ({ code, title }) {
+    return new this(code, title)
   }
 
-  constructor (code, title, viewID) {
+  constructor (code, title) {
     super(`HTTP Error ${code}: ${title}`)
     this.code = code
     this.title = title
-
-    if (viewID) {
-      this.viewID = viewID
-    }
   }
 
   toJSON () {
     return {
       classID: this.classID,
       code: this.code,
-      title: this.title,
-      viewID: this.viewID
+      title: this.title
     }
   }
 
@@ -89,11 +84,7 @@ export class HTTPError extends CoolError {
 }
 
 export class NotFoundError extends HTTPError {
-  constructor (viewID) {
-    super(404, 'Resource not found', viewID)
-  }
-
-  get classID () {
-    return 'NotFoundError'
+  constructor () {
+    super(404, 'Resource not found')
   }
 }

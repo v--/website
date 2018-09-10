@@ -4,17 +4,7 @@ import markdown from '../components/markdown.mjs'
 import link from '../components/link.mjs'
 import interactiveTable from '../components/interactive_table.mjs'
 
-export default function files ({ path, data, id }) {
-  function getLink (entry) {
-    if (entry.name === '..') {
-      const ancestors = id.split('/')
-      ancestors.pop()
-      return '/' + ancestors.join('/')
-    }
-
-    return `/${id}/${entry.name}`
-  }
-
+export default function files ({ path, data }) {
   const columns = [
     {
       label: 'Name',
@@ -22,7 +12,7 @@ export default function files ({ path, data, id }) {
       value (entry) {
         return c(link, {
           text: entry.name,
-          link: getLink(entry),
+          link: (entry.name === '..' ? path.parent : path.join(entry.name)).underCooked,
           isInternal: !entry.isFile
         })
       }
@@ -104,7 +94,7 @@ export default function files ({ path, data, id }) {
 
   return c('div', { class: 'page files-page' },
     c('div', { class: 'section' },
-      c('h1', { class: 'section-title', text: `Index of /${id}` }),
+      c('h1', { class: 'section-title', text: `Index of ${path.underCooked}` }),
       c(interactiveTable, {
         class: 'files-table',
         data: dynamic,

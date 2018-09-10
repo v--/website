@@ -22,6 +22,10 @@ export default class Path {
     )
   }
 
+  join (segment) {
+    return new Path(this.segments.concat(segment), this.query)
+  }
+
   get underCooked () {
     return '/' + this.segments.join('/')
   }
@@ -35,5 +39,10 @@ export default class Path {
     } else {
       return this.underCooked
     }
+  }
+
+  get parent () {
+    const s = this.segments
+    return new Path(s.slice(0, s.length - 1), this.query)
   }
 }

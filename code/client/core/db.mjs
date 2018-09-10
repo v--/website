@@ -32,7 +32,7 @@ export default class DB {
     const response = await window.fetch(url)
 
     if (response.status === 404) {
-      throw new NotFoundError(url)
+      throw new NotFoundError()
     }
 
     const json = await response.json()
