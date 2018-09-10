@@ -1,28 +1,9 @@
-import { CoolError, HTTPError, ClientError, NotFoundError } from '../../common/errors.mjs'
+import { NotFoundError } from '../../common/errors.mjs'
 
 import Cache from './support/cache.mjs'
 
-function restoreError (errorCls, errorData) {
-  switch (errorCls) {
-    case 'NotFoundError':
-      return new NotFoundError(errorData.viewID)
-
-    case 'ClientError':
-      return new ClientError(errorData.message)
-
-    case 'HTTPError':
-      return new HTTPError(errorData.code, errorData.title, errorData.viewID)
-
-    case 'CoolError':
-      return new CoolError(errorData.message)
-
-    default:
-      return new Error(errorData.message)
-  }
-}
-
 export default class DB {
-  constructor ({ errorData, errorCls, data, dataURL }) {
+  constructor ({ data, dataURL }) {
     this.cache = new Cache(60 * 1000)
     this.collections = {
       files: {
@@ -38,22 +19,12 @@ export default class DB {
       }
     }
 
-    if (errorData) {
-      this.error = restoreError(errorCls, errorData)
-    }
-
     if (dataURL) {
       this.cache.set(dataURL, data)
     }
   }
 
   async fetchJSON (url) {
-    if (this.error) {
-      const error = this.error
-      delete this.error
-      throw error
-    }
-
     if (this.cache.has(url)) {
       return this.cache.get(url)
     }

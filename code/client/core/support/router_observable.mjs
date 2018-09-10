@@ -12,11 +12,10 @@ function loadBundle (bundle) {
 }
 
 export default class RouterObservable extends Observable {
-  static async initialize () {
+  static async initialize (serverData) {
     const path = Path.parse(this.readURL())
 
-    // "data" is the id a script element
-    const db = new DB(JSON.parse(window.data.textContent))
+    const db = new DB(serverData)
     const state = await router(path, db)
 
     return new this(state, db, path)
@@ -32,7 +31,12 @@ export default class RouterObservable extends Observable {
     if (state.bundle) {
       state.loading = true
       loadBundle(state.bundle).then(factory => {
-        this.update({ factory, loading: false })
+        try {
+          this.update({ factory, loading: false })
+        } catch (err) {
+          this.error(err)
+        }
+
         resize.triggerUpdate()
       })
     }

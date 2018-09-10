@@ -1,4 +1,8 @@
 export class CoolError extends Error {
+  static fromJSON ({ message }) {
+    return new this(message)
+  }
+
   constructor (message) {
     super(message)
     this.message = message
@@ -10,8 +14,13 @@ export class CoolError extends Error {
 
   toJSON () {
     return {
+      classID: this.classID,
       message: this.message
     }
+  }
+
+  get classID () {
+    return 'CoolError'
   }
 
   static assert (value, message) {
@@ -28,20 +37,33 @@ export class CoolError extends Error {
 }
 
 export class ClientError extends CoolError {
-  constructor (message) {
+  static fromJSON ({ message, title }) {
+    return new this(message, title)
+  }
+
+  constructor (message, title = 'Error') {
     super(message)
-    this.title = 'Error'
+    this.title = title
   }
 
   toJSON () {
     return {
+      classID: this.classID,
       title: this.title,
       message: this.message
     }
   }
+
+  get classID () {
+    return 'ClientError'
+  }
 }
 
 export class HTTPError extends CoolError {
+  static fromJSON ({ code, title, viewID }) {
+    return new this(code, title, viewID)
+  }
+
   constructor (code, title, viewID) {
     super(`HTTP Error ${code}: ${title}`)
     this.code = code
@@ -54,10 +76,15 @@ export class HTTPError extends CoolError {
 
   toJSON () {
     return {
+      classID: this.classID,
       code: this.code,
       title: this.title,
       viewID: this.viewID
     }
+  }
+
+  get classID () {
+    return 'HTTPError'
   }
 }
 
@@ -65,10 +92,8 @@ export class NotFoundError extends HTTPError {
   constructor (viewID) {
     super(404, 'Resource not found', viewID)
   }
-}
 
-export class NotImplementedError extends Error {
-  constructor () {
-    super('The abstract operation has not been implemented.')
+  get classID () {
+    return 'NotFoundError'
   }
 }

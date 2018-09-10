@@ -10,8 +10,7 @@ export default function index ({ state }) {
   if (state.data instanceof Error) {
     serializedData = JSON.stringify({
       path: state.path.cooked,
-      errorCls: state.data.constructor.name,
-      errorData: state.data
+      error: state.data.toJSON ? state.data : { message: state.data.message }
     })
   } else {
     serializedData = JSON.stringify({

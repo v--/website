@@ -43,7 +43,7 @@ export default class FileCollection {
         result.readme = await readFile(path.join(fullPath, name), 'utf8')
       }
 
-      if (startsWith(name, '.')) {
+      if (name[0] === '.') {
         continue
       }
 

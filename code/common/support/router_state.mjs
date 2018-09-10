@@ -1,13 +1,13 @@
 import { CoolError } from '../errors.mjs'
-import error from '../views/error.mjs'
+import errorView from '../views/error.mjs'
 
 export default class RouterState {
   static error (path, err) {
     return new this({
       path,
-      id: err.viewID || 'error',
+      id: 'error',
       title: CoolError.isDisplayable(err) ? err.title.toLowerCase() : 'error',
-      factory: error,
+      factory: errorView,
       dataURL: null,
       data: err
     })

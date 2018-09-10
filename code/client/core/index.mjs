@@ -1,3 +1,4 @@
+import { CoolError, HTTPError, ClientError, NotFoundError } from '../../common/errors.mjs'
 import { redirection } from '../../common/observables.mjs'
 import { c } from '../../common/rendering/component.mjs'
 
@@ -37,8 +38,35 @@ async function fetchIcons () {
   }
 }
 
+function restoreError (data) {
+  switch (data.classID) {
+    case 'NotFoundError':
+      return NotFoundError.fromJSON(data)
+
+    case 'ClientError':
+      return ClientError.fromJSON(data)
+
+    case 'HTTPError':
+      return HTTPError.fromJSON(data)
+
+    case 'CoolError':
+      return CoolError.fromJSON(data)
+
+    default:
+      return new Error(data.message)
+  }
+}
+
 Promise.all([onDocumentReady(), fetchIcons()]).then(async function () {
-  const observable = await RouterObservable.initialize()
+  // "data" is the id a script element
+  const data = JSON.parse(window.data.textContent)
+  const observable = await RouterObservable.initialize(data)
+
+  observable.subscribe({
+    error (err) {
+      renderError(observable, err)
+    }
+  })
 
   redirection.subscribe({
     async next (value) {
@@ -58,9 +86,10 @@ Promise.all([onDocumentReady(), fetchIcons()]).then(async function () {
     }
   })
 
-  window.addEventListener('error', function (e) {
-    renderError(observable, e.error)
-    e.preventDefault()
+  window.addEventListener('error', function (event) {
+    const err = event.error
+    renderError(observable, err)
+    err.preventDefault()
   })
 
   window.addEventListener('popstate', async function () {
@@ -71,9 +100,14 @@ Promise.all([onDocumentReady(), fetchIcons()]).then(async function () {
     }
   })
 
-  try {
-    renderObservable(observable)
-  } catch (err) {
+  if (data.error) {
+    const err = restoreError(data.error)
     renderError(observable, err)
+  } else {
+    try {
+      renderObservable(observable)
+    } catch (err) {
+      renderError(observable, err)
+    }
   }
 })
