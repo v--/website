@@ -42,15 +42,15 @@ export default class Spline {
     return new this(basis, coef)
   }
 
-  constructor (basis, coefficients) {
+  constructor (basis, coef) {
     this.basis = basis
-    this.coefficients = coefficients
+    this.coef = coef
   }
 
   eval (x) {
     let result = 0
 
-    for (const [coef, fun] of zip(this.coefficients, this.basis)) {
+    for (const [coef, fun] of zip(this.coef, this.basis)) {
       result += coef * fun.eval(x)
     }
 
@@ -60,7 +60,7 @@ export default class Spline {
   toString () {
     let result = ''
 
-    for (const [coef, fun] of zip(this.coefficients, this.basis)) {
+    for (const [coef, fun] of zip(this.coef, this.basis)) {
       if (coef === 0) {
         continue
       }

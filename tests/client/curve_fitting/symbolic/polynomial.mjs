@@ -9,12 +9,12 @@ describe('Polynomial', function () {
     it('strips leading zeros', function () {
       const p1 = new Polynomial([0, 1])
       const p2 = new Polynomial([1])
-      expect(p1.coefficients).to.deep.equal(p2.coefficients)
+      expect(p1.coef).to.deep.equal(p2.coef)
     })
 
     it('leaves at least one zero', function () {
       const p = new Polynomial([])
-      expect(p.coefficients).to.deep.equal([0])
+      expect(p.coef).to.deep.equal([0])
     })
   })
 
@@ -43,28 +43,6 @@ describe('Polynomial', function () {
       const p1 = new Polynomial([1, 2, 3])
       const p2 = new Polynomial([3, 4, 5])
       expect(String(p1.multiply(p2))).to.equal('3x^4 + 10x^3 + 22x^2 + 22x + 15')
-    })
-  })
-
-  describe('.toString()', function () {
-    it('handles the zero polynomial', function () {
-      const p = new Polynomial([])
-      expect(String(p)).to.equal('0')
-    })
-
-    it('handles linear polynomials', function () {
-      const p = new Polynomial([1])
-      expect(String(p)).to.equal('1')
-    })
-
-    it('handles cubic polynomials', function () {
-      const p = new Polynomial([1, 2, 3])
-      expect(String(p)).to.equal('x^2 + 2x + 3')
-    })
-
-    it('handles cubic mononomials', function () {
-      const p = new Polynomial([1, 0, 0])
-      expect(String(p)).to.equal('x^2')
     })
   })
 

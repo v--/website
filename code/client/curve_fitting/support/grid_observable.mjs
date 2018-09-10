@@ -6,7 +6,7 @@ import { sort } from '../../../common/support/iteration.mjs'
 import fitters from '../fitters.mjs'
 
 export const ZERO = {
-  evaluate (x) {
+  eval (x) {
     return 0
   },
 
