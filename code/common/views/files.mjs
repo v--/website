@@ -1,6 +1,7 @@
 import { c } from '../rendering/component.mjs'
 
 import markdown from '../components/markdown.mjs'
+import link from '../components/link.mjs'
 import interactiveTable from '../components/interactive_table.mjs'
 
 export default function files ({ path, data, id }) {
@@ -19,13 +20,11 @@ export default function files ({ path, data, id }) {
       label: 'Name',
       class: 'col-name',
       value (entry) {
-        return entry.name
-      },
-      link (entry) {
-        return {
-          url: getLink(entry),
+        return c(link, {
+          text: entry.name,
+          link: getLink(entry),
           isInternal: !entry.isFile
-        }
+        })
       }
     },
 

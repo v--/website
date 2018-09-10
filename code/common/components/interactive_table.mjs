@@ -82,7 +82,7 @@ function * pagination (pages, config) {
   )
 }
 
-export default function interactiveTable ({ class: cssClass, style, columns, data, fixedData = [], path }) {
+export default function interactiveTable ({ class: cssClass, columns, data, fixedData = [], path }) {
   const config = new QueryConfig(path, QUERY_CONFIG_DEFAULTS, QUERY_CONFIG_PARSERS)
   const perPage = config.get('per_page')
   const page = config.get('page')
@@ -103,33 +103,38 @@ export default function interactiveTable ({ class: cssClass, style, columns, dat
   }
 
   const sliced = sliceData({ columns, data, fixedData, config })
-  const headers = {
-    icon (column, i) {
-      if (Math.abs(sorting) === i + 1) {
-        return sorting > 0 ? 'sort-ascending' : 'sort-descending'
-      } else {
-        return 'sort-variant'
-      }
-    },
+  const patchedColumns = []
 
-    link (column, i) {
-      const columnIndex = i + 1
-      const newSortingValue = Math.abs(sorting) === columnIndex ? -sorting : columnIndex
+  for (let i = 1; i <= columns.length; i++) {
+    const newColumn = Object.assign({}, columns[i - 1])
+    const newSortingValue = Math.abs(sorting) === i ? -sorting : i
+    let iconName
 
-      return {
-        url: config.getUpdatedPath({ sorting: newSortingValue }),
-        isInternal: true
-      }
+    if (Math.abs(sorting) === i) {
+      iconName = sorting > 0 ? 'sort-ascending' : 'sort-descending'
+    } else {
+      iconName = 'sort-variant'
     }
+
+    newColumn.header = c(
+      link,
+      {
+        class: 'heading',
+        link: config.getUpdatedPath({ sorting: newSortingValue }),
+        isInternal: true
+      },
+      c(icon, { name: iconName }),
+      c('span', { text: newColumn.label })
+    )
+
+    patchedColumns.push(newColumn)
   }
 
   return c(table,
     {
       class: classlist('interactive-table', cssClass),
       data: sliced,
-      style,
-      columns,
-      headers
+      columns: patchedColumns
     },
     pages > 1 && c('thead', null,
       c('tr', null,

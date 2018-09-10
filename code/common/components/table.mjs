@@ -1,88 +1,33 @@
 import { c, Component } from '../rendering/component.mjs'
 
-import icon from './icon.mjs'
-import link from './link.mjs'
-
-function evalMappingData (mapping, datum, index) {
-  const result = {}
-
-  if (!mapping) {
-    return result
-  }
-
-  for (const [key, value] of Object.entries(mapping)) {
-    if (typeof value === 'function') {
-      const val = value(datum, index)
-
-      if (val !== undefined) {
-        result[key] = val
-      }
-    } else if (value !== undefined) {
-      result[key] = value
-    }
-  }
-
-  return result
-}
-
-function cellBody ({ link: linkData, value, class: cssClass, style }, children) {
-  if (value instanceof Component) {
-    return value
-  }
-
-  const childState = {}
-
-  if (cssClass) {
-    childState.class = cssClass
-  }
-
-  if (style) {
-    childState.style = style
-  }
-
-  if (value && typeof value === 'string') {
-    childState.text = value
-  }
-
-  if (linkData) {
-    childState.isInternal = linkData.isInternal
-    childState.link = linkData.url
-
-    return c(link, childState, ...children)
-  }
-
-  return c('span', childState, ...children)
-}
-
-function * headers (headerConfig, columns) {
+function * headers (columns) {
   for (let i = 0; i < columns.length; i++) {
     const column = columns[i]
-    const data = evalMappingData(headerConfig, column, i)
 
-    for (const [key, value] of Object.entries(column)) {
-      if (!data.hasOwnProperty(key) && typeof value === 'string') {
-        data[key] = value
-      }
+    let inner
+
+    if (column.header instanceof Component) {
+      inner = column.header
+    } else {
+      inner = c('div', { class: 'heading' },
+        c('span', { text: column.label })
+      )
     }
 
-    yield c('th', { title: data.label, class: data.class, style: data.style },
-      c(cellBody, { class: 'heading', link: data.link },
-        data.icon && c(icon, { name: data.icon }),
-        c('span', { text: data.label })
-      )
-    )
+    yield c('th', { title: column.label, class: column.class }, inner)
   }
 }
 
 function * row (columns, datum) {
-  for (let i = 0; i < columns.length; i++) {
-    const column = columns[i]
+  for (const column of columns) {
+    let value = column.view || column.value
 
-    const data = evalMappingData(column, datum, i)
-    const value = data.view || data.value
+    if (typeof value === 'function') {
+      value = value(datum)
+    }
 
-    yield c('td', { title: value, class: data.class, style: data.style },
-      c(cellBody, { value, link: data.link })
+    yield c('td', { title: value, class: column.class },
+      value instanceof Component ? value : c('span', { text: value })
     )
   }
 }
@@ -93,10 +38,10 @@ function * rows (columns, data) {
   }
 }
 
-export default function table ({ class: cssClass, style, columns, headers: headerConfig, data }, children) {
+export default function table ({ class: cssClass, style, columns, data }, children) {
   return c('table', { class: cssClass, style },
     c('thead', null,
-      c('tr', null, ...headers(headerConfig, columns))
+      c('tr', null, ...headers(columns))
     ),
 
     c('tbody', null, ...rows(columns, data)),
