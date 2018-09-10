@@ -1,16 +1,17 @@
-import { zip } from '../../../common/support/iteration.mjs'
+import { map, zip } from '../../../common/support/iteration.mjs'
 
 import BSpline from '../support/b_spline.mjs'
 
 function * iterExtendedDomain (degree, x) {
   const n = x.length
-  const extent = Math.max(1, Math.abs(x[n - 1] - x[0]))
+  const differences = map(([a, b]) => a - b, zip(x.slice(1), x.slice(0, n - 1)))
+  const diameter = Math.max(1, Math.max.apply(null, Array.from(differences)))
 
-  yield x[0] - extent
+  yield x[0] - diameter
   yield * x
 
   for (let i = 1; i < degree + 1; i++) {
-    yield x[n - 1] + i * extent
+    yield x[n - 1] + i * diameter
   }
 }
 
