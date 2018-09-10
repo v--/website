@@ -11,7 +11,7 @@ async function fetchJSON (url) {
 }
 
 export default class Store {
-  constructor ({ data }) {
+  constructor () {
     this.collections = {
       files: {
         readDirectory: (path) => {
@@ -23,6 +23,20 @@ export default class Store {
         load: () => {
           return fetchJSON('/api/pacman')
         }
+      }
+    }
+  }
+}
+
+export class MockStore {
+  constructor (data) {
+    this.collections = {
+      files: {
+        readDirectory () { return data }
+      },
+
+      pacmanPackages: {
+        load () { return data }
       }
     }
   }

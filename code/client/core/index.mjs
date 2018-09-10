@@ -56,7 +56,7 @@ function restoreError (data) {
 
 Promise.all([onDocumentReady(), fetchIcons()]).then(async function () {
   // "data" is the id a script element
-  const data = JSON.parse(window.data.textContent)
+  const { data, errorData } = JSON.parse(window.data.textContent)
   const observable = await RouterObservable.initialize(data)
 
   observable.subscribe({
@@ -97,8 +97,8 @@ Promise.all([onDocumentReady(), fetchIcons()]).then(async function () {
     }
   })
 
-  if (data.error) {
-    const err = restoreError(data.error)
+  if (errorData) {
+    const err = restoreError(errorData)
     renderError(observable, err)
   } else {
     try {

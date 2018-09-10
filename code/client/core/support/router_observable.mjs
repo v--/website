@@ -2,7 +2,7 @@ import { Observable } from '../../../common/support/observable.mjs'
 import Path from '../../../common/support/path.mjs'
 import RouterState from '../../../common/support/router_state.mjs'
 
-import Store from '../store.mjs'
+import Store, { MockStore } from '../store.mjs'
 import router from '../router.mjs'
 import { resize } from '../observables.mjs'
 import dynamicImport from '../support/dynamic_import.mjs'
@@ -14,10 +14,9 @@ function loadBundle (bundle) {
 export default class RouterObservable extends Observable {
   static async initialize (serverData) {
     const path = Path.parse(this.readURL())
-
-    const store = new Store(serverData)
-    const state = await router(path, store)
-
+    const mockStore = new MockStore(serverData)
+    const store = new Store()
+    const state = await router(path, mockStore)
     return new this(state, store, path)
   }
 

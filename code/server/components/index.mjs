@@ -9,7 +9,7 @@ export default function index ({ state }) {
 
   if (state.data instanceof Error) {
     serializedData = JSON.stringify({
-      error: state.data.toJSON ? state.data : { message: state.data.message }
+      errorData: state.data.toJSON ? state.data : { message: state.data.message }
     })
   } else {
     serializedData = JSON.stringify({
