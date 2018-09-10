@@ -1,4 +1,5 @@
 import HTTPServer from './http/server.mjs'
+import { HTTPServerState } from './enums.mjs'
 import { readFile } from './support/fs.mjs'
 import { iconMap } from '../common/components/icon.mjs'
 
@@ -20,7 +21,7 @@ readJSON(CONFIG_FILE).then(async function (config) {
 
   for (const signal of ['SIGINT', 'SIGTERM', 'SIGQUIT']) {
     process.on(signal, async function () {
-      if (server.state === HTTPServer.State.RUNNING) {
+      if (server.state === HTTPServerState.RUNNING) {
         server.logger.info(`Received signal ${signal}. Shutting down server.`)
         await server.stop(signal)
       }

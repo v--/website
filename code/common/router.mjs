@@ -1,5 +1,5 @@
 import { NotFoundError } from './errors.mjs'
-import { SidebarID } from './components/sidebar.mjs'
+import { SidebarID } from './enums.mjs'
 import RouterState from './support/router_state.mjs'
 
 import home from './views/home.mjs'

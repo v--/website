@@ -3,19 +3,19 @@ import http from 'http'
 import { HTTPError, CoolError, NotFoundError } from '../../common/errors.mjs'
 import RouterState from '../../common/support/router_state.mjs'
 import Path from '../../common/support/path.mjs'
-import enumerize from '../../common/support/enumerize.mjs'
 
 import { promisory } from '../support/async.mjs'
 import Logger from '../support/logger.mjs'
 import Response from '../http/response.mjs'
 import Store from '../store.mjs'
 import router from '../router.mjs'
+import { HTTPServerState } from '../enums.mjs'
 
 export default class HTTPServer {
   constructor (config) {
     this.socket = config.server.socket
     this.logger = new Logger('HTTP')
-    this.state = HTTPServer.State.INACTIVE
+    this.state = HTTPServerState.INACTIVE
     this.store = new Store(config.store)
   }
 
@@ -59,9 +59,9 @@ export default class HTTPServer {
   }
 
   async start () {
-    CoolError.assert(this.state === HTTPServer.State.INACTIVE, 'The server is already running.')
+    CoolError.assert(this.state === HTTPServerState.INACTIVE, 'The server is already running.')
 
-    this.state = HTTPServer.State.STARTING
+    this.state = HTTPServerState.STARTING
     this.server = http.createServer(async function (request, response) {
       try {
         await this.requestHandler(request, response)
@@ -84,24 +84,15 @@ export default class HTTPServer {
     await this.store.load()
     await (promisory(this.server.listen.bind(this.server)))(this.socket)
     this.logger.info(`Started web server on socket ${this.socket}.`)
-    this.state = HTTPServer.State.RUNNING
+    this.state = HTTPServerState.RUNNING
   }
 
   async stop () {
-    CoolError.assert(this.state === HTTPServer.State.RUNNING, 'The server is not running.')
-    this.state = HTTPServer.State.STOPPING
+    CoolError.assert(this.state === HTTPServerState.RUNNING, 'The server is not running.')
+    this.state = HTTPServerState.STOPPING
 
     await (promisory(this.server.close.bind(this.server)))()
     this.logger.info('Server stopped.')
-    this.state = HTTPServer.State.INACTIVE
+    this.state = HTTPServerState.INACTIVE
   }
 }
-
-Object.defineProperty(HTTPServer, 'State', {
-  value: enumerize(
-    'STARTING',
-    'RUNNING',
-    'STOPPING',
-    'INACTIVE'
-  )
-})

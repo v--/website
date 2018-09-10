@@ -1,17 +1,9 @@
 import { classlist } from '../support/dom_properties.mjs'
-import enumerize from '../support/enumerize.mjs'
+import { SidebarID } from '../enums.mjs'
 import { c } from '../rendering/component.mjs'
 
 import icon from './icon.mjs'
 import link from './link.mjs'
-
-export const SidebarID = enumerize(
-  'HOME',
-  'FILES',
-  'PACMAN',
-  'PLAYGROUND',
-  'ERROR'
-)
 
 export default function sidebar ({ sidebarID, isCollapsed, toggleCollapsed }) {
   function entry (state) {

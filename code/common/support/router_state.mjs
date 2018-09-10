@@ -1,6 +1,6 @@
 import { CoolError } from '../errors.mjs'
 import errorView from '../views/error.mjs'
-import { SidebarID } from '../components/sidebar.mjs'
+import { SidebarID } from '../enums.mjs'
 
 export default class RouterState {
   static error (path, err) {
