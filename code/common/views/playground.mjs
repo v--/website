@@ -1,17 +1,11 @@
 import { c } from '../rendering/component.mjs'
 import link from '../components/link.mjs'
-import markdown from '../components/markdown.mjs'
 
 export default function playground () {
   return c('div', { class: 'page playground-page' },
     c('div', { class: 'section' },
       c('h1', { class: 'section-title', text: '/playground' }),
-      c(markdown, {
-        text: [
-          'These are some JavaScript visualizations and simulations I have programmed across the years',
-          '(there are actually more simulations, the others have not yet been ported to the latest version of the website).'
-        ].join(' ')
-      }),
+      c('p', { text: 'These are some of the JavaScript visualizations and simulations I have created.' }),
       c('ul', null,
         c('li', null,
           c(link, {
