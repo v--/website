@@ -1,5 +1,5 @@
 import { NotFoundError } from './errors.mjs'
-import { SidebarID } from './enums.mjs'
+import { SidebarID, PageUpdateMode } from './enums.mjs'
 import RouterState from './support/router_state.mjs'
 
 import home from './views/home.mjs'
@@ -22,7 +22,8 @@ async function routerImpl (path, store) {
         title: `index of ${path.underCooked}`,
         factory: files,
         data: await store.collections.files.readDirectory(path.segments.slice(1).join('/')),
-        sidebarID: SidebarID.FILES
+        sidebarID: SidebarID.FILES,
+        pageUpdateMode: PageUpdateMode.TRUST_UNDERCOOKED_URL
       }
 
     case 'pacman':

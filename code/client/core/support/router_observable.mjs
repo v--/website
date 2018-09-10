@@ -1,6 +1,7 @@
 import { Observable } from '../../../common/support/observable.mjs'
 import Path from '../../../common/support/path.mjs'
 import RouterState from '../../../common/support/router_state.mjs'
+import { PageUpdateMode } from '../../../common/enums.mjs'
 
 import Store, { MockStore } from '../store.mjs'
 import router from '../router.mjs'
@@ -93,13 +94,19 @@ export default class RouterObservable extends Observable {
 
   async changeURL (url, pushState) {
     const path = Path.parse(url)
-    this.update(Object.assign({}, this.current, { loading: true }))
 
     if (pushState) {
       window.history.pushState({ path: path.cooked }, null, path.cooked)
     }
 
     this.path = path
+
+    if (this.current.pageUpdateMode === PageUpdateMode.TRUST_UNDERCOOKED_URL && path.underCooked === this.current.path.underCooked) {
+      this.update({ path })
+      return
+    }
+
+    this.update(Object.assign({}, this.current, { loading: true }))
     const route = await router(path, this.store)
 
     // Cancel if another route has started loading

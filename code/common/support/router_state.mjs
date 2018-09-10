@@ -1,6 +1,6 @@
 import { CoolError } from '../errors.mjs'
 import errorView from '../views/error.mjs'
-import { SidebarID } from '../enums.mjs'
+import { SidebarID, PageUpdateMode } from '../enums.mjs'
 
 export default class RouterState {
   static error (path, err) {
@@ -13,12 +13,13 @@ export default class RouterState {
     })
   }
 
-  constructor ({ title, path, factory, data = null, loading = false, sidebarID = null }) {
+  constructor ({ title, path, factory, data = null, loading = false, sidebarID = null, pageUpdateMode = PageUpdateMode.NORMAL }) {
     this.data = data
     this.path = path
     this.title = title
     this.factory = factory
     this.loading = loading
     this.sidebarID = sidebarID
+    this.pageUpdateMode = pageUpdateMode
   }
 }
