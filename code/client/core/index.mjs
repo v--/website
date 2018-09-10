@@ -1,4 +1,4 @@
-import { CoolError, HTTPError, ClientError, NotFoundError } from '../../common/errors.mjs'
+import { CoolError, HTTPError, ClientError } from '../../common/errors.mjs'
 import { redirection } from '../../common/observables.mjs'
 import { c } from '../../common/rendering/component.mjs'
 

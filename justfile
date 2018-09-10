@@ -7,7 +7,7 @@ test:
     env NODE_OPTIONS='--experimental-modules' mocha --delay tests/_runner.js
 
 lint:
-    standard benchmarks/** code/**/*.mjs tests/**/*.mjs client/assets/**.js gulpfile.mjs
+    standard $(find build benchmarks code) gulpfile.mjs
 
 build:
     env NODE_ENV=production ./gulp.mjs client:build

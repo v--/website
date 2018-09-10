@@ -8,7 +8,7 @@ import { resize } from '../observables.mjs'
 import dynamicImport from '../support/dynamic_import.mjs'
 
 function loadBundle (bundle) {
-  return dynamicImport(`${location.origin}/code/client/${bundle}/index.mjs`)
+  return dynamicImport(`${window.location.origin}/code/client/${bundle}/index.mjs`)
 }
 
 export default class RouterObservable extends Observable {
@@ -97,7 +97,7 @@ export default class RouterObservable extends Observable {
     this.update(Object.assign({}, this.current, { loading: true }))
 
     if (pushState) {
-      history.pushState({ path: path.cooked }, null, path.cooked)
+      window.history.pushState({ path: path.cooked }, null, path.cooked)
     }
 
     this.path = path
