@@ -66,10 +66,10 @@ export default function curveCanvas ({ width, height, mapping, curves }) {
     s(
       'g',
       { class: 'curves' },
-      ...curves.map(function ({ curve, fitter }) {
+      ...curves.map(function ({ curve, fitter, color }) {
         return s(
           'polyline',
-          { class: 'curve', stroke: fitter.color, points: join(' ', zip(domain, domain.map(x => curve.evaluate(x)))) }
+          { class: 'curve', stroke: color, points: join(' ', zip(domain, domain.map(x => curve.evaluate(x)))) }
         )
       })
     ),

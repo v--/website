@@ -2,8 +2,7 @@
 
 import { expect } from '../../../_common.mjs'
 
-import dividedDifferences from '../../../../code/client/curve_fitting/support/divided_differences.mjs'
-import { NoPointsError, DuplicatePointsError } from '../../../../code/client/curve_fitting/errors.mjs'
+import dividedDifferences, { NoPointsError, DuplicatePointsError } from '../../../../code/client/curve_fitting/support/divided_differences.mjs'
 
 describe('dividedDifferences', function () {
   it('fails when passed no points', function () {

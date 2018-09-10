@@ -30,7 +30,7 @@ export default function curveLegend ({ mapping, curves }) {
           value: '●',
           class: 'col-color',
           style (entry) {
-            return styles({ color: entry.fitter.color })
+            return styles({ color: entry.color })
           }
         },
 

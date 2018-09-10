@@ -4,7 +4,6 @@ import dividedDifferences from '../support/divided_differences.mjs'
 export default Object.freeze({
   name: 'Newton polynomial',
   date: '2018-22-07',
-  color: '#b73945',
   fit (mapping) {
     if (mapping.n === 0) {
       return new Polynomial([0])

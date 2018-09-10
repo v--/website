@@ -1,0 +1,82 @@
+import { zip } from '../../../common/support/iteration.mjs'
+
+import BSpline from '../support/b_spline.mjs'
+
+function * iterExtendedDomain (degree, x) {
+  const n = x.length
+  const extent = Math.max(1, Math.abs(x[n - 1] - x[0]))
+
+  yield x[0] - extent
+  yield * x
+
+  for (let i = 1; i < degree + 1; i++) {
+    yield x[n - 1] + i * extent
+  }
+}
+
+function * iterBasis (degree, x) {
+  const domain = Array.from(iterExtendedDomain(degree, x))
+
+  for (let i = 0; i < x.length; i++) {
+    yield new BSpline(domain.slice(i, i + degree + 2))
+  }
+}
+
+export default class Spline {
+  static fromDataPoints (degree, x, y) {
+    const basis = Array.from(iterBasis(degree, x))
+    const n = x.length
+    const coef = Array(n).fill(0)
+
+    for (let i = 0; i < n; i++) {
+      let prod = 0
+
+      for (let j = 0; j < i; j++) {
+        prod += basis[j].evaluate(x[i]) * coef[j]
+      }
+
+      coef[i] = (y[i] - prod) / basis[i].evaluate(x[i])
+    }
+
+    return new this(basis, coef)
+  }
+
+  constructor (basis, coefficients) {
+    this.basis = basis
+    this.coefficients = coefficients
+  }
+
+  evaluate (x) {
+    let result = 0
+
+    for (const [coef, fun] of zip(this.coefficients, this.basis)) {
+      result += coef * fun.evaluate(x)
+    }
+
+    return result
+  }
+
+  toString () {
+    let result = ''
+
+    for (const [coef, fun] of zip(this.coefficients, this.basis)) {
+      if (coef === 0) {
+        continue
+      }
+
+      if (result !== '') {
+        result += coef > 0 ? ' + ' : ' - '
+      }
+
+      if (coef === 0) {
+        continue
+      } else if (Math.abs(coef) === 1) {
+        result += String(fun)
+      } else {
+        result += `${Math.abs(coef)}*${fun}`
+      }
+    }
+
+    return result
+  }
+}

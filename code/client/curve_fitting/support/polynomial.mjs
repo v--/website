@@ -12,9 +12,7 @@ export default class Polynomial {
       }
     }
 
-    this.coefficients = coefficients
-      .slice(leadingZeros)
-      .map(c => Math.round(c * 1e5) / 1e5)
+    this.coefficients = coefficients.slice(leadingZeros)
 
     if (this.coefficients.length === 0) {
       this.coefficients.push(0)
@@ -69,18 +67,18 @@ export default class Polynomial {
 
     for (let i = 0; i <= this.order; i++) {
       const a = this.coefficients[i]
-      const aString = a === 1 ? '' : String(a)
+      const aString = a === 1 ? '' : String(Math.abs(a))
       const termOrder = this.order - i
 
       if (a === 0 && this.order > 0) {
         continue
       } else {
         if (result !== '') {
-          result += ' + '
+          result += a > 0 ? ' + ' : ' - '
         }
 
         if (termOrder === 0) {
-          result += String(a)
+          result += Math.abs(a) === 1 ? '1' : aString
         } else if (termOrder === 1) {
           result += `${aString}x`
         } else {

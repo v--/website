@@ -1,3 +1,5 @@
+import { CHALK_COLORS } from '../../core/support/colors.mjs'
+
 import { Observable } from '../../../common/support/observable.mjs'
 import { sort } from '../../../common/support/iteration.mjs'
 
@@ -38,9 +40,9 @@ export class DiscreteMap {
 }
 
 function recalculateCurves (mapping) {
-  return fitters.map(function (fitter) {
+  return fitters.map(function (fitter, i) {
     const curve = fitter.fit(mapping)
-    return { curve, fitter }
+    return { curve, fitter, color: CHALK_COLORS[i] }
   })
 }
 

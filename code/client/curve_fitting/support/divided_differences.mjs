@@ -1,6 +1,9 @@
+import { CoolError } from '../../../common/errors.mjs'
 import { repr } from '../../../common/support/strings.mjs'
 
-import { NoPointsError, DuplicatePointsError } from '../errors.mjs'
+export class DividedDifferencesError extends CoolError {}
+export class NoPointsError extends DividedDifferencesError {}
+export class DuplicatePointsError extends DividedDifferencesError {}
 
 export default function dividedDifferences (f, points) {
   const n = points.length

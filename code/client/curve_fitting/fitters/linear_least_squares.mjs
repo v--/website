@@ -13,7 +13,6 @@ function products (seqA, seqB) {
 export default Object.freeze({
   name: 'Linear least squares',
   date: '2018-09-06',
-  color: '#c35fcd',
   fit (mapping) {
     if (mapping.n === 0) {
       return new Polynomial([0])
