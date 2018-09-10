@@ -22,7 +22,6 @@ async function routerImpl (path, store) {
         title: `index of ${path.underCooked}`,
         factory: files,
         data: await store.collections.files.readDirectory(path.segments.slice(1).join('/')),
-        dataURL: `/api${path.underCooked}`,
         sidebarID: SidebarID.FILES
       }
 
@@ -35,7 +34,6 @@ async function routerImpl (path, store) {
         title: 'pacman',
         factory: pacman,
         data: await store.collections.pacmanPackages.load(),
-        dataURL: '/api/pacman',
         sidebarID: SidebarID.PACMAN
       }
 

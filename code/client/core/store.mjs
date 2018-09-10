@@ -11,7 +11,7 @@ async function fetchJSON (url) {
 }
 
 export default class Store {
-  constructor ({ data, dataURL }) {
+  constructor ({ data }) {
     this.collections = {
       files: {
         readDirectory: (path) => {

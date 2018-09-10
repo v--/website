@@ -9,14 +9,11 @@ export default function index ({ state }) {
 
   if (state.data instanceof Error) {
     serializedData = JSON.stringify({
-      path: state.path.cooked,
       error: state.data.toJSON ? state.data : { message: state.data.message }
     })
   } else {
     serializedData = JSON.stringify({
-      path: state.path.cooked,
-      data: state.data,
-      dataURL: state.dataURL
+      data: state.data
     })
   }
 
