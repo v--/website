@@ -4,7 +4,7 @@ import { styles } from '../../../common/support/dom_properties.mjs'
 import { c } from '../../../common/rendering/component.mjs'
 import table from '../../../common/components/table.mjs'
 
-export default function curveLegend ({ mapping, curves }) {
+export default function curveLegend ({ mapping, curves, fittersShown }) {
   return c('div', { class: 'curve-legend' },
     c('h3', { text: 'Data points' }),
     c('div', { class: 'data-points' },
@@ -27,10 +27,15 @@ export default function curveLegend ({ mapping, curves }) {
       data: curves,
       columns: [
         {
-          value: '●',
-          class: 'col-color',
-          style (entry) {
-            return styles({ color: entry.color })
+          class: 'col-checkbox',
+          value (entry) {
+            return c('input', {
+              type: 'checkbox',
+              checked: fittersShown.get(entry.fitter),
+              click (event) {
+                entry.toggle()
+              }
+            })
           }
         },
 
@@ -38,7 +43,10 @@ export default function curveLegend ({ mapping, curves }) {
           label: 'Curve name',
           class: 'col-name',
           value (entry) {
-            return entry.fitter.name
+            return c('span', {
+              style: styles({ color: entry.color }),
+              text: entry.fitter.name
+            })
           }
         },
 

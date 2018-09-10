@@ -39,13 +39,6 @@ export class DiscreteMap {
   }
 }
 
-function recalculateCurves (mapping) {
-  return fitters.map(function (fitter, i) {
-    const curve = fitter.fit(mapping)
-    return { curve, fitter, color: CHALK_COLORS[i] }
-  })
-}
-
 export default class GridObservable extends Observable {
   constructor (width, height) {
     const mapping = new DiscreteMap()
@@ -58,13 +51,12 @@ export default class GridObservable extends Observable {
     super({
       width,
       height,
-      curves: recalculateCurves(mapping),
       mapping: Object.create(mapping, {
         set: {
           value: (arg, val) => {
             mapping.set(arg, val)
             this.update({
-              curves: recalculateCurves(mapping)
+              curves: this._recalculateCurves(mapping)
             })
           }
         },
@@ -73,11 +65,33 @@ export default class GridObservable extends Observable {
           value: (arg) => {
             mapping.delete(arg)
             this.update({
-              curves: recalculateCurves(mapping)
+              curves: this._recalculateCurves(mapping)
             })
           }
         }
       })
     })
+
+    this.update({
+      curves: this._recalculateCurves(mapping),
+      fittersShown: new Map(fitters.map(f => [f, !f.hideByDefault]))
+    })
+  }
+
+  _recalculateCurves (mapping) {
+    return fitters
+      .map(function (fitter, i) {
+        const curve = fitter.fit(mapping)
+        return {
+          curve,
+          fitter,
+          color: CHALK_COLORS[i],
+          toggle: () => {
+            const fs = this.current.fittersShown
+            fs.set(fitter, !fs.get(fitter))
+            this.update()
+          }
+        }
+      }.bind(this))
   }
 }

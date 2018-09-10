@@ -1,4 +1,4 @@
-import { c } from '../rendering/component.mjs'
+import { c, Component } from '../rendering/component.mjs'
 
 import icon from './icon.mjs'
 import link from './link.mjs'
@@ -25,7 +25,11 @@ function evalMappingData (mapping, datum, index) {
   return result
 }
 
-function cellBody ({ link: linkData, text, class: cssClass, style }, children) {
+function cellBody ({ link: linkData, value, class: cssClass, style }, children) {
+  if (value instanceof Component) {
+    return value
+  }
+
   const childState = {}
 
   if (cssClass) {
@@ -36,8 +40,8 @@ function cellBody ({ link: linkData, text, class: cssClass, style }, children) {
     childState.style = style
   }
 
-  if (text) {
-    childState.text = text
+  if (value && typeof value === 'string') {
+    childState.text = value
   }
 
   if (linkData) {
@@ -78,10 +82,7 @@ function * row (columns, datum) {
     const value = data.view || data.value
 
     yield c('td', { title: value, class: data.class, style: data.style },
-      c(cellBody, {
-        text: value,
-        link: data.link
-      })
+      c(cellBody, { value, link: data.link })
     )
   }
 }

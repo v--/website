@@ -2,7 +2,7 @@ import { zip, map, range, product } from '../../../common/support/iteration.mjs'
 import { join } from '../../../common/support/strings.mjs'
 import { s } from '../../../common/support/svg.mjs'
 
-export default function curveCanvas ({ width, height, mapping, curves }) {
+export default function curveCanvas ({ width, height, mapping, curves, fittersShown }) {
   const grid = Array.from(
     map(
       ([x, y]) => ({ x, y }),
@@ -21,6 +21,7 @@ export default function curveCanvas ({ width, height, mapping, curves }) {
   ]
 
   const domain = Array.from(range(-(width + 1) / 2, (width + 1) / 2, 0.1))
+  const visibleCurves = curves.filter(c => fittersShown.get(c.fitter))
 
   return s(
     'svg',
@@ -66,7 +67,7 @@ export default function curveCanvas ({ width, height, mapping, curves }) {
     s(
       'g',
       { class: 'curves' },
-      ...curves.map(function ({ curve, fitter, color }) {
+      ...visibleCurves.map(function ({ curve, fitter, color }) {
         return s(
           'polyline',
           { class: 'curve', stroke: color, points: join(' ', zip(domain, domain.map(x => curve.evaluate(x)))) }
