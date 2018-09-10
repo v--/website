@@ -23,13 +23,12 @@ export default Object.freeze({
   hideByDefault: true,
   fit (mapping) {
     const n = mapping.n
-
-    if (n === 1) {
-      return new Polynomial([0])
-    }
-
     const x = mapping.domain
     const y = mapping.range
+
+    if (n === 1) {
+      return new Polynomial([y[0]])
+    }
 
     const sx = sum(x)
     const sy = sum(y)
