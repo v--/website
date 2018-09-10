@@ -1,12 +1,12 @@
 window.COMPATIBLE_INTERPRETER = Object.hasOwnProperty('assign')
 window.DESKTOP_WIDTH = 700
 
-var isPageInteractive = new RegExp('^/playground/').test(location.pathname)
+var isPageInteractive = new RegExp('^/playground/').test(window.location.pathname)
 
 function showError () {
-  const nojs = document.querySelector('.nojs')
-  const div = document.createElement('div')
-  const span = document.createElement('span')
+  var nojs = document.querySelector('.nojs')
+  var div = document.createElement('div')
+  var span = document.createElement('span')
 
   div.appendChild(span)
 
@@ -19,13 +19,13 @@ function showError () {
 
 function onLoad () {
   if (window.innerWidth < window.DESKTOP_WIDTH) {
-    const sidebar = document.querySelector('aside')
+    var sidebar = document.querySelector('aside')
     // Avoid using the "collapsed" class to prevent animations
     sidebar.style.display = 'none'
   }
 
   if (isPageInteractive) {
-    const indicator = document.querySelector('.loading-indicator-wrapper')
+    var indicator = document.querySelector('.loading-indicator-wrapper')
     indicator.style.backgroundColor = 'white'
     indicator.style.visibility = 'visible'
   }
