@@ -6,7 +6,7 @@ import table from '../../../common/components/table.mjs'
 
 export default function curveLegend ({ mapping, curves, fittersShown }) {
   return c('div', { class: 'curve-legend' },
-    c('h3', { text: 'Data points' }),
+    c('h1', { class: 'section legend-title', text: 'Legend' }),
     c('div', { class: 'data-points' },
       c('div', { class: 'point-pair info-point-pair' },
         c('div', { 'text': 'x' }),
@@ -21,7 +21,6 @@ export default function curveLegend ({ mapping, curves, fittersShown }) {
       })
     ),
 
-    c('h3', { text: 'Curves' }),
     c(table, {
       class: 'curve-table',
       data: curves,
