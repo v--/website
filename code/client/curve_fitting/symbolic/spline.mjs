@@ -1,6 +1,6 @@
 import { map, zip } from '../../../common/support/iteration.mjs'
 
-import BSpline from '../support/b_spline.mjs'
+import BSpline from '../symbolic/b_spline.mjs'
 
 function * iterExtendedDomain (degree, x) {
   const n = x.length
@@ -33,10 +33,10 @@ export default class Spline {
       let prod = 0
 
       for (let j = 0; j < i; j++) {
-        prod += basis[j].evaluate(x[i]) * coef[j]
+        prod += basis[j].eval(x[i]) * coef[j]
       }
 
-      coef[i] = (y[i] - prod) / basis[i].evaluate(x[i])
+      coef[i] = (y[i] - prod) / basis[i].eval(x[i])
     }
 
     return new this(basis, coef)
@@ -47,11 +47,11 @@ export default class Spline {
     this.coefficients = coefficients
   }
 
-  evaluate (x) {
+  eval (x) {
     let result = 0
 
     for (const [coef, fun] of zip(this.coefficients, this.basis)) {
-      result += coef * fun.evaluate(x)
+      result += coef * fun.eval(x)
     }
 
     return result

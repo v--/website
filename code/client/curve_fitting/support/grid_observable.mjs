@@ -5,6 +5,16 @@ import { sort } from '../../../common/support/iteration.mjs'
 
 import fitters from '../fitters.mjs'
 
+export const ZERO = {
+  evaluate (x) {
+    return 0
+  },
+
+  toString () {
+    return '0'
+  }
+}
+
 export class DiscreteMap {
   constructor (values) {
     this._payload = new Map(values)
@@ -81,7 +91,8 @@ export default class GridObservable extends Observable {
   _recalculateCurves (mapping) {
     return fitters
       .map(function (fitter, i) {
-        const curve = fitter.fit(mapping)
+        const curve = mapping.n === 0 ? ZERO : fitter.fit(mapping)
+
         return {
           curve,
           fitter,

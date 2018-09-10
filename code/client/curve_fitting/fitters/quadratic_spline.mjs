@@ -1,5 +1,5 @@
-import Spline from '../support/spline.mjs'
-import Polynomial from '../support/polynomial.mjs'
+import Spline from '../symbolic/spline.mjs'
+import Polynomial from '../symbolic/polynomial.mjs'
 
 export default Object.freeze({
   name: 'Quadratic spline',

@@ -2,7 +2,7 @@
 
 import { expect } from '../../../_common.mjs'
 
-import Polynomial from '../../../../code/client/curve_fitting/support/polynomial.mjs'
+import Polynomial from '../../../../code/client/curve_fitting/symbolic/polynomial.mjs'
 
 describe('Polynomial', function () {
   describe('.constructor()', function () {
@@ -68,10 +68,10 @@ describe('Polynomial', function () {
     })
   })
 
-  describe('.evaluate()', function () {
+  describe('.eval()', function () {
     it('Evaluates a polynomial', function () {
       const p = new Polynomial([1, 2, 3])
-      expect(p.evaluate(2)).to.equal(11)
+      expect(p.eval(2)).to.equal(11)
     })
   })
 })

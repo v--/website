@@ -1,7 +1,7 @@
 import { repr } from '../../../common/support/strings.mjs'
 import { CoolError } from '../../../common/errors.mjs'
 
-import dividedDifferences from './divided_differences.mjs'
+import dividedDifferences from '../support/divided_differences.mjs'
 
 export class BSplineError extends CoolError {}
 export class NotEnoughPointsError extends BSplineError {}
@@ -15,7 +15,7 @@ export default class BSpline {
     this.points = points
   }
 
-  evaluate (t) {
+  eval (t) {
     return dividedDifferences(x => x > t ? Math.pow(x - t, this.degree) : 0, this.points)
   }
 

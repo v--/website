@@ -1,4 +1,4 @@
-import Polynomial from '../support/polynomial.mjs'
+import Polynomial from '../symbolic/polynomial.mjs'
 import dividedDifferences from '../support/divided_differences.mjs'
 
 export default Object.freeze({
