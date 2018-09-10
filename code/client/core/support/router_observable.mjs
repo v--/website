@@ -15,17 +15,17 @@ export default class RouterObservable extends Observable {
   static async initialize (serverData) {
     const path = Path.parse(this.readURL())
 
-    const api = new Store(serverData)
-    const state = await router(path, api)
+    const store = new Store(serverData)
+    const state = await router(path, store)
 
-    return new this(state, api, path)
+    return new this(state, store, path)
   }
 
   static readURL () {
     return document.location.href.slice(document.location.origin.length)
   }
 
-  constructor (initialState, api, path) {
+  constructor (initialState, store, path) {
     const state = Object.assign({}, initialState)
 
     if (typeof state.factory === 'string') {
@@ -49,7 +49,7 @@ export default class RouterObservable extends Observable {
       this._notifyOfDelayedResize()
     }.bind(this)
 
-    this.api = api
+    this.store = store
     this.path = path
     this._bindToResize()
 
@@ -101,7 +101,7 @@ export default class RouterObservable extends Observable {
     }
 
     this.path = path
-    const route = await router(path, this.api)
+    const route = await router(path, this.store)
 
     // Cancel if another route has started loading
     if (this.path !== path) {
