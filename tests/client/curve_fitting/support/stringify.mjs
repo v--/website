@@ -4,7 +4,7 @@ import { expect } from '../../../_common.mjs'
 
 import { stringifyNumber as sn, stringifyLinearCombination as slc, StringifyError } from '../../../../code/client/curve_fitting/support/stringify.mjs'
 
-describe.only('stringifyNumber()', function () {
+describe('stringifyNumber()', function () {
   it('preserves integers', function () {
     expect(sn(1)).to.equal('1')
   })
