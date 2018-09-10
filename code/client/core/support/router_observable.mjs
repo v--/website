@@ -2,7 +2,7 @@ import { Observable } from '../../../common/support/observable.mjs'
 import Path from '../../../common/support/path.mjs'
 import RouterState from '../../../common/support/router_state.mjs'
 
-import DB from '../db.mjs'
+import Store from '../store.mjs'
 import router from '../router.mjs'
 import { resize } from '../observables.mjs'
 import dynamicImport from '../support/dynamic_import.mjs'
@@ -15,17 +15,17 @@ export default class RouterObservable extends Observable {
   static async initialize (serverData) {
     const path = Path.parse(this.readURL())
 
-    const db = new DB(serverData)
-    const state = await router(path, db)
+    const api = new Store(serverData)
+    const state = await router(path, api)
 
-    return new this(state, db, path)
+    return new this(state, api, path)
   }
 
   static readURL () {
     return document.location.href.slice(document.location.origin.length)
   }
 
-  constructor (initialState, db, path) {
+  constructor (initialState, api, path) {
     const state = Object.assign({}, initialState)
 
     if (typeof state.factory === 'string') {
@@ -49,7 +49,7 @@ export default class RouterObservable extends Observable {
       this._notifyOfDelayedResize()
     }.bind(this)
 
-    this.db = db
+    this.api = api
     this.path = path
     this._bindToResize()
 
@@ -101,7 +101,7 @@ export default class RouterObservable extends Observable {
     }
 
     this.path = path
-    const route = await router(path, this.db)
+    const route = await router(path, this.api)
 
     // Cancel if another route has started loading
     if (this.path !== path) {

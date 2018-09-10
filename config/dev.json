@@ -3,7 +3,7 @@
         "socket": "3010"
     },
 
-    "db": {
+    "store": {
         "fileRootPath": "/home/ianis/Documents",
         "pacmanDBPath": "/var/lib/pacman/sync/ivasilev.db"
     }

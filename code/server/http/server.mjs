@@ -8,7 +8,7 @@ import enumerize from '../../common/support/enumerize.mjs'
 import { promisory } from '../support/async.mjs'
 import Logger from '../support/logger.mjs'
 import Response from '../http/response.mjs'
-import DB from '../db.mjs'
+import Store from '../store.mjs'
 import router from '../router.mjs'
 
 export default class HTTPServer {
@@ -16,7 +16,7 @@ export default class HTTPServer {
     this.socket = config.server.socket
     this.logger = new Logger('HTTP')
     this.state = HTTPServer.State.INACTIVE
-    this.db = new DB(config.db)
+    this.store = new Store(config.store)
   }
 
   async requestHandler (request, response) {
@@ -28,7 +28,7 @@ export default class HTTPServer {
     }
 
     this.logger.debug(`${request.method} on ${path.cooked}`)
-    await this.writeResponse(response, await router(path, this.db))
+    await this.writeResponse(response, await router(path, this.store))
   }
 
   writeResponse (response, context) {
@@ -50,11 +50,11 @@ export default class HTTPServer {
       this.logger.info('Server socket changed. Forcing hard reload.')
       await this.stop()
       this.socket = config.server.socket
-      this.db.reload(config.db)
+      this.store.reload(config.store)
       await this.start()
     } else {
-      this.logger.info('Server socket not changed. Only reloading the db.')
-      this.db.reload(config.db)
+      this.logger.info('Server socket not changed. Only reloading the store.')
+      this.store.reload(config.store)
     }
   }
 
@@ -81,7 +81,7 @@ export default class HTTPServer {
       }
     }.bind(this))
 
-    await this.db.load()
+    await this.store.load()
     await (promisory(this.server.listen.bind(this.server)))(this.socket)
     this.logger.info(`Started web server on socket ${this.socket}.`)
     this.state = HTTPServer.State.RUNNING

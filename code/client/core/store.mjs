@@ -10,7 +10,7 @@ async function fetchJSON (url) {
   return response.json()
 }
 
-export default class DB {
+export default class Store {
   constructor ({ data, dataURL }) {
     this.collections = {
       files: {

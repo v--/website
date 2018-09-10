@@ -7,7 +7,7 @@ import files from './views/files.mjs'
 import pacman from './views/pacman.mjs'
 import playground from './views/playground.mjs'
 
-async function routerImpl (path, db) {
+async function routerImpl (path, store) {
   if (path.segments.length === 0) {
     return {
       title: 'home',
@@ -21,7 +21,7 @@ async function routerImpl (path, db) {
       return {
         title: `index of ${path.underCooked}`,
         factory: files,
-        data: await db.collections.files.readDirectory(path.segments.slice(1).join('/')),
+        data: await store.collections.files.readDirectory(path.segments.slice(1).join('/')),
         dataURL: `/api${path.underCooked}`,
         sidebarID: SidebarID.FILES
       }
@@ -34,7 +34,7 @@ async function routerImpl (path, db) {
       return {
         title: 'pacman',
         factory: pacman,
-        data: await db.collections.pacmanPackages.load(),
+        data: await store.collections.pacmanPackages.load(),
         dataURL: '/api/pacman',
         sidebarID: SidebarID.PACMAN
       }
@@ -68,7 +68,7 @@ async function routerImpl (path, db) {
   throw new NotFoundError()
 }
 
-export default async function router (path, db) {
-  const rawState = await routerImpl(path, db)
+export default async function router (path, store) {
+  const rawState = await routerImpl(path, store)
   return new RouterState(Object.assign({ path }, rawState))
 }

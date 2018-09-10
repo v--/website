@@ -70,10 +70,10 @@ export default class PacmanPackageCollection {
   }
 
   async load () {
-    return this.cachedPackages || parsePacmanDatabase(this.db.config.pacmanDBPath)
+    return this.cachedPackages || parsePacmanDatabase(this.store.config.pacmanDBPath)
   }
 
-  constructor (db) {
-    this.db = db
+  constructor (store) {
+    this.store = store
   }
 }

@@ -5,7 +5,7 @@ import { NotFoundError } from '../../common/errors.mjs'
 
 export default class FileCollection {
   async readDirectory (basePath) {
-    const fullPath = path.join(this.db.config.fileRootPath, basePath)
+    const fullPath = path.join(this.store.config.fileRootPath, basePath)
 
     const result = {
       entries: [],
@@ -57,7 +57,7 @@ export default class FileCollection {
     return result
   }
 
-  constructor (db) {
-    this.db = db
+  constructor (store) {
+    this.store = store
   }
 }

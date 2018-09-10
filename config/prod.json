@@ -3,7 +3,7 @@
         "socket": "/run/ivasilev/server.sock"
     },
 
-    "db": {
+    "store": {
         "fileRootPath": "/srv/http/files",
         "pacmanDBPath": "/srv/http/pacman/x86_64/ivasilev.db"
     }

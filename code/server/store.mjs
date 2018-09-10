@@ -1,7 +1,7 @@
 import FileCollection from './collections/file.mjs'
 import PacmanPackageCollection from './collections/pacman_package.mjs'
 
-export default class DB {
+export default class Store {
   constructor (config) {
     this.config = config
     this.collections = {
