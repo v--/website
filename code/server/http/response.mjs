@@ -12,12 +12,17 @@ export default class Response {
   }
 
   static view (state, code) {
-    const component = c(index, {
-      state: Object.assign(
-        { collapsed: false, factory: interactiveWarning, redirect () {} },
-        state
-      )
-    })
+    const patchedState = Object.assign(
+      { collapsed: false, redirect () {} },
+      state
+    )
+
+    // Only interactive pages could possible require dynamic imports
+    if (typeof patchedState.factory === 'string') {
+      patchedState.factory = interactiveWarning
+    }
+
+    const component = c(index, { state: patchedState })
 
     return new this(
       Array.from(chain('<!DOCTYPE html>', dispatcher.render(component))).join(''),
