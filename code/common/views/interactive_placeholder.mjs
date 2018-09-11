@@ -2,8 +2,8 @@ import { c } from '../rendering/component.mjs'
 
 import icon from '../components/icon.mjs'
 
-export default function interactiveWarning ({ path, loading }) {
-  return c('div', { class: 'page interactive-warning-page' },
+export default function interactivePlaceholder ({ path, loading }) {
+  return c('div', { class: 'page interactive-placeholder-page' },
     c('br'),
     c(icon, { class: 'chart-arc', name: 'chart-arc' }),
     c('h1', { text: 'This page is interactive' }),
