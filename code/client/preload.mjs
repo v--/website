@@ -1,21 +1,7 @@
-window.COMPATIBLE_INTERPRETER = Object.hasOwnProperty('assign')
 window.DESKTOP_WIDTH = 700
 
 var isPageInteractive = new RegExp('^/playground/').test(window.location.pathname)
-
-function showError () {
-  var nojs = document.querySelector('.nojs')
-  var div = document.createElement('div')
-  var span = document.createElement('span')
-
-  div.appendChild(span)
-
-  div.setAttribute('class', 'nojs')
-  span.setAttribute('class', 'content')
-  span.textContent = nojs.textContent
-
-  nojs.parentNode.replaceChild(div, nojs)
-}
+var isInterpreterCompatible = Symbol.hasOwnProperty('asyncIterator')
 
 function onLoad () {
   if (window.innerWidth < window.DESKTOP_WIDTH) {
@@ -39,9 +25,7 @@ function onAnimationFrame () {
   }
 }
 
-if (!window.COMPATIBLE_INTERPRETER) {
-  window.addEventListener('DOMContentLoaded', showError)
-} else {
+if (isInterpreterCompatible) {
   // DOMContentLoaded and load kick in too late to use here
   window.requestAnimationFrame(onAnimationFrame)
 }

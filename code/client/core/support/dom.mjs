@@ -3,10 +3,6 @@ import { Observable } from '../../../common/support/observable.mjs'
 export function onDocumentReady () {
   return new Promise(function (resolve) {
     window.requestAnimationFrame(function () {
-      if (!window.COMPATIBLE_INTERPRETER) {
-        return
-      }
-
       if (document.readyState === 'interactive' || document.readyState === 'complete') {
         return resolve()
       }

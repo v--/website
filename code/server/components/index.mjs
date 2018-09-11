@@ -1,6 +1,5 @@
 import { c } from '../../common/rendering/component.mjs'
 
-import nojs from '../../common/components/nojs.mjs'
 import main from '../../common/components/main.mjs'
 import title from '../../common/components/title.mjs'
 
@@ -26,12 +25,11 @@ export default function index ({ state }) {
       c('link', { rel: 'shortcut icon', type: 'image/x-icon', href: 'images/favicon.png' }),
       c('link', { rel: 'stylesheet', href: 'styles/index.css' }),
       c('script', { id: 'data', type: 'application/json', text: serializedData }),
-      c('script', { src: 'code/client/core/compatibility.mjs' }),
+      c('script', { src: 'code/client/preload.mjs' }),
       c('script', { type: 'module', src: 'code/client/core/index.mjs' })
     ),
 
     c('body', null,
-      c(nojs, state),
       c(main, state)
     )
   )
