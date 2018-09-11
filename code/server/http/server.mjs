@@ -24,7 +24,7 @@ export default class HTTPServer {
 
     if (request.method !== 'GET' && request.method !== 'HEAD') {
       this.logger.warn(`Unexpected method ${request.method} on ${path.cooked}`)
-      return Promise.then()
+      return
     }
 
     this.logger.debug(`${request.method} on ${path.cooked}`)
