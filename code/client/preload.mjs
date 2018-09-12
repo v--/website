@@ -1,7 +1,13 @@
+// Set compatibility status
 window.DESKTOP_WIDTH = 700
+window.CORE_COMPATIBILITY = Symbol.hasOwnProperty('iterator')
+window.PLAYGROUND_COMPATIBILITY = {
+  sorting: window.CORE_COMPATIBILITY,
+  curve_fitting: window.CORE_COMPATIBILITY
+}
 
-var isPageInteractive = new RegExp('^/playground/').test(window.location.pathname)
-var isInterpreterCompatible = Symbol.hasOwnProperty('asyncIterator')
+// Now do some hackish DOM initialization to avoid "flashing" when to main code kicks in
+var path = window.location.pathname.split('/').slice(1)
 
 function onLoad () {
   if (window.innerWidth < window.DESKTOP_WIDTH) {
@@ -10,7 +16,7 @@ function onLoad () {
     sidebar.style.display = 'none'
   }
 
-  if (isPageInteractive) {
+  if (path[0] === 'playground' && window.PLAYGROUND_COMPATIBILITY[path[1]]) {
     var indicator = document.querySelector('.loading-indicator-wrapper')
     indicator.style.backgroundColor = 'white'
     indicator.style.visibility = 'visible'
@@ -25,7 +31,7 @@ function onAnimationFrame () {
   }
 }
 
-if (isInterpreterCompatible) {
+if (window.CORE_COMPATIBILITY) {
   // DOMContentLoaded and load kick in too late to use here
   window.requestAnimationFrame(onAnimationFrame)
 }

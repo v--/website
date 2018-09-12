@@ -1,7 +1,10 @@
 import { Observable } from '../../../common/support/observable.mjs'
 import Path from '../../../common/support/path.mjs'
 import RouterState from '../../../common/support/router_state.mjs'
+import interactivePlaceholder from '../../../common/views/interactive_placeholder.mjs'
 import { PageUpdateMode } from '../../../common/enums.mjs'
+import { CoolError } from '../../../common/errors.mjs'
+import { repr } from '../../../common/support/strings.mjs'
 
 import Store, { MockStore } from '../store.mjs'
 import router from '../router.mjs'
@@ -10,6 +13,21 @@ import dynamicImport from '../support/dynamic_import.mjs'
 
 function loadBundle (bundle) {
   return dynamicImport(`${window.location.origin}/code/client/${bundle}/index.mjs`)
+}
+
+async function loadFactory ({ factory: factorySpec, path }) {
+  switch (typeof factorySpec) {
+    case 'function': return factorySpec
+    case 'string':
+      if (window.PLAYGROUND_COMPATIBILITY[path.segments[1]]) {
+        return loadBundle(factorySpec)
+      }
+
+      return interactivePlaceholder
+
+    default:
+      throw new CoolError(`Invalid page factory spec ${repr(factorySpec)}`)
+  }
 }
 
 export default class RouterObservable extends Observable {
@@ -28,21 +46,19 @@ export default class RouterObservable extends Observable {
   constructor (initialState, store, path) {
     const state = Object.assign({}, initialState)
 
-    if (typeof state.factory === 'string') {
-      state.loading = true
-      loadBundle(state.factory).then(factory => {
-        try {
-          this.update({ factory, loading: false })
-        } catch (err) {
-          this.error(err)
-        }
-
-        resize.triggerUpdate()
-      })
-    }
-
+    state.loading = true
     state.isCollapsed = !resize.current.isDesktop
     super(state)
+
+    loadFactory(state).then(function (factory) {
+      try {
+        this.update({ factory, loading: false })
+      } catch (err) {
+        this.error(err)
+      }
+
+      resize.triggerUpdate()
+    }.bind(this))
 
     this.current.toggleCollapsed = function () {
       this.update({ isCollapsed: !this.current.isCollapsed })
@@ -114,9 +130,7 @@ export default class RouterObservable extends Observable {
       return
     }
 
-    if (typeof route.factory === 'string') {
-      route.factory = await loadBundle(route.factory)
-    }
+    route.factory = await loadFactory(route)
 
     if (this.path !== path) {
       return
