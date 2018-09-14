@@ -36,6 +36,12 @@
       background-color: @button-color-hover;
     }
   }
+
+  &[disabled] {
+    color: @button-color-foreground-disabled;
+    fill: @button-color-foreground-disabled;
+    cursor: not-allowed;
+  }
 }
 
 .anchor() {

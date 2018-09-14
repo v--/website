@@ -15,8 +15,16 @@ export default function sidebar ({ sidebarID, isCollapsed, toggleCollapsed }) {
     )
   }
 
+  var toggleButtonState = { class: 'entry' }
+
+  if (toggleCollapsed === undefined) {
+    toggleButtonState.disabled = true
+  } else {
+    toggleButtonState.click = toggleCollapsed
+  }
+
   return c('aside', { class: classlist('sidebar', isCollapsed && 'collapsed') },
-    c('button', { class: 'entry', click: toggleCollapsed, disabled: toggleCollapsed === undefined },
+    c('button', toggleButtonState,
       c(icon, { class: 'entry-icon', name: 'chevron-left' }),
       c('span', { class: 'entry-text', text: 'Hide sidebar' })
     ),
