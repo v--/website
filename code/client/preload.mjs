@@ -1,9 +1,15 @@
 // Set compatibility status
+var availableFeatures = {}
+
+availableFeatures.asyncIteration = window.Symbol !== undefined && window.Symbol.hasOwnProperty('asyncIterator')
+// I couldn't find a way to easily test ES6 module compatibility, so I test for async iteration that was made available at roughly the same time
+availableFeatures.modules = availableFeatures.asyncIteration
+
 window.DESKTOP_WIDTH = 700
-window.CORE_COMPATIBILITY = Symbol.hasOwnProperty('iterator')
+window.CORE_COMPATIBILITY = availableFeatures.modules
 window.PLAYGROUND_COMPATIBILITY = {
-  sorting: window.CORE_COMPATIBILITY,
-  curve_fitting: window.CORE_COMPATIBILITY
+  sorting: availableFeatures.modules,
+  curve_fitting: availableFeatures.modules
 }
 
 // Now do some hackish DOM initialization to avoid "flashing" when to main code kicks in
