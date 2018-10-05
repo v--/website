@@ -23,6 +23,15 @@ export default function playground () {
             link: 'playground/curve_fitting',
             isInternal: true
           })
+        ),
+
+        c('li', null,
+          c(link, {
+            class: 'playground-link',
+            text: 'Affine iterated function system visualizations',
+            link: 'playground/aifs',
+            isInternal: true
+          })
         )
       )
     )

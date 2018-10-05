@@ -60,6 +60,13 @@ async function routerImpl (path, store) {
               factory: 'curve_fitting',
               sidebarID: SidebarID.PLAYGROUND
             }
+
+          case 'aifs':
+            return {
+              title: 'aifs | playground',
+              factory: 'aifs',
+              sidebarID: SidebarID.PLAYGROUND
+            }
         }
       }
   }
