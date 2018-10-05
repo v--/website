@@ -13,6 +13,7 @@ export class CanvasAlreadyRegisteredError extends CanvasError {}
 const MIN_CANVAS_SIDE = 250
 const MAX_CANVAS_SIDE = 500
 const INNER_CANVAS_SIDE = MAX_CANVAS_SIDE
+const MAX_ITERATIONS = 10
 
 const INITIAL_RECT = new Rect(
   new Vector(0, 0),
@@ -22,7 +23,7 @@ const INITIAL_RECT = new Rect(
 )
 
 function draw (ctx, rect, transformList, iteration = 1) {
-  if (Math.min(rect.width, rect.height) < 0.015) {
+  if (iteration === MAX_ITERATIONS || Math.min(rect.width, rect.height) < 0.015) {
     ctx.fillStyle = 'black'
 
     // Scaling factor
