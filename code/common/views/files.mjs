@@ -73,7 +73,7 @@ export default function files ({ path, data }) {
           return '-'
         }
 
-        return new Date(entry.modified).toLocaleString()
+        return new Date(entry.modified).toUTCString()
       },
       value (entry) {
         return Date.parse(entry.modified)
