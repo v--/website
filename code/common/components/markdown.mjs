@@ -14,7 +14,7 @@ import markdownParser, {
 function buildLink (visibleNode, urlNode, urlHandler) {
   const url = urlNode.children.map(String).join('')
   const context = { link: url }
-  context.isInternal = !/^https?:\/\//.test(url)
+  context.isInternal = false
 
   if (urlHandler) {
     context.click = function () {
