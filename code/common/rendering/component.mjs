@@ -172,6 +172,14 @@ export class XMLComponent extends Component {
       throw new ComponentSanityError(`${repr(this)} cannot have both text and children`)
     }
 
+    if ('html' in this.state.current && this.children.length > 0) {
+      throw new ComponentSanityError(`${repr(this)} cannot have both HTML and children`)
+    }
+
+    if ('text' in this.state.current && 'html' in this.state.current) {
+      throw new ComponentSanityError(`${repr(this)} cannot have both HTML and text content`)
+    }
+
     if (typeof this.namespace !== 'string') {
       throw new ComponentSanityError(`${repr(this.namespace)} is not a valid namespace`)
     }

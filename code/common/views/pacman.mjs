@@ -1,7 +1,7 @@
 import { map } from '../support/iteration.mjs'
 import { c } from '../rendering/component.mjs'
 
-import markdown from '../components/markdown.mjs'
+import link from '../components/link.mjs'
 
 function * iterPackages (pkgs) {
   for (const { name, version, description } of pkgs) {
@@ -36,12 +36,12 @@ export default function pacman ({ data }) {
     c('div', { class: 'section' },
       c('h1', { class: 'section-title', text: 'Pacman repository' }),
 
-      c(markdown, {
+      c('p', {
         text: 'The repo contains a variety of packages, mostly my own software and AUR builds.'
       }),
 
-      c(markdown, {
-        text: 'I mantain `any` and `x86_64` repos. `x86_64` includes packages from `any`. `$arch` can be overridden by both.'
+      c('p', {
+        text: 'I mantain "any" and "x86_64" repos. "x86_64" includes packages from "any". "$arch" can be overridden by both.'
       }),
 
       c('pre', null,
@@ -50,9 +50,16 @@ export default function pacman ({ data }) {
         })
       ),
 
-      c(markdown, {
-        text: `All packages are signed and can be verified using my PGP public key [${PGP_KEY_ID_SHORT}](https://pgp.mit.edu/pks/lookup?op=vindex&search=0x${PGP_FINGERPRINT}).`
-      })
+      c('p', null,
+        c('span', {
+          text: 'All packages are signed and can be verified using my PGP public key '
+        }),
+        c(link, {
+          text: PGP_KEY_ID_SHORT,
+          link: 'https://pgp.mit.edu/pks/lookup?op=vindex&search=0x' + PGP_FINGERPRINT
+        }),
+        c('span', { text: '.' })
+      )
     ),
 
     c('div', { class: 'section' },

@@ -13,7 +13,7 @@ export default class Response {
 
   static view (state, code) {
     const patchedState = Object.assign(
-      { collapsed: false, redirect () {} },
+      { collapsed: false },
       state
     )
 

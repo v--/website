@@ -39,13 +39,17 @@ export class XMLRenderer extends Renderer {
     this.element = this._createNode()
 
     for (const [key, value] of Object.entries(state)) {
-      if (key !== 'text') {
+      if (key !== 'text' || key !== 'html') {
         this._setAttribute(key, value)
       }
     }
 
     if ('text' in state) {
       this._setText(state.text)
+    }
+
+    if ('html' in state) {
+      this._setHTML(state.text)
     }
 
     for (const child of component.children) {

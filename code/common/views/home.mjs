@@ -1,6 +1,5 @@
 import { c } from '../rendering/component.mjs'
 
-import markdown from '../components/markdown.mjs'
 import icon from '../components/icon.mjs'
 import link from '../components/link.mjs'
 
@@ -13,18 +12,18 @@ function contact (state) {
   )
 }
 
-export default function home ({ redirect }) {
+export default function home () {
   return c('div', { class: 'page home-page' },
     c('div', { class: 'section' },
       c('h1', { class: 'section-title', text: 'Welcome!' }),
-      c(markdown, {
+      c('p', {
         text: 'This is my personal website - nothing more.'
       })
     ),
 
     c('div', { class: 'section' },
       c('h1', { class: 'section-title', text: 'About me' }),
-      c(markdown, {
+      c('p', {
         text: [
           'My name is Ianis Vasilev (pronounce it however you want).',
           'For some reason, I am studying statistics at Sofia University.',
@@ -36,14 +35,13 @@ export default function home ({ redirect }) {
 
     c('div', { class: 'section' },
       c('h1', { class: 'section-title', text: 'About this website' }),
-      c(markdown, {
-        urlHandler: redirect,
-        text: [
-          'This website contains random stuff that would otherwise be uploaded to other websites.',
-          'Since you got here you probably need my [file server](/files) or my [pacman repo](/pacman).',
-          'Everything here should be pretty self-descriptive.'
-        ].join(' ')
-      })
+      c('p', null,
+        c('span', { text: 'This website contains random stuff that would otherwise be uploaded to other websites. Since you got here you probably need my ' }),
+        c(link, { text: 'file server', link: '/files' }),
+        c('span', { text: ' or my ' }),
+        c(link, { text: 'pacman repo', link: '/pacman' }),
+        c('span', { text: 'Everything here should be pretty self-descriptive.' })
+      )
     ),
 
     c('div', { class: 'section' },
