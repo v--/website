@@ -39,6 +39,10 @@ export class DOMXMLRenderer extends XMLRenderer {
     this.element.textContent = ''
   }
 
+  _removeHTML () {
+    this.element.innerHTML = ''
+  }
+
   _appendChild (child) {
     this.element.appendChild(child)
   }
