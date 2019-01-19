@@ -40,7 +40,7 @@ export default function home () {
         c(link, { text: 'file server', link: '/files' }),
         c('span', { text: ' or my ' }),
         c(link, { text: 'pacman repo', link: '/pacman' }),
-        c('span', { text: 'Everything here should be pretty self-descriptive.' })
+        c('span', { text: '. Everything here should be pretty self-descriptive.' })
       )
     ),
 
