@@ -67,6 +67,13 @@ async function routerImpl (path, store) {
               factory: 'aifs',
               sidebarID: SidebarID.PLAYGROUND
             }
+
+          case 'resolution':
+            return {
+              title: 'resolution | playground',
+              factory: 'resolution',
+              sidebarID: SidebarID.PLAYGROUND
+            }
         }
       }
   }

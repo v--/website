@@ -5,8 +5,8 @@ window._dynamicImports = new Map()
 export class DynamicImportError extends CoolError {}
 
 function bufferToDataURL (buffer, mimeType) {
-  var blob = new window.Blob([buffer], { type: mimeType })
-  var reader = new window.FileReader()
+  const blob = new window.Blob([buffer], { type: mimeType })
+  const reader = new window.FileReader()
 
   return new Promise(function (resolve, reject) {
     reader.onload = function () {

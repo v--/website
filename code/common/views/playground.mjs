@@ -32,6 +32,15 @@ export default function playground () {
             link: 'playground/aifs',
             isInternal: true
           })
+        ),
+
+        c('li', null,
+          c(link, {
+            class: 'playground-link',
+            text: 'First-order resolution engine',
+            link: 'playground/resolution',
+            isInternal: true
+          })
         )
       )
     )

@@ -51,7 +51,7 @@ function parsePacmanInfoStream (stream) {
 }
 
 function parsePacmanDatabase (path) {
-  var proc = spawn('/usr/bin/tar', ['--extract', '--file', path, '--to-stdout'])
+  const proc = spawn('/usr/bin/tar', ['--extract', '--file', path, '--to-stdout'])
   return parsePacmanInfoStream(proc.stdout).then(function (packageMeta) {
     return packageMeta.map(function (meta) {
       return {

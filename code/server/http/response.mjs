@@ -2,7 +2,7 @@ import { chain } from '../../common/support/iteration.mjs'
 import { c } from '../../common/rendering/component.mjs'
 
 import index from '../components/index.mjs'
-import interactivePlaceholder from '../../common/views/interactive_placeholder.mjs'
+import unsupported from '../../common/views/unsupported.mjs'
 
 import dispatcher from '../render_dispatcher.mjs'
 
@@ -17,9 +17,9 @@ export default class Response {
       state
     )
 
-    // Only interactive pages could possible require dynamic imports
+    // Only interactive pages could possibly require dynamic imports
     if (typeof patchedState.factory === 'string') {
-      patchedState.factory = interactivePlaceholder
+      patchedState.factory = unsupported
     }
 
     const component = c(index, { state: patchedState })

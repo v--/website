@@ -1,7 +1,7 @@
 import { Observable } from '../../../common/support/observable.mjs'
 import Path from '../../../common/support/path.mjs'
 import RouterState from '../../../common/support/router_state.mjs'
-import interactivePlaceholder from '../../../common/views/interactive_placeholder.mjs'
+import unsupported from '../../../common/views/unsupported.mjs'
 import { PageUpdateMode } from '../../../common/enums.mjs'
 import { CoolError } from '../../../common/errors.mjs'
 import { repr } from '../../../common/support/strings.mjs'
@@ -23,7 +23,7 @@ async function loadFactory ({ factory: factorySpec, path }) {
         return loadBundle(factorySpec)
       }
 
-      return interactivePlaceholder
+      return unsupported
 
     default:
       throw new CoolError(`Invalid page factory spec ${repr(factorySpec)}`)

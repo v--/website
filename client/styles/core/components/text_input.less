@@ -1,0 +1,25 @@
+@import '../../_vars.less';
+
+.text-input-wrapper {
+  display: block;
+
+  .text-label {
+    display: block;
+    font-weight: bold;
+  }
+
+  .text-input {
+    display: block;
+    width: 100%;
+    border: 2px solid @unfocused-color;
+
+    &:focus {
+      border-color: @focused-color;
+    }
+  }
+
+  .text-input-error {
+    display: block;
+    color: @danger-color;
+  }
+}

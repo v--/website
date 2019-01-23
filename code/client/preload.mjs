@@ -10,7 +10,8 @@ window.CORE_COMPATIBILITY = availableFeatures.modules
 window.PLAYGROUND_COMPATIBILITY = {
   sorting: availableFeatures.modules,
   curve_fitting: availableFeatures.modules,
-  aifs: availableFeatures.modules
+  aifs: availableFeatures.modules,
+  resolution: availableFeatures.modules
 }
 
 // Now do some hackish DOM initialization to avoid "flashing" when to main code kicks in

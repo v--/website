@@ -15,7 +15,7 @@ export default function sidebar ({ sidebarID, isCollapsed, toggleCollapsed }) {
     )
   }
 
-  var toggleButtonState = { class: 'entry' }
+  const toggleButtonState = { class: 'entry' }
 
   if (toggleCollapsed === undefined) {
     toggleButtonState.disabled = true
