@@ -9,7 +9,7 @@ import Logger from '../support/logger.mjs'
 import Response from '../http/response.mjs'
 import Store from '../store.mjs'
 import router from '../router.mjs'
-import { HTTPServerState } from '../enums.mjs'
+import HTTPServerState from '../enums/http_server_state.mjs'
 
 export default class HTTPServer {
   constructor (config) {

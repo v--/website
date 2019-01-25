@@ -49,7 +49,7 @@ function draw (ctx, rect, transformList, iteration = 1) {
 }
 
 function initCanvas (canvas) {
-  var ctx = canvas.getContext('2d')
+  const ctx = canvas.getContext('2d')
   draw(ctx, INITIAL_RECT, transforms[0].transformList)
 }
 
@@ -111,7 +111,7 @@ export default function playgroundAIFS () {
         class: 'aifs-transform',
         text: transform.name,
         click () {
-          var ctx = canvas.getContext('2d')
+          const ctx = canvas.getContext('2d')
           ctx.clearRect(0, 0, INNER_CANVAS_SIDE, INNER_CANVAS_SIDE)
           draw(ctx, INITIAL_RECT, transform.transformList)
         }

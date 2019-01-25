@@ -1,5 +1,5 @@
 import HTTPServer from './http/server.mjs'
-import { HTTPServerState } from './enums.mjs'
+import HTTPServerState from './enums/http_server_state.mjs'
 import { readFile } from './support/fs.mjs'
 import { iconMap } from '../common/components/icon.mjs'
 

@@ -1,5 +1,5 @@
 import { classlist } from '../support/dom_properties.mjs'
-import { SidebarID } from '../enums.mjs'
+import SidebarID from '../enums/sidebar_id.mjs'
 import { c } from '../rendering/component.mjs'
 
 import icon from './icon.mjs'

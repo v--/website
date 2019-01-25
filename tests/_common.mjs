@@ -6,3 +6,4 @@ chai.Assertion.addMethod('equalComponent', function (b) {
 })
 
 export const expect = chai.expect
+export const assert = chai.assert

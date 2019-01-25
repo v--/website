@@ -1,5 +1,6 @@
 import { NotFoundError } from './errors.mjs'
-import { SidebarID, PageUpdateMode } from './enums.mjs'
+import SidebarID from './enums/sidebar_id.mjs'
+import PageUpdateMode from './enums/page_update_mode.mjs'
 import RouterState from './support/router_state.mjs'
 
 import home from './views/home.mjs'

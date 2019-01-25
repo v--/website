@@ -86,7 +86,7 @@ Promise.all([onDocumentReady(), fetchIcons()]).then(async function () {
   window.addEventListener('error', function (event) {
     const err = event.error
     renderError(observable, err)
-    err.preventDefault()
+    event.preventDefault()
   })
 
   window.addEventListener('popstate', async function () {

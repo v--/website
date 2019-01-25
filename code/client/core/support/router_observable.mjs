@@ -2,7 +2,7 @@ import { Observable } from '../../../common/support/observable.mjs'
 import Path from '../../../common/support/path.mjs'
 import RouterState from '../../../common/support/router_state.mjs'
 import unsupported from '../../../common/views/unsupported.mjs'
-import { PageUpdateMode } from '../../../common/enums.mjs'
+import PageUpdateMode from '../../../common/enums/page_update_mode.mjs'
 import { CoolError } from '../../../common/errors.mjs'
 import { repr } from '../../../common/support/strings.mjs'
 

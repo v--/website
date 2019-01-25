@@ -1,0 +1,30 @@
+@import '../../_vars.less';
+
+.form-container {
+  display: block;
+  width: 100%;
+
+  label {
+    display: block;
+    margin: 0.8em 0;
+
+    input, textarea {
+      display: block;
+      width: 100%;
+      border: 2px solid @unfocused-color;
+
+      &:focus {
+        border-color: @focused-color;
+      }
+    }
+
+    textarea {
+      resize: vertical;
+    }
+  }
+
+  .form-error-label {
+    display: block;
+    color: @danger-color;
+  }
+}
