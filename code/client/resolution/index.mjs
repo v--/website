@@ -2,33 +2,38 @@ import { Observable } from '../../common/support/observable.mjs'
 import { c } from '../../common/rendering/component.mjs'
 import form from '../../common/components/form.mjs'
 
-import { parseFormula } from './parser/facade.mjs'
+import { buildFormula } from './parser/facade.mjs'
 import stringifyFormula from './support/stringify_formula.mjs'
+import { convertToPNF } from './logic/pnf.mjs'
+import { simplify } from './logic/cnf.mjs'
+import { negate } from './logic/support.mjs'
 
-function buildFormula (string) {
-  const { value: formula, tail } = parseFormula(string.replace(/\s+/g, ''))
-
-  if (tail.length > 0) {
-    return null
-  }
-
-  return formula
+export function formulasToText ({ formulas }) {
+  return { text: formulas.map(stringifyFormula).join('\n') }
 }
 
 export default function playgroundResolution () {
   const axioms = [
-    'Ax Ay Ez ((p(x) <-> p(y)) v !(p(x) -> p(z)))',
+    'Az (Ax (Ex p(x) <-> (p(x) & p(y))) v (Ex p(z) -> p(x)))',
     'Ex p(x)'
   ]
 
   const goal = 'Ey Ax (p(x) -> p(y))'
 
-  const axiomsObservable = new Observable({
-    text: axioms.map(buildFormula).map(stringifyFormula).join('\n')
+  const formulasObservable = new Observable({
+    formulas: axioms.map(buildFormula).concat([negate(buildFormula(goal))])
   })
 
-  const goalObservable = new Observable({
-    text: stringifyFormula(buildFormula(goal))
+  const simplifiedObservable = formulasObservable.map(function ({ formulas }) {
+    return {
+      formulas: formulas.map(simplify)
+    }
+  })
+
+  const pnfObservable = simplifiedObservable.map(function ({ formulas }) {
+    return {
+      formulas: formulas.map(f => convertToPNF(f))
+    }
   })
 
   return c('div', { class: 'page playground-resolution-page-page' },
@@ -39,21 +44,17 @@ export default function playgroundResolution () {
           novalidate: true,
           class: 'form',
           validator (data) {
-            for (const axiom of data.axioms.split('\n').concat([data.goal]).filter(Boolean)) {
-              if (buildFormula(axiom) === null) {
-                return 'Unrecognized formula: ' + axiom
+            for (const formula of data.axioms.split('\n').concat([data.goal]).filter(Boolean)) {
+              if (buildFormula(formula) === null) {
+                return 'Unrecognized formula: ' + formula
               }
             }
           },
           callback (data) {
             const axioms = data.axioms.split('\n').filter(Boolean).map(buildFormula)
-            axiomsObservable.update({
-              text: axioms.map(stringifyFormula).join('\n')
-            })
-
-            goalObservable.update({
-              text: stringifyFormula(buildFormula(data.goal))
-            })
+            const goal = buildFormula(data.goal)
+            const formulas = axioms.concat([negate(goal)])
+            formulasObservable.update({ formulas })
           }
         },
         c('label', null,
@@ -68,14 +69,19 @@ export default function playgroundResolution () {
         c('button', { type: 'submit', text: 'Try to proove' })
       ),
 
-      c('h3', { text: 'Axioms' }),
+      c('h3', { text: 'Formulas' }),
       c('pre', null,
-        c('code', axiomsObservable)
+        c('code', formulasObservable.map(formulasToText))
       ),
 
-      c('h3', { text: 'Goal' }),
+      c('h3', { text: 'Simplified formulas without → and ↔' }),
       c('pre', null,
-        c('code', goalObservable)
+        c('code', simplifiedObservable.map(formulasToText))
+      ),
+
+      c('h3', { text: 'Prenex normal form' }),
+      c('pre', null,
+        c('code', pnfObservable.map(formulasToText))
       )
     )
   )
