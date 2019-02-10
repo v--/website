@@ -354,6 +354,18 @@ describe('parseConnectiveFormula', function () {
       }
     )
   })
+
+  // This is a test for a bug fix
+  it('disallows unfinished formulas', function () {
+    const string = '(p(a)&p(b)'
+    assert.deepEqual(
+      parseConnectiveFormula(string),
+      {
+        tail: string,
+        value: null
+      }
+    )
+  })
 })
 
 describe('parseFormula', function () {

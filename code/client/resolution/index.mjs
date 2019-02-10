@@ -3,8 +3,7 @@ import { c } from '../../common/rendering/component.mjs'
 import form from '../../common/components/form.mjs'
 
 import { parseFormula } from './parser/facade.mjs'
-import TermType from './enums/term_type.mjs'
-import FormulaType from './enums/formula_type.mjs'
+import stringifyFormula from './support/stringify_formula.mjs'
 
 function buildFormula (string) {
   const { value: formula, tail } = parseFormula(string.replace(/\s+/g, ''))
@@ -14,39 +13,6 @@ function buildFormula (string) {
   }
 
   return formula
-}
-
-function stringifyFormula (formula) {
-  switch (formula.type) {
-    case TermType.CONSTANT:
-    case TermType.VARIABLE:
-      return formula.name
-
-    case TermType.FUNCTION:
-    case FormulaType.PREDICATE:
-      return formula.name + '(' + formula.args.map(stringifyFormula).join(', ') + ')'
-
-    case FormulaType.NEGATION:
-      return '¬' + stringifyFormula(formula.formula)
-
-    case FormulaType.UNIVERSAL_QUANTIFICATION:
-      return '∀' + formula.variable + ' ' + stringifyFormula(formula.formula)
-
-    case FormulaType.EXISTENTIAL_QUANTIFICATION:
-      return '∃' + formula.variable + ' ' + stringifyFormula(formula.formula)
-
-    case FormulaType.CONJUNCTION:
-      return '(' + formula.formulas.map(stringifyFormula).join(' & ') + ')'
-
-    case FormulaType.DISJUNCTION:
-      return '(' + formula.formulas.map(stringifyFormula).join(' ∨ ') + ')'
-
-    case FormulaType.IMPLICATION:
-      return '(' + formula.formulas.map(stringifyFormula).join(' → ') + ')'
-
-    case FormulaType.EQUIVALENCE:
-      return '(' + formula.formulas.map(stringifyFormula).join(' ↔ ') + ')'
-  }
 }
 
 export default function playgroundResolution () {

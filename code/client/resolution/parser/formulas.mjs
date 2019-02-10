@@ -106,8 +106,10 @@ export function parseConnectiveFormula (string) {
     if (newTail[0] === ')') {
       tail = newTail.slice(1)
       break
-    } else {
+    } else if (newTail.length > 1) {
       tail = newTail
+    } else {
+      return { tail: string, value: null }
     }
   }
 
