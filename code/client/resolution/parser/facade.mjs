@@ -4,7 +4,7 @@ import { parsePredicate, parseNegation, parseConnectiveFormula, parseQuantificat
 export function buildFormula (string) {
   const { value: formula, tail } = parseFormula(string.replace(/\s+/g, ''))
 
-  if (tail.length > 0) {
+  if (tail.length > 0 && tail[0] !== '#') {
     return null
   }
 

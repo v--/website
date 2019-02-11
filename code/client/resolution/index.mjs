@@ -5,6 +5,7 @@ import form from '../../common/components/form.mjs'
 import { buildFormula } from './parser/facade.mjs'
 import stringifyFormula from './support/stringify_formula.mjs'
 import { convertToPNF } from './logic/pnf.mjs'
+import { convertToSNF } from './logic/snf.mjs'
 import { simplify } from './logic/cnf.mjs'
 import { negate } from './logic/support.mjs'
 
@@ -33,6 +34,12 @@ export default function playgroundResolution () {
   const pnfObservable = simplifiedObservable.map(function ({ formulas }) {
     return {
       formulas: formulas.map(f => convertToPNF(f))
+    }
+  })
+
+  const snfObservable = pnfObservable.map(function ({ formulas }) {
+    return {
+      formulas: formulas.map(f => convertToSNF(f))
     }
   })
 
@@ -70,18 +77,27 @@ export default function playgroundResolution () {
       ),
 
       c('h3', { text: 'Formulas' }),
+      c('p', { text: 'The axioms and the negation of the goal.' }),
       c('pre', null,
         c('code', formulasObservable.map(formulasToText))
       ),
 
       c('h3', { text: 'Simplified formulas without → and ↔' }),
+      c('p', { text: 'We use the equivalences P → Q ≡ ¬P ∨ Q and P ↔ Q ≡ (¬P ∨ Q) & (P ∨ ¬Q)' }),
       c('pre', null,
         c('code', simplifiedObservable.map(formulasToText))
       ),
 
       c('h3', { text: 'Prenex normal form' }),
+      c('p', { text: 'All bound variables are properly renamed to t{\\d}+.' }),
       c('pre', null,
         c('code', pnfObservable.map(formulasToText))
+      ),
+
+      c('h3', { text: 'Skolem normal form' }),
+      c('p', { text: 'New constants and functions are renamed to d{\\d}+, u{\\d}+. The quantor prefixes are removed.' }),
+      c('pre', null,
+        c('code', snfObservable.map(formulasToText))
       )
     )
   )
