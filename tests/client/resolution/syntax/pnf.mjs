@@ -2,22 +2,23 @@
 
 import { assert } from '../../../_common.mjs'
 
-import { convertToPNF } from '../../../../code/client/resolution/logic/pnf.mjs'
+import { convertToNNF } from '../../../../code/client/resolution/syntax/nnf.mjs'
+import { convertToPNF } from '../../../../code/client/resolution/syntax/pnf.mjs'
 import { buildFormula } from '../../../../code/client/resolution/parser/facade.mjs'
 import TermType from '../../../../code/client/resolution/enums/term_type.mjs'
 import FormulaType from '../../../../code/client/resolution/enums/formula_type.mjs'
 
 describe('convertToPNF', function () {
   it('preserves quantorless formulas', function () {
-    const formula = buildFormula('((p(a)&p(b))v(p(c1)&p(c2)))')
-    assert.deepEqual(
+    const formula = buildFormula('((p(f1)vp(f2))&(p(h1)vp(h2)))')
+    assert.equalFormulas(
       convertToPNF(formula),
       formula
     )
   })
 
   it('renames bound variables', function () {
-    assert.deepEqual(
+    assert.equalFormulas(
       convertToPNF(buildFormula('Axp(x)')),
       {
         type: FormulaType.UNIVERSAL_QUANTIFICATION,
@@ -37,7 +38,7 @@ describe('convertToPNF', function () {
   })
 
   it('properly renames multiple bound variables with the same names', function () {
-    assert.deepEqual(
+    assert.equalFormulas(
       convertToPNF(buildFormula('(Axp(x)&Exq(x))')),
       {
         type: FormulaType.UNIVERSAL_QUANTIFICATION,
@@ -76,7 +77,7 @@ describe('convertToPNF', function () {
   })
 
   it('properly renames nested bound variables with the same names', function () {
-    assert.deepEqual(
+    assert.equalFormulas(
       convertToPNF(buildFormula('Ax(Exp(x)&q(x))')),
       {
         type: FormulaType.UNIVERSAL_QUANTIFICATION,
@@ -115,8 +116,8 @@ describe('convertToPNF', function () {
   })
 
   it('negates formulas in PNF', function () {
-    assert.deepEqual(
-      convertToPNF(buildFormula('!AxEyp(x,y)')),
+    assert.equalFormulas(
+      convertToPNF(convertToNNF(buildFormula('!AxEyp(x,y)'))),
       {
         type: FormulaType.EXISTENTIAL_QUANTIFICATION,
         variable: 't1',
@@ -146,7 +147,7 @@ describe('convertToPNF', function () {
   })
 
   it('moves quantifiers to the front in conjunctive formulas', function () {
-    assert.deepEqual(
+    assert.equalFormulas(
       convertToPNF(buildFormula('(Axp(x)&Eyp(y))')),
       {
         type: FormulaType.UNIVERSAL_QUANTIFICATION,

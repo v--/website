@@ -1,3 +1,13 @@
 @import '../_vars.less';
 
-.playground-resolution-page {}
+.playground-resolution-page {
+  .resolution-form {
+    textarea[name=goal] {
+      resize: none;
+    }
+  }
+
+  .resolution-error {
+    color: @danger-color;
+  }
+}

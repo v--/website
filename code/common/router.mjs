@@ -73,7 +73,8 @@ async function routerImpl (path, store) {
             return {
               title: 'resolution | playground',
               factory: 'resolution',
-              sidebarID: SidebarID.PLAYGROUND
+              sidebarID: SidebarID.PLAYGROUND,
+              pageUpdateMode: PageUpdateMode.TRUST_UNDERCOOKED_URL
             }
         }
       }

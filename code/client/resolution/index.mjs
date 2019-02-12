@@ -1,103 +1,202 @@
-import { Observable } from '../../common/support/observable.mjs'
 import { c } from '../../common/rendering/component.mjs'
 import form from '../../common/components/form.mjs'
+import QueryConfig from '../../common/support/query_config.mjs'
+import { redirection } from '../../common/observables.mjs'
+import { CoolError } from '../../common/errors.mjs'
 
+import FormulaType from './enums/formula_type.mjs'
+import { stringifyFormula, stringifyDisjunct, stringifyResolvent } from './support/stringify.mjs'
 import { buildFormula } from './parser/facade.mjs'
-import stringifyFormula from './support/stringify_formula.mjs'
-import { convertToPNF } from './logic/pnf.mjs'
-import { convertToSNF } from './logic/snf.mjs'
-import { simplify } from './logic/cnf.mjs'
-import { negate } from './logic/support.mjs'
+import { extractBoundVariables, extractPredicates, extractFunctions, extractDisjuncts } from './syntax/extractors.mjs'
+import { convertToNNF } from './syntax/nnf.mjs'
+import { convertToPNF } from './syntax/pnf.mjs'
+import { convertToSNF } from './syntax/snf.mjs'
+import { inferEmptyDisjunct } from './syntax/resolution.mjs'
 
-export function formulasToText ({ formulas }) {
+export class ResolutionError extends CoolError {}
+
+export function formulasToText (formulas) {
   return { text: formulas.map(stringifyFormula).join('\n') }
 }
 
-export default function playgroundResolution () {
-  const axioms = [
-    'Az (Ax (Ex p(x) <-> (p(x) & p(y))) v (Ex p(z) -> p(x)))',
-    'Ex p(x)'
-  ]
+const QUERY_CONFIG_DEFAULTS = Object.freeze({
+  axioms: [
+    'Ex Ay p(x, y)',
+    'Ay Ax (p(x, y) -> p(y, x))'
+  ].join(';'),
+  goal: 'Ey Ax p(x, y)'
+})
 
-  const goal = 'Ey Ax (p(x) -> p(y))'
+const QUERY_CONFIG_PARSERS = Object.freeze({
+  axioms: String,
+  goal: String
+})
 
-  const formulasObservable = new Observable({
-    formulas: axioms.map(buildFormula).concat([negate(buildFormula(goal))])
-  })
+function parseFormulas (axioms, goal) {
+  const formulas = []
 
-  const simplifiedObservable = formulasObservable.map(function ({ formulas }) {
-    return {
-      formulas: formulas.map(simplify)
+  for (let i = 0; i < axioms.length; i++) {
+    const formula = buildFormula(axioms[i])
+
+    if (formula === null) {
+      throw new ResolutionError(`Failed to parse axiom ${i + 1}: ${axioms[i]}`)
+    } else {
+      const bound = extractBoundVariables(formula)
+
+      if (bound.length !== new Set(bound).size) {
+        throw new ResolutionError(`Duplicate bound variables in axiom ${i + 1}: ${axioms[i]}`)
+      }
+
+      formulas.push(formula)
     }
-  })
+  }
 
-  const pnfObservable = simplifiedObservable.map(function ({ formulas }) {
-    return {
-      formulas: formulas.map(f => convertToPNF(f))
+  const goalFormula = buildFormula(goal)
+
+  if (goalFormula === null) {
+    throw new ResolutionError('Failed to parse the goal: ' + goal)
+  } else {
+    const bound = extractBoundVariables(goalFormula)
+
+    if (bound.length !== new Set(bound).size) {
+      throw new ResolutionError(`Duplicate bound variables in the goal: ${goal}`)
     }
-  })
 
-  const snfObservable = pnfObservable.map(function ({ formulas }) {
-    return {
-      formulas: formulas.map(f => convertToSNF(f))
+    formulas.push({
+      type: FormulaType.NEGATION,
+      formula: goalFormula
+    })
+  }
+
+  const nameArityMap = new Map()
+
+  for (const formula of formulas) {
+    for (const pred of extractPredicates(formula)) {
+      const arity = nameArityMap.get(pred.name)
+
+      if (arity !== undefined && arity !== pred.arity) {
+        throw new ResolutionError(`Conflicting arities for predicate ${pred.name}: ${arity} and ${pred.arity}`)
+      }
+
+      nameArityMap.set(pred.name, pred.arity)
     }
-  })
 
-  return c('div', { class: 'page playground-resolution-page-page' },
+    for (const func of extractFunctions(formula)) {
+      const arity = nameArityMap.get(func.name)
+
+      if (arity !== undefined && arity !== func.arity) {
+        throw new ResolutionError(`Conflicting arities for function ${func.name}: ${arity} and ${func.arity}`)
+      }
+
+      nameArityMap.set(func.name, func.arity)
+    }
+  }
+
+  return formulas
+}
+
+export default function playgroundResolution ({ path }) {
+  const config = new QueryConfig(path, QUERY_CONFIG_DEFAULTS, QUERY_CONFIG_PARSERS)
+  const axioms = config.get('axioms').split(';').map(string => string.trim())
+  const goal = config.get('goal')
+  let formulas = []
+  let error = ''
+
+  try {
+    formulas = parseFormulas(axioms, goal)
+  } catch (err) {
+    if (err instanceof ResolutionError) {
+      error = String(err)
+    } else {
+      throw err
+    }
+  }
+
+  const pnfCounter = { value: 1 }
+  const snfCounter = { value: 1 }
+  const nnf = formulas.map(f => convertToNNF(f))
+  const pnf = nnf.map(f => convertToPNF(f, pnfCounter))
+  const snf = pnf.map(f => convertToSNF(f, snfCounter))
+  const disjuncts = []
+
+  for (const formula of snf) {
+    Array.prototype.push.apply(disjuncts, extractDisjuncts(formula))
+  }
+
+  const proof = inferEmptyDisjunct(disjuncts)
+
+  return c('div', { class: 'page playground-resolution-page' },
     c('div', { class: 'section' },
-      c('h1', { class: 'section-title', text: '[WIP] First-order resolution' }),
+      c('h1', { class: 'section-title', text: 'First-order resolution proover' }),
+      c('p', { text: 'Resolution is a purely syntactic method for proving theorems. It relies on a series of formula transformation that are briefly described below.' }),
+      c('p', { text: 'The raw input syntax is as follows: "A" and "E" are the two quantifiers, "&", "v", "->" and "<->" are the logical connectives and "!" negates formulas. Variables are named x, y, z; functions (and constants as zero-arity functions) are named f, g, h; predicates are named p, q, r. All names are allowed to have arbitrary numeric suffixes. Parentheses are mandatory around connectives and illegal elsewhere, except for the parentheses that are parts of function/predicate definitions.' }),
       c(form,
         {
           novalidate: true,
-          class: 'form',
-          validator (data) {
-            for (const formula of data.axioms.split('\n').concat([data.goal]).filter(Boolean)) {
-              if (buildFormula(formula) === null) {
-                return 'Unrecognized formula: ' + formula
-              }
-            }
-          },
+          class: 'resolution-form',
           callback (data) {
-            const axioms = data.axioms.split('\n').filter(Boolean).map(buildFormula)
-            const goal = buildFormula(data.goal)
-            const formulas = axioms.concat([negate(goal)])
-            formulasObservable.update({ formulas })
+            const axioms = data.axioms.split('\n').filter(Boolean).join(';')
+            const goal = data.goal
+            redirection.emit(config.getUpdatedPath({ axioms, goal }))
           }
         },
         c('label', null,
           c('b', { text: 'Axioms' }),
-          c('textarea', { name: 'axioms', text: axioms.join('\n') })
+          c('textarea', { name: 'axioms', text: axioms.join('\n'), rows: '4' })
         ),
         c('label', null,
           c('b', { text: 'Goal' }),
-          c('input', { name: 'goal', value: goal })
+          c('textarea', { name: 'goal', text: goal, rows: '1' })
         ),
         c('hr', { style: 'visibility: hidden' }),
         c('button', { type: 'submit', text: 'Try to proove' })
       ),
 
-      c('h3', { text: 'Formulas' }),
-      c('p', { text: 'The axioms and the negation of the goal.' }),
-      c('pre', null,
-        c('code', formulasObservable.map(formulasToText))
-      ),
+      c('br'),
+      error && c('p', { class: 'resolution-error', text: error }),
+      !error && c('div', { class: 'resolution-proof' },
+        c('h2', { text: 'Proof' }),
+        c('h3', { text: 'Formulas' }),
+        c('p', { text: 'The axioms and the negation of the goal.' }),
+        c('pre', null,
+          c('code', formulasToText(formulas))
+        ),
 
-      c('h3', { text: 'Simplified formulas without → and ↔' }),
-      c('p', { text: 'We use the equivalences P → Q ≡ ¬P ∨ Q and P ↔ Q ≡ (¬P ∨ Q) & (P ∨ ¬Q)' }),
-      c('pre', null,
-        c('code', simplifiedObservable.map(formulasToText))
-      ),
+        c('br'),
+        c('h3', { text: 'Negation normal form (CNF with quantifiers)' }),
+        c('p', { text: "We use the equivalences P → Q ≡ ¬P ∨ Q, P ↔ Q ≡ (¬P ∨ Q) & (P ∨ ¬Q) and P ∨ (Q & R) ≡ (P ∨ Q) & (P ∨ R), de Morgan's laws and quantifier inversion rules." }),
+        c('pre', null,
+          c('code', formulasToText(nnf))
+        ),
 
-      c('h3', { text: 'Prenex normal form' }),
-      c('p', { text: 'All bound variables are properly renamed to t{\\d}+.' }),
-      c('pre', null,
-        c('code', pnfObservable.map(formulasToText))
-      ),
+        c('br'),
+        c('h3', { text: 'Prenex normal form' }),
+        c('p', { text: 'All bound variables are renamed to t1, t2, …' }),
+        c('pre', null,
+          c('code', formulasToText(pnf))
+        ),
 
-      c('h3', { text: 'Skolem normal form' }),
-      c('p', { text: 'New constants and functions are renamed to d{\\d}+, u{\\d}+. The quantor prefixes are removed.' }),
-      c('pre', null,
-        c('code', snfObservable.map(formulasToText))
+        c('br'),
+        c('h3', { text: 'Skolem normal form' }),
+        c('p', { text: 'New functions are named u1, u2, …. The quantor prefixes are removed.' }),
+        c('pre', null,
+          c('code', formulasToText(snf))
+        ),
+
+        c('br'),
+        c('h3', { text: 'Disjuncts' }),
+        c('p', { text: 'An sequence of disjuncts (sets of literals).' }),
+        c('pre', null,
+          c('code', { text: disjuncts.map((d, i) => String(i + 1) + '. ' + stringifyDisjunct(d)).join('\n') })
+        ),
+
+        c('br'),
+        c('h3', { text: 'Proof' }),
+        c('p', { text: 'A sequence of disjuncts with the input disjunct and resolution literal specified.' }),
+        c('pre', null,
+          !proof && c('code', { text: 'No proof found' }),
+          proof && c('code', { text: proof.map((r, i) => String(i + disjuncts.length + 1) + '. ' + stringifyResolvent(r)).join('\n') })
+        )
       )
     )
   )

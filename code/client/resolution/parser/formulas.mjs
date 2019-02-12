@@ -1,4 +1,4 @@
-import { createParserChain } from './support.mjs'
+import { createParserChain } from './parser_chain.mjs'
 import { parseVariable, parseCallable } from './terms.mjs'
 import FormulaType from '../../../../code/client/resolution/enums/formula_type.mjs'
 

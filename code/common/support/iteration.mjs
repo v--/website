@@ -194,7 +194,7 @@ export function * product (...iterables) {
     const rest = variable.slice(1)
 
     for (const value of current) {
-      yield * productImpl(fixed.concat(value), rest)
+      yield * productImpl(fixed.concat([value]), rest)
     }
   }
 
@@ -203,4 +203,35 @@ export function * product (...iterables) {
   }
 
   yield * productImpl([], iterables.map(iterable => Array.from(iterable)))
+}
+
+export function union (...iterables) {
+  const result = new Set()
+
+  for (const iterable of iterables) {
+    for (const item of iterable) {
+      result.add(item)
+    }
+  }
+
+  return result
+}
+
+export function intersection (...iterables) {
+  const result = new Set()
+  const sets = Array.from(iterables).map(it => new Set(it))
+
+  for (const item of union(...sets)) {
+    let addItem = true
+
+    for (const set of sets) {
+      addItem &= set.has(item)
+    }
+
+    if (addItem) {
+      result.add(item)
+    }
+  }
+
+  return result
 }

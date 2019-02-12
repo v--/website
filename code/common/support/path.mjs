@@ -7,6 +7,10 @@ export default class Path {
       .map(tuple => tuple.split('=', 2))
       .filter(tuple => Boolean(tuple[1])))
 
+    for (const [key, value] of query.entries()) {
+      query.set(key, value.replace('%24', '&'))
+    }
+
     return new this(segments, query)
   }
 
@@ -33,7 +37,7 @@ export default class Path {
   get cooked () {
     if (this.query.size > 0) {
       return this.underCooked + '?' + Array.from(this.query.entries())
-        .map(([key, value]) => `${key}=${value}`)
+        .map(([key, value]) => `${key}=${value.replace('&', '%24')}`)
         .sort()
         .join('&')
     } else {

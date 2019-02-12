@@ -8,7 +8,7 @@ import FormulaType from '../../../../code/client/resolution/enums/formula_type.m
 
 describe('parseNegation', function () {
   it('handles negation on predicates', function () {
-    const string = '!p(c)'
+    const string = '!p(f)'
     assert.deepEqual(
       parseNegation(string),
       {
@@ -20,8 +20,9 @@ describe('parseNegation', function () {
             name: 'p',
             args: [
               {
-                type: TermType.CONSTANT,
-                name: 'c'
+                type: TermType.FUNCTION,
+                name: 'f',
+                args: []
               }
             ]
           }
@@ -83,7 +84,7 @@ describe('parseQuantification', function () {
 
 describe('parseConnectiveFormula', function () {
   it('handles binary conjunctions', function () {
-    const string = '(p(a)&p(b))'
+    const string = '(p(f)&p(g))'
     assert.deepEqual(
       parseConnectiveFormula(string),
       {
@@ -96,8 +97,9 @@ describe('parseConnectiveFormula', function () {
               name: 'p',
               args: [
                 {
-                  type: TermType.CONSTANT,
-                  name: 'a'
+                  type: TermType.FUNCTION,
+                  name: 'f',
+                  args: []
                 }
               ]
             },
@@ -106,8 +108,9 @@ describe('parseConnectiveFormula', function () {
               name: 'p',
               args: [
                 {
-                  type: TermType.CONSTANT,
-                  name: 'b'
+                  type: TermType.FUNCTION,
+                  name: 'g',
+                  args: []
                 }
               ]
             }
@@ -118,7 +121,7 @@ describe('parseConnectiveFormula', function () {
   })
 
   it('handles ternary conjunctions', function () {
-    const string = '(p(a)&p(b)&p(c))'
+    const string = '(p(f)&p(g)&p(h))'
     assert.deepEqual(
       parseConnectiveFormula(string),
       {
@@ -131,8 +134,9 @@ describe('parseConnectiveFormula', function () {
               name: 'p',
               args: [
                 {
-                  type: TermType.CONSTANT,
-                  name: 'a'
+                  type: TermType.FUNCTION,
+                  name: 'f',
+                  args: []
                 }
               ]
             },
@@ -141,8 +145,9 @@ describe('parseConnectiveFormula', function () {
               name: 'p',
               args: [
                 {
-                  type: TermType.CONSTANT,
-                  name: 'b'
+                  type: TermType.FUNCTION,
+                  name: 'g',
+                  args: []
                 }
               ]
             },
@@ -151,8 +156,9 @@ describe('parseConnectiveFormula', function () {
               name: 'p',
               args: [
                 {
-                  type: TermType.CONSTANT,
-                  name: 'c'
+                  type: TermType.FUNCTION,
+                  name: 'h',
+                  args: []
                 }
               ]
             }
@@ -163,7 +169,7 @@ describe('parseConnectiveFormula', function () {
   })
 
   it('handles ternary disjunctions', function () {
-    const string = '(p(a)vp(b)vp(c))'
+    const string = '(p(f)vp(g)vp(h))'
     assert.deepEqual(
       parseConnectiveFormula(string),
       {
@@ -176,8 +182,9 @@ describe('parseConnectiveFormula', function () {
               name: 'p',
               args: [
                 {
-                  type: TermType.CONSTANT,
-                  name: 'a'
+                  type: TermType.FUNCTION,
+                  name: 'f',
+                  args: []
                 }
               ]
             },
@@ -186,8 +193,9 @@ describe('parseConnectiveFormula', function () {
               name: 'p',
               args: [
                 {
-                  type: TermType.CONSTANT,
-                  name: 'b'
+                  type: TermType.FUNCTION,
+                  name: 'g',
+                  args: []
                 }
               ]
             },
@@ -196,8 +204,9 @@ describe('parseConnectiveFormula', function () {
               name: 'p',
               args: [
                 {
-                  type: TermType.CONSTANT,
-                  name: 'c'
+                  type: TermType.FUNCTION,
+                  name: 'h',
+                  args: []
                 }
               ]
             }
@@ -208,7 +217,7 @@ describe('parseConnectiveFormula', function () {
   })
 
   it('handles ternary disjunctions', function () {
-    const string = '(p(a)vp(b)vp(c))'
+    const string = '(p(f)vp(g)vp(h))'
     assert.deepEqual(
       parseConnectiveFormula(string),
       {
@@ -221,8 +230,9 @@ describe('parseConnectiveFormula', function () {
               name: 'p',
               args: [
                 {
-                  type: TermType.CONSTANT,
-                  name: 'a'
+                  type: TermType.FUNCTION,
+                  name: 'f',
+                  args: []
                 }
               ]
             },
@@ -231,8 +241,9 @@ describe('parseConnectiveFormula', function () {
               name: 'p',
               args: [
                 {
-                  type: TermType.CONSTANT,
-                  name: 'b'
+                  type: TermType.FUNCTION,
+                  name: 'g',
+                  args: []
                 }
               ]
             },
@@ -241,8 +252,9 @@ describe('parseConnectiveFormula', function () {
               name: 'p',
               args: [
                 {
-                  type: TermType.CONSTANT,
-                  name: 'c'
+                  type: TermType.FUNCTION,
+                  name: 'h',
+                  args: []
                 }
               ]
             }
@@ -253,7 +265,7 @@ describe('parseConnectiveFormula', function () {
   })
 
   it('handles implication', function () {
-    const string = '(p(a)->p(b))'
+    const string = '(p(f)->p(h))'
     assert.deepEqual(
       parseConnectiveFormula(string),
       {
@@ -266,8 +278,9 @@ describe('parseConnectiveFormula', function () {
               name: 'p',
               args: [
                 {
-                  type: TermType.CONSTANT,
-                  name: 'a'
+                  type: TermType.FUNCTION,
+                  name: 'f',
+                  args: []
                 }
               ]
             },
@@ -276,8 +289,9 @@ describe('parseConnectiveFormula', function () {
               name: 'p',
               args: [
                 {
-                  type: TermType.CONSTANT,
-                  name: 'b'
+                  type: TermType.FUNCTION,
+                  name: 'h',
+                  args: []
                 }
               ]
             }
@@ -288,7 +302,7 @@ describe('parseConnectiveFormula', function () {
   })
 
   it('handles equivalence', function () {
-    const string = '(p(a)<->p(b))'
+    const string = '(p(f)<->p(h))'
     assert.deepEqual(
       parseConnectiveFormula(string),
       {
@@ -301,8 +315,9 @@ describe('parseConnectiveFormula', function () {
               name: 'p',
               args: [
                 {
-                  type: TermType.CONSTANT,
-                  name: 'a'
+                  type: TermType.FUNCTION,
+                  name: 'f',
+                  args: []
                 }
               ]
             },
@@ -311,8 +326,9 @@ describe('parseConnectiveFormula', function () {
               name: 'p',
               args: [
                 {
-                  type: TermType.CONSTANT,
-                  name: 'b'
+                  type: TermType.FUNCTION,
+                  name: 'h',
+                  args: []
                 }
               ]
             }
@@ -323,7 +339,7 @@ describe('parseConnectiveFormula', function () {
   })
 
   it('disallows ternary implication', function () {
-    const string = '(p(a)->p(b)->p(c))'
+    const string = '(p(f)->p(g)->p(h))'
     assert.deepEqual(
       parseConnectiveFormula(string),
       {
@@ -334,7 +350,7 @@ describe('parseConnectiveFormula', function () {
   })
 
   it('disallows ternary equivalence', function () {
-    const string = '(p(a)<->p(b)<->p(c))'
+    const string = '(p(f)<->p(g)<->p(h))'
     assert.deepEqual(
       parseConnectiveFormula(string),
       {
@@ -345,7 +361,7 @@ describe('parseConnectiveFormula', function () {
   })
 
   it('disallows mixed connectives', function () {
-    const string = '(p(a)&p(b)<->p(c))'
+    const string = '(p(f)&p(g)<->p(h))'
     assert.deepEqual(
       parseConnectiveFormula(string),
       {
@@ -357,7 +373,7 @@ describe('parseConnectiveFormula', function () {
 
   // This is a test for a bug fix
   it('disallows unfinished formulas', function () {
-    const string = '(p(a)&p(b)'
+    const string = '(p(f)&p(g)'
     assert.deepEqual(
       parseConnectiveFormula(string),
       {
@@ -370,7 +386,7 @@ describe('parseConnectiveFormula', function () {
 
 describe('parseFormula', function () {
   it('parses complicated formulas correctly', function () {
-    const string = '(AxEy(p(x)->q(c,y))&!Exq(x,c))'
+    const string = '(AxEy(p(x)->q(f,y))&!Exq(x,f))'
     assert.deepEqual(
       parseFormula(string),
       {
@@ -402,8 +418,9 @@ describe('parseFormula', function () {
                       name: 'q',
                       args: [
                         {
-                          type: TermType.CONSTANT,
-                          name: 'c'
+                          type: TermType.FUNCTION,
+                          name: 'f',
+                          args: []
                         },
                         {
                           type: TermType.VARIABLE,
@@ -429,8 +446,9 @@ describe('parseFormula', function () {
                       name: 'x'
                     },
                     {
-                      type: TermType.CONSTANT,
-                      name: 'c'
+                      type: TermType.FUNCTION,
+                      name: 'f',
+                      args: []
                     }
                   ]
                 }

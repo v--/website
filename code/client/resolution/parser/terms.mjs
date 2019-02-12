@@ -1,8 +1,7 @@
 import TermType from '../enums/term_type.mjs'
-import { createParserChain } from './support.mjs'
+import { createParserChain } from './parser_chain.mjs'
 
 const numerals = new Set(['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
-const constantSigils = new Set(['a', 'b', 'c'])
 const variableSigils = new Set(['x', 'y', 'z'])
 const functionSigils = new Set(['f', 'g', 'h'])
 
@@ -30,10 +29,6 @@ export function parseValue (string, sigilSet, type) {
   }
 
   return { tail, value: { type, name } }
-}
-
-export function parseConstant (string) {
-  return parseValue(string, constantSigils, TermType.CONSTANT)
 }
 
 export function parseVariable (string) {
@@ -79,12 +74,26 @@ export function parseCallable (string, sigilSet, type) {
   }
 }
 
-export function parseFunction (string) {
+function parseConstant (string) {
+  const { value, tail } = parseValue(string, functionSigils, TermType.FUNCTION)
+
+  if (value) {
+    value.args = []
+  }
+
+  return { value, tail }
+}
+
+function parseTrueFunction (string) {
   return parseCallable(string, functionSigils, TermType.FUNCTION)
 }
 
+export const parseFunction = createParserChain(
+  parseTrueFunction,
+  parseConstant
+)
+
 export const parseTerm = createParserChain(
-  parseConstant,
   parseVariable,
   parseFunction
 )

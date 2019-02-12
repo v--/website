@@ -1,15 +1,18 @@
 import TermType from '../enums/term_type.mjs'
 import FormulaType from '../enums/formula_type.mjs'
 
-export default function stringifyFormula (formula) {
+export function stringifyFormula (formula) {
   switch (formula.type) {
-    case TermType.CONSTANT:
     case TermType.VARIABLE:
       return formula.name
 
     case TermType.FUNCTION:
     case FormulaType.PREDICATE:
-      return formula.name + '(' + formula.args.map(stringifyFormula).join(', ') + ')'
+      if (formula.args.length > 0) {
+        return formula.name + '(' + formula.args.map(stringifyFormula).join(', ') + ')'
+      }
+
+      return formula.name
 
     case FormulaType.NEGATION:
       return '¬' + stringifyFormula(formula.formula)
@@ -32,4 +35,12 @@ export default function stringifyFormula (formula) {
     case FormulaType.EQUIVALENCE:
       return '(' + formula.formulas.map(stringifyFormula).join(' ↔ ') + ')'
   }
+}
+
+export function stringifyDisjunct (disjunct) {
+  return '{' + disjunct.map(stringifyFormula).join(', ') + '}'
+}
+
+export function stringifyResolvent (resolvent) {
+  return `R(${resolvent.d1 + 1}, ${resolvent.d2 + 1}, ${stringifyFormula(resolvent.literal)}) = ${stringifyDisjunct(resolvent.disjunct)}`
 }
