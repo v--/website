@@ -8,7 +8,7 @@ import FormulaType from './enums/formula_type.mjs'
 import { stringifyFormula, stringifyDisjunct, stringifyResolvent } from './support/stringify.mjs'
 import { buildFormula } from './parser/facade.mjs'
 import { extractBoundVariables, extractPredicates, extractFunctions, extractDisjuncts } from './syntax/extractors.mjs'
-import { convertToNNF } from './syntax/nnf.mjs'
+import { convertToCNF } from './syntax/cnf.mjs'
 import { convertToPNF } from './syntax/pnf.mjs'
 import { convertToSNF } from './syntax/snf.mjs'
 import { inferEmptyDisjunct } from './syntax/resolution.mjs'
@@ -114,8 +114,8 @@ export default function playgroundResolution ({ path }) {
 
   const pnfCounter = { value: 1 }
   const snfCounter = { value: 1 }
-  const nnf = formulas.map(f => convertToNNF(f))
-  const pnf = nnf.map(f => convertToPNF(f, pnfCounter))
+  const cnf = formulas.map(f => convertToCNF(f))
+  const pnf = cnf.map(f => convertToPNF(f, pnfCounter))
   const snf = pnf.map(f => convertToSNF(f, snfCounter))
   const disjuncts = []
 
@@ -163,10 +163,10 @@ export default function playgroundResolution ({ path }) {
         ),
 
         c('br'),
-        c('h3', { text: 'Negation normal form (CNF with quantifiers)' }),
+        c('h3', { text: 'Canonical normal form with quantifiers' }),
         c('p', { text: "We use the equivalences P → Q ≡ ¬P ∨ Q, P ↔ Q ≡ (¬P ∨ Q) & (P ∨ ¬Q) and P ∨ (Q & R) ≡ (P ∨ Q) & (P ∨ R), de Morgan's laws and quantifier inversion rules." }),
         c('pre', null,
-          c('code', formulasToText(nnf))
+          c('code', formulasToText(cnf))
         ),
 
         c('br'),

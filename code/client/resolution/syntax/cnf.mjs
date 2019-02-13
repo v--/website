@@ -41,30 +41,30 @@ export function negate (formula) {
   }
 }
 
-function mostlyConvertToNNF (formula) {
+function mostlyConvertToCNF (formula) {
   switch (formula.type) {
     case FormulaType.PREDICATE:
       return formula
 
     case FormulaType.NEGATION:
-      return negate(mostlyConvertToNNF(formula.formula))
+      return negate(mostlyConvertToCNF(formula.formula))
 
     case FormulaType.UNIVERSAL_QUANTIFICATION:
     case FormulaType.EXISTENTIAL_QUANTIFICATION:
       return {
         type: formula.type,
         variable: formula.variable,
-        formula: mostlyConvertToNNF(formula.formula)
+        formula: mostlyConvertToCNF(formula.formula)
       }
 
     case FormulaType.CONJUNCTION:
     case FormulaType.DISJUNCTION:
-      const subformulas = formula.formulas.map(mostlyConvertToNNF)
+      const subformulas = formula.formulas.map(mostlyConvertToCNF)
       const flattened = []
 
       for (const subf of subformulas) {
         if (subf.type === formula.type) {
-          Array.prototype.push.apply(flattened, subf.formulas.map(mostlyConvertToNNF))
+          Array.prototype.push.apply(flattened, subf.formulas.map(mostlyConvertToCNF))
         } else {
           flattened.push(subf)
         }
@@ -77,18 +77,18 @@ function mostlyConvertToNNF (formula) {
 
     // P → Q ≡ ¬P ∨ Q
     case FormulaType.IMPLICATION:
-      const [a, b] = formula.formulas.map(mostlyConvertToNNF)
+      const [a, b] = formula.formulas.map(mostlyConvertToCNF)
 
-      return mostlyConvertToNNF({
+      return mostlyConvertToCNF({
         type: FormulaType.DISJUNCTION,
         formulas: [negate(a), b]
       })
 
     // P ↔ Q ≡ (¬P ∨ Q) & (P ∨ ¬Q)
     case FormulaType.EQUIVALENCE:
-      const [c, d] = formula.formulas.map(mostlyConvertToNNF)
+      const [c, d] = formula.formulas.map(mostlyConvertToCNF)
 
-      return mostlyConvertToNNF({
+      return mostlyConvertToCNF({
         type: FormulaType.CONJUNCTION,
         formulas: [
           {
@@ -104,14 +104,14 @@ function mostlyConvertToNNF (formula) {
   }
 }
 
-export function convertToNNF (formula) {
-  var nnf = mostlyConvertToNNF(formula)
+export function convertToCNF (formula) {
+  var cnf = mostlyConvertToCNF(formula)
 
-  if (nnf.type !== FormulaType.DISJUNCTION) {
-    return nnf
+  if (cnf.type !== FormulaType.DISJUNCTION) {
+    return cnf
   }
 
-  const subformulas = nnf.formulas
+  const subformulas = cnf.formulas
 
   for (let i = 0; i < subformulas.length; i++) {
     const subf = subformulas[i]
@@ -124,11 +124,11 @@ export function convertToNNF (formula) {
         type: FormulaType.CONJUNCTION,
         formulas: subf.formulas.map(ssubf => ({
           type: FormulaType.DISJUNCTION,
-          formulas: before.concat([mostlyConvertToNNF(ssubf)]).concat(after)
+          formulas: before.concat([mostlyConvertToCNF(ssubf)]).concat(after)
         }))
       }
     }
   }
 
-  return nnf
+  return cnf
 }

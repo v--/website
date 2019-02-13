@@ -1,7 +1,7 @@
 import TermType from '../enums/term_type.mjs'
 import FormulaType from '../enums/formula_type.mjs'
 import { replaceVariables } from './replacement.mjs'
-import { convertToNNF } from './nnf.mjs'
+import { convertToCNF } from './cnf.mjs'
 
 export function mostlyConvertToPNF (formula, counter = { value: 1 }, nameMap = new Map()) {
   switch (formula.type) {
@@ -76,5 +76,5 @@ export function mostlyConvertToPNF (formula, counter = { value: 1 }, nameMap = n
 }
 
 export function convertToPNF (formula, counter, nameMap) {
-  return convertToNNF(mostlyConvertToPNF(formula, counter, nameMap))
+  return convertToCNF(mostlyConvertToPNF(formula, counter, nameMap))
 }

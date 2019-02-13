@@ -2,7 +2,7 @@
 
 import { assert } from '../../../_common.mjs'
 
-import { convertToNNF } from '../../../../code/client/resolution/syntax/nnf.mjs'
+import { convertToCNF } from '../../../../code/client/resolution/syntax/cnf.mjs'
 import { convertToPNF } from '../../../../code/client/resolution/syntax/pnf.mjs'
 import { buildFormula } from '../../../../code/client/resolution/parser/facade.mjs'
 import TermType from '../../../../code/client/resolution/enums/term_type.mjs'
@@ -117,7 +117,7 @@ describe('convertToPNF', function () {
 
   it('negates formulas in PNF', function () {
     assert.equalFormulas(
-      convertToPNF(convertToNNF(buildFormula('!AxEyp(x,y)'))),
+      convertToPNF(convertToCNF(buildFormula('!AxEyp(x,y)'))),
       {
         type: FormulaType.EXISTENTIAL_QUANTIFICATION,
         variable: 't1',
