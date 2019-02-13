@@ -62,13 +62,6 @@ async function routerImpl (path, store) {
               sidebarID: SidebarID.PLAYGROUND
             }
 
-          case 'aifs':
-            return {
-              title: 'aifs | playground',
-              factory: 'aifs',
-              sidebarID: SidebarID.PLAYGROUND
-            }
-
           case 'resolution':
             return {
               title: 'resolution | playground',

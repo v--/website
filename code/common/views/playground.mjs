@@ -28,15 +28,6 @@ export default function playground () {
         c('li', null,
           c(link, {
             class: 'playground-link',
-            text: 'Affine iterated function system visualizations',
-            link: 'playground/aifs',
-            isInternal: true
-          })
-        ),
-
-        c('li', null,
-          c(link, {
-            class: 'playground-link',
             text: 'First-order logic resolution theorem prover',
             link: 'playground/resolution',
             isInternal: true
