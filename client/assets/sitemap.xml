@@ -11,6 +11,11 @@
     </url>
 
     <url>
+        <loc>https://ivasilev.net/pacman</loc>
+        <priority>1.000</priority>
+    </url>
+
+    <url>
         <loc>https://ivasilev.net/playground</loc>
         <priority>1.000</priority>
     </url>
@@ -21,7 +26,17 @@
     </url>
 
     <url>
-        <loc>https://ivasilev.net/pacman</loc>
+        <loc>https://ivasilev.net/playground/curve_fitting</loc>
+        <priority>1.000</priority>
+    </url>
+
+    <url>
+        <loc>https://ivasilev.net/playground/aifs</loc>
+        <priority>1.000</priority>
+    </url>
+
+    <url>
+        <loc>https://ivasilev.net/playground/resolution</loc>
         <priority>1.000</priority>
     </url>
 </urlset>

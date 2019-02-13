@@ -114,7 +114,7 @@ export default function playgroundResolution ({ path }) {
 
   return c('div', { class: 'page playground-resolution-page' },
     c('div', { class: 'section' },
-      c('h1', { class: 'section-title', text: 'First-order resolution proover' }),
+      c('h1', { class: 'section-title', text: 'FOL resolution theorem prover' }),
       c('p', { text: 'Resolution is a purely syntactic method for proving theorems. It relies on a series of formula transformation that are briefly described below.' }),
       c('p', { text: 'Zero-arity functions are treated as constants and free variables are treated the same as universally quantified variables.' }),
       c('p', { text: 'The raw input syntax is as follows: "A" and "E" are the two quantifiers, "&", "v", "->" and "<->" are the logical connectives and "!" negates formulas. Variables are named x, y, z; functions are named f, g, h; predicates are named p, q, r. All names are allowed to have arbitrary numeric suffixes. Parentheses are mandatory around connectives and illegal elsewhere, except for the parentheses that are parts of function/predicate definitions.' }),

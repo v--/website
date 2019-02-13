@@ -37,7 +37,7 @@ export default function playground () {
         c('li', null,
           c(link, {
             class: 'playground-link',
-            text: 'First-order resolution theorem proover',
+            text: 'First-order logic resolution theorem prover',
             link: 'playground/resolution',
             isInternal: true
           })
