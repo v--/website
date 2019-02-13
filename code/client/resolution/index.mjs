@@ -178,21 +178,21 @@ export default function playgroundResolution ({ path }) {
 
         c('br'),
         c('h3', { text: 'Skolem normal form' }),
-        c('p', { text: 'New functions are named u1, u2, …. The quantor prefixes are removed.' }),
+        c('p', { text: 'New functions are named u1, u2, ….' }),
         c('pre', null,
           c('code', formulasToText(snf))
         ),
 
         c('br'),
         c('h3', { text: 'Disjuncts' }),
-        c('p', { text: 'An sequence of disjuncts (sets of literals).' }),
+        c('p', { text: 'A sequence of disjuncts (sets of literals).' }),
         c('pre', null,
           c('code', { text: disjuncts.map((d, i) => String(i + 1) + '. ' + stringifyDisjunct(d)).join('\n') })
         ),
 
         c('br'),
         c('h3', { text: 'Proof' }),
-        c('p', { text: 'A sequence of disjuncts with the input disjunct and resolution literal specified.' }),
+        c('p', { text: 'A sequence of derived disjuncts with the input disjuncts and resolution literal specified.' }),
         c('pre', null,
           !proof && c('code', { text: 'No proof found' }),
           proof && c('code', { text: proof.map((r, i) => String(i + disjuncts.length + 1) + '. ' + stringifyResolvent(r)).join('\n') })

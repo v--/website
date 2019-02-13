@@ -14,7 +14,11 @@ export function convertToSNF (formula, counter = { value: 1 }, nameMap = new Map
       }
 
     case FormulaType.UNIVERSAL_QUANTIFICATION:
-      return convertToSNF(formula.formula, counter, nameMap, univVarNames.concat([formula.variable]))
+      return {
+        type: formula.type,
+        variable: formula.variable,
+        formula: convertToSNF(formula.formula, counter, nameMap, univVarNames.concat([formula.variable]))
+      }
 
     case FormulaType.EXISTENTIAL_QUANTIFICATION:
       nameMap.set(formula.variable, {

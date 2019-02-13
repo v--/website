@@ -22,6 +22,9 @@ export function extractDisjuncts (formula) {
 
     case FormulaType.DISJUNCTION:
       return [formula.formulas]
+
+    case FormulaType.UNIVERSAL_QUANTIFICATION:
+      return extractDisjuncts(formula.formula)
   }
 }
 
