@@ -7,7 +7,7 @@ import { CoolError } from '../../common/errors.mjs'
 import FormulaType from './enums/formula_type.mjs'
 import { stringifyFormula, stringifyDisjunct, stringifyResolvent } from './support/stringify.mjs'
 import { buildFormula } from './parser/facade.mjs'
-import { extractBoundVariables, extractPredicates, extractFunctions, extractDisjuncts } from './syntax/extractors.mjs'
+import { extractPredicates, extractFunctions, extractDisjuncts } from './syntax/extractors.mjs'
 import { convertToCNF } from './syntax/cnf.mjs'
 import { convertToPNF } from './syntax/pnf.mjs'
 import { convertToSNF } from './syntax/snf.mjs'
@@ -21,10 +21,10 @@ export function formulasToText (formulas) {
 
 const QUERY_CONFIG_DEFAULTS = Object.freeze({
   axioms: [
-    'Ex Ay p(x, y)',
-    'Ay Ax (p(x, y) -> p(y, x))'
+    'Ay Ez (!p(z) & Ax (q1(z, x) -> !q2(y, x)))',
+    'Ay (Az (!r(z) -> !q1(y, z)) -> p(y))'
   ].join(';'),
-  goal: 'Ey Ax p(x, y)'
+  goal: 'Az Ey (!r(y) & !q2(z, y))'
 })
 
 const QUERY_CONFIG_PARSERS = Object.freeze({
@@ -41,12 +41,6 @@ function parseFormulas (axioms, goal) {
     if (formula === null) {
       throw new ResolutionError(`Failed to parse axiom ${i + 1}: ${axioms[i]}`)
     } else {
-      const bound = extractBoundVariables(formula)
-
-      if (bound.length !== new Set(bound).size) {
-        throw new ResolutionError(`Duplicate bound variables in axiom ${i + 1}: ${axioms[i]}`)
-      }
-
       formulas.push(formula)
     }
   }
@@ -56,12 +50,6 @@ function parseFormulas (axioms, goal) {
   if (goalFormula === null) {
     throw new ResolutionError('Failed to parse the goal: ' + goal)
   } else {
-    const bound = extractBoundVariables(goalFormula)
-
-    if (bound.length !== new Set(bound).size) {
-      throw new ResolutionError(`Duplicate bound variables in the goal: ${goal}`)
-    }
-
     formulas.push({
       type: FormulaType.NEGATION,
       formula: goalFormula
@@ -112,10 +100,9 @@ export default function playgroundResolution ({ path }) {
     }
   }
 
-  const pnfCounter = { value: 1 }
   const snfCounter = { value: 1 }
   const cnf = formulas.map(f => convertToCNF(f))
-  const pnf = cnf.map(f => convertToPNF(f, pnfCounter))
+  const pnf = cnf.map(f => convertToPNF(f))
   const snf = pnf.map(f => convertToSNF(f, snfCounter))
   const disjuncts = []
 
@@ -129,7 +116,8 @@ export default function playgroundResolution ({ path }) {
     c('div', { class: 'section' },
       c('h1', { class: 'section-title', text: 'First-order resolution proover' }),
       c('p', { text: 'Resolution is a purely syntactic method for proving theorems. It relies on a series of formula transformation that are briefly described below.' }),
-      c('p', { text: 'The raw input syntax is as follows: "A" and "E" are the two quantifiers, "&", "v", "->" and "<->" are the logical connectives and "!" negates formulas. Variables are named x, y, z; functions (and constants as zero-arity functions) are named f, g, h; predicates are named p, q, r. All names are allowed to have arbitrary numeric suffixes. Parentheses are mandatory around connectives and illegal elsewhere, except for the parentheses that are parts of function/predicate definitions.' }),
+      c('p', { text: 'Zero-arity functions are treated as constants and free variables are treated the same as universally quantified variables.' }),
+      c('p', { text: 'The raw input syntax is as follows: "A" and "E" are the two quantifiers, "&", "v", "->" and "<->" are the logical connectives and "!" negates formulas. Variables are named x, y, z; functions are named f, g, h; predicates are named p, q, r. All names are allowed to have arbitrary numeric suffixes. Parentheses are mandatory around connectives and illegal elsewhere, except for the parentheses that are parts of function/predicate definitions.' }),
       c(form,
         {
           novalidate: true,
@@ -171,7 +159,7 @@ export default function playgroundResolution ({ path }) {
 
         c('br'),
         c('h3', { text: 'Prenex normal form' }),
-        c('p', { text: 'All bound variables are renamed to t1, t2, …' }),
+        c('p', { text: 'Duplicate bound variables are renamed to t1, t2, …' }),
         c('pre', null,
           c('code', formulasToText(pnf))
         ),

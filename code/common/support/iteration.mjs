@@ -127,8 +127,7 @@ export function shuffle (iter) {
 
 export function * flatten (iter) {
   for (const value of iter) {
-    // Cannot use interfaces here because of circular dependencies
-    if (value && value[Symbol.iterator]) {
+    if (value && value !== iter && value[Symbol.iterator]) {
       yield * flatten(value)
     } else {
       yield value

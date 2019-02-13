@@ -2,186 +2,63 @@
 
 import { assert } from '../../../_common.mjs'
 
+import TermType from '../../../../code/client/resolution/enums/term_type.mjs'
 import { convertToCNF } from '../../../../code/client/resolution/syntax/cnf.mjs'
 import { convertToPNF } from '../../../../code/client/resolution/syntax/pnf.mjs'
+import { replaceVariables } from '../../../../code/client/resolution/syntax/replacement.mjs'
 import { buildFormula } from '../../../../code/client/resolution/parser/facade.mjs'
-import TermType from '../../../../code/client/resolution/enums/term_type.mjs'
-import FormulaType from '../../../../code/client/resolution/enums/formula_type.mjs'
 
 describe('convertToPNF', function () {
   it('preserves quantorless formulas', function () {
-    const formula = buildFormula('((p(f1)vp(f2))&(p(h1)vp(h2)))')
+    const formula = buildFormula('((p(f1) v p(f2)) & (p(h1) v p(h2)))')
     assert.equalFormulas(
       convertToPNF(formula),
       formula
     )
   })
 
-  it('renames bound variables', function () {
+  it('leaves single bound variables intact', function () {
+    const formula = buildFormula('Ax p(x)')
     assert.equalFormulas(
-      convertToPNF(buildFormula('Axp(x)')),
-      {
-        type: FormulaType.UNIVERSAL_QUANTIFICATION,
-        variable: 't1',
-        formula: {
-          type: FormulaType.PREDICATE,
-          name: 'p',
-          args: [
-            {
-              type: TermType.VARIABLE,
-              name: 't1'
-            }
-          ]
-        }
-      }
+      convertToPNF(formula),
+      formula
     )
   })
 
   it('properly renames multiple bound variables with the same names', function () {
+    const termMap = new Map([['x1', { type: TermType.VARIABLE, name: 't1' }]])
+
     assert.equalFormulas(
-      convertToPNF(buildFormula('(Axp(x)&Exq(x))')),
-      {
-        type: FormulaType.UNIVERSAL_QUANTIFICATION,
-        variable: 't1',
-        formula: {
-          type: FormulaType.EXISTENTIAL_QUANTIFICATION,
-          variable: 't2',
-          formula: {
-            type: FormulaType.CONJUNCTION,
-            formulas: [
-              {
-                type: FormulaType.PREDICATE,
-                name: 'p',
-                args: [
-                  {
-                    type: TermType.VARIABLE,
-                    name: 't1'
-                  }
-                ]
-              },
-              {
-                type: FormulaType.PREDICATE,
-                name: 'q',
-                args: [
-                  {
-                    type: TermType.VARIABLE,
-                    name: 't2'
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      }
+      convertToPNF(buildFormula('(Ax p(x) & Ex q(x))')),
+      replaceVariables(buildFormula('Ax Ex1 (p(x) & q(x1))'), termMap)
     )
   })
 
   it('properly renames nested bound variables with the same names', function () {
-    assert.equalFormulas(
-      convertToPNF(buildFormula('Ax(Exp(x)&q(x))')),
-      {
-        type: FormulaType.UNIVERSAL_QUANTIFICATION,
-        variable: 't1',
-        formula: {
-          type: FormulaType.EXISTENTIAL_QUANTIFICATION,
-          variable: 't2',
-          formula: {
-            type: FormulaType.CONJUNCTION,
-            formulas: [
-              {
-                type: FormulaType.PREDICATE,
-                name: 'p',
-                args: [
-                  {
-                    type: TermType.VARIABLE,
-                    name: 't2'
-                  }
-                ]
-              },
-              {
-                type: FormulaType.PREDICATE,
-                name: 'q',
-                args: [
-                  {
-                    type: TermType.VARIABLE,
-                    name: 't1'
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      }
-    )
-  })
+    const termMap = new Map([['y1', { type: TermType.VARIABLE, name: 't1' }]])
 
-  it('negates formulas in PNF', function () {
     assert.equalFormulas(
-      convertToPNF(convertToCNF(buildFormula('!AxEyp(x,y)'))),
-      {
-        type: FormulaType.EXISTENTIAL_QUANTIFICATION,
-        variable: 't1',
-        formula: {
-          type: FormulaType.UNIVERSAL_QUANTIFICATION,
-          variable: 't2',
-          formula: {
-            type: FormulaType.NEGATION,
-            formula: {
-              type: FormulaType.PREDICATE,
-              name: 'p',
-              args: [
-                {
-                  type: TermType.VARIABLE,
-                  name: 't1'
-                },
-                {
-                  type: TermType.VARIABLE,
-                  name: 't2'
-                }
-              ]
-            }
-          }
-        }
-      }
+      convertToPNF(buildFormula('Ax (Ex p(x) & q(x))')),
+      replaceVariables(buildFormula('Ax Ey1 (p(y1) & q(x))'), termMap)
     )
   })
 
   it('moves quantifiers to the front in conjunctive formulas', function () {
     assert.equalFormulas(
-      convertToPNF(buildFormula('(Axp(x)&Eyp(y))')),
-      {
-        type: FormulaType.UNIVERSAL_QUANTIFICATION,
-        variable: 't1',
-        formula: {
-          type: FormulaType.EXISTENTIAL_QUANTIFICATION,
-          variable: 't2',
-          formula: {
-            type: FormulaType.CONJUNCTION,
-            formulas: [
-              {
-                type: FormulaType.PREDICATE,
-                name: 'p',
-                args: [
-                  {
-                    type: TermType.VARIABLE,
-                    name: 't1'
-                  }
-                ]
-              },
-              {
-                type: FormulaType.PREDICATE,
-                name: 'p',
-                args: [
-                  {
-                    type: TermType.VARIABLE,
-                    name: 't2'
-                  }
-                ]
-              }
-            ]
-          }
-        }
-      }
+      convertToPNF(buildFormula('(Axp(x) & Eyp(y))')),
+      buildFormula('Ax Ey (p(x) & p(y))')
+    )
+  })
+
+  it('leaves free variables intact', function () {
+    const termMap = new Map([
+      ['x1', { type: TermType.VARIABLE, name: 't1' }],
+      ['x2', { type: TermType.VARIABLE, name: 't2' }]
+    ])
+
+    assert.equalFormulas(
+      convertToPNF(convertToCNF(buildFormula('Ay (Ax p(x, y) <-> p(y, x))'))),
+      replaceVariables(buildFormula('Ay Ex1 Ax2 ((!p(x1, y) v p(y, x)) & (p(x2, y) v !p(y, x)))'), termMap)
     )
   })
 })

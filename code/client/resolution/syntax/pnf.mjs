@@ -1,28 +1,27 @@
 import TermType from '../enums/term_type.mjs'
 import FormulaType from '../enums/formula_type.mjs'
 import { replaceVariables } from './replacement.mjs'
+import { extractFreeVariables } from './extractors.mjs'
 import { convertToCNF } from './cnf.mjs'
 
-export function mostlyConvertToPNF (formula, counter = { value: 1 }, nameMap = new Map()) {
+export function mostlyConvertToPNF (formula, counter, replacementMap) {
   switch (formula.type) {
     case FormulaType.PREDICATE:
       return {
         type: formula.type,
         name: formula.name,
-        args: formula.args.map(arg => replaceVariables(arg, nameMap))
+        args: formula.args.map(arg => replaceVariables(arg, replacementMap))
       }
 
     case FormulaType.UNIVERSAL_QUANTIFICATION:
     case FormulaType.EXISTENTIAL_QUANTIFICATION:
-      const newVarName = 't' + counter.value++
-      const oldVariable = nameMap.get(formula.variable)
-      nameMap.set(formula.variable, { type: TermType.VARIABLE, name: newVarName })
-      const newSubformula = mostlyConvertToPNF(formula.formula, counter, nameMap)
+      const oldReplacement = replacementMap.get(formula.variable)
+      const newVarName = oldReplacement ? 't' + counter.value++ : formula.variable
+      replacementMap.set(formula.variable, { type: TermType.VARIABLE, name: newVarName })
+      const newSubformula = mostlyConvertToPNF(formula.formula, counter, replacementMap)
 
-      if (oldVariable) {
-        nameMap.set(formula.variable, oldVariable)
-      } else {
-        nameMap.delete(formula.variable)
+      if (oldReplacement) {
+        replacementMap.set(formula.variable, oldReplacement)
       }
 
       return {
@@ -34,7 +33,7 @@ export function mostlyConvertToPNF (formula, counter = { value: 1 }, nameMap = n
     case FormulaType.NEGATION:
       return {
         type: formula.type,
-        formula: mostlyConvertToPNF(formula.formula, counter, nameMap)
+        formula: mostlyConvertToPNF(formula.formula, counter, replacementMap)
       }
 
     case FormulaType.CONJUNCTION:
@@ -47,7 +46,7 @@ export function mostlyConvertToPNF (formula, counter = { value: 1 }, nameMap = n
       }
 
       for (const subf of formula.formulas) {
-        const newSubf = mostlyConvertToPNF(subf, counter, nameMap)
+        const newSubf = mostlyConvertToPNF(subf, counter, replacementMap)
         const ssubfs = [newSubf]
 
         for (const ssubf of ssubfs) {
@@ -75,6 +74,10 @@ export function mostlyConvertToPNF (formula, counter = { value: 1 }, nameMap = n
   }
 }
 
-export function convertToPNF (formula, counter, nameMap) {
-  return convertToCNF(mostlyConvertToPNF(formula, counter, nameMap))
+export function convertToPNF (formula, counter = { value: 1 }, replacementMap = new Map()) {
+  for (const variable of extractFreeVariables(formula)) {
+    replacementMap.set(variable, { type: TermType.VARIABLE, name: variable })
+  }
+
+  return convertToCNF(mostlyConvertToPNF(formula, counter, replacementMap))
 }

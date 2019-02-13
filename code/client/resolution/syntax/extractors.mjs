@@ -1,4 +1,4 @@
-import { union, flatten } from '../../../common/support/iteration.mjs'
+import { sort, unique, union, flatten } from '../../../common/support/iteration.mjs'
 import TermType from '../enums/term_type.mjs'
 import FormulaType from '../enums/formula_type.mjs'
 
@@ -137,5 +137,29 @@ export function extractBoundVariables (formula) {
     case FormulaType.IMPLICATION:
     case FormulaType.EQUIVALENCE:
       return Array.from(flatten(formula.formulas.map(extractBoundVariables)))
+  }
+}
+
+export function extractFreeVariables (formula) {
+  switch (formula.type) {
+    case TermType.VARIABLE:
+      return [formula.name]
+
+    case TermType.FUNCTION:
+    case FormulaType.PREDICATE:
+      return sort(unique(flatten(formula.args.map(extractFreeVariables))))
+
+    case FormulaType.NEGATION:
+      return extractFreeVariables(formula.formula)
+
+    case FormulaType.UNIVERSAL_QUANTIFICATION:
+    case FormulaType.EXISTENTIAL_QUANTIFICATION:
+      return sort(unique(extractFreeVariables(formula.formula))).filter(v => v !== formula.variable)
+
+    case FormulaType.CONJUNCTION:
+    case FormulaType.DISJUNCTION:
+    case FormulaType.IMPLICATION:
+    case FormulaType.EQUIVALENCE:
+      return sort(unique(flatten(formula.formulas.map(extractFreeVariables))))
   }
 }

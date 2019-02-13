@@ -47,24 +47,24 @@ function mostlyConvertToCNF (formula) {
       return formula
 
     case FormulaType.NEGATION:
-      return negate(mostlyConvertToCNF(formula.formula))
+      return negate(convertToCNF(formula.formula))
 
     case FormulaType.UNIVERSAL_QUANTIFICATION:
     case FormulaType.EXISTENTIAL_QUANTIFICATION:
       return {
         type: formula.type,
         variable: formula.variable,
-        formula: mostlyConvertToCNF(formula.formula)
+        formula: convertToCNF(formula.formula)
       }
 
     case FormulaType.CONJUNCTION:
     case FormulaType.DISJUNCTION:
-      const subformulas = formula.formulas.map(mostlyConvertToCNF)
+      const subformulas = formula.formulas.map(convertToCNF)
       const flattened = []
 
       for (const subf of subformulas) {
         if (subf.type === formula.type) {
-          Array.prototype.push.apply(flattened, subf.formulas.map(mostlyConvertToCNF))
+          Array.prototype.push.apply(flattened, subf.formulas.map(convertToCNF))
         } else {
           flattened.push(subf)
         }
@@ -77,18 +77,18 @@ function mostlyConvertToCNF (formula) {
 
     // P → Q ≡ ¬P ∨ Q
     case FormulaType.IMPLICATION:
-      const [a, b] = formula.formulas.map(mostlyConvertToCNF)
+      const [a, b] = formula.formulas.map(convertToCNF)
 
-      return mostlyConvertToCNF({
+      return convertToCNF({
         type: FormulaType.DISJUNCTION,
         formulas: [negate(a), b]
       })
 
     // P ↔ Q ≡ (¬P ∨ Q) & (P ∨ ¬Q)
     case FormulaType.EQUIVALENCE:
-      const [c, d] = formula.formulas.map(mostlyConvertToCNF)
+      const [c, d] = formula.formulas.map(convertToCNF)
 
-      return mostlyConvertToCNF({
+      return convertToCNF({
         type: FormulaType.CONJUNCTION,
         formulas: [
           {
@@ -124,7 +124,7 @@ export function convertToCNF (formula) {
         type: FormulaType.CONJUNCTION,
         formulas: subf.formulas.map(ssubf => ({
           type: FormulaType.DISJUNCTION,
-          formulas: before.concat([mostlyConvertToCNF(ssubf)]).concat(after)
+          formulas: before.concat([convertToCNF(ssubf)]).concat(after)
         }))
       }
     }

@@ -1,4 +1,4 @@
-import { product, sort } from '../../../common/support/iteration.mjs'
+import { product } from '../../../common/support/iteration.mjs'
 import TermType from '../enums/term_type.mjs'
 import FormulaType from '../enums/formula_type.mjs'
 import { replaceVariables } from './replacement.mjs'
@@ -40,7 +40,7 @@ export function findTermTransform (t1, t2) {
   }
 
   for (let i = 0; i < t1.args.length; i++) {
-    const transform = findTermTransform(t1[i], t2[i])
+    const transform = findTermTransform(t1.args[i], t2.args[i])
 
     if (!transform) {
       return null
@@ -139,25 +139,25 @@ function resolve (d1, d2) {
 }
 
 export function inferEmptyDisjunctImpl (disjuncts, iterations = 0) {
-  const inference = disjuncts.map(d => ({ d1: null, d2: null, literal: null, disjunct: d }))
+  const inference = disjuncts.map((d, i) => ({ d1: null, d2: null, literal: null, disjunct: d, index: i }))
   const disjunctSet = new Set(disjuncts.map(d => stringifyDisjunct(d)))
   let resolventCount = 0
 
   for (let i = 0; i < inference.length; i++) {
-    const d1 = inference[i].disjunct
+    const r1 = inference[i]
 
     for (let j = 0; j < inference.length; j++) {
       if (i === j) {
         continue
       }
 
-      const d2 = inference[j].disjunct
+      const r2 = inference[j]
 
-      if (d2.length === 0) {
+      if (r2.disjunct.length === 0) {
         return inference.slice(disjuncts.length)
       }
 
-      const resolvent = resolve(d1, d2)
+      const resolvent = resolve(r1.disjunct, r2.disjunct)
 
       if (resolvent === null) {
         continue
@@ -165,7 +165,13 @@ export function inferEmptyDisjunctImpl (disjuncts, iterations = 0) {
         resolventCount++
 
         if (!disjunctSet.has(stringifyDisjunct(resolvent.disjunct))) {
-          inference.push(Object.assign({ d1: i, d2: j }, resolvent))
+          inference.push({
+            index: inference.length,
+            r1,
+            r2,
+            literal: resolvent.literal,
+            disjunct: resolvent.disjunct
+          })
         }
 
         if (resolventCount > 25) {
@@ -178,6 +184,37 @@ export function inferEmptyDisjunctImpl (disjuncts, iterations = 0) {
   return null
 }
 
+function filterInference (disjuncts, inference) {
+  const last = inference[inference.length - 1]
+  const filteredSet = new Set([last])
+  const indexMap = new Map([[last, 1]])
+  let newResolvents = 0
+
+  do {
+    newResolvents = 0
+
+    for (const resolvent of filteredSet) {
+      for (const r of [resolvent.r1, resolvent.r2]) {
+        if (r && r.literal && !filteredSet.has(r)) {
+          newResolvents++
+          filteredSet.add(r)
+          indexMap.set(r, filteredSet.size)
+        }
+      }
+    }
+  } while (newResolvents !== 0)
+
+  for (const resolvent of inference) {
+    resolvent.index = disjuncts.length + filteredSet.size - indexMap.get(resolvent)
+  }
+
+  return Array.from(filteredSet)
+    .filter(r => Boolean(r.literal))
+    .sort(function (a, b) {
+      return a.index - b.index
+    })
+}
+
 export function inferEmptyDisjunct (disjuncts) {
   const inference = inferEmptyDisjunctImpl(disjuncts)
 
@@ -185,28 +222,5 @@ export function inferEmptyDisjunct (disjuncts) {
     return inference
   }
 
-  const usedIndices = new Set([disjuncts.length + inference.length - 1])
-  let newIndices = 0
-
-  do {
-    newIndices = 0
-
-    for (const index of usedIndices) {
-      const resolvent = inference[index - disjuncts.length]
-
-      if (resolvent && !usedIndices.has(resolvent.d1)) {
-        newIndices++
-        usedIndices.add(resolvent.d1)
-      }
-
-      if (resolvent && !usedIndices.has(resolvent.d2)) {
-        newIndices++
-        usedIndices.add(resolvent.d2)
-      }
-    }
-  } while (newIndices !== 0)
-
-  return sort(usedIndices)
-    .filter(i => i >= disjuncts.length)
-    .map(i => inference[i - disjuncts.length])
+  return filterInference(disjuncts, inference)
 }

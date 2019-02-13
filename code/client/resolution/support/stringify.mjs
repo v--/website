@@ -42,5 +42,5 @@ export function stringifyDisjunct (disjunct) {
 }
 
 export function stringifyResolvent (resolvent) {
-  return `R(${resolvent.d1 + 1}, ${resolvent.d2 + 1}, ${stringifyFormula(resolvent.literal)}) = ${stringifyDisjunct(resolvent.disjunct)}`
+  return `R(${resolvent.r1.index + 1}, ${resolvent.r2.index + 1}, ${stringifyFormula(resolvent.literal)}) = ${stringifyDisjunct(resolvent.disjunct)}`
 }
