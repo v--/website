@@ -2,7 +2,7 @@ import TermType from '../enums/term_type.mjs'
 import FormulaType from '../enums/formula_type.mjs'
 import { replaceVariables } from './replacement.mjs'
 import { extractFreeVariables } from './extractors.mjs'
-import { convertToCNF } from './cnf.mjs'
+import { simplify } from './simplification.mjs'
 
 export function mostlyConvertToPNF (formula, counter, replacementMap) {
   switch (formula.type) {
@@ -79,5 +79,5 @@ export function convertToPNF (formula, counter = { value: 1 }, replacementMap = 
     replacementMap.set(variable, { type: TermType.VARIABLE, name: variable })
   }
 
-  return convertToCNF(mostlyConvertToPNF(formula, counter, replacementMap))
+  return simplify(mostlyConvertToPNF(formula, counter, replacementMap))
 }

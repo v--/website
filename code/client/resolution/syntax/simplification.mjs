@@ -47,24 +47,24 @@ function mostlyConvertToCNF (formula) {
       return formula
 
     case FormulaType.NEGATION:
-      return negate(convertToCNF(formula.formula))
+      return negate(simplify(formula.formula))
 
     case FormulaType.UNIVERSAL_QUANTIFICATION:
     case FormulaType.EXISTENTIAL_QUANTIFICATION:
       return {
         type: formula.type,
         variable: formula.variable,
-        formula: convertToCNF(formula.formula)
+        formula: simplify(formula.formula)
       }
 
     case FormulaType.CONJUNCTION:
     case FormulaType.DISJUNCTION:
-      const subformulas = formula.formulas.map(convertToCNF)
+      const subformulas = formula.formulas.map(simplify)
       const flattened = []
 
       for (const subf of subformulas) {
         if (subf.type === formula.type) {
-          Array.prototype.push.apply(flattened, subf.formulas.map(convertToCNF))
+          Array.prototype.push.apply(flattened, subf.formulas.map(simplify))
         } else {
           flattened.push(subf)
         }
@@ -77,18 +77,18 @@ function mostlyConvertToCNF (formula) {
 
     // P → Q ≡ ¬P ∨ Q
     case FormulaType.IMPLICATION:
-      const [a, b] = formula.formulas.map(convertToCNF)
+      const [a, b] = formula.formulas.map(simplify)
 
-      return convertToCNF({
+      return simplify({
         type: FormulaType.DISJUNCTION,
         formulas: [negate(a), b]
       })
 
     // P ↔ Q ≡ (¬P ∨ Q) & (P ∨ ¬Q)
     case FormulaType.EQUIVALENCE:
-      const [c, d] = formula.formulas.map(convertToCNF)
+      const [c, d] = formula.formulas.map(simplify)
 
-      return convertToCNF({
+      return simplify({
         type: FormulaType.CONJUNCTION,
         formulas: [
           {
@@ -104,7 +104,7 @@ function mostlyConvertToCNF (formula) {
   }
 }
 
-export function convertToCNF (formula) {
+export function simplify (formula) {
   var cnf = mostlyConvertToCNF(formula)
 
   if (cnf.type !== FormulaType.DISJUNCTION) {
@@ -124,7 +124,7 @@ export function convertToCNF (formula) {
         type: FormulaType.CONJUNCTION,
         formulas: subf.formulas.map(ssubf => ({
           type: FormulaType.DISJUNCTION,
-          formulas: before.concat([convertToCNF(ssubf)]).concat(after)
+          formulas: before.concat([simplify(ssubf)]).concat(after)
         }))
       }
     }

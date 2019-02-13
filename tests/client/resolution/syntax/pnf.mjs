@@ -3,7 +3,7 @@
 import { assert } from '../../../_common.mjs'
 
 import TermType from '../../../../code/client/resolution/enums/term_type.mjs'
-import { convertToCNF } from '../../../../code/client/resolution/syntax/cnf.mjs'
+import { simplify } from '../../../../code/client/resolution/syntax/simplification.mjs'
 import { convertToPNF } from '../../../../code/client/resolution/syntax/pnf.mjs'
 import { replaceVariables } from '../../../../code/client/resolution/syntax/replacement.mjs'
 import { buildFormula } from '../../../../code/client/resolution/parser/facade.mjs'
@@ -57,7 +57,7 @@ describe('convertToPNF', function () {
     ])
 
     assert.equalFormulas(
-      convertToPNF(convertToCNF(buildFormula('Ay (Ax p(x, y) <-> p(y, x))'))),
+      convertToPNF(simplify(buildFormula('Ay (Ax p(x, y) <-> p(y, x))'))),
       replaceVariables(buildFormula('Ay Ex1 Ax2 ((!p(x1, y) v p(y, x)) & (p(x2, y) v !p(y, x)))'), termMap)
     )
   })
