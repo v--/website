@@ -151,7 +151,7 @@ export default function playgroundResolution ({ path }) {
         ),
 
         c('br'),
-        c('h3', { text: 'Canonical normal form with quantifiers' }),
+        c('h3', { text: 'Conjunctive normal form with quantifiers' }),
         c('p', { text: "We use the equivalences P → Q ≡ ¬P ∨ Q, P ↔ Q ≡ (¬P ∨ Q) & (P ∨ ¬Q) and P ∨ (Q & R) ≡ (P ∨ Q) & (P ∨ R), de Morgan's laws and quantifier inversion rules." }),
         c('pre', null,
           c('code', formulasToText(cnf))
