@@ -1,5 +1,6 @@
-import { sort, unique, union, flatten } from '../../../common/support/iteration.mjs'
+import { sort, uniqueBy, union, flatten } from '../../../common/support/iteration.mjs'
 import ExpressionType from '../enums/expression_type.mjs'
+import { stringifyExpression, stringifyDisjunct } from '../support/stringify.mjs'
 
 export function extractDisjuncts (expression) {
   switch (expression.type) {
@@ -8,19 +9,19 @@ export function extractDisjuncts (expression) {
       return [[expression]]
 
     case ExpressionType.CONJUNCTION:
-      return expression.formulas.map(function (subformula) {
+      return Array.from(uniqueBy(expression.formulas.map(function (subformula) {
         switch (subformula.type) {
           case ExpressionType.PREDICATE:
           case ExpressionType.NEGATION:
             return [subformula]
 
           case ExpressionType.DISJUNCTION:
-            return subformula.formulas
+            return Array.from(uniqueBy(subformula.formulas, stringifyExpression))
         }
-      })
+      }), stringifyDisjunct))
 
     case ExpressionType.DISJUNCTION:
-      return [expression.formulas]
+      return [Array.from(uniqueBy(expression.formulas, stringifyExpression))]
 
     case ExpressionType.UNIVERSAL_QUANTIFICATION:
       return extractDisjuncts(expression.formula)
@@ -146,19 +147,19 @@ export function extractFreeVariables (expression) {
 
     case ExpressionType.FUNCTION:
     case ExpressionType.PREDICATE:
-      return sort(unique(flatten(expression.args.map(extractFreeVariables))))
+      return sort(uniqueBy(flatten(expression.args.map(extractFreeVariables))))
 
     case ExpressionType.NEGATION:
       return extractFreeVariables(expression.formula)
 
     case ExpressionType.UNIVERSAL_QUANTIFICATION:
     case ExpressionType.EXISTENTIAL_QUANTIFICATION:
-      return sort(unique(extractFreeVariables(expression.formula))).filter(v => v !== expression.variable)
+      return sort(uniqueBy(extractFreeVariables(expression.formula))).filter(v => v !== expression.variable)
 
     case ExpressionType.CONJUNCTION:
     case ExpressionType.DISJUNCTION:
     case ExpressionType.IMPLICATION:
     case ExpressionType.EQUIVALENCE:
-      return sort(unique(flatten(expression.formulas.map(extractFreeVariables))))
+      return sort(uniqueBy(flatten(expression.formulas.map(extractFreeVariables))))
   }
 }

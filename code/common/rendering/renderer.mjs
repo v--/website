@@ -1,5 +1,5 @@
 import { repr } from '../support/strings.mjs'
-import { chain, unique } from '../support/iteration.mjs'
+import { chain, uniqueBy } from '../support/iteration.mjs'
 import { Observable } from '../support/observable.mjs'
 import { CoolError } from '../errors.mjs'
 
@@ -66,7 +66,7 @@ export class XMLRenderer extends Renderer {
   }
 
   updateAttributes (oldState, newState) {
-    const keys = unique(chain(Object.keys(oldState), Object.keys(newState)))
+    const keys = Array.from(uniqueBy(chain(Object.keys(oldState), Object.keys(newState))))
 
     for (const key of keys) {
       if (key in oldState && key in newState) {

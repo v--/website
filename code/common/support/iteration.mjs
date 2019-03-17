@@ -103,8 +103,18 @@ export function * zip (...iterables) {
   }
 }
 
-export function unique (iter) {
-  return new Set(iter).values()
+export function * uniqueBy (iter, key) {
+  const values = Array.from(iter)
+  const set = new Set()
+
+  for (const value of values) {
+    const k = key ? key(value) : value
+
+    if (!set.has(k)) {
+      set.add(k)
+      yield value
+    }
+  }
 }
 
 export function sort (iter, comparator = (a, b) => a - b) {
