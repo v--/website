@@ -1,49 +1,48 @@
-import TermType from '../enums/term_type.mjs'
-import FormulaType from '../enums/formula_type.mjs'
+import ExpressionType from '../enums/expression_type.mjs'
 import { CoolError } from '../../../common/errors.mjs'
 
 export class ReplacementError extends CoolError {}
 
-export function replaceVariables (formula, termMap) {
-  switch (formula.type) {
-    case TermType.VARIABLE:
-      return termMap.get(formula.name) || formula
+export function replaceVariables (expression, termMap) {
+  switch (expression.type) {
+    case ExpressionType.VARIABLE:
+      return termMap.get(expression.name) || expression
 
-    case TermType.FUNCTION:
-    case FormulaType.PREDICATE:
+    case ExpressionType.FUNCTION:
+    case ExpressionType.PREDICATE:
       return {
-        type: formula.type,
-        name: formula.name,
-        args: formula.args.map(arg => replaceVariables(arg, termMap))
+        type: expression.type,
+        name: expression.name,
+        args: expression.args.map(arg => replaceVariables(arg, termMap))
       }
 
-    case FormulaType.NEGATION:
+    case ExpressionType.NEGATION:
       return {
-        type: formula.type,
-        formula: replaceVariables(formula.formula, termMap)
+        type: expression.type,
+        formula: replaceVariables(expression.formula, termMap)
       }
 
-    case FormulaType.CONJUNCTION:
-    case FormulaType.DISJUNCTION:
-    case FormulaType.IMPLICATION:
-    case FormulaType.EQUIVALENCE:
+    case ExpressionType.CONJUNCTION:
+    case ExpressionType.DISJUNCTION:
+    case ExpressionType.IMPLICATION:
+    case ExpressionType.EQUIVALENCE:
       return {
-        type: formula.type,
-        formulas: formula.formulas.map(arg => replaceVariables(arg, termMap))
+        type: expression.type,
+        formulas: expression.formulas.map(arg => replaceVariables(arg, termMap))
       }
 
-    case FormulaType.UNIVERSAL_QUANTIFICATION:
-    case FormulaType.EXISTENTIAL_QUANTIFICATION:
-      const replacement = termMap.get(formula.variable)
+    case ExpressionType.UNIVERSAL_QUANTIFICATION:
+    case ExpressionType.EXISTENTIAL_QUANTIFICATION:
+      const replacement = termMap.get(expression.variable)
 
-      if (replacement && replacement.type !== TermType.VARIABLE) {
+      if (replacement && replacement.type !== ExpressionType.VARIABLE) {
         throw new ReplacementError('Cannot replace bound variables with arbitrary terms')
       }
 
       return {
-        type: formula.type,
-        variable: replacement ? replacement.name : formula.variable,
-        formula: replaceVariables(formula.formula, termMap)
+        type: expression.type,
+        variable: replacement ? replacement.name : expression.variable,
+        formula: replaceVariables(expression.formula, termMap)
       }
   }
 }

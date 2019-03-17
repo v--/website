@@ -1,8 +1,7 @@
 import { product } from '../../../common/support/iteration.mjs'
-import TermType from '../enums/term_type.mjs'
-import FormulaType from '../enums/formula_type.mjs'
+import ExpressionType from '../enums/expression_type.mjs'
 import { replaceVariables } from './replacement.mjs'
-import { stringifyFormula, stringifyDisjunct } from '../support/stringify.mjs'
+import { stringifyExpression, stringifyDisjunct } from '../support/stringify.mjs'
 
 function joinTransforms (a, b) {
   const joint = new Map()
@@ -25,12 +24,12 @@ function joinTransforms (a, b) {
 export function findTermTransform (t1, t2) {
   const cumulative = { positive: new Map(), negative: new Map() }
 
-  if (t1.type === TermType.VARIABLE) {
+  if (t1.type === ExpressionType.VARIABLE) {
     cumulative.positive.set(t1.name, t2)
     return cumulative
   }
 
-  if (t2.type === TermType.VARIABLE) {
+  if (t2.type === ExpressionType.VARIABLE) {
     cumulative.negative.set(t2.name, t1)
     return cumulative
   }
@@ -97,14 +96,14 @@ function applyTransform (d1, d2, transform) {
   for (const lit of d1) {
     if (lit !== transform.positive) {
       const newLit = replaceVariables(lit, transform.nameMap.positive)
-      newDisjunctMap.set(stringifyFormula(newLit), newLit)
+      newDisjunctMap.set(stringifyExpression(newLit), newLit)
     }
   }
 
   for (const lit of d2) {
     if (lit.formula !== transform.negative) {
       const newLit = replaceVariables(lit, transform.nameMap.negative)
-      newDisjunctMap.set(stringifyFormula(newLit), newLit)
+      newDisjunctMap.set(stringifyExpression(newLit), newLit)
     }
   }
 
@@ -112,10 +111,10 @@ function applyTransform (d1, d2, transform) {
 }
 
 function resolve (d1, d2) {
-  const pd1 = d1.filter(literal => literal.type === FormulaType.PREDICATE)
-  const nd1 = d2.filter(literal => literal.type === FormulaType.NEGATION)
-  const pd2 = d1.filter(literal => literal.type === FormulaType.PREDICATE)
-  const nd2 = d2.filter(literal => literal.type === FormulaType.NEGATION)
+  const pd1 = d1.filter(literal => literal.type === ExpressionType.PREDICATE)
+  const nd1 = d2.filter(literal => literal.type === ExpressionType.NEGATION)
+  const pd2 = d1.filter(literal => literal.type === ExpressionType.PREDICATE)
+  const nd2 = d2.filter(literal => literal.type === ExpressionType.NEGATION)
 
   let transform = findTransforms(pd1, nd2)
 

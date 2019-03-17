@@ -4,9 +4,9 @@ import QueryConfig from '../../common/support/query_config.mjs'
 import { redirection } from '../../common/observables.mjs'
 import { CoolError } from '../../common/errors.mjs'
 
-import FormulaType from './enums/formula_type.mjs'
-import { stringifyFormula, stringifyDisjunct, stringifyResolvent } from './support/stringify.mjs'
-import { buildFormula } from './parser/facade.mjs'
+import ExpressionType from './enums/expression_type.mjs'
+import { stringifyExpression, stringifyDisjunct, stringifyResolvent } from './support/stringify.mjs'
+import { parseTopLevelFormula } from './syntax/ast.mjs'
 import { extractPredicates, extractFunctions, extractDisjuncts } from './syntax/extractors.mjs'
 import { simplify } from './syntax/simplification.mjs'
 import { convertToPNF } from './syntax/pnf.mjs'
@@ -16,7 +16,7 @@ import { inferEmptyDisjunct } from './syntax/resolution.mjs'
 export class ResolutionError extends CoolError {}
 
 export function formulasToText (formulas) {
-  return { text: formulas.map(stringifyFormula).join('\n') }
+  return { text: formulas.map(stringifyExpression).join('\n') }
 }
 
 const QUERY_CONFIG_DEFAULTS = Object.freeze({
@@ -36,7 +36,7 @@ function parseFormulas (axioms, goal) {
   const formulas = []
 
   for (let i = 0; i < axioms.length; i++) {
-    const formula = buildFormula(axioms[i])
+    const formula = parseTopLevelFormula(axioms[i])
 
     if (formula === null) {
       throw new ResolutionError(`Failed to parse axiom ${i + 1}: ${axioms[i]}`)
@@ -45,13 +45,13 @@ function parseFormulas (axioms, goal) {
     }
   }
 
-  const goalFormula = buildFormula(goal)
+  const goalFormula = parseTopLevelFormula(goal)
 
   if (goalFormula === null) {
     throw new ResolutionError('Failed to parse the goal: ' + goal)
   } else {
     formulas.push({
-      type: FormulaType.NEGATION,
+      type: ExpressionType.NEGATION,
       formula: goalFormula
     })
   }

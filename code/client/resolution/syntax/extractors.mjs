@@ -1,53 +1,52 @@
 import { sort, unique, union, flatten } from '../../../common/support/iteration.mjs'
-import TermType from '../enums/term_type.mjs'
-import FormulaType from '../enums/formula_type.mjs'
+import ExpressionType from '../enums/expression_type.mjs'
 
-export function extractDisjuncts (formula) {
-  switch (formula.type) {
-    case FormulaType.PREDICATE:
-    case FormulaType.NEGATION:
-      return [[formula]]
+export function extractDisjuncts (expression) {
+  switch (expression.type) {
+    case ExpressionType.PREDICATE:
+    case ExpressionType.NEGATION:
+      return [[expression]]
 
-    case FormulaType.CONJUNCTION:
-      return formula.formulas.map(function (subformula) {
+    case ExpressionType.CONJUNCTION:
+      return expression.formulas.map(function (subformula) {
         switch (subformula.type) {
-          case FormulaType.PREDICATE:
-          case FormulaType.NEGATION:
+          case ExpressionType.PREDICATE:
+          case ExpressionType.NEGATION:
             return [subformula]
 
-          case FormulaType.DISJUNCTION:
+          case ExpressionType.DISJUNCTION:
             return subformula.formulas
         }
       })
 
-    case FormulaType.DISJUNCTION:
-      return [formula.formulas]
+    case ExpressionType.DISJUNCTION:
+      return [expression.formulas]
 
-    case FormulaType.UNIVERSAL_QUANTIFICATION:
-      return extractDisjuncts(formula.formula)
+    case ExpressionType.UNIVERSAL_QUANTIFICATION:
+      return extractDisjuncts(expression.formula)
   }
 }
 
-function extractPredicatesImpl (formula) {
-  switch (formula.type) {
-    case FormulaType.PREDICATE:
-      return new Set([`${formula.name}#${formula.args.length}`])
+function extractPredicatesImpl (expression) {
+  switch (expression.type) {
+    case ExpressionType.PREDICATE:
+      return new Set([`${expression.name}#${expression.args.length}`])
 
-    case FormulaType.NEGATION:
-    case FormulaType.UNIVERSAL_QUANTIFICATION:
-    case FormulaType.EXISTENTIAL_QUANTIFICATION:
-      return extractPredicatesImpl(formula.formula)
+    case ExpressionType.NEGATION:
+    case ExpressionType.UNIVERSAL_QUANTIFICATION:
+    case ExpressionType.EXISTENTIAL_QUANTIFICATION:
+      return extractPredicatesImpl(expression.formula)
 
-    case FormulaType.CONJUNCTION:
-    case FormulaType.DISJUNCTION:
-    case FormulaType.IMPLICATION:
-    case FormulaType.EQUIVALENCE:
-      return union(...formula.formulas.map(extractPredicatesImpl))
+    case ExpressionType.CONJUNCTION:
+    case ExpressionType.DISJUNCTION:
+    case ExpressionType.IMPLICATION:
+    case ExpressionType.EQUIVALENCE:
+      return union(...expression.formulas.map(extractPredicatesImpl))
   }
 }
 
-export function extractPredicates (formula) {
-  return Array.from(extractPredicatesImpl(formula)).map(function (pred) {
+export function extractPredicates (expression) {
+  return Array.from(extractPredicatesImpl(expression)).map(function (pred) {
     const [name, arityString] = pred.split('#')
     return {
       name, arity: Number(arityString)
@@ -55,34 +54,34 @@ export function extractPredicates (formula) {
   })
 }
 
-export function extractFunctionsImpl (formula) {
-  switch (formula.type) {
-    case TermType.VARIABLE:
+export function extractFunctionsImpl (expression) {
+  switch (expression.type) {
+    case ExpressionType.VARIABLE:
       return new Set()
 
-    case TermType.FUNCTION:
+    case ExpressionType.FUNCTION:
       return union([
-        `${formula.name}#${formula.args.length}`
-      ], ...formula.args.map(extractFunctionsImpl))
+        `${expression.name}#${expression.args.length}`
+      ], ...expression.args.map(extractFunctionsImpl))
 
-    case FormulaType.PREDICATE:
-      return union(...formula.args.map(extractFunctionsImpl))
+    case ExpressionType.PREDICATE:
+      return union(...expression.args.map(extractFunctionsImpl))
 
-    case FormulaType.NEGATION:
-    case FormulaType.UNIVERSAL_QUANTIFICATION:
-    case FormulaType.EXISTENTIAL_QUANTIFICATION:
-      return extractFunctionsImpl(formula.formula)
+    case ExpressionType.NEGATION:
+    case ExpressionType.UNIVERSAL_QUANTIFICATION:
+    case ExpressionType.EXISTENTIAL_QUANTIFICATION:
+      return extractFunctionsImpl(expression.formula)
 
-    case FormulaType.CONJUNCTION:
-    case FormulaType.DISJUNCTION:
-    case FormulaType.IMPLICATION:
-    case FormulaType.EQUIVALENCE:
-      return union(...formula.formulas.map(extractFunctionsImpl))
+    case ExpressionType.CONJUNCTION:
+    case ExpressionType.DISJUNCTION:
+    case ExpressionType.IMPLICATION:
+    case ExpressionType.EQUIVALENCE:
+      return union(...expression.formulas.map(extractFunctionsImpl))
   }
 }
 
-export function extractFunctions (formula) {
-  return Array.from(extractFunctionsImpl(formula)).map(function (func) {
+export function extractFunctions (expression) {
+  return Array.from(extractFunctionsImpl(expression)).map(function (func) {
     const [name, arityString] = func.split('#')
     return {
       name, arity: Number(arityString)
@@ -90,76 +89,76 @@ export function extractFunctions (formula) {
   })
 }
 
-export function extractVariablesImpl (formula) {
-  switch (formula.type) {
-    case TermType.VARIABLE:
-      return new Set([formula.name])
+export function extractVariablesImpl (expression) {
+  switch (expression.type) {
+    case ExpressionType.VARIABLE:
+      return new Set([expression.name])
 
-    case TermType.FUNCTION:
-    case FormulaType.PREDICATE:
-      return union(...formula.args.map(extractVariablesImpl))
+    case ExpressionType.FUNCTION:
+    case ExpressionType.PREDICATE:
+      return union(...expression.args.map(extractVariablesImpl))
 
-    case FormulaType.NEGATION:
-    case FormulaType.UNIVERSAL_QUANTIFICATION:
-    case FormulaType.EXISTENTIAL_QUANTIFICATION:
-      return extractVariablesImpl(formula.formula)
+    case ExpressionType.NEGATION:
+    case ExpressionType.UNIVERSAL_QUANTIFICATION:
+    case ExpressionType.EXISTENTIAL_QUANTIFICATION:
+      return extractVariablesImpl(expression.formula)
 
-    case FormulaType.CONJUNCTION:
-    case FormulaType.DISJUNCTION:
-    case FormulaType.IMPLICATION:
-    case FormulaType.EQUIVALENCE:
-      return union(...formula.formulas.map(extractVariablesImpl))
+    case ExpressionType.CONJUNCTION:
+    case ExpressionType.DISJUNCTION:
+    case ExpressionType.IMPLICATION:
+    case ExpressionType.EQUIVALENCE:
+      return union(...expression.formulas.map(extractVariablesImpl))
   }
 }
 
-export function extractVariables (formula) {
-  return Array.from(extractVariablesImpl(formula))
+export function extractVariables (expression) {
+  return Array.from(extractVariablesImpl(expression))
 }
 
-export function extractBoundVariables (formula) {
-  switch (formula.type) {
-    case TermType.VARIABLE:
+export function extractBoundVariables (expression) {
+  switch (expression.type) {
+    case ExpressionType.VARIABLE:
       return []
 
-    case TermType.FUNCTION:
-    case FormulaType.PREDICATE:
-      return Array.from(flatten(formula.args.map(extractBoundVariables)))
+    case ExpressionType.FUNCTION:
+    case ExpressionType.PREDICATE:
+      return Array.from(flatten(expression.args.map(extractBoundVariables)))
 
-    case FormulaType.NEGATION:
-      return extractBoundVariables(formula.formula)
+    case ExpressionType.NEGATION:
+      return extractBoundVariables(expression.formula)
 
-    case FormulaType.UNIVERSAL_QUANTIFICATION:
-    case FormulaType.EXISTENTIAL_QUANTIFICATION:
-      return [formula.variable].concat(extractBoundVariables(formula.formula))
+    case ExpressionType.UNIVERSAL_QUANTIFICATION:
+    case ExpressionType.EXISTENTIAL_QUANTIFICATION:
+      return [expression.variable].concat(extractBoundVariables(expression.formula))
 
-    case FormulaType.CONJUNCTION:
-    case FormulaType.DISJUNCTION:
-    case FormulaType.IMPLICATION:
-    case FormulaType.EQUIVALENCE:
-      return Array.from(flatten(formula.formulas.map(extractBoundVariables)))
+    case ExpressionType.CONJUNCTION:
+    case ExpressionType.DISJUNCTION:
+    case ExpressionType.IMPLICATION:
+    case ExpressionType.EQUIVALENCE:
+      return Array.from(flatten(expression.formulas.map(extractBoundVariables)))
   }
 }
 
-export function extractFreeVariables (formula) {
-  switch (formula.type) {
-    case TermType.VARIABLE:
-      return [formula.name]
+export function extractFreeVariables (expression) {
+  switch (expression.type) {
+    case ExpressionType.VARIABLE:
+      return [expression.name]
 
-    case TermType.FUNCTION:
-    case FormulaType.PREDICATE:
-      return sort(unique(flatten(formula.args.map(extractFreeVariables))))
+    case ExpressionType.FUNCTION:
+    case ExpressionType.PREDICATE:
+      return sort(unique(flatten(expression.args.map(extractFreeVariables))))
 
-    case FormulaType.NEGATION:
-      return extractFreeVariables(formula.formula)
+    case ExpressionType.NEGATION:
+      return extractFreeVariables(expression.formula)
 
-    case FormulaType.UNIVERSAL_QUANTIFICATION:
-    case FormulaType.EXISTENTIAL_QUANTIFICATION:
-      return sort(unique(extractFreeVariables(formula.formula))).filter(v => v !== formula.variable)
+    case ExpressionType.UNIVERSAL_QUANTIFICATION:
+    case ExpressionType.EXISTENTIAL_QUANTIFICATION:
+      return sort(unique(extractFreeVariables(expression.formula))).filter(v => v !== expression.variable)
 
-    case FormulaType.CONJUNCTION:
-    case FormulaType.DISJUNCTION:
-    case FormulaType.IMPLICATION:
-    case FormulaType.EQUIVALENCE:
-      return sort(unique(flatten(formula.formulas.map(extractFreeVariables))))
+    case ExpressionType.CONJUNCTION:
+    case ExpressionType.DISJUNCTION:
+    case ExpressionType.IMPLICATION:
+    case ExpressionType.EQUIVALENCE:
+      return sort(unique(flatten(expression.formulas.map(extractFreeVariables))))
   }
 }

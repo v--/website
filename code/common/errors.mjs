@@ -36,6 +36,8 @@ export class CoolError extends Error {
   }
 }
 
+export class NotImplementedError extends CoolError {}
+
 export class ClientError extends CoolError {
   static fromJSON ({ message, title }) {
     return new this(message, title)

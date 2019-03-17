@@ -1,46 +1,45 @@
-import TermType from '../enums/term_type.mjs'
-import FormulaType from '../enums/formula_type.mjs'
+import ExpressionType from '../enums/expression_type.mjs'
 
-export function stringifyFormula (formula) {
-  switch (formula.type) {
-    case TermType.VARIABLE:
-      return formula.name
+export function stringifyExpression (expression) {
+  switch (expression.type) {
+    case ExpressionType.VARIABLE:
+      return expression.name
 
-    case TermType.FUNCTION:
-    case FormulaType.PREDICATE:
-      if (formula.args.length > 0) {
-        return formula.name + '(' + formula.args.map(stringifyFormula).join(', ') + ')'
+    case ExpressionType.FUNCTION:
+    case ExpressionType.PREDICATE:
+      if (expression.args.length > 0) {
+        return expression.name + '(' + expression.args.map(stringifyExpression).join(', ') + ')'
       }
 
-      return formula.name
+      return expression.name
 
-    case FormulaType.NEGATION:
-      return '¬' + stringifyFormula(formula.formula)
+    case ExpressionType.NEGATION:
+      return '¬' + stringifyExpression(expression.formula)
 
-    case FormulaType.UNIVERSAL_QUANTIFICATION:
-      return '∀' + formula.variable + ' ' + stringifyFormula(formula.formula)
+    case ExpressionType.UNIVERSAL_QUANTIFICATION:
+      return '∀' + expression.variable + ' ' + stringifyExpression(expression.formula)
 
-    case FormulaType.EXISTENTIAL_QUANTIFICATION:
-      return '∃' + formula.variable + ' ' + stringifyFormula(formula.formula)
+    case ExpressionType.EXISTENTIAL_QUANTIFICATION:
+      return '∃' + expression.variable + ' ' + stringifyExpression(expression.formula)
 
-    case FormulaType.CONJUNCTION:
-      return '(' + formula.formulas.map(stringifyFormula).join(' & ') + ')'
+    case ExpressionType.CONJUNCTION:
+      return '(' + expression.formulas.map(stringifyExpression).join(' & ') + ')'
 
-    case FormulaType.DISJUNCTION:
-      return '(' + formula.formulas.map(stringifyFormula).join(' ∨ ') + ')'
+    case ExpressionType.DISJUNCTION:
+      return '(' + expression.formulas.map(stringifyExpression).join(' ∨ ') + ')'
 
-    case FormulaType.IMPLICATION:
-      return '(' + formula.formulas.map(stringifyFormula).join(' → ') + ')'
+    case ExpressionType.IMPLICATION:
+      return '(' + expression.formulas.map(stringifyExpression).join(' → ') + ')'
 
-    case FormulaType.EQUIVALENCE:
-      return '(' + formula.formulas.map(stringifyFormula).join(' ↔ ') + ')'
+    case ExpressionType.EQUIVALENCE:
+      return '(' + expression.formulas.map(stringifyExpression).join(' ↔ ') + ')'
   }
 }
 
 export function stringifyDisjunct (disjunct) {
-  return '{' + disjunct.map(stringifyFormula).join(', ') + '}'
+  return '{' + disjunct.map(stringifyExpression).join(', ') + '}'
 }
 
 export function stringifyResolvent (resolvent) {
-  return `R(${resolvent.r1.index + 1}, ${resolvent.r2.index + 1}, ${stringifyFormula(resolvent.literal)}) = ${stringifyDisjunct(resolvent.disjunct)}`
+  return `R(${resolvent.r1.index + 1}, ${resolvent.r2.index + 1}, ${stringifyExpression(resolvent.literal)}) = ${stringifyDisjunct(resolvent.disjunct)}`
 }

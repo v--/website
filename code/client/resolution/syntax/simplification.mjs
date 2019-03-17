@@ -1,69 +1,69 @@
-import FormulaType from '../enums/formula_type.mjs'
+import ExpressionType from '../enums/expression_type.mjs'
 
-export function negate (formula) {
-  switch (formula.type) {
-    case FormulaType.NEGATION:
-      return formula.formula
+export function negate (expression) {
+  switch (expression.type) {
+    case ExpressionType.NEGATION:
+      return expression.formula
 
-    case FormulaType.PREDICATE:
+    case ExpressionType.PREDICATE:
       return {
-        type: FormulaType.NEGATION,
-        formula
+        type: ExpressionType.NEGATION,
+        formula: expression
       }
 
     // Quantifier inversion rules
-    case FormulaType.UNIVERSAL_QUANTIFICATION:
+    case ExpressionType.UNIVERSAL_QUANTIFICATION:
       return {
-        type: FormulaType.EXISTENTIAL_QUANTIFICATION,
-        variable: formula.variable,
-        formula: negate(formula.formula)
+        type: ExpressionType.EXISTENTIAL_QUANTIFICATION,
+        variable: expression.variable,
+        formula: negate(expression.formula)
       }
 
-    case FormulaType.EXISTENTIAL_QUANTIFICATION:
+    case ExpressionType.EXISTENTIAL_QUANTIFICATION:
       return {
-        type: FormulaType.UNIVERSAL_QUANTIFICATION,
-        variable: formula.variable,
-        formula: negate(formula.formula)
+        type: ExpressionType.UNIVERSAL_QUANTIFICATION,
+        variable: expression.variable,
+        formula: negate(expression.formula)
       }
 
     // de Morgan's laws
-    case FormulaType.CONJUNCTION:
+    case ExpressionType.CONJUNCTION:
       return {
-        type: FormulaType.DISJUNCTION,
-        formulas: formula.formulas.map(negate)
+        type: ExpressionType.DISJUNCTION,
+        formulas: expression.formulas.map(negate)
       }
 
-    case FormulaType.DISJUNCTION:
+    case ExpressionType.DISJUNCTION:
       return {
-        type: FormulaType.CONJUNCTION,
-        formulas: formula.formulas.map(negate)
+        type: ExpressionType.CONJUNCTION,
+        formulas: expression.formulas.map(negate)
       }
   }
 }
 
-function mostlyConvertToCNF (formula) {
-  switch (formula.type) {
-    case FormulaType.PREDICATE:
-      return formula
+function mostlyConvertToCNF (expression) {
+  switch (expression.type) {
+    case ExpressionType.PREDICATE:
+      return expression
 
-    case FormulaType.NEGATION:
-      return negate(simplify(formula.formula))
+    case ExpressionType.NEGATION:
+      return negate(simplify(expression.formula))
 
-    case FormulaType.UNIVERSAL_QUANTIFICATION:
-    case FormulaType.EXISTENTIAL_QUANTIFICATION:
+    case ExpressionType.UNIVERSAL_QUANTIFICATION:
+    case ExpressionType.EXISTENTIAL_QUANTIFICATION:
       return {
-        type: formula.type,
-        variable: formula.variable,
-        formula: simplify(formula.formula)
+        type: expression.type,
+        variable: expression.variable,
+        formula: simplify(expression.formula)
       }
 
-    case FormulaType.CONJUNCTION:
-    case FormulaType.DISJUNCTION:
-      const subformulas = formula.formulas.map(simplify)
+    case ExpressionType.CONJUNCTION:
+    case ExpressionType.DISJUNCTION:
+      const subformulas = expression.formulas.map(simplify)
       const flattened = []
 
       for (const subf of subformulas) {
-        if (subf.type === formula.type) {
+        if (subf.type === expression.type) {
           Array.prototype.push.apply(flattened, subf.formulas.map(simplify))
         } else {
           flattened.push(subf)
@@ -71,32 +71,32 @@ function mostlyConvertToCNF (formula) {
       }
 
       return {
-        type: formula.type,
+        type: expression.type,
         formulas: flattened
       }
 
     // P → Q ≡ ¬P ∨ Q
-    case FormulaType.IMPLICATION:
-      const [a, b] = formula.formulas.map(simplify)
+    case ExpressionType.IMPLICATION:
+      const [a, b] = expression.formulas.map(simplify)
 
       return simplify({
-        type: FormulaType.DISJUNCTION,
+        type: ExpressionType.DISJUNCTION,
         formulas: [negate(a), b]
       })
 
     // P ↔ Q ≡ (¬P ∨ Q) & (P ∨ ¬Q)
-    case FormulaType.EQUIVALENCE:
-      const [c, d] = formula.formulas.map(simplify)
+    case ExpressionType.EQUIVALENCE:
+      const [c, d] = expression.formulas.map(simplify)
 
       return simplify({
-        type: FormulaType.CONJUNCTION,
+        type: ExpressionType.CONJUNCTION,
         formulas: [
           {
-            type: FormulaType.DISJUNCTION,
+            type: ExpressionType.DISJUNCTION,
             formulas: [negate(c), d]
           },
           {
-            type: FormulaType.DISJUNCTION,
+            type: ExpressionType.DISJUNCTION,
             formulas: [c, negate(d)]
           }
         ]
@@ -104,10 +104,10 @@ function mostlyConvertToCNF (formula) {
   }
 }
 
-export function simplify (formula) {
-  var cnf = mostlyConvertToCNF(formula)
+export function simplify (expression) {
+  var cnf = mostlyConvertToCNF(expression)
 
-  if (cnf.type !== FormulaType.DISJUNCTION) {
+  if (cnf.type !== ExpressionType.DISJUNCTION) {
     return cnf
   }
 
@@ -116,14 +116,14 @@ export function simplify (formula) {
   for (let i = 0; i < subformulas.length; i++) {
     const subf = subformulas[i]
 
-    if (subf.type === FormulaType.CONJUNCTION) {
+    if (subf.type === ExpressionType.CONJUNCTION) {
       const before = subformulas.slice(0, i)
       const after = subformulas.slice(i + 1)
 
       return {
-        type: FormulaType.CONJUNCTION,
+        type: ExpressionType.CONJUNCTION,
         formulas: subf.formulas.map(ssubf => ({
-          type: FormulaType.DISJUNCTION,
+          type: ExpressionType.DISJUNCTION,
           formulas: before.concat([simplify(ssubf)]).concat(after)
         }))
       }
