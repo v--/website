@@ -1,45 +1,45 @@
 /* globals describe it */
 
-import { expect } from '../../_common.mjs'
+import { assert } from '../../_common.mjs'
 
 import { repr } from '../../../code/common/support/strings.mjs'
 
 describe('repr()', function () {
   it('works for strings', function () {
-    expect(repr('string')).to.equal("'string'")
+    assert.equal(repr('string'), "'string'")
   })
 
   it('works for numbers', function () {
-    expect(repr(666)).to.equal('666')
+    assert.equal(repr(666), '666')
   })
 
   it('works for booleans', function () {
-    expect(repr(true)).to.equal('true')
+    assert.equal(repr(true), 'true')
   })
 
   it('works for null', function () {
-    expect(repr(null)).to.equal('null')
+    assert.equal(repr(null), 'null')
   })
 
   it('works for undefined', function () {
-    expect(repr(undefined)).to.equal('undefined')
+    assert.equal(repr(undefined), 'undefined')
   })
 
   it('works for functions', function () {
     function frobnicate () {}
-    expect(repr(frobnicate)).to.equal('frobnicate')
+    assert.equal(repr(frobnicate), 'frobnicate')
   })
 
   it('works for anonymous functions', function () {
-    expect(repr(function () {})).to.equal('anonymous')
+    assert.equal(repr(function () {}), 'anonymous')
   })
 
   it('works for arrays', function () {
-    expect(repr([0, 1, 2])).to.equal('[0, 1, 2]')
+    assert.equal(repr([0, 1, 2]), '[0, 1, 2]')
   })
 
   it('works for flat objects', function () {
-    expect(repr({ a: 1, b: false })).to.equal('{ a: 1, b: false }')
+    assert.equal(repr({ a: 1, b: false }), '{ a: 1, b: false }')
   })
 
   it('works for custom class instances with no own toString method', function () {
@@ -49,7 +49,7 @@ describe('repr()', function () {
       }
     }
 
-    expect(repr(new Custom(13))).to.equal('Custom { arg: 13 }')
+    assert.equal(repr(new Custom(13)), 'Custom { arg: 13 }')
   })
 
   it('works for custom class instances with own toString method', function () {
@@ -63,11 +63,11 @@ describe('repr()', function () {
       }
     }
 
-    expect(repr(new Custom(13))).to.equal('Custom<13>')
+    assert.equal(repr(new Custom(13)), 'Custom<13>')
   })
 
   it('allows evaluating simple serialized objects', function () {
     const object = { a: 1, b: false, c: null }
-    expect(eval('(' + repr(object) + ')')).to.deep.equal(object) // eslint-disable-line no-eval
+    assert.deepEqual(eval('(' + repr(object) + ')'), object) // eslint-disable-line no-eval
   })
 })

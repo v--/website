@@ -1,6 +1,6 @@
 /* globals describe it */
 
-import { expect } from '../../_common.mjs'
+import { assert } from '../../_common.mjs'
 
 import { c, XMLComponent, FactoryComponent, ComponentSanityError } from '../../../code/common/rendering/component.mjs'
 import { XMLRenderer, FactoryRenderer, RenderError, RenderDispatcher } from '../../../code/common/rendering/renderer.mjs'
@@ -59,28 +59,28 @@ describe('MirrorXMLRenderer', function () {
     it('renders simple components', function () {
       const src = c('div')
       const dest = render(src)
-      expect(src).to.equalComponent(dest)
+      assert.equalComponents(src, dest)
     })
 
     it('renders components with state', function () {
       const src = c('div', { a: 0 })
       const dest = render(src)
 
-      expect(src).to.equalComponent(dest)
+      assert.equalComponents(src, dest)
     })
 
     it('renders components with text children', function () {
       const src = c('div', { text: 'text' })
       const dest = render(src)
 
-      expect(src).to.equalComponent(dest)
+      assert.equalComponents(src, dest)
     })
 
     it('renders components with HTML children', function () {
       const src = c('div', null, c('span'), c('span', { text: 'text' }))
       const dest = render(src)
 
-      expect(src).to.equalComponent(dest)
+      assert.equalComponents(src, dest)
     })
   })
 
@@ -90,7 +90,7 @@ describe('MirrorXMLRenderer', function () {
       const src = c('div', observable)
       const dest = render(src)
       observable.replace({ text: 'text' })
-      expect(dest.state.current.text).to.equal('text')
+      assert.equal(dest.state.current.text, 'text')
     })
 
     it('updates existing properties', function () {
@@ -98,7 +98,7 @@ describe('MirrorXMLRenderer', function () {
       const src = c('div', observable)
       const dest = render(src)
       observable.replace({ text: 'updated text' })
-      expect(dest.state.current.text).to.equal('updated text')
+      assert.equal(dest.state.current.text, 'updated text')
     })
 
     it('removes old properties', function () {
@@ -106,7 +106,7 @@ describe('MirrorXMLRenderer', function () {
       const src = c('div', observable)
       const dest = render(src)
       observable.replace({})
-      expect(dest.state.current).to.not.have.keys('text')
+      assert.doesNotHaveAllKeys(dest.state.current, ['text'])
     })
 
     it('throws when adding text to an HTML component with children', function () {
@@ -114,9 +114,9 @@ describe('MirrorXMLRenderer', function () {
       const src = c('div', observable, c('span'))
       render(src)
 
-      expect(function () {
+      assert.throws(function () {
         return observable.replace({ text: 'text' })
-      }).to.throw(ComponentSanityError)
+      }, ComponentSanityError)
     })
 
     it('can rerender multiple times', function () {
@@ -127,7 +127,7 @@ describe('MirrorXMLRenderer', function () {
       observable.replace({ text: 'extended' })
       observable.replace({ text: 'premium' })
 
-      expect(dest.state.current.text).to.equal('premium')
+      assert.equal(dest.state.current.text, 'premium')
     })
   })
 })
@@ -139,14 +139,14 @@ describe('MirrorFactoryRenderer', function () {
       const src = c(() => constant)
       const dest = render(src)
 
-      expect(dest).to.equalComponent(constant)
+      assert.equalComponents(dest, constant)
     })
 
     it('renders simple text', function () {
       const src = c(({ text }) => c('span', { text }), { text: 'text' })
       const dest = render(src)
 
-      expect(dest.state.current.text).to.equal('text')
+      assert.equal(dest.state.current.text, 'text')
     })
 
     it('throws when attempting to render the same component twice', function () {
@@ -156,7 +156,7 @@ describe('MirrorFactoryRenderer', function () {
         return c('div', null, component, component)
       }
 
-      expect(render.bind(null, c(factory))).to.throw(RenderError)
+      assert.throws(render.bind(null, c(factory)), RenderError)
     })
   })
 
@@ -166,9 +166,9 @@ describe('MirrorFactoryRenderer', function () {
       const src = c(({ type }) => c(type), observable)
       render(src)
 
-      expect(function () {
+      assert.throws(function () {
         return observable.replace({ type: 'span' })
-      }).to.throw(RenderError)
+      }, RenderError)
     })
 
     it('adds root children', function () {
@@ -176,7 +176,7 @@ describe('MirrorFactoryRenderer', function () {
       const src = c(({ add }) => c('div', null, add && c('span')), observable)
       const dest = render(src)
       observable.replace({ add: true })
-      expect(dest.children).to.not.be.empty // eslint-disable-line no-unused-expressions
+      assert.notEmpty(dest.children)
     })
 
     it("updates root element's properties", function () {
@@ -184,7 +184,7 @@ describe('MirrorFactoryRenderer', function () {
       const src = c(({ text }) => c('div', { text }), observable)
       const dest = render(src)
       observable.replace({ text: 'updated text' })
-      expect(dest.state.current.text).to.equal('updated text')
+      assert.equal(dest.state.current.text, 'updated text')
     })
 
     it('replaces root children', function () {
@@ -192,7 +192,7 @@ describe('MirrorFactoryRenderer', function () {
       const src = c(({ type }) => c('div', null, c(type)), observable)
       const dest = render(src)
       observable.replace({ type: 'span' })
-      expect(dest.children[0].type).to.equal('span')
+      assert.equal(dest.children[0].type, 'span')
     })
 
     it('removes root children', function () {
@@ -200,7 +200,7 @@ describe('MirrorFactoryRenderer', function () {
       const src = c(({ add }) => c('div', null, add && c('span')), observable)
       const dest = render(src)
       observable.replace({ add: false })
-      expect(dest.children).to.be.empty // eslint-disable-line no-unused-expressions
+      assert.empty(dest.children)
     })
 
     it('handles swapping', function () {
@@ -214,7 +214,10 @@ describe('MirrorFactoryRenderer', function () {
       const dest = render(src)
       observable.replace({ components: ['h3', 'h2', 'h1'] })
 
-      expect(dest.children.map(child => child.type)).to.deep.equal(['h3', 'h2', 'h1'])
+      assert.deepEqual(
+        dest.children.map(child => child.type),
+        ['h3', 'h2', 'h1']
+      )
     })
 
     it('throws when swapping existing elements', function () {
@@ -231,9 +234,9 @@ describe('MirrorFactoryRenderer', function () {
       const src = c(factory, observable)
       render(src)
 
-      expect(function () {
+      assert.throws(function () {
         return observable.replace({ components: [h3, h2, h1] })
-      }).to.throw(RenderError)
+      }, RenderError)
     })
 
     it('handles nested component swapping', function () {
@@ -249,7 +252,10 @@ describe('MirrorFactoryRenderer', function () {
       const dest = render(src)
       observable.replace({ components: ['h3', 'h2', 'h1'] })
 
-      expect(dest.children[0].children.map(child => child.type)).to.deep.equal(['h3', 'h2', 'h1'])
+      assert.deepEqual(
+        dest.children[0].children.map(child => child.type),
+        ['h3', 'h2', 'h1']
+      )
     })
 
     it('can rerender multiple times', function () {
@@ -264,7 +270,7 @@ describe('MirrorFactoryRenderer', function () {
       observable.replace({ text: 'extended' })
       observable.replace({ text: 'premium' })
 
-      expect(dest.state.current.text).to.equal('premium')
+      assert.equal(dest.state.current.text, 'premium')
     })
 
     // BUGFIXES
@@ -281,7 +287,7 @@ describe('MirrorFactoryRenderer', function () {
       observable.replace({ type: 'span' })
       observable.replace({ type: 'div' })
 
-      expect(dest.type).to.equal('div')
+      assert.equal(dest.type, 'div')
     })
 
     it('can rerender on nested observable change', function () {
@@ -300,7 +306,7 @@ describe('MirrorFactoryRenderer', function () {
       const dest = render(src)
       dest.state.current.updateText('updated text')
 
-      expect(dest.state.current.text).to.equal('updated text')
+      assert.equal(dest.state.current.text, 'updated text')
     })
 
     it('can rerender on nested observable change if the parent has also changed', function () {
@@ -323,7 +329,7 @@ describe('MirrorFactoryRenderer', function () {
       outerObservable.update({})
       dest.state.current.updateText('updated text')
 
-      expect(dest.state.current.text).to.equal('updated text')
+      assert.equal(dest.state.current.text, 'updated text')
     })
 
     it('can rerender on observable change in transcluded components nested in XML components', function () {
@@ -350,7 +356,7 @@ describe('MirrorFactoryRenderer', function () {
 
       outerObservable.update({ text: 'updated text' })
 
-      expect(dest.children[0].children[0].state.current.text).to.equal('updated text')
+      assert.equal(dest.children[0].children[0].state.current.text, 'updated text')
     })
 
     it('can add new children to transcluded components nested in XML components', function () {
@@ -377,7 +383,7 @@ describe('MirrorFactoryRenderer', function () {
 
       outerObservable.update({ text: 'text' })
 
-      expect(dest.children[0].children[0].state.current.text).to.equal('text')
+      assert.equal(dest.children[0].children[0].state.current.text, 'text')
     })
   })
 })

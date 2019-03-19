@@ -1,6 +1,6 @@
 /* globals describe it */
 
-import { expect } from '../../_common.mjs'
+import { assert } from '../../_common.mjs'
 
 import {
   Component,
@@ -16,22 +16,22 @@ describe('Component', function () {
   describe('.safeCreate()', function () {
     it('creates components using only a type', function () {
       const component = Component.safeCreate('div')
-      expect(component.type).to.equal('div')
-      expect(component.state.current).to.deep.equal({})
-      expect(component.children).to.deep.equal([])
+      assert.equal(component.type, 'div')
+      assert.deepEqual(component.state.current, {})
+      assert.deepEqual(component.children, [])
     })
 
     it('preserves the state object', function () {
       const state = {}
       const component = Component.safeCreate('div', state)
-      expect(component.state.current).to.equal(state)
+      assert.deepEqual(component.state.current, state)
     })
 
     it('filters falsy children', function () {
       const child = Component.safeCreate('span')
       const component = Component.safeCreate('div', null, null, undefined, 0, false, '', child)
-      expect(component.children).to.have.length(1)
-      expect(component.children).to.include(child)
+      assert.lengthOf(component.children, 1)
+      assert.include(component.children, child)
     })
 
     it('throws if the state is an invalid data type', function () {
@@ -39,7 +39,7 @@ describe('Component', function () {
         return Component.safeCreate('div', undefined)
       }
 
-      expect(factory).to.throw(ComponentCreationError)
+      assert.throws(factory, ComponentCreationError)
     })
 
     it('throws if a non-component truthy child is passed', function () {
@@ -47,14 +47,14 @@ describe('Component', function () {
         return Component.safeCreate('div', null, true)
       }
 
-      expect(factory).to.throw(InvalidComponentError)
+      assert.throws(factory, InvalidComponentError)
     })
   })
 
   describe('.toString()', function () {
     it('works on flat components', function () {
       const component = Component.safeCreate('div')
-      expect(String(component)).to.equal("Component('div', null)")
+      assert.equal(String(component), "Component('div', null)")
     })
 
     it('works on nested components', function () {
@@ -67,7 +67,7 @@ describe('Component', function () {
 \tComponent('span', { text: 'text2' })
 )`
 
-      expect(String(component)).to.equal(string)
+      assert.equal(String(component), string)
     })
 
     it('works on doubly nested components', function () {
@@ -81,7 +81,7 @@ describe('Component', function () {
 \t)
 )`
 
-      expect(String(component)).to.equal(string)
+      assert.equal(String(component), string)
     })
   })
 })
@@ -99,7 +99,7 @@ describe('XMLComponent', function () {
         return XMLComponent.safeCreate('div')
       }
 
-      expect(factory).to.throw(ComponentSanityError)
+      assert.throws(factory, ComponentSanityError)
     })
 
     it('succeeds if a namespace exists in the class', function () {
@@ -107,7 +107,7 @@ describe('XMLComponent', function () {
         return SVGComponent.safeCreate('g')
       }
 
-      expect(factory).to.not.throw(ComponentSanityError)
+      assert.doesNotThrow(factory, ComponentSanityError)
     })
 
     it('throws if the type is not a string', function () {
@@ -115,7 +115,7 @@ describe('XMLComponent', function () {
         return SVGComponent.safeCreate(undefined)
       }
 
-      expect(factory).to.throw(Error)
+      assert.throws(factory, Error)
     })
 
     it('throws if the type string is empty', function () {
@@ -123,7 +123,7 @@ describe('XMLComponent', function () {
         return SVGComponent.safeCreate('')
       }
 
-      expect(factory).to.throw(ComponentCreationError)
+      assert.throws(factory, ComponentCreationError)
     })
 
     it('throws if a component has both text and children', function () {
@@ -132,7 +132,7 @@ describe('XMLComponent', function () {
         return SVGComponent.safeCreate('g', { text: 'text' }, child)
       }
 
-      expect(factory).to.throw(ComponentCreationError)
+      assert.throws(factory, ComponentCreationError)
     })
   })
 })
@@ -145,7 +145,7 @@ describe('HTMLComponent', function () {
         return HTMLComponent.safeCreate('base', null, child)
       }
 
-      expect(factory).to.throw(ComponentSanityError)
+      assert.throws(factory, ComponentSanityError)
     })
 
     it('throws if a void component has text', function () {
@@ -153,7 +153,7 @@ describe('HTMLComponent', function () {
         return HTMLComponent.safeCreate('base', { text: 'text' })
       }
 
-      expect(factory).to.throw(ComponentSanityError)
+      assert.throws(factory, ComponentSanityError)
     })
   })
 })
@@ -165,7 +165,7 @@ describe('FactoryComponent', function () {
         return FactoryComponent.safeCreate(undefined)
       }
 
-      expect(factory).to.throw(ComponentCreationError)
+      assert.throws(factory, ComponentCreationError)
     })
   })
 
@@ -178,7 +178,7 @@ describe('FactoryComponent', function () {
       }
 
       const evaluated = FactoryComponent.safeCreate(factory, { 'text': 'text' }).evaluate()
-      expect(evaluated).to.equalComponent(component)
+      assert.equalComponents(evaluated, component)
     })
 
     it("throws if the factory doesn't return a component", function () {
@@ -188,9 +188,9 @@ describe('FactoryComponent', function () {
 
       const component = FactoryComponent.safeCreate(factory)
 
-      expect(function () {
+      assert.throws(function () {
         component.evaluate()
-      }).to.throw()
+      })
     })
   })
 })
