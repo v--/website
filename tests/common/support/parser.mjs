@@ -1,8 +1,8 @@
 /* globals describe it */
 
-import { assert } from '../../../_common.mjs'
+import { assert } from '../../_common.mjs'
 
-import { parse, term, opt, rep, cat, alt, ParserError } from '../../../../code/client/core/support/parser.mjs'
+import { parse, term, opt, rep, cat, alt, ParserError } from '../../../code/common/support/parser.mjs'
 
 describe('parse()', function () {
   describe('for terminal rules', function () {

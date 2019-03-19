@@ -1,4 +1,4 @@
-import { term, opt, rep, cat, alt } from '../../core/support/parser.mjs'
+import { term, opt, rep, cat, alt } from '../../../common/support/parser.mjs'
 
 import TokenType from '../enums/token_type.mjs'
 

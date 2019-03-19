@@ -1,5 +1,5 @@
-import { CoolError, NotImplementedError } from '../../../common/errors.mjs'
-import { repr } from '../../../common/support/strings.mjs'
+import { CoolError, NotImplementedError } from '../errors.mjs'
+import { repr } from './strings.mjs'
 
 export class ParserError extends CoolError {}
 

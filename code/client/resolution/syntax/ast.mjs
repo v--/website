@@ -1,6 +1,6 @@
 import { CoolError } from '../../../common/errors.mjs'
 import { repr } from '../../../common/support/strings.mjs'
-import { parse } from '../../core/support/parser.mjs'
+import { parse } from '../../../common/support/parser.mjs'
 
 import TokenType from '../enums/token_type.mjs'
 import ExpressionType from '../enums/expression_type.mjs'

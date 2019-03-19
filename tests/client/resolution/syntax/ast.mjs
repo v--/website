@@ -5,7 +5,7 @@ import { assert } from '../../../_common.mjs'
 import ExpressionType from '../../../../code/client/resolution/enums/expression_type.mjs'
 import TokenType from '../../../../code/client/resolution/enums/token_type.mjs'
 
-import { ParserError } from '../../../../code/client/core/support/parser.mjs'
+import { ParserError } from '../../../../code/common/support/parser.mjs'
 import { parseExpression, parseTopLevelFormula } from '../../../../code/client/resolution/syntax/ast.mjs'
 
 describe('parseExpression()', function () {
