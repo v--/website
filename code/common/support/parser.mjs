@@ -9,7 +9,11 @@ export class ParserRule {
       return rule
     }
 
-    return rules[rule]
+    if (rules[rule]) {
+      return rules[rule]
+    }
+
+    throw new ParserError('Unknown rule ' + repr(rule))
   }
 
   addMatch (rule, originalMatches, newMatches) {
@@ -27,6 +31,17 @@ export class ParserRule {
     throw new NotImplementedError()
   }
 }
+
+export class WildcardRule extends ParserRule {
+  _parse (rules, string) {
+    return {
+      matches: string ? [string[0]] : [],
+      tail: string.slice(1)
+    }
+  }
+}
+
+export const wildcard = new WildcardRule()
 
 export class TerminalRule extends ParserRule {
   constructor (terminals) {
@@ -52,6 +67,38 @@ export class TerminalRule extends ParserRule {
 
 export function term (...terminals) {
   return new TerminalRule(terminals)
+}
+
+export class NegationRule extends ParserRule {
+  constructor (terminals) {
+    super()
+    this.terminals = terminals
+  }
+
+  _parse (rules, string) {
+    let maxN = 0
+
+    for (const terminal of this.terminals) {
+      const n = terminal.length
+
+      if (n > maxN) {
+        maxN = n
+      }
+
+      if (terminal === string.slice(0, n)) {
+        return null
+      }
+    }
+
+    return {
+      matches: string ? [string[0]] : [],
+      tail: string.slice(1)
+    }
+  }
+}
+
+export function neg (...terminals) {
+  return new NegationRule(terminals)
 }
 
 export class OptionalRule extends ParserRule {
@@ -116,10 +163,6 @@ export class ConcatenationRule extends ParserRule {
     for (const _rule of this._subrules) {
       const rule = this.findRule(rules, _rule)
       const result = rule._parse(rules, tail)
-
-      if (!_rule) {
-        console.warn(this._subrules)
-      }
 
       if (result) {
         this.addMatch(_rule, matches, result.matches)

@@ -7,7 +7,7 @@ import ExpressionType from '../enums/expression_type.mjs'
 
 import parserRules from './parser_rules.mjs'
 
-export class ASTError extends CoolError {}
+export class FormulaASTError extends CoolError {}
 
 export function buildAST (parseTree) {
   switch (parseTree.type) {
@@ -103,7 +103,7 @@ export function buildAST (parseTree) {
       return buildAST(parseTree.matches[2])
 
     default:
-      throw new ASTError('Unknown token type ' + repr(parseTree.type))
+      throw new FormulaASTError('Unknown token type ' + repr(parseTree.type))
   }
 }
 

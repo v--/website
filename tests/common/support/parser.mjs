@@ -2,7 +2,7 @@
 
 import { assert } from '../../_common.mjs'
 
-import { parse, term, opt, rep, cat, alt, ParserError } from '../../../code/common/support/parser.mjs'
+import { parse, term, neg, opt, rep, cat, alt, ParserError } from '../../../code/common/support/parser.mjs'
 
 describe('parse()', function () {
   describe('for terminal rules', function () {
@@ -35,6 +35,18 @@ describe('parse()', function () {
 
       assert.throws(function () {
         parse(rules, 'variable', 'y')
+      }, ParserError)
+    })
+  })
+
+  describe('for negation rules', function () {
+    it('fails to parse a negation rules', function () {
+      const rules = {
+        variable: neg('x')
+      }
+
+      assert.throws(function () {
+        parse(rules, 'variable', 'x')
       }, ParserError)
     })
   })
