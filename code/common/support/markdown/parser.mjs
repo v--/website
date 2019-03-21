@@ -53,6 +53,36 @@ function collapse (matches) {
   }
 }
 
+function collapseAnchor (matches) {
+  const link = unescape(
+    joinTextBlocks(removeBounds(matches[1].matches)),
+    ')'
+  )
+
+  const nodeMatches = removeBounds(matches[0].matches)
+  let node
+
+  if (nodeMatches.length === 0) {
+    node = {
+      type: NodeType.TEXT,
+      text: link
+    }
+  } else {
+    node = collapse(
+      unescapeMatches(
+        removeBounds(matches[0].matches),
+        ']'
+      )
+    )
+  }
+
+  return {
+    type: NodeType.ANCHOR,
+    link,
+    node
+  }
+}
+
 function collapseEmphasis (matches) {
   const escaped = matches[matches.length - 1]
   const collapsed = collapse(unescapeMatches(removeBounds(matches), escaped))
@@ -94,6 +124,7 @@ function collapseHeading (matches) {
 function collapseBullet (matches) {
   return {
     level: matches[1].matches.length + 1,
+    ordered: matches[2] === '+',
     node: collapse(
       matches.slice(matches[3] === ' ' ? 4 : 3)
     )
@@ -108,7 +139,8 @@ function collapseBulletList (matches) {
   const minLevel = Math.min.apply(null, flatBulletList.map(b => b.level))
   const root = {
     type: NodeType.BULLET_LIST,
-    bullets: []
+    bullets: [],
+    ordered: flatBulletList[0].ordered
   }
 
   const rootLevels = new Map([[root, minLevel]])
@@ -123,7 +155,8 @@ function collapseBulletList (matches) {
     } else if (bullet.level > currentLevel) {
       const newRoot = {
         type: NodeType.BULLET_LIST,
-        bullets: [bullet.node]
+        bullets: [bullet.node],
+        ordered: bullet.ordered
       }
 
       rootLevels.set(newRoot, bullet.level)
@@ -202,11 +235,7 @@ export function buildAST (parseTree) {
       }
 
     case TokenType.ANCHOR:
-      return {
-        type: NodeType.ANCHOR,
-        link: unescape(joinTextBlocks(removeBounds(parseTree.matches[1].matches)), ')'),
-        node: collapse(unescapeMatches(removeBounds(parseTree.matches[0].matches), ']'))
-      }
+      return collapseAnchor(parseTree.matches)
 
     case TokenType.CODE:
       return {

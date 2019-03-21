@@ -1,5 +1,5 @@
 import { c } from '../rendering/component.mjs'
-import { ClientError } from '../errors.mjs'
+import { NotFoundError } from '../errors.mjs'
 import { classlist } from '../support/dom_properties.mjs'
 import QueryConfig from '../support/query_config.mjs'
 
@@ -89,17 +89,17 @@ export default function interactiveTable ({ class: cssClass, columns, data, fixe
   const sorting = config.get('sorting')
 
   if (sorting === 0 || Math.abs(sorting) > columns.length) {
-    throw new ClientError(`Invalid column index ${Math.abs(sorting)} specified`)
+    throw new NotFoundError(`Invalid column index ${Math.abs(sorting)} specified`)
   }
 
   if (perPage < 1) {
-    throw new ClientError(`Invalid number of items per page ${perPage} specified`)
+    throw new NotFoundError(`Invalid number of items per page ${perPage} specified`)
   }
 
   const pages = Math.ceil(data.length / perPage)
 
   if (page < 1 || (pages !== 0 && page > pages)) {
-    throw new ClientError(`Invalid page index ${page} specified`)
+    throw new NotFoundError(`Invalid page index ${page} specified`)
   }
 
   const sliced = sliceData({ columns, data, fixedData, config })

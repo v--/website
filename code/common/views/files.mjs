@@ -1,6 +1,7 @@
 import { c } from '../rendering/component.mjs'
 
 import link from '../components/link.mjs'
+import markdown from '../components/markdown.mjs'
 import interactiveTable from '../components/interactive_table.mjs'
 
 export default function files ({ path, data }) {
@@ -103,7 +104,7 @@ export default function files ({ path, data }) {
       }),
 
       data.readme && c('br'),
-      data.readme && c('div', { html: data.readme })
+      data.readme && c(markdown, { source: data.readme })
     )
   )
 }

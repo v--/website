@@ -1,5 +1,5 @@
 import { c } from '../rendering/component.mjs'
-import { classlist } from '../../common/support/dom_properties.mjs'
+import { classlist } from '../support/dom_properties.mjs'
 
 function buildDict (form) {
   const dict = {}

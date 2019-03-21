@@ -465,6 +465,7 @@ describe('parseMarkdown()', function () {
         parseMarkdown(string),
         {
           type: NodeType.BULLET_LIST,
+          ordered: false,
           bullets: [
             {
               type: NodeType.TEXT,
@@ -497,6 +498,52 @@ describe('parseMarkdown()', function () {
       )
     })
 
+    it('handles ordered lists', function () {
+      const string = `
++ bullet
+`
+
+      assert.deepEqual(
+        parseMarkdown(string),
+        {
+          type: NodeType.BULLET_LIST,
+          ordered: true,
+          bullets: [
+            {
+              type: NodeType.TEXT,
+              text: 'bullet'
+            }
+          ]
+        }
+      )
+    })
+
+    it('ordered lists are determined by the first element', function () {
+      const string = `
++ bullet1
+* bullet2
+`
+
+      assert.deepEqual(
+        parseMarkdown(string),
+        {
+          type: NodeType.BULLET_LIST,
+          ordered: true,
+          bullets: [
+            {
+              type: NodeType.TEXT,
+              text: 'bullet1'
+            },
+
+            {
+              type: NodeType.TEXT,
+              text: 'bullet2'
+            }
+          ]
+        }
+      )
+    })
+
     it('handles bullet lists that do not start on the first line', function () {
       const string = `text
 * bullet
@@ -514,6 +561,7 @@ describe('parseMarkdown()', function () {
 
             {
               type: NodeType.BULLET_LIST,
+              ordered: false,
               bullets: [
                 {
                   type: NodeType.TEXT,
@@ -536,6 +584,7 @@ describe('parseMarkdown()', function () {
         parseMarkdown(string),
         {
           type: NodeType.BULLET_LIST,
+          ordered: false,
           bullets: [
             {
               type: NodeType.TEXT,
@@ -560,6 +609,7 @@ describe('parseMarkdown()', function () {
         parseMarkdown(string),
         {
           type: NodeType.BULLET_LIST,
+          ordered: false,
           bullets: [
             {
               type: NodeType.TEXT,
@@ -568,6 +618,7 @@ describe('parseMarkdown()', function () {
 
             {
               type: NodeType.BULLET_LIST,
+              ordered: false,
               bullets: [
                 {
                   type: NodeType.TEXT,
@@ -592,6 +643,7 @@ describe('parseMarkdown()', function () {
         parseMarkdown(string),
         {
           type: NodeType.BULLET_LIST,
+          ordered: false,
           bullets: [
             {
               type: NodeType.TEXT,
@@ -600,6 +652,7 @@ describe('parseMarkdown()', function () {
 
             {
               type: NodeType.BULLET_LIST,
+              ordered: false,
               bullets: [
                 {
                   type: NodeType.TEXT,
@@ -615,6 +668,7 @@ describe('parseMarkdown()', function () {
 
             {
               type: NodeType.BULLET_LIST,
+              ordered: false,
               bullets: [
                 {
                   type: NodeType.TEXT,
@@ -639,6 +693,7 @@ describe('parseMarkdown()', function () {
         parseMarkdown(string),
         {
           type: NodeType.BULLET_LIST,
+          ordered: false,
           bullets: [
             {
               type: NodeType.TEXT,
@@ -647,6 +702,7 @@ describe('parseMarkdown()', function () {
 
             {
               type: NodeType.BULLET_LIST,
+              ordered: false,
               bullets: [
                 {
                   type: NodeType.TEXT,
@@ -655,6 +711,7 @@ describe('parseMarkdown()', function () {
 
                 {
                   type: NodeType.BULLET_LIST,
+                  ordered: false,
                   bullets: [
                     {
                       type: NodeType.TEXT,
@@ -722,6 +779,7 @@ block\`\`\`
 
             {
               type: NodeType.BULLET_LIST,
+              ordered: false,
               bullets: [
                 {
                   type: NodeType.TEXT,
@@ -750,6 +808,7 @@ block\`\`\`
 
             {
               type: NodeType.BULLET_LIST,
+              ordered: false,
               bullets: [
                 {
                   type: NodeType.TEXT,

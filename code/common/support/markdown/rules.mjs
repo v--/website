@@ -55,7 +55,7 @@ export default Object.freeze({
   [TokenType.BULLET]: cat(
     term('\n'),
     TokenType.WHITESPACE,
-    term('*'),
+    term('+', '*'),
     opt(term(' ')),
     LINE_MATCHER,
     rep(LINE_MATCHER)
