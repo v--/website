@@ -674,4 +674,134 @@ describe('parseMarkdown()', function () {
       )
     })
   })
+
+  describe('for mixed input', function () {
+    it('handles example daily report documents', function () {
+      const string = `# Title
+
+## Action items
+
+* Action item 1
+* Action item 2 (__important__)
+
+## Status
+
+* Item 1
+* Item 2 with [*hyperlink*](https://ipsum.dolor)
+* Item 3 with a \`\`\`code
+block\`\`\`
+* Item 4
+`
+
+      assert.deepEqual(
+        parseMarkdown(string),
+        {
+          type: NodeType.CONTAINER,
+          children: [
+            {
+              type: NodeType.HEADING,
+              level: 1,
+              node: {
+                text: 'Title',
+                type: NodeType.TEXT
+              }
+            },
+
+            {
+              type: NodeType.LINE_BREAK
+            },
+
+            {
+              type: NodeType.HEADING,
+              level: 2,
+              node: {
+                text: 'Action items',
+                type: NodeType.TEXT
+              }
+            },
+
+            {
+              type: NodeType.BULLET_LIST,
+              bullets: [
+                {
+                  type: NodeType.TEXT,
+                  text: 'Action item 1'
+                },
+
+                {
+                  type: NodeType.TEXT,
+                  text: 'Action item 2 (__important__)'
+                }
+              ]
+            },
+
+            {
+              type: NodeType.LINE_BREAK
+            },
+
+            {
+              type: NodeType.HEADING,
+              level: 2,
+              node: {
+                type: NodeType.TEXT,
+                text: 'Status'
+              }
+            },
+
+            {
+              type: NodeType.BULLET_LIST,
+              bullets: [
+                {
+                  type: NodeType.TEXT,
+                  text: 'Item 1'
+                },
+
+                {
+                  type: NodeType.CONTAINER,
+                  children: [
+                    {
+                      type: NodeType.TEXT,
+                      text: 'Item 2 with '
+                    },
+
+                    {
+                      type: NodeType.ANCHOR,
+                      link: 'https://ipsum.dolor',
+                      node: {
+                        type: NodeType.EMPHASIS,
+                        node: {
+                          type: NodeType.TEXT,
+                          text: 'hyperlink'
+                        }
+                      }
+                    }
+                  ]
+                },
+
+                {
+                  type: NodeType.CONTAINER,
+                  children: [
+                    {
+                      type: NodeType.TEXT,
+                      text: 'Item 3 with a '
+                    },
+
+                    {
+                      type: NodeType.CODE_BLOCK,
+                      code: 'code\nblock'
+                    }
+                  ]
+                },
+
+                {
+                  type: NodeType.TEXT,
+                  text: 'Item 4'
+                }
+              ]
+            }
+          ]
+        }
+      )
+    })
+  })
 })
