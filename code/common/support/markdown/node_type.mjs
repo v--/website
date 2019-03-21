@@ -9,6 +9,6 @@ export default enumerize(
   'CODE',
   'EMPHASIS',
   'STRONG_EMPHASIS',
-  'BULLET',
-  'HEADING'
+  'HEADING',
+  'BULLET_LIST'
 )

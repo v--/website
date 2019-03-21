@@ -9,9 +9,10 @@ const COMMON_RULES = [
   TokenType.CODE_BLOCK,
   TokenType.CODE,
   TokenType.EMPHASIS,
-  TokenType.HEADING
-  // TokenType.BULLET
+  cat(TokenType.LINE_BREAK, TokenType.HEADING)
 ]
+
+const LINE_MATCHER = alt(...COMMON_RULES, neg('\n'))
 
 function createBlockRule (start, end, matcher = alt(term('\\' + end), neg(end, '\n'))) {
   return cat(
@@ -24,19 +25,6 @@ function createBlockRule (start, end, matcher = alt(term('\\' + end), neg(end, '
 
 function createNestedBlockRule (start, end, matcher = alt(term('\\' + end), neg(end, '\n'))) {
   return createBlockRule(start, end, alt(...COMMON_RULES, TokenType.LINE_BREAK, matcher))
-}
-
-function createNestedLineRule (sigil) {
-  const srule = term(sigil)
-  const matcher = alt(...COMMON_RULES, neg('\n'))
-  return cat(
-    srule,
-    rep(srule),
-    opt(term(' ')),
-    matcher,
-    rep(matcher),
-    term('\n')
-  )
 }
 
 export default Object.freeze({
@@ -55,7 +43,40 @@ export default Object.freeze({
     createNestedBlockRule('_', '_')
   ),
 
-  [TokenType.HEADING]: createNestedLineRule('#'),
-  [TokenType.BULLET]: createNestedLineRule('*'),
-  [TokenType.MARKDOWN]: rep(alt(...COMMON_RULES, TokenType.LINE_BREAK, wildcard))
+  [TokenType.HEADING]: cat(
+    term('#'),
+    rep(term('#')),
+    opt(term(' ')),
+    LINE_MATCHER,
+    rep(LINE_MATCHER),
+    term('\n')
+  ),
+
+  [TokenType.BULLET]: cat(
+    term('\n'),
+    TokenType.WHITESPACE,
+    term('*'),
+    opt(term(' ')),
+    LINE_MATCHER,
+    rep(LINE_MATCHER)
+  ),
+
+  [TokenType.BULLET_LIST]: cat(
+    TokenType.BULLET,
+    rep(TokenType.BULLET),
+    term('\n')
+  ),
+
+  [TokenType.MARKDOWN]: cat(
+    opt(TokenType.HEADING),
+    opt(TokenType.BULLET_LIST),
+    rep(
+      alt(
+        ...COMMON_RULES,
+        TokenType.BULLET_LIST,
+        TokenType.LINE_BREAK,
+        wildcard
+      )
+    )
+  )
 })

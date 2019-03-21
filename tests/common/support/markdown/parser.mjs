@@ -379,8 +379,52 @@ describe('parseMarkdown()', function () {
       )
     })
 
+    it('treats hash signs as text if they are not at the beginning of the line', function () {
+      const string = ' #Heading\n'
+      assert.deepEqual(
+        parseMarkdown(string),
+        {
+          type: NodeType.CONTAINER,
+          children: [
+            {
+              type: NodeType.TEXT,
+              text: ' #Heading'
+            },
+
+            {
+              type: NodeType.LINE_BREAK
+            }
+          ]
+        }
+      )
+    })
+
+    it('parses headings if they are not on the first line', function () {
+      const string = '\n# Heading\n'
+      assert.deepEqual(
+        parseMarkdown(string),
+        {
+          type: NodeType.CONTAINER,
+          children: [
+            {
+              type: NodeType.LINE_BREAK
+            },
+
+            {
+              type: NodeType.HEADING,
+              level: 1,
+              node: {
+                type: NodeType.TEXT,
+                text: 'Heading'
+              }
+            }
+          ]
+        }
+      )
+    })
+
     it('strips a single space off h1', function () {
-      const string = `# Heading\n`
+      const string = '# Heading\n'
       assert.equal(
         parseMarkdown(string).node.text,
         'Heading'
@@ -388,7 +432,7 @@ describe('parseMarkdown()', function () {
     })
 
     it('strips only one space off h1', function () {
-      const string = `#  Heading\n`
+      const string = '#  Heading\n'
       assert.equal(
         parseMarkdown(string).node.text,
         ' Heading'
@@ -396,7 +440,7 @@ describe('parseMarkdown()', function () {
     })
 
     it('handles h4', function () {
-      const string = `#### Heading\n`
+      const string = '#### Heading\n'
       assert.deepEqual(
         parseMarkdown(string),
         {
@@ -409,11 +453,53 @@ describe('parseMarkdown()', function () {
         }
       )
     })
+  })
 
-    it.skip('handles two bullets', function () {
+  describe('for bullet lists', function () {
+    it('handles one bullet', function () {
       const string = `
-*bullet1
-*bullet2
+*bullet
+`
+
+      assert.deepEqual(
+        parseMarkdown(string),
+        {
+          type: NodeType.BULLET_LIST,
+          bullets: [
+            {
+              type: NodeType.TEXT,
+              text: 'bullet'
+            }
+          ]
+        }
+      )
+    })
+
+    it('strips a single space after the asterisk', function () {
+      const string = `
+* bullet
+`
+
+      assert.equal(
+        parseMarkdown(string).bullets[0].text,
+        'bullet'
+      )
+    })
+
+    it('strips only one space after the asterisk', function () {
+      const string = `
+*  bullet
+`
+
+      assert.equal(
+        parseMarkdown(string).bullets[0].text,
+        ' bullet'
+      )
+    })
+
+    it('handles bullet lists that do not start on the first line', function () {
+      const string = `text
+* bullet
 `
 
       assert.deepEqual(
@@ -422,18 +508,166 @@ describe('parseMarkdown()', function () {
           type: NodeType.CONTAINER,
           children: [
             {
-              type: NodeType.BULLET,
-              node: {
-                type: NodeType.TEXT,
-                text: 'bullet1'
-              }
+              type: NodeType.TEXT,
+              text: 'text'
+            },
+
+            {
+              type: NodeType.BULLET_LIST,
+              bullets: [
+                {
+                  type: NodeType.TEXT,
+                  text: 'bullet'
+                }
+              ]
+            }
+          ]
+        }
+      )
+    })
+
+    it('handles two bullets', function () {
+      const string = `
+* bullet1
+* bullet2
+`
+
+      assert.deepEqual(
+        parseMarkdown(string),
+        {
+          type: NodeType.BULLET_LIST,
+          bullets: [
+            {
+              type: NodeType.TEXT,
+              text: 'bullet1'
             },
             {
-              type: NodeType.BULLET,
-              node: {
-                type: NodeType.TEXT,
-                text: 'bullet2'
-              }
+              type: NodeType.TEXT,
+              text: 'bullet2'
+            }
+          ]
+        }
+      )
+    })
+
+    it('handles two nested bullets', function () {
+      const string = `
+* bullet1
+ * bullet2
+`
+
+      assert.deepEqual(
+        parseMarkdown(string),
+        {
+          type: NodeType.BULLET_LIST,
+          bullets: [
+            {
+              type: NodeType.TEXT,
+              text: 'bullet1'
+            },
+
+            {
+              type: NodeType.BULLET_LIST,
+              bullets: [
+                {
+                  type: NodeType.TEXT,
+                  text: 'bullet2'
+                }
+              ]
+            }
+          ]
+        }
+      )
+    })
+
+    it('handles two runs of nested bullets with non-identical indentation', function () {
+      const string = `
+* bullet1
+ * bullet2
+* bullet3
+ * bullet4
+`
+
+      assert.deepEqual(
+        parseMarkdown(string),
+        {
+          type: NodeType.BULLET_LIST,
+          bullets: [
+            {
+              type: NodeType.TEXT,
+              text: 'bullet1'
+            },
+
+            {
+              type: NodeType.BULLET_LIST,
+              bullets: [
+                {
+                  type: NodeType.TEXT,
+                  text: 'bullet2'
+                }
+              ]
+            },
+
+            {
+              type: NodeType.TEXT,
+              text: 'bullet3'
+            },
+
+            {
+              type: NodeType.BULLET_LIST,
+              bullets: [
+                {
+                  type: NodeType.TEXT,
+                  text: 'bullet4'
+                }
+              ]
+            }
+          ]
+        }
+      )
+    })
+
+    it('handles non-local rollbacks from deeply nested bullets', function () {
+      const string = `
+* bullet1
+ * bullet2
+  * bullet3
+* bullet4
+`
+
+      assert.deepEqual(
+        parseMarkdown(string),
+        {
+          type: NodeType.BULLET_LIST,
+          bullets: [
+            {
+              type: NodeType.TEXT,
+              text: 'bullet1'
+            },
+
+            {
+              type: NodeType.BULLET_LIST,
+              bullets: [
+                {
+                  type: NodeType.TEXT,
+                  text: 'bullet2'
+                },
+
+                {
+                  type: NodeType.BULLET_LIST,
+                  bullets: [
+                    {
+                      type: NodeType.TEXT,
+                      text: 'bullet3'
+                    }
+                  ]
+                }
+              ]
+            },
+
+            {
+              type: NodeType.TEXT,
+              text: 'bullet4'
             }
           ]
         }

@@ -53,6 +53,96 @@ function collapse (matches) {
   }
 }
 
+function collapseEmphasis (matches) {
+  const escaped = matches[matches.length - 1]
+  const collapsed = collapse(unescapeMatches(removeBounds(matches), escaped))
+
+  if (collapsed.type === NodeType.EMPHASIS) {
+    return {
+      type: NodeType.STRONG_EMPHASIS,
+      node: collapsed.node
+    }
+  }
+
+  return {
+    type: NodeType.EMPHASIS,
+    node: collapsed
+  }
+}
+
+function collapseHeading (matches) {
+  const refinedMatches = []
+  let level = 1
+
+  for (let i = 1; i < matches.length - 1; i++) {
+    const match = matches[i]
+
+    if (i === level && match === '#') {
+      level++
+    } else if (i !== level || match !== ' ') {
+      refinedMatches.push(match)
+    }
+  }
+
+  return {
+    type: NodeType.HEADING,
+    level,
+    node: collapse(refinedMatches)
+  }
+}
+
+function collapseBullet (matches) {
+  return {
+    level: matches[1].matches.length + 1,
+    node: collapse(
+      matches.slice(matches[3] === ' ' ? 4 : 3)
+    )
+  }
+}
+
+function collapseBulletList (matches) {
+  const flatBulletList = matches
+    .slice(0, matches.length - 1)
+    .map(buildAST)
+
+  const minLevel = Math.min.apply(null, flatBulletList.map(b => b.level))
+  const root = {
+    type: NodeType.BULLET_LIST,
+    bullets: []
+  }
+
+  const rootLevels = new Map([[root, minLevel]])
+  let roots = [root]
+
+  for (const bullet of flatBulletList) {
+    let currentRoot = roots[roots.length - 1]
+    let currentLevel = rootLevels.get(currentRoot)
+
+    if (bullet.level === currentLevel) {
+      currentRoot.bullets.push(bullet.node)
+    } else if (bullet.level > currentLevel) {
+      const newRoot = {
+        type: NodeType.BULLET_LIST,
+        bullets: [bullet.node]
+      }
+
+      rootLevels.set(newRoot, bullet.level)
+      currentRoot.bullets.push(newRoot)
+      roots.push(newRoot)
+    } else {
+      while (bullet.level < currentLevel) {
+        roots.pop()
+        currentRoot = roots[roots.length - 1]
+        currentLevel = rootLevels.get(currentRoot)
+      }
+
+      currentRoot.bullets.push(bullet.node)
+    }
+  }
+
+  return root
+}
+
 function joinTextBlocks (matches) {
   let result = ''
 
@@ -131,42 +221,17 @@ export function buildAST (parseTree) {
       }
 
     case TokenType.EMPHASIS:
-      const escaped = parseTree.matches[parseTree.matches.length - 1]
-      const collapsed = collapse(unescapeMatches(removeBounds(parseTree.matches), escaped))
-
-      if (collapsed.type === NodeType.EMPHASIS) {
-        return {
-          type: NodeType.STRONG_EMPHASIS,
-          node: collapsed.node
-        }
-      }
-
-      return {
-        type: NodeType.EMPHASIS,
-        node: collapsed
-      }
+      return collapseEmphasis(parseTree.matches)
 
     case TokenType.HEADING:
-      const refinedMatches = []
-      let level = 1
+      return collapseHeading(parseTree.matches)
 
-      for (let i = 1; i < parseTree.matches.length - 1; i++) {
-        const match = parseTree.matches[i]
+    case TokenType.BULLET:
+      return collapseBullet(parseTree.matches)
 
-        if (i === level && match === '#') {
-          level++
-        } else if (i !== level || match !== ' ') {
-          refinedMatches.push(match)
-        }
-      }
+    case TokenType.BULLET_LIST:
+      return collapseBulletList(parseTree.matches)
 
-      return {
-        type: NodeType.HEADING,
-        level,
-        node: collapse(refinedMatches)
-      }
-
-    case TokenType.MARKDOWN_LINE:
     case TokenType.MARKDOWN:
       return collapse(parseTree.matches)
 

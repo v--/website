@@ -9,7 +9,8 @@ export default enumerize(
   'CODE_BLOCK',
   'CODE',
   'EMPHASIS',
-  'BULLET',
   'HEADING',
+  'BULLET',
+  'BULLET_LIST',
   'MARKDOWN'
 )
