@@ -24,10 +24,6 @@ export default class MirrorXMLRenderer extends XMLRenderer {
     this.element.state.current.text = this.component.state.current.text
   }
 
-  _setHTML () {
-    this.element.state.current.html = this.component.state.current.html
-  }
-
   _removeText () {
     delete this.element.state.current.text
   }

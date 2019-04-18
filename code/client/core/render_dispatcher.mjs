@@ -31,16 +31,8 @@ export class DOMXMLRenderer extends XMLRenderer {
     this.element.textContent = this.component.state.current.text
   }
 
-  _setHTML () {
-    this.element.innerHTML = this.component.state.current.html
-  }
-
   _removeText () {
     this.element.textContent = ''
-  }
-
-  _removeHTML () {
-    this.element.innerHTML = ''
   }
 
   _appendChild (child) {

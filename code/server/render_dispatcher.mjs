@@ -7,7 +7,7 @@ function * renderXMLComponent (component, dispatcher) {
   for (const [key, value] of Object.entries(component.state.current)) {
     if (value === true) {
       yield ` ${key}`
-    } else if (typeof value === 'string' && key !== 'text' && key !== 'html') {
+    } else if (typeof value === 'string' && key !== 'text') {
       yield ` ${key}="${value}"`
     }
   }
@@ -20,10 +20,6 @@ function * renderXMLComponent (component, dispatcher) {
 
   if ('text' in component.state.current) {
     yield component.state.current.text
-  }
-
-  if ('html' in component.state.current) {
-    yield component.state.current.html
   }
 
   for (const child of component.children) {

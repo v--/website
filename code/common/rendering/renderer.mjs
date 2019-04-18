@@ -39,17 +39,13 @@ export class XMLRenderer extends Renderer {
     this.element = this._createNode()
 
     for (const [key, value] of Object.entries(state)) {
-      if (key !== 'text' || key !== 'html') {
+      if (key !== 'text') {
         this._setAttribute(key, value)
       }
     }
 
     if ('text' in state) {
       this._setText(state.text)
-    }
-
-    if ('html' in state) {
-      this._setHTML(state.html)
     }
 
     for (const child of component.children) {
@@ -73,8 +69,6 @@ export class XMLRenderer extends Renderer {
         if (oldState[key] !== newState[key]) {
           if (key === 'text') {
             this._setText(newState[key])
-          } else if (key === 'html') {
-            this._setHTML(newState[key])
           } else {
             this._setAttribute(key, newState[key], oldState[key])
           }
@@ -82,16 +76,12 @@ export class XMLRenderer extends Renderer {
       } else if (key in oldState) {
         if (key === 'text') {
           this._removeText()
-        } else if (key === 'html') {
-          this._removeHTML()
         } else {
           this._removeAttribute(key, oldState[key])
         }
       } else if (key in newState) {
         if (key === 'text') {
           this._setText(newState[key])
-        } else if (key === 'html') {
-          this._setHTML(newState[key])
         } else {
           this._setAttribute(key, newState[key])
         }
