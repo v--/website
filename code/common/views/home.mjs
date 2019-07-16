@@ -5,7 +5,7 @@ import link from '../components/link.mjs'
 
 function siteSection (state) {
   return c('li', null,
-    c('b', null, c(link, { link: state.link })),
+    c('b', null, c(link, { link: state.link, isInternal: true })),
     c('span', { text: ': ' + state.text })
   )
 }
@@ -55,8 +55,8 @@ export default function home () {
       ),
 
       c('p', null,
-        c('span', { text: "Except for the playground, most of the website is static. However, it still benefits from having a full-fledged home-grown lightweight (~1K LoC) frontend rendering engine. The frontend code is neither precompiled nor bundled and can be easily explored using any browser's developer tools. It is licensed under " }),
-        c(link, { text: 'the Unlicense', link: 'https://unlicense.org/', isInternal: false }),
+        c('span', { text: "Except for the playground, most of the website is static and works without JavaScript. However, it still benefits from having a full-fledged home-grown lightweight (~1K LoC) frontend rendering engine. The frontend code is neither precompiled nor bundled and can be easily explored using any browser's developer tools. It is licensed under " }),
+        c(link, { text: 'the Unlicense', link: 'https://unlicense.org/' }),
         c('span', { text: '.' })
       )
     ),
