@@ -3,6 +3,13 @@ import { c } from '../rendering/component.mjs'
 import icon from '../components/icon.mjs'
 import link from '../components/link.mjs'
 
+function siteSection (state) {
+  return c('li', null,
+    c('b', null, c(link, { link: state.link })),
+    c('span', { text: ': ' + state.text })
+  )
+}
+
 function contact (state) {
   return c('li', { class: 'contact' },
     c(link, { link: state.link },
@@ -14,39 +21,43 @@ function contact (state) {
 
 export default function home () {
   return c('div', { class: 'page home-page' },
-    c('div', { class: 'section' },
-      c('div', { class: 'me-irl' },
-        c('div', { class: 'me-irl-pre' }),
-        c('img', { class: 'me-irl-img', src: 'images/me_irl.jpg', alt: 'A photo of me.' }),
-        c('div', { class: 'me-irl-post' })
-      ),
-
-      c('h1', { class: 'section-title', text: 'Welcome!' }),
-      c('p', {
-        text: 'This is my personal website - nothing more.'
-      })
+    c('div', { class: 'me-irl' },
+      c('div', { class: 'me-irl-pre' }),
+      c('img', { class: 'me-irl-img', src: 'images/me_irl.jpg', alt: 'A photo of me.' }),
+      c('div', { class: 'me-irl-post' })
     ),
 
     c('div', { class: 'section' },
       c('h1', { class: 'section-title', text: 'About me' }),
       c('p', {
-        text: [
-          'My name is Ianis Vasilev (pronounce it however you want).',
-          'For some reason, I am studying statistics at Sofia University.',
-          'According to my contract I am a programmer and according to my ego I am also a musician.',
-          'Otherwise I am a relatively sane person.'
-        ].join(' ')
+        text: 'My name is Ianis Vasilev. I consider myself a simple man with complicated interests. I am a statistician according to my diploma, a programmer according to my contract, a musician according to my ego and a trail runner according to my legs.'
       })
     ),
 
     c('div', { class: 'section' },
       c('h1', { class: 'section-title', text: 'About this website' }),
+      c('p', { text: 'This is my personal website. It contains a few diverse sections:' }),
+      c('ul', null,
+        c(siteSection, {
+          link: '/files',
+          text: 'a file explorer for a server containing math notes, presentation slides, musical scores and a few other miscellaneous files.'
+        }),
+
+        c(siteSection, {
+          link: '/pacman',
+          text: 'information about a pacman repository hosted under the same domain name as the website.'
+        }),
+
+        c(siteSection, {
+          link: '/playground',
+          text: 'interactive browser-based simulations and visualizations.'
+        })
+      ),
+
       c('p', null,
-        c('span', { text: 'This website contains random stuff that would otherwise be uploaded to other websites. Since you got here you probably need my ' }),
-        c(link, { text: 'file server', link: '/files' }),
-        c('span', { text: ' or my ' }),
-        c(link, { text: 'pacman repo', link: '/pacman' }),
-        c('span', { text: '. Everything here should be pretty self-descriptive.' })
+        c('span', { text: "Except for the playground, most of the website is static. However, it still benefits from having a full-fledged home-grown lightweight (~1K LoC) frontend rendering engine. The frontend code is neither precompiled nor bundled and can be easily explored using any browser's developer tools. It is licensed under " }),
+        c(link, { text: 'the Unlicense', link: 'https://unlicense.org/', isInternal: false }),
+        c('span', { text: '.' })
       )
     ),
 

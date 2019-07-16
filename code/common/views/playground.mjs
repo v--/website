@@ -5,7 +5,7 @@ export default function playground () {
   return c('div', { class: 'page playground-page' },
     c('div', { class: 'section' },
       c('h1', { class: 'section-title', text: '/playground' }),
-      c('p', { text: "These are some of the JavaScript visualizations and simulations I have created. You can view their code in your browser's console." }),
+      c('p', { text: "These are some of the browser-based visualizations and simulations I have created. The code is neither precompiled nor bundled and can be easily explored using any browser's developer tools." }),
       c('ul', null,
         c('li', null,
           c(link, {
