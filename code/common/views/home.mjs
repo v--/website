@@ -15,6 +15,12 @@ function contact (state) {
 export default function home () {
   return c('div', { class: 'page home-page' },
     c('div', { class: 'section' },
+      c('div', { class: 'me-irl' },
+        c('div', { class: 'me-irl-pre' }),
+        c('img', { class: 'me-irl-img', src: 'images/me_irl.jpg', alt: 'A photo of me.' }),
+        c('div', { class: 'me-irl-post' })
+      ),
+
       c('h1', { class: 'section-title', text: 'Welcome!' }),
       c('p', {
         text: 'This is my personal website - nothing more.'
