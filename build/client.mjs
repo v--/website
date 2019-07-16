@@ -13,6 +13,12 @@ gulp.task('client:build:svgs', function () {
     .pipe(sync.stream())
 })
 
+gulp.task('client:build:assets', function () {
+  return gulp.src('client/assets/**/*')
+    .pipe(gulp.dest('public/'))
+    .pipe(sync.stream())
+})
+
 gulp.task('client:build:styles', function () {
   return gulp.src('client/styles/**/*.less')
     .pipe(less())
@@ -35,6 +41,7 @@ gulp.task('client:restart', function (done) {
 })
 
 gulp.task('client:build', gulp.parallel(
+  'client:build:assets',
   'client:build:svgs',
   'client:build:styles',
   'client:build:icons'
