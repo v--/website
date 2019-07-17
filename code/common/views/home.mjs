@@ -23,7 +23,7 @@ export default function home () {
   return c('div', { class: 'page home-page' },
     c('div', { class: 'me-irl' },
       c('div', { class: 'me-irl-pre' }),
-      c('img', { class: 'me-irl-img', src: 'images/me_irl.jpg', alt: 'A photo of me.' }),
+      c('img', { class: 'me-irl-img', src: 'images/me_irl.jpg' }),
       c('div', { class: 'me-irl-post' })
     ),
 

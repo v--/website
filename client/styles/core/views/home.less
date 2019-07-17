@@ -12,12 +12,14 @@
   display: flex;
   overflow: hidden;
   height: @image-height;
+  background-image: linear-gradient(90deg, @image-color-left 40%, @image-color-right 60%);
+  .zindex(@zindex-me-irl);
 
   .me-irl-img {
+    .zindex(@zindex-me-irl-image);
     background-color: @image-color-left;
     flex-align: center;
-    flex: 0;
-    z-index: -1;
+    width: @image-width;
   }
 
   .me-irl-pre, .me-irl-post {

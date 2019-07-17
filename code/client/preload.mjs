@@ -17,6 +17,11 @@ window.PLAYGROUND_COMPATIBILITY = {
 var path = window.location.pathname.split('/').slice(1)
 
 function onLoad () {
+  // Hide images so that they get reloaded upon rerendering
+  for (const img of document.querySelectorAll('img')) {
+    img.style.visibility = 'hidden'
+  }
+
   if (window.innerWidth < window.DESKTOP_WIDTH) {
     var sidebar = document.querySelector('aside')
     // Avoid using the "collapsed" class to prevent animations
