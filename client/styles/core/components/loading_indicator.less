@@ -1,4 +1,5 @@
 @import '../../_vars.less';
+@import '../../_mixins.less';
 
 .loading-indicator-wrapper {
   position: absolute;
@@ -13,7 +14,7 @@
   align-items: center;
 
   .loading-indicator {
-    z-index: 3;
+    .zindex(@zindex-loading-indicator);
     font-size: 5em;
     font-weight: bold;
     transition: opacity @loading-transition;

@@ -57,3 +57,10 @@
     fill: @anchor-color-foreground;
   }
 }
+
+.zindex(@value) {
+  z-index: @value;
+
+  // Make the z-index work on webkit
+  -webkit-transform: translate3d(0, 0, 0);
+}

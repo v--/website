@@ -10,10 +10,7 @@
   overflow-y: auto;
   transition: margin-left @sidebar-transition;
   padding: @sidebar-padding 0;
-  z-index: 2;
-
-  // Make the z-index work on webkit
-  -webkit-transform: translate3d(0, 0, 0);
+  .zindex(@zindex-sidebar);
 
   display: flex;
   flex-direction: column;
