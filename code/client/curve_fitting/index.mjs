@@ -13,7 +13,7 @@ export default function playgroundCurveFitting () {
 
   return c(aspectRatioPage, { class: 'page playground-curve-fitting-page' },
     c('div', { class: 'section' },
-      c('h1', { class: 'section-title', text: 'Curve fitting visualizations' }),
+      c('h1', { class: 'section-title', text: 'Plane curve fitting visualizations' }),
       c('p', {
         class: 'curve-fitting-subtitle',
         text: 'Use the table below to toggle the curves you want to see. Click anywhere on the chart to add or move data points.'
@@ -25,9 +25,7 @@ export default function playgroundCurveFitting () {
       bottomMargin: 25,
       minHeight: 250,
       maxHeight: 500,
-      item: c('div', { class: 'curve-canvas-wrapper' },
-        c(curveCanvas, observable)
-      )
+      item: c(curveCanvas, observable)
     }),
 
     c(curveLegend, observable)

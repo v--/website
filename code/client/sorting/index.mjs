@@ -13,7 +13,7 @@ export default function playgroundSorting () {
 
   return c('div', { class: 'page playground-sorting-page' },
     c('div', { class: 'section' },
-      c('h1', { class: 'section-title', text: 'Sorting visualizations' }),
+      c('h1', { class: 'section-title', text: 'Sorting algorithms visualizations' }),
       c('div', { class: 'sorting-button-container' },
         c('button', {
           class: 'sorting-top-button',

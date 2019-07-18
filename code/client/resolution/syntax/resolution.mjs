@@ -3,6 +3,8 @@ import ExpressionType from '../enums/expression_type.mjs'
 import { replaceVariables } from './replacement.mjs'
 import { stringifyExpression, stringifyDisjunct } from '../support/stringify.mjs'
 
+const MAX_RESOLVENT_COUNT = 25
+
 function joinTransforms (a, b) {
   const joint = new Map()
 
@@ -173,7 +175,7 @@ export function inferEmptyDisjunctImpl (disjuncts, iterations = 0) {
           })
         }
 
-        if (resolventCount > 25) {
+        if (resolventCount > MAX_RESOLVENT_COUNT) {
           return null
         }
       }

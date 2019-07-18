@@ -87,5 +87,5 @@ export function aspectRatioPage (state, children) {
 }
 
 export function aspectRatioBox ({ item }) {
-  return item
+  return c('div', null, item)
 }

@@ -10,7 +10,7 @@ export default function playground () {
         c('li', null,
           c(link, {
             class: 'playground-link',
-            text: 'Sorting visualizations',
+            text: 'Sorting algorithm visualizations',
             link: 'playground/sorting',
             isInternal: true
           })
@@ -19,7 +19,7 @@ export default function playground () {
         c('li', null,
           c(link, {
             class: 'playground-link',
-            text: 'Curve fitting visualizations',
+            text: 'Plane curve fitting visualizations',
             link: 'playground/curve_fitting',
             isInternal: true
           })
@@ -28,7 +28,7 @@ export default function playground () {
         c('li', null,
           c(link, {
             class: 'playground-link',
-            text: 'First-order logic resolution theorem prover',
+            text: 'First-order logic resolution engine',
             link: 'playground/resolution',
             isInternal: true
           })
