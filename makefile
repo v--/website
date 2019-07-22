@@ -1,20 +1,20 @@
-.PHONY: test test_observables benchmark build
-
 SOURCE = $(shell find . -name '*.mjs')
 
-benchmark ?= benchmarks/*.mjs
+.PHONY: test test_observables benchmark build $(SOURCE)
+
+test ?= $(shell find tests -name '*.mjs' ! -name '_*.mjs')
+
+test:
+	@echo ${test} | env NODE_OPTIONS='--experimental-modules' mocha --delay tests/_runner.js
+
+benchmarks/*.mjs:
+	@node --experimental-modules $@
+
+tests/observables.mjs:
+	@node --experimental-modules tests/_observable.mjs
 
 lint:
 	@standard ${SOURCE}
-
-test:
-	env NODE_OPTIONS='--experimental-modules' mocha --delay tests/_runner.js
-
-test_observables:
-	env NODE_OPTIONS='--experimental-modules' node tests/_observable.mjs
-
-benchmark:
-	node --experimental-modules ${benchmark}
 
 build: lint test test_observables
 	env NODE_ENV=production ./gulp.mjs client:build

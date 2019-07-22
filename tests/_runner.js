@@ -1,11 +1,28 @@
-const { glob } = require('glob')
+const readline = require('readline')
 
-glob('tests/**/*.mjs', { ignore: ['tests/_common.mjs', 'tests/_observable.mjs'] }, async function (err, files) {
-  if (err) throw err
-
-  for (const file of files) {
-    await import('.' + file.substring('tests'.length))
+async function loadTests (fileNames) {
+  for (const fileName of fileNames) {
+    await import('.' + fileName.substring('tests'.length))
   }
+}
 
-  run()
-})
+async function readFileNames (stdin) {
+  const iface = readline.createInterface({
+    input: stdin,
+    terminal: false
+  })
+
+  return new Promise(function (resolve, reject) {
+    const fileNames = []
+
+    iface.on('line', function (line) {
+      Array.prototype.push.apply(fileNames, line.split(' '))
+    })
+
+    iface.on('close', function () {
+      resolve(fileNames)
+    })
+  })
+}
+
+readFileNames(process.stdin).then(loadTests).then(run)

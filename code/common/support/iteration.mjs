@@ -26,7 +26,7 @@ export function reduce (reducer, iterable, initial) {
       throw new EmptyIterError('Nothing to reduce')
     }
 
-    accum = state.value
+    accum = state.current
   }
 
   for (const value of iter) {

@@ -54,7 +54,7 @@ export class SubscriptionObserver {
 
     if (method instanceof Function) {
       try {
-        return method(value)
+        return method.call(this.observer, value)
       } catch (err) {
         if (this.cleanup === null) {
           throw err
@@ -85,7 +85,7 @@ export class SubscriptionObserver {
       let result
 
       try {
-        result = method(err)
+        result = method.call(this.observer, err)
       } catch (innerErr) {
         this._cleanupAndThrow(innerErr)
       }
@@ -121,7 +121,7 @@ export class SubscriptionObserver {
 
     if (method instanceof Function) {
       try {
-        const result = method(value)
+        const result = method.call(this.observer, value)
 
         if (this.cleanup !== null) {
           this.cleanup()
@@ -171,7 +171,7 @@ Subscription.prototype.constructor = Object
 
 export default class Observable {
   static isObservable (object) {
-    return '@@observable' in object
+    return object instanceof Object && '@@observable' in object
   }
 
   static of (...items) {
@@ -226,8 +226,6 @@ export default class Observable {
     } else {
       throw new Observable.ErrorClass('The subscriber must be a function')
     }
-
-    this.observers = new Set()
   }
 
   ['@@observable'] () {
@@ -266,3 +264,66 @@ export default class Observable {
 
 // Allow the error class to be modified to allow of the official observable tests to pass
 Observable.ErrorClass = ObservableError
+
+export class Subject {
+  constructor (value) {
+    this.observers = []
+    this.observable = new Observable(function (observer) {
+      const index = this.observers.length
+      this.observers.push(observer)
+      return Array.prototype.splice.bind(this.observers, index, 1)
+    }.bind(this))
+  }
+
+  ['@@observable'] () {
+    return this
+  }
+
+  next (value) {
+    for (const observer of this.observers) {
+      observer.next(value)
+    }
+
+    return value
+  }
+
+  subscribe (potentialObserver) {
+    return this.observable.subscribe.apply(this.observable, arguments)
+  }
+}
+
+export class BehaviorSubject {
+  constructor (value) {
+    this._value = value
+    this.observers = []
+    this.observable = new Observable(function (observer) {
+      const index = this.observers.length
+      this.observers.push(observer)
+      return Array.prototype.splice.bind(this.observers, index, 1)
+    }.bind(this))
+  }
+
+  ['@@observable'] () {
+    return this
+  }
+
+  get value () {
+    return this._value
+  }
+
+  next (value) {
+    this._value = value
+
+    for (const observer of this.observers) {
+      observer.next(value)
+    }
+
+    return value
+  }
+
+  subscribe (potentialObserver) {
+    const subscription = this.observable.subscribe.apply(this.observable, arguments)
+    subscription.subscriptionObserver.next(this._value)
+    return subscription
+  }
+}

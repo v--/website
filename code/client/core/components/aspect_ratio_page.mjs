@@ -54,7 +54,7 @@ const resizeObserver = {
 
 resize.subscribe(resizeObserver)
 
-dispatcher.observables.create.subscribe({
+dispatcher.events.create.subscribe({
   next (node) {
     if (node.component.type === aspectRatioPage) {
       if (currentRoot) {
@@ -72,7 +72,7 @@ dispatcher.observables.create.subscribe({
   }
 })
 
-dispatcher.observables.destroy.subscribe({
+dispatcher.events.destroy.subscribe({
   next (node) {
     if (node.component.type === aspectRatioPage) {
       currentRoot = null

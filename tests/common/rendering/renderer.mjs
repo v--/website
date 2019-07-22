@@ -4,28 +4,35 @@ import { assert } from '../../_common.mjs'
 
 import { c, XMLComponent, FactoryComponent, ComponentSanityError } from '../../../code/common/rendering/component.mjs'
 import { XMLRenderer, FactoryRenderer, RenderError, RenderDispatcher } from '../../../code/common/rendering/renderer.mjs'
-import { Observable } from '../../../code/common/support/observable.mjs'
+import { Subject, BehaviorSubject } from '../../../code/common/support/observable.mjs'
 import { map } from '../../../code/common/support/iteration.mjs'
 
 export default class MirrorXMLRenderer extends XMLRenderer {
   _createNode () {
-    return this.component.constructor.safeCreate(this.component.type, this.component.state.source)
+    return this.component.constructor.safeCreate(this.component.type, this.component.state.value)
   }
 
   _setAttribute (key, value) {
-    this.element.state.current[key] = value
+    const oldState = this.element.state.value
+    this.element.state.next(oldState === null ? { [key]: value } : Object.assign(oldState, { [key]: value }))
   }
 
   _removeAttribute (key, oldValue) { // eslint-disable-line no-unused-vars
-    delete this.element.state.current[key]
+    const oldState = this.element.state.value
+
+    if (oldState !== null) {
+      const newState = Object.assign({}, oldState)
+      delete newState[key]
+      this.element.state.next(newState)
+    }
   }
 
-  _setText () {
-    this.element.state.current.text = this.component.state.current.text
+  _setText (value) {
+    this._setAttribute('text', value)
   }
 
-  _removeText () {
-    delete this.element.state.current.text
+  _removeText (oldValue) {
+    this._removeAttribute('text', oldValue)
   }
 
   _appendChild (child) {
@@ -82,48 +89,48 @@ describe('MirrorXMLRenderer', function () {
 
   describe('.rerender()', function () {
     it('adds new properties', function () {
-      const observable = new Observable({})
-      const src = c('div', observable)
+      const subject = new Subject()
+      const src = c('div', subject)
       const dest = render(src)
-      observable.replace({ text: 'text' })
-      assert.equal(dest.state.current.text, 'text')
+      subject.next({ text: 'text' })
+      assert.equal(dest.state.value.text, 'text')
     })
 
     it('updates existing properties', function () {
-      const observable = new Observable({ text: 'text' })
-      const src = c('div', observable)
+      const subject = new BehaviorSubject({ text: 'text' })
+      const src = c('div', subject)
       const dest = render(src)
-      observable.replace({ text: 'updated text' })
-      assert.equal(dest.state.current.text, 'updated text')
+      subject.next({ text: 'updated text' })
+      assert.equal(dest.state.value.text, 'updated text')
     })
 
     it('removes old properties', function () {
-      const observable = new Observable({ text: 'text' })
-      const src = c('div', observable)
+      const subject = new BehaviorSubject({ text: 'text' })
+      const src = c('div', subject)
       const dest = render(src)
-      observable.replace({})
-      assert.doesNotHaveAllKeys(dest.state.current, ['text'])
+      subject.next({})
+      assert.doesNotHaveAllKeys(dest.state.value, ['text'])
     })
 
     it('throws when adding text to an HTML component with children', function () {
-      const observable = new Observable({})
-      const src = c('div', observable, c('span'))
+      const subject = new Subject()
+      const src = c('div', subject, c('span'))
       render(src)
 
       assert.throws(function () {
-        return observable.replace({ text: 'text' })
+        return subject.next({ text: 'text' })
       }, ComponentSanityError)
     })
 
     it('can rerender multiple times', function () {
-      const observable = new Observable({ text: 'basic' })
+      const subject = new BehaviorSubject({ text: 'basic' })
 
-      const src = c('div', observable)
+      const src = c('div', subject)
       const dest = render(src)
-      observable.replace({ text: 'extended' })
-      observable.replace({ text: 'premium' })
+      subject.next({ text: 'extended' })
+      subject.next({ text: 'premium' })
 
-      assert.equal(dest.state.current.text, 'premium')
+      assert.equal(dest.state.value.text, 'premium')
     })
   })
 })
@@ -142,7 +149,7 @@ describe('MirrorFactoryRenderer', function () {
       const src = c(({ text }) => c('span', { text }), { text: 'text' })
       const dest = render(src)
 
-      assert.equal(dest.state.current.text, 'text')
+      assert.equal(dest.state.value.text, 'text')
     })
 
     it('throws when attempting to render the same component twice', function () {
@@ -158,57 +165,57 @@ describe('MirrorFactoryRenderer', function () {
 
   describe('.rerender()', function () {
     it("throws when trying to replace the root element's type", function () {
-      const observable = new Observable({ type: 'div' })
-      const src = c(({ type }) => c(type), observable)
+      const subject = new BehaviorSubject({ type: 'div' })
+      const src = c(({ type }) => c(type), subject)
       render(src)
 
       assert.throws(function () {
-        return observable.replace({ type: 'span' })
+        return subject.next({ type: 'span' })
       }, RenderError)
     })
 
     it('adds root children', function () {
-      const observable = new Observable({ add: false })
-      const src = c(({ add }) => c('div', null, add && c('span')), observable)
+      const subject = new BehaviorSubject({ add: false })
+      const src = c(({ add }) => c('div', null, add && c('span')), subject)
       const dest = render(src)
-      observable.replace({ add: true })
+      subject.next({ add: true })
       assert.notEmpty(dest.children)
     })
 
     it("updates root element's properties", function () {
-      const observable = new Observable({ text: 'text' })
-      const src = c(({ text }) => c('div', { text }), observable)
+      const subject = new BehaviorSubject({ text: 'text' })
+      const src = c(({ text }) => c('div', { text }), subject)
       const dest = render(src)
-      observable.replace({ text: 'updated text' })
-      assert.equal(dest.state.current.text, 'updated text')
+      subject.next({ text: 'updated text' })
+      assert.equal(dest.state.value.text, 'updated text')
     })
 
     it('replaces root children', function () {
-      const observable = new Observable({ type: 'div' })
-      const src = c(({ type }) => c('div', null, c(type)), observable)
+      const subject = new BehaviorSubject({ type: 'div' })
+      const src = c(({ type }) => c('div', null, c(type)), subject)
       const dest = render(src)
-      observable.replace({ type: 'span' })
+      subject.next({ type: 'span' })
       assert.equal(dest.children[0].type, 'span')
     })
 
     it('removes root children', function () {
-      const observable = new Observable({ add: true })
-      const src = c(({ add }) => c('div', null, add && c('span')), observable)
+      const subject = new BehaviorSubject({ add: true })
+      const src = c(({ add }) => c('div', null, add && c('span')), subject)
       const dest = render(src)
-      observable.replace({ add: false })
+      subject.next({ add: false })
       assert.empty(dest.children)
     })
 
     it('handles swapping', function () {
-      const observable = new Observable({ components: ['h1', 'h2', 'h3'] })
+      const subject = new BehaviorSubject({ components: ['h1', 'h2', 'h3'] })
 
       function factory ({ components }) {
         return c('div', null, ...map(c, components))
       }
 
-      const src = c(factory, observable)
+      const src = c(factory, subject)
       const dest = render(src)
-      observable.replace({ components: ['h3', 'h2', 'h1'] })
+      subject.next({ components: ['h3', 'h2', 'h1'] })
 
       assert.deepEqual(
         dest.children.map(child => child.type),
@@ -221,22 +228,22 @@ describe('MirrorFactoryRenderer', function () {
       const h2 = c('h2')
       const h3 = c('h3')
 
-      const observable = new Observable({ components: [h1, h2, h3] })
+      const subject = new BehaviorSubject({ components: [h1, h2, h3] })
 
       function factory ({ components }) {
         return c('div', null, ...components)
       }
 
-      const src = c(factory, observable)
+      const src = c(factory, subject)
       render(src)
 
       assert.throws(function () {
-        return observable.replace({ components: [h3, h2, h1] })
+        return subject.next({ components: [h3, h2, h1] })
       }, RenderError)
     })
 
     it('handles nested component swapping', function () {
-      const observable = new Observable({ components: ['h1', 'h2', 'h3'] })
+      const subject = new BehaviorSubject({ components: ['h1', 'h2', 'h3'] })
 
       function factory ({ components }) {
         return c('main', null,
@@ -244,9 +251,9 @@ describe('MirrorFactoryRenderer', function () {
         )
       }
 
-      const src = c(factory, observable)
+      const src = c(factory, subject)
       const dest = render(src)
-      observable.replace({ components: ['h3', 'h2', 'h1'] })
+      subject.next({ components: ['h3', 'h2', 'h1'] })
 
       assert.deepEqual(
         dest.children[0].children.map(child => child.type),
@@ -255,81 +262,81 @@ describe('MirrorFactoryRenderer', function () {
     })
 
     it('can rerender multiple times', function () {
-      const observable = new Observable({ text: 'basic' })
+      const subject = new BehaviorSubject({ text: 'basic' })
 
       function factory ({ text }) {
         return c('span', { text })
       }
 
-      const src = c(factory, observable)
+      const src = c(factory, subject)
       const dest = render(src)
-      observable.replace({ text: 'extended' })
-      observable.replace({ text: 'premium' })
+      subject.next({ text: 'extended' })
+      subject.next({ text: 'premium' })
 
-      assert.equal(dest.state.current.text, 'premium')
+      assert.equal(dest.state.value.text, 'premium')
     })
 
     // BUGFIXES
 
     it('can rerender multiple with subcomponent replacements', function () {
-      const observable = new Observable({ type: 'div' })
+      const subject = new BehaviorSubject({ type: 'div' })
 
       function factory ({ type }) {
         return c('div', null, c(type))
       }
 
-      const src = c(factory, observable)
+      const src = c(factory, subject)
       const dest = render(src)
-      observable.replace({ type: 'span' })
-      observable.replace({ type: 'div' })
+      subject.next({ type: 'span' })
+      subject.next({ type: 'div' })
 
       assert.equal(dest.type, 'div')
     })
 
     it('can rerender on nested observable change', function () {
       function factory () {
-        const observable = new Observable({
+        const subject = new BehaviorSubject({
           text: 'text',
           updateText (text) {
-            observable.update({ text })
+            subject.next({ text })
           }
         })
 
-        return c('div', observable)
+        return c('div', subject)
       }
 
       const src = c(factory)
       const dest = render(src)
-      dest.state.current.updateText('updated text')
+      dest.state.value.updateText('updated text')
 
-      assert.equal(dest.state.current.text, 'updated text')
+      assert.equal(dest.state.value.text, 'updated text')
     })
 
     it('can rerender on nested observable change if the parent has also changed', function () {
-      const outerObservable = new Observable({})
+      const outerSubject = new Subject()
 
       function factory () {
-        const observable = new Observable({
+        const subject = new BehaviorSubject({
           text: 'text',
           updateText (text) {
-            observable.update({ text })
+            subject.next({ text })
           }
         })
 
-        return c('div', observable)
+        return c('div', subject)
       }
 
-      const src = c(factory, outerObservable)
+      const src = c(factory, outerSubject)
       const dest = render(src)
 
-      outerObservable.update({})
-      dest.state.current.updateText('updated text')
+      outerSubject.next({})
+      dest.state.value.updateText('updated text')
 
-      assert.equal(dest.state.current.text, 'updated text')
+      assert.equal(dest.state.value.text, 'updated text')
     })
 
     it('can rerender on observable change in transcluded components nested in XML components', function () {
-      const outerObservable = new Observable({ text: 'text' })
+      const outerSubject = new BehaviorSubject({ text: 'text' })
 
       function transcluded (state, children) {
         return c('main', null, ...children)
@@ -347,16 +354,16 @@ describe('MirrorFactoryRenderer', function () {
         )
       }
 
-      const src = c(outerFactory, outerObservable)
+      const src = c(outerFactory, outerSubject)
       const dest = render(src)
 
-      outerObservable.update({ text: 'updated text' })
+      outerSubject.next({ text: 'updated text' })
 
-      assert.equal(dest.children[0].children[0].state.current.text, 'updated text')
+      assert.equal(dest.children[0].children[0].state.value.text, 'updated text')
     })
 
     it('can add new children to transcluded components nested in XML components', function () {
-      const outerObservable = new Observable({ text: null })
+      const outerSubject = new BehaviorSubject({ text: null })
 
       function transcluded (state, children) {
         return c('main', null, ...children)
@@ -374,12 +381,11 @@ describe('MirrorFactoryRenderer', function () {
         )
       }
 
-      const src = c(outerFactory, outerObservable)
+      const src = c(outerFactory, outerSubject)
       const dest = render(src)
 
-      outerObservable.update({ text: 'text' })
-
-      assert.equal(dest.children[0].children[0].state.current.text, 'text')
+      outerSubject.next({ text: 'text' })
+      assert.equal(dest.children[0].children[0].state.value.text, 'text')
     })
   })
 })

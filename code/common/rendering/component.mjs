@@ -1,5 +1,5 @@
 import { repr, join } from '../support/strings.mjs'
-import { Observable } from '../support/observable.mjs'
+import Observable, { BehaviorSubject } from '../support/observable.mjs'
 import { CoolError } from '../errors.mjs'
 
 const htmlVoidTags = new Set([
@@ -36,59 +36,6 @@ function * processChildren (children) {
   }
 }
 
-export class ComponentState {
-  constructor (source, current) {
-    this.source = source
-    this.updateCurrent(current)
-  }
-
-  updateCurrent (current) {
-    if (current) {
-      this.current = current
-    } else if (Observable.isObservable(this.source)) {
-      this.current = this.source.current
-    } else if (this.source === null) {
-      this.current = {}
-    } else {
-      this.current = this.source
-    }
-  }
-
-  updateSource (newSource) {
-    const oldSource = this.source
-
-    if (newSource === oldSource) {
-      return
-    }
-
-    if (Observable.isObservable(oldSource)) {
-      if (Observable.isObservable(newSource)) {
-        for (const observer of oldSource.observers) {
-          newSource.observers.add(observer)
-        }
-      }
-
-      for (const observer of oldSource.observers) {
-        oldSource.observers.delete(observer)
-      }
-    }
-
-    this.source = newSource
-  }
-
-  subscribe (observer) {
-    if (Observable.isObservable(this.source)) {
-      this.source.subscribe(observer)
-    }
-  }
-
-  unsubscribe (observer) {
-    if (Observable.isObservable(this.source)) {
-      this.source.unsubscribe(observer)
-    }
-  }
-}
-
 export class Component {
   /**
    * Do sanity checks before creating the actual component instance.
@@ -105,30 +52,50 @@ export class Component {
       throw new ComponentCreationError(`To prevent common errors, components are not allowed as state sources (got ${repr(stateSource)})`)
     }
 
-    const state = new ComponentState(stateSource)
-    const component = new this(type, state, children)
+    const component = new this(type, stateSource, children)
     component.checkSanity()
     return component
   }
 
-  constructor (type, state, children) {
+  constructor (type, stateSource, children) {
     this.type = type
-    this.state = state
+    this.state = new BehaviorSubject(null)
+    this._stateSubscription = null
     this.children = children
+
+    this.updateStateSource(stateSource)
   }
 
-  updateState (stateObject) {
-    if (!(stateObject instanceof Object)) {
-      throw new ComponentSanityError('You can only update the state with an object')
+  updateState (newState) {
+    if (typeof newState !== 'object') { // Yes, null too
+      throw new ComponentSanityError(`${repr(this)}'s new state ${repr(newState)} must be an object`)
     }
 
-    // Create a temporary component to verify that the new state is sane
-    const newState = new ComponentState(this.state.source, stateObject)
-    const newComponent = new this.constructor(this.type, newState, this.children)
-    newComponent.checkSanity()
+    if (newState !== null && 'text' in newState && this.children.length > 0) {
+      throw new ComponentSanityError(`${repr(this)} cannot have both text and children`)
+    }
 
-    // If everything is fine, update the current state
-    this.state.current = stateObject
+    this.state.next(newState)
+  }
+
+  unsubscribeFromStateSource () {
+    if (this._stateSubscription) {
+      this._stateSubscription.unsubscribe()
+    }
+  }
+
+  updateStateSource (newSource) {
+    this.unsubscribeFromStateSource()
+
+    if (Observable.isObservable(newSource)) {
+      this._stateSubscription = newSource.subscribe(function (newState) {
+        this.updateState(newState)
+      }.bind(this))
+    } else {
+      this.updateState(newSource)
+    }
+
+    this.stateSource = newSource
   }
 
   * iterToString () {
@@ -136,7 +103,7 @@ export class Component {
     yield '('
     yield repr(this.type)
     yield ', '
-    yield repr(this.state.source === null ? null : this.state.current)
+    yield repr(this.state.value)
 
     for (const child of this.children) {
       yield `,\n\t${String(child).replace(/\n/g, '\n\t')}`
@@ -168,7 +135,11 @@ export class XMLComponent extends Component {
       throw new ComponentSanityError(`${repr(this)}'s type string cannot be empty`)
     }
 
-    if ('text' in this.state.current && this.children.length > 0) {
+    if (typeof this.state.value !== 'object') { // Yes, null too
+      throw new ComponentSanityError(`${repr(this)}'s current state must be an object`)
+    }
+
+    if (this.state.value !== null && 'text' in this.state.value && this.children.length > 0) {
       throw new ComponentSanityError(`${repr(this)} cannot have both text and children`)
     }
 
@@ -209,7 +180,7 @@ export class FactoryComponent extends Component {
   }
 
   evaluate () {
-    const component = this.type(this.state.current, this.children)
+    const component = this.type(this.state.value, this.children)
 
     if (!(component instanceof Component)) {
       throw new InvalidComponentError(`Expected ${this} to return a component, not ${repr(component)}.`)
