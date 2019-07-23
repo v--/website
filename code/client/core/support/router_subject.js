@@ -12,6 +12,8 @@ import { resize } from '../global_subjects.js'
 import { getWindowSize } from '../support/dom.js'
 import dynamicImport from '../support/dynamic_import.js'
 
+const RESIZE_DELAY_IN_MS = 400
+
 function loadBundle (bundle) {
   return dynamicImport(`${window.location.origin}/code/client/${bundle}/index.js`)
 }
@@ -72,6 +74,7 @@ export default class RouterSubject extends DictSubject {
 
     this.store = store
     this.path = path
+    this.subscriptions = []
     this._bindToResize()
 
     window.requestAnimationFrame(function () {
@@ -102,7 +105,25 @@ export default class RouterSubject extends DictSubject {
   _notifyOfDelayedResize () {
     window.setTimeout(function () {
       this._notifyOfResize()
-    }.bind(this), 400)
+    }.bind(this), RESIZE_DELAY_IN_MS)
+  }
+
+  subscribe (...args) {
+    const subscription = super.subscribe(...args)
+    this.subscriptions.push(subscription)
+    return subscription
+  }
+
+  emergencyClearSubscriptions () {
+    for (const subscription of this.subscriptions) {
+      try {
+        subscription.unsubscribe()
+      } catch (err) {
+        console.error(err)
+      }
+    }
+
+    this.subscriptions = []
   }
 
   async digestError (err) {
