@@ -1,4 +1,4 @@
-import { Observable } from '../../../common/support/observable.js'
+import DictSubject from '../../../common/observables/dict_subject.js'
 import Path from '../../../common/support/path.js'
 import RouterState from '../../../common/support/router_state.js'
 import unsupported from '../../../common/views/unsupported.js'
@@ -8,7 +8,8 @@ import { repr } from '../../../common/support/strings.js'
 
 import Store, { MockStore } from '../store.js'
 import router from '../router.js'
-import { resize } from '../observables.js'
+import { resize } from '../global_subjects.js'
+import { getWindowSize } from '../support/dom.js'
 import dynamicImport from '../support/dynamic_import.js'
 
 function loadBundle (bundle) {
@@ -30,7 +31,11 @@ async function loadFactory ({ factory: factorySpec, path }) {
   }
 }
 
-export default class RouterObservable extends Observable {
+function triggerResizeUpdate () {
+  resize.next(getWindowSize())
+}
+
+export default class RouterSubject extends DictSubject {
   static async initialize (serverData) {
     const path = Path.parse(this.readURL())
     const mockStore = new MockStore(serverData)
@@ -47,7 +52,7 @@ export default class RouterObservable extends Observable {
     const state = Object.assign({}, initialState)
 
     state.loading = true
-    state.isCollapsed = !resize.current.isDesktop
+    state.isCollapsed = !resize.value.isDesktop
     super(state)
 
     loadFactory(state).then(function (factory) {
@@ -57,11 +62,11 @@ export default class RouterObservable extends Observable {
         this.error(err)
       }
 
-      resize.triggerUpdate()
+      triggerResizeUpdate()
     }.bind(this))
 
-    this.current.toggleCollapsed = function () {
-      this.update({ isCollapsed: !this.current.isCollapsed })
+    this.value.toggleCollapsed = function () {
+      this.update({ isCollapsed: !this.value.isCollapsed })
       this._notifyOfDelayedResize()
     }.bind(this)
 
@@ -70,14 +75,14 @@ export default class RouterObservable extends Observable {
     this._bindToResize()
 
     window.requestAnimationFrame(function () {
-      resize.triggerUpdate()
+      triggerResizeUpdate()
     })
   }
 
   _bindToResize () {
     this._resizeObserver = {
       next: ({ isDesktop }) => {
-        if (!this._isResizeTriggered && this.current.isCollapsed !== !isDesktop) {
+        if (!this._isResizeTriggered && this.value.isCollapsed !== !isDesktop) {
           this.update({ isCollapsed: !isDesktop })
           this._notifyOfDelayedResize()
         }
@@ -91,7 +96,7 @@ export default class RouterObservable extends Observable {
 
   _notifyOfResize () {
     this._isResizeTriggered = true
-    resize.triggerUpdate()
+    triggerResizeUpdate()
   }
 
   _notifyOfDelayedResize () {
@@ -117,12 +122,12 @@ export default class RouterObservable extends Observable {
 
     this.path = path
 
-    if (this.current.pageUpdateMode === PageUpdateMode.TRUST_UNDERCOOKED_URL && path.underCooked === this.current.path.underCooked) {
-      this.update({ path })
+    if (this.value.pageUpdateMode === PageUpdateMode.TRUST_UNDERCOOKED_URL && path.underCooked === this.value.path.underCooked) {
+      // this.update({ path })
       return
     }
 
-    this.update(Object.assign({}, this.current, { loading: true }))
+    // this.update({ loading: true })
     const route = await router(path, this.store)
 
     // Cancel if another route has started loading
@@ -136,8 +141,9 @@ export default class RouterObservable extends Observable {
       return
     }
 
+    // console.log(route.data)
     this.update(route)
-    resize.triggerUpdate()
+    triggerResizeUpdate()
   }
 
   complete () {

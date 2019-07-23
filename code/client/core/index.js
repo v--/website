@@ -1,12 +1,12 @@
 import { CoolError, HTTPError, ClientError } from '../../common/errors.js'
-import { redirection } from '../../common/observables.js'
+import { redirection } from '../../common/global_subjects.js'
 import { c } from '../../common/rendering/component.js'
 
 import main from '../../common/components/main.js'
 import title from '../../common/components/title.js'
 import { iconMap } from '../../common/components/icon.js'
 
-import RouterObservable from './support/router_observable.js'
+import RouterSubject from './support/router_subject.js'
 import { onDocumentReady } from './support/dom.js'
 import dispatcher from './render_dispatcher.js'
 
@@ -22,11 +22,10 @@ function renderObservable (observable) {
   )
 }
 
-function renderError (observable, err) {
+function renderError (subject, err) {
   console.error(err)
-  observable.clearObservers()
-  observable.digestError(err)
-  renderObservable(observable)
+  subject.digestError(err)
+  renderObservable(subject)
 }
 
 async function fetchIcons () {
@@ -57,54 +56,54 @@ function restoreError (data) {
 Promise.all([onDocumentReady(), fetchIcons()]).then(async function () {
   // "data" is the id a script element
   const { data, errorData } = JSON.parse(window.data.textContent)
-  const observable = await RouterObservable.initialize(data)
+  const subject = await RouterSubject.initialize(data)
 
-  observable.subscribe({
+  subject.subscribe({
     error (err) {
-      renderError(observable, err)
+      renderError(subject, err)
     }
   })
 
   redirection.subscribe({
     async next (value) {
       try {
-        await observable.changeURL(value, true)
+        await subject.changeURL(value, true)
       } catch (err) {
-        renderError(observable, err)
+        renderError(subject, err)
       }
     },
 
     error (err) {
-      observable.error(err)
+      subject.error(err)
     },
 
     complete () {
-      observable.complete()
+      subject.complete()
     }
   })
 
   window.addEventListener('error', function (event) {
     const err = event.error
-    renderError(observable, err)
+    renderError(subject, err)
     event.preventDefault()
   })
 
   window.addEventListener('popstate', async function () {
     try {
-      await observable.updateURL()
+      await subject.updateURL()
     } catch (err) {
-      renderError(observable, err)
+      renderError(subject, err)
     }
   })
 
   if (errorData) {
     const err = restoreError(errorData)
-    renderError(observable, err)
+    renderError(subject, err)
   } else {
     try {
-      renderObservable(observable)
+      renderObservable(subject)
     } catch (err) {
-      renderError(observable, err)
+      renderError(subject, err)
     }
   }
 })

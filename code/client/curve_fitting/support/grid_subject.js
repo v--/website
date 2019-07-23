@@ -1,6 +1,6 @@
 import { CHALK_COLORS } from '../../core/support/colors.js'
 
-import Observable from '../../../common/observables/observable.js'
+import DictSubject from '../../../common/observables/dict_subject.js'
 import { sort } from '../../../common/support/iteration.js'
 
 import fitters from '../fitters.js'
@@ -49,7 +49,7 @@ export class DiscreteMap {
   }
 }
 
-export default class GridObservable extends Observable {
+export default class GridSubject extends DictSubject {
   constructor (width, height) {
     const mapping = new DiscreteMap()
 
@@ -98,7 +98,7 @@ export default class GridObservable extends Observable {
           fitter,
           color: CHALK_COLORS[i],
           toggle: () => {
-            const fs = this.current.fittersShown
+            const fs = this.value.fittersShown
             fs.set(fitter, !fs.get(fitter))
             this.update()
           }

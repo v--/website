@@ -1,7 +1,7 @@
 import { CoolError } from '../../../common/errors.js'
 import { c } from '../../../common/rendering/component.js'
 
-import { createResizeObservable } from '../support/dom.js'
+import { resize } from '../global_subjects.js'
 import dispatcher from '../render_dispatcher.js'
 
 export class AspectRatioError extends CoolError {}
@@ -30,7 +30,7 @@ const resizeObserver = {
 
     const root = currentRoot.element
     const box = currentBox.element
-    const boxState = currentBox.component.state.current
+    const boxState = currentBox.component.state.value
 
     const availableWidth = root.offsetWidth - root.offsetLeft - 2 * box.offsetLeft // Assume that the left offset describes the element's margin
     const clampedWidth = tryClamp(availableWidth, boxState.minWidth, boxState.maxWidth)
@@ -52,7 +52,7 @@ const resizeObserver = {
   }
 }
 
-createResizeObservable().subscribe(resizeObserver)
+resize.subscribe(resizeObserver)
 
 dispatcher.events.create.subscribe({
   next (node) {

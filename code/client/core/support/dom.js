@@ -1,4 +1,4 @@
-import Observable from '../../../common/observables/observable.js'
+import BehaviorSubject from '../../../common/observables/behavior_subject.js'
 
 export function onDocumentReady () {
   return new Promise(function (resolve) {
@@ -21,18 +21,27 @@ export function onDocumentReady () {
   })
 }
 
-export function createResizeObservable () {
-  return new Observable(function (observer) {
-    function triggerUpdate () {
-      observer.next({
-        width: window.innerWidth,
-        height: window.innerHeight,
-        isDesktop: window.innerWidth >= window.DESKTOP_WIDTH
-      })
-    }
+export function getWindowSize () {
+  return {
+    width: window.innerWidth,
+    height: window.innerHeight,
+    isDesktop: window.innerWidth >= window.DESKTOP_WIDTH
+  }
+}
 
-    window.addEventListener('resize', triggerUpdate)
-    triggerUpdate()
-    return window.removeEventListener.bind(window, 'resize', triggerUpdate)
+export function createResizeSubject () {
+  const subject = new BehaviorSubject(getWindowSize())
+
+  function triggerUpdate (observer) {
+    subject.next(getWindowSize())
+  }
+
+  subject.subscribe({
+    complete () {
+      window.removeEventListener('resize', triggerUpdate)
+    }
   })
+
+  window.addEventListener('resize', triggerUpdate)
+  return subject
 }

@@ -27,8 +27,8 @@ export class DOMXMLRenderer extends XMLRenderer {
     }
   }
 
-  _setText () {
-    this.element.textContent = this.component.state.current.text
+  _setText (value) {
+    this.element.textContent = value
   }
 
   _removeText () {

@@ -170,10 +170,6 @@ export class FactoryRenderer extends Renderer {
         }
 
         case 'replace': {
-          const oldChild = oldRoot.children[i]
-          const newChild = newRoot.children[i]
-
-          newChild.updateStateSource(oldChild.stateSource)
           replaced.add(i)
           break
         }
@@ -232,6 +228,10 @@ export class FactoryRenderer extends Renderer {
     if (!this.dispatcher.cache.has(this.root)) {
       throw new RenderError(`${repr(this.root)} cannot be rerendered without being rendered first`)
     }
+
+    // if (['files', 'pacman', 'main'].includes(this.component.type.name)) {
+    //   console.log(this.component.state.value.data)
+    // }
 
     const oldRoot = this.root
     const newRoot = this.component.evaluate()

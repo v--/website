@@ -1,14 +1,14 @@
 import { map } from '../../common/support/iteration.js'
 import { c } from '../../common/rendering/component.js'
 
-import SortObservable from './support/sort_observable.js'
+import SortSubject from './support/sort_subject.js'
 import sortingCard from './components/sorting_card.js'
 import algorithms from './algorithms.js'
 import sequences from './sequences.js'
 
 export default function playgroundSorting () {
   const observables = algorithms.map(function (algorithm) {
-    return new SortObservable(algorithm, sequences)
+    return new SortSubject(algorithm, sequences)
   })
 
   return c('div', { class: 'page playground-sorting-page' },

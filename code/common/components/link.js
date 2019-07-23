@@ -10,7 +10,7 @@ export default function link (state, children) {
     if (state.isInternal) {
       childState.click = function click (event) {
         if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return
-        redirection.emit(state.link)
+        redirection.next(state.link)
         event.preventDefault()
       }
     }

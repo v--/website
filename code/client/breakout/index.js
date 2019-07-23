@@ -3,7 +3,7 @@ import { aspectRatioPage, aspectRatioBox } from '../core/components/aspect_ratio
 
 import breakout from './components/breakout.js'
 
-import { Observable } from '../../common/support/observable.js'
+import Observable from '../../common/observables/observable.js'
 
 export default function playgroundBreakout () {
   const observable = new Observable()

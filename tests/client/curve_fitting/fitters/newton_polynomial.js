@@ -1,6 +1,6 @@
 import { assert } from '../../../_common.js'
 
-import { DiscreteMap } from '../../../../code/client/curve_fitting/support/grid_observable.js'
+import { DiscreteMap } from '../../../../code/client/curve_fitting/support/grid_subject.js'
 import newtonPolynomial from '../../../../code/client/curve_fitting/fitters/newton_polynomial.js'
 
 function quadraticTest (x) {

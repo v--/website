@@ -60,10 +60,9 @@ export class Component {
 
   constructor (type, stateSource, children) {
     this.type = type
-    this.state = new BehaviorSubject(null)
-    this._stateSubscription = null
     this.children = children
-
+    this._stateSubscription = null
+    this.state = new BehaviorSubject(null)
     this.updateStateSource(stateSource)
   }
 

@@ -1,6 +1,8 @@
 {
   "extends": ["standard", "plugin:import/errors"],
   "rules": {
-    "no-var": "warn"
+    "no-var": "warn",
+    "no-unused-vars": ["warn", { "vars": "all", "argsIgnorePattern": "^_" }],
+    "import/extensions": ["error", "always", { "ignorePackages": true }]
   }
 }

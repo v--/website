@@ -1,6 +1,6 @@
 import { CoolError } from '../../../common/errors.js'
 import { swap } from '../../../common/support/iteration.js'
-import { Observable } from '../../../common/support/observable.js'
+import DictSubject from '../../../common/observables/dict_subject.js'
 
 import ActionList from './action_list.js'
 
@@ -36,7 +36,7 @@ function getStatesAtIndex (actionLists, index) {
   })
 }
 
-export default class SortObservable extends Observable {
+export default class SortSubject extends DictSubject {
   constructor (algorithm, sequences) {
     const actionLists = constructActionLists(algorithm, sequences)
 
@@ -96,7 +96,7 @@ export default class SortObservable extends Observable {
   }
 
   run () {
-    if (this.hasFinished || this.current.isRunning) {
+    if (this.hasFinished || this.value.isRunning) {
       return
     }
 

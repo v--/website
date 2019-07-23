@@ -1,6 +1,6 @@
 import { repr } from '../support/strings.js'
 
-import BehaviorSubject from './observable.js'
+import BehaviorSubject from './behavior_subject.js'
 import errors from './errors.js'
 
 export default class DictSubject extends BehaviorSubject {
@@ -13,10 +13,10 @@ export default class DictSubject extends BehaviorSubject {
       throw new errors.ObservableError(`Expected an object, not ${repr(value)}`)
     }
 
-    super.next(value)
+    return super.next(value)
   }
 
   update (value) {
-    super.next(Object.assign(this.value, value))
+    return this.next(Object.assign({}, this.value, value))
   }
 }
