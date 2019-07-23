@@ -17,14 +17,14 @@ describe('Component', function () {
     it('creates components using only a type', function () {
       const component = Component.safeCreate('div')
       assert.equal(component.type, 'div')
-      assert.deepEqual(component.state.current, {})
+      assert.deepEqual(component.state.value, null)
       assert.deepEqual(component.children, [])
     })
 
     it('preserves the state object', function () {
       const state = {}
       const component = Component.safeCreate('div', state)
-      assert.deepEqual(component.state.current, state)
+      assert.deepEqual(component.state.value, state)
     })
 
     it('filters falsy children', function () {
@@ -71,13 +71,13 @@ describe('Component', function () {
     })
 
     it('works on doubly nested components', function () {
-      const inner = Component.safeCreate('span', { text: 'inner' })
-      const outer = Component.safeCreate('span', { text: 'outer' }, inner)
+      const inner = Component.safeCreate('span', { label: 'inner' })
+      const outer = Component.safeCreate('span', { label: 'outer' }, inner)
       const component = Component.safeCreate('div', null, outer)
 
       const string = `Component('div', null,
-\tComponent('span', { text: 'outer' },
-\t\tComponent('span', { text: 'inner' })
+\tComponent('span', { label: 'outer' },
+\t\tComponent('span', { label: 'inner' })
 \t)
 )`
 

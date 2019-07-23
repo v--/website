@@ -4,8 +4,8 @@ import { assert } from '../../_common.mjs'
 
 import { c, XMLComponent, FactoryComponent, ComponentSanityError } from '../../../code/common/rendering/component.mjs'
 import { XMLRenderer, FactoryRenderer, RenderError, RenderDispatcher } from '../../../code/common/rendering/renderer.mjs'
-import { Subject, BehaviorSubject } from '../../../code/common/support/observable.mjs'
 import { map } from '../../../code/common/support/iteration.mjs'
+import BehaviorSubject from '../../../code/common/observables/behavior_subject.mjs'
 
 export default class MirrorXMLRenderer extends XMLRenderer {
   _createNode () {
@@ -89,7 +89,7 @@ describe('MirrorXMLRenderer', function () {
 
   describe('.rerender()', function () {
     it('adds new properties', function () {
-      const subject = new Subject()
+      const subject = new BehaviorSubject(null)
       const src = c('div', subject)
       const dest = render(src)
       subject.next({ text: 'text' })
@@ -113,7 +113,7 @@ describe('MirrorXMLRenderer', function () {
     })
 
     it('throws when adding text to an HTML component with children', function () {
-      const subject = new Subject()
+      const subject = new BehaviorSubject(null)
       const src = c('div', subject, c('span'))
       render(src)
 
@@ -313,7 +313,7 @@ describe('MirrorFactoryRenderer', function () {
     })
 
     it('can rerender on nested observable change if the parent has also changed', function () {
-      const outerSubject = new Subject()
+      const outerSubject = new BehaviorSubject(null)
 
       function factory () {
         const subject = new BehaviorSubject({

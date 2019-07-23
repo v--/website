@@ -1,4 +1,4 @@
-import { Observable } from '../../../common/support/observable.mjs'
+import Observable from '../../../common/observables/observable.mjs'
 
 export function onDocumentReady () {
   return new Promise(function (resolve) {
@@ -21,33 +21,18 @@ export function onDocumentReady () {
   })
 }
 
-export class ResizeObservable extends Observable {
-  constructor () {
-    super({
-      width: window.innerWidth,
-      height: window.innerHeight,
-      isDesktop: window.innerWidth >= window.DESKTOP_WIDTH
-    })
+export function createResizeObservable () {
+  return new Observable(function (observer) {
+    function triggerUpdate () {
+      observer.next({
+        width: window.innerWidth,
+        height: window.innerHeight,
+        isDesktop: window.innerWidth >= window.DESKTOP_WIDTH
+      })
+    }
 
-    this._triggerUpdate = ResizeObservable.prototype.triggerUpdate.bind(this)
-    window.addEventListener('resize', this._triggerUpdate)
-
-    onDocumentReady().then(function () {
-      window.requestAnimationFrame(function () {
-        this.triggerUpdate()
-      }.bind(this))
-    }.bind(this))
-  }
-
-  complete () {
-    window.removeEventListener('resize', this._triggerUpdate)
-  }
-
-  triggerUpdate () {
-    this.emit({
-      width: window.innerWidth,
-      height: window.innerHeight,
-      isDesktop: window.innerWidth >= window.DESKTOP_WIDTH
-    })
-  }
+    window.addEventListener('resize', triggerUpdate)
+    triggerUpdate()
+    return window.removeEventListener.bind(window, 'resize', triggerUpdate)
+  })
 }

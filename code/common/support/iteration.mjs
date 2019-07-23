@@ -26,7 +26,7 @@ export function reduce (reducer, iterable, initial) {
       throw new EmptyIterError('Nothing to reduce')
     }
 
-    accum = state.current
+    accum = state.value
   }
 
   for (const value of iter) {
@@ -152,7 +152,7 @@ export function * repeat (value, times = Number.Infinity) {
 }
 
 export function counter (iter) {
-  let cntr = new Map()
+  const cntr = new Map()
 
   for (const value of iter) {
     if (cntr.has(value)) {

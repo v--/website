@@ -1,7 +1,7 @@
 import { repr } from '../support/strings.mjs'
 import { chain, uniqueBy } from '../support/iteration.mjs'
-import { Subject } from '../support/observable.mjs'
 import { CoolError } from '../errors.mjs'
+import Subject from '../observables/subject.mjs'
 
 export class RenderError extends CoolError {}
 

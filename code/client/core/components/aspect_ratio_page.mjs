@@ -1,8 +1,8 @@
 import { CoolError } from '../../../common/errors.mjs'
 import { c } from '../../../common/rendering/component.mjs'
 
-import { resize } from '../../core/observables.mjs'
-import dispatcher from '../../core/render_dispatcher.mjs'
+import { createResizeObservable } from '../support/dom.mjs'
+import dispatcher from '../render_dispatcher.mjs'
 
 export class AspectRatioError extends CoolError {}
 export class NodeAlreadyRegisteredError extends AspectRatioError {}
@@ -52,7 +52,7 @@ const resizeObserver = {
   }
 }
 
-resize.subscribe(resizeObserver)
+createResizeObservable().subscribe(resizeObserver)
 
 dispatcher.events.create.subscribe({
   next (node) {

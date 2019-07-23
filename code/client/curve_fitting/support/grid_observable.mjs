@@ -1,6 +1,6 @@
 import { CHALK_COLORS } from '../../core/support/colors.mjs'
 
-import { Observable } from '../../../common/support/observable.mjs'
+import Observable from '../../../common/observables/observable.mjs'
 import { sort } from '../../../common/support/iteration.mjs'
 
 import fitters from '../fitters.mjs'

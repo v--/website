@@ -1,5 +1,6 @@
 import { repr, join } from '../support/strings.mjs'
-import Observable, { BehaviorSubject } from '../support/observable.mjs'
+import Observable from '../observables/observable.mjs'
+import BehaviorSubject from '../observables/behavior_subject.mjs'
 import { CoolError } from '../errors.mjs'
 
 const htmlVoidTags = new Set([
@@ -68,7 +69,7 @@ export class Component {
 
   updateState (newState) {
     if (typeof newState !== 'object') { // Yes, null too
-      throw new ComponentSanityError(`${repr(this)}'s new state ${repr(newState)} must be an object`)
+      throw new ComponentSanityError(`${repr(this)}'s new state ${repr(newState)} must be null or an object`)
     }
 
     if (newState !== null && 'text' in newState && this.children.length > 0) {
@@ -136,7 +137,7 @@ export class XMLComponent extends Component {
     }
 
     if (typeof this.state.value !== 'object') { // Yes, null too
-      throw new ComponentSanityError(`${repr(this)}'s current state must be an object`)
+      throw new ComponentSanityError(`${repr(this)}'s state must be an object`)
     }
 
     if (this.state.value !== null && 'text' in this.state.value && this.children.length > 0) {
@@ -157,7 +158,7 @@ export class HTMLComponent extends XMLComponent {
       throw new ComponentSanityError(`${repr(this)} cannot have children`)
     }
 
-    if (this.isVoid && 'text' in this.state.current) {
+    if (this.isVoid && this.state.value !== null && 'text' in this.state.value) {
       throw new ComponentSanityError(`${repr(this)} cannot have text`)
     }
   }

@@ -2,13 +2,17 @@ import { Component, XMLComponent, FactoryComponent } from '../common/rendering/c
 import { RenderDispatcher } from '../common/rendering/renderer.mjs'
 
 function * renderXMLComponent (component, dispatcher) {
+  const state = component.state.value
+
   yield `<${component.type}`
 
-  for (const [key, value] of Object.entries(component.state.current)) {
-    if (value === true) {
-      yield ` ${key}`
-    } else if (typeof value === 'string' && key !== 'text') {
-      yield ` ${key}="${value}"`
+  if (state !== null) {
+    for (const [key, value] of Object.entries(state)) {
+      if (value === true) {
+        yield ` ${key}`
+      } else if (typeof value === 'string' && key !== 'text') {
+        yield ` ${key}="${value}"`
+      }
     }
   }
 
@@ -18,8 +22,8 @@ function * renderXMLComponent (component, dispatcher) {
     return
   }
 
-  if ('text' in component.state.current) {
-    yield component.state.current.text
+  if (state !== null && 'text' in state) {
+    yield state.text
   }
 
   for (const child of component.children) {
