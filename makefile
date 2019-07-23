@@ -1,14 +1,14 @@
-SOURCE = $(shell find code client tests benchmarks build gulpfile.mjs -name '*.mjs')
+SOURCE = $(shell find code client tests benchmarks build gulpfile.esm.js -name '*.js' ! -name '_runner.js')
 
-TESTS = $(shell find tests -name '*.mjs' ! -name '_*.mjs')
-BENCHMARKS = $(shell find benchmarks -name '*.mjs' ! -name '_*.mjs')
+TESTS = $(shell find tests -name '*.js' ! -name '_*.js')
+BENCHMARKS = $(shell find benchmarks -name '*.js' ! -name '_*.js')
 
 .PHONY: test test_observables benchmark build $(SOURCE)
 
-test ?= $(shell find tests -name '*.mjs' ! -name '_*.mjs')
+test ?= $(shell find tests -name '*.js' ! -name '_*.js')
 
-build: lint test tests/_observables.mjs
-	env NODE_ENV=production ./gulp.mjs client:build
+build: lint test tests/_observables.js
+	env NODE_ENV=production ./gulp.js client:build
 
 $(BENCHMARKS):
 	@node --experimental-modules $@
@@ -16,7 +16,7 @@ $(BENCHMARKS):
 lint:
 	@eslint $(SOURCE)
 
-tests/_observables.mjs:
+tests/_observables.js:
 	@node --experimental-modules $@
 
 $(TESTS):

@@ -1,6 +1,6 @@
 {
-    "extends": "standard",
-    "rules": {
-      "no-var": "warn"
-    }
+  "extends": ["standard", "plugin:import/errors"],
+  "rules": {
+    "no-var": "warn"
+  }
 }

@@ -1,0 +1,70 @@
+import { map } from '../support/iteration.js'
+import { c } from '../rendering/component.js'
+
+import link from '../components/link.js'
+
+function * iterPackages (pkgs) {
+  for (const { name, version, description } of pkgs) {
+    yield c('li', { class: 'package' },
+      c('span', { text: `${name} ${version}: ${description}` })
+    )
+  }
+}
+
+function packages ({ arch, pkgs }) {
+  return c('div', { class: 'packages' },
+    c('h2', { text: arch }),
+    c('ul', null, ...iterPackages(pkgs))
+  )
+}
+
+const PGP_FINGERPRINT = 'B77A3C8832838F1F80ADFD7E1D0507B417DAB671'
+const PGP_KEY_ID_SHORT = PGP_FINGERPRINT.substr(PGP_FINGERPRINT.length - 8)
+
+export default function pacman ({ data }) {
+  const arches = new Map()
+
+  for (const pkg of data) {
+    if (!arches.has(pkg.arch)) {
+      arches.set(pkg.arch, [pkg])
+    } else {
+      arches.get(pkg.arch).push(pkg)
+    }
+  }
+
+  return c('div', { class: 'page pacman-page' },
+    c('div', { class: 'section' },
+      c('h1', { class: 'section-title', text: 'Pacman repository' }),
+
+      c('p', {
+        text: 'The repo contains a variety of packages, mostly my own software and AUR builds.'
+      }),
+
+      c('p', {
+        text: 'I mantain "any" and "x86_64" repos. "x86_64" includes packages from "any". "$arch" can be overridden by both.'
+      }),
+
+      c('pre', null,
+        c('code', {
+          text: '[ivasilev]\nServer = https://ivasilev.net/pacman/$arch'
+        })
+      ),
+
+      c('p', null,
+        c('span', {
+          text: 'All packages are signed and can be verified using my PGP public key '
+        }),
+        c(link, {
+          text: PGP_KEY_ID_SHORT,
+          link: 'https://pgp.mit.edu/pks/lookup?op=vindex&search=0x' + PGP_FINGERPRINT
+        }),
+        c('span', { text: '.' })
+      )
+    ),
+
+    c('div', { class: 'section' },
+      c('h1', { class: 'section-title', text: 'Packages' }),
+      ...map(([arch, pkgs]) => c(packages, { arch, pkgs }), arches.entries())
+    )
+  )
+}

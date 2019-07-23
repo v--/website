@@ -1,3 +1,5 @@
+/* globals run */
+
 const readline = require('readline')
 
 async function loadTests (fileNames) {

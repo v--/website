@@ -1,0 +1,33 @@
+import { c } from '../../common/rendering/component.js'
+import { aspectRatioPage, aspectRatioBox } from '../core/components/aspect_ratio_page.js'
+
+import GridObservable from './support/grid_observable.js'
+import curveCanvas from './components/curve_canvas.js'
+import curveLegend from './components/curve_legend.js'
+
+const WIDTH = 20
+const HEIGHT = 16
+
+export default function playgroundCurveFitting () {
+  const observable = new GridObservable(WIDTH, HEIGHT)
+
+  return c(aspectRatioPage, { class: 'page playground-curve-fitting-page' },
+    c('div', { class: 'section' },
+      c('h1', { class: 'section-title', text: 'Plane curve fitting visualizations' }),
+      c('p', {
+        class: 'curve-fitting-subtitle',
+        text: 'Use the table below to toggle the curves you want to see. Click anywhere on the chart to add or move data points.'
+      })
+    ),
+
+    c(aspectRatioBox, {
+      ratio: 5 / 4,
+      bottomMargin: 25,
+      minHeight: 250,
+      maxHeight: 500,
+      item: c(curveCanvas, observable)
+    }),
+
+    c(curveLegend, observable)
+  )
+}

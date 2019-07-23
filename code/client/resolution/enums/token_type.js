@@ -1,0 +1,22 @@
+import enumerize from '../../../common/support/enumerize.js'
+
+export default enumerize(
+  'WHITESPACE',
+  'NATURAL_NUMBER',
+  'VARIABLE',
+  'FUNCTION',
+  'FUNCTION_NAME',
+  'PREDICATE_NAME',
+  'PREDICATE',
+  'NEGATION',
+  'TERM',
+  'ARGUMENTS',
+  'FORMULA',
+  'UNIVERSAL_QUANTIFICATION',
+  'EXISTENTIAL_QUANTIFICATION',
+  'CONJUNCTION',
+  'DISJUNCTION',
+  'IMPLICATION',
+  'EQUIVALENCE',
+  'CONNECTIVE_FORMULA'
+)
