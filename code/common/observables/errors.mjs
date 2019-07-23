@@ -6,4 +6,3 @@ export class ObservableError extends CoolError {}
 export default {
   ErrorClass: ObservableError
 }
-

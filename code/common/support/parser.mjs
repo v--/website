@@ -211,7 +211,7 @@ export function alt (...subrules) {
 }
 
 export function parse (rules, initialRuleName, string) {
-  if (!rules.hasOwnProperty(initialRuleName)) {
+  if (!Object.prototype.hasOwnProperty.call(rules, initialRuleName)) {
     throw new ParserError('Unknown initial rule ' + repr(initialRuleName))
   }
 

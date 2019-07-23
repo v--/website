@@ -177,7 +177,7 @@ describe('FactoryComponent', function () {
         return HTMLComponent.safeCreate('div', { text })
       }
 
-      const evaluated = FactoryComponent.safeCreate(factory, { 'text': 'text' }).evaluate()
+      const evaluated = FactoryComponent.safeCreate(factory, { text: 'text' }).evaluate()
       assert.equalComponents(evaluated, component)
     })
 

@@ -13,7 +13,6 @@ run(
   },
 
   function refactoredGolf () {
-    // eslint-disable-next-line no-return-assignment
     let max = Number.NEGATIVE_INFINITY
 
     return data.filter(function (val) {

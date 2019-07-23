@@ -144,7 +144,7 @@ function collapseBulletList (matches) {
   }
 
   const rootLevels = new Map([[root, minLevel]])
-  let roots = [root]
+  const roots = [root]
 
   for (const bullet of flatBulletList) {
     let currentRoot = roots[roots.length - 1]

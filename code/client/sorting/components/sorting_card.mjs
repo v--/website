@@ -53,6 +53,6 @@ export default function sortingCard ({ algorithm, states, isRunning, hasFinished
       })
     ),
 
-    c('p', { 'text': 'Added on ' + algorithm.date })
+    c('p', { text: 'Added on ' + algorithm.date })
   )
 }

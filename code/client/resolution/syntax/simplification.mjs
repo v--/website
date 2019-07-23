@@ -105,7 +105,7 @@ function mostlyConvertToCNF (expression) {
 }
 
 export function simplify (expression) {
-  var cnf = mostlyConvertToCNF(expression)
+  const cnf = mostlyConvertToCNF(expression)
 
   if (cnf.type !== ExpressionType.DISJUNCTION) {
     return cnf

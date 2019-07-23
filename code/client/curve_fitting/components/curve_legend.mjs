@@ -9,14 +9,14 @@ export default function curveLegend ({ mapping, curves, fittersShown }) {
     c('h1', { class: 'section legend-title', text: 'Legend' }),
     c('div', { class: 'data-points' },
       c('div', { class: 'point-pair info-point-pair' },
-        c('div', { 'text': 'x' }),
-        c('div', { 'text': 'y' })
+        c('div', { text: 'x' }),
+        c('div', { text: 'y' })
       ),
 
       ...sort(mapping.domain).map(function (x) {
         return c('div', { class: 'point-pair' },
-          c('div', { 'text': x }),
-          c('div', { 'text': mapping.get(x) })
+          c('div', { text: x }),
+          c('div', { text: mapping.get(x) })
         )
       })
     ),

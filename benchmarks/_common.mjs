@@ -19,6 +19,6 @@ export function run (...benchmarks) {
         array.sort((a, b) => a.stats.mean - b.stats.mean)
         resolve(array)
       })
-      .run({ 'async': true })
+      .run()
   })
 }
