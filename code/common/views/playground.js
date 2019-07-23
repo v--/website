@@ -33,15 +33,6 @@ export default function playground () {
             isInternal: true
           })
         )
-
-        // c('li', null,
-        //   c(link, {
-        //     class: 'playground-link',
-        //     text: 'A Breakout variant that fights back',
-        //     link: 'playground/breakout',
-        //     isInternal: true
-        //   })
-        // )
       )
     )
   )

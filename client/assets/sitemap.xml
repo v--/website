@@ -34,9 +34,4 @@
         <loc>https://ivasilev.net/playground/resolution</loc>
         <priority>1.000</priority>
     </url>
-
-    <url>
-        <loc>https://ivasilev.net/playground/breakout</loc>
-        <priority>1.000</priority>
-    </url>
 </urlset>
