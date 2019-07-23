@@ -123,11 +123,11 @@ export default class RouterSubject extends DictSubject {
     this.path = path
 
     if (this.value.pageUpdateMode === PageUpdateMode.TRUST_UNDERCOOKED_URL && path.underCooked === this.value.path.underCooked) {
-      // this.update({ path })
+      this.update({ path })
       return
     }
 
-    // this.update({ loading: true })
+    this.update({ loading: true })
     const route = await router(path, this.store)
 
     // Cancel if another route has started loading
