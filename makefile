@@ -8,7 +8,7 @@ BENCHMARKS = $(shell find benchmarks -name '*.js' ! -name '_*.js')
 test ?= $(shell find tests -name '*.js' ! -name '_*.js')
 
 build: lint test tests/_observables.js
-	env NODE_ENV=production ./gulp.js client:build
+	env NODE_ENV=production gulp client:build
 
 $(BENCHMARKS):
 	@node --experimental-modules $@
