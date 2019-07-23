@@ -32,7 +32,7 @@ export default function dynamicImport (url) {
       resolve(window._dynamicImports.get(url))
     }
 
-    element.onerror = function (event) {
+    element.onerror = function (_event) {
       reject(new DynamicImportError(`Could not load ${quotedURL}`))
     }
 

@@ -139,7 +139,7 @@ function resolve (d1, d2) {
   return null
 }
 
-export function inferEmptyDisjunctImpl (disjuncts, iterations = 0) {
+export function inferEmptyDisjunctImpl (disjuncts) {
   const inference = disjuncts.map((d, i) => ({ d1: null, d2: null, literal: null, disjunct: d, index: i }))
   const disjunctSet = new Set(disjuncts.map(d => stringifyDisjunct(d)))
   let resolventCount = 0

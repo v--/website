@@ -21,7 +21,7 @@ function constructActionLists (algorithm, sequences) {
 }
 
 function getStatesAtIndex (actionLists, index) {
-  return actionLists.map(function (list, i) {
+  return actionLists.map(function (list) {
     const action = list.actions[Math.min(index, list.actions.length - 1)]
 
     if (index < list.actions.length && action && action.swapped) {

@@ -53,7 +53,7 @@ export default function curveCanvas ({ width, height, mapping, curves, fittersSh
           y: String(point.y - 0.5),
           width: String(1),
           height: String(1),
-          click (e) {
+          click (_event) {
             if (mapping.get(point.x) !== point.y) {
               mapping.set(point.x, point.y)
             } else {
@@ -67,7 +67,7 @@ export default function curveCanvas ({ width, height, mapping, curves, fittersSh
     s(
       'g',
       { class: 'curves' },
-      ...visibleCurves.map(function ({ curve, fitter, color }) {
+      ...visibleCurves.map(function ({ curve, _fitter, color }) {
         return s(
           'polyline',
           { class: 'curve', stroke: color, points: join(' ', zip(domain, domain.map(x => curve.eval(x)))) }

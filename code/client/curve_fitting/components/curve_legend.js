@@ -31,7 +31,7 @@ export default function curveLegend ({ mapping, curves, fittersShown }) {
             return c('input', {
               type: 'checkbox',
               checked: fittersShown.get(entry.fitter),
-              click (event) {
+              click (_event) {
                 entry.toggle()
               }
             })

@@ -37,7 +37,7 @@ export default class HTTPServer {
       'Content-Length': Buffer.byteLength(context.content, 'utf8')
     })
 
-    return new Promise(function (resolve, reject) {
+    return new Promise(function (resolve) {
       response.write(context.content, 'utf8', function () {
         response.end()
         resolve()

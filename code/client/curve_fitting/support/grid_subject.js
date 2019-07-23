@@ -6,7 +6,7 @@ import { sort } from '../../../common/support/iteration.js'
 import fitters from '../fitters.js'
 
 export const ZERO = {
-  eval (x) {
+  eval (_x) {
     return 0
   },
 

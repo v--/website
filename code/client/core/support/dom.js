@@ -32,7 +32,7 @@ export function getWindowSize () {
 export function createResizeSubject () {
   const subject = new BehaviorSubject(getWindowSize())
 
-  function triggerUpdate (observer) {
+  function triggerUpdate () {
     subject.next(getWindowSize())
   }
 
