@@ -229,10 +229,6 @@ export class FactoryRenderer extends Renderer {
       throw new RenderError(`${repr(this.root)} cannot be rerendered without being rendered first`)
     }
 
-    // if (['files', 'pacman', 'main'].includes(this.component.type.name)) {
-    //   console.log(this.component.state.value.data)
-    // }
-
     const oldRoot = this.root
     const newRoot = this.component.evaluate()
 
@@ -240,8 +236,8 @@ export class FactoryRenderer extends Renderer {
       throw new RenderError(`${repr(this.component)} evaluated ${repr(newRoot)}, but expected a ${repr(oldRoot.constructor)} with type ${repr(oldRoot.type)}`)
     }
 
-    oldRoot.updateStateSource(newRoot.stateSource)
     this.rerenderChildren(oldRoot, newRoot)
+    oldRoot.updateStateSource(newRoot.stateSource)
   }
 
   destroy () {
