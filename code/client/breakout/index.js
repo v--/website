@@ -9,20 +9,18 @@ import breakout from './components/breakout.js'
 import onKeyDown from './events/key_down.js'
 import onKeyUp from './events/key_up.js'
 import GameState from './enums/game_state.js'
-
-const PADDLE_WIDTH = 2
-const WIDTH = 20
-const HEIGHT = WIDTH * 3 / 4
-const EVENT_LOOP_PERIOD = 10
+import { EVENT_LOOP_PERIOD, DEFAULT_BALL_POS, DEFAULT_BALL_ANGLE, DEFAULT_BLOCKS } from './constants.js'
 
 const subject = new DictSubject({
-  width: WIDTH,
-  height: HEIGHT,
-  paddleX: 0,
-  paddleWidth: PADDLE_WIDTH,
-  state: GameState.UNSTARTED,
   eventLoop: createIntervalObservable(EVENT_LOOP_PERIOD),
-  eventLoopSubscriptions: new Map()
+  eventLoopSubscriptions: new Map(),
+
+  paddleX: 0,
+  blocks: DEFAULT_BLOCKS,
+  ballPos: DEFAULT_BALL_POS,
+  angle: DEFAULT_BALL_ANGLE,
+  score: 0,
+  state: GameState.UNSTARTED
 })
 
 let keyDownSubscription = null
@@ -64,12 +62,13 @@ export default function playgroundBreakout () {
   return c(aspectRatioPage, { class: 'page playground-breakout-page' },
     c('div', { class: 'section' },
       c('h1', { class: 'section-title', text: 'A Breakout variant that fights back' }),
-      c('p', { text: 'This is a variant of the classic Breakout game where the bricks follow a stochastic evolution pattern.' })
+      c('p', { text: 'This is a variant of the classic Breakout game where the bricks follow a stochastic evolution pattern.' }),
+      c('p', { text: 'The space bar toggles pause mode and the arrow keys move the paddle.' })
     ),
 
     c(aspectRatioBox, {
       ratio: 4 / 3,
-      bottomMargin: 25,
+      bottomMargin: 20,
       minHeight: 250,
       maxHeight: 700,
       item: c(breakout, subject)

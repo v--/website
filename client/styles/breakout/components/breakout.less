@@ -3,9 +3,26 @@
 .breakout {
   background-color: @visualization-color-background;
 
+  .score {
+    fill: @visualization-color-midground;
+    font-size: 0.75px;
+  }
+
   .splash {
     fill: @visualization-color-foreground;
     font-size: 2px;
     text-anchor: middle;
+  }
+
+  .ball {
+    fill: @breakout-ball;
+  }
+
+  .paddle {
+    fill: @breakout-paddle;
+  }
+
+  .block {
+    fill: @breakout-block;
   }
 }
