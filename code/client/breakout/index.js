@@ -9,16 +9,16 @@ import breakout from './components/breakout.js'
 import onKeyDown from './events/key_down.js'
 import onKeyUp from './events/key_up.js'
 import GameState from './enums/game_state.js'
-import { EVENT_LOOP_PERIOD, DEFAULT_BALL_POS, DEFAULT_BALL_ANGLE, DEFAULT_BLOCKS } from './constants.js'
+import { EVENT_LOOP_PERIOD, DEFAULT_BALL_POSITION, DEFAULT_BALL_DIRECTION, DEFAULT_BRICKS } from './constants.js'
 
 const subject = new DictSubject({
   eventLoop: createIntervalObservable(EVENT_LOOP_PERIOD),
   eventLoopSubscriptions: new Map(),
 
   paddleX: 0,
-  blocks: DEFAULT_BLOCKS,
-  ballPos: DEFAULT_BALL_POS,
-  angle: DEFAULT_BALL_ANGLE,
+  bricks: DEFAULT_BRICKS,
+  ball: DEFAULT_BALL_POSITION,
+  direction: DEFAULT_BALL_DIRECTION,
   score: 0,
   state: GameState.UNSTARTED
 })

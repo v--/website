@@ -2,7 +2,7 @@ import { assert } from '../../../_common.js'
 
 import dividedDifferences, { NoPointsError, DuplicatePointsError } from '../../../../code/client/curve_fitting/support/divided_differences.js'
 
-describe('dividedDifferences', function () {
+describe('dividedDifferences()', function () {
   it('fails when passed no points', function () {
     assert.throws(function () {
       dividedDifferences(Math.cos, [])

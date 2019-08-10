@@ -1,10 +1,36 @@
 import GameState from '../enums/game_state.js'
 import { collide } from '../collision.js'
-import { WIDTH, PADDLE_WIDTH, DEFAULT_BALL_POS, DEFAULT_BALL_ANGLE } from '../constants.js'
+import { scale, add } from '../geom/vector.js'
+import { GAME_SIZE, PADDLE_SIZE, BALL_RADIUS, DEFAULT_BALL_POSITION, DEFAULT_BALL_DIRECTION, DEFAULT_BRICKS, PERIOD_ADJUSTMENT } from '../constants.js'
 
-const HALF_WIDTH = WIDTH / 2 - PADDLE_WIDTH
+const HALF_WIDTH = GAME_SIZE.x / 2 - PADDLE_SIZE.x
 
-function ballMovement (subject, period) {
+function ballMovement (subject, delta) {
+  const { eventLoopSubscriptions, ball, direction, bricks } = subject.value
+  const collision = collide(ball, direction, bricks)
+
+  if (collision === null) {
+    return
+  }
+
+  if (collision.dist > delta + 2 * BALL_RADIUS) {
+    subject.update({
+      ball: add(ball, scale(direction, delta))
+    })
+  } else {
+    if (collision.intersection.y === GAME_SIZE.y) {
+      eventLoopSubscriptions.get('ball').unsubscribe()
+      eventLoopSubscriptions.delete('ball')
+      subject.update({
+        state: GameState.COMPLETED
+      })
+    }
+
+    subject.update({
+      direction: collision.direction,
+      ball: collision.intersection
+    })
+  }
 }
 
 export default function onKeyDown (key, subject) {
@@ -17,7 +43,7 @@ export default function onKeyDown (key, subject) {
         eventLoopSubscriptions.set(
           'ball',
           eventLoop.subscribe(function (period) {
-            ballMovement(subject, period)
+            ballMovement(subject, period / PERIOD_ADJUSTMENT)
           })
         )
         break
@@ -33,20 +59,26 @@ export default function onKeyDown (key, subject) {
         eventLoopSubscriptions.set(
           'ball',
           eventLoop.subscribe(function (period) {
-            ballMovement(subject, period)
+            ballMovement(subject, period / PERIOD_ADJUSTMENT)
           })
         )
         break
 
       case GameState.COMPLETED:
         subject.update({
-          state: GameState.UNSTARTED,
+          state: GameState.RUNNING,
           paddleX: 0,
-          blocks: [],
-          ballPos: DEFAULT_BALL_POS,
-          angle: DEFAULT_BALL_ANGLE,
+          bricks: DEFAULT_BRICKS,
+          ball: DEFAULT_BALL_POSITION,
+          direction: DEFAULT_BALL_DIRECTION,
           score: 0
         })
+        eventLoopSubscriptions.set(
+          'ball',
+          eventLoop.subscribe(function (period) {
+            ballMovement(subject, period / PERIOD_ADJUSTMENT)
+          })
+        )
 
         break
     }
@@ -57,7 +89,7 @@ export default function onKeyDown (key, subject) {
       'paddleLeft',
       eventLoop.subscribe(function (period) {
         const oldX = subject.value.paddleX
-        const delta = period / 60
+        const delta = period / PERIOD_ADJUSTMENT
 
         if (subject.value.state === GameState.RUNNING) {
           if (oldX - delta >= -HALF_WIDTH) {
@@ -75,7 +107,7 @@ export default function onKeyDown (key, subject) {
       'paddleRight',
       eventLoop.subscribe(function (period) {
         const oldX = subject.value.paddleX
-        const delta = period / 60
+        const delta = period / PERIOD_ADJUSTMENT
 
         if (subject.value.state === GameState.RUNNING) {
           if (oldX + delta <= HALF_WIDTH) {

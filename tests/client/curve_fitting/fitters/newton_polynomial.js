@@ -11,7 +11,7 @@ function createTestMapping (domain) {
   return new DiscreteMap(domain.map(x => [x, quadraticTest(x)]))
 }
 
-describe('newtonPolynomial', function () {
+describe('newtonPolynomial()', function () {
   it('returns the zero polynomial when given no points', function () {
     const p = newtonPolynomial.fit(createTestMapping([]))
     assert.equal(String(p), '0')

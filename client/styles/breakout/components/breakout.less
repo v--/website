@@ -4,12 +4,18 @@
   background-color: @visualization-color-background;
 
   .score {
+    paint-order: stroke;
     fill: @visualization-color-midground;
+    stroke: @visualization-color-background;
+    stroke-width: 0.05px;
     font-size: 0.75px;
   }
 
   .splash {
-    fill: @visualization-color-foreground;
+    paint-order: stroke;
+    fill: @visualization-color-midground;
+    stroke: @visualization-color-background;
+    stroke-width: 0.2px;
     font-size: 2px;
     text-anchor: middle;
   }
@@ -22,7 +28,7 @@
     fill: @breakout-paddle;
   }
 
-  .block {
+  .brick {
     fill: @breakout-block;
   }
 }
