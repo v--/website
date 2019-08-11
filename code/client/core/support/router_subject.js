@@ -67,10 +67,12 @@ export default class RouterSubject extends DictSubject {
       triggerResizeUpdate()
     }.bind(this))
 
-    this.value.toggleCollapsed = function () {
-      this.update({ isCollapsed: !this.value.isCollapsed })
-      this._notifyOfDelayedResize()
-    }.bind(this)
+    this.update({
+      toggleCollapsed: function () {
+        this.update({ isCollapsed: !this.value.isCollapsed })
+        this._notifyOfDelayedResize()
+      }.bind(this)
+    })
 
     this.store = store
     this.path = path
@@ -162,7 +164,6 @@ export default class RouterSubject extends DictSubject {
       return
     }
 
-    // console.log(route.data)
     this.update(route)
     triggerResizeUpdate()
   }

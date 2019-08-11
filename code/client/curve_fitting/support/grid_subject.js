@@ -61,6 +61,7 @@ export default class GridSubject extends DictSubject {
     super({
       width,
       height,
+      fittersShown: new Map(fitters.map(f => [f, !f.hideByDefault])),
       mapping: Object.create(mapping, {
         set: {
           value: (arg, val) => {
@@ -82,10 +83,7 @@ export default class GridSubject extends DictSubject {
       })
     })
 
-    this.update({
-      curves: this._recalculateCurves(mapping),
-      fittersShown: new Map(fitters.map(f => [f, !f.hideByDefault]))
-    })
+    this.update({ curves: this._recalculateCurves(mapping) })
   }
 
   _recalculateCurves (mapping) {
