@@ -1,9 +1,9 @@
-import { GAME_SIZE, BALL_RADIUS, PADDLE_SIZE, EPSILON } from './constants.js'
-import { add, sub, scale, dist, normalize } from './geom/vector.js'
+import { GAME_SIZE, PADDLE_SIZE, EPSILON } from './constants.js'
+import { add, sub, dist, normalize } from './geom/vector.js'
 import { fromPointAndVector, intersectLines, reflectPoint } from './geom/line.js'
 import { intersectNonHorizontalLineWithEllipse, tangentToLowerSemiellipse } from './geom/ellipse.js'
 
-function checkBallInBrick (brick, ball) {
+export function checkBallInBrick (brick, ball) {
   return ball.x >= brick.x &&
     ball.x <= brick.x + 1 &&
     ball.y >= brick.y &&
@@ -60,21 +60,19 @@ export function collide (ball, direction, paddleX, bricks) {
   bodies.push({ line: RIGHT_LINE })
 
   for (const brick of bricks) {
-    bodies.push({ line: { a: 0, b: -1, c: brick.y }, brick, check (ball) { return checkBallInBrick(brick, ball) } })
-    bodies.push({ line: { a: 0, b: -1, c: brick.y + 1 }, brick, check (ball) { return checkBallInBrick(brick, ball) } })
-    bodies.push({ line: { a: -1, b: 0, c: brick.x }, brick, check (ball) { return checkBallInBrick(brick, ball) } })
-    bodies.push({ line: { a: -1, b: 0, c: brick.x + 1 }, brick, check (ball) { return checkBallInBrick(brick, ball) } })
+    if (checkBallInBrick(brick, moved)) {
+      bodies.push({ line: { a: 0, b: -1, c: brick.y }, brick, check (ball) { return checkBallInBrick(brick, ball) } })
+      bodies.push({ line: { a: 0, b: -1, c: brick.y + 1 }, brick, check (ball) { return checkBallInBrick(brick, ball) } })
+      bodies.push({ line: { a: -1, b: 0, c: brick.x }, brick, check (ball) { return checkBallInBrick(brick, ball) } })
+      bodies.push({ line: { a: -1, b: 0, c: brick.x + 1 }, brick, check (ball) { return checkBallInBrick(brick, ball) } })
+    }
   }
 
   const collisions = bodies
-    .map(function ({ line, brick, check }) {
+    .map(function ({ line, brick }) {
       const intersection = intersectLines(motionLine, line)
 
       if (intersection === null || dist(moved, intersection) > dist(ball, intersection)) {
-        return null
-      }
-
-      if (check && !check(add(ball, scale(direction, 1 + BALL_RADIUS)))) {
         return null
       }
 

@@ -1,5 +1,3 @@
-import { square } from '../support/arithmetic.js'
-
 export function dotProduct (u, v) {
   return u.x * v.x + u.y * v.y
 }
@@ -9,7 +7,7 @@ export function norm (v) {
 }
 
 export function dist (u, v) {
-  return Math.sqrt(square(v.x - u.x) + square(v.y - u.y))
+  return Math.sqrt((v.x - u.x) ** 2 + (v.y - u.y) ** 2)
 }
 
 export function add (u, v) {

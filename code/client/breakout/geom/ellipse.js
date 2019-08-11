@@ -1,10 +1,9 @@
 import { EPSILON } from '../constants.js'
-import { square } from '../support/arithmetic.js'
 
 export function intersectNonHorizontalLineWithEllipse (line, ellipse) {
-  const a = square(line.b / (line.a * ellipse.a)) + 1 / square(ellipse.b)
-  const b = 2 * line.b * (line.c + line.a * ellipse.x) / square(line.a * ellipse.a) - 2 * ellipse.y / square(ellipse.b)
-  const c = (square(line.c) + square(line.a * ellipse.x) + 2 * line.a * line.c * ellipse.x) / square(line.a * ellipse.a) + square(ellipse.y / ellipse.b) - 1
+  const a = (line.b / (line.a * ellipse.a)) ** 2 + 1 / (ellipse.b ** 2)
+  const b = 2 * line.b * (line.c + line.a * ellipse.x) / ((line.a * ellipse.a) ** 2) - 2 * ellipse.y / (ellipse.b ** 2)
+  const c = (line.c ** 2 + (line.a * ellipse.x) ** 2 + 2 * line.a * line.c * ellipse.x) / ((line.a * ellipse.a) ** 2) + (ellipse.y / ellipse.b) ** 2 - 1
 
   const d = b * b - 4 * a * c
 
@@ -18,7 +17,7 @@ export function intersectNonHorizontalLineWithEllipse (line, ellipse) {
 }
 
 function lowerHalfDeriv (ellipse, x) {
-  return ellipse.b / square(ellipse.a) * (x - ellipse.x) / Math.sqrt(1 - square((x - ellipse.x) / ellipse.a))
+  return ellipse.b / (ellipse.a ** 2) * (x - ellipse.x) / Math.sqrt(1 - ((x - ellipse.x) / ellipse.a) ** 2)
 }
 
 export function tangentToLowerSemiellipse (ellipse, point) {

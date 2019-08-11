@@ -1,13 +1,11 @@
-export default function onKeyUp (key, subject) {
-  const { eventLoopSubscriptions } = subject.value
+export default function onKeyUp (subject, key) {
+  const { paddleDirection } = subject.value
 
-  if (eventLoopSubscriptions.has('paddleLeft') && key === 'ArrowLeft') {
-    eventLoopSubscriptions.get('paddleLeft').unsubscribe()
-    eventLoopSubscriptions.delete('paddleLeft')
+  if (key === 'ArrowLeft' && paddleDirection < 0) {
+    subject.update({ paddleDirection: 0 })
   }
 
-  if (eventLoopSubscriptions.has('paddleRight') && key === 'ArrowRight') {
-    eventLoopSubscriptions.get('paddleRight').unsubscribe()
-    eventLoopSubscriptions.delete('paddleRight')
+  if (key === 'ArrowRight' && paddleDirection > 0) {
+    subject.update({ paddleDirection: 0 })
   }
 }

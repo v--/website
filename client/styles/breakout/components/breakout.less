@@ -7,17 +7,24 @@
     paint-order: stroke;
     fill: @visualization-color-midground;
     stroke: @visualization-color-background;
-    stroke-width: 0.05px;
+    stroke-width: 0.1px;
     font-size: 0.75px;
   }
 
-  .splash {
+  .splash, .subsplash {
     paint-order: stroke;
     fill: @visualization-color-midground;
     stroke: @visualization-color-background;
     stroke-width: 0.2px;
-    font-size: 2px;
     text-anchor: middle;
+  }
+
+  .splash {
+    font-size: 2px;
+  }
+
+  .subsplash {
+    font-size: 1.5px;
   }
 
   .ball {
@@ -26,14 +33,5 @@
 
   .paddle {
     fill: @breakout-paddle;
-  }
-
-  .brick {
-    fill: @breakout-block;
-  }
-
-  .shadow {
-    stroke-width: 0.1px;
-    stroke: @breakout-shadow;
   }
 }
