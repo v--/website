@@ -5,18 +5,18 @@ import errors from './errors.js'
 
 export default class DictSubject extends BehaviorSubject {
   constructor (initial = {}) {
-    super(initial)
+    super(Object.freeze(Object.assign({}, initial)))
   }
 
   next (value) {
     if (!(value instanceof Object)) {
-      throw new errors.ObservableError(`Expected an object, not ${repr(value)}`)
+      throw new errors.ErrorClass(`Expected an object, not ${repr(value)}`)
     }
 
     return super.next(value)
   }
 
   update (value) {
-    return this.next(Object.assign({}, this.value, value))
+    return this.next(Object.freeze(Object.assign({}, this.value, value)))
   }
 }

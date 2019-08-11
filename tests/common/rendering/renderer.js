@@ -274,6 +274,35 @@ describe('MirrorFactoryRenderer', function () {
       assert.equal(dest.state.value.text, 'premium')
     })
 
+    it('can rerender multiple components using the same observable', function () {
+      const outerSubject = new BehaviorSubject({})
+      const subject = new BehaviorSubject({ text: 'text' })
+
+      function factory1 ({ text }) {
+        return c('p', { text })
+      }
+
+      function factory2 ({ text }) {
+        return c('p', { text })
+      }
+
+      function outerFactory () {
+        return c(
+          'div',
+          null,
+          c(factory1, subject),
+          c(factory2, subject)
+        )
+      }
+
+      const src = c(outerFactory, outerSubject)
+      const dest = render(src)
+
+      subject.next({ text: 'updated text' })
+      assert.equal(dest.children[0].state.value.text, 'updated text')
+      assert.equal(dest.children[1].state.value.text, 'updated text')
+    })
+
     // BUGFIXES
 
     it('can rerender multiple with subcomponent replacements', function () {
@@ -364,6 +393,7 @@ describe('MirrorFactoryRenderer', function () {
       const outerSubject = new BehaviorSubject({ text: null })
 
       function transcluded (state, children) {
+        console.log(state)
         return c('main', null, ...children)
       }
 
