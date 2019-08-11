@@ -8,8 +8,8 @@ export function stringifyNumber (x) {
 
   if (s === '0' && x !== 0) {
     const exponent = Math.floor(Math.log10(x))
-    const normalized = Math.pow(10, -exponent) * x
-    return normalized.toFixed(0) + `e${exponent}`
+    const scaleToNormedd = Math.pow(10, -exponent) * x
+    return scaleToNormedd.toFixed(0) + `e${exponent}`
   }
 
   return s

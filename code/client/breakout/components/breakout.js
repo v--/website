@@ -32,7 +32,7 @@ function getSplashMessage (state) {
   }
 }
 
-export default function breakout ({ state, paddleX, ball, bricks, score }) {
+export default function breakout ({ state, paddleX, ball, _bricks, score }) {
   const splash = getSplashMessage(state)
 
   return s(
@@ -42,19 +42,19 @@ export default function breakout ({ state, paddleX, ball, bricks, score }) {
       viewBox: VIEW_BOX
     },
 
-    s('g', { class: 'bricks' }, ...bricks.map(function (brick) {
-      return s('rect', {
-        class: 'brick',
-        width: '1',
-        height: '1',
-        x: String(brick.x),
-        y: String(brick.y),
-        fill: CHALK_COLORS[brick.power]
-      })
-    })),
+    // s('g', { class: 'bricks' }, ...bricks.map(function (brick) {
+    //   return s('rect', {
+    //     class: 'brick',
+    //     width: '1',
+    //     height: '1',
+    //     x: String(brick.x),
+    //     y: String(brick.y),
+    //     fill: CHALK_COLORS[brick.power]
+    //   })
+    // })),
 
     s('ellipse', { class: 'paddle', cx: String(paddleX), cy: PADDLE_Y, rx: PADDLE_RX, ry: PADDLE_RY }),
-    s('circle', { class: 'ball', cx: String(ball.x), cy: String(ball.y), r: BALL_R }),
+    s('circle', { class: 'ball', cx: String(ball.center.x), cy: String(ball.center.y), r: BALL_R }),
     s('text', { class: 'score', text: `Score: ${score}`, x: SCORE_X, y: '1' }),
 
     splash !== null &&

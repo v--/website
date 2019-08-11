@@ -108,8 +108,12 @@ export function buildAST (parseTree) {
 }
 
 export function parseExpression (string, type) {
+  return buildAST(parse(parserRules, type, string))
+}
+
+export function parseTopLevelFormula (string) {
   try {
-    return buildAST(parse(parserRules, type, string))
+    return parseExpression(string, TokenType.TOP_LEVEL_FORMULA)
   } catch (err) {
     if (err instanceof ParserError) {
       return null
@@ -117,8 +121,4 @@ export function parseExpression (string, type) {
 
     throw err
   }
-}
-
-export function parseTopLevelFormula (string) {
-  return parseExpression(string, TokenType.TOP_LEVEL_FORMULA)
 }

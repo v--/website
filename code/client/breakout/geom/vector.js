@@ -22,6 +22,6 @@ export function scale (u, scalar) {
   return { x: scalar * u.x, y: scalar * u.y }
 }
 
-export function normalize (v) {
+export function scaleToNormed (v) {
   return scale(v, 1 / norm(v))
 }

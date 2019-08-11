@@ -1,5 +1,23 @@
 import { EPSILON } from '../constants.js'
 
+export function eccentricity (ellipse) {
+  return ellipse.a ** 2 - ellipse.b ** 2
+}
+
+export function leftFocus (ellipse) {
+  return {
+    x: ellipse.x - eccentricity(ellipse) / ellipse.a,
+    y: ellipse.y
+  }
+}
+
+export function rightFocus (ellipse) {
+  return {
+    x: ellipse.x + eccentricity(ellipse) / ellipse.a,
+    y: ellipse.y
+  }
+}
+
 export function intersectNonHorizontalLineWithEllipse (line, ellipse) {
   const a = (line.b / (line.a * ellipse.a)) ** 2 + 1 / (ellipse.b ** 2)
   const b = 2 * line.b * (line.c + line.a * ellipse.x) / ((line.a * ellipse.a) ** 2) - 2 * ellipse.y / (ellipse.b ** 2)

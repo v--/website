@@ -1,5 +1,11 @@
 import { GAME_SIZE, MAX_BRICK_POWER } from '../constants.js'
-import { checkBallInBrick } from '../collision.js'
+
+export function checkBallInBrick (brick, ball) {
+  return ball.center.x >= brick.x &&
+    ball.center.x <= brick.x + 1 &&
+    ball.center.y >= brick.y &&
+    ball.center.y <= brick.y + 1
+}
 
 export default function evolve (subject) {
   const { bricks, ball } = subject.value
@@ -44,7 +50,7 @@ export default function evolve (subject) {
     } else {
       const newBrick = { x, y, power: 1 }
 
-      if (!checkBallInBrick(newBrick, ball)) {
+      if (!checkBallInBrick(newBrick, ball.center)) {
         subject.update({ bricks: bricks.concat(newBrick) })
       }
     }
