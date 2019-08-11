@@ -1,5 +1,5 @@
 import { EPSILON } from '../constants.js'
-import { add, sub, scale } from './vector.js'
+import { sub } from './vector.js'
 
 export function fromPointAndVector (point, vector) {
   return {
@@ -32,14 +32,18 @@ export function intersectLines (l, m) {
   return { x, y }
 }
 
-export function reflectPoint (line, point) {
-  const normalLine = fromPointAndVector(point, { x: line.a, y: line.b })
-
+export function reflectPoint (line, normalLine, point) {
   const intersectionLine = {
     a: line.a,
     b: line.b,
     c: -line.a * point.x - line.b * point.y
   }
 
-  return add(point, scale(sub(intersectLines(normalLine, intersectionLine), point), 2))
+  const intersection = intersectLines(normalLine, intersectionLine)
+  const direction = sub(intersection, point)
+
+  return {
+    x: point.x + 2 * direction.x,
+    y: point.y + 2 * direction.y
+  }
 }

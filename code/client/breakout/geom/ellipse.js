@@ -1,34 +1,36 @@
-import { GAME_SIZE, EPSILON } from '../constants.js'
+import { EPSILON } from '../constants.js'
 import { square } from '../support/arithmetic.js'
 
-// Only use the upper half-plane portion of the ellipse
+export function intersectNonHorizontalLineWithEllipse (line, ellipse) {
+  const a = square(line.b / (line.a * ellipse.a)) + 1 / square(ellipse.b)
+  const b = 2 * line.b * (line.c + line.a * ellipse.x) / square(line.a * ellipse.a) - 2 * ellipse.y / square(ellipse.b)
+  const c = (square(line.c) + square(line.a * ellipse.x) + 2 * line.a * line.c * ellipse.x) / square(line.a * ellipse.a) + square(ellipse.y / ellipse.b) - 1
 
-export function intersectLineWithEllipse (line, ellipse) {
-  if (Math.abs(line.a) < EPSILON) {
-    const a = square(line.a / ellipse.b) + square(1 / ellipse.a)
-    const b = 2 * line.a * line.c / square(ellipse.b)
-    const c = line.c / ellipse.b - 1
+  const d = b * b - 4 * a * c
 
-    const x = (-b + Math.sqrt(b * b - 4 * a * c)) / (2 * a)
-    const y = -(line.c + line.a * x) / line.b
-    return { x, y: GAME_SIZE.y - y }
-  } else {
-    const a = square(line.b / ellipse.a) + square(1 / ellipse.b)
-    const b = 2 * line.b * line.c / square(ellipse.a)
-    const c = line.c / ellipse.a - 1
-
-    const y = (-b + Math.sqrt(b * b - 4 * a * c)) / (2 * a)
-    const x = -(line.c + line.b * y) / line.a
-    return { x, y: GAME_SIZE.y - y }
+  if (d < 0) {
+    return null
   }
+
+  const y = (-b - Math.sqrt(d)) / (2 * a)
+  const x = -(line.c + line.b * y) / line.a
+  return { x, y }
 }
 
-export function tangentLineToEllipse (ellipse, point) {
-  const deriv = 2 * ellipse.b / Math.sqrt(1 - square(point.x / ellipse.a))
+function lowerHalfDeriv (ellipse, x) {
+  return ellipse.b / square(ellipse.a) * (x - ellipse.x) / Math.sqrt(1 - square((x - ellipse.x) / ellipse.a))
+}
+
+export function tangentToLowerSemiellipse (ellipse, point) {
+  if (Math.abs(Math.abs(point.x - ellipse.x) - ellipse.a) < EPSILON) {
+    return null
+  }
+
+  const deriv = lowerHalfDeriv(ellipse, point.x)
 
   return {
     a: deriv,
     b: -1,
-    c: point.y - deriv * point.x
+    c: point.y - point.x * deriv
   }
 }

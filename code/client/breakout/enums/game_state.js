@@ -4,5 +4,6 @@ export default enumerize(
   'UNSTARTED',
   'RUNNING',
   'PAUSED',
-  'COMPLETED'
+  'COMPLETED',
+  'GAME_OVER'
 )
