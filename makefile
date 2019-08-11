@@ -3,7 +3,7 @@ SOURCE = $(shell find code client tests benchmarks build gulpfile.esm.js -name '
 TESTS = $(shell find tests -name '*.js' ! -name '_*.js')
 BENCHMARKS = $(shell find benchmarks -name '*.js' ! -name '_*.js')
 
-.PHONY: test test_observables benchmark build $(SOURCE)
+.PHONY: test benchmark build $(SOURCE)
 
 test ?= $(shell find tests -name '*.js' ! -name '_*.js')
 
