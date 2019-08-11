@@ -1,6 +1,6 @@
 import { CoolError } from '../../../common/errors.js'
 import { repr } from '../../../common/support/strings.js'
-import { parse } from '../../../common/support/parser.js'
+import { parse, ParserError } from '../../../common/support/parser.js'
 
 import TokenType from '../enums/token_type.js'
 import ExpressionType from '../enums/expression_type.js'
@@ -108,7 +108,15 @@ export function buildAST (parseTree) {
 }
 
 export function parseExpression (string, type) {
-  return buildAST(parse(parserRules, type, string))
+  try {
+    return buildAST(parse(parserRules, type, string))
+  } catch (err) {
+    if (err instanceof ParserError) {
+      return null
+    }
+
+    throw err
+  }
 }
 
 export function parseTopLevelFormula (string) {
