@@ -69,6 +69,13 @@ async function routerImpl (path, store) {
               sidebarID: SidebarID.PLAYGROUND,
               pageUpdateMode: PageUpdateMode.TRUST_UNDERCOOKED_URL
             }
+
+          case 'breakout':
+            return {
+              title: 'breakout | playground',
+              factory: 'breakout',
+              sidebarID: SidebarID.BREAKOUT
+            }
         }
       }
   }
