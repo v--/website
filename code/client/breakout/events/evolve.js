@@ -1,4 +1,4 @@
-import { addBrick, changeBrick } from '../support/bricks.js'
+import { findBrickIndex, addBrick, changeBrick } from '../support/bricks.js'
 import { NEW_BRICK_SAFETY_DISTANCE } from '../constants.js'
 
 import Vector from '../geom/vector.js'
@@ -25,11 +25,12 @@ export default function evolve (subject) {
       selectedBrick.origin.y + Math.round(Math.sin(angle))
     )
 
-    const existingBrick = bricks.find(brick => brick.x === origin.x && brick.y === origin.y)
-
     if (!stage.containsPoint(origin) || origin.distanceTo(ball.center) < NEW_BRICK_SAFETY_DISTANCE) {
       return
     }
+
+    const existingIndex = findBrickIndex(bricks, origin)
+    const existingBrick = existingIndex > -1 ? bricks[existingIndex] : null
 
     if (existingBrick) {
       const newBrick = selectedBrick.evolve()

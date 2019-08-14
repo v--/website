@@ -29,37 +29,35 @@ function * generateReflections (stage, paddle, ball, bricks) {
 export default function moveBall (subject) {
   const { eventLoop, score, stage, paddle, ball, bricks } = subject.value
 
-  const hits = []
   let reflected = null
   let nextReflected = new Reflection(ball, null)
 
   let delta = null
   let nextDelta = MOVEMENT_DELTA
 
-  while (nextDelta > 0) {
-    reflected = nextReflected
-    hits.push(reflected)
-    const reflections = Array.from(generateReflections(stage, paddle, reflected.ball, bricks))
-    nextReflected = reflected.ball.findClosestReflection(reflections)
-    delta = nextDelta
-    nextDelta -= nextReflected.ball.center.distanceTo(reflected.ball.center)
-  }
-
   let newBricks = bricks
   let newScore = score
   let newStatus = GameStatus.RUNNING
 
-  for (const hit of hits) {
-    if (hit.figure instanceof GameBrick) {
-      const newBrick = hit.figure.hit()
+  while (nextDelta > 0) {
+    reflected = nextReflected
+
+    if (reflected.figure instanceof GameBrick) {
+      const newBrick = reflected.figure.hit()
       newBricks = newBrick === null ? removeBrick(newBricks, reflected.figure) : changeBrick(newBricks, reflected.figure, newBrick)
       newScore++
     }
-  }
 
-  if (newBricks.length === 0) {
-    eventLoop.stop()
-    newStatus = GameStatus.COMPLETED
+    if (newBricks.length === 0) {
+      eventLoop.stop()
+      newStatus = GameStatus.COMPLETED
+    }
+
+    const reflections = Array.from(generateReflections(stage, paddle, reflected.ball, newBricks))
+    nextReflected = reflected.ball.findClosestReflection(reflections)
+
+    delta = nextDelta
+    nextDelta -= nextReflected.ball.center.distanceTo(reflected.ball.center)
   }
 
   if (reflected.figure === null) {
