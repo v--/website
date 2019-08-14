@@ -1,42 +1,88 @@
-import GameState from '../enums/game_state.js'
-import { MOVEMENT_DELTA } from '../constants.js'
-import { add, scale } from '../geom/vector.js'
+import { EPSILON, MOVEMENT_DELTA, REFLECTION_ADJUSTMENT } from '../constants.js'
+import GameStatus from '../enums/game_status.js'
+import Reflection from '../support/reflection.js'
+import { changeBrick, removeBrick } from '../support/bricks.js'
+import GameBrick from '../geom/game_brick.js'
 
-import GameEntity from '../entity/game_entity.js'
-import PaddleEntity from '../entity/paddle_entity.js'
+function * generateReflections (stage, paddle, ball, bricks) {
+  const paddleReflection = paddle.reflectBall(ball)
 
-const GAME = new GameEntity()
+  if (paddleReflection !== null) {
+    yield paddleReflection
+  }
+
+  const stageReflection = stage.reflectBall(ball)
+
+  if (stageReflection !== null) {
+    yield stageReflection
+  }
+
+  for (const brick of bricks) {
+    const brickReflection = brick.reflectBall(ball)
+
+    if (brickReflection !== null) {
+      yield brickReflection
+    }
+  }
+}
 
 export default function moveBall (subject) {
-  const { eventLoop, ball, paddleX } = subject.value
+  const { eventLoop, score, stage, paddle, ball, bricks } = subject.value
 
-  const next = {
-    center: add(ball.center, scale(ball.direction, MOVEMENT_DELTA)),
-    direction: ball.direction
+  const hits = []
+  let reflected = null
+  let nextReflected = new Reflection(ball, null)
+
+  let delta = null
+  let nextDelta = MOVEMENT_DELTA
+
+  while (nextDelta > 0) {
+    reflected = nextReflected
+    hits.push(reflected)
+    const reflections = Array.from(generateReflections(stage, paddle, reflected.ball, bricks))
+    nextReflected = reflected.ball.findClosestReflection(reflections)
+    delta = nextDelta
+    nextDelta -= nextReflected.ball.center.distanceTo(reflected.ball.center)
   }
 
-  const paddle = new PaddleEntity(paddleX)
-  const entities = [paddle, GAME]
+  let newBricks = bricks
+  let newScore = score
+  let newStatus = GameStatus.RUNNING
 
-  for (const entity of entities) {
-    if (entity.collides(next)) {
-      const collision = entity.predictCollision(ball)
-      const newGameState = collision.getStateUpdates()
-      subject.update(newGameState)
-
-      if ('state' in newGameState && newGameState.state !== GameState.RUNNING) {
-        eventLoop.stop()
-      }
-
-      return
+  for (const hit of hits) {
+    if (hit.figure instanceof GameBrick) {
+      const newBrick = hit.figure.hit()
+      newBricks = newBrick === null ? removeBrick(newBricks, reflected.figure) : changeBrick(newBricks, reflected.figure, newBrick)
+      newScore++
     }
   }
 
-  const delta = scale(ball.direction, MOVEMENT_DELTA)
-  subject.update({
-    ball: {
-      center: add(ball.center, delta),
-      direction: ball.direction
-    }
-  })
+  if (newBricks.length === 0) {
+    eventLoop.stop()
+    newStatus = GameStatus.COMPLETED
+  }
+
+  if (reflected.figure === null) {
+    subject.update({
+      status: newStatus,
+      score: newScore,
+      bricks: newBricks,
+      ball: ball.translate(delta)
+    })
+  } else if (reflected.ball.center.y + ball.radius >= stage.size.y - EPSILON) {
+    eventLoop.stop()
+    subject.update({
+      status: GameStatus.GAME_OVER,
+      score: newScore,
+      bricks: newBricks,
+      ball: reflected.ball
+    })
+  } else {
+    subject.update({
+      status: newStatus,
+      score: newScore,
+      bricks: newBricks,
+      ball: reflected.ball.translate(delta * REFLECTION_ADJUSTMENT)
+    })
+  }
 }

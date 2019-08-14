@@ -1,58 +1,49 @@
-import { GAME_SIZE, MAX_BRICK_POWER } from '../constants.js'
+import { addBrick, changeBrick } from '../support/bricks.js'
+import { NEW_BRICK_SAFETY_DISTANCE } from '../constants.js'
 
-export function checkBallInBrick (brick, ball) {
-  return ball.center.x >= brick.x &&
-    ball.center.x <= brick.x + 1 &&
-    ball.center.y >= brick.y &&
-    ball.center.y <= brick.y + 1
-}
+import Vector from '../geom/vector.js'
+import GameBrick from '../geom/game_brick.js'
 
 export default function evolve (subject) {
-  const { bricks, ball } = subject.value
+  const { ball, stage, bricks } = subject.value
 
   const selectedBrick = bricks[Math.floor(Math.random() * bricks.length)]
   const evolveBrickItself = Math.random() < 1 / 9
 
+  let newBricks = null
+
   if (evolveBrickItself) {
-    if (selectedBrick.power < MAX_BRICK_POWER) {
-      const newBricks = bricks.map(function (brick) {
-        if (brick === selectedBrick) {
-          return { x: brick.x, y: brick.y, power: brick.power + 1 }
-        }
+    const newBrick = selectedBrick.evolve()
 
-        return brick
-      })
-
-      subject.update({ bricks: newBricks })
+    if (newBrick !== null) {
+      newBricks = changeBrick(bricks, selectedBrick, newBrick)
     }
   } else {
     const angle = Math.random() * Math.PI
-    const x = selectedBrick.x + Math.round(Math.cos(angle))
-    const y = selectedBrick.y + Math.round(Math.sin(angle))
-    const existingBrick = bricks.find(brick => brick.x === x && brick.y === y)
+    const origin = new Vector(
+      selectedBrick.origin.x + Math.round(Math.cos(angle)),
+      selectedBrick.origin.y + Math.round(Math.sin(angle))
+    )
 
-    if (x < GAME_SIZE.x / 2 || x > GAME_SIZE.x / 2 || y < 0 || y > GAME_SIZE.y) {
+    const existingBrick = bricks.find(brick => brick.x === origin.x && brick.y === origin.y)
+
+    if (!stage.containsPoint(origin) || origin.distanceTo(ball.center) < NEW_BRICK_SAFETY_DISTANCE) {
       return
     }
 
     if (existingBrick) {
-      if (existingBrick.power < MAX_BRICK_POWER) {
-        const newBricks = bricks.map(function (brick) {
-          if (brick === existingBrick) {
-            return { x, y, power: brick.power + 1 }
-          }
+      const newBrick = selectedBrick.evolve()
 
-          return brick
-        })
-
-        subject.update({ bricks: newBricks })
+      if (newBrick !== null) {
+        newBricks = changeBrick(bricks, selectedBrick, newBrick)
       }
     } else {
-      const newBrick = { x, y, power: 1 }
-
-      if (!checkBallInBrick(newBrick, ball.center)) {
-        subject.update({ bricks: bricks.concat(newBrick) })
-      }
+      const newBrick = new GameBrick(origin, 1)
+      newBricks = addBrick(bricks, newBrick)
     }
+  }
+
+  if (newBricks !== null) {
+    subject.update({ bricks: newBricks })
   }
 }

@@ -74,7 +74,7 @@ async function routerImpl (path, store) {
             return {
               title: 'breakout | playground',
               factory: 'breakout',
-              sidebarID: SidebarID.BREAKOUT
+              sidebarID: SidebarID.PLAYGROUND
             }
         }
       }

@@ -1,30 +1,20 @@
 import { s } from '../../../common/support/svg.js'
 
-import GameState from '../enums/game_state.js'
-import { GAME_SIZE, PADDLE_SIZE, BALL_RADIUS } from '../constants.js'
+import GameStatus from '../enums/game_status.js'
 import { CHALK_COLORS } from '../../core/support/colors.js'
 
-const VIEW_BOX = [-GAME_SIZE.x / 2, 0, GAME_SIZE.x, GAME_SIZE.y].join(' ')
-const PADDLE_RX = String(PADDLE_SIZE.x)
-const PADDLE_RY = String(PADDLE_SIZE.y)
-const PADDLE_Y = String(GAME_SIZE.y)
-const SPLASH_Y = String(GAME_SIZE.y / 2)
-const SUBSPLASH_Y = String(GAME_SIZE.y / 2 + 2)
-const SCORE_X = String(-GAME_SIZE.x / 2 + BALL_RADIUS)
-const BALL_R = String(BALL_RADIUS)
-
-function getSplashMessage (state) {
-  switch (state) {
-    case GameState.PAUSED:
+function getSplashMessage (status) {
+  switch (status) {
+    case GameStatus.PAUSED:
       return 'Paused'
 
-    case GameState.UNSTARTED:
+    case GameStatus.UNSTARTED:
       return 'Ready to Start'
 
-    case GameState.GAME_OVER:
+    case GameStatus.GAME_OVER:
       return 'Game Over'
 
-    case GameState.COMPLETED:
+    case GameStatus.COMPLETED:
       return 'Completed'
 
     default:
@@ -32,35 +22,37 @@ function getSplashMessage (state) {
   }
 }
 
-export default function breakout ({ state, paddleX, ball, _bricks, score }) {
-  const splash = getSplashMessage(state)
+export default function breakout ({ status, score, stage, paddle, ball, bricks }) {
+  const splash = getSplashMessage(status)
+  const viewBox = [-stage.size.x / 2, 0, stage.size.x, stage.size.y].join(' ')
 
   return s(
     'svg',
     {
       class: 'breakout',
-      viewBox: VIEW_BOX
+      viewBox: viewBox
     },
 
-    // s('g', { class: 'bricks' }, ...bricks.map(function (brick) {
-    //   return s('rect', {
-    //     class: 'brick',
-    //     width: '1',
-    //     height: '1',
-    //     x: String(brick.x),
-    //     y: String(brick.y),
-    //     fill: CHALK_COLORS[brick.power]
-    //   })
-    // })),
+    s('g', { class: 'bricks' }, ...bricks.map(function (brick) {
+      return s('rect', {
+        class: 'brick',
+        width: '1',
+        height: '1',
+        x: String(brick.origin.x),
+        y: String(brick.origin.y),
+        fill: CHALK_COLORS[brick.power],
+        stroke: CHALK_COLORS[brick.power]
+      })
+    })),
 
-    s('ellipse', { class: 'paddle', cx: String(paddleX), cy: PADDLE_Y, rx: PADDLE_RX, ry: PADDLE_RY }),
-    s('circle', { class: 'ball', cx: String(ball.center.x), cy: String(ball.center.y), r: BALL_R }),
-    s('text', { class: 'score', text: `Score: ${score}`, x: SCORE_X, y: '1' }),
-
-    splash !== null &&
-      s('text', { class: 'splash', text: getSplashMessage(state), y: SPLASH_Y }),
+    s('ellipse', { class: 'paddle', cx: String(paddle.center.x), cy: String(paddle.center.y), rx: String(paddle.axes.x), ry: String(paddle.axes.y) }),
+    s('circle', { class: 'ball', cx: String(ball.center.x), cy: String(ball.center.y), r: String(ball.radius) }),
+    s('text', { class: 'score', text: `Score: ${score}`, x: '-9.5', y: '1' }),
 
     splash !== null &&
-      s('text', { class: 'subsplash', text: 'Press Space Bar', y: SUBSPLASH_Y })
+      s('text', { class: 'splash', text: getSplashMessage(status), y: String(stage.size.y / 2) }),
+
+    splash !== null &&
+      s('text', { class: 'subsplash', text: 'Press Space Bar', y: String(stage.size.y / 2 + 2) })
   )
 }

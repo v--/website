@@ -1,62 +1,89 @@
-import { EPSILON } from '../constants.js'
-import { add, sub, scaleToNormed } from './vector.js'
+// import { EPSILON } from '../constants.js'
+import Vector from './vector.js'
+import Figure from './figure.js'
 
-export function fromPointAndVector (point, vector) {
-  return {
-    a: vector.y,
-    b: -vector.x,
-    c: vector.x * point.y - vector.y * point.x
-  }
-}
+const EPSILON = 1e-3
 
-export function fromPoints (p1, p2) {
-  return fromPointAndVector(p1, sub(p2, p1))
-}
-
-export function parallelThroughPoint (line, point) {
-  return {
-    a: line.a,
-    b: line.b,
-    c: -line.a * point.x - line.b * point.y
-  }
-}
-
-export function intersectLines (l, m) {
-  if (Math.abs(l.a) < EPSILON && Math.abs(m.a) < EPSILON) {
-    return null
-  } else if (Math.abs(l.a) < EPSILON) {
-    return intersectLines(m, l)
+export default class Line extends Figure {
+  static fromTwoPoints (pointA, pointB) {
+    return this.fromPointAndVector(pointA, pointB.sub(pointA))
   }
 
-  const lambda = m.a / l.a
-
-  if (Math.abs(m.b - lambda * l.b) < EPSILON) {
-    return null
+  static fromPointAndVector (point, vector) {
+    const norm = vector.getNorm()
+    return new this(
+      vector.y / norm,
+      -vector.x / norm,
+      (vector.x * point.y - vector.y * point.x) / norm
+    )
   }
 
-  const y = (lambda * l.c - m.c) / (m.b - lambda * l.b)
-  const x = -(l.b * y + l.c) / l.a
-
-  return { x, y }
-}
-
-export function reflectDirection (line, intersection, point, direction) {
-  const moved = add(point, direction)
-  const normalVector = { x: line.a, y: line.b }
-  const normalLine = fromPointAndVector(intersection, normalVector)
-
-  const pointNormalIntersection = intersectLines(normalLine, parallelThroughPoint(line, point))
-  const movedNormalIntersection = intersectLines(normalLine, parallelThroughPoint(line, moved))
-
-  const reflectedPoint = {
-    x: point.x + 2 * (pointNormalIntersection.x - point.x),
-    y: point.y + 2 * (pointNormalIntersection.y - point.y)
+  constructor (a, b, c) {
+    super()
+    this.a = a
+    this.b = b
+    this.c = c
   }
 
-  const reflectedMoved = {
-    x: moved.x + 2 * (movedNormalIntersection.x - moved.x),
-    y: moved.y + 2 * (movedNormalIntersection.y - moved.y)
+  isParallelWith (other) {
+    return Math.abs(this.a * other.b - this.b * other.a) < EPSILON
   }
 
-  return scaleToNormed(sub(reflectedPoint, reflectedMoved))
+  coincidesWith (other) {
+    return this.isParallelWith(other) && Math.abs(this.b * other.c - this.c * other.b) < EPSILON
+  }
+
+  intersectWith (other) {
+    if (Math.abs(this.a) < EPSILON && Math.abs(other.a) < EPSILON) {
+      return null
+    } else if (Math.abs(this.a) < EPSILON) {
+      return other.intersectWith(this)
+    }
+
+    const lambda = other.a / this.a
+
+    if (Math.abs(other.b - lambda * this.b) < EPSILON) {
+      return null
+    }
+
+    const y = (lambda * this.c - other.c) / (other.b - lambda * this.b)
+    const x = -(this.b * y + this.c) / this.a
+
+    return new Vector(x, y)
+  }
+
+  getParallelThrough (point) {
+    return new this.constructor(
+      this.a,
+      this.b,
+      -this.a * point.x - this.b * point.y
+    )
+  }
+
+  getNormalLineThrough (point) {
+    return this.constructor.fromPointAndVector(
+      point,
+      new Vector(this.a, this.b)
+    )
+  }
+
+  reflectDirection (point, direction) {
+    const normalLine = this.getNormalLineThrough(point)
+    const moved = point.add(direction)
+
+    const pointNormalIntersection = normalLine.intersectWith(this.getParallelThrough(point))
+    const movedNormalIntersection = normalLine.intersectWith(this.getParallelThrough(moved))
+
+    const reflectedPoint = new Vector(
+      point.x + 2 * (pointNormalIntersection.x - point.x),
+      point.y + 2 * (pointNormalIntersection.y - point.y)
+    )
+
+    const reflectedMoved = new Vector(
+      moved.x + 2 * (movedNormalIntersection.x - moved.x),
+      moved.y + 2 * (movedNormalIntersection.y - moved.y)
+    )
+
+    return reflectedPoint.sub(reflectedMoved).scaleToNormed()
+  }
 }

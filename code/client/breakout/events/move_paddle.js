@@ -1,21 +1,20 @@
-import GameState from '../enums/game_state.js'
-import { GAME_SIZE, PADDLE_SIZE, MOVEMENT_DELTA } from '../constants.js'
-
-const HALF_WIDTH = GAME_SIZE.x / 2 - PADDLE_SIZE.x
+import GameStatus from '../enums/game_status.js'
+import Vector from '../geom/vector.js'
+import Ellipse from '../geom/ellipse.js'
+import { MOVEMENT_DELTA } from '../constants.js'
 
 export default function movePaddle (subject) {
-  const { state, paddleX, paddleDirection } = subject.value
+  const { status, stage, paddle, paddleDirection } = subject.value
 
-  if (state !== GameState.RUNNING || paddleDirection === 0) {
+  if (status !== GameStatus.RUNNING || paddleDirection === 0) {
     return
   }
 
-  const newX = paddleX + paddleDirection * MOVEMENT_DELTA
-  const edge = paddleDirection * HALF_WIDTH
+  const candidateX = paddle.center.x + paddleDirection * MOVEMENT_DELTA
+  const edge = paddleDirection * (stage.size.x / 2 - paddle.axes.x)
 
-  if ((paddleDirection < 0 && newX >= edge) || (paddleDirection > 0 && newX <= edge)) {
-    subject.update({ paddleX: newX })
-  } else if (newX !== edge) {
-    subject.update({ paddleX: edge })
-  }
+  const newX = (paddleDirection < 0 && candidateX >= edge) || (paddleDirection > 0 && candidateX <= edge) ? candidateX : edge
+  const newPaddle = new Ellipse(new Vector(newX, paddle.center.y), paddle.axes)
+
+  subject.update({ paddle: newPaddle })
 }

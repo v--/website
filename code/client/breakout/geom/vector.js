@@ -1,27 +1,36 @@
-export function dotProduct (u, v) {
-  return u.x * v.x + u.y * v.y
-}
+import { EPSILON } from '../constants.js'
 
-export function norm (v) {
-  return Math.sqrt(dotProduct(v, v))
-}
+export default class Vector {
+  constructor (x, y) {
+    this.x = x
+    this.y = y
+  }
 
-export function dist (u, v) {
-  return Math.sqrt((v.x - u.x) ** 2 + (v.y - u.y) ** 2)
-}
+  add (other) {
+    return new Vector(this.x + other.x, this.y + other.y)
+  }
 
-export function add (u, v) {
-  return { x: u.x + v.x, y: u.y + v.y }
-}
+  sub (other) {
+    return new Vector(this.x - other.x, this.y - other.y)
+  }
 
-export function sub (u, v) {
-  return { x: u.x - v.x, y: u.y - v.y }
-}
+  scale (amount) {
+    return new Vector(amount * this.x, amount * this.y)
+  }
 
-export function scale (u, scalar) {
-  return { x: scalar * u.x, y: scalar * u.y }
-}
+  scaleToNormed () {
+    return this.scale(1 / this.getNorm())
+  }
 
-export function scaleToNormed (v) {
-  return scale(v, 1 / norm(v))
+  getNorm () {
+    return Math.sqrt(this.x ** 2 + this.y ** 2)
+  }
+
+  distanceTo (other) {
+    return this.sub(other).getNorm()
+  }
+
+  isUnidirectionalWith (other) {
+    return this.scaleToNormed().distanceTo(other.scaleToNormed()) < EPSILON
+  }
 }

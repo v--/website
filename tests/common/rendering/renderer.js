@@ -393,7 +393,6 @@ describe('MirrorFactoryRenderer', function () {
       const outerSubject = new BehaviorSubject({ text: null })
 
       function transcluded (state, children) {
-        console.log(state)
         return c('main', null, ...children)
       }
 

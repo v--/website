@@ -1,24 +1,24 @@
-import GameState from '../enums/game_state.js'
-import { DEFAULT_GAME_STATE } from '../constants.js'
+import GameStatus from '../enums/game_status.js'
+import { DEFAULT_GAME_STATE } from '../game_state.js'
 
 export default function onKeyDown (subject, key) {
   const { eventLoop } = subject.value
 
   switch (key) {
     case ' ':
-      switch (subject.value.state) {
-        case GameState.GAME_OVER:
-        case GameState.COMPLETED:
+      switch (subject.value.status) {
+        case GameStatus.GAME_OVER:
+        case GameStatus.COMPLETED:
           subject.update(DEFAULT_GAME_STATE)
 
-        case GameState.UNSTARTED: // eslint-disable-line no-fallthrough
-        case GameState.PAUSED:
-          subject.update({ state: GameState.RUNNING })
+        case GameStatus.UNSTARTED: // eslint-disable-line no-fallthrough
+        case GameStatus.PAUSED:
+          subject.update({ status: GameStatus.RUNNING })
           eventLoop.start()
           break
 
-        case GameState.RUNNING:
-          subject.update({ state: GameState.PAUSED })
+        case GameStatus.RUNNING:
+          subject.update({ status: GameStatus.PAUSED })
           eventLoop.stop()
           break
       }

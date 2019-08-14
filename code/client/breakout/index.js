@@ -5,8 +5,9 @@ import dispatcher from '../core/render_dispatcher.js'
 import DictSubject from '../../common/observables/dict_subject.js'
 
 import breakout from './components/breakout.js'
-import GameState from './enums/game_state.js'
-import { DEFAULT_GAME_STATE, MOVEMENT_PERIOD, EVOLUTION_PERIOD } from './constants.js'
+import GameStatus from './enums/game_status.js'
+import { MOVEMENT_PERIOD, EVOLUTION_PERIOD } from './constants.js'
+import { DEFAULT_GAME_STATE } from './game_state.js'
 import EventLoop from './event_loop.js'
 
 import onKeyDown from './events/key_down.js'
@@ -24,7 +25,7 @@ export default function playgroundBreakout () {
   ])
 
   subject.update({
-    state: GameState.UNSTARTED,
+    status: GameStatus.UNSTARTED,
     eventLoop: new EventLoop(eventLoopListeners)
   })
 
@@ -37,7 +38,7 @@ export default function playgroundBreakout () {
 
     c(aspectRatioBox, {
       ratio: 4 / 3,
-      bottomMargin: 20,
+      bottomMargin: 25,
       minHeight: 250,
       maxHeight: 700,
       item: c(breakout, subject)
