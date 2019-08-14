@@ -3,7 +3,7 @@ import { assert } from '../../../_common.js'
 import { simplify } from '../../../../code/client/resolution/syntax/simplification.js'
 import { parseTopLevelFormula } from '../../../../code/client/resolution/syntax/ast.js'
 
-describe('simplify', function () {
+describe('simplify()', function () {
   it('preserves formulas in cnf', function () {
     const formula = parseTopLevelFormula('Ex ((p(f) v p(g)) & (p(h) v p(x)))')
     assert.equalExpressions(

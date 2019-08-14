@@ -6,7 +6,7 @@ import { convertToPNF } from '../../../../code/client/resolution/syntax/pnf.js'
 import { replaceVariables } from '../../../../code/client/resolution/syntax/replacement.js'
 import { parseTopLevelFormula } from '../../../../code/client/resolution/syntax/ast.js'
 
-describe('convertToPNF', function () {
+describe('convertToPNF()', function () {
   it('preserves quantorless formulas', function () {
     const formula = parseTopLevelFormula('(p(f1) v p(f2)) & (p(h1) v p(h2))')
     assert.equalExpressions(
