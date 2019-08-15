@@ -1,5 +1,5 @@
 export const EPSILON = 1e-3
-export const MOVEMENT_PERIOD = 10
+export const MOVEMENT_PERIOD = 20
 export const EVOLUTION_PERIOD = 2000
 export const MOVEMENT_DELTA = MOVEMENT_PERIOD / 60
 export const MAX_BRICK_POWER = 3
