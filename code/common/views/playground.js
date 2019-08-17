@@ -37,7 +37,7 @@ export default function playground () {
         c('li', null,
           c(link, {
             class: 'playground-link',
-            text: 'A Breakout variant that fights back',
+            text: 'A Breakout variant with evolving bricks',
             link: 'playground/breakout',
             isInternal: true
           })

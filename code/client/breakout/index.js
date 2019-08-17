@@ -31,7 +31,7 @@ export default function playgroundBreakout () {
 
   return c(aspectRatioPage, { class: 'page playground-breakout-page' },
     c('div', { class: 'section' },
-      c('h1', { class: 'section-title', text: 'A Breakout variant that fights back' }),
+      c('h1', { class: 'section-title', text: 'A Breakout variant with evolving bricks' }),
       c('p', { text: 'This is a variant of the classic Breakout game where the bricks follow a stochastic evolution pattern.' }),
       c('p', { text: 'The space bar toggles pause mode and the arrow keys move the paddle.' })
     ),
