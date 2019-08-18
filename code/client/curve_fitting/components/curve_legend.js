@@ -1,10 +1,11 @@
 import { sort } from '../../../common/support/iteration.js'
 import { styles } from '../../../common/support/dom_properties.js'
+import { redirection } from '../../../common/global_subjects.js'
 
 import { c } from '../../../common/rendering/component.js'
 import table from '../../../common/components/table.js'
 
-export default function curveLegend ({ mapping, curves, fittersShown }) {
+export default function curveLegend ({ mapping, curves, enabled, config }) {
   return c('div', { class: 'curve-legend' },
     c('h1', { class: 'section legend-title', text: 'Legend' }),
     c('div', { class: 'data-points' },
@@ -28,11 +29,14 @@ export default function curveLegend ({ mapping, curves, fittersShown }) {
         {
           class: 'col-checkbox',
           value (entry) {
+            const isChecked = enabled.has(entry.fitter)
+
             return c('input', {
               type: 'checkbox',
-              checked: fittersShown.get(entry.fitter),
+              checked: isChecked,
               click (_event) {
-                entry.toggle()
+                const newFitters = isChecked ? enabled.remove(entry.fitter) : enabled.add(entry.fitter)
+                redirection.next(config.getUpdatedPath({ enabled: newFitters }))
               }
             })
           }

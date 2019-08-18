@@ -39,7 +39,7 @@ describe('parseExpression()', function () {
     })
 
     it('fails on gibberish', function () {
-      const string = 'lorem ipsum'
+      const string = 'eWczRqKCIaAOi'
 
       assert.throws(function () {
         parseExpression(string, TokenType.VARIABLE)

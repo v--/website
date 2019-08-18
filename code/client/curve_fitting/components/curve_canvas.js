@@ -1,8 +1,9 @@
 import { zip, map, range, product } from '../../../common/support/iteration.js'
 import { join } from '../../../common/support/strings.js'
 import { s } from '../../../common/support/svg.js'
+import { redirection } from '../../../common/global_subjects.js'
 
-export default function curveCanvas ({ width, height, mapping, curves, fittersShown }) {
+export default function curveCanvas ({ width, height, mapping, curves, enabled, config }) {
   const grid = Array.from(
     map(
       ([x, y]) => ({ x, y }),
@@ -21,7 +22,7 @@ export default function curveCanvas ({ width, height, mapping, curves, fittersSh
   ]
 
   const domain = Array.from(range(-(width + 1) / 2, (width + 1) / 2, 0.1))
-  const visibleCurves = curves.filter(c => fittersShown.get(c.fitter))
+  const visibleCurves = curves.filter(c => enabled.has(c.fitter))
 
   return s(
     'svg',
@@ -55,9 +56,11 @@ export default function curveCanvas ({ width, height, mapping, curves, fittersSh
           height: String(1),
           click (_event) {
             if (mapping.get(point.x) !== point.y) {
-              mapping.set(point.x, point.y)
+              const newMapping = mapping.set(point.x, point.y)
+              redirection.next(config.getUpdatedPath({ mapping: newMapping }))
             } else {
-              mapping.delete(point.x)
+              const newMapping = mapping.delete(point.x)
+              redirection.next(config.getUpdatedPath({ mapping: newMapping }))
             }
           }
         })

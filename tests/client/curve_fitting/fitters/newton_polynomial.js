@@ -1,6 +1,6 @@
 import { assert } from '../../../_common.js'
 
-import { DiscreteMap } from '../../../../code/client/curve_fitting/support/grid_subject.js'
+import { NumericMapping } from '../../../../code/common/support/query_config.js'
 import newtonPolynomial from '../../../../code/client/curve_fitting/fitters/newton_polynomial.js'
 
 function quadraticTest (x) {
@@ -8,7 +8,7 @@ function quadraticTest (x) {
 }
 
 function createTestMapping (domain) {
-  return new DiscreteMap(domain.map(x => [x, quadraticTest(x)]))
+  return new NumericMapping(domain.map(x => [x, quadraticTest(x)]))
 }
 
 describe('newtonPolynomial()', function () {

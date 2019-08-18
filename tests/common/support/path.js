@@ -2,7 +2,7 @@ import { assert } from '../../_common.js'
 
 import Path from '../../../code/common/support/path.js'
 
-describe('Path()', function () {
+describe('Path', function () {
   describe('segments', function () {
     it('splits a correct URL into segments', function () {
       const path = Path.parse('/lorem/ipsum')
