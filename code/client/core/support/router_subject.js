@@ -2,7 +2,6 @@ import DictSubject from '../../../common/observables/dict_subject.js'
 import Path from '../../../common/support/path.js'
 import RouterState from '../../../common/support/router_state.js'
 import unsupported from '../../../common/views/unsupported.js'
-import PageUpdateMode from '../../../common/enums/page_update_mode.js'
 import { CoolError } from '../../../common/errors.js'
 import { repr } from '../../../common/support/strings.js'
 
@@ -145,7 +144,7 @@ export default class RouterSubject extends DictSubject {
 
     this.path = path
 
-    if (this.value.pageUpdateMode === PageUpdateMode.TRUST_UNDERCOOKED_URL && path.underCooked === this.value.path.underCooked) {
+    if (path.underCooked === this.value.path.underCooked) {
       this.update({ path })
       return
     }

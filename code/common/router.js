@@ -1,6 +1,5 @@
 import { NotFoundError } from './errors.js'
 import SidebarID from './enums/sidebar_id.js'
-import PageUpdateMode from './enums/page_update_mode.js'
 import RouterState from './support/router_state.js'
 
 import home from './views/home.js'
@@ -23,8 +22,7 @@ async function routerImpl (path, store) {
         title: `index of ${path.underCooked}`,
         factory: files,
         data: await store.collections.files.readDirectory(path.segments.slice(1).join('/')),
-        sidebarID: SidebarID.FILES,
-        pageUpdateMode: PageUpdateMode.TRUST_UNDERCOOKED_URL
+        sidebarID: SidebarID.FILES
       }
 
     case 'pacman':
@@ -66,8 +64,7 @@ async function routerImpl (path, store) {
             return {
               title: 'resolution | playground',
               factory: 'resolution',
-              sidebarID: SidebarID.PLAYGROUND,
-              pageUpdateMode: PageUpdateMode.TRUST_UNDERCOOKED_URL
+              sidebarID: SidebarID.PLAYGROUND
             }
 
           case 'breakout':
