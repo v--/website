@@ -56,7 +56,7 @@ export default function pacman ({ data }) {
         }),
         c(link, {
           text: PGP_KEY_ID_SHORT,
-          link: 'http://keys.gnupg.net/pks/lookup?op=vindex&search=' + PGP_FINGERPRINT
+          link: 'http://keys.gnupg.net/pks/lookup?op=vindex&search=0x' + PGP_KEY_ID_SHORT
         }),
         c('span', { text: '.' })
       )
