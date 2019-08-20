@@ -30,7 +30,7 @@ export default function home () {
     c('div', { class: 'section' },
       c('h1', { class: 'section-title', text: 'About me' }),
       c('p', {
-        text: 'My name is Ianis Vasilev. I consider myself a simple man with complicated interests. I am a statistician according to my diploma, a programmer according to my contract, a musician according to my ego and a trail runner according to my legs.'
+        text: 'My name is Ianis Vasilev. I am a statistician according to my diploma, a programmer according to my contract, a musician according to my ego and a trail runner according to my legs.'
       })
     ),
 
