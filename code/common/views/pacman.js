@@ -18,7 +18,7 @@ function packages ({ arch, pkgs }) {
   )
 }
 
-const PGP_FINGERPRINT = '4D62C197E70882D5C3E2F9687F98BCE572D7C575'
+const PGP_FINGERPRINT = 'B77A3C8832838F1F80ADFD7E1D0507B417DAB671'
 const PGP_KEY_ID_SHORT = PGP_FINGERPRINT.substr(PGP_FINGERPRINT.length - 8)
 
 export default function pacman ({ data }) {
