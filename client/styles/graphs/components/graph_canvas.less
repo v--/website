@@ -1,0 +1,23 @@
+@import '../../_vars.less';
+
+.graph-canvas {
+  background: @visualization-color-background;
+
+  .vertex {
+    fill: @visualization-color-foreground;
+    r: 0.1;
+
+    &.highlighted {
+      fill: @visualization-color-accent;
+    }
+  }
+
+  .edge {
+    stroke: @visualization-color-foreground;
+    stroke-width: 0.04;
+
+    &.highlighted {
+      stroke: @visualization-color-accent;
+    }
+  }
+}

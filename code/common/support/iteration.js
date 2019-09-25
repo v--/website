@@ -17,7 +17,7 @@ export function reduce (reducer, iterable, initial) {
   const iter = iterable[Symbol.iterator]()
   let accum
 
-  if (initial) {
+  if (initial !== undefined) {
     accum = initial
   } else {
     const state = iter.next()

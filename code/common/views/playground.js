@@ -41,6 +41,15 @@ export default function playground () {
             link: 'playground/breakout',
             isInternal: true
           })
+        ),
+
+        c('li', null,
+          c(link, {
+            class: 'playground-link',
+            text: 'Graph optimization algorithm visualizations',
+            link: 'playground/graphs',
+            isInternal: true
+          })
         )
       )
     )

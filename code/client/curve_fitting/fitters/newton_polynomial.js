@@ -1,5 +1,5 @@
-import Polynomial from '../symbolic/polynomial.js'
-import dividedDifferences from '../support/divided_differences.js'
+import Polynomial from '../../core/math/polynomial.js'
+import dividedDifferences from '../../core/math/divided_differences.js'
 
 export default Object.freeze({
   name: 'Newton polynomial',
@@ -18,7 +18,7 @@ export default Object.freeze({
       let current = new Polynomial([dividedDifferences(f, x.slice(0, k + 1))])
 
       for (let i = 0; i <= k - 1; i++) {
-        current = current.multiply(new Polynomial([1, -x[i]]))
+        current = current.mult(new Polynomial([-x[i], 1]))
       }
 
       result = result.add(current)

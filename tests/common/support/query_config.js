@@ -3,7 +3,7 @@ import { assert } from '../../_common.js'
 import { NumericMapping, QueryStringError } from '../../../code/common/support/query_config.js'
 
 describe('NumericMapping', function () {
-  describe('.toString()', function () {
+  describe('#toString()', function () {
     it('stringifies an empty mapping', function () {
       const mapping = new NumericMapping([])
       assert.equal(String(mapping), '')

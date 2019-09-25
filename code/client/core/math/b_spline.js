@@ -1,8 +1,8 @@
 import { repr } from '../../../common/support/strings.js'
 import { CoolError } from '../../../common/errors.js'
 
-import dividedDifferences from '../support/divided_differences.js'
-import { stringifyNumber } from '../support/stringify.js'
+import dividedDifferences from './divided_differences.js'
+import { stringifyNumber } from './stringify.js'
 
 export class BSplineError extends CoolError {}
 export class NotEnoughPointsError extends BSplineError {}

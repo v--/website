@@ -18,7 +18,7 @@ export class ParserRule {
 
   addMatch (rule, originalMatches, newMatches) {
     if (rule instanceof ParserRule) {
-      Array.prototype.push.apply(originalMatches, newMatches)
+      originalMatches.push(...newMatches)
     } else {
       originalMatches.push({
         type: rule,

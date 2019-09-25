@@ -107,7 +107,7 @@ export default function playgroundResolution ({ path }) {
   const disjuncts = []
 
   for (const formula of snf) {
-    Array.prototype.push.apply(disjuncts, extractDisjuncts(formula))
+    disjuncts.push(...extractDisjuncts(formula))
   }
 
   const proof = inferEmptyDisjunct(disjuncts)

@@ -56,7 +56,7 @@ const dispatcher = RenderDispatcher.fromRenderers(new Map([
 const render = RenderDispatcher.prototype.render.bind(dispatcher)
 
 describe('MirrorXMLRenderer', function () {
-  describe('.render()', function () {
+  describe('#render()', function () {
     it('renders simple components', function () {
       const src = c('div')
       const dest = render(src)
@@ -85,7 +85,7 @@ describe('MirrorXMLRenderer', function () {
     })
   })
 
-  describe('.rerender()', function () {
+  describe('#rerender()', function () {
     it('adds new properties', function () {
       const subject = new BehaviorSubject(null)
       const src = c('div', subject)
@@ -134,7 +134,7 @@ describe('MirrorXMLRenderer', function () {
 })
 
 describe('MirrorFactoryRenderer', function () {
-  describe('.render()', function () {
+  describe('#render()', function () {
     it('renders constants', function () {
       const constant = render(c('div'))
       const src = c(() => constant)
@@ -161,7 +161,7 @@ describe('MirrorFactoryRenderer', function () {
     })
   })
 
-  describe('.rerender()', function () {
+  describe('#rerender()', function () {
     it("throws when trying to replace the root element's type", function () {
       const subject = new BehaviorSubject({ type: 'div' })
       const src = c(({ type }) => c(type), subject)

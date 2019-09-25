@@ -18,7 +18,7 @@ async function readFileNames (stdin) {
     const fileNames = []
 
     iface.on('line', function (line) {
-      Array.prototype.push.apply(fileNames, line.split(' '))
+      fileNames.push(...line.split(' '))
     })
 
     iface.on('close', function () {

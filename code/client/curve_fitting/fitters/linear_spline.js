@@ -1,5 +1,5 @@
-import Spline from '../symbolic/spline.js'
-import Polynomial from '../symbolic/polynomial.js'
+import Spline from '../../core/math/spline.js'
+import Polynomial from '../../core/math/polynomial.js'
 
 export default Object.freeze({
   name: 'Linear spline',

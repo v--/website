@@ -71,7 +71,7 @@ export default class SortSubject extends DictSubject {
   }
 
   _calculateMaxActionListIndex () {
-    this._maxActionListIndex = Math.max.apply(null, this._actionLists.map(list => list.actions.length)) - 1
+    this._maxActionListIndex = Math.max(...this._actionLists.map(list => list.actions.length)) - 1
   }
 
   reset () {

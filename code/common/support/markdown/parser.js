@@ -136,7 +136,7 @@ function collapseBulletList (matches) {
     .slice(0, matches.length - 1)
     .map(buildAST)
 
-  const minLevel = Math.min.apply(null, flatBulletList.map(b => b.level))
+  const minLevel = Math.min(...flatBulletList.map(b => b.level))
   const root = {
     type: NodeType.BULLET_LIST,
     bullets: [],

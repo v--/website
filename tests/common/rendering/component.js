@@ -11,7 +11,7 @@ import {
 } from '../../../code/common/rendering/component.js'
 
 describe('Component', function () {
-  describe('.safeCreate()', function () {
+  describe('#safeCreate()', function () {
     it('creates components using only a type', function () {
       const component = Component.safeCreate('div')
       assert.equal(component.type, 'div')
@@ -49,7 +49,7 @@ describe('Component', function () {
     })
   })
 
-  describe('.toString()', function () {
+  describe('#toString()', function () {
     it('works on flat components', function () {
       const component = Component.safeCreate('div')
       assert.equal(String(component), "Component('div', null)")
@@ -91,7 +91,7 @@ describe('XMLComponent', function () {
     }
   }
 
-  describe('.safeCreate()', function () {
+  describe('#safeCreate()', function () {
     it('throws if no namespace exists in the class', function () {
       function factory () {
         return XMLComponent.safeCreate('div')
@@ -136,7 +136,7 @@ describe('XMLComponent', function () {
 })
 
 describe('HTMLComponent', function () {
-  describe('.checkSanity()', function () {
+  describe('#checkSanity()', function () {
     it('throws if a void component has children', function () {
       function factory () {
         const child = HTMLComponent.safeCreate('span')
@@ -157,7 +157,7 @@ describe('HTMLComponent', function () {
 })
 
 describe('FactoryComponent', function () {
-  describe('.checkSanity()', function () {
+  describe('#checkSanity()', function () {
     it('throws if the type is not a function', function () {
       function factory () {
         return FactoryComponent.safeCreate(undefined)
@@ -167,7 +167,7 @@ describe('FactoryComponent', function () {
     })
   })
 
-  describe('.evaluate()', function () {
+  describe('#evaluate()', function () {
     it('handles simple factories', function () {
       const component = HTMLComponent.safeCreate('div', { text: 'text' })
 

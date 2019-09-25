@@ -10,7 +10,7 @@ function buildDict (form) {
       dict[node.name] = node.value
     }
 
-    Array.prototype.push.apply(nodes, node.children)
+    nodes.push(...node.children)
   }
 
   return dict

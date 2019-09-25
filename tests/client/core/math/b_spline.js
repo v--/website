@@ -1,9 +1,9 @@
 import { assert } from '../../../_common.js'
 
-import BSpline, { NotEnoughPointsError } from '../../../../code/client/curve_fitting/symbolic/b_spline.js'
+import BSpline, { NotEnoughPointsError } from '../../../../code/client/core/math/b_spline.js'
 
 describe('BSpline', function () {
-  describe('.constructor()', function () {
+  describe('#constructor()', function () {
     it('fails when passed less than two points', function () {
       assert.throws(function () {
         return new BSpline([])
@@ -11,7 +11,7 @@ describe('BSpline', function () {
     })
   })
 
-  describe('.eval()', function () {
+  describe('#eval()', function () {
     it('correctly evaluates a B-Spline of degree 0', function () {
       const spline = new BSpline([0, 1])
       assert.equal(spline.eval(0), 1)

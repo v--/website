@@ -1,8 +1,9 @@
 import { EmptyIterError, map, reduce } from './iteration.js'
+import { roundNumber } from './numeric.js'
 
 export function join (delimiter, iter) {
   try {
-    return reduce((value, accum) => `${accum}${delimiter}${value}`, iter, '')
+    return reduce((value, accum) => `${accum}${delimiter}${value}`, iter)
   } catch (e) {
     if (e instanceof EmptyIterError) {
       return ''
@@ -29,6 +30,10 @@ function serializeObject (object) {
 }
 
 export function repr (value) {
+  if (typeof value === 'number') {
+    return String(roundNumber(value))
+  }
+
   if (typeof value === 'string') {
     return `'${value}'`
   }

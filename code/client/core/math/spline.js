@@ -1,12 +1,12 @@
 import { map, zip } from '../../../common/support/iteration.js'
-import { stringifyLinearCombination } from '../support/stringify.js'
 
-import BSpline from '../symbolic/b_spline.js'
+import { stringifyLinearCombination } from './stringify.js'
+import BSpline from './b_spline.js'
 
 function * iterExtendedDomain (degree, x) {
   const n = x.length
   const differences = map(([a, b]) => a - b, zip(x.slice(1), x.slice(0, n - 1)))
-  const diameter = Math.max(1, Math.max.apply(null, Array.from(differences)))
+  const diameter = Math.max(1, Math.max(...differences))
 
   yield x[0] - diameter
   yield * x

@@ -1,6 +1,6 @@
 import { reduce } from '../../../common/support/iteration.js'
 
-import Polynomial from '../symbolic/polynomial.js'
+import Polynomial from '../../core/math/polynomial.js'
 
 function sum (values) {
   return reduce((value, accum) => value + accum, values, 0)

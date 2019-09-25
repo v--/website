@@ -14,7 +14,7 @@ describe('Line', function () {
     })
   })
 
-  describe('.intersectLines()', function () {
+  describe('#intersectLines()', function () {
     it('intersects non-collinear lines', function () {
       const l = new Line(1, -1, 0)
       const m = new Line(1, 1, 0)

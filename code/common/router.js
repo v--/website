@@ -73,6 +73,13 @@ async function routerImpl (path, store) {
               factory: 'breakout',
               sidebarID: SidebarID.PLAYGROUND
             }
+
+          case 'graphs':
+            return {
+              title: 'graphs | playground',
+              factory: 'graphs',
+              sidebarID: SidebarID.PLAYGROUND
+            }
         }
       }
   }

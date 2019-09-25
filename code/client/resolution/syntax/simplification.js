@@ -64,7 +64,7 @@ function mostlyConvertToCNF (expression) {
 
       for (const subf of subformulas) {
         if (subf.type === expression.type) {
-          Array.prototype.push.apply(flattened, subf.formulas.map(simplify))
+          flattened.push(...subf.formulas.map(simplify))
         } else {
           flattened.push(subf)
         }
