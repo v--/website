@@ -120,6 +120,10 @@ export class Component {
     return join('', this.iterToString())
   }
 
+  equals (other) {
+    return String(this) === String(other)
+  }
+
   checkSanity () {}
 }
 

@@ -6,12 +6,6 @@ import { CoolError } from '../code/common/errors.js'
 
 class AssertionError extends CoolError {}
 
-Object.defineProperty(chai.assert, 'equalComponents', {
-  value (a, b) {
-    chai.assert.strictEqual(String(a), String(b))
-  }
-})
-
 Object.defineProperty(chai.assert, 'equalExpressions', {
   value (a, b) {
     chai.assert.strictEqual(stringifyExpression(a), stringifyExpression(b))

@@ -60,28 +60,28 @@ describe('MirrorXMLRenderer', function () {
     it('renders simple components', function () {
       const src = c('div')
       const dest = render(src)
-      assert.equalComponents(src, dest)
+      assert.customEqual(src, dest)
     })
 
     it('renders components with state', function () {
       const src = c('div', { a: 0 })
       const dest = render(src)
 
-      assert.equalComponents(src, dest)
+      assert.customEqual(src, dest)
     })
 
     it('renders components with text children', function () {
       const src = c('div', { text: 'text' })
       const dest = render(src)
 
-      assert.equalComponents(src, dest)
+      assert.customEqual(src, dest)
     })
 
     it('renders components with HTML children', function () {
       const src = c('div', null, c('span'), c('span', { text: 'text' }))
       const dest = render(src)
 
-      assert.equalComponents(src, dest)
+      assert.customEqual(src, dest)
     })
   })
 
@@ -140,7 +140,7 @@ describe('MirrorFactoryRenderer', function () {
       const src = c(() => constant)
       const dest = render(src)
 
-      assert.equalComponents(dest, constant)
+      assert.customEqual(dest, constant)
     })
 
     it('renders simple text', function () {

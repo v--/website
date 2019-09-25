@@ -176,7 +176,7 @@ describe('FactoryComponent', function () {
       }
 
       const evaluated = FactoryComponent.safeCreate(factory, { text: 'text' }).evaluate()
-      assert.equalComponents(evaluated, component)
+      assert.customEqual(evaluated, component)
     })
 
     it("throws if the factory doesn't return a component", function () {
