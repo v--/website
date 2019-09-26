@@ -4,21 +4,12 @@
 @image-side: 200px;
 
 .home-page {
-  display: flex;
-
   .about-me {
     margin-right: 2em;
+    width: 100%;
 
     .me-irl {
-      flex: 0 1 @image-side;
-      margin: 0.5em 0;
-
-      .me-irl-image {
-        width: @image-side;
-        height: @image-side;
-        border: 3px solid @color-foreground;
-        border-radius: 2px;
-      }
+      display: none;
     }
 
     .contact {
@@ -42,7 +33,38 @@
     }
   }
 
-  .info {
-    flex: 1;
+  .me-irl {
+    margin: 0.5em 0;
+    text-align: center;
+
+    .me-irl-image {
+      width: @image-side;
+      height: @image-side;
+      border: 3px solid @color-foreground;
+      border-radius: 2px;
+    }
+  }
+}
+
+@media (min-width: @mobile-width) {
+  .home-page {
+    display: flex;
+    flex-direction: row-reverse;
+
+    .about-me {
+      flex: 0 1 @image-side;
+
+      .me-irl {
+        display: block;
+      }
+    }
+
+    .info {
+      flex: 1;
+
+      .me-irl {
+        display: none;
+      }
+    }
   }
 }
