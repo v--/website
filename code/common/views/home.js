@@ -23,9 +23,7 @@ function contact (state) {
 export default function home () {
   return c('div', { class: 'page home-page' },
     c('article', { class: 'info' },
-      c('div', { class: 'me-irl' },
-        c('img', { class: 'me-irl-image', src: 'images/me_irl.jpg' })
-      ),
+      c('div', { class: 'me-irl' }),
 
       c('div', { class: 'section' },
         c('h1', { class: 'section-title', text: 'About me' }),
@@ -64,9 +62,7 @@ export default function home () {
     ),
 
     c('div', { class: 'about-me' },
-      c('div', { class: 'me-irl' },
-        c('img', { class: 'me-irl-image', src: 'images/me_irl.jpg' })
-      ),
+      c('div', { class: 'me-irl' }),
 
       c('div', { class: 'section' },
         c('h1', { class: 'section-title', text: 'Contacts' }),
