@@ -7,7 +7,7 @@ import sync from './build/sync.js'
 
 gulp.task('watch', function (done) {
   gulp.watch('client/styles/**/*.less', armor(gulp.series('client:build:styles')))
-  gulp.watch('client/assets/**/*', armor(gulp.series('client:restart')))
+  gulp.watch('client/assets/**/*', armor(gulp.series('client:build:assets')))
   gulp.watch('client/svgs/**/*.svg', armor(gulp.series('client:build:svgs')))
   gulp.watch('client/icons.json', armor(gulp.series('client:build:icons', 'server:restart')))
 

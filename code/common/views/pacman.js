@@ -1,7 +1,6 @@
 import { map } from '../support/iteration.js'
 import { c } from '../rendering/component.js'
-
-import link from '../components/link.js'
+import pgpLink from '../components/pgp_link.js'
 
 function * iterPackages (pkgs) {
   for (const { name, version, description } of pkgs) {
@@ -17,9 +16,6 @@ function packages ({ arch, pkgs }) {
     c('ul', null, ...iterPackages(pkgs))
   )
 }
-
-const PGP_FINGERPRINT = 'B77A3C8832838F1F80ADFD7E1D0507B417DAB671'
-const PGP_KEY_ID_SHORT = PGP_FINGERPRINT.substr(PGP_FINGERPRINT.length - 8)
 
 export default function pacman ({ data }) {
   const arches = new Map()
@@ -54,10 +50,7 @@ export default function pacman ({ data }) {
         c('span', {
           text: 'All packages are signed and can be verified using my PGP public key '
         }),
-        c(link, {
-          text: PGP_KEY_ID_SHORT,
-          link: 'http://keys.gnupg.net/pks/lookup?op=vindex&search=0x' + PGP_KEY_ID_SHORT
-        }),
+        c(pgpLink),
         c('span', { text: '.' })
       )
     ),

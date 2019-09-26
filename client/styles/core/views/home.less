@@ -1,66 +1,47 @@
 @import '../../_vars.less';
 @import '../../_mixins.less';
 
-@image-width: 550px;
-@image-height: 200px;
-@image-color-left: #7d7874;
-@image-color-right: #01074f;
-@image-shadow-radius: 25px;
-
-.me-irl {
-  margin: -@main-vpadding-desktop -@main-hpadding-desktop @main-vpadding-desktop;
-  display: flex;
-  overflow: hidden;
-  height: @image-height;
-  background-image: linear-gradient(90deg, @image-color-left 40%, @image-color-right 60%);
-  .zindex(@zindex-me-irl);
-
-  .me-irl-img {
-    .zindex(@zindex-me-irl-image);
-    background-color: @image-color-left;
-    flex-align: center;
-    width: @image-width;
-  }
-
-  .me-irl-pre, .me-irl-post {
-    flex: 1;
-  }
-
-  .me-irl-pre {
-    box-shadow: 0 0 @image-shadow-radius @image-shadow-radius @image-color-left;
-    background-color: @image-color-left;
-  }
-
-  .me-irl-post {
-    box-shadow: 0 0 @image-shadow-radius @image-shadow-radius @image-color-right;
-    background-color: @image-color-right;
-  }
-}
+@image-side: 200px;
 
 .home-page {
-  .contact {
-    list-style-type: none;
-    line-height: 2em;
+  display: flex;
 
-    a {
-      display: inline-flex;
-      align-items: center;
+  .about-me {
+    margin-right: 2em;
 
-      > .icon {
-        height: 1.5em;
-        width: 1.5em;
-        margin-top: -0.1em;
+    .me-irl {
+      flex: 0 1 @image-side;
+      margin: 0.5em 0;
+
+      .me-irl-image {
+        width: @image-side;
+        border: 3px solid @color-foreground;
+        border-radius: 2px;
       }
+    }
 
-      > span {
-        margin-left: 0.75em;
+    .contact {
+      list-style-type: none;
+      line-height: 2em;
+
+      a {
+        display: inline-flex;
+        align-items: center;
+
+        > .icon {
+          height: 1.5em;
+          width: 1.5em;
+          margin-top: -0.1em;
+        }
+
+        > span {
+          margin-left: 0.75em;
+        }
       }
     }
   }
-}
 
-@media (max-width: @mobile-width) {
-  .home-page .me-irl {
-    margin: -@main-vpadding-mobile -@main-hpadding-mobile @main-vpadding-mobile;
+  .info {
+    flex: 1;
   }
 }
