@@ -4,20 +4,19 @@ import DictSubject from '../../common/observables/dict_subject.js'
 import { createIntervalObservable } from '../core/support/timeout.js'
 
 import Graph from '../core/math/graph.js'
-import Matrix from '../core/math/linalg/matrix.js'
 
 import graphCanvas from './components/graph_canvas.js'
 
 const INTERVAL = 1000
 
 export default function playgroundBreakout () {
-  const incidence = Matrix.fromRows([
-    [0, 0, 1, 1, 0],
-    [1, 0, 1, 0, 1],
-    [1, 1, 0, 1, 1],
-    [0, 1, 1, 0, 0],
-    [0, 1, 1, 0, 0]
-  ])
+  const incidence = [
+    [2, 3],
+    [0, 2, 4],
+    [0, 1, 3, 4],
+    [1, 2],
+    [1, 2]
+  ]
 
   const loop = [1, 0, 3]
   const subject = new DictSubject({

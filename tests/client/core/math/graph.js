@@ -6,11 +6,12 @@ import Graph from '../../../../code/client/core/math/graph.js'
 describe('Graph', function () {
   describe('#getSymmetrizedLaplacian()', function () {
     it('calculates the Laplacian matrix of an undirected graph', function () {
-      const incidence = Matrix.fromRows([
-        [1, 0, 1],
-        [0, 1, 0],
-        [1, 0, 1]
-      ])
+      const incidence = [
+        [0, 2],
+        [1],
+        [0, 2]
+      ]
+
       const graph = new Graph(incidence)
 
       const expected = Matrix.fromRows([
@@ -23,11 +24,11 @@ describe('Graph', function () {
     })
 
     it('calculates the symmetrized Laplacian matrix of a directed graph', function () {
-      const incidence = Matrix.fromRows([
-        [1, 0, 1],
-        [0, 1, 0],
-        [0, 0, 1]
-      ])
+      const incidence = [
+        [0, 2],
+        [1],
+        [0, 2]
+      ]
       const graph = new Graph(incidence)
 
       const expected = Matrix.fromRows([

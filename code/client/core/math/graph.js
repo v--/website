@@ -7,7 +7,8 @@ export default class Graph {
   }
 
   addEdge (src, dest) {
-    const newIncidence = this.incidence.set(src, dest, 1)
+    const newIncidence = this.incidence.slice()
+    newIncidence[src].push(dest)
     return new this.constructor(newIncidence)
   }
 
@@ -16,7 +17,7 @@ export default class Graph {
   }
 
   get order () {
-    return this.incidence.rows
+    return this.incidence.length
   }
 
   getEdges () {
@@ -24,8 +25,8 @@ export default class Graph {
 
     for (let i = 0; i < this.order; i++) {
       for (let j = i; j < this.order; j++) {
-        const a = this.incidence.get(i, j) === 1
-        const b = this.incidence.get(j, i) === 1
+        const a = this.incidence[i].some(v => v === j)
+        const b = this.incidence[j].some(v => v === i)
 
         if (a && b) {
           edges.push({
@@ -52,12 +53,13 @@ export default class Graph {
     return edges
   }
 
-  getSymmetrizedIncidence () {
+  getSymmetrizedAdjacency () {
     const symmetrized = Matrix.zero(this.order)
 
     for (let i = 0; i < this.order; i++) {
-      for (let j = 0; j < this.order; j++) {
-        symmetrized.setInline(i, j, Math.max(this.incidence.get(i, j), this.incidence.get(j, i)))
+      for (const j of this.incidence[i]) {
+        symmetrized.setInline(i, j, 1)
+        symmetrized.setInline(j, i, 1)
       }
     }
 
@@ -66,7 +68,7 @@ export default class Graph {
 
   getSymmetrizedLaplacian () {
     const diagonal = []
-    const symmetrized = this.getSymmetrizedIncidence()
+    const symmetrized = this.getSymmetrizedAdjacency()
 
     for (let i = 0; i < this.order; i++) {
       let d = 0
