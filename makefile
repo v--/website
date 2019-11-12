@@ -8,7 +8,7 @@ BENCHMARKS = $(shell find benchmarks -name '*.js' ! -name '_*.js')
 test ?= $(shell find tests -name '*.js' ! -name '_*.js')
 
 build: lint test tests/_observables.js
-	env NODE_ENV=production gulp client:build
+	@env NODE_ENV=production gulp client:build
 
 $(BENCHMARKS):
 	@node --experimental-modules $@
@@ -20,7 +20,7 @@ tests/_observables.js:
 	@node --experimental-modules $@
 
 $(TESTS):
-	@echo $@ | env NODE_OPTIONS='--experimental-modules' mocha --delay tests/_runner.js
+	@mocha --require esm $@
 
 test:
-	@echo $(TESTS) | env NODE_OPTIONS='--experimental-modules' mocha --delay tests/_runner.js
+	@mocha --require esm $(TESTS)
