@@ -1,38 +1,26 @@
 import { c } from '../../common/rendering/component.js'
 import { aspectRatioPage, aspectRatioBox } from '../core/components/aspect_ratio_page.js'
 import DictSubject from '../../common/observables/dict_subject.js'
-import { createIntervalObservable } from '../core/support/timeout.js'
 
-import Graph from '../core/math/graph.js'
+import Graph from '../core/math/graphs/graph.js'
+import { highlightShortestPath } from '../core/math/graphs/dijsktra.js'
 
 import graphCanvas from './components/graph_canvas.js'
 
-const INTERVAL = 1000
-
 export default function playgroundBreakout () {
-  const incidence = [
-    [2, 3],
-    [0, 2, 4],
-    [0, 1, 3, 4],
-    [1, 2],
-    [1, 2]
-  ]
+  const graph = Graph.fromArcs([
+    { src: 0, dest: 1, weight: 2 },
+    { src: 0, dest: 2, weight: 2 },
+    { src: 0, dest: 5, weight: 10 },
+    { src: 1, dest: 3, weight: 2 },
+    { src: 2, dest: 4, weight: 3 },
+    { src: 3, dest: 5, weight: 1 },
+    { src: 4, dest: 5, weight: 1 }
+  ])
 
-  const loop = [1, 0, 3]
-  const subject = new DictSubject({
-    i: 1,
-    graph: new Graph(incidence).highlightEdge(loop[0], loop[1])
-  })
+  highlightShortestPath(graph, 0, 5)
 
-  createIntervalObservable(INTERVAL).subscribe(function () {
-    const i = subject.value.i
-    const nextI = (i + 1) % loop.length
-
-    subject.update({
-      i: nextI,
-      graph: subject.value.graph.highlightEdge(loop[i], loop[nextI])
-    })
-  })
+  const subject = new DictSubject({ graph })
 
   return c(aspectRatioPage, { class: 'page playground-graphs-page' },
     c('div', { class: 'section' },

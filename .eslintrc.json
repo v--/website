@@ -3,6 +3,7 @@
   "rules": {
     "no-var": "warn",
     "no-unused-vars": ["warn", { "vars": "all", "argsIgnorePattern": "^_" }],
-    "import/extensions": ["error", "always", { "ignorePackages": true }]
+    "import/extensions": ["error", "always", { "ignorePackages": true }],
+    "no-console": ["error", { "allow": ["error"] }]
   }
 }

@@ -8,7 +8,7 @@ export function run (...benchmarks) {
   }
 
   suite.on('cycle', function (event) {
-    console.log(String(event.target))
+    console.log(String(event.target)) // eslint-disable-line no-console
   })
 
   return new Promise(function (resolve, reject) {

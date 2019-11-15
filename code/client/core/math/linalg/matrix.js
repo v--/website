@@ -98,7 +98,6 @@ export default class Matrix {
 
   get (i, j) {
     if (i < 0 || i >= this.rows || j < 0 || j >= this.cols) {
-      console.warn(i < 0, i >= this.rows, j < 0, j >= this.cols)
       throw new MatrixIndexError(`Invalid indices ${i} and ${j} for ${repr(this)}`)
     }
 
