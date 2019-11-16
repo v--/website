@@ -1,7 +1,7 @@
+import { Vector } from '../../../common/math/geom2d/vector.js'
+
 import { findBrickIndex, addBrick, changeBrick } from '../support/bricks.js'
 import { NEW_BRICK_SAFETY_DISTANCE } from '../constants.js'
-
-import { Vector } from '../geom/vector.js'
 import { GameBrick } from '../geom/game_brick.js'
 
 export function evolve (subject) {

@@ -1,7 +1,8 @@
-import { GameStatus } from '../enums/game_status.js'
-import { Vector } from '../geom/vector.js'
-import { Ellipse } from '../geom/ellipse.js'
+import { Vector } from '../../../common/math/geom2d/vector.js'
+import { Ellipse } from '../../../common/math/geom2d/ellipse.js'
+
 import { MOVEMENT_DELTA } from '../constants.js'
+import { GameStatus } from '../enums/game_status.js'
 
 export function movePaddle (subject) {
   const { status, ball, stage, paddle, paddleDirection } = subject.value

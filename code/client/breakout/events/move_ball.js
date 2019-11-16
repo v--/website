@@ -3,24 +3,24 @@ import { isGreaterThan } from '../../../common/math/numeric/floating.js'
 import { MOVEMENT_DELTA, REFLECTION_ADJUSTMENT } from '../constants.js'
 import { GameStatus } from '../enums/game_status.js'
 import { changeBrick, removeBrick } from '../support/bricks.js'
-import { Reflection } from '../geom/reflection.js'
+import { Reflection } from '../geom/game_ball.js'
 import { GameBrick } from '../geom/game_brick.js'
 
 function * generateReflections (stage, paddle, ball, bricks) {
-  const paddleReflection = paddle.reflectBall(ball)
+  const paddleReflection = ball.reflectInEllipse(paddle)
 
   if (paddleReflection !== null) {
     yield paddleReflection
   }
 
-  const stageReflection = stage.reflectBall(ball)
+  const stageReflection = ball.reflectInRect(stage)
 
   if (stageReflection !== null) {
     yield stageReflection
   }
 
   for (const brick of bricks) {
-    const brickReflection = brick.reflectBall(ball)
+    const brickReflection = ball.reclectInGameBrick(brick)
 
     if (brickReflection !== null) {
       yield brickReflection
@@ -55,7 +55,7 @@ export function moveBall (subject) {
       newStatus = GameStatus.COMPLETED
     }
 
-    const reflections = Array.from(generateReflections(stage, paddle, reflected.ball, newBricks))
+    const reflections = generateReflections(stage, paddle, reflected.ball, newBricks)
     nextReflected = reflected.ball.findClosestReflection(reflections)
 
     delta = nextDelta

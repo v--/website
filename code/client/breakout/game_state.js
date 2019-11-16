@@ -1,6 +1,7 @@
-import { Vector } from './geom/vector.js'
-import { Rectangle } from './geom/rectangle.js'
-import { Ellipse } from './geom/ellipse.js'
+import { Vector } from '../../common/math/geom2d/vector.js'
+import { Rectangle } from '../../common/math/geom2d/rectangle.js'
+import { Ellipse } from '../../common/math/geom2d/ellipse.js'
+
 import { GameBall } from './geom/game_ball.js'
 import { GameBrick } from './geom/game_brick.js'
 

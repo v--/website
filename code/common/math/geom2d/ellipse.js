@@ -1,14 +1,10 @@
 import { isSameNumber } from '../../../common/math/numeric/floating.js'
 
-import { Reflection } from './reflection.js'
-import { Figure } from './figure.js'
 import { Vector } from './vector.js'
 import { Line } from './line.js'
-import { GameBall } from './game_ball.js'
 
-export class Ellipse extends Figure {
+export class Ellipse {
   constructor (center, axes) {
-    super()
     this.center = center
     this.axes = axes
   }
@@ -35,8 +31,7 @@ export class Ellipse extends Figure {
     return new Vector(x, y)
   }
 
-  // Only the lower semiellipse is supported
-  tangentAt (point) {
+  tangentAtLowerSemiellipse (point) {
     const { center, axes } = this
 
     if (isSameNumber(Math.abs(point.x - center.x), axes.x)) {
@@ -45,35 +40,5 @@ export class Ellipse extends Figure {
 
     const deriv = axes.y / (axes.x ** 2) * (point.x - center.x) / Math.sqrt(1 - ((point.x - center.x) / axes.x) ** 2)
     return new Line(deriv, -1, point.y - point.x * deriv)
-  }
-
-  * generateReflections (ball) {
-    for (const corner of ball.generateCorners()) {
-      const motionLine = Line.fromPointAndVector(corner, ball.direction)
-      const motionInt = this.intersectWithLine(motionLine)
-
-      if (motionInt === null || !motionInt.sub(corner).isUnidirectionalWith(ball.direction)) {
-        continue
-      }
-
-      const tangent = this.tangentAt(motionInt)
-
-      if (tangent === null) {
-        continue
-      }
-
-      const reflectedCenter = motionInt.sub(corner.sub(ball.center))
-      const reflectedDirection = tangent.reflectDirection(corner, ball.direction)
-
-      yield new Reflection(
-        new GameBall(reflectedCenter, reflectedDirection, ball.radius),
-        this
-      )
-    }
-  }
-
-  reflectBall (ball) {
-    const reflections = Array.from(this.generateReflections(ball))
-    return ball.findClosestReflection(reflections)
   }
 }

@@ -1,9 +1,8 @@
-import { isSameNumber } from '../../../common/math/numeric/floating.js'
+import { isSameNumber } from '../numeric/floating.js'
 
 import { Vector } from './vector.js'
-import { Figure } from './figure.js'
 
-export class Line extends Figure {
+export class Line {
   static fromTwoPoints (pointA, pointB) {
     return this.fromPointAndVector(pointA, pointB.sub(pointA))
   }
@@ -18,7 +17,6 @@ export class Line extends Figure {
   }
 
   constructor (a, b, c) {
-    super()
     this.a = a
     this.b = b
     this.c = c

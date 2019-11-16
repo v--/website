@@ -1,28 +1,15 @@
-import { MAX_BRICK_POWER } from '../constants.js'
+import { Vector } from '../../../common/math/geom2d/vector.js'
+import { Rectangle } from '../../../common/math/geom2d/rectangle.js'
 
-import { Reflection } from './reflection.js'
-import { Figure } from './figure.js'
-import { Vector } from './vector.js'
-import { Rectangle } from './rectangle.js'
+import { MAX_BRICK_POWER } from '../constants.js'
 
 const UNIT = new Vector(1, 1)
 
-export class GameBrick extends Figure {
+export class GameBrick {
   constructor (origin, power) {
-    super()
     this.origin = origin
     this.power = power
     this.rectangle = new Rectangle(origin, UNIT)
-  }
-
-  reflectBall (ball) {
-    const reflection = this.rectangle.reflectBall(ball)
-
-    if (reflection === null) {
-      return null
-    }
-
-    return new Reflection(reflection.ball, this)
   }
 
   hit () {
