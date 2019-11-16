@@ -1,5 +1,5 @@
 import { EmptyIterError, map, reduce } from './iteration.js'
-import { roundNumber } from './numeric.js'
+import { roundNumber } from '../math/numeric/floating.js'
 
 export function join (delimiter, iter) {
   try {

@@ -1,8 +1,8 @@
-import { CoolError } from '../../../common/errors.js'
-import { union, chain, range, repeat, zip, map, all } from '../../../common/support/iteration.js'
+import { CoolError } from '../../errors.js'
+import { union, chain, range, repeat, zip, map, all } from '../../support/iteration.js'
 
-import { stringifyLinearCombination } from './stringify.js'
-import { isSameNumber, roundNumber } from '../../../common/support/numeric.js'
+import { stringifyLinearCombination } from '../stringify.js'
+import { isSameNumber, roundNumber } from '../../../common/math/numeric/floating.js'
 
 const MAX_ITER = 1000
 const STURM_LEFT_BOUND_OFFSET = 1e-10

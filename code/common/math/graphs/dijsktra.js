@@ -1,4 +1,4 @@
-import { range } from '../../../../common/support/iteration.js'
+import { range } from '../../support/iteration.js'
 
 export function highlightShortestPath (graph, i, j) {
   const cumWeights = new Map()

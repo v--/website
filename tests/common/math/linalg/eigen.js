@@ -1,9 +1,9 @@
-import { assert } from '../../../../_common.js'
-import { sort } from '../../../../../code/common/support/iteration.js'
-import { roundNumber } from '../../../../../code/common/support/numeric.js'
+import { assert } from '../../../_common.js'
+import { sort } from '../../../../code/common/support/iteration.js'
+import { roundNumber } from '../../../../code/common/math/numeric/floating.js'
 
-import { Matrix } from '../../../../../code/client/core/math/linalg/matrix.js'
-import { eigen } from '../../../../../code/client/core/math/linalg/eigen.js'
+import { Matrix } from '../../../../code/common/math/linalg/matrix.js'
+import { eigen } from '../../../../code/common/math/linalg/eigen.js'
 
 describe('eigen()', function () {
   it('computes the eigendecomposition of a unit matrix', function () {

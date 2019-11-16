@@ -1,4 +1,4 @@
-import { isGreaterThan } from '../../../common/support/numeric.js'
+import { isGreaterThan } from '../../../common/math/numeric/floating.js'
 
 import { MOVEMENT_DELTA, REFLECTION_ADJUSTMENT } from '../constants.js'
 import { GameStatus } from '../enums/game_status.js'

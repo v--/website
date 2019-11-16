@@ -1,4 +1,4 @@
-import { isSameNumber } from '../../../common/support/numeric.js'
+import { isSameNumber } from '../../../common/math/numeric/floating.js'
 
 import { Vector } from './vector.js'
 import { Figure } from './figure.js'

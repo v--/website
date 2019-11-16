@@ -1,6 +1,6 @@
-import { assert } from '../../../_common.js'
+import { assert } from '../../_common.js'
 
-import { stringifyNumber as sn, stringifyLinearCombination as slc, StringifyError } from '../../../../code/client/core/math/stringify.js'
+import { stringifyNumber as sn, stringifyLinearCombination as slc, StringifyError } from '../../../code/common/math/stringify.js'
 
 describe('stringifyNumber()', function () {
   it('preserves integers', function () {

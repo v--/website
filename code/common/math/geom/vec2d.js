@@ -1,21 +1,21 @@
 import { isSameNumber } from '../../../common/math/numeric/floating.js'
 
-export class Vector {
+export class Vec2d {
   constructor (x, y) {
     this.x = x
     this.y = y
   }
 
   add (other) {
-    return new Vector(this.x + other.x, this.y + other.y)
+    return new Vec2d(this.x + other.x, this.y + other.y)
   }
 
   sub (other) {
-    return new Vector(this.x - other.x, this.y - other.y)
+    return new Vec2d(this.x - other.x, this.y - other.y)
   }
 
   scale (amount) {
-    return new Vector(amount * this.x, amount * this.y)
+    return new Vec2d(amount * this.x, amount * this.y)
   }
 
   scaleToNormed () {

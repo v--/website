@@ -1,7 +1,7 @@
-import { assert } from '../../../../_common.js'
+import { assert } from '../../../_common.js'
 
-import { Matrix, MatrixDimensionError } from '../../../../../code/client/core/math/linalg/matrix.js'
-import { lu } from '../../../../../code/client/core/math/linalg/lu.js'
+import { Matrix, MatrixDimensionError } from '../../../../code/common/math/linalg/matrix.js'
+import { lu } from '../../../../code/common/math/linalg/lu.js'
 
 describe('lu()', function () {
   it('fails if the matrix is nonsquare', function () {

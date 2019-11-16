@@ -1,6 +1,6 @@
-import { assert } from '../../../../_common.js'
+import { assert } from '../../../_common.js'
 
-import { Graph, GraphError } from '../../../../../code/client/core/math/graphs/graph.js'
+import { Graph, GraphError } from '../../../../code/common/math/graphs/graph.js'
 
 describe('Graph', function () {
   describe('#addArc()', function () {

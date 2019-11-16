@@ -2,8 +2,8 @@ import { c } from '../../common/rendering/component.js'
 import { aspectRatioPage, aspectRatioBox } from '../core/components/aspect_ratio_page.js'
 import { DictSubject } from '../../common/observables/dict_subject.js'
 
-import { Graph } from '../core/math/graphs/graph.js'
-import { highlightShortestPath } from '../core/math/graphs/dijsktra.js'
+import { Graph } from '../../common/math/graphs/graph.js'
+import { highlightShortestPath } from '../../common/math/graphs/dijsktra.js'
 
 import { graphCanvas } from './components/graph_canvas.js'
 

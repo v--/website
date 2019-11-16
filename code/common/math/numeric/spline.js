@@ -1,6 +1,6 @@
-import { map, zip } from '../../../common/support/iteration.js'
+import { map, zip } from '../../support/iteration.js'
 
-import { stringifyLinearCombination } from './stringify.js'
+import { stringifyLinearCombination } from '../stringify.js'
 import { BSpline } from './b_spline.js'
 
 function * iterExtendedDomain (degree, x) {

@@ -1,5 +1,5 @@
-import { repr } from '../../../common/support/strings.js'
-import { CoolError } from '../../../common/errors.js'
+import { repr } from '../support/strings.js'
+import { CoolError } from '../errors.js'
 
 export class StringifyError extends CoolError {}
 

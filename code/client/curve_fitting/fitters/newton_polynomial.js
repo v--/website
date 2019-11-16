@@ -1,5 +1,5 @@
-import { Polynomial } from '../../core/math/polynomial.js'
-import { dividedDifferences } from '../../core/math/divided_differences.js'
+import { Polynomial } from '../../../common/math/algebra/polynomial.js'
+import { dividedDifferences } from '../../../common/math/numeric/divided_differences.js'
 
 export const newtonPolynomial = Object.freeze({
   name: 'Newton polynomial',

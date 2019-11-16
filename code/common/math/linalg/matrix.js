@@ -1,6 +1,6 @@
-import { join, repr } from '../../../../common/support/strings.js'
-import { map, repeat, zip, all, reduce } from '../../../../common/support/iteration.js'
-import { isSameNumber } from '../../../../common/support/numeric.js'
+import { join, repr } from '../../support/strings.js'
+import { map, repeat, zip, all, reduce } from '../../support/iteration.js'
+import { isSameNumber } from '../../math/numeric/floating.js'
 
 import { MathError } from '../errors.js'
 

@@ -1,4 +1,4 @@
-import { isSameNumber, roundNumber } from '../../../../common/support/numeric.js'
+import { isSameNumber, roundNumber } from '../numeric/floating.js'
 
 import { Matrix, MatrixDimensionError } from './matrix.js'
 import { frobNorm } from './norm.js'

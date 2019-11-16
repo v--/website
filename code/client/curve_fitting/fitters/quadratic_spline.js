@@ -1,5 +1,5 @@
-import { Spline } from '../../core/math/spline.js'
-import { Polynomial } from '../../core/math/polynomial.js'
+import { Spline } from '../../../common/math/numeric/spline.js'
+import { Polynomial } from '../../../common/math/algebra/polynomial.js'
 
 export const quadraticSpline = Object.freeze({
   name: 'Quadratic spline',
