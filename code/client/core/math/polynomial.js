@@ -2,9 +2,10 @@ import { CoolError } from '../../../common/errors.js'
 import { union, chain, range, repeat, zip, map, all } from '../../../common/support/iteration.js'
 
 import { stringifyLinearCombination } from './stringify.js'
-import { EPSILON, isSameNumber, roundNumber } from '../../../common/support/numeric.js'
+import { isSameNumber, roundNumber } from '../../../common/support/numeric.js'
 
 const MAX_ITER = 1000
+const STURM_LEFT_BOUND_OFFSET = 1e-10
 
 export function countSignChanges (array) {
   let changeCount = 0
@@ -202,7 +203,7 @@ export class Polynomial {
 
     const upperBound = Math.max(...this.coeffs.map(c => Math.abs(c / this.leading)))
     const sturmSequence = Array.from(this.iterSturmSequence())
-    return this._findRootsIn(sturmSequence, -upperBound - EPSILON, upperBound)
+    return this._findRootsIn(sturmSequence, -upperBound - STURM_LEFT_BOUND_OFFSET, upperBound)
   }
 
   isZeroPolynomial () {

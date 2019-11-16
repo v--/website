@@ -1,6 +1,6 @@
-import { EPSILON } from '../constants.js'
-import { Reflection } from '../support/reflection.js'
+import { isSameNumber } from '../../../common/support/numeric.js'
 
+import { Reflection } from './reflection.js'
 import { Figure } from './figure.js'
 import { Vector } from './vector.js'
 import { Line } from './line.js'
@@ -16,7 +16,7 @@ export class Ellipse extends Figure {
   intersectWithLine (line) {
     const { center, axes } = this
 
-    if (Math.abs(line.a) < EPSILON) {
+    if (isSameNumber(line.a, 0)) {
       return new Vector(center.x - axes.x, center.y)
     }
 
@@ -39,7 +39,7 @@ export class Ellipse extends Figure {
   tangentAt (point) {
     const { center, axes } = this
 
-    if (Math.abs(Math.abs(point.x - center.x) - axes.x) < EPSILON) {
+    if (isSameNumber(Math.abs(point.x - center.x), axes.x)) {
       return null
     }
 

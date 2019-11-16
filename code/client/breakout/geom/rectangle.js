@@ -1,5 +1,4 @@
-import { Reflection } from '../support/reflection.js'
-
+import { Reflection } from './reflection.js'
 import { Figure } from './figure.js'
 import { Line } from './line.js'
 import { GameBall } from './game_ball.js'

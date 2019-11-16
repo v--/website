@@ -1,6 +1,6 @@
 import { MAX_BRICK_POWER } from '../constants.js'
-import { Reflection } from '../support/reflection.js'
 
+import { Reflection } from './reflection.js'
 import { Figure } from './figure.js'
 import { Vector } from './vector.js'
 import { Rectangle } from './rectangle.js'

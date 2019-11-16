@@ -1,7 +1,11 @@
-export const EPSILON = 1e-10
+const EPSILON = 1e-10
 
 export function isSameNumber (a, b) {
   return Math.abs(a - b) < EPSILON
+}
+
+export function isGreaterThan (a, b) {
+  return a >= b - EPSILON
 }
 
 export function roundNumber (x) {

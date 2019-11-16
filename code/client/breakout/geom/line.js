@@ -1,7 +1,7 @@
+import { isSameNumber } from '../../../common/support/numeric.js'
+
 import { Vector } from './vector.js'
 import { Figure } from './figure.js'
-
-const EPSILON = 1e-3
 
 export class Line extends Figure {
   static fromTwoPoints (pointA, pointB) {
@@ -25,23 +25,23 @@ export class Line extends Figure {
   }
 
   isParallelWith (other) {
-    return Math.abs(this.a * other.b - this.b * other.a) < EPSILON
+    return isSameNumber(this.a * other.b, this.b * other.a)
   }
 
   coincidesWith (other) {
-    return this.isParallelWith(other) && Math.abs(this.b * other.c - this.c * other.b) < EPSILON
+    return this.isParallelWith(other) && isSameNumber(this.b * other.c, this.c * other.b)
   }
 
   intersectWith (other) {
-    if (Math.abs(this.a) < EPSILON && Math.abs(other.a) < EPSILON) {
+    if (isSameNumber(this.a, 0) && isSameNumber(other.a, 0)) {
       return null
-    } else if (Math.abs(this.a) < EPSILON) {
+    } else if (isSameNumber(this.a, 0)) {
       return other.intersectWith(this)
     }
 
     const lambda = other.a / this.a
 
-    if (Math.abs(other.b - lambda * this.b) < EPSILON) {
+    if (isSameNumber(other.b, lambda * this.b)) {
       return null
     }
 

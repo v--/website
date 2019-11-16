@@ -1,4 +1,4 @@
-import { EPSILON } from '../constants.js'
+import { isSameNumber } from '../../../common/support/numeric.js'
 
 export class Vector {
   constructor (x, y) {
@@ -31,6 +31,6 @@ export class Vector {
   }
 
   isUnidirectionalWith (other) {
-    return this.scaleToNormed().distanceTo(other.scaleToNormed()) < EPSILON
+    return isSameNumber(this.scaleToNormed().distanceTo(other.scaleToNormed()), 0)
   }
 }

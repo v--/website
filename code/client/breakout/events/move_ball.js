@@ -1,7 +1,9 @@
-import { EPSILON, MOVEMENT_DELTA, REFLECTION_ADJUSTMENT } from '../constants.js'
+import { isGreaterThan } from '../../../common/support/numeric.js'
+
+import { MOVEMENT_DELTA, REFLECTION_ADJUSTMENT } from '../constants.js'
 import { GameStatus } from '../enums/game_status.js'
-import { Reflection } from '../support/reflection.js'
 import { changeBrick, removeBrick } from '../support/bricks.js'
+import { Reflection } from '../geom/reflection.js'
 import { GameBrick } from '../geom/game_brick.js'
 
 function * generateReflections (stage, paddle, ball, bricks) {
@@ -67,7 +69,7 @@ export function moveBall (subject) {
       bricks: newBricks,
       ball: ball.translate(delta)
     })
-  } else if (reflected.ball.center.y + ball.radius >= stage.size.y - EPSILON) {
+  } else if (isGreaterThan(reflected.ball.center.y + ball.radius, stage.size.y)) {
     eventLoop.stop()
     subject.update({
       status: GameStatus.GAME_OVER,
