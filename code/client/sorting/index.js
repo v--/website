@@ -1,14 +1,14 @@
 import { map } from '../../common/support/iteration.js'
 import { c } from '../../common/rendering/component.js'
 
-import { SortSubject } from './support/sort_subject.js'
 import { sortingCard } from './components/sorting_card.js'
 import { algorithms } from './algorithms.js'
 import { sequences } from './sequences.js'
+import { Sorter } from './sorter.js'
 
 export function index () {
-  const observables = algorithms.map(function (algorithm) {
-    return new SortSubject(algorithm, sequences)
+  const sorters = algorithms.map(function (algorithm) {
+    return new Sorter(algorithm, sequences)
   })
 
   return c('div', { class: 'page playground-sorting-page' },
@@ -19,8 +19,8 @@ export function index () {
           class: 'sorting-top-button',
           text: 'Run all',
           click () {
-            for (const observable of observables) {
-              observable.run()
+            for (const sorter of sorters) {
+              sorter.run()
             }
           }
         }),
@@ -29,8 +29,8 @@ export function index () {
           class: 'sorting-top-button',
           text: 'Pause all',
           click () {
-            for (const observable of observables) {
-              observable.pause()
+            for (const sorter of sorters) {
+              sorter.pause()
             }
           }
         }),
@@ -39,15 +39,15 @@ export function index () {
           class: 'sorting-top-button',
           text: 'Reset all',
           click () {
-            for (const observable of observables) {
-              observable.reset()
+            for (const sorter of sorters) {
+              sorter.reset()
             }
           }
         })
       ),
 
       c('div', { class: 'sorting-cards' },
-        ...map(observable => c(sortingCard, observable), observables)
+        ...map(sorter => c(sortingCard, sorter.state$), sorters)
       )
     )
   )
