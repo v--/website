@@ -8,11 +8,11 @@ export function householderReflection (column, k) {
   const u = Matrix.zero(n, 1)
 
   for (let i = k; i < n; i++) {
-    u.setInline(i, 0, column.get(i, 0))
+    u.set(i, 0, column.get(i, 0))
   }
 
   const pivot = column.get(k, 0)
-  u.setInline(k, 0, pivot + Math.sign(pivot) * frobNorm(u))
+  u.set(k, 0, pivot + Math.sign(pivot) * frobNorm(u))
 
   const v = u.scale(Math.sqrt(2) / frobNorm(u))
   const h = Matrix.unit(n)
@@ -20,7 +20,7 @@ export function householderReflection (column, k) {
   for (let i = k; i < n; i++) {
     for (let j = k; j < n; j++) {
       const value = (i === j) - v.get(i, 0) * v.get(j, 0)
-      h.setInline(i, j, value)
+      h.set(i, j, value)
     }
   }
 

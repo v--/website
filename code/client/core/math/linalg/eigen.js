@@ -28,10 +28,10 @@ export function findMatrixMax (matrix) {
 
 export function givensRotation (n, i, j, phi) {
   const matrix = Matrix.unit(n)
-  matrix.setInline(i, i, Math.cos(phi))
-  matrix.setInline(i, j, -Math.sin(phi))
-  matrix.setInline(j, i, Math.sin(phi))
-  matrix.setInline(j, j, Math.cos(phi))
+  matrix.set(i, i, Math.cos(phi))
+  matrix.set(i, j, -Math.sin(phi))
+  matrix.set(j, i, Math.sin(phi))
+  matrix.set(j, j, Math.cos(phi))
   return matrix
 }
 
@@ -42,7 +42,7 @@ export function jacobiMethod (matrix, maxIter = 1000) {
 
   const n = matrix.rows
 
-  let d = matrix.dup()
+  let d = matrix.clone()
   let l = Matrix.unit(n)
   let err = Number.POSITIVE_INFINITY
 

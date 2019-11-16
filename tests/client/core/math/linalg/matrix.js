@@ -55,8 +55,8 @@ describe('Matrix', function () {
   describe('#set()', function () {
     it('works correctly', function () {
       const matrix = new Matrix(2, 2, [1, 0, 0, 1])
-      const changed = matrix.set(0, 0, 0)
-      assert.strictEqual(changed.get(0, 0), 0)
+      matrix.set(0, 0, 0)
+      assert.strictEqual(matrix.get(0, 0), 0)
     })
   })
 

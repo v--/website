@@ -36,7 +36,7 @@ export class Matrix {
     const result = this.zero(n, n)
 
     for (let i = 0; i < n; i++) {
-      result.setInline(i, i, 1)
+      result.set(i, i, 1)
     }
 
     return result
@@ -47,7 +47,7 @@ export class Matrix {
     const result = this.zero(n, n)
 
     for (let i = 0; i < n; i++) {
-      result.setInline(i, i, items[i])
+      result.set(i, i, items[i])
     }
 
     return result
@@ -109,21 +109,10 @@ export class Matrix {
       throw new MatrixIndexError(`Invalid indices ${i} and ${j} for ${repr(this)}`)
     }
 
-    const newPayload = this.payload.slice()
-    newPayload[i * this.cols + j] = value
-
-    return new this.constructor(
-      this.rows,
-      this.cols,
-      newPayload
-    )
-  }
-
-  setInline (i, j, value) {
     this.payload[i * this.cols + j] = value
   }
 
-  dup () {
+  clone () {
     return new this.constructor(
       this.rows,
       this.cols,
@@ -140,7 +129,7 @@ export class Matrix {
 
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.cols; j++) {
-        result.setInline(j, i, this.get(i, j))
+        result.set(j, i, this.get(i, j))
       }
     }
 
@@ -188,7 +177,7 @@ export class Matrix {
 
     for (let i = 0; i < rows.length; i++) {
       for (let j = 0; j < cols.length; j++) {
-        result.setInline(i, j, dotProduct(rows[i], cols[j]))
+        result.set(i, j, dotProduct(rows[i], cols[j]))
       }
     }
 
@@ -247,7 +236,7 @@ export class Matrix {
         const resultI = i > row ? (i - 1) : i
         const resultJ = j > col ? (j - 1) : j
 
-        result.setInline(resultI, resultJ, this.get(i, j))
+        result.set(resultI, resultJ, this.get(i, j))
       }
     }
 

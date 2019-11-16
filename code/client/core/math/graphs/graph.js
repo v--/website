@@ -1,5 +1,3 @@
-import { Matrix } from '../linalg/matrix.js'
-
 import { MathError } from '../errors.js'
 
 export class GraphError extends MathError {}
@@ -118,33 +116,5 @@ export class Graph {
 
   getAllArcs () {
     return Array.from(this._iterArcs())
-  }
-
-  getSymmetrizedAdjacency () {
-    const symmetrized = Matrix.zero(this.order)
-
-    for (const arc of this._iterArcs()) {
-      symmetrized.setInline(arc.src, arc.dest, 1)
-      symmetrized.setInline(arc.dest, arc.src, 1)
-    }
-
-    return symmetrized
-  }
-
-  getSymmetrizedLaplacian () {
-    const diagonal = []
-    const symmetrized = this.getSymmetrizedAdjacency()
-
-    for (let i = 0; i < this.order; i++) {
-      let d = 0
-
-      for (let j = 0; j < this.order; j++) {
-        d += symmetrized.get(i, j)
-      }
-
-      diagonal.push(d)
-    }
-
-    return Matrix.diagonal(diagonal).sub(symmetrized)
   }
 }
