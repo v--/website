@@ -1,13 +1,12 @@
 import { c } from '../../common/rendering/component.js'
 import { aspectRatioPage, aspectRatioBox } from '../core/components/aspect_ratio_page.js'
-import { ClientError } from '../../common/errors.js'
-import { QueryConfig, NumericMapping, CheckList } from '../../common/support/query_config.js'
 import { DictSubject } from '../../common/observables/dict_subject.js'
 import { CHALK_COLORS } from '../core/support/colors.js'
 
 import { curveCanvas } from './components/curve_canvas.js'
 import { curveLegend } from './components/curve_legend.js'
 import { fitters } from './fitters.js'
+import { NumericMapping } from './support/numeric_mapping.js'
 
 export const ZERO = {
   eval (_x) {
@@ -19,55 +18,60 @@ export const ZERO = {
   }
 }
 
-const QUERY_CONFIG_DEFAULTS = Object.freeze({
-  mapping: new NumericMapping([[-7, 2], [0, -2], [5, 1], [8, -3]]),
-  enabled: new CheckList(fitters, new Set(fitters.filter(f => !f.hideByDefault)))
-})
-
-const QUERY_CONFIG_PARSERS = Object.freeze({
-  mapping (string) {
-    return NumericMapping.fromString(string)
-  },
-
-  enabled (string) {
-    return CheckList.fromString(fitters, string)
-  }
-})
-
 const WIDTH = 20
 const HEIGHT = 16
+const DEFAULT_MAPPING = new NumericMapping([[-7, 2], [0, -2], [5, 1], [8, -3]])
 
-export function index ({ path }) {
-  const config = new QueryConfig(path, QUERY_CONFIG_DEFAULTS, QUERY_CONFIG_PARSERS)
-  let mapping
-  let enabled
-
-  try {
-    mapping = config.get('mapping')
-    enabled = config.get('enabled')
-  } catch (err) {
-    console.error(err)
-    throw new ClientError('Invalid query string')
-  }
-
-  const curves = fitters
+function buildCurves (mapping) {
+  return fitters
     .map(function (fitter, i) {
       const curve = mapping.n === 0 ? ZERO : fitter.fit(mapping)
 
       return {
-        curve,
         fitter,
+        curve,
         color: CHALK_COLORS[i]
       }
     })
+}
 
-  const subject = new DictSubject({
+export function index () {
+  const subject$ = new DictSubject({
     width: WIDTH,
     height: HEIGHT,
-    mapping,
-    enabled,
-    curves,
-    config
+    mapping: DEFAULT_MAPPING,
+    fitters: new Set(fitters.filter(f => !f.hideByDefault)),
+    curves: buildCurves(DEFAULT_MAPPING),
+
+    updateMapping (x, y) {
+      const { mapping } = subject$.value
+      const newMapping = mapping.clone()
+      newMapping.set(x, y)
+      const newCurves = buildCurves(newMapping)
+      subject$.update({ mapping: newMapping, curves: newCurves })
+    },
+
+    deleteMapping (x) {
+      const { mapping } = subject$.value
+      const newMapping = mapping.clone()
+      newMapping.delete(x)
+      const newCurves = buildCurves(newMapping)
+      subject$.update({ mapping: newMapping, curves: newCurves })
+    },
+
+    enableFitter (fitter) {
+      const { fitters } = subject$.value
+      const newFitters = new Set(fitters)
+      newFitters.add(fitter)
+      subject$.update({ fitters: newFitters })
+    },
+
+    disableFitter (fitter) {
+      const { fitters } = subject$.value
+      const newFitters = new Set(fitters)
+      newFitters.delete(fitter)
+      subject$.update({ fitters: newFitters })
+    }
   })
 
   return c(aspectRatioPage, { class: 'page playground-curve-fitting-page' },
@@ -84,9 +88,9 @@ export function index ({ path }) {
       bottomMargin: 25,
       minHeight: 250,
       maxHeight: 500,
-      item: c(curveCanvas, subject)
+      item: c(curveCanvas, subject$)
     }),
 
-    c(curveLegend, subject)
+    c(curveLegend, subject$)
   )
 }

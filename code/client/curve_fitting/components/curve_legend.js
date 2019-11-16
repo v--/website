@@ -1,11 +1,10 @@
 import { sort } from '../../../common/support/iteration.js'
 import { styles } from '../../../common/support/dom_properties.js'
-import { location$ } from '../../../common/shared_observables.js'
 
 import { c } from '../../../common/rendering/component.js'
 import { table } from '../../../common/components/table.js'
 
-export function curveLegend ({ mapping, curves, enabled, config }) {
+export function curveLegend ({ mapping, curves, fitters, enableFitter, disableFitter }) {
   return c('div', { class: 'curve-legend' },
     c('h1', { class: 'section legend-title', text: 'Legend' }),
     c('div', { class: 'data-points' },
@@ -29,14 +28,17 @@ export function curveLegend ({ mapping, curves, enabled, config }) {
         {
           class: 'col-checkbox',
           value (entry) {
-            const isChecked = enabled.has(entry.fitter)
+            const isChecked = fitters.has(entry.fitter)
 
             return c('input', {
               type: 'checkbox',
               checked: isChecked,
               click (_event) {
-                const newFitters = isChecked ? enabled.remove(entry.fitter) : enabled.add(entry.fitter)
-                location$.next(config.getUpdatedPath({ enabled: newFitters }))
+                if (isChecked) {
+                  disableFitter(entry.fitter)
+                } else {
+                  enableFitter(entry.fitter)
+                }
               }
             })
           }
