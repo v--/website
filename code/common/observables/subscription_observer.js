@@ -1,6 +1,6 @@
-import errors from './errors.js'
+import { errors } from './errors.js'
 
-export default class SubscriptionObserver {
+export class SubscriptionObserver {
   constructor (observer) {
     this.observer = observer
     this.cleanup = null

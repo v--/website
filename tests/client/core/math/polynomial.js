@@ -1,7 +1,7 @@
 import { assert } from '../../../_common.js'
 
 import { sort } from '../../../../code/common/support/iteration.js'
-import Polynomial, { ZeroPolynomialError } from '../../../../code/client/core/math/polynomial.js'
+import { Polynomial, ZeroPolynomialError } from '../../../../code/client/core/math/polynomial.js'
 
 describe('Polynomial', function () {
   describe('.stripTrailingZeroes()', function () {

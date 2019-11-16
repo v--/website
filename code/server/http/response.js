@@ -1,12 +1,12 @@
 import { chain } from '../../common/support/iteration.js'
 import { c } from '../../common/rendering/component.js'
 
-import index from '../components/index.js'
-import unsupported from '../../common/views/unsupported.js'
+import { index } from '../components/index.js'
+import { unsupported } from '../../common/views/unsupported.js'
 
-import dispatcher from '../render_dispatcher.js'
+import { dispatcher } from '../render_dispatcher.js'
 
-export default class Response {
+export class Response {
   static json (contents, code) {
     return new this(JSON.stringify(contents), 'application/json', code)
   }

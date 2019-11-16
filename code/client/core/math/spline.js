@@ -1,7 +1,7 @@
 import { map, zip } from '../../../common/support/iteration.js'
 
 import { stringifyLinearCombination } from './stringify.js'
-import BSpline from './b_spline.js'
+import { BSpline } from './b_spline.js'
 
 function * iterExtendedDomain (degree, x) {
   const n = x.length
@@ -24,7 +24,7 @@ function * iterBasis (degree, x) {
   }
 }
 
-export default class Spline {
+export class Spline {
   static fromDataPoints (degree, x, y) {
     const basis = Array.from(iterBasis(degree, x))
     const n = x.length

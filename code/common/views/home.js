@@ -1,8 +1,8 @@
 import { c } from '../rendering/component.js'
 
-import icon from '../components/icon.js'
-import link from '../components/link.js'
-import pgpLink from '../components/pgp_link.js'
+import { icon } from '../components/icon.js'
+import { link } from '../components/link.js'
+import { pgpLink } from '../components/pgp_link.js'
 
 function siteSection (state) {
   return c('li', null,
@@ -20,7 +20,7 @@ function contact (state) {
   )
 }
 
-export default function home () {
+export function home () {
   return c('div', { class: 'page home-page' },
     c('article', { class: 'info' },
       c('div', { class: 'me-irl' }),

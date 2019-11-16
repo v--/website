@@ -1,22 +1,22 @@
 import { c } from '../../common/rendering/component.js'
 import { aspectRatioPage, aspectRatioBox } from '../core/components/aspect_ratio_page.js'
 import { createKeyDownSubject, createKeyUpSubject } from '../core/support/dom.js'
-import dispatcher from '../core/render_dispatcher.js'
-import DictSubject from '../../common/observables/dict_subject.js'
+import { dispatcher } from '../core/render_dispatcher.js'
+import { DictSubject } from '../../common/observables/dict_subject.js'
 
-import breakout from './components/breakout.js'
-import GameStatus from './enums/game_status.js'
+import { breakout } from './components/breakout.js'
+import { GameStatus } from './enums/game_status.js'
 import { MOVEMENT_PERIOD, EVOLUTION_PERIOD } from './constants.js'
 import { DEFAULT_GAME_STATE } from './game_state.js'
-import EventLoop from './event_loop.js'
+import { EventLoop } from './event_loop.js'
 
-import onKeyDown from './events/key_down.js'
-import onKeyUp from './events/key_up.js'
-import movePaddle from './events/move_paddle.js'
-import moveBall from './events/move_ball.js'
-import evolve from './events/evolve.js'
+import { onKeyDown } from './events/key_down.js'
+import { onKeyUp } from './events/key_up.js'
+import { movePaddle } from './events/move_paddle.js'
+import { moveBall } from './events/move_ball.js'
+import { evolve } from './events/evolve.js'
 
-export default function playgroundBreakout () {
+export function index () {
   const subject = new DictSubject(DEFAULT_GAME_STATE)
   const eventLoopListeners = new Map([
     [movePaddle.bind(null, subject), MOVEMENT_PERIOD],

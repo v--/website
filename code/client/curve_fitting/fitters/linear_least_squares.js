@@ -1,6 +1,6 @@
 import { reduce } from '../../../common/support/iteration.js'
 
-import Polynomial from '../../core/math/polynomial.js'
+import { Polynomial } from '../../core/math/polynomial.js'
 
 function sum (values) {
   return reduce((value, accum) => value + accum, values, 0)
@@ -17,7 +17,7 @@ function dot (x, y) {
   return prod
 }
 
-export default Object.freeze({
+export const linearLeastSquares = Object.freeze({
   name: 'Linear least squares',
   date: '2018-09-06',
   hideByDefault: true,

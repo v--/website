@@ -1,7 +1,7 @@
-import Spline from '../../core/math/spline.js'
-import Polynomial from '../../core/math/polynomial.js'
+import { Spline } from '../../core/math/spline.js'
+import { Polynomial } from '../../core/math/polynomial.js'
 
-export default Object.freeze({
+export const quadraticSpline = Object.freeze({
   name: 'Quadratic spline',
   date: '2018-09-10',
   fit (mapping) {

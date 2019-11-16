@@ -1,6 +1,6 @@
 import { assert } from '../../_common.js'
 
-import Path from '../../../code/common/support/path.js'
+import { Path } from '../../../code/common/support/path.js'
 
 describe('Path', function () {
   describe('segments', function () {

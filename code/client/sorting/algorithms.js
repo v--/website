@@ -1,21 +1,21 @@
-import martini from './algorithms/martini.js'
-import gnome from './algorithms/gnome.js'
-import quicksort from './algorithms/quicksort.js'
-import heap from './algorithms/heap.js'
-import shell from './algorithms/shell.js'
-import merge from './algorithms/merge.js'
-import bubble from './algorithms/bubble.js'
-import selection from './algorithms/selection.js'
-import insertion from './algorithms/insertion.js'
+import { martiniSort } from './algorithms/martini.js'
+import { gnomeSort } from './algorithms/gnome.js'
+import { quicksort } from './algorithms/quicksort.js'
+import { heapsort } from './algorithms/heap.js'
+import { shellSort } from './algorithms/shell.js'
+import { mergeSort } from './algorithms/merge.js'
+import { bubbleSort } from './algorithms/bubble.js'
+import { selectionSort } from './algorithms/selection.js'
+import { insertionSort } from './algorithms/insertion.js'
 
-export default Object.freeze([
-  martini,
-  gnome,
+export const algorithms = Object.freeze([
+  martiniSort,
+  gnomeSort,
   quicksort,
-  heap,
-  shell,
-  merge,
-  bubble,
-  selection,
-  insertion
+  heapsort,
+  shellSort,
+  mergeSort,
+  bubbleSort,
+  selectionSort,
+  insertionSort
 ])

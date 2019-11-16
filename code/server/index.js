@@ -1,5 +1,5 @@
-import HTTPServer from './http/server.js'
-import HTTPServerState from './enums/http_server_state.js'
+import { HTTPServer } from './http/server.js'
+import { HTTPServerState } from './enums/http_server_state.js'
 import { readFile } from './support/fs.js'
 import { iconMap } from '../common/components/icon.js'
 

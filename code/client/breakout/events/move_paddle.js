@@ -1,9 +1,9 @@
-import GameStatus from '../enums/game_status.js'
-import Vector from '../geom/vector.js'
-import Ellipse from '../geom/ellipse.js'
+import { GameStatus } from '../enums/game_status.js'
+import { Vector } from '../geom/vector.js'
+import { Ellipse } from '../geom/ellipse.js'
 import { MOVEMENT_DELTA } from '../constants.js'
 
-export default function movePaddle (subject) {
+export function movePaddle (subject) {
   const { status, ball, stage, paddle, paddleDirection } = subject.value
 
   if (status !== GameStatus.RUNNING || paddleDirection === 0) {

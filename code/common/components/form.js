@@ -16,7 +16,7 @@ function buildDict (form) {
   return dict
 }
 
-export default function form ({ callback, class: className }, children) {
+export function form ({ callback, class: className }, children) {
   return c('div', { class: classlist(className, 'form-container') },
     c('form', {
       submit (event) {

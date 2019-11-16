@@ -1,8 +1,8 @@
-import errors from './errors.js'
-import SubscriptionObserver from './subscription_observer.js'
-import Subscription from './subscription.js'
+import { errors } from './errors.js'
+import { SubscriptionObserver } from './subscription_observer.js'
+import { Subscription } from './subscription.js'
 
-export default class Observable {
+export class Observable {
   static isObservable (object) {
     return object instanceof Object && '@@observable' in object
   }

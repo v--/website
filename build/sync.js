@@ -5,7 +5,7 @@ import BrowserSync from 'browser-sync'
 const instance = BrowserSync.create()
 const config = JSON.parse(readFileSync('config/active.json'))
 
-export default {
+export const sync = {
   init () {
     instance.init({
       open: false,

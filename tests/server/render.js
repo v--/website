@@ -1,7 +1,7 @@
 import { assert } from '../_common.js'
 
 import { c } from '../../code/common/rendering/component.js'
-import dispatcher from '../../code/server/render_dispatcher.js'
+import { dispatcher } from '../../code/server/render_dispatcher.js'
 
 function renderToString (component) {
   return Array.from(dispatcher.render(component)).join('')

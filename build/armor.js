@@ -1,4 +1,4 @@
-export default function armor (task) {
+export function armor (task) {
   function armored (done) {
     task(function () {
       done()

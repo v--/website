@@ -1,5 +1,5 @@
 import { product } from '../../../common/support/iteration.js'
-import ExpressionType from '../enums/expression_type.js'
+import { ExpressionType } from '../enums/expression_type.js'
 import { replaceVariables } from './replacement.js'
 import { stringifyExpression, stringifyDisjunct } from '../support/stringify.js'
 

@@ -1,6 +1,6 @@
 import { assert } from '../../../_common.js'
 
-import ExpressionType from '../../../../code/client/resolution/enums/expression_type.js'
+import { ExpressionType } from '../../../../code/client/resolution/enums/expression_type.js'
 import { simplify } from '../../../../code/client/resolution/syntax/simplification.js'
 import { convertToPNF } from '../../../../code/client/resolution/syntax/pnf.js'
 import { replaceVariables } from '../../../../code/client/resolution/syntax/replacement.js'

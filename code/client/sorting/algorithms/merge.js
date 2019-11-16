@@ -1,4 +1,4 @@
-export default Object.freeze({
+export const mergeSort = Object.freeze({
   name: 'Bottom-up merge sort',
   date: '2014-11-13',
   stable: true,

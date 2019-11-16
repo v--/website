@@ -39,7 +39,7 @@ function renderFactoryComponent (component, dispatcher) {
   return dispatcher.render(component.evaluate())
 }
 
-export default new RenderDispatcher(new Map([
+export const dispatcher = new RenderDispatcher(new Map([
   [XMLComponent, renderXMLComponent],
   [FactoryComponent, renderFactoryComponent]
 ]))

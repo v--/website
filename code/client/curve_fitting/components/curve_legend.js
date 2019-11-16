@@ -3,9 +3,9 @@ import { styles } from '../../../common/support/dom_properties.js'
 import { redirection } from '../../../common/global_subjects.js'
 
 import { c } from '../../../common/rendering/component.js'
-import table from '../../../common/components/table.js'
+import { table } from '../../../common/components/table.js'
 
-export default function curveLegend ({ mapping, curves, enabled, config }) {
+export function curveLegend ({ mapping, curves, enabled, config }) {
   return c('div', { class: 'curve-legend' },
     c('h1', { class: 'section legend-title', text: 'Legend' }),
     c('div', { class: 'data-points' },

@@ -3,9 +3,9 @@ import { s } from '../../../common/support/svg.js'
 import { classlist } from '../../../common/support/dom_properties.js'
 import { FOREGROUND_COLOR, ACCENT_COLOR } from '../../core/support/colors.js'
 
-import arrowMarker from './arrow_marker.js'
+import { arrowMarker } from './arrow_marker.js'
 
-export default function graphCanvas ({ graph }) {
+export function graphCanvas ({ graph }) {
   const vertexCoords = []
 
   for (let i = 0; i < graph.order; i++) {

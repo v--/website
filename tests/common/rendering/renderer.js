@@ -3,9 +3,9 @@ import { assert } from '../../_common.js'
 import { c, XMLComponent, FactoryComponent, ComponentSanityError } from '../../../code/common/rendering/component.js'
 import { XMLRenderer, FactoryRenderer, RenderError, RenderDispatcher } from '../../../code/common/rendering/renderer.js'
 import { map } from '../../../code/common/support/iteration.js'
-import BehaviorSubject from '../../../code/common/observables/behavior_subject.js'
+import { BehaviorSubject } from '../../../code/common/observables/behavior_subject.js'
 
-export default class MirrorXMLRenderer extends XMLRenderer {
+export class MirrorXMLRenderer extends XMLRenderer {
   _createNode () {
     return this.component.constructor.safeCreate(this.component.type, this.component.state.value)
   }

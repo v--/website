@@ -4,6 +4,21 @@
     "no-var": "warn",
     "no-unused-vars": ["warn", { "vars": "all", "argsIgnorePattern": "^_" }],
     "import/extensions": ["error", "always", { "ignorePackages": true }],
-    "no-console": ["error", { "allow": ["error"] }]
+    "no-console": ["error", { "allow": ["error"] }],
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "ExportDefaultDeclaration",
+        "message": "Usage of default exports is discouraged"
+      },
+      {
+        "selector": "NewExpression[callee.name='Error']",
+        "message": "Please subclass CoolError instead of using the built-it Error class"
+      },
+      {
+        "selector": "NewExpression[callee.name='CoolError']",
+        "message": "Please subclass CoolError instead of instantiating it directly"
+      }
+    ]
   }
 }

@@ -1,6 +1,6 @@
 import { map } from '../support/iteration.js'
 import { c } from '../rendering/component.js'
-import pgpLink from '../components/pgp_link.js'
+import { pgpLink } from '../components/pgp_link.js'
 
 function * iterPackages (pkgs) {
   for (const { name, version, description } of pkgs) {
@@ -17,7 +17,7 @@ function packages ({ arch, pkgs }) {
   )
 }
 
-export default function pacman ({ data }) {
+export function pacman ({ data }) {
   const arches = new Map()
 
   for (const pkg of data) {

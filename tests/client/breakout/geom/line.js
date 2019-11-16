@@ -1,7 +1,7 @@
 import { assert } from '../../../_common.js'
 
-import Line from '../../../../code/client/breakout/geom/line.js'
-import Vector from '../../../../code/client/breakout/geom/vector.js'
+import { Line } from '../../../../code/client/breakout/geom/line.js'
+import { Vector } from '../../../../code/client/breakout/geom/vector.js'
 
 describe('Line', function () {
   describe('.fromPointAndVector()', function () {

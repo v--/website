@@ -1,6 +1,6 @@
-import enumerize from '../enumerize.js'
+import { enumerate } from '../enumerate.js'
 
-export default enumerize(
+export const TokenType = enumerate(
   'WHITESPACE',
   'LINE_BREAK',
   'ANCHOR_NODE',

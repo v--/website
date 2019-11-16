@@ -1,4 +1,4 @@
-export default Object.freeze({
+export const bubbleSort = Object.freeze({
   name: 'Bubble sort',
   date: '2014-11-13',
   stable: true,

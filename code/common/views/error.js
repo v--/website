@@ -1,10 +1,10 @@
 import { CoolError } from '../errors.js'
 import { c } from '../rendering/component.js'
 
-import icon from '../components/icon.js'
-import link from '../components/link.js'
+import { icon } from '../components/icon.js'
+import { link } from '../components/link.js'
 
-export default function error ({ data: err }) {
+export function error ({ data: err }) {
   const title = CoolError.isDisplayable(err) ? err.message : 'Error'
 
   return c('div', { class: 'page error-page' },

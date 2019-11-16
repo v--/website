@@ -1,6 +1,6 @@
 import { createIntervalObservable } from '../core/support/timeout.js'
 
-export default class EventLoop {
+export class EventLoop {
   constructor (listenerMap) {
     this.listenerMap = listenerMap
     this._subscriptionMap = new Map()

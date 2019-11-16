@@ -64,7 +64,7 @@ function parsePacmanDatabase (path) {
   })
 }
 
-export default class PacmanPackageCollection {
+export class PacmanPackageCollection {
   async cachePackages (dbPath) {
     this.cachedPackages = await parsePacmanDatabase(dbPath)
   }

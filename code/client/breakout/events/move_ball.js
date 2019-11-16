@@ -1,8 +1,8 @@
 import { EPSILON, MOVEMENT_DELTA, REFLECTION_ADJUSTMENT } from '../constants.js'
-import GameStatus from '../enums/game_status.js'
-import Reflection from '../support/reflection.js'
+import { GameStatus } from '../enums/game_status.js'
+import { Reflection } from '../support/reflection.js'
 import { changeBrick, removeBrick } from '../support/bricks.js'
-import GameBrick from '../geom/game_brick.js'
+import { GameBrick } from '../geom/game_brick.js'
 
 function * generateReflections (stage, paddle, ball, bricks) {
   const paddleReflection = paddle.reflectBall(ball)
@@ -26,7 +26,7 @@ function * generateReflections (stage, paddle, ball, bricks) {
   }
 }
 
-export default function moveBall (subject) {
+export function moveBall (subject) {
   const { eventLoop, score, stage, paddle, ball, bricks } = subject.value
 
   let reflected = null

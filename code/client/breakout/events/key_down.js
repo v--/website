@@ -1,7 +1,7 @@
-import GameStatus from '../enums/game_status.js'
+import { GameStatus } from '../enums/game_status.js'
 import { DEFAULT_GAME_STATE } from '../game_state.js'
 
-export default function onKeyDown (subject, key) {
+export function onKeyDown (subject, key) {
   const { eventLoop } = subject.value
 
   switch (key) {

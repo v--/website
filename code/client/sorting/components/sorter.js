@@ -2,7 +2,7 @@ import { c } from '../../../common/rendering/component.js'
 import { s } from '../../../common/support/svg.js'
 import { classlist } from '../../../common/support/dom_properties.js'
 
-export default function sorter ({ sequence, state, lastAction }) {
+export function sorter ({ sequence, state, lastAction }) {
   const sorterRatio = 100 / state.length
 
   return c('div', { class: 'sorter' },

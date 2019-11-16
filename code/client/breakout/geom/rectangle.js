@@ -1,10 +1,10 @@
-import Reflection from '../support/reflection.js'
+import { Reflection } from '../support/reflection.js'
 
-import Figure from './figure.js'
-import Line from './line.js'
-import GameBall from './game_ball.js'
+import { Figure } from './figure.js'
+import { Line } from './line.js'
+import { GameBall } from './game_ball.js'
 
-export default class Rectangle extends Figure {
+export class Rectangle extends Figure {
   constructor (origin, size) {
     super()
     this.origin = origin

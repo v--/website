@@ -1,4 +1,4 @@
-import Observable from '../../../common/observables/observable.js'
+import { Observable } from '../../../common/observables/observable.js'
 
 export function createTimeoutObservable (period) {
   return new Observable(function (observer) {

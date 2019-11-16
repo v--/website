@@ -2,10 +2,10 @@ import { CoolError } from '../../../common/errors.js'
 import { repr } from '../../../common/support/strings.js'
 import { parse, ParserError } from '../../../common/support/parser.js'
 
-import TokenType from '../enums/token_type.js'
-import ExpressionType from '../enums/expression_type.js'
+import { TokenType } from '../enums/token_type.js'
+import { ExpressionType } from '../enums/expression_type.js'
 
-import parserRules from './parser_rules.js'
+import { folRules } from './parser_rules.js'
 
 export class FormulaASTError extends CoolError {}
 
@@ -108,7 +108,7 @@ export function buildAST (parseTree) {
 }
 
 export function parseExpression (string, type) {
-  return buildAST(parse(parserRules, type, string))
+  return buildAST(parse(folRules, type, string))
 }
 
 export function parseTopLevelFormula (string) {

@@ -1,9 +1,9 @@
 import { c } from '../../common/rendering/component.js'
 
-import main from '../../common/components/main.js'
-import title from '../../common/components/title.js'
+import { main } from '../../common/components/main.js'
+import { title } from '../../common/components/title.js'
 
-export default function index ({ state }) {
+export function index ({ state }) {
   let serializedData
 
   if (state.data instanceof Error) {

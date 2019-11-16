@@ -1,7 +1,7 @@
 import { assert } from '../../../../_common.js'
 
-import Matrix from '../../../../../code/client/core/math/linalg/matrix.js'
-import Graph from '../../../../../code/client/core/math/graphs/graph.js'
+import { Matrix } from '../../../../../code/client/core/math/linalg/matrix.js'
+import { Graph } from '../../../../../code/client/core/math/graphs/graph.js'
 
 describe('Graph', function () {
   describe('#getSymmetrizedLaplacian()', function () {

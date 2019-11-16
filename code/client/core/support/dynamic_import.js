@@ -21,7 +21,7 @@ function bufferToDataURL (buffer, mimeType) {
   })
 }
 
-export default function dynamicImport (url) {
+export function dynamicImport (url) {
   return new Promise(function (resolve, reject) {
     const element = document.createElement('script')
     const quotedURL = JSON.stringify(url)
@@ -36,7 +36,7 @@ export default function dynamicImport (url) {
       reject(new DynamicImportError(`Could not load ${quotedURL}`))
     }
 
-    bufferToDataURL(`import stuff from ${quotedURL}; window._dynamicImports.set(${quotedURL}, stuff)`, 'text/javascript').then(function (encoded) {
+    bufferToDataURL(`import * as m from ${quotedURL}; window._dynamicImports.set(${quotedURL}, m)`, 'text/javascript').then(function (encoded) {
       element.src = encoded
       document.head.appendChild(element)
     })

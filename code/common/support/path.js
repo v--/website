@@ -1,4 +1,4 @@
-export default class Path {
+export class Path {
   static parse (raw) {
     const [url, rawQuery = ''] = decodeURI(raw).split('?', 2)
     const segments = url.split('/').filter(Boolean)

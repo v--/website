@@ -5,7 +5,7 @@ export class DividedDifferencesError extends CoolError {}
 export class NoPointsError extends DividedDifferencesError {}
 export class DuplicatePointsError extends DividedDifferencesError {}
 
-export default function dividedDifferences (f, points) {
+export function dividedDifferences (f, points) {
   const n = points.length
 
   switch (n) {

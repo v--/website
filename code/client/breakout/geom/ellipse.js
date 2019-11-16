@@ -1,12 +1,12 @@
 import { EPSILON } from '../constants.js'
-import Reflection from '../support/reflection.js'
+import { Reflection } from '../support/reflection.js'
 
-import Figure from './figure.js'
-import Vector from './vector.js'
-import Line from './line.js'
-import GameBall from './game_ball.js'
+import { Figure } from './figure.js'
+import { Vector } from './vector.js'
+import { Line } from './line.js'
+import { GameBall } from './game_ball.js'
 
-export default class Ellipse extends Figure {
+export class Ellipse extends Figure {
   constructor (center, axes) {
     super()
     this.center = center

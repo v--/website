@@ -1,9 +1,9 @@
 import { repr } from '../support/strings.js'
 
-import BehaviorSubject from './behavior_subject.js'
-import errors from './errors.js'
+import { BehaviorSubject } from './behavior_subject.js'
+import { errors } from './errors.js'
 
-export default class DictSubject extends BehaviorSubject {
+export class DictSubject extends BehaviorSubject {
   constructor (initial = {}) {
     super(Object.freeze(Object.assign({}, initial)))
   }

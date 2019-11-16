@@ -1,6 +1,6 @@
-import Observable from './observable.js'
+import { Observable } from './observable.js'
 
-export default class Subject {
+export class Subject {
   constructor () {
     this.observers = []
     this.observable = new Observable(this._subscriber.bind(this))

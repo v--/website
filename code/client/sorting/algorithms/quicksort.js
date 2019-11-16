@@ -17,25 +17,25 @@ function partition (sortable, lower, upper) {
   return p
 }
 
-function quicksort (sortable, lower, upper) {
+function quicksortImpl (sortable, lower, upper) {
   const pivotIndex = partition(sortable, lower, upper)
 
   if (lower < pivotIndex) {
-    quicksort(sortable, lower, pivotIndex)
+    quicksortImpl(sortable, lower, pivotIndex)
   }
 
   if (upper > pivotIndex + 1) {
-    quicksort(sortable, pivotIndex + 1, upper)
+    quicksortImpl(sortable, pivotIndex + 1, upper)
   }
 }
 
-export default Object.freeze({
+export const quicksort = Object.freeze({
   name: 'Randomized quicksort',
   date: '2015-11-23',
   stable: false,
   time: 'O(n²)',
   space: 'O(n)',
   implementation (sortable) {
-    quicksort(sortable, 0, sortable.length - 1)
+    quicksortImpl(sortable, 0, sortable.length - 1)
   }
 })

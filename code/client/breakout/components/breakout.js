@@ -1,6 +1,6 @@
 import { s } from '../../../common/support/svg.js'
 
-import GameStatus from '../enums/game_status.js'
+import { GameStatus } from '../enums/game_status.js'
 import { CHALK_COLORS } from '../../core/support/colors.js'
 
 const BRICK_VISUAL_PADDING = 0.01
@@ -25,7 +25,7 @@ function getSplashMessage (status) {
   }
 }
 
-export default function breakout ({ status, score, stage, paddle, ball, bricks }) {
+export function breakout ({ status, score, stage, paddle, ball, bricks }) {
   const splash = getSplashMessage(status)
   const viewBox = [-stage.size.x / 2, 0, stage.size.x, stage.size.y].join(' ')
 

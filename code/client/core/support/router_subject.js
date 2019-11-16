@@ -1,20 +1,28 @@
-import DictSubject from '../../../common/observables/dict_subject.js'
-import Path from '../../../common/support/path.js'
-import RouterState from '../../../common/support/router_state.js'
-import unsupported from '../../../common/views/unsupported.js'
+import { DictSubject } from '../../../common/observables/dict_subject.js'
+import { Path } from '../../../common/support/path.js'
+import { RouterState } from '../../../common/support/router_state.js'
+import { unsupported } from '../../../common/views/unsupported.js'
 import { CoolError } from '../../../common/errors.js'
 import { repr } from '../../../common/support/strings.js'
 
-import Store, { MockStore } from '../store.js'
-import router from '../router.js'
+import { Store, MockStore } from '../store.js'
+import { clientRouter } from '../router.js'
 import { resize } from '../global_subjects.js'
 import { getWindowSize } from '../support/dom.js'
-import dynamicImport from '../support/dynamic_import.js'
+import { dynamicImport } from '../support/dynamic_import.js'
 
 const RESIZE_DELAY_IN_MS = 400
 
-function loadBundle (bundle) {
-  return dynamicImport(`${window.location.origin}/code/client/${bundle}/index.js`)
+class RoutingError extends CoolError {}
+
+async function loadBundle (bundle) {
+  const m = await dynamicImport(`${window.location.origin}/code/client/${bundle}/index.js`)
+
+  if (!(m.index instanceof Function)) {
+    throw new RoutingError(`${repr(bundle)} does not export a component`)
+  }
+
+  return m.index
 }
 
 async function loadFactory ({ factory: factorySpec, path }) {
@@ -28,7 +36,7 @@ async function loadFactory ({ factory: factorySpec, path }) {
       return unsupported
 
     default:
-      throw new CoolError(`Invalid page factory spec ${repr(factorySpec)}`)
+      throw new RoutingError(`Invalid page factory spec ${repr(factorySpec)}`)
   }
 }
 
@@ -36,12 +44,12 @@ function triggerResizeUpdate () {
   resize.next(getWindowSize())
 }
 
-export default class RouterSubject extends DictSubject {
+export class RouterSubject extends DictSubject {
   static async initialize (serverData) {
     const path = Path.parse(this.readURL())
     const mockStore = new MockStore(serverData)
     const store = new Store()
-    const state = await router(path, mockStore)
+    const state = await clientRouter(path, mockStore)
     return new this(state, store, path)
   }
 
@@ -150,7 +158,7 @@ export default class RouterSubject extends DictSubject {
     }
 
     this.update({ loading: true })
-    const route = await router(path, this.store)
+    const route = await clientRouter(path, this.store)
 
     // Cancel if another route has started loading
     if (this.path !== path) {

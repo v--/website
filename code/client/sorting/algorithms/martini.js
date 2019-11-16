@@ -1,4 +1,4 @@
-export default Object.freeze({
+export const martiniSort = Object.freeze({
   name: 'Martini sort',
   date: '2018-10-05',
   stable: true,

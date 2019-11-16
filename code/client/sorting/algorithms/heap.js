@@ -14,7 +14,7 @@ function constructHeap (sortable, heapSize, largest, candidateLargest) {
   } while (largest !== candidateLargest)
 }
 
-export default Object.freeze({
+export const heapsort = Object.freeze({
   name: 'Heapsort',
   date: '2015-11-23',
   stable: false,

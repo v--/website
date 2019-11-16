@@ -1,10 +1,10 @@
 import { c } from '../rendering/component.js'
 
-import sidebar from './sidebar.js'
-import sidebarToggle from './sidebar_toggle.js'
-import loadingIndicator from './loading_indicator.js'
+import { sidebar } from './sidebar.js'
+import { sidebarToggle } from './sidebar_toggle.js'
+import { loadingIndicator } from './loading_indicator.js'
 
-export default function main (state) {
+export function main (state) {
   return c('main', null,
     c(sidebarToggle, state),
     c(sidebar, state),

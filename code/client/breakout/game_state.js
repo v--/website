@@ -1,8 +1,8 @@
-import Vector from './geom/vector.js'
-import Rectangle from './geom/rectangle.js'
-import Ellipse from './geom/ellipse.js'
-import GameBall from './geom/game_ball.js'
-import GameBrick from './geom/game_brick.js'
+import { Vector } from './geom/vector.js'
+import { Rectangle } from './geom/rectangle.js'
+import { Ellipse } from './geom/ellipse.js'
+import { GameBall } from './geom/game_ball.js'
+import { GameBrick } from './geom/game_brick.js'
 
 export const DEFAULT_GAME_STATE = {
   score: 0,

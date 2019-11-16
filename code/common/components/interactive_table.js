@@ -1,12 +1,12 @@
 import { c } from '../rendering/component.js'
 import { ClientError } from '../errors.js'
 import { classlist } from '../support/dom_properties.js'
-import QueryConfig from '../support/query_config.js'
+import { QueryConfig } from '../support/query_config.js'
 
-import table from './table.js'
+import { table } from './table.js'
 
-import icon from './icon.js'
-import link from './link.js'
+import { icon } from './icon.js'
+import { link } from './link.js'
 
 const QUERY_CONFIG_DEFAULTS = Object.freeze({
   per_page: 10,
@@ -82,7 +82,7 @@ function * pagination (pages, config) {
   )
 }
 
-export default function interactiveTable ({ class: cssClass, columns, data, fixedData = [], path }) {
+export function interactiveTable ({ class: cssClass, columns, data, fixedData = [], path }) {
   const config = new QueryConfig(path, QUERY_CONFIG_DEFAULTS, QUERY_CONFIG_PARSERS)
   const perPage = config.get('per_page')
   const page = config.get('page')

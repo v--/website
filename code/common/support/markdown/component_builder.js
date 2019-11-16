@@ -1,9 +1,9 @@
 import { CoolError } from '../../errors.js'
 import { repr } from '../strings.js'
 import { c } from '../../rendering/component.js'
-import NodeType from './node_type.js'
+import { NodeType } from './node_type.js'
 
-import link from '../../components/link.js'
+import { link } from '../../components/link.js'
 
 export class MarkdownComponentError extends CoolError {}
 

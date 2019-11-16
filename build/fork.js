@@ -1,6 +1,6 @@
 import childProcess from 'child_process'
 
-export default class Fork {
+export class Fork {
   constructor (path, options = {}) {
     this.path = path
     this.options = options

@@ -3,7 +3,7 @@ import { join } from '../../../common/support/strings.js'
 import { s } from '../../../common/support/svg.js'
 import { redirection } from '../../../common/global_subjects.js'
 
-export default function curveCanvas ({ width, height, mapping, curves, enabled, config }) {
+export function curveCanvas ({ width, height, mapping, curves, enabled, config }) {
   const grid = Array.from(
     map(
       ([x, y]) => ({ x, y }),

@@ -38,7 +38,7 @@ export class PolynomialError extends CoolError {}
 export class PolynomialRootError extends PolynomialError {}
 export class ZeroPolynomialError extends PolynomialError {}
 
-export default class Polynomial {
+export class Polynomial {
   static stripTrailingZeroes (coeffs) {
     let prefixLength = coeffs.length
 

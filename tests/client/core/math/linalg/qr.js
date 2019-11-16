@@ -1,7 +1,7 @@
 import { assert } from '../../../../_common.js'
 
 import { sort } from '../../../../../code/common/support/iteration.js'
-import Matrix, { MatrixDimensionError } from '../../../../../code/client/core/math/linalg/matrix.js'
+import { Matrix, MatrixDimensionError } from '../../../../../code/client/core/math/linalg/matrix.js'
 import { qr, det, eigenvalues } from '../../../../../code/client/core/math/linalg/qr.js'
 
 describe('qr()', function () {

@@ -1,4 +1,4 @@
-import Matrix, { MatrixDimensionError } from './matrix.js'
+import { Matrix, MatrixDimensionError } from './matrix.js'
 
 function swapRowsInline (matrix, a, b) {
   for (let j = 0; j < matrix.cols; j++) {

@@ -1,18 +1,18 @@
 import { NotFoundError } from './errors.js'
-import SidebarID from './enums/sidebar_id.js'
-import RouterState from './support/router_state.js'
+import { SidebarId } from './enums/sidebar_id.js'
+import { RouterState } from './support/router_state.js'
 
-import home from './views/home.js'
-import files from './views/files.js'
-import pacman from './views/pacman.js'
-import playground from './views/playground.js'
+import { home } from './views/home.js'
+import { files } from './views/files.js'
+import { pacman } from './views/pacman.js'
+import { playground } from './views/playground.js'
 
 async function routerImpl (path, store) {
   if (path.segments.length === 0) {
     return {
       title: 'home',
       factory: home,
-      sidebarID: SidebarID.HOME
+      sidebarID: SidebarId.HOME
     }
   }
 
@@ -22,7 +22,7 @@ async function routerImpl (path, store) {
         title: `index of ${path.underCooked}`,
         factory: files,
         data: await store.collections.files.readDirectory(path.segments.slice(1).join('/')),
-        sidebarID: SidebarID.FILES
+        sidebarID: SidebarId.FILES
       }
 
     case 'pacman':
@@ -34,7 +34,7 @@ async function routerImpl (path, store) {
         title: 'pacman',
         factory: pacman,
         data: await store.collections.pacmanPackages.load(),
-        sidebarID: SidebarID.PACMAN
+        sidebarID: SidebarId.PACMAN
       }
 
     case 'playground':
@@ -42,7 +42,7 @@ async function routerImpl (path, store) {
         return {
           title: 'playground',
           factory: playground,
-          sidebarID: SidebarID.PLAYGROUND
+          sidebarID: SidebarId.PLAYGROUND
         }
       } else if (path.segments.length === 2) {
         switch (path.segments[1]) {
@@ -50,35 +50,35 @@ async function routerImpl (path, store) {
             return {
               title: 'sorting | playground',
               factory: 'sorting',
-              sidebarID: SidebarID.PLAYGROUND
+              sidebarID: SidebarId.PLAYGROUND
             }
 
           case 'curve_fitting':
             return {
               title: 'curve fitting | playground',
               factory: 'curve_fitting',
-              sidebarID: SidebarID.PLAYGROUND
+              sidebarID: SidebarId.PLAYGROUND
             }
 
           case 'resolution':
             return {
               title: 'resolution | playground',
               factory: 'resolution',
-              sidebarID: SidebarID.PLAYGROUND
+              sidebarID: SidebarId.PLAYGROUND
             }
 
           case 'breakout':
             return {
               title: 'breakout | playground',
               factory: 'breakout',
-              sidebarID: SidebarID.PLAYGROUND
+              sidebarID: SidebarId.PLAYGROUND
             }
 
           case 'graphs':
             return {
               title: 'graphs | playground',
               factory: 'graphs',
-              sidebarID: SidebarID.PLAYGROUND
+              sidebarID: SidebarId.PLAYGROUND
             }
         }
       }
@@ -87,7 +87,7 @@ async function routerImpl (path, store) {
   throw new NotFoundError()
 }
 
-export default async function router (path, store) {
+export async function router (path, store) {
   const rawState = await routerImpl(path, store)
   return new RouterState(Object.assign({ path }, rawState))
 }

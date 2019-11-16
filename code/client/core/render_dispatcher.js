@@ -48,7 +48,7 @@ export class DOMXMLRenderer extends XMLRenderer {
   }
 }
 
-export default RenderDispatcher.fromRenderers(new Map([
+export const dispatcher = RenderDispatcher.fromRenderers(new Map([
   [XMLComponent, DOMXMLRenderer],
   [FactoryComponent, FactoryRenderer]
 ]))

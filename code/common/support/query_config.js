@@ -1,11 +1,11 @@
-import Path from './path.js'
+import { Path } from './path.js'
 import { join, repr } from './strings.js'
 import { chain, filter, map, sort } from './iteration.js'
 import { CoolError } from '../errors.js'
 
 export class QueryStringError extends CoolError {}
 
-export default class QueryConfig {
+export class QueryConfig {
   constructor (path, defaults, parsers) {
     this.path = path
     this.defaults = defaults

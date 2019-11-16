@@ -1,4 +1,4 @@
-export default function onKeyUp (subject, key) {
+export function onKeyUp (subject, key) {
   const { paddleDirection } = subject.value
 
   if (key === 'ArrowLeft' && paddleDirection < 0) {

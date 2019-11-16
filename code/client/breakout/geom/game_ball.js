@@ -1,6 +1,6 @@
-import Vector from './vector.js'
+import { Vector } from './vector.js'
 
-export default class GameBall {
+export class GameBall {
   constructor (center, direction, radius) {
     this.center = center
     this.direction = direction

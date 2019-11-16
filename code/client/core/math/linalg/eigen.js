@@ -1,6 +1,6 @@
-import { isSameNumber, roundNumber } from '../../../../common/support/numeric.js'
+import { isSameNumber } from '../../../../common/support/numeric.js'
 
-import Matrix, { MatrixDimensionError } from './matrix.js'
+import { Matrix, MatrixDimensionError } from './matrix.js'
 import { frobNorm } from './norm.js'
 
 export function findMatrixMax (matrix) {

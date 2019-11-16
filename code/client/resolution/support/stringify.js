@@ -1,4 +1,4 @@
-import ExpressionType from '../enums/expression_type.js'
+import { ExpressionType } from '../enums/expression_type.js'
 
 export function stringifyExpression (expression) {
   switch (expression.type) {

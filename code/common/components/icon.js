@@ -2,7 +2,7 @@ import { s } from '../support/svg.js'
 
 export const iconMap = new Map()
 
-export default function icon (state) {
+export function icon (state) {
   const rootState = { viewBox: '0 0 24 24' }
 
   if ('click' in state) {

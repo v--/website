@@ -1,17 +1,17 @@
 import http from 'http'
 
 import { HTTPError, CoolError, NotFoundError } from '../../common/errors.js'
-import RouterState from '../../common/support/router_state.js'
-import Path from '../../common/support/path.js'
+import { RouterState } from '../../common/support/router_state.js'
+import { Path } from '../../common/support/path.js'
 
 import { promisory } from '../support/async.js'
-import Logger from '../support/logger.js'
-import Response from '../http/response.js'
-import Store from '../store.js'
-import router from '../router.js'
-import HTTPServerState from '../enums/http_server_state.js'
+import { Logger } from '../support/logger.js'
+import { Response } from '../http/response.js'
+import { Store } from '../store.js'
+import { serverRouter as router } from '../router.js'
+import { HTTPServerState } from '../enums/http_server_state.js'
 
-export default class HTTPServer {
+export class HTTPServer {
   constructor (config) {
     this.socket = config.server.socket
     this.logger = new Logger('HTTP')

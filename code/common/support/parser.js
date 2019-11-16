@@ -167,10 +167,6 @@ export class ConcatenationRule extends ParserRule {
       if (result) {
         this.addMatch(_rule, matches, result.matches)
         tail = result.tail
-
-        if (tail === undefined && string !== undefined) {
-          throw new Error(string)
-        }
       } else {
         return null
       }

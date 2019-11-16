@@ -1,7 +1,7 @@
 import { repr } from '../support/strings.js'
 import { chain, uniqueBy } from '../support/iteration.js'
 import { CoolError } from '../errors.js'
-import Subject from '../observables/subject.js'
+import { Subject } from '../observables/subject.js'
 
 export class RenderError extends CoolError {}
 
@@ -286,6 +286,6 @@ export class RenderDispatcher {
       }
     }
 
-    throw new Error(`No renderer found for component ${repr(component)}`)
+    throw new RenderError(`No renderer found for component ${repr(component)}`)
   }
 }

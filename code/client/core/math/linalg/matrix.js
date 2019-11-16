@@ -27,7 +27,7 @@ function dotProduct (u, v) {
   return reduce(([x, y], accum) => accum + x * y, zip(u, v), 0)
 }
 
-export default class Matrix {
+export class Matrix {
   static zero (rows, cols = rows) {
     return new this(rows, cols, Array.from(repeat(0, rows * cols)))
   }

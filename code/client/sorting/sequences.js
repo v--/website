@@ -1,6 +1,6 @@
 import { shuffle, range, map, flatten, repeat } from '../../common/support/iteration.js'
 
-export default Object.freeze([
+export const sequences = Object.freeze([
   {
     name: 'Ascending',
     constructArray () {

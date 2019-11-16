@@ -38,7 +38,7 @@ function * rows (columns, data) {
   }
 }
 
-export default function table ({ class: cssClass, style, columns, data }, children) {
+export function table ({ class: cssClass, style, columns, data }, children) {
   return c('table', { class: cssClass, style },
     c('thead', null,
       c('tr', null, ...headers(columns))

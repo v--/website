@@ -1,6 +1,6 @@
-import enumerize from '../support/enumerize.js'
+import { enumerate } from '../support/enumerate.js'
 
-export default enumerize(
+export const SidebarId = enumerate(
   'HOME',
   'FILES',
   'PACMAN',

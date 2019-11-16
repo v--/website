@@ -1,7 +1,7 @@
 import { redirection } from '../global_subjects.js'
 import { c } from '../rendering/component.js'
 
-export default function link (state, children) {
+export function link (state, children) {
   const childState = {}
 
   if (state.link) {

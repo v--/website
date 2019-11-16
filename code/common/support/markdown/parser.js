@@ -2,10 +2,10 @@ import { CoolError } from '../../errors.js'
 import { repr } from '../strings.js'
 import { parse } from '../parser.js'
 
-import TokenType from './token_type.js'
-import NodeType from './node_type.js'
+import { TokenType } from './token_type.js'
+import { NodeType } from './node_type.js'
 
-import parserRules from './rules.js'
+import { markdownRules } from './rules.js'
 
 export class MarkdownASTError extends CoolError {}
 
@@ -270,5 +270,5 @@ export function buildAST (parseTree) {
 }
 
 export function parseMarkdown (string) {
-  return buildAST(parse(parserRules, TokenType.MARKDOWN, string))
+  return buildAST(parse(markdownRules, TokenType.MARKDOWN, string))
 }

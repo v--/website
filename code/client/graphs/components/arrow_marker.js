@@ -1,6 +1,6 @@
 import { s } from '../../../common/support/svg.js'
 
-export default function arrowMarker ({ id, fillColor }) {
+export function arrowMarker ({ id, fillColor }) {
   return s(
     'marker',
     {

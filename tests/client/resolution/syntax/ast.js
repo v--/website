@@ -1,7 +1,7 @@
 import { assert } from '../../../_common.js'
 
-import ExpressionType from '../../../../code/client/resolution/enums/expression_type.js'
-import TokenType from '../../../../code/client/resolution/enums/token_type.js'
+import { ExpressionType } from '../../../../code/client/resolution/enums/expression_type.js'
+import { TokenType } from '../../../../code/client/resolution/enums/token_type.js'
 
 import { ParserError } from '../../../../code/common/support/parser.js'
 import { parseExpression, parseTopLevelFormula } from '../../../../code/client/resolution/syntax/ast.js'

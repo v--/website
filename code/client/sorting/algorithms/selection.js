@@ -1,4 +1,4 @@
-export default Object.freeze({
+export const selectionSort = Object.freeze({
   name: 'Selection sort',
   date: '2014-11-13',
   stable: false,

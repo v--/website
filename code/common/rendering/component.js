@@ -1,6 +1,6 @@
 import { repr, join } from '../support/strings.js'
-import Observable from '../observables/observable.js'
-import BehaviorSubject from '../observables/behavior_subject.js'
+import { Observable } from '../observables/observable.js'
+import { BehaviorSubject } from '../observables/behavior_subject.js'
 import { CoolError } from '../errors.js'
 
 const htmlVoidTags = new Set([

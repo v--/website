@@ -1,6 +1,6 @@
 import gulp from 'gulp'
 
-import Fork from './fork.js'
+import { Fork } from './fork.js'
 
 {
   const child = new Fork('code/server/index.js', { env: { NODE_OPTIONS: '--experimental-modules' } })

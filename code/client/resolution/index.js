@@ -1,10 +1,10 @@
 import { c } from '../../common/rendering/component.js'
-import form from '../../common/components/form.js'
-import QueryConfig from '../../common/support/query_config.js'
+import { form } from '../../common/components/form.js'
+import { QueryConfig } from '../../common/support/query_config.js'
 import { redirection } from '../../common/global_subjects.js'
 import { CoolError } from '../../common/errors.js'
 
-import ExpressionType from './enums/expression_type.js'
+import { ExpressionType } from './enums/expression_type.js'
 import { stringifyExpression, stringifyDisjunct, stringifyResolvent } from './support/stringify.js'
 import { parseTopLevelFormula } from './syntax/ast.js'
 import { extractPredicates, extractFunctions, extractDisjuncts } from './syntax/extractors.js'
@@ -83,7 +83,7 @@ function parseFormulas (axioms, goal) {
   return formulas
 }
 
-export default function playgroundResolution ({ path }) {
+export function index ({ path }) {
   const config = new QueryConfig(path, QUERY_CONFIG_DEFAULTS, QUERY_CONFIG_PARSERS)
   const axioms = config.get('axioms').split(';').map(string => string.trim())
   const goal = config.get('goal')

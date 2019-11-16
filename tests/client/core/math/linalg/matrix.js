@@ -1,6 +1,6 @@
 import { assert } from '../../../../_common.js'
 
-import Matrix, { MatrixDimensionError } from '../../../../../code/client/core/math/linalg/matrix.js'
+import { Matrix, MatrixDimensionError } from '../../../../../code/client/core/math/linalg/matrix.js'
 
 describe('Matrix', function () {
   describe('#fromRows()', function () {

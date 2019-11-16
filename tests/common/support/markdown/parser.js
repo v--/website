@@ -1,6 +1,6 @@
 import { assert } from '../../../_common.js'
 
-import NodeType from '../../../../code/common/support/markdown/node_type.js'
+import { NodeType } from '../../../../code/common/support/markdown/node_type.js'
 
 import { parseMarkdown } from '../../../../code/common/support/markdown/parser.js'
 

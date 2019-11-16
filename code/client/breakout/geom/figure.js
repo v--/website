@@ -1,6 +1,6 @@
 import { NotImplementedError } from '../../../common/errors.js'
 
-export default class Figure {
+export class Figure {
   reflectBall (_ball) {
     throw new NotImplementedError()
   }

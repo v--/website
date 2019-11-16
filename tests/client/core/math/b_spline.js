@@ -1,6 +1,6 @@
 import { assert } from '../../../_common.js'
 
-import BSpline, { NotEnoughPointsError } from '../../../../code/client/core/math/b_spline.js'
+import { BSpline, NotEnoughPointsError } from '../../../../code/client/core/math/b_spline.js'
 
 describe('BSpline', function () {
   describe('#constructor()', function () {

@@ -1,6 +1,6 @@
 import { assert } from '../../../../_common.js'
 
-import Matrix, { MatrixDimensionError } from '../../../../../code/client/core/math/linalg/matrix.js'
+import { Matrix, MatrixDimensionError } from '../../../../../code/client/core/math/linalg/matrix.js'
 import { lu } from '../../../../../code/client/core/math/linalg/lu.js'
 
 describe('lu()', function () {

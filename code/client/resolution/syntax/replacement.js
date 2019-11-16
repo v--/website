@@ -1,4 +1,4 @@
-import ExpressionType from '../enums/expression_type.js'
+import { ExpressionType } from '../enums/expression_type.js'
 import { CoolError } from '../../../common/errors.js'
 
 export class ReplacementError extends CoolError {}

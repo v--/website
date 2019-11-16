@@ -1,4 +1,4 @@
-export default Object.freeze({
+export const gnomeSort = Object.freeze({
   name: 'Gnome sort',
   date: '2016-05-20',
   stable: true,

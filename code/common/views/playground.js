@@ -1,7 +1,7 @@
 import { c } from '../rendering/component.js'
-import link from '../components/link.js'
+import { link } from '../components/link.js'
 
-export default function playground () {
+export function playground () {
   return c('div', { class: 'page playground-page' },
     c('div', { class: 'section' },
       c('h1', { class: 'section-title', text: '/playground' }),

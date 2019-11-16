@@ -1,7 +1,7 @@
 import { c } from '../rendering/component.js'
 import { styles } from '../support/dom_properties.js'
 
-export default function loadingIndicator ({ visible }) {
+export function loadingIndicator ({ visible }) {
   return c(
     'div',
     {

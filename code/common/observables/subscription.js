@@ -1,4 +1,4 @@
-export default class Subscription {
+export class Subscription {
   constructor (subscriptionObserver) {
     this.subscriptionObserver = subscriptionObserver
   }

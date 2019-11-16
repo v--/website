@@ -1,10 +1,10 @@
 import { findBrickIndex, addBrick, changeBrick } from '../support/bricks.js'
 import { NEW_BRICK_SAFETY_DISTANCE } from '../constants.js'
 
-import Vector from '../geom/vector.js'
-import GameBrick from '../geom/game_brick.js'
+import { Vector } from '../geom/vector.js'
+import { GameBrick } from '../geom/game_brick.js'
 
-export default function evolve (subject) {
+export function evolve (subject) {
   const { ball, stage, bricks } = subject.value
 
   const selectedBrick = bricks[Math.floor(Math.random() * bricks.length)]

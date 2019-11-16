@@ -1,4 +1,4 @@
-export default function enumerize (...values) {
+export function enumerate (...values) {
   const result = Object.create(null)
 
   for (const value of values) {

@@ -3,7 +3,7 @@ import path from 'path'
 import { stat, readFile, readdir } from '../support/fs.js'
 import { NotFoundError } from '../../common/errors.js'
 
-export default class FileCollection {
+export class FileCollection {
   async readDirectory (basePath) {
     const fullPath = path.join(this.store.config.fileRootPath, basePath)
 

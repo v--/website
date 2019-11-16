@@ -1,10 +1,9 @@
-// import { EPSILON } from '../constants.js'
-import Vector from './vector.js'
-import Figure from './figure.js'
+import { Vector } from './vector.js'
+import { Figure } from './figure.js'
 
 const EPSILON = 1e-3
 
-export default class Line extends Figure {
+export class Line extends Figure {
   static fromTwoPoints (pointA, pointB) {
     return this.fromPointAndVector(pointA, pointB.sub(pointA))
   }

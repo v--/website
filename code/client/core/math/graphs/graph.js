@@ -1,4 +1,4 @@
-import Matrix from '../linalg/matrix.js'
+import { Matrix } from '../linalg/matrix.js'
 
 import { MathError } from '../errors.js'
 
@@ -34,7 +34,7 @@ export class GraphVertexData {
 export class GraphArc {
   constructor ({ src, dest, label = null, weight = 1, highlighted = false }) {
     if (src === dest) {
-      throw new Error('The graph cannot contain loops')
+      throw new GraphError('The graph cannot contain loops')
     }
 
     this.src = src
@@ -45,7 +45,7 @@ export class GraphArc {
   }
 }
 
-export default class Graph {
+export class Graph {
   static fromArcs (arcs) {
     const graph = new Graph()
 

@@ -1,7 +1,7 @@
-import FileCollection from './collections/file.js'
-import PacmanPackageCollection from './collections/pacman_package.js'
+import { FileCollection } from './collections/file.js'
+import { PacmanPackageCollection } from './collections/pacman_package.js'
 
-export default class Store {
+export class Store {
   constructor (config) {
     this.config = config
     this.collections = {

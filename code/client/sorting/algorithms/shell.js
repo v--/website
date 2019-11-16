@@ -1,4 +1,4 @@
-export default Object.freeze({
+export const shellSort = Object.freeze({
   name: 'Shellsort',
   date: '2014-11-13',
   stable: false,

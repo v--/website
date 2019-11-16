@@ -14,12 +14,12 @@ export class CoolError extends Error {
 
   toJSON () {
     return {
-      classID: this.classID,
+      classId: this.classId,
       message: this.message
     }
   }
 
-  get classID () {
+  get classId () {
     return 'CoolError'
   }
 
@@ -50,13 +50,13 @@ export class ClientError extends CoolError {
 
   toJSON () {
     return {
-      classID: this.classID,
+      classId: this.classId,
       title: this.title,
       message: this.message
     }
   }
 
-  get classID () {
+  get classId () {
     return 'ClientError'
   }
 }
@@ -74,13 +74,13 @@ export class HTTPError extends ClientError {
 
   toJSON () {
     return {
-      classID: this.classID,
+      classId: this.classId,
       code: this.code,
       title: this.title
     }
   }
 
-  get classID () {
+  get classId () {
     return 'HTTPError'
   }
 }
@@ -90,3 +90,6 @@ export class NotFoundError extends HTTPError {
     super(404, 'Resource not found')
   }
 }
+
+// This is for restoring server errors that do not have their class id set
+export class GenericError extends CoolError {}

@@ -1,6 +1,6 @@
 import { wildcard, term, neg, opt, rep, cat, alt } from '../../../common/support/parser.js'
 
-import TokenType from './token_type.js'
+import { TokenType } from './token_type.js'
 
 const COMMON_RULES = [
   TokenType.ANCHOR,
@@ -27,7 +27,7 @@ function createNestedBlockRule (start, end, matcher = alt(term('\\' + end), neg(
   return createBlockRule(start, end, alt(...COMMON_RULES, TokenType.LINE_BREAK, matcher))
 }
 
-export default Object.freeze({
+export const markdownRules = Object.freeze({
   [TokenType.WHITESPACE]: rep(term(' ')),
   [TokenType.LINE_BREAK]: cat(term('\n'), TokenType.WHITESPACE),
 

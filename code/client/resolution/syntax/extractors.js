@@ -1,5 +1,5 @@
 import { sort, uniqueBy, union, flatten } from '../../../common/support/iteration.js'
-import ExpressionType from '../enums/expression_type.js'
+import { ExpressionType } from '../enums/expression_type.js'
 import { stringifyExpression, stringifyDisjunct } from '../support/stringify.js'
 
 export function extractDisjuncts (expression) {

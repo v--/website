@@ -1,12 +1,12 @@
 import { map } from '../../common/support/iteration.js'
 import { c } from '../../common/rendering/component.js'
 
-import SortSubject from './support/sort_subject.js'
-import sortingCard from './components/sorting_card.js'
-import algorithms from './algorithms.js'
-import sequences from './sequences.js'
+import { SortSubject } from './support/sort_subject.js'
+import { sortingCard } from './components/sorting_card.js'
+import { algorithms } from './algorithms.js'
+import { sequences } from './sequences.js'
 
-export default function playgroundSorting () {
+export function index () {
   const observables = algorithms.map(function (algorithm) {
     return new SortSubject(algorithm, sequences)
   })

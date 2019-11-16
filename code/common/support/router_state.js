@@ -1,12 +1,12 @@
 import { CoolError } from '../errors.js'
-import errorView from '../views/error.js'
-import SidebarID from '../enums/sidebar_id.js'
+import { error as errorView } from '../views/error.js'
+import { SidebarId } from '../enums/sidebar_id.js'
 
-export default class RouterState {
+export class RouterState {
   static error (path, err) {
     return new this({
       path,
-      sidebarID: SidebarID.ERROR,
+      sidebarID: SidebarId.ERROR,
       title: CoolError.isDisplayable(err) ? err.title.toLowerCase() : 'error',
       factory: errorView,
       data: err

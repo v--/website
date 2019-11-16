@@ -1,14 +1,14 @@
-import { CoolError, HTTPError, ClientError } from '../../common/errors.js'
+import { GenericError, HTTPError, ClientError } from '../../common/errors.js'
 import { redirection } from '../../common/global_subjects.js'
 import { c } from '../../common/rendering/component.js'
 
-import main from '../../common/components/main.js'
-import title from '../../common/components/title.js'
+import { main } from '../../common/components/main.js'
+import { title } from '../../common/components/title.js'
 import { iconMap } from '../../common/components/icon.js'
 
-import RouterSubject from './support/router_subject.js'
+import { RouterSubject } from './support/router_subject.js'
 import { onDocumentReady } from './support/dom.js'
-import dispatcher from './render_dispatcher.js'
+import { dispatcher } from './render_dispatcher.js'
 
 function renderObservable (observable) {
   document.body.replaceChild(
@@ -47,10 +47,10 @@ function restoreError (data) {
       return ClientError.fromJSON(data)
 
     case 'CoolError':
-      return CoolError.fromJSON(data)
+      return GenericError.fromJSON(data)
 
     default:
-      return new Error(data.message)
+      return new GenericError(data.message)
   }
 }
 

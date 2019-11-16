@@ -1,6 +1,6 @@
-import Subject from './subject.js'
+import { Subject } from './subject.js'
 
-export default class BehaviorSubject extends Subject {
+export class BehaviorSubject extends Subject {
   constructor (value) {
     super()
     this._value = value

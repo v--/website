@@ -1,10 +1,10 @@
 import { c } from '../rendering/component.js'
 
-import link from '../components/link.js'
-import markdown from '../components/markdown.js'
-import interactiveTable from '../components/interactive_table.js'
+import { link } from '../components/link.js'
+import { markdown } from '../components/markdown.js'
+import { interactiveTable } from '../components/interactive_table.js'
 
-export default function files ({ path, data }) {
+export function files ({ path, data }) {
   const columns = [
     {
       label: 'Name',

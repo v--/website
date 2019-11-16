@@ -1,8 +1,8 @@
 import { term, opt, rep, cat, alt } from '../../../common/support/parser.js'
 
-import TokenType from '../enums/token_type.js'
+import { TokenType } from '../enums/token_type.js'
 
-export default Object.freeze({
+export const folRules = Object.freeze({
   [TokenType.WHITESPACE]: rep(term(' ')),
   [TokenType.NATURAL_NUMBER]: cat(
     term('1', '2', '3', '4', '5', '6', '7', '8', '9'),

@@ -3,7 +3,7 @@ import less from 'gulp-less'
 import svgo from 'gulp-svgo'
 import gulp from 'gulp'
 
-import sync from './sync.js'
+import { sync } from './sync.js'
 import { getMDIcons } from './md_icons.js'
 
 gulp.task('client:build:svgs', function () {

@@ -1,6 +1,6 @@
 import { separate, swap } from '../../../common/support/iteration.js'
 
-export default class ActionList {
+export class ActionList {
   constructor (array) {
     this.originalArray = array
     this.array = Array.from(array)

@@ -1,6 +1,6 @@
-import enumerize from '../../../common/support/enumerize.js'
+import { enumerate } from '../../../common/support/enumerate.js'
 
-export default enumerize(
+export const TokenType = enumerate(
   'WHITESPACE',
   'NATURAL_NUMBER',
   'VARIABLE',

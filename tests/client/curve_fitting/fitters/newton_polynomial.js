@@ -1,7 +1,7 @@
 import { assert } from '../../../_common.js'
 
 import { NumericMapping } from '../../../../code/common/support/query_config.js'
-import newtonPolynomial from '../../../../code/client/curve_fitting/fitters/newton_polynomial.js'
+import { newtonPolynomial } from '../../../../code/client/curve_fitting/fitters/newton_polynomial.js'
 
 function quadraticTest (x) {
   return x ** 2 + 13

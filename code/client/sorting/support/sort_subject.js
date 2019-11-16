@@ -1,8 +1,10 @@
 import { CoolError } from '../../../common/errors.js'
 import { swap } from '../../../common/support/iteration.js'
-import DictSubject from '../../../common/observables/dict_subject.js'
+import { DictSubject } from '../../../common/observables/dict_subject.js'
 
-import ActionList from './action_list.js'
+import { ActionList } from './action_list.js'
+
+class SortSubjectError extends CoolError {}
 
 const SORT_INTERVAL = 25
 
@@ -36,7 +38,7 @@ function getStatesAtIndex (actionLists, index) {
   })
 }
 
-export default class SortSubject extends DictSubject {
+export class SortSubject extends DictSubject {
   constructor (algorithm, sequences) {
     const actionLists = constructActionLists(algorithm, sequences)
 
@@ -106,7 +108,7 @@ export default class SortSubject extends DictSubject {
     })
 
     if (this._interval !== null) {
-      throw new CoolError('Tried to run a sorting simulation while the previous one has not finished')
+      throw new SortSubjectError('Cannot run a sorting simulation while the previous one has not finished')
     }
 
     this._interval = window.setInterval(() => {

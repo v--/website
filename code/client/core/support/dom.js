@@ -1,5 +1,5 @@
-import Subject from '../../../common/observables/subject.js'
-import BehaviorSubject from '../../../common/observables/behavior_subject.js'
+import { Subject } from '../../../common/observables/subject.js'
+import { BehaviorSubject } from '../../../common/observables/behavior_subject.js'
 
 export function onDocumentReady () {
   return new Promise(function (resolve) {

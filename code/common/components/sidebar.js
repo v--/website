@@ -1,11 +1,11 @@
 import { classlist } from '../support/dom_properties.js'
-import SidebarID from '../enums/sidebar_id.js'
+import { SidebarId } from '../enums/sidebar_id.js'
 import { c } from '../rendering/component.js'
 
-import icon from './icon.js'
-import link from './link.js'
+import { icon } from './icon.js'
+import { link } from './link.js'
 
-export default function sidebar ({ sidebarID, isCollapsed, toggleCollapsed }) {
+export function sidebar ({ sidebarID, isCollapsed, toggleCollapsed }) {
   function entry (state) {
     const classes = classlist('button', 'entry', sidebarID === state.id && 'active')
 
@@ -30,28 +30,28 @@ export default function sidebar ({ sidebarID, isCollapsed, toggleCollapsed }) {
     ),
 
     c(entry, {
-      id: SidebarID.HOME,
+      id: SidebarId.HOME,
       text: 'Home page',
       icon: 'home',
       link: '/'
     }),
 
     c(entry, {
-      id: SidebarID.FILES,
+      id: SidebarId.FILES,
       text: 'File server',
       icon: 'folder',
       link: '/files'
     }),
 
     c(entry, {
-      id: SidebarID.PACMAN,
+      id: SidebarId.PACMAN,
       text: 'Pacman repo',
       icon: 'download',
       link: '/pacman'
     }),
 
     c(entry, {
-      id: SidebarID.PLAYGROUND,
+      id: SidebarId.PLAYGROUND,
       text: 'Playground',
       icon: 'code-greater-than',
       link: '/playground'

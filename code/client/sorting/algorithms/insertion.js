@@ -1,4 +1,4 @@
-export default Object.freeze({
+export const insertionSort = Object.freeze({
   name: 'Insertion sort',
   date: '2014-11-13',
   stable: true,

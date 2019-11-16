@@ -1,4 +1,4 @@
-import ExpressionType from '../enums/expression_type.js'
+import { ExpressionType } from '../enums/expression_type.js'
 import { replaceVariables } from './replacement.js'
 
 export function convertToSNF (formula, counter = { value: 1 }, nameMap = new Map(), univVarNames = []) {

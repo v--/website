@@ -1,7 +1,7 @@
-import Polynomial from '../../core/math/polynomial.js'
-import dividedDifferences from '../../core/math/divided_differences.js'
+import { Polynomial } from '../../core/math/polynomial.js'
+import { dividedDifferences } from '../../core/math/divided_differences.js'
 
-export default Object.freeze({
+export const newtonPolynomial = Object.freeze({
   name: 'Newton polynomial',
   date: '2018-22-07',
   fit (mapping) {

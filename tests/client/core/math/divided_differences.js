@@ -1,6 +1,6 @@
 import { assert } from '../../../_common.js'
 
-import dividedDifferences, { NoPointsError, DuplicatePointsError } from '../../../../code/client/core/math/divided_differences.js'
+import { dividedDifferences, NoPointsError, DuplicatePointsError } from '../../../../code/client/core/math/divided_differences.js'
 
 describe('dividedDifferences()', function () {
   it('fails when passed no points', function () {

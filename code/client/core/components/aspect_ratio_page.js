@@ -2,7 +2,7 @@ import { CoolError } from '../../../common/errors.js'
 import { c } from '../../../common/rendering/component.js'
 
 import { resize } from '../global_subjects.js'
-import dispatcher from '../render_dispatcher.js'
+import { dispatcher } from '../render_dispatcher.js'
 
 export class AspectRatioError extends CoolError {}
 export class NodeAlreadyRegisteredError extends AspectRatioError {}

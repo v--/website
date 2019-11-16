@@ -1,9 +1,9 @@
-import router from '../common/router.js'
+import { router } from '../common/router.js'
 import { NotFoundError } from '../common/errors.js'
 
-import Response from './http/response.js'
+import { Response } from './http/response.js'
 
-export default async function serverRouter (path, store) {
+export async function serverRouter (path, store) {
   if (path.segments[0] === 'api') {
     if (path.segments.length === 2 && path.segments[1] === 'pacman') {
       return Response.json(await store.collections.pacmanPackages.load())

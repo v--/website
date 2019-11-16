@@ -1,8 +1,8 @@
 import { map } from '../../../common/support/iteration.js'
 import { c } from '../../../common/rendering/component.js'
-import sorter from './sorter.js'
+import { sorter } from './sorter.js'
 
-export default function sortingCard ({ algorithm, states, isRunning, hasFinished, pause, run, reset }) {
+export function sortingCard ({ algorithm, states, isRunning, hasFinished, pause, run, reset }) {
   return c('div', { class: 'sorting-card' },
     c('h2', { class: 'sorting-card-title', text: algorithm.name }),
     c('div', { class: 'sorters' },
