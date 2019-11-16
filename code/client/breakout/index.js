@@ -40,7 +40,7 @@ export function index () {
       ratio: 4 / 3,
       bottomMargin: 25,
       minHeight: 250,
-      maxHeight: 700,
+      maxHeight: 550,
       item: c(breakout, subject)
     })
   )

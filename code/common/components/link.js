@@ -1,4 +1,4 @@
-import { redirection } from '../global_subjects.js'
+import { location$ } from '../shared_observables.js'
 import { c } from '../rendering/component.js'
 
 export function link (state, children) {
@@ -10,7 +10,7 @@ export function link (state, children) {
     if (state.isInternal) {
       childState.click = function click (event) {
         if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return
-        redirection.next(state.link)
+        location$.next(state.link)
         event.preventDefault()
       }
     }

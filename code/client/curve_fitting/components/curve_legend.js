@@ -1,6 +1,6 @@
 import { sort } from '../../../common/support/iteration.js'
 import { styles } from '../../../common/support/dom_properties.js'
-import { redirection } from '../../../common/global_subjects.js'
+import { location$ } from '../../../common/shared_observables.js'
 
 import { c } from '../../../common/rendering/component.js'
 import { table } from '../../../common/components/table.js'
@@ -36,7 +36,7 @@ export function curveLegend ({ mapping, curves, enabled, config }) {
               checked: isChecked,
               click (_event) {
                 const newFitters = isChecked ? enabled.remove(entry.fitter) : enabled.add(entry.fitter)
-                redirection.next(config.getUpdatedPath({ enabled: newFitters }))
+                location$.next(config.getUpdatedPath({ enabled: newFitters }))
               }
             })
           }

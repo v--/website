@@ -1,7 +1,7 @@
 import { zip, map, range, product } from '../../../common/support/iteration.js'
 import { join } from '../../../common/support/strings.js'
 import { s } from '../../../common/support/svg.js'
-import { redirection } from '../../../common/global_subjects.js'
+import { location$ } from '../../../common/shared_observables.js'
 
 export function curveCanvas ({ width, height, mapping, curves, enabled, config }) {
   const grid = Array.from(
@@ -57,10 +57,10 @@ export function curveCanvas ({ width, height, mapping, curves, enabled, config }
           click (_event) {
             if (mapping.get(point.x) !== point.y) {
               const newMapping = mapping.set(point.x, point.y)
-              redirection.next(config.getUpdatedPath({ mapping: newMapping }))
+              location$.next(config.getUpdatedPath({ mapping: newMapping }))
             } else {
               const newMapping = mapping.delete(point.x)
-              redirection.next(config.getUpdatedPath({ mapping: newMapping }))
+              location$.next(config.getUpdatedPath({ mapping: newMapping }))
             }
           }
         })

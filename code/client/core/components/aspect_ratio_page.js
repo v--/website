@@ -1,11 +1,13 @@
 import { CoolError } from '../../../common/errors.js'
 import { c } from '../../../common/rendering/component.js'
 
-import { resize } from '../global_subjects.js'
 import { dispatcher } from '../render_dispatcher.js'
+import { createIntervalObservable } from '../support/timeout.js'
 
 export class AspectRatioError extends CoolError {}
 export class NodeAlreadyRegisteredError extends AspectRatioError {}
+
+const REFRESH_TIMEOUT = 100
 
 let currentRoot = null
 let currentBox = null
@@ -46,13 +48,23 @@ const resizeObserver = {
       width = clampedHeight * boxState.ratio
     }
 
-    box.style.width = width + 'px'
-    box.style.height = height + 'px'
-    box.style.paddingLeft = (availableWidth - width) / 2 + 'px'
+    const padding = (availableWidth - width) / 2
+
+    if (box.style.width !== width + 'px') {
+      box.style.width = width + 'px'
+    }
+
+    if (box.style.height !== height + 'px') {
+      box.style.height = height + 'px'
+    }
+
+    if (box.style.paddingLeft !== padding + 'px') {
+      box.style.paddingLeft = padding + 'px'
+    }
   }
 }
 
-resize.subscribe(resizeObserver)
+createIntervalObservable(REFRESH_TIMEOUT).subscribe(resizeObserver)
 
 dispatcher.events.create.subscribe({
   next (node) {

@@ -22,15 +22,15 @@ export function onDocumentReady () {
   })
 }
 
-export function getWindowSize () {
-  return {
-    width: window.innerWidth,
-    height: window.innerHeight,
-    isDesktop: window.innerWidth >= window.DESKTOP_WIDTH
+export function createWindowSizeObservable () {
+  function getWindowSize () {
+    return {
+      width: window.innerWidth,
+      height: window.innerHeight,
+      isDesktop: window.innerWidth >= window.DESKTOP_WIDTH
+    }
   }
-}
 
-export function createResizeSubject () {
   const subject = new BehaviorSubject(getWindowSize())
 
   function triggerUpdate () {
@@ -79,4 +79,8 @@ export function createKeyUpSubject () {
 
   window.document.addEventListener('keyup', onKeyDown)
   return subject
+}
+
+export function getCurrentURL () {
+  return document.location.href.slice(document.location.origin.length)
 }

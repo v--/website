@@ -1,7 +1,7 @@
 import { c } from '../../common/rendering/component.js'
 import { form } from '../../common/components/form.js'
 import { QueryConfig } from '../../common/support/query_config.js'
-import { redirection } from '../../common/global_subjects.js'
+import { location$ } from '../../common/shared_observables.js'
 import { CoolError } from '../../common/errors.js'
 
 import { ExpressionType } from './enums/expression_type.js'
@@ -125,7 +125,7 @@ export function index ({ path }) {
           callback (data) {
             const axioms = data.axioms.split('\n').filter(Boolean).join(';')
             const goal = data.goal
-            redirection.next(config.getUpdatedPath({ axioms, goal }))
+            location$.next(config.getUpdatedPath({ axioms, goal }))
           }
         },
         c('label', null,

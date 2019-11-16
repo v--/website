@@ -5,7 +5,7 @@ availableFeatures.asyncIteration = window.Symbol !== undefined && window.Object.
 // I couldn't find a way to easily test ES6 module compatibility, so I test for async iteration that was made available at roughly the same time
 availableFeatures.modules = availableFeatures.asyncIteration
 
-window.DESKTOP_WIDTH = 700
+window.DESKTOP_WIDTH = 550
 window.CORE_COMPATIBILITY = availableFeatures.modules
 window.PLAYGROUND_COMPATIBILITY = {
   sorting: availableFeatures.modules,

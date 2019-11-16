@@ -1,3 +1,3 @@
 import { Subject } from './observables/subject.js'
 
-export const redirection = new Subject()
+export const location$ = new Subject()
