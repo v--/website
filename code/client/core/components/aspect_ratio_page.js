@@ -7,7 +7,7 @@ import { createIntervalObservable } from '../support/timeout.js'
 export class AspectRatioError extends CoolError {}
 export class NodeAlreadyRegisteredError extends AspectRatioError {}
 
-const REFRESH_TIMEOUT = 100
+const REFRESH_TIMEOUT = 300
 
 let currentRoot = null
 let currentBox = null
@@ -99,5 +99,5 @@ export function aspectRatioPage (state, children) {
 }
 
 export function aspectRatioBox ({ item }) {
-  return c('div', null, item)
+  return c('div', { style: 'width: 0; height: 0' }, item)
 }
