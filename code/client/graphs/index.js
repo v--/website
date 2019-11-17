@@ -9,13 +9,13 @@ import { graphCanvas } from './components/graph_canvas.js'
 
 export function index () {
   const graph = Graph.fromArcs([
-    { src: 0, dest: 1, weight: 2 },
-    { src: 0, dest: 2, weight: 2 },
-    { src: 0, dest: 5, weight: 10 },
-    { src: 1, dest: 3, weight: 2 },
-    { src: 2, dest: 4, weight: 3 },
-    { src: 3, dest: 5, weight: 1 },
-    { src: 4, dest: 5, weight: 1 }
+    { label: 'a', src: 0, dest: 1, weight: 2 },
+    { label: 'b', src: 0, dest: 2, weight: 2 },
+    { label: 'c', src: 0, dest: 5, weight: 10 },
+    { label: 'd', src: 1, dest: 3, weight: 2 },
+    { label: 'e', src: 2, dest: 4, weight: 3 },
+    { label: 'f', src: 3, dest: 5, weight: 1 },
+    { label: 'g', src: 4, dest: 5, weight: 1 }
   ])
 
   highlightShortestPath(graph, 0, 5)

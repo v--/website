@@ -64,7 +64,7 @@ export function graphCanvas ({ graph }) {
         s('text', {
           x: String(center.x),
           y: String(center.y + 0.035),
-          text: arc.weight
+          text: arc.label
         })
       )
     }),
