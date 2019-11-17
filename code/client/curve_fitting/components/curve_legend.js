@@ -61,14 +61,6 @@ export function curveLegend ({ mapping, curves, fitters, enableFitter, disableFi
           value (entry) {
             return String(entry.curve)
           }
-        },
-
-        {
-          label: 'Added on',
-          class: 'col-date',
-          value (entry) {
-            return String(entry.fitter.date)
-          }
         }
       ]
     })

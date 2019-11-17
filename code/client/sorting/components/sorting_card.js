@@ -51,8 +51,6 @@ export function sortingCard ({ algorithm, states, isRunning, hasFinished, pause,
           reset()
         }
       })
-    ),
-
-    c('p', { text: 'Added on ' + algorithm.date })
+    )
   )
 }
