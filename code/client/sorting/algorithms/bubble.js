@@ -2,8 +2,8 @@ export const bubbleSort = Object.freeze({
   name: 'Bubble sort',
   date: '2014-11-13',
   stable: true,
-  time: 'O(n²)',
-  space: 'Θ(1)',
+  time: 'Ω(n), O(n²)',
+  space: 'O(1)',
   implementation (sortable) {
     let ordered = false
 

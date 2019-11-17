@@ -1,6 +1,6 @@
 import { assert } from '../../_common.js'
 
-import { EmptyIterError, reduce, range, zip, sort, shuffle, separate, product, empty } from '../../../code/common/support/iteration.js'
+import { EmptyIterError, reduce, range, zip, sort, shuffle, product, empty } from '../../../code/common/support/iteration.js'
 
 describe('zip()', function () {
   it('zips nothing', function () {
@@ -63,18 +63,6 @@ describe('shuffle()', function () {
     const array = Array.from(range(0, 100))
     const copy = Array.from(array)
     assert.deepEqual(copy, array)
-  })
-})
-
-describe('separate()', function () {
-  it('separates array elements', function () {
-    const source = [1, 1, 1, 2, 2, 3]
-    assert.deepEqual(separate(source), [1, 2, 3, 4, 5, 6])
-  })
-
-  it('preserves current ordinal structure', function () {
-    const source = [1, 11, 5, 7, 3]
-    assert.deepEqual(separate(source), [1, 5, 3, 4, 2])
   })
 })
 

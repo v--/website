@@ -1,31 +1,37 @@
-function partition (sortable, lower, upper) {
-  const pivotIndex = lower + Math.floor(Math.random() * (upper - lower))
+import { randInt } from '../../../common/math/prob/random.js'
+
+function partition (sortable, start, end) {
+  const pivotIndex = randInt(start, end)
   const pivot = sortable.get(pivotIndex)
-  let p = lower
+  let newPivotIndex = start
 
-  sortable.update(pivotIndex, upper, true)
+  // Move the upmost element into the traversable part of the array and store the pivot index there
+  sortable.update(pivotIndex, end, true)
 
-  for (let i = lower; i < upper; i++) {
+  // The last item that contains the pivot is not reached
+  for (let i = start; i < end; i++) {
     if (sortable.get(i) < pivot) {
-      sortable.update(i, p++, true)
+      sortable.update(i, newPivotIndex, i !== newPivotIndex)
+      newPivotIndex++
     } else {
-      sortable.update(i, p, false)
+      sortable.update(i, newPivotIndex, false)
     }
   }
 
-  sortable.update(p, upper, true)
-  return p
+  // Put the pivot into it's actual place
+  sortable.update(newPivotIndex, end, newPivotIndex !== end)
+  return newPivotIndex
 }
 
-function quicksortImpl (sortable, lower, upper) {
-  const pivotIndex = partition(sortable, lower, upper)
+function sort (sortable, start, end) {
+  const pivotIndex = partition(sortable, start, end)
 
-  if (lower < pivotIndex) {
-    quicksortImpl(sortable, lower, pivotIndex)
+  if (start < pivotIndex) {
+    sort(sortable, start, pivotIndex - 1)
   }
 
-  if (upper > pivotIndex + 1) {
-    quicksortImpl(sortable, pivotIndex + 1, upper)
+  if (end > pivotIndex) {
+    sort(sortable, pivotIndex + 1, end)
   }
 }
 
@@ -33,9 +39,9 @@ export const quicksort = Object.freeze({
   name: 'Randomized quicksort',
   date: '2015-11-23',
   stable: false,
-  time: 'O(n²)',
-  space: 'O(n)',
+  time: 'Ω(n log n), O(n²)',
+  space: 'O(log n)',
   implementation (sortable) {
-    quicksortImpl(sortable, 0, sortable.length - 1)
+    sort(sortable, 0, sortable.length - 1)
   }
 })

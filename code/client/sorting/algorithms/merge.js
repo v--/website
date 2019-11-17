@@ -1,15 +1,26 @@
+function updateIndexMap (map, src, dest) {
+  let ind = dest
+
+  while (map.has(ind)) {
+    ind = map.get(ind)
+  }
+
+  map.set(src, ind)
+}
+
 export const mergeSort = Object.freeze({
   name: 'Bottom-up merge sort',
   date: '2014-11-13',
   stable: true,
-  time: 'O(n log n)',
+  time: 'Θ(n log n)',
   space: 'O(n)',
   implementation (sortable) {
-    const buffer = []
     const n = sortable.length
 
     for (let span = 1; span < n; span *= 2) {
       for (let start = 0; start < n; start += 2 * span) {
+        const indexMap = new Map()
+
         const middle = Math.min(start + span, n)
         const end = Math.min(start + 2 * span, n)
 
@@ -18,15 +29,17 @@ export const mergeSort = Object.freeze({
 
         for (let i = start; i < end; i++) {
           if (left < middle && (end === right || sortable.get(left) < sortable.get(right))) {
-            buffer[i] = sortable.get(left++)
+            updateIndexMap(indexMap, i, left)
+            left++
           } else {
-            buffer[i] = sortable.get(right++)
+            updateIndexMap(indexMap, i, right)
+            right++
           }
         }
 
         for (let i = start; i < end; i++) {
-          const index = sortable.indexOf(buffer[i])
-          sortable.update(index, i, true)
+          const newI = indexMap.get(i)
+          sortable.update(i, newI, i !== newI)
         }
       }
     }

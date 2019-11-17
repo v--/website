@@ -3,16 +3,17 @@ export const selectionSort = Object.freeze({
   date: '2014-11-13',
   stable: false,
   time: 'Θ(n²)',
-  space: 'Θ(1)',
+  space: 'O(1)',
   implementation (sortable) {
     for (let i = 0; i < sortable.length - 1; i++) {
       let min = i
 
       for (let j = i; j < sortable.length; j++) {
-        sortable.update(i, j, false)
-
         if (sortable.get(j) < sortable.get(min)) {
+          sortable.update(i, min, false)
           min = j
+        } else {
+          sortable.update(i, j, false)
         }
       }
 

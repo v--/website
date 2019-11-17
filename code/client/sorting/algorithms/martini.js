@@ -2,8 +2,8 @@ export const martiniSort = Object.freeze({
   name: 'Martini sort',
   date: '2018-10-05',
   stable: true,
-  time: 'O(n²)',
-  space: 'Θ(1)',
+  time: 'Ω(n), O(n²)',
+  space: 'O(1)',
   implementation (sortable) {
     let ordered = false
 

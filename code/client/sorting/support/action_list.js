@@ -1,29 +1,23 @@
-import { separate, swap } from '../../../common/support/iteration.js'
+import { swap } from '../../../common/support/iteration.js'
 
 export class ActionList {
   constructor (array) {
-    this.originalArray = array
-    this.array = Array.from(array)
-    this.separatedArray = separate(array)
+    this._originalArray = array
+    this._array = this.cloneOriginalArray()
     this.actions = [null]
   }
 
   get length () {
-    return this.array.length
-  }
-
-  indexOf (value) {
-    return this.separatedArray.indexOf(value)
+    return this._array.length
   }
 
   get (i) {
-    return this.separatedArray[i]
+    return this._array[i]
   }
 
   update (i, j, swapped) {
     if (swapped) {
-      swap(this.array, i, j)
-      swap(this.separatedArray, i, j)
+      swap(this._array, i, j)
     }
 
     this.actions.push({ i, j, swapped })
@@ -31,5 +25,9 @@ export class ActionList {
 
   finish () {
     this.actions.push(null)
+  }
+
+  cloneOriginalArray () {
+    return Array.from(this._originalArray)
   }
 }

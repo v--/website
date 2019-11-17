@@ -17,7 +17,7 @@ function constructActionLists (algorithm, sequences) {
 
     return {
       sequence,
-      currentState: Array.from(actionList.originalArray),
+      currentState: actionList.cloneOriginalArray(),
       actions: actionList.actions
     }
   })

@@ -165,27 +165,6 @@ export function counter (iter) {
   return cntr
 }
 
-export function separate (array) {
-  const totalCount = counter(array)
-  const usedCount = new Map()
-  const result = []
-
-  for (let i = 0; i < array.length; i++) {
-    const value = array[i]
-    let rank = 1
-
-    for (let j = 1; j < value; j++) {
-      rank += (totalCount.get(j) || 0)
-    }
-
-    const used = (usedCount.get(value) || 0)
-    usedCount.set(value, used + 1)
-    result[i] = rank + used
-  }
-
-  return result
-}
-
 export function swap (array, i, j) {
   const tmp = array[i]
   array[i] = array[j]
