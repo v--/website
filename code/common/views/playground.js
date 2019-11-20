@@ -46,7 +46,7 @@ export function playground () {
         c('li', null,
           c(link, {
             class: 'playground-link',
-            text: 'Graph optimization algorithm visualizations',
+            text: 'Graph algorithm visualizations',
             link: 'playground/graphs',
             isInternal: true
           })

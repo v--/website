@@ -1,5 +1,6 @@
 export const FOREGROUND_COLOR = '#222222'
 export const ACCENT_COLOR = '#5fa1cd'
+export const HOVERED_COLOR = '#849871'
 
 export const CHALK_COLORS = Object.freeze([
   '#710c10',

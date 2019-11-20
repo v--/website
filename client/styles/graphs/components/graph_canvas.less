@@ -10,22 +10,21 @@
     }
 
     text {
-      fill: @visualization-color-accent;
+      fill: @visualization-color-background;
       font-size: 0.1px;
       line-height: 10px;
       font-weight: bold;
       text-anchor: middle;
+      pointer-events: none;
       transform: translateY(0.035px);
     }
 
-    &.highlighted {
-      circle {
-        fill: @visualization-color-accent;
-      }
+    &.highlighted circle {
+      fill: @visualization-color-accent;
+    }
 
-      text {
-        fill: @visualization-color-foreground;
-      }
+    &.hovered circle {
+      fill: @visualization-color-hovered;
     }
   }
 
@@ -38,6 +37,12 @@
     &.highlighted {
       line {
         stroke: @visualization-color-accent;
+      }
+    }
+
+    &.hovered {
+      line {
+        stroke: @visualization-color-hovered;
       }
     }
   }

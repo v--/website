@@ -1,5 +1,5 @@
 import { c } from '../../common/rendering/component.js'
-import { aspectRatioPage, aspectRatioBox } from '../core/components/aspect_ratio_page.js'
+import { aspectRatioBox } from '../core/components/aspect_ratio_box.js'
 import { createKeyDownSubject, createKeyUpSubject } from '../core/support/dom.js'
 import { dispatcher } from '../core/render_dispatcher.js'
 import { DictSubject } from '../../common/observables/dict_subject.js'
@@ -29,7 +29,7 @@ export function index () {
     eventLoop: new EventLoop(eventLoopListeners)
   })
 
-  return c(aspectRatioPage, { class: 'page playground-breakout-page' },
+  return c('div', { class: 'page playground-breakout-page' },
     c('div', { class: 'section' },
       c('h1', { class: 'section-title', text: 'A Breakout variant with evolving bricks' }),
       c('p', { text: 'This is a variant of the classic Breakout game where the bricks follow a stochastic evolution pattern.' }),

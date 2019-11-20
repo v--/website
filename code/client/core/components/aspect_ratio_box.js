@@ -9,7 +9,6 @@ export class NodeAlreadyRegisteredError extends AspectRatioError {}
 
 const REFRESH_TIMEOUT = 300
 
-let currentRoot = null
 let currentBox = null
 
 function tryClamp (x, min, max) {
@@ -26,19 +25,19 @@ function tryClamp (x, min, max) {
 
 const resizeObserver = {
   next () {
-    if (!currentRoot || !currentBox) {
+    if (currentBox === null) {
       return
     }
 
-    const root = currentRoot.element
     const box = currentBox.element
+    const boxChild = box.firstChild
     const boxState = currentBox.component.state.value
 
-    const availableWidth = root.offsetWidth - root.offsetLeft - 2 * box.offsetLeft // Assume that the left offset describes the element's margin
+    const availableWidth = box.offsetWidth
     const clampedWidth = tryClamp(availableWidth, boxState.minWidth, boxState.maxWidth)
     let width = clampedWidth
 
-    const availableHeight = root.offsetHeight - root.offsetTop - box.offsetTop - (boxState.bottomMargin || 0)
+    const availableHeight = window.innerHeight - box.offsetTop - (boxState.bottomMargin || 0)
     const clampedHeight = tryClamp(availableHeight, boxState.minHeight, boxState.maxHeight)
     let height = clampedHeight
 
@@ -50,16 +49,17 @@ const resizeObserver = {
 
     const padding = (availableWidth - width) / 2
 
-    if (box.style.width !== width + 'px') {
-      box.style.width = width + 'px'
+    if (boxChild.style.width !== width + 'px') {
+      boxChild.style.width = width + 'px'
     }
 
-    if (box.style.height !== height + 'px') {
+    if (boxChild.style.height !== height + 'px') {
+      boxChild.style.height = height + 'px'
       box.style.height = height + 'px'
     }
 
-    if (box.style.paddingLeft !== padding + 'px') {
-      box.style.paddingLeft = padding + 'px'
+    if (boxChild.style.paddingLeft !== padding + 'px') {
+      boxChild.style.paddingLeft = padding + 'px'
     }
   }
 }
@@ -68,13 +68,7 @@ createIntervalObservable(REFRESH_TIMEOUT).subscribe(resizeObserver)
 
 dispatcher.events.create.subscribe({
   next (node) {
-    if (node.component.type === aspectRatioPage) {
-      if (currentRoot) {
-        throw new NodeAlreadyRegisteredError('There is already a registered aspect ratio root')
-      }
-
-      currentRoot = node
-    } else if (node.component.type === aspectRatioBox) {
+    if (node.component.type === aspectRatioBox) {
       if (currentBox) {
         throw new NodeAlreadyRegisteredError('There is already a registered aspect ratio box')
       }
@@ -86,18 +80,14 @@ dispatcher.events.create.subscribe({
 
 dispatcher.events.destroy.subscribe({
   next (node) {
-    if (node.component.type === aspectRatioPage) {
-      currentRoot = null
-    } else if (node.component.type === aspectRatioBox) {
+    if (node.component.type === aspectRatioBox) {
       currentBox = null
     }
   }
 })
 
-export function aspectRatioPage (state, children) {
-  return c('div', state, ...children)
-}
-
 export function aspectRatioBox ({ item }) {
-  return c('div', { style: 'width: 0; height: 0' }, item)
+  return c('div', { style: 'width: 100%' },
+    c('div', null, item)
+  )
 }

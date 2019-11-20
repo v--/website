@@ -262,3 +262,14 @@ export function intersection (...iterables) {
 
   return result
 }
+
+export function first (iterable) {
+  const iter = iterable[Symbol.iterator]()
+  const state = iter.next()
+
+  if (state.done) {
+    throw new EmptyIterError('Cannot get the first element of an empty iterable')
+  }
+
+  return state.value
+}

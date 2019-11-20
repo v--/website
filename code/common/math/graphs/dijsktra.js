@@ -1,6 +1,6 @@
 import { range } from '../../support/iteration.js'
 
-export function highlightShortestPath (graph, i, j) {
+export function findShortestPath (graph, i, j) {
   const cumWeights = new Map()
   const unmarked = new Set(range(1, graph.order))
   const ancestors = new Map()
@@ -54,10 +54,5 @@ export function highlightShortestPath (graph, i, j) {
 
   path.push(i)
   path.reverse()
-
-  for (let i = 1; i < path.length; i++) {
-    graph.getArc(path[i - 1], path[i]).highlighted = true
-  }
-
-  return path
+  return { path, cumWeights }
 }

@@ -13,7 +13,7 @@ function clampToUnitCircle (vector) {
 /**
  * Find a layout using the Fruchterman-Reingold algorithm
  */
-export function findUnitSquareLayout (graph) {
+export function findUnitCircleLayout (graph) {
   const n = graph.order
   const area = 4 // The bounding square of the unit circle
   const k = Math.sqrt(area / n)

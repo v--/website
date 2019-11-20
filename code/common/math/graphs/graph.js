@@ -35,7 +35,7 @@ export class GraphVertexData {
 }
 
 export class GraphArc {
-  constructor ({ src, dest, label = null, weight = 1, highlighted = false }) {
+  constructor ({ src, dest, label = null, weight = 1 }) {
     if (src === dest) {
       throw new GraphError('The graph cannot contain loops')
     }
@@ -44,7 +44,6 @@ export class GraphArc {
     this.dest = dest
     this.weight = weight
     this.label = label
-    this.highlighted = highlighted
   }
 
   clone () {
@@ -99,8 +98,8 @@ export class Graph {
     return this._incidence.get(src).getArcWith(dest)
   }
 
-  * _iterInwardArcs (vertex) {
-    for (const arc of this._iterArcs()) {
+  * iterInwardArcs (vertex) {
+    for (const arc of this.iterAllArcs()) {
       if (arc.dest === vertex) {
         yield arc
       }
@@ -108,14 +107,18 @@ export class Graph {
   }
 
   getInwardArcs (vertex) {
-    return Array.from(this._iterInwardArcs(vertex))
+    return Array.from(this.iterInwardArcs(vertex))
+  }
+
+  * iterOutwardArcs (vertex) {
+    return this._getVertexData(vertex).getArcs()
   }
 
   getOutwardArcs (vertex) {
     return this._getVertexData(vertex).getArcs()
   }
 
-  * _iterArcs () {
+  * iterAllArcs () {
     for (const vertexData of this._incidence.values()) {
       for (const arc of vertexData.getArcs()) {
         yield arc
@@ -124,7 +127,7 @@ export class Graph {
   }
 
   getAllArcs () {
-    return Array.from(this._iterArcs())
+    return Array.from(this.iterAllArcs())
   }
 
   clone () {

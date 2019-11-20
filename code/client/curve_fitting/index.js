@@ -1,5 +1,5 @@
 import { c } from '../../common/rendering/component.js'
-import { aspectRatioPage, aspectRatioBox } from '../core/components/aspect_ratio_page.js'
+import { aspectRatioBox } from '../core/components/aspect_ratio_box.js'
 import { DictSubject } from '../../common/observables/dict_subject.js'
 import { CHALK_COLORS } from '../core/support/colors.js'
 
@@ -74,7 +74,7 @@ export function index () {
     }
   })
 
-  return c(aspectRatioPage, { class: 'page playground-curve-fitting-page' },
+  return c('div', { class: 'page playground-curve-fitting-page' },
     c('div', { class: 'section' },
       c('h1', { class: 'section-title', text: 'Plane curve fitting visualizations' }),
       c('p', {
@@ -85,7 +85,7 @@ export function index () {
 
     c(aspectRatioBox, {
       ratio: 5 / 4,
-      bottomMargin: 25,
+      bottomMargin: 100,
       minHeight: 250,
       maxHeight: 500,
       item: c(curveCanvas, subject$)
