@@ -1,4 +1,4 @@
-import { schwartzSort } from '../../support/iteration.js'
+import { map } from '../../support/iteration.js'
 import { MathError } from '../errors.js'
 
 export class GraphError extends MathError {}
@@ -18,7 +18,7 @@ export class GraphVertexData {
       throw new GraphError(`Vertex ${this.vertex} already has an arc to ${arc.dest}`)
     }
 
-    this._arcs.push(new GraphArc(arc))
+    this._arcs.push(arc)
   }
 
   getArcWith (dest) {
@@ -27,6 +27,10 @@ export class GraphVertexData {
 
   getArcs () {
     return this._arcs
+  }
+
+  clone () {
+    return new this.constructor({ vertex: this._vertex, arcs: this._arcs.map(arc => arc.clone()) })
   }
 }
 
@@ -41,6 +45,10 @@ export class GraphArc {
     this.weight = weight
     this.label = label
     this.highlighted = highlighted
+  }
+
+  clone () {
+    return new this.constructor(this)
   }
 }
 
@@ -117,5 +125,11 @@ export class Graph {
 
   getAllArcs () {
     return Array.from(this._iterArcs())
+  }
+
+  clone () {
+    const newIncidenceEntries = map(([k, v]) => [k, v.clone()], this._incidence.entries())
+    const newIncidence = new Map(newIncidenceEntries)
+    return new this.constructor(newIncidence)
   }
 }
