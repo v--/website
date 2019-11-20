@@ -1,21 +1,11 @@
 import { c } from '../../../common/rendering/component.js'
 import { s } from '../../../common/support/svg.js'
 import { classlist } from '../../../common/support/dom_properties.js'
-import { FOREGROUND_COLOR, ACCENT_COLOR } from '../../core/support/colors.js'
 
+import { FOREGROUND_COLOR, ACCENT_COLOR } from '../../core/support/colors.js'
 import { arrowMarker } from './arrow_marker.js'
 
-export function graphCanvas ({ graph }) {
-  const vertexCoords = []
-
-  for (let i = 0; i < graph.order; i++) {
-    const angle = 2 * Math.PI * (i / graph.order)
-    vertexCoords.push({
-      x: Math.cos(angle),
-      y: Math.sin(angle)
-    })
-  }
-
+export function graphCanvas ({ graph, layout }) {
   const arcs = graph.getAllArcs()
   const highlightedVertices = new Set()
 
@@ -42,12 +32,8 @@ export function graphCanvas ({ graph }) {
     ...arcs.map(function (arc) {
       const highlighted = arc.highlighted
 
-      const src = vertexCoords[arc.src]
-      const dest = vertexCoords[arc.dest]
-      const center = {
-        x: (src.x + dest.x) / 2,
-        y: (src.y + dest.y) / 2
-      }
+      const src = layout[arc.src]
+      const dest = layout[arc.dest]
 
       return s('g', { class: classlist('edge', highlighted && 'highlighted') },
         s('line', {
@@ -56,20 +42,11 @@ export function graphCanvas ({ graph }) {
           x2: String(dest.x),
           y2: String(dest.y),
           'marker-end': `url(#${highlighted ? 'triangle-accent' : 'triangle'})`
-        }),
-        s('circle', {
-          cx: String(center.x),
-          cy: String(center.y)
-        }),
-        s('text', {
-          x: String(center.x),
-          y: String(center.y + 0.035),
-          text: arc.label
         })
       )
     }),
 
-    ...vertexCoords.map(function ({ x, y }, i) {
+    ...layout.map(function ({ x, y }, i) {
       return s('g', { class: classlist('vertex', highlightedVertices.has(i) && 'highlighted') },
         s('circle', {
           cx: String(x),
@@ -78,7 +55,7 @@ export function graphCanvas ({ graph }) {
 
         s('text', {
           x: String(x),
-          y: String(y + 0.035),
+          y: String(y),
           text: String(i)
         })
       )

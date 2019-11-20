@@ -83,4 +83,8 @@ export class Line {
 
     return reflectedPoint.sub(reflectedMoved).scaleToNormed()
   }
+
+  orientedDistanceToPoint (vector) {
+    return this.a * vector.x + this.b * vector.y + this.c
+  }
 }

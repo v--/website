@@ -1,3 +1,4 @@
+import { schwartzSort } from '../../support/iteration.js'
 import { isSameNumber } from '../numeric/floating.js'
 
 import { Matrix, MatrixDimensionError } from './matrix.js'
@@ -79,7 +80,7 @@ export function eigen (matrix) {
     })
   }
 
-  const sorted = pairs.sort((a, b) => b.value - a.value)
+  const sorted = schwartzSort(x => x.value, pairs)
 
   return {
     d: Matrix.diagonal(sorted.map(p => p.value)),

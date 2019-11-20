@@ -117,22 +117,61 @@ export function * uniqueBy (iter, key) {
   }
 }
 
-export function sort (iter, comparator = (a, b) => a - b) {
-  return Array.from(iter).sort(comparator)
+export function sort (iter, ascending = true) {
+  const array = Array.from(iter)
+
+  if (ascending) {
+    return array.sort((a, b) => a - b)
+  }
+
+  return array.sort((a, b) => b - a)
+}
+
+export function schwartzSort (transform, iter) {
+  const array = Array.from(iter)
+  const values = new Map(map(x => [x, transform(x)], array))
+  return array.sort((a, b) => values.get(a) - values.get(b))
+}
+
+export function schwartzMax (transform, iterable) {
+  return schwartzMin(x => -transform(x), iterable)
+}
+
+export function schwartzMin (transform, iterable) {
+  const iter = iterable[Symbol.iterator]()
+  let { value: x, done } = iter.next()
+
+  if (done) {
+    throw new EmptyIterError('Cannot find the minimum of an empty collection')
+  }
+
+  let minX = x
+  let minValue = transform(x)
+
+  for (; !done; { value: x, done } = iter.next()) {
+    const value = transform(x)
+
+    if (value < minValue) {
+      minX = x
+      minValue = value
+    }
+  }
+
+  return minX
 }
 
 export function shuffle (iter) {
   const array = Array.from(iter)
   const n = array.length
-  const shuffled = []
 
   for (let i = 0; i < n; i++) {
-    const j = Math.floor(Math.random() * (n - i - 1))
-    shuffled[i] = array[j]
-    array[j] = array[n - i - 1]
+    const j = i + Math.floor(Math.random() * (n - i))
+    const temp = array[j]
+    array[j] = array[i]
+    array[i] = temp
   }
 
-  return shuffled
+  return array
 }
 
 export function * flatten (iter) {

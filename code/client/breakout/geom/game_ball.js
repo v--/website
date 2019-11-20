@@ -1,4 +1,4 @@
-import { sort } from '../../../common/support/iteration.js'
+import { schwartzMin, EmptyIterError } from '../../../common/support/iteration.js'
 
 import { Vector } from '../../../common/math/geom2d/vector.js'
 import { Line } from '../../../common/math/geom2d/line.js'
@@ -28,16 +28,16 @@ export class GameBall {
     )
   }
 
-  findClosestReflection (reflections) {
-    const sorted = sort(reflections, function (a, b) {
-      return this.center.distanceTo(a.ball.center) - this.center.distanceTo(b.ball.center)
-    }.bind(this))
+  findClosestReflection (reflectionsIterable) {
+    try {
+      return schwartzMin(x => this.center.distanceTo(x.ball.center), reflectionsIterable)
+    } catch (err) {
+      if (err instanceof EmptyIterError) {
+        return null
+      }
 
-    if (sorted.length === 0) {
-      return null
+      throw err
     }
-
-    return sorted[0]
   }
 
   * _iterCornerDirections () {

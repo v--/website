@@ -1,6 +1,16 @@
 import { assert } from '../../_common.js'
 
-import { EmptyIterError, reduce, range, zip, sort, shuffle, product, empty } from '../../../code/common/support/iteration.js'
+import {
+  EmptyIterError,
+  reduce,
+  range,
+  zip,
+  sort,
+  shuffle,
+  product,
+  empty,
+  schwartzSort
+} from '../../../code/common/support/iteration.js'
 
 describe('zip()', function () {
   it('zips nothing', function () {
@@ -62,7 +72,22 @@ describe('shuffle()', function () {
   it('does not mutate the original array', function () {
     const array = Array.from(range(0, 100))
     const copy = Array.from(array)
+    shuffle(copy)
     assert.deepEqual(copy, array)
+  })
+})
+
+describe('schwartzSort()', function () {
+  it('sorts a shuffled array', function () {
+    const array = [1, 3, 15, -7, 4]
+    const result = [-7, 1, 3, 4, 15]
+    assert.deepEqual(schwartzSort(x => x, array), result)
+  })
+
+  it('sorts a shuffled array backwards', function () {
+    const array = [1, 3, 15, -7, 4]
+    const result = [15, 4, 3, 1, -7]
+    assert.deepEqual(schwartzSort(x => -x, array), result)
   })
 })
 
