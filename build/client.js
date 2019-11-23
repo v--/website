@@ -1,4 +1,3 @@
-import concat from 'gulp-concat'
 import less from 'gulp-less'
 import svgo from 'gulp-svgo'
 import gulp from 'gulp'
@@ -20,9 +19,8 @@ gulp.task('client:build:assets', function () {
 })
 
 gulp.task('client:build:styles', function () {
-  return gulp.src('client/styles/**/*.less')
+  return gulp.src(['client/styles/**/*.less', '!client/styles/**/_*.less'])
     .pipe(less())
-    .pipe(concat('index.css'))
     .pipe(gulp.dest('public/styles'))
     .pipe(sync.stream())
 })

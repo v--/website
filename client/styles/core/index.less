@@ -1,5 +1,27 @@
 @import '../_colors.less';
 
+@import './button.css';
+@import './code.css';
+@import './section.css';
+@import './typography.css';
+
+@import './components/aspect_ratio_box.css';
+@import './components/form.css';
+@import './components/icon.css';
+@import './components/interactive_table.css';
+@import './components/link.css';
+@import './components/loading_indicator.css';
+@import './components/main.css';
+@import './components/markdown.css';
+@import './components/sidebar.css';
+@import './components/sidebar_toggle.css';
+@import './components/table.css';
+
+@import './views/error.css';
+@import './views/files.css';
+@import './views/home.css';
+@import './views/unsupported.css';
+
 body {
   margin: 0; // I'm not sure where the original margin comes from
   display: flex;
@@ -7,4 +29,8 @@ body {
   height: 100vh;
   background-color: @color-background;
   color: @color-foreground;
+}
+
+li {
+  line-height: 1.75em;
 }

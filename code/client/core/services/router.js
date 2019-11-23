@@ -9,11 +9,15 @@ import { Store, MockStore } from '../store.js'
 import { clientRouter } from '../router.js'
 import { windowSize$ } from '../shared_observables.js'
 import { dynamicImport } from '../support/dynamic_import.js'
+import { loadCSSFile } from '../support/dom.js'
 
 class RoutingError extends CoolError {}
 
 async function loadBundle (bundle) {
-  const m = await dynamicImport(`${window.location.origin}/code/client/${bundle}/index.js`)
+  const [m] = await Promise.all([
+    dynamicImport(`${window.location.origin}/code/client/${bundle}/index.js`),
+    loadCSSFile(`/styles/${bundle}/index.css`)
+  ])
 
   if (!m || !(m.index instanceof Function)) {
     throw new RoutingError(`${repr(bundle)} does not export a component`)
