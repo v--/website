@@ -1,0 +1,12 @@
+@import '../colors.scss';
+
+@import './components/curve_canvas.scss';
+@import './components/curve_legend.scss';
+
+.playground-curve-fitting-page {
+  height: 100%;
+
+  .curve-fitting-subtitle {
+    margin-bottom: 1.5em;
+  }
+}

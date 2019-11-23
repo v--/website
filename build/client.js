@@ -1,4 +1,4 @@
-import less from 'gulp-less'
+import sass from 'gulp-dart-sass'
 import svgo from 'gulp-svgo'
 import gulp from 'gulp'
 
@@ -19,8 +19,8 @@ gulp.task('client:build:assets', function () {
 })
 
 gulp.task('client:build:styles', function () {
-  return gulp.src('client/styles/**/index.less')
-    .pipe(less())
+  return gulp.src('client/styles/**/index.scss')
+    .pipe(sass())
     .pipe(gulp.dest('public/styles'))
     .pipe(sync.stream())
 })

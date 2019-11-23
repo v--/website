@@ -1,0 +1,27 @@
+@import '../../sizes.scss';
+@import '../../colors.scss';
+
+.form-container {
+  display: block;
+  width: 100%;
+
+  label {
+    display: block;
+    margin: 0.8em 0;
+
+    input, textarea {
+      display: block;
+      width: 100%;
+      border: $border-width solid $color-dark;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+  }
+
+  .form-error-label {
+    display: block;
+    color: $color-danger;
+  }
+}

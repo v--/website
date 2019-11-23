@@ -1,0 +1,11 @@
+$palette-chalk: #710c10, #ebb93e, #80b8e9, #e9658f, #98bc76, #7637a0;
+
+$color-background: #fff;
+$color-midground: #ddd;
+$color-foreground: #222;
+$color-accent: #5fa1cd;
+$color-accent-saturated: #2a92ea;
+$color-light: #aaa;
+$color-dark: #888;
+$color-danger: nth($palette-chalk, 4);
+$color-success: nth($palette-chalk, 5);
