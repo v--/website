@@ -19,7 +19,7 @@ gulp.task('client:build:assets', function () {
 })
 
 gulp.task('client:build:styles', function () {
-  return gulp.src(['client/styles/**/*.less', '!client/styles/**/_*.less'])
+  return gulp.src('client/styles/**/index.less')
     .pipe(less())
     .pipe(gulp.dest('public/styles'))
     .pipe(sync.stream())
