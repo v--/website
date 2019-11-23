@@ -1,5 +1,6 @@
 import { location$ } from '../shared_observables.js'
 import { c } from '../rendering/component.js'
+import { classlist } from '../support/dom_properties.js'
 
 export function link (state, children) {
   const childState = {}
@@ -22,9 +23,6 @@ export function link (state, children) {
     childState.text = state.link
   }
 
-  if (state.class) {
-    childState.class = state.class
-  }
-
+  childState.class = classlist('link', state.class)
   return c('a', childState, ...children)
 }

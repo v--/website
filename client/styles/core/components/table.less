@@ -25,7 +25,7 @@ table,
     flex-direction: row;
     align-items: center;
     text-decoration: none;
-    color: black;
+    color: @color-foreground;
 
     &a {
       cursor: pointer;
@@ -33,7 +33,17 @@ table,
 
     > .icon {
       margin-right: 0.5em;
-      fill: black;
+      fill: @color-foreground;
+    }
+
+    &:hover,
+    &:active,
+    &:visited {
+      color: @color-foreground;
+
+      > .icon {
+        fill: @color-foreground;
+      }
     }
   }
 }

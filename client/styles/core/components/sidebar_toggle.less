@@ -2,16 +2,13 @@
 @import '../../_sizes.less';
 @import '../../_colors.less';
 @import '../../_zindex.less';
-@import '../../_mixins.less';
 
 .sidebar-toggle {
-  .button();
-
   position: absolute;
   font-size: 26px;
   border-radius: 50%;
   cursor: pointer;
-  .zindex(@zindex-sidebar-toggle);
+  zindex: @zindex-sidebar-toggle;
 
   // Override button properties to act properly
   padding: 0;

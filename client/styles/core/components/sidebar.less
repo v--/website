@@ -2,7 +2,6 @@
 @import '../../_sizes.less';
 @import '../../_colors.less';
 @import '../../_zindex.less';
-@import '../../_mixins.less';
 
 .sidebar {
   flex-grow: 0;
@@ -13,7 +12,7 @@
   overflow-y: auto;
   transition: margin-left @transition-sidebar;
   padding: @sidebar-padding 0;
-  .zindex(@zindex-sidebar);
+  z-index: @zindex-sidebar;
 
   display: flex;
   flex-direction: column;
@@ -23,8 +22,6 @@
   }
 
   > .entry {
-    .button();
-
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -36,6 +33,7 @@
     font-weight: 600;
 
     > .entry-icon {
+      fill: @color-background;
       font-size: 1.5rem;
       flex-grow: 0;
       flex-shrink: 0;
@@ -43,10 +41,42 @@
     }
 
     > .entry-text {
+      color: @color-background;
       line-height: 2em;
       flex-grow: 1;
       text-align: left;
       margin-left: 1.5em;
+    }
+
+    &:active,
+    &:visited {
+      > .entry-icon {
+        fill: @color-background;
+      }
+
+      > .entry-text {
+        color: @color-background;
+      }
+    }
+
+    &:hover {
+      > .entry-icon {
+        fill: @color-light;
+      }
+
+      > .entry-text {
+        color: @color-light;
+      }
+    }
+
+    &.active {
+      > .entry-icon {
+        fill: @color-foreground;
+      }
+
+      > .entry-text {
+        color: @color-foreground;
+      }
     }
   }
 }
