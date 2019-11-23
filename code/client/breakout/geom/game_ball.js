@@ -61,11 +61,17 @@ export class GameBall {
         const motionLine = Line.fromPointAndVector(corner, this.direction)
         const motionInt = wall.intersectWith(motionLine)
 
-        if (motionInt === null || !motionInt.sub(corner).isUnidirectionalWith(this.direction) || !rect.containsPoint(motionInt)) {
+        if (motionInt === null) {
           continue
         }
 
-        const reflectedCenter = motionInt.sub(corner.sub(this.center))
+        const motionDirection = motionInt.sub(corner)
+
+        if (motionDirection.isZeroVector() || !motionInt.sub(corner).isUnidirectionalWith(this.direction) || !rect.containsPoint(motionInt)) {
+          continue
+        }
+
+        const reflectedCenter = motionDirection.add(this.center)
         const reflectedDirection = wall.reflectDirection(corner, this.direction)
 
         yield new Reflection(

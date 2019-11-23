@@ -30,9 +30,7 @@ export class Vector {
   }
 
   scaleToNormed () {
-    const norm = this.getNorm()
-
-    if (isSameNumber(norm, 0)) {
+    if (this.isZeroVector()) {
       throw new ZeroVectorError('Cannot scale the zero vector to a normed vector')
     }
 
@@ -45,6 +43,10 @@ export class Vector {
 
   distanceTo (other) {
     return this.sub(other).getNorm()
+  }
+
+  isZeroVector () {
+    return isSameNumber(this.x, 0) && isSameNumber(this.y, 0)
   }
 
   isUnidirectionalWith (other) {
