@@ -23,6 +23,12 @@ function tryClamp (x, min, max) {
   return x
 }
 
+function setStyleIfNecessary (element, propName, value) {
+  if (element.style[propName] !== value) {
+    element.style[propName] = value
+  }
+}
+
 const resizeObserver = {
   next () {
     if (currentBox === null) {
@@ -49,18 +55,11 @@ const resizeObserver = {
 
     const padding = (availableWidth - width) / 2
 
-    if (boxChild.style.width !== width + 'px') {
-      boxChild.style.width = width + 'px'
-    }
-
-    if (boxChild.style.height !== height + 'px') {
-      boxChild.style.height = height + 'px'
-      box.style.height = height + 'px'
-    }
-
-    if (boxChild.style.paddingLeft !== padding + 'px') {
-      boxChild.style.paddingLeft = padding + 'px'
-    }
+    setStyleIfNecessary(box, 'opacity', '1')
+    setStyleIfNecessary(boxChild, 'width', width + 'px')
+    setStyleIfNecessary(boxChild, 'height', height + 'px')
+    setStyleIfNecessary(box, 'height', height + 'px')
+    setStyleIfNecessary(boxChild, 'paddingLeft', padding + 'px')
   }
 }
 
@@ -87,7 +86,7 @@ dispatcher.events.destroy.subscribe({
 })
 
 export function aspectRatioBox ({ item }) {
-  return c('div', { style: 'width: 100%' },
+  return c('div', { class: 'aspect-ratio-box' },
     c('div', null, item)
   )
 }
