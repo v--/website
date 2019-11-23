@@ -4,12 +4,12 @@
   background: @visualization-color-background;
 
   .vertex {
-    circle {
+    .vertex-circle {
       fill: @visualization-color-foreground;
       r: 0.1px;
     }
 
-    text {
+    .vertex-text {
       fill: @visualization-color-background;
       font-size: 0.1px;
       line-height: 10px;
@@ -19,31 +19,34 @@
       transform: translateY(0.035px);
     }
 
-    &.highlighted circle {
+    &.highlighted .vertex-circle {
       fill: @visualization-color-accent;
     }
 
-    &.hovered circle {
+    &.hovered .vertex-circle {
       fill: @visualization-color-hovered;
     }
   }
 
-  .edge {
-    line {
+  .arc {
+    .arc-line {
       stroke: @visualization-color-foreground;
       stroke-width: 0.035px;
     }
 
-    &.highlighted {
-      line {
-        stroke: @visualization-color-accent;
-      }
+    .arc-hover-line {
+      opacity: 0;
+      // Hovering doesn't work otherwise
+      stroke: @visualization-color-foreground;
+      stroke-width: 0.2px;
     }
 
-    &.hovered {
-      line {
-        stroke: @visualization-color-hovered;
-      }
+    &.highlighted .arc-line {
+      stroke: @visualization-color-accent;
+    }
+
+    &.hovered .arc-line {
+      stroke: @visualization-color-hovered;
     }
   }
 }

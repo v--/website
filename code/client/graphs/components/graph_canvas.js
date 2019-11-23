@@ -35,17 +35,25 @@ export function graphCanvas ({ graph, layout, path, hoverArc, hoverVertex, hover
       return s('g',
         {
           class: classlist(
-            'edge',
+            'arc',
             highlightedArcs.has(arc) && 'highlighted',
             hoveredArc === arc && 'hovered'
           )
         },
         s('line', {
+          class: 'arc-line',
           x1: String(src.x),
           y1: String(src.y),
           x2: String(dest.x),
           y2: String(dest.y),
-          'marker-end': `url(#${hoveredArc === arc ? 'triangle-hovered' : highlightedArcs.has(arc) ? 'triangle-accent' : 'triangle'})`,
+          'marker-end': `url(#${hoveredArc === arc ? 'triangle-hovered' : highlightedArcs.has(arc) ? 'triangle-accent' : 'triangle'})`
+        }),
+        s('line', {
+          class: 'arc-hover-line',
+          x1: String(src.x),
+          y1: String(src.y),
+          x2: String(dest.x),
+          y2: String(dest.y),
           mouseover (_event) {
             hoverArc(arc)
           },
@@ -68,6 +76,7 @@ export function graphCanvas ({ graph, layout, path, hoverArc, hoverVertex, hover
           )
         },
         s('circle', {
+          class: 'vertex-circle',
           cx: String(x),
           cy: String(y),
           mouseover (_event) {
@@ -79,6 +88,7 @@ export function graphCanvas ({ graph, layout, path, hoverArc, hoverVertex, hover
         }),
 
         s('text', {
+          class: 'vertex-text',
           x: String(x),
           y: String(y),
           text: String(v)
