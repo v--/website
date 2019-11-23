@@ -1,16 +1,16 @@
-@import '../../_vars.less';
+@import '../../_colors.less';
 
 .graph-canvas {
-  background: @visualization-color-background;
+  background: @color-midground;
 
   .vertex {
     .vertex-circle {
-      fill: @visualization-color-foreground;
+      fill: @color-foreground;
       r: 0.1px;
     }
 
     .vertex-text {
-      fill: @visualization-color-background;
+      fill: @color-midground;
       font-size: 0.1px;
       line-height: 10px;
       font-weight: bold;
@@ -20,33 +20,45 @@
     }
 
     &.highlighted .vertex-circle {
-      fill: @visualization-color-accent;
+      fill: @color-accent;
     }
 
     &.hovered .vertex-circle {
-      fill: @visualization-color-hovered;
+      fill: @color-success;
     }
   }
 
   .arc {
     .arc-line {
-      stroke: @visualization-color-foreground;
+      stroke: @color-foreground;
       stroke-width: 0.035px;
     }
 
     .arc-hover-line {
       opacity: 0;
       // Hovering doesn't work otherwise
-      stroke: @visualization-color-foreground;
+      stroke: @color-foreground;
       stroke-width: 0.2px;
     }
 
     &.highlighted .arc-line {
-      stroke: @visualization-color-accent;
+      stroke: @color-accent;
     }
 
     &.hovered .arc-line {
-      stroke: @visualization-color-hovered;
+      stroke: @color-success;
     }
+  }
+
+  #triangle {
+    fill: @color-foreground;
+  }
+
+  #triangle-accent {
+    fill: @color-accent;
+  }
+
+  #triangle-hovered {
+    fill: @color-success;
   }
 }

@@ -1,4 +1,7 @@
-@import '../../_vars.less';
+@import '../../_time.less';
+@import '../../_sizes.less';
+@import '../../_colors.less';
+@import '../../_zindex.less';
 @import '../../_mixins.less';
 
 .sidebar-toggle {
@@ -20,8 +23,8 @@
   left: 0.7rem;
   top: 2.7rem;
 
-  background-color: @button-color-background;
-  fill: @button-color-foreground;
+  background-color: @color-foreground;
+  fill: @color-background;
 
   transform: scaleX(-1) translate3d(0, 0, 0); // translate3d makes z-index work on webkit
 }

@@ -1,7 +1,4 @@
-@import '../../_vars.less';
-
-@sorter-bar-color-swapped: @success-color;
-@sorter-bar-color-tinted: @danger-color;
+@import '../../_colors.less';
 
 .sorter {
   .sorter-bars {
@@ -13,11 +10,11 @@
       fill: @color-foreground;
 
       &.swapped {
-        fill: @sorter-bar-color-swapped;
+        fill: @color-success;
       }
 
       &.tinted {
-        fill: @sorter-bar-color-tinted;
+        fill: @color-danger;
       }
     }
   }

@@ -2,7 +2,6 @@ import { c } from '../../../common/rendering/component.js'
 import { s } from '../../../common/support/svg.js'
 import { classlist } from '../../../common/support/dom_properties.js'
 
-import { FOREGROUND_COLOR, ACCENT_COLOR, HOVERED_COLOR } from '../../core/support/colors.js'
 import { arrowMarker } from './arrow_marker.js'
 
 export function graphCanvas ({ graph, layout, path, hoverArc, hoverVertex, hoveredArc, hoveredVertex }) {
@@ -23,9 +22,9 @@ export function graphCanvas ({ graph, layout, path, hoverArc, hoverVertex, hover
     s(
       'defs',
       null,
-      c(arrowMarker, { id: 'triangle', fillColor: FOREGROUND_COLOR }),
-      c(arrowMarker, { id: 'triangle-accent', fillColor: ACCENT_COLOR }),
-      c(arrowMarker, { id: 'triangle-hovered', fillColor: HOVERED_COLOR })
+      c(arrowMarker, { id: 'triangle' }),
+      c(arrowMarker, { id: 'triangle-accent' }),
+      c(arrowMarker, { id: 'triangle-hovered' })
     ),
 
     ...arcs.map(function (arc) {

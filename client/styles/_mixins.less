@@ -1,4 +1,5 @@
-@import '_vars.less';
+@import '_time.less';
+@import '_colors.less';
 
 .no-focus-outline() {
   &:focus {
@@ -17,29 +18,29 @@
   padding: 0.75em 1.25em;
   border: 0;
 
-  color: @button-color-foreground;
-  fill: @button-color-foreground;
-  background-color: @button-color-background;
-  transition: @button-transition;
+  color: @color-background;
+  fill: @color-background;
+  background-color: @color-foreground;
+  transition: @transition-button;
 
   &:hover {
-    color: @button-color-hover;
-    fill: @button-color-hover;
+    color: @color-midground;
+    fill: @color-midground;
   }
 
   &.active {
-    color: @button-color-background;
-    fill: @button-color-background;
-    background-color: @button-color-foreground;
+    color: @color-foreground;
+    fill: @color-foreground;
+    background-color: @color-background;
 
     &:hover {
-      background-color: @button-color-hover;
+      background-color: @color-midground;
     }
   }
 
   &[disabled] {
-    color: @button-color-foreground-disabled;
-    fill: @button-color-foreground-disabled;
+    color: @color-dark;
+    fill: @color-dark;
     cursor: not-allowed;
   }
 }
@@ -47,14 +48,14 @@
 .anchor() {
   .no-focus-outline();
 
-  color: @anchor-color-foreground;
-  fill: @anchor-color-foreground;
+  color: @color-accent-saturated;
+  fill: @color-accent-saturated;
 
   &:hover,
   &:active,
   &:visited {
-    color: @anchor-color-foreground;
-    fill: @anchor-color-foreground;
+    color: @color-accent-saturated;
+    fill: @color-accent-saturated;
   }
 }
 

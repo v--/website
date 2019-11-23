@@ -1,5 +1,4 @@
 import { sort } from '../../../common/support/iteration.js'
-import { styles } from '../../../common/support/dom_properties.js'
 
 import { c } from '../../../common/rendering/component.js'
 import { table } from '../../../common/components/table.js'
@@ -49,7 +48,7 @@ export function curveLegend ({ mapping, curves, fitters, enableFitter, disableFi
           class: 'col-name',
           value (entry) {
             return c('span', {
-              style: styles({ color: entry.color }),
+              class: entry.cssClass,
               text: entry.fitter.name
             })
           }

@@ -1,4 +1,6 @@
-@import '../../_vars.less';
+@import '../../_time.less';
+@import '../../_colors.less';
+@import '../../_zindex.less';
 @import '../../_mixins.less';
 
 .loading-indicator-wrapper {
@@ -7,7 +9,7 @@
   left: 0;
   height: 100vh;
   width: 100%;
-  background: @loading-background;
+  background: @color-background;
 
   display: flex;
   justify-content: center;
@@ -17,6 +19,6 @@
     .zindex(@zindex-loading-indicator);
     font-size: 5em;
     font-weight: bold;
-    transition: opacity @loading-transition;
+    transition: opacity @transition-loading;
   }
 }

@@ -1,4 +1,7 @@
-@import '../../_vars.less';
+@import '../../_time.less';
+@import '../../_sizes.less';
+@import '../../_colors.less';
+@import '../../_zindex.less';
 @import '../../_mixins.less';
 
 .sidebar {
@@ -6,9 +9,9 @@
   flex-shrink: 0;
   flex-basis: @sidebar-width;
 
-  background: @button-color-background;
+  background-color: @color-foreground;
   overflow-y: auto;
-  transition: margin-left @sidebar-transition;
+  transition: margin-left @transition-sidebar;
   padding: @sidebar-padding 0;
   .zindex(@zindex-sidebar);
 
@@ -36,7 +39,7 @@
       font-size: 1.5rem;
       flex-grow: 0;
       flex-shrink: 0;
-      transition: transform @sidebar-transition;
+      transition: transform @transition-sidebar;
     }
 
     > .entry-text {

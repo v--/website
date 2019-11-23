@@ -1,11 +1,11 @@
-@import '../../_vars.less';
+@import '../../_colors.less';
 
 .curve-canvas {
-  background-color: @visualization-color-background;
+  background-color: @color-midground;
 
   .point-grid {
     .grid-point {
-      fill: @visualization-color-midground;
+      fill: @color-light;
     }
   }
 
@@ -17,7 +17,7 @@
       user-select: none;
 
       &:hover {
-        fill: @curve-fitting-point-highlight;
+        fill: @color-accent;
       }
     }
   }
@@ -26,7 +26,7 @@
     pointer-events: none;
 
     .grid-point {
-      fill: @curve-fitting-point-active;
+      fill: @color-accent;
     }
   }
 
@@ -34,11 +34,27 @@
     fill: none;
     pointer-events: none;
     stroke-width: 0.1;
+
+    &.curve-1 {
+      stroke: extract(@palette-chalk, 1);
+    }
+
+    &.curve-2 {
+      stroke: extract(@palette-chalk, 2);
+    }
+
+    &.curve-3 {
+      stroke: extract(@palette-chalk, 3);
+    }
+
+    &.curve-4 {
+      stroke: extract(@palette-chalk, 4);
+    }
   }
 
   .legend {
     .legend-background {
-      fill: @curve-fitting-legend-background;
+      fill: @color-dark;
     }
   }
 }

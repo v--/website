@@ -1,7 +1,6 @@
 import { c } from '../../common/rendering/component.js'
 import { aspectRatioBox } from '../core/components/aspect_ratio_box.js'
 import { DictSubject } from '../../common/observables/dict_subject.js'
-import { CHALK_COLORS } from '../core/support/colors.js'
 
 import { curveCanvas } from './components/curve_canvas.js'
 import { curveLegend } from './components/curve_legend.js'
@@ -30,7 +29,7 @@ function buildCurves (mapping) {
       return {
         fitter,
         curve,
-        color: CHALK_COLORS[i]
+        cssClass: 'curve-' + (i + 1)
       }
     })
 }

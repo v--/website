@@ -1,20 +1,20 @@
-@import '../../_vars.less';
+@import '../../_colors.less';
 
 .breakout {
-  background-color: @visualization-color-background;
+  background-color: @color-midground;
 
   .score {
     paint-order: stroke;
-    fill: @visualization-color-midground;
-    stroke: @visualization-color-background;
+    fill: @color-light;
+    stroke: @color-midground;
     stroke-width: 0.1px;
     font-size: 0.75px;
   }
 
   .splash, .subsplash {
     paint-order: stroke;
-    fill: @visualization-color-midground;
-    stroke: @visualization-color-background;
+    fill: @color-light;
+    stroke: @color-midground;
     stroke-width: 0.2px;
     text-anchor: middle;
   }
@@ -28,10 +28,24 @@
   }
 
   .ball {
-    fill: @breakout-ball;
+    fill: @color-foreground;
   }
 
   .paddle {
-    fill: @breakout-paddle;
+    fill: @color-dark;
+  }
+
+  .brick {
+    &.brick-1 {
+      fill: extract(@palette-chalk, 2);
+    }
+
+    &.brick-2 {
+      fill: extract(@palette-chalk, 3);
+    }
+
+    &.brick-3 {
+      fill: extract(@palette-chalk, 4);
+    }
   }
 }

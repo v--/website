@@ -1,7 +1,6 @@
 import { s } from '../../../common/support/svg.js'
 
 import { GameStatus } from '../enums/game_status.js'
-import { CHALK_COLORS } from '../../core/support/colors.js'
 
 const BRICK_VISUAL_PADDING = 0.01
 const BRICK_VISUAL_SIZE_STRING = String(1 - 2 * BRICK_VISUAL_PADDING)
@@ -38,12 +37,11 @@ export function breakout ({ status, score, stage, paddle, ball, bricks }) {
 
     s('g', { class: 'bricks' }, ...bricks.map(function (brick) {
       return s('rect', {
-        class: 'brick',
+        class: 'brick brick-' + brick.power,
         width: BRICK_VISUAL_SIZE_STRING,
         height: BRICK_VISUAL_SIZE_STRING,
         x: String(brick.origin.x + BRICK_VISUAL_PADDING),
-        y: String(brick.origin.y + BRICK_VISUAL_PADDING),
-        fill: CHALK_COLORS[brick.power]
+        y: String(brick.origin.y + BRICK_VISUAL_PADDING)
       })
     })),
 
