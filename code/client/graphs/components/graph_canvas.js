@@ -78,6 +78,7 @@ export function graphCanvas ({ graph, layout, path, hoverArc, hoverVertex, hover
           class: 'vertex-circle',
           cx: String(x),
           cy: String(y),
+          r: '0.1',
           mouseover (_event) {
             hoverVertex(v)
           },
