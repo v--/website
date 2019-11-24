@@ -28,8 +28,12 @@ function dotProduct (u, v) {
 }
 
 export class Matrix {
+  static fill (rows, cols, fill) {
+    return new this(rows, cols, Array.from(repeat(fill, rows * cols)))
+  }
+
   static zero (rows, cols = rows) {
-    return new this(rows, cols, Array.from(repeat(0, rows * cols)))
+    return this.fill(rows, cols, 0)
   }
 
   static unit (n) {

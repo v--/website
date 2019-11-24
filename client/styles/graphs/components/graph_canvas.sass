@@ -19,8 +19,14 @@
     &.highlighted .vertex-circle
       fill: $color-accent
 
-    &.hovered .vertex-circle
+    &.path-start .vertex-circle
       fill: $color-success
+
+    &.path-end .vertex-circle
+      fill: $color-warning
+
+    &.hovered .vertex-circle
+      fill: $color-danger
 
   .arc
     .arc-line
@@ -37,7 +43,7 @@
       stroke: $color-accent
 
     &.hovered .arc-line
-      stroke: $color-success
+      stroke: $color-danger
 
   #triangle
     fill: $color-foreground
@@ -46,4 +52,4 @@
     fill: $color-accent
 
   #triangle-hovered
-    fill: $color-success
+    fill: $color-danger

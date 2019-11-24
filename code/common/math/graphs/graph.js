@@ -52,17 +52,17 @@ export class GraphArc {
 }
 
 export class Graph {
-  static fromArcs (arcs) {
-    const graph = new Graph()
+  static fromArcData (arcs) {
+    const graph = new Graph({})
 
     for (const arc of arcs) {
-      graph.addArc(arc)
+      graph.addArc(new GraphArc(arc))
     }
 
     return graph
   }
 
-  constructor (incidence = new Map()) {
+  constructor ({ incidence = new Map() }) {
     this._incidence = incidence
   }
 
@@ -130,9 +130,19 @@ export class Graph {
     return Array.from(this.iterAllArcs())
   }
 
+  * iterAllVertices () {
+    for (let v = 0; v < this.order; v++) {
+      yield v
+    }
+  }
+
+  getAllVertices () {
+    return Array.from(this.iterAllVertices())
+  }
+
   clone () {
     const newIncidenceEntries = map(([k, v]) => [k, v.clone()], this._incidence.entries())
     const newIncidence = new Map(newIncidenceEntries)
-    return new this.constructor(newIncidence)
+    return new this.constructor({ incidence: newIncidence })
   }
 }

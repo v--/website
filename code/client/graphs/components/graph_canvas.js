@@ -4,13 +4,13 @@ import { classlist } from '../../../common/support/dom_properties.js'
 
 import { arrowMarker } from './arrow_marker.js'
 
-export function graphCanvas ({ graph, layout, path, hoverArc, hoverVertex, hoveredArc, hoveredVertex }) {
+export function graphCanvas ({ graph, layout, result, hoverArc, hoverVertex, hoveredArc, hoveredVertex }) {
   const arcs = graph.getAllArcs()
-  const highlightedVertices = new Set(path)
+  const highlightedVertices = new Set(result.path)
   const highlightedArcs = new Set()
 
-  for (let i = 1; i < path.length; i++) {
-    highlightedArcs.add(graph.getArc(path[i - 1], path[i]))
+  for (let i = 1; i < result.path.length; i++) {
+    highlightedArcs.add(graph.getArc(result.path[i - 1], result.path[i]))
   }
 
   return s(
@@ -71,7 +71,9 @@ export function graphCanvas ({ graph, layout, path, hoverArc, hoverVertex, hover
           class: classlist(
             'vertex',
             highlightedVertices.has(v) && 'highlighted',
-            hovered && 'hovered'
+            hovered && 'hovered',
+            result.path[0] === v && 'path-start',
+            result.path[result.path.length - 1] === v && 'path-end'
           )
         },
         s('circle', {
