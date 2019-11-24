@@ -20,7 +20,7 @@ gulp.task('client:build:assets', function () {
 
 gulp.task('client:build:styles', function () {
   return gulp.src('client/styles/**/index.scss')
-    .pipe(sass())
+    .pipe(sass({ outputStyle: 'compressed' }))
     .pipe(gulp.dest('public/styles'))
     .pipe(sync.stream())
 })
