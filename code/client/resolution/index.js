@@ -137,49 +137,49 @@ export function index ({ path }) {
           c('textarea', { name: 'goal', text: goal, rows: '1' })
         ),
         c('hr', { style: 'visibility: hidden' }),
-        c('button', { type: 'submit', text: 'Try to proove' })
+        c('button', { class: 'cool-button', type: 'submit', text: 'Try to proove' })
       ),
 
       c('br'),
       error && c('p', { class: 'resolution-error', text: error }),
       !error && c('div', { class: 'resolution-proof' },
-        c('h2', { text: 'Proof' }),
-        c('h3', { text: 'Formulas' }),
+        c('h2', { class: 'h2', text: 'Proof' }),
+        c('h3', { class: 'h3', text: 'Formulas' }),
         c('p', { text: 'The axioms and the negation of the goal.' }),
         c('pre', null,
           c('code', formulasToText(formulas))
         ),
 
         c('br'),
-        c('h3', { text: 'Simplified formulas' }),
+        c('h3', { class: 'h3', text: 'Simplified formulas' }),
         c('p', { text: 'We use the equivalences P → Q ≡ ¬P ∨ Q, P ↔ Q ≡ (¬P ∨ Q) & (P ∨ ¬Q) and P ∨ (Q & R) ≡ (P ∨ Q) & (P ∨ R), de Morgan\'s laws and quantifier inversion rules. The resulting formulas are "almost" in conjunctive normal form but with quantifiers.' }),
         c('pre', null,
           c('code', formulasToText(simplified))
         ),
 
         c('br'),
-        c('h3', { text: 'Prenex normal form' }),
+        c('h3', { class: 'h3', text: 'Prenex normal form' }),
         c('p', { text: 'Duplicate bound variables are renamed to t1, t2, …' }),
         c('pre', null,
           c('code', formulasToText(pnf))
         ),
 
         c('br'),
-        c('h3', { text: 'Skolem normal form' }),
+        c('h3', { class: 'h3', text: 'Skolem normal form' }),
         c('p', { text: 'New functions are named u1, u2, ….' }),
         c('pre', null,
           c('code', formulasToText(snf))
         ),
 
         c('br'),
-        c('h3', { text: 'Disjuncts' }),
+        c('h3', { class: 'h3', text: 'Disjuncts' }),
         c('p', { text: 'A sequence of disjuncts (sets of literals).' }),
         c('pre', null,
           c('code', { text: disjuncts.map((d, i) => String(i + 1) + '. ' + stringifyDisjunct(d)).join('\n') })
         ),
 
         c('br'),
-        c('h3', { text: 'Proof' }),
+        c('h3', { class: 'h3', text: 'Proof' }),
         c('p', { text: 'A sequence of derived disjuncts with the input disjuncts and resolution literal specified.' }),
         c('pre', null,
           !proof && c('code', { text: 'No proof found in under 25 steps.' }),

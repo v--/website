@@ -1,6 +1,6 @@
 @import '../../time.scss';
 @import '../../colors.scss';
-@import '../../zindex.scss';
+@import '../../z_index.scss';
 
 .loading-indicator-wrapper {
   position: absolute;
@@ -15,7 +15,7 @@
   align-items: center;
 
   .loading-indicator {
-    z-index: $zindex-loading-indicator;
+    z-index: $z-index-loading-indicator;
     font-size: 5em;
     font-weight: bold;
     transition: opacity $transition-loading;

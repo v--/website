@@ -44,7 +44,7 @@ export function buildComponentTree (ast) {
       return c('h' + ast.level, null, buildComponentTree(ast.node))
 
     case NodeType.BULLET_LIST:
-      return c(ast.ordered ? 'ol' : 'ul', null, ...ast.bullets.map(function (node) {
+      return c(ast.ordered ? 'ol' : 'ul', { class: 'cool-list' }, ...ast.bullets.map(function (node) {
         if (node.type === NodeType.BULLET_LIST) {
           return buildComponentTree(node)
         } else {

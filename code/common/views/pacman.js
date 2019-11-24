@@ -13,7 +13,7 @@ function * iterPackages (pkgs) {
 function packages ({ arch, pkgs }) {
   return c('div', { class: 'packages' },
     c('h2', { text: arch }),
-    c('ul', null, ...iterPackages(pkgs))
+    c('ul', { class: 'cool-list' }, ...iterPackages(pkgs))
   )
 }
 

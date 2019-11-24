@@ -7,7 +7,7 @@ import { link } from './link.js'
 
 export function sidebar ({ sidebarID, isCollapsed, toggleCollapsed }) {
   function entry (state) {
-    const classes = classlist('button', 'entry', sidebarID === state.id && 'active')
+    const classes = classlist('cool-button', 'entry', sidebarID === state.id && 'active')
 
     return c(link, { class: classes, link: state.link, isInternal: true },
       c(icon, { class: 'entry-icon', name: state.icon }),
@@ -15,7 +15,7 @@ export function sidebar ({ sidebarID, isCollapsed, toggleCollapsed }) {
     )
   }
 
-  const toggleButtonState = { class: 'entry' }
+  const toggleButtonState = { class: 'cool-button entry' }
 
   if (toggleCollapsed === undefined) {
     toggleButtonState.disabled = true

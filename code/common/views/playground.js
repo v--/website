@@ -6,7 +6,7 @@ export function playground () {
     c('div', { class: 'section' },
       c('h1', { class: 'section-title', text: '/playground' }),
       c('p', { text: "These are some of the browser-based visualizations and simulations I have created. The code is neither precompiled nor bundled and can be easily explored using any browser's developer tools." }),
-      c('ul', null,
+      c('ul', { class: 'cool-list' },
         c('li', null,
           c(link, {
             class: 'playground-link',

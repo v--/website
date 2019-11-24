@@ -6,7 +6,7 @@ import { icon } from './icon.js'
 export function sidebarToggle ({ isCollapsed, toggleCollapsed }) {
   return c(icon, {
     name: 'chevron-left',
-    class: classlist('button', 'sidebar-toggle', isCollapsed && 'collapsed'),
+    class: classlist('cool-button', 'sidebar-toggle', isCollapsed && 'collapsed'),
     click: toggleCollapsed
   })
 }

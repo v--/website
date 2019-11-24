@@ -39,7 +39,7 @@ async function fetchIcons () {
 }
 
 function restoreError (data) {
-  switch (data.classID) {
+  switch (data.classId) {
     case 'HTTPError':
       return HTTPError.fromJSON(data)
 
@@ -47,10 +47,8 @@ function restoreError (data) {
       return ClientError.fromJSON(data)
 
     case 'CoolError':
-      return GenericError.fromJSON(data)
-
     default:
-      return new GenericError(data.message)
+      return GenericError.fromJSON(data)
   }
 }
 

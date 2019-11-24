@@ -1,4 +1,5 @@
 import { c, Component } from '../rendering/component.js'
+import { classlist } from '../support/dom_properties.js'
 
 function * headers (columns) {
   for (let i = 0; i < columns.length; i++) {
@@ -39,7 +40,7 @@ function * rows (columns, data) {
 }
 
 export function table ({ class: cssClass, style, columns, data }, children) {
-  return c('table', { class: cssClass, style },
+  return c('table', { class: classlist('cool-table', cssClass), style },
     c('thead', null,
       c('tr', null, ...headers(columns))
     ),

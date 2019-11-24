@@ -4,7 +4,7 @@ import { sorter } from './sorter.js'
 
 export function sortingCard ({ algorithm, states, isRunning, hasFinished, pause, run, reset }) {
   return c('div', { class: 'sorting-card' },
-    c('h2', { class: 'sorting-card-title', text: algorithm.name }),
+    c('h2', { class: 'h2 sorting-card-title', text: algorithm.name }),
     c('div', { class: 'sorters' },
       ...map(function ({ sequence, state, lastAction }) {
         return c(sorter, { sequence, state, lastAction })
@@ -30,7 +30,7 @@ export function sortingCard ({ algorithm, states, isRunning, hasFinished, pause,
 
     c('div', { class: 'buttons' },
       pause && c('button', {
-        class: 'sort-button',
+        class: 'cool-button sort-button',
         text: isRunning ? 'Pause' : hasFinished ? 'Rerun' : 'Run',
         click () {
           if (isRunning) {
@@ -45,7 +45,7 @@ export function sortingCard ({ algorithm, states, isRunning, hasFinished, pause,
       }),
 
       c('button', {
-        class: 'sort-button',
+        class: 'cool-button sort-button',
         text: 'Reset',
         click () {
           reset()

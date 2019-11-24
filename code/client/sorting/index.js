@@ -16,7 +16,7 @@ export function index () {
       c('h1', { class: 'section-title', text: 'Sorting algorithms visualizations' }),
       c('div', { class: 'sorting-button-container' },
         c('button', {
-          class: 'sorting-top-button',
+          class: 'cool-button sorting-top-button',
           text: 'Run all',
           click () {
             for (const sorter of sorters) {
@@ -26,7 +26,7 @@ export function index () {
         }),
 
         c('button', {
-          class: 'sorting-top-button',
+          class: 'cool-button sorting-top-button',
           text: 'Pause all',
           click () {
             for (const sorter of sorters) {
@@ -36,7 +36,7 @@ export function index () {
         }),
 
         c('button', {
-          class: 'sorting-top-button',
+          class: 'cool-button sorting-top-button',
           text: 'Reset all',
           click () {
             for (const sorter of sorters) {

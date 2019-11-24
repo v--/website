@@ -1,8 +1,7 @@
 @import '../time.scss';
 @import '../colors.scss';
 
-button,
-.button {
+.cool-button {
   &:focus {
     outline: 0;
   }

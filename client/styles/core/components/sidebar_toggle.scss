@@ -1,14 +1,14 @@
 @import '../../time.scss';
 @import '../../sizes.scss';
 @import '../../colors.scss';
-@import '../../zindex.scss';
+@import '../../z_index.scss';
 
 .sidebar-toggle {
   position: absolute;
   font-size: 26px;
   border-radius: 50%;
   cursor: pointer;
-  zindex: $zindex-sidebar-toggle;
+  z-index: $z-index-sidebar-toggle;
 
   // Override button properties to act properly
   padding: 0;

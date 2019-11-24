@@ -10,7 +10,7 @@ export function error ({ data: err }) {
   return c('div', { class: 'page error-page' },
     c('br'),
     c(icon, { class: 'alert', name: 'alert' }),
-    c('h1', { text: title }),
+    c('h1', { class: 'h1', text: title }),
     c('p', null,
       c('span', { text: 'Please try refreshing the browser or ' }),
       c(link, { text: 'reporting a bug', link: 'mailto:ianis@ivasilev.net.' })
