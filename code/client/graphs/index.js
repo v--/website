@@ -47,23 +47,20 @@ export function index () {
       c('h1', { class: 'section-title', text: 'Graph algorithm visualizations' }),
       c('p', {
         class: 'graphs-subtitle',
-        text: 'Use the controls below to switch between different algorithms.'
+        text: 'Use the dropdown below to switch between different algorithms.'
       })
     ),
 
-    c('div', { class: 'graph-split-container' },
-      c('div', { class: 'graph-canvas-container' },
-        c(aspectRatioBox, {
-          ratio: 1,
-          bottomMargin: 75,
-          minHeight: 250,
-          maxHeight: 500,
-          item: c(graphCanvas, subject)
-        })
-      ),
-
-      c(graphDetails, subject)
-    ),
+    c(aspectRatioBox, {
+      ratio: 5 / 4,
+      bottomMargin: 50,
+      minWidth: 500,
+      maxWidth: 700,
+      item: c('div', { class: 'graph-split-container' },
+        c(graphCanvas, subject),
+        c(graphDetails, subject)
+      )
+    }),
 
     c(algorithmDropdown, subject)
   )

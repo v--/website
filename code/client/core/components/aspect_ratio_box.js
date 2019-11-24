@@ -36,7 +36,7 @@ const resizeObserver = {
     }
 
     const box = currentBox.element
-    const boxChild = box.firstChild
+    const subbox = box.firstChild
     const boxState = currentBox.component.state.value
 
     const availableWidth = box.offsetWidth
@@ -53,13 +53,14 @@ const resizeObserver = {
       width = clampedHeight * boxState.ratio
     }
 
-    const padding = (availableWidth - width) / 2
+    // const padding = (availableWidth - width) / 2
+    const padding = 0
 
     setStyleIfNecessary(box, 'opacity', '1')
-    setStyleIfNecessary(boxChild, 'width', width + 'px')
-    setStyleIfNecessary(boxChild, 'height', height + 'px')
+    setStyleIfNecessary(subbox, 'width', width + 'px')
+    setStyleIfNecessary(subbox, 'height', height + 'px')
     setStyleIfNecessary(box, 'height', height + 'px')
-    setStyleIfNecessary(boxChild, 'paddingLeft', padding + 'px')
+    setStyleIfNecessary(subbox, 'paddingLeft', padding + 'px')
   }
 }
 
@@ -87,6 +88,6 @@ dispatcher.events.destroy.subscribe({
 
 export function aspectRatioBox ({ item }) {
   return c('div', { class: 'aspect-ratio-box' },
-    c('div', null, item)
+    c('div', { class: 'aspect-ratio-subbox' }, item)
   )
 }
