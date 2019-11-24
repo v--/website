@@ -1,0 +1,49 @@
+@import '../../colors.sass'
+
+.graph-canvas
+  background: $color-midground
+
+  .vertex
+    .vertex-circle
+      fill: $color-foreground
+
+    .vertex-text
+      fill: $color-midground
+      font-size: 0.1px
+      line-height: 10px
+      font-weight: bold
+      text-anchor: middle
+      pointer-events: none
+      transform: translateY(0.035px)
+
+    &.highlighted .vertex-circle
+      fill: $color-accent
+
+    &.hovered .vertex-circle
+      fill: $color-success
+
+  .arc
+    .arc-line
+      stroke: $color-foreground
+      stroke-width: 0.035px
+
+    .arc-hover-line
+      opacity: 0
+      // Hovering doesn't work otherwise
+      stroke: $color-foreground
+      stroke-width: 0.2px
+
+    &.highlighted .arc-line
+      stroke: $color-accent
+
+    &.hovered .arc-line
+      stroke: $color-success
+
+  #triangle
+    fill: $color-foreground
+
+  #triangle-accent
+    fill: $color-accent
+
+  #triangle-hovered
+    fill: $color-success

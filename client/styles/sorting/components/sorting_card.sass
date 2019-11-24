@@ -1,0 +1,47 @@
+@import '../../colors.sass'
+
+.sorting-card
+  display: flex
+  flex-direction: column
+  width: 15em
+  text-align: center
+  background-color: $color-midground
+  padding: 0 1em
+
+  .sorting-card-title
+    margin-top: 0.5em
+    margin-bottom: 0
+    font-size: 1.4em
+
+  .sorters
+    display: flex
+    flex-wrap: wrap
+    justify-content: space-between
+
+  .quick-info
+    display: flex
+    flex-align: row
+    justify-content: space-between
+    margin-top: 0.5em
+
+    .info
+      .title
+        font-weight: bold
+        margin-bottom: 0
+
+      .value
+        margin-top: 0.25em
+
+      &.time-info, &.space-info
+        .value
+          font-style: italic
+
+  .buttons .sort-button
+    width: 45%
+    margin: 0 5% 1.5em
+
+    &:first-of-type
+      margin-left: 0
+
+    &:last-of-type
+      margin-right: 0

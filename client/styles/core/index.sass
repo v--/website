@@ -1,0 +1,37 @@
+@import '../colors.sass'
+
+@import './button.sass'
+@import './code.sass'
+@import './list.sass'
+@import './section.sass'
+@import './typography.sass'
+
+@import './components/aspect_ratio_box.sass'
+@import './components/form.sass'
+@import './components/icon.sass'
+@import './components/interactive_table.sass'
+@import './components/link.sass'
+@import './components/loading_indicator.sass'
+@import './components/main.sass'
+@import './components/markdown.sass'
+@import './components/sidebar.sass'
+@import './components/sidebar_toggle.sass'
+@import './components/table.sass'
+
+@import './views/error.sass'
+@import './views/files.sass'
+@import './views/home.sass'
+@import './views/unsupported.sass'
+
+body
+  margin: 0 // I'm not sure where the original margin comes from
+  display: flex
+  flex-direction: column
+  height: 100vh
+  background-color: $color-background
+  color: $color-foreground
+
+  // Basic typography
+  font-family: 'Open Sans', 'Helvetica', 'Arial', sans
+  line-height: 1.6
+  font-size: 15px

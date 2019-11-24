@@ -1,0 +1,16 @@
+@import '../../colors.sass'
+
+.sorter
+  .sorter-bars
+    width: 100px
+    height: 2em
+    display: block
+
+    .sorter-bar
+      fill: $color-foreground
+
+      &.swapped
+        fill: $color-success
+
+      &.tinted
+        fill: $color-danger
