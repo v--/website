@@ -99,12 +99,14 @@ export class RouterService {
   async processPath (path) {
     this._path = path
 
+    const isCollapsed = !windowSize$.value.isDesktop
+
     if (path.underCooked === this.state$.value.path.underCooked) {
-      this.state$.update({ path })
+      this.state$.update({ path, isCollapsed })
       return
     }
 
-    this.state$.update({ loading: true })
+    this.state$.update({ loading: true, isCollapsed })
     const route = await clientRouter(path, this._store)
 
     // Cancel if another route has started loading
