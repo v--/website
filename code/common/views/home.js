@@ -35,7 +35,7 @@ export function home () {
       c('div', { class: 'section' },
         c('h1', { class: 'section-title', text: 'About this website' }),
         c('p', { text: 'This is my personal website. It contains a few diverse sections:' }),
-        c('ul', null,
+        c('ul', { class: 'cool-list' },
           c(siteSection, {
             link: '/files',
             text: 'a file explorer for a server containing math notes, presentation slides, musical scores and a few other miscellaneous files.'
