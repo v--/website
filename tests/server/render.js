@@ -1,4 +1,4 @@
-import { assert } from '../_common.js'
+import { describe, it, assert } from '../_common.js'
 
 import { c } from '../../code/common/rendering/component.js'
 import { dispatcher } from '../../code/server/render_dispatcher.js'

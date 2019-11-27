@@ -1,4 +1,4 @@
-import { assert } from '../../../_common.js'
+import { describe, it, assert } from '../../../_common.js'
 
 import { NodeType } from '../../../../code/common/support/markdown/node_type.js'
 

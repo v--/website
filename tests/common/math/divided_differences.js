@@ -1,4 +1,4 @@
-import { assert } from '../../_common.js'
+import { describe, it, assert } from '../../_common.js'
 
 import { dividedDifferences, NoPointsError, DuplicatePointsError } from '../../../code/common/math/numeric/divided_differences.js'
 

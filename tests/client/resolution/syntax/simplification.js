@@ -1,4 +1,4 @@
-import { assert } from '../../../_common.js'
+import { describe, it, assert } from '../../../_common.js'
 
 import { simplify } from '../../../../code/client/resolution/syntax/simplification.js'
 import { parseTopLevelFormula } from '../../../../code/client/resolution/syntax/ast.js'

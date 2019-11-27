@@ -1,4 +1,4 @@
-import { assert } from '../../../_common.js'
+import { describe, it, assert } from '../../../_common.js'
 
 import { NumericMapping } from '../../../../code/client/curve_fitting/support/numeric_mapping.js'
 import { newtonPolynomial } from '../../../../code/client/curve_fitting/fitters/newton_polynomial.js'

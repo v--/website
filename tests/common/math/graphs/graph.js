@@ -1,4 +1,4 @@
-import { assert } from '../../../_common.js'
+import { describe, it, assert } from '../../../_common.js'
 
 import { Graph, GraphError } from '../../../../code/common/math/graphs/graph.js'
 

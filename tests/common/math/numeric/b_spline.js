@@ -1,4 +1,4 @@
-import { assert } from '../../../_common.js'
+import { describe, it, assert } from '../../../_common.js'
 
 import { BSpline, NotEnoughPointsError } from '../../../../code/common/math/numeric/b_spline.js'
 

@@ -1,4 +1,4 @@
-import { assert } from '../../_common.js'
+import { describe, it, assert } from '../../_common.js'
 
 import { c, XMLComponent, FactoryComponent, ComponentSanityError } from '../../../code/common/rendering/component.js'
 import { XMLRenderer, FactoryRenderer, RenderError, RenderDispatcher } from '../../../code/common/rendering/renderer.js'

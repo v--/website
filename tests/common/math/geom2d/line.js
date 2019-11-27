@@ -1,4 +1,4 @@
-import { assert } from '../../../_common.js'
+import { describe, it, assert } from '../../../_common.js'
 
 import { Line } from '../../../../code/common/math/geom2d/line.js'
 import { Vector } from '../../../../code/common/math/geom2d/vector.js'

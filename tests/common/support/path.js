@@ -1,4 +1,4 @@
-import { assert } from '../../_common.js'
+import { describe, it, assert } from '../../_common.js'
 
 import { Path } from '../../../code/common/support/path.js'
 

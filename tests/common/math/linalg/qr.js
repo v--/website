@@ -1,4 +1,4 @@
-import { assert } from '../../../_common.js'
+import { describe, it, assert } from '../../../_common.js'
 
 import { sort } from '../../../../code/common/support/iteration.js'
 import { Matrix, MatrixDimensionError } from '../../../../code/common/math/linalg/matrix.js'

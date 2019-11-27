@@ -1,4 +1,4 @@
-import { assert } from '../../../_common.js'
+import { describe, it, assert } from '../../../_common.js'
 import { sort } from '../../../../code/common/support/iteration.js'
 import { roundNumber } from '../../../../code/common/math/numeric/floating.js'
 

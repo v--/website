@@ -1,4 +1,4 @@
-import { assert } from '../../../_common.js'
+import { describe, it, assert } from '../../../_common.js'
 
 import { ExpressionType } from '../../../../code/client/resolution/enums/expression_type.js'
 import { TokenType } from '../../../../code/client/resolution/enums/token_type.js'

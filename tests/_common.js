@@ -1,4 +1,5 @@
 import chai from 'chai'
+
 import { stringifyExpression } from '../code/client/resolution/support/stringify.js'
 import { isSameNumber } from '../code/common/math/numeric/floating.js'
 import { repr } from '../code/common/support/strings.js'
@@ -45,6 +46,9 @@ Object.defineProperty(chai.assert, 'sameNumber', {
     }
   }
 })
+
+export const describe = global.describe
+export const it = global.it
 
 export const expect = chai.expect
 export const assert = chai.assert

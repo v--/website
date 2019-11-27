@@ -1,4 +1,4 @@
-import { assert } from '../../../_common.js'
+import { describe, it, assert } from '../../../_common.js'
 
 import { iterPermutations } from '../../../../code/common/math/combin/perm.js'
 

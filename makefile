@@ -11,16 +11,16 @@ build: lint test tests/_observables.js
 	@env NODE_ENV=production gulp client:build
 
 $(BENCHMARKS):
-	@node --experimental-modules $@
+	@node $@
 
 lint:
 	@eslint $(SOURCE)
 
 tests/_observables.js:
-	@node --experimental-modules $@
+	@node $@
 
 $(TESTS):
-	@mocha --require esm $@
+	@./mocha_wrapper.js $@
 
 test:
-	@mocha --require esm $(TESTS)
+	@./mocha_wrapper.js $(TESTS)
