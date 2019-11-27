@@ -2,8 +2,8 @@ import sass from 'gulp-dart-sass'
 import svgo from 'gulp-svgo'
 import gulp from 'gulp'
 
-import { sync } from './sync.js'
-import { getMDIcons } from './md_icons.js'
+import { sync } from './sync.mjs'
+import { getMDIcons } from './md_icons.mjs'
 
 gulp.task('client:build:svgs', function () {
   return gulp.src('client/svgs/**/*.svg')

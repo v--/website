@@ -1,9 +1,9 @@
 import gulp from 'gulp'
 
-import './build/client.js'
-import './build/server.js'
-import { armor } from './build/armor.js'
-import { sync } from './build/sync.js'
+import './build/client.mjs'
+import './build/server.mjs'
+import { armor } from './build/armor.mjs'
+import { sync } from './build/sync.mjs'
 
 gulp.task('watch', function (done) {
   gulp.watch('client/styles/**/*.sass', armor(gulp.series('client:build:styles')))

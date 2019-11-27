@@ -1,16 +1,28 @@
 import source from 'vinyl-source-stream'
 
-import { readFile } from '../code/server/support/fs.js'
+import fs from 'fs'
+
+function readUTF8File (fileName) {
+  return new Promise(function (resolve, reject) {
+    fs.readFile(fileName, 'utf8', function (err, data) {
+      if (err) {
+        reject(err)
+      } else {
+        resolve(data)
+      }
+    })
+  })
+}
 
 async function readPathFromIconFile (fileName) {
-  const svg = await readFile(fileName, 'utf8')
+  const svg = await readUTF8File(fileName)
   return svg.match(/<path d="(.*)" \/>/)[1]
 }
 
 export function getMDIcons ({ iconsFile, outputFile }) {
   const stream = source(outputFile)
 
-  readFile(iconsFile, 'utf8').then(function (icons) {
+  readUTF8File(iconsFile).then(function (icons) {
     const promises = JSON.parse(icons)
       .map(async function (name) {
         return {
