@@ -98,7 +98,7 @@ export class Graph {
     return this._incidence.get(src).getArcWith(dest)
   }
 
-  * iterInwardArcs (vertex) {
+  * iterIncomingArcs (vertex) {
     for (const arc of this.iterAllArcs()) {
       if (arc.dest === vertex) {
         yield arc
@@ -106,15 +106,15 @@ export class Graph {
     }
   }
 
-  getInwardArcs (vertex) {
-    return Array.from(this.iterInwardArcs(vertex))
+  getIncomingArcs (vertex) {
+    return Array.from(this.iterIncomingArcs(vertex))
   }
 
-  * iterOutwardArcs (vertex) {
+  * iterOutcomingArcs (vertex) {
     return this._getVertexData(vertex).getArcs()
   }
 
-  getOutwardArcs (vertex) {
+  getOutcomingArcs (vertex) {
     return this._getVertexData(vertex).getArcs()
   }
 

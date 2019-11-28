@@ -1,20 +1,8 @@
-function getParentIndex (i) {
-  return Math.ceil(i / 2) - 1
-}
-
-function getLeftChildIndex (i) {
-  return i * 2 + 1
-}
-
-function getRightChildIndex (i) {
-  return i * 2 + 2
-}
-
 // The procedure is much simpler, but maintaining the action list requires a lot of conditional logic
 function siftDown (sortable, start, end) {
   let root = start
-  let leftChild = getLeftChildIndex(root)
-  let rightChild = getRightChildIndex(root)
+  let leftChild = 2 * root + 1
+  let rightChild = 2 * root + 2
 
   while (leftChild <= end) {
     if (sortable.get(root) < sortable.get(leftChild)) {
@@ -48,15 +36,16 @@ function siftDown (sortable, start, end) {
       }
     }
 
-    leftChild = getLeftChildIndex(root)
-    rightChild = getRightChildIndex(root)
+    leftChild = 2 * root + 1
+    rightChild = 2 * root + 2
   }
 }
 
 function heapify (sortable) {
   const end = sortable.length - 1
+  const parent = Math.ceil(end / 2) - 1
 
-  for (let start = getParentIndex(end); start >= 0; start--) {
+  for (let start = parent; start >= 0; start--) {
     siftDown(sortable, start, end)
   }
 }
