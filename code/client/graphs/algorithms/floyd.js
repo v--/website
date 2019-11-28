@@ -1,8 +1,11 @@
 import { Matrix } from '../../../common/math/linalg/matrix.js'
 import { pathLengthMatrix } from '../../../common/math/graphs/graph_matrices.js'
 import { getForceDirectedLayout } from '../../../common/math/graphs/layout/force_directed.js'
+import { constructPathFromAncestors } from '../../../common/math/graphs/paths.js'
 
-import { digestAncestorsAndCumLengths } from '../support/algorithm_result.js'
+import { fillArcWeightData } from '../support/arc_data.js'
+import { fillPathAncestorVertexData } from '../support/vertex_data.js'
+import { AlgorithmResult } from '../support/algorithm_result.js'
 import { AlgorithmType } from '../enums/algorithm_type.js'
 import { DEFAULT_GRAPH } from '../graphs.js'
 
@@ -14,38 +17,40 @@ export const floyd = Object.freeze({
   graph: DEFAULT_GRAPH,
 
   run (graph, start = 0, end = graph.order - 1) {
-    const cumLengths = pathLengthMatrix(graph)
-    const paths = Matrix.zero(graph.order)
+    const pathLengths = pathLengthMatrix(graph)
+    const allAncestors = Matrix.zero(graph.order)
+    const ancestors = new Map()
 
     for (const u of graph.iterAllVertices()) {
+      ancestors.set(u, start)
+
       for (const v of graph.iterAllVertices()) {
-        paths.set(u, v, u)
+        allAncestors.set(u, v, u)
       }
     }
 
     for (const u of graph.iterAllVertices()) {
       for (const v of graph.iterAllVertices()) {
         for (const k of graph.iterAllVertices()) {
-          const newValue = cumLengths.get(u, k) + cumLengths.get(k, v)
-          const currentValue = cumLengths.get(u, v)
+          const newValue = pathLengths.get(u, k) + pathLengths.get(k, v)
+          const currentValue = pathLengths.get(u, v)
 
           if (newValue < currentValue) {
-            cumLengths.set(u, v, newValue)
-            paths.set(u, v, paths.get(k, v))
+            pathLengths.set(u, v, newValue)
+            allAncestors.set(u, v, allAncestors.get(k, v))
+
+            if (u === start) {
+              ancestors.set(v, allAncestors.get(u, v))
+            }
           }
         }
       }
     }
 
-    const ancestors = {
-      has (v) {
-        return cumLengths.get(start, v) !== Number.POSITIVE_INFINITY
-      },
-      get (v) {
-        return paths.get(start, v)
-      }
-    }
-
-    return digestAncestorsAndCumLengths(graph, start, end, ancestors)
+    return new AlgorithmResult({
+      path: constructPathFromAncestors(graph, ancestors, start, end),
+      vertexData: fillPathAncestorVertexData(graph, ancestors, start),
+      arcData: fillArcWeightData(graph)
+    })
   }
 })

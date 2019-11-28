@@ -20,8 +20,8 @@ export class BinaryHeap {
   _swap (i, j) {
     swap(this._payload, i, j)
     swap(this._weights, i, j)
-    this._payloadMap[this._payload[i]] = i
-    this._payloadMap[this._payload[j]] = j
+    this._payloadMap.set(this._payload[i], i)
+    this._payloadMap.set(this._payload[j], j)
   }
 
   _siftDown (start) {
@@ -85,10 +85,10 @@ export class BinaryHeap {
     const min = this.peek()
 
     if (this._payload.length === 1) {
-      this._weights.pop()
       this._payloadMap.delete(this._payload.pop())
+      this._weights.pop()
     } else {
-      this._payloadMap.delete(0)
+      this._payloadMap.delete(this._payload[0])
       this._weights[0] = this._weights.pop()
       this._payload[0] = this._payload.pop()
       this._payloadMap.set(this._payload[0], 0)

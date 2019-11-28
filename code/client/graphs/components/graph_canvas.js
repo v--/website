@@ -6,12 +6,8 @@ import { arrowMarker } from './arrow_marker.js'
 
 export function graphCanvas ({ graph, layout, result, hoverArc, hoverVertex, hoveredArc, hoveredVertex }) {
   const arcs = graph.getAllArcs()
-  const highlightedVertices = new Set(result.path)
-  const highlightedArcs = new Set()
-
-  for (let i = 1; i < result.path.length; i++) {
-    highlightedArcs.add(graph.getArc(result.path[i - 1], result.path[i]))
-  }
+  const highlightedVertices = new Set([result.path[0].src].concat(result.path.map(p => p.dest)))
+  const highlightedArcs = new Set(result.path)
 
   return s(
     'svg',
@@ -72,8 +68,8 @@ export function graphCanvas ({ graph, layout, result, hoverArc, hoverVertex, hov
             'vertex',
             highlightedVertices.has(v) && 'highlighted',
             hovered && 'hovered',
-            result.path[0] === v && 'path-start',
-            result.path[result.path.length - 1] === v && 'path-end'
+            result.path[0].src === v && 'path-start',
+            result.path[result.path.length - 1].dest === v && 'path-end'
           )
         },
         s('circle', {
