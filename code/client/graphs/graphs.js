@@ -1,6 +1,7 @@
 import { Graph } from '../../common/math/graphs/graph.js'
+import { getForceDirectedLayout } from '../../common/math/graphs/layout/force_directed.js'
 
-export const DEFAULT_GRAPH = Graph.fromArcData([
+export const DEFAULT_GRAPH_DIRECTED = Graph.fromArcData([
   { src: 0, dest: 1, weight: 1 },
   { src: 0, dest: 2, weight: 3 },
   { src: 1, dest: 3, weight: 2 },
@@ -15,3 +16,7 @@ export const DEFAULT_GRAPH = Graph.fromArcData([
   { src: 6, dest: 7, weight: 3 },
   { src: 8, dest: 7, weight: 5 }
 ])
+
+export const DEFAULT_GRAPH_UNDIRECTED = DEFAULT_GRAPH_DIRECTED.getSymmetricClosure()
+
+export const DEFAULT_GRAPH_LAYOUT = getForceDirectedLayout(DEFAULT_GRAPH_DIRECTED)

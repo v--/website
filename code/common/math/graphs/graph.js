@@ -1,4 +1,4 @@
-import { map } from '../../support/iteration.js'
+import { map, chain } from '../../support/iteration.js'
 import { MathError } from '../errors.js'
 
 export class GraphError extends MathError {}
@@ -110,8 +110,8 @@ export class Graph {
     return Array.from(this.iterIncomingArcs(vertex))
   }
 
-  * iterOutcomingArcs (vertex) {
-    return this._getVertexData(vertex).getArcs()
+  iterOutcomingArcs (vertex) {
+    return this._getVertexData(vertex).getArcs()[Symbol.iterator]()
   }
 
   getOutcomingArcs (vertex) {
@@ -144,5 +144,14 @@ export class Graph {
     const newIncidenceEntries = map(([k, v]) => [k, v.clone()], this._incidence.entries())
     const newIncidence = new Map(newIncidenceEntries)
     return new this.constructor({ incidence: newIncidence })
+  }
+
+  getSymmetricClosure () {
+    const arcs = chain(
+      this.iterAllArcs(),
+      map(arc => ({ src: arc.dest, dest: arc.src, weight: arc.weight }), this.iterAllArcs())
+    )
+
+    return this.constructor.fromArcData(arcs)
   }
 }

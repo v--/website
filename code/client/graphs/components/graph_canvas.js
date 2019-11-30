@@ -1,13 +1,37 @@
 import { c } from '../../../common/rendering/component.js'
 import { s } from '../../../common/support/svg.js'
+import { chain, map } from '../../../common/support/iteration.js'
 import { classlist } from '../../../common/support/dom_properties.js'
 
 import { arrowMarker } from './arrow_marker.js'
 
 export function graphCanvas ({ graph, layout, result, hoverArc, hoverVertex, hoveredArc, hoveredVertex }) {
-  const arcs = graph.getAllArcs()
-  const highlightedVertices = new Set([result.path[0].src].concat(result.path.map(p => p.dest)))
-  const highlightedArcs = new Set(result.path)
+  const highlightedArcs = new Set(result.highlightedArcs)
+  const highlightedVertices = new Set(
+    chain(
+      map(arc => arc.src, highlightedArcs),
+      map(arc => arc.dest, highlightedArcs)
+    )
+  )
+  const arcData = []
+
+  for (let u = 0; u < graph.order - 1; u++) {
+    for (let v = u + 1; v < graph.order; v++) {
+      const arc = graph.getArc(u, v)
+      const dualArc = graph.getArc(v, u)
+      const isEdge = arc !== null && dualArc !== null
+      const isHovered = hoveredArc !== null && (hoveredArc === arc || hoveredArc === dualArc)
+      const isHighlighted = highlightedArcs.has(arc) || highlightedArcs.has(dualArc)
+
+      if (arc !== null) {
+        arcData.push({ arc, isEdge, isHovered, isHighlighted })
+      }
+
+      if (dualArc !== null) {
+        arcData.push({ arc: dualArc, isEdge, isHovered, isHighlighted })
+      }
+    }
+  }
 
   return s(
     'svg',
@@ -23,32 +47,43 @@ export function graphCanvas ({ graph, layout, result, hoverArc, hoverVertex, hov
       c(arrowMarker, { id: 'triangle-hovered' })
     ),
 
-    ...arcs.map(function (arc) {
-      const src = layout[arc.src]
-      const dest = layout[arc.dest]
+    ...arcData.map(function ({ arc, isEdge, isHovered, isHighlighted }) {
+      const srcPos = layout[arc.src]
+      const destPos = layout[arc.dest]
+
+      const lineState = {
+        class: 'arc-line',
+        x1: String(srcPos.x),
+        y1: String(srcPos.y),
+        x2: String(destPos.x),
+        y2: String(destPos.y)
+      }
+
+      if (!isEdge) {
+        if (isHovered) {
+          lineState['marker-end'] = 'url(#triangle-hovered)'
+        } else if (isHighlighted) {
+          lineState['marker-end'] = 'url(#triangle-accent)'
+        } else {
+          lineState['marker-end'] = 'url(#triangle)'
+        }
+      }
 
       return s('g',
         {
           class: classlist(
             'arc',
-            highlightedArcs.has(arc) && 'highlighted',
-            hoveredArc === arc && 'hovered'
+            isHighlighted && 'highlighted',
+            isHovered && 'hovered'
           )
         },
-        s('line', {
-          class: 'arc-line',
-          x1: String(src.x),
-          y1: String(src.y),
-          x2: String(dest.x),
-          y2: String(dest.y),
-          'marker-end': `url(#${hoveredArc === arc ? 'triangle-hovered' : highlightedArcs.has(arc) ? 'triangle-accent' : 'triangle'})`
-        }),
+        s('line', lineState),
         s('line', {
           class: 'arc-hover-line',
-          x1: String(src.x),
-          y1: String(src.y),
-          x2: String(dest.x),
-          y2: String(dest.y),
+          x1: String(srcPos.x),
+          y1: String(srcPos.y),
+          x2: String(destPos.x),
+          y2: String(destPos.y),
           mouseover (_event) {
             hoverArc(arc)
           },
@@ -68,8 +103,8 @@ export function graphCanvas ({ graph, layout, result, hoverArc, hoverVertex, hov
             'vertex',
             highlightedVertices.has(v) && 'highlighted',
             hovered && 'hovered',
-            result.path[0].src === v && 'path-start',
-            result.path[result.path.length - 1].dest === v && 'path-end'
+            result.start === v && 'path-start',
+            result.end === v && 'path-end'
           )
         },
         s('circle', {

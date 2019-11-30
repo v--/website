@@ -1,4 +1,4 @@
-import { constructPathFromAncestors } from '../../../common/math/graphs/paths.js'
+import { constructPathFromAncestors } from '../support/ancestors.js'
 
 export function fillPathAncestorVertexData (graph, ancestors, start) {
   const vertexData = new Map()
@@ -17,11 +17,11 @@ export function fillPathAncestorVertexData (graph, ancestors, start) {
 
       vertexData.set(v, [
         {
-          label: 'Shortest path',
+          label: `Shortest path from ${start}`,
           value: [start].concat(path.map(p => p.dest)).join(' -> ')
         },
         {
-          label: 'Path weight',
+          label: 'Shortest path weight',
           value: weight
         }
       ])

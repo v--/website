@@ -1,5 +1,6 @@
 import { enumerate } from '../../../common/support/enumerate.js'
 
 export const AlgorithmType = enumerate(
-  'SHORTEST_PATH'
+  'SHORTEST_PATH',
+  'SPANNING_TREE'
 )

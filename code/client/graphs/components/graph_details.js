@@ -17,11 +17,20 @@ function stringifyDatum (datum) {
 export function graphDetails ({ hoveredVertex, hoveredArc, result }) {
   if (hoveredVertex !== null) {
     const datum = result.vertexData.get(hoveredVertex) || null
+    let name = String(hoveredVertex)
+
+    if (result.start === hoveredVertex) {
+      name += ' (start)'
+    }
+
+    if (result.end === hoveredVertex) {
+      name += ' (end)'
+    }
 
     return c('div', { class: 'graph-details' },
       c('div', { class: 'card' },
         c('div', { class: 'card-title', text: 'Vertex' }),
-        c('div', { class: 'card-body', text: String(hoveredVertex) })
+        c('div', { class: 'card-body', text: name })
       ),
 
       ...stringifyDatum(datum)

@@ -6,9 +6,7 @@ import { graphCanvas } from './components/graph_canvas.js'
 import { graphDetails } from './components/graph_details.js'
 import { algorithmDropdown } from './components/algorithm_dropdown.js'
 
-import { algorithms } from './algorithms.js'
-
-const DEFAULT_ALGORITHM = algorithms[0].algorithms[0]
+import { DEFAULT_ALGORITHM } from './algorithms.js'
 
 export function index () {
   const subject = new DictSubject({
@@ -34,7 +32,7 @@ export function index () {
       subject.update({
         graph,
         result: algorithm.run(graph),
-        layout: algorithm.getLayout(graph),
+        layout: algorithm.layout,
         algorithm
       })
     }
