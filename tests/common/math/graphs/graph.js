@@ -5,7 +5,7 @@ import { Graph, GraphError } from '../../../../code/common/math/graphs/graph.js'
 describe('Graph', function () {
   describe('#addArc()', function () {
     it('adds an arc to an empty graph', function () {
-      const graph = new Graph({})
+      const graph = new Graph()
       graph.addArc({ src: 0, dest: 1 })
       const arcs = graph.getAllArcs()
 
@@ -14,7 +14,7 @@ describe('Graph', function () {
     })
 
     it('fails to add a duplicate arc', function () {
-      const graph = new Graph({})
+      const graph = new Graph()
       graph.addArc({ src: 0, dest: 1 })
 
       assert.throws(function () {

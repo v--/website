@@ -2,9 +2,11 @@ import { map, chain } from '../../support/iteration.js'
 import { MathError } from '../errors.js'
 
 export class GraphError extends MathError {}
+export class EmptyGraphError extends GraphError {}
+export class GraphTraversalError extends GraphError {}
 
 export class GraphVertexData {
-  constructor ({ vertex, arcs = [] }) {
+  constructor ({ vertex, arcs = [] } = {}) {
     this._vertex = vertex
     this._arcs = arcs
   }
@@ -35,7 +37,7 @@ export class GraphVertexData {
 }
 
 export class GraphArc {
-  constructor ({ src, dest, label = null, weight = 1 }) {
+  constructor ({ src, dest, label = null, weight = 1 } = {}) {
     if (src === dest) {
       throw new GraphError('The graph cannot contain loops')
     }
@@ -53,7 +55,7 @@ export class GraphArc {
 
 export class Graph {
   static fromArcData (arcs) {
-    const graph = new Graph({})
+    const graph = new this()
 
     for (const arc of arcs) {
       graph.addArc(new GraphArc(arc))
@@ -62,7 +64,7 @@ export class Graph {
     return graph
   }
 
-  constructor ({ incidence = new Map() }) {
+  constructor ({ incidence = new Map() } = {}) {
     this._incidence = incidence
   }
 
