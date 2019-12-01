@@ -1,4 +1,6 @@
 import { c } from '../../common/rendering/component.js'
+import { repr } from '../../common/support/strings.js'
+import { filter, flatten } from '../../common/support/iteration.js'
 import { aspectRatioBox } from '../core/components/aspect_ratio_box.js'
 import { DictSubject } from '../../common/observables/dict_subject.js'
 
@@ -6,18 +8,53 @@ import { graphCanvas } from './components/graph_canvas.js'
 import { graphDetails } from './components/graph_details.js'
 import { algorithmDropdown } from './components/algorithm_dropdown.js'
 
-import { DEFAULT_ALGORITHM } from './algorithms.js'
+import { algorithms, DEFAULT_ALGORITHM } from './algorithms.js'
 
-export function index () {
+import { QueryConfig } from '../../common/support/query_config.js'
+import { location$ } from '../../common/shared_observables.js'
+
+const QUERY_CONFIG_DEFAULTS = Object.freeze({
+  algorithm: DEFAULT_ALGORITHM.id,
+  start: 0,
+  end: DEFAULT_ALGORITHM.graph.order - 1
+})
+
+const QUERY_CONFIG_PARSERS = Object.freeze({
+  algorithm: String,
+  start: Number,
+  end: Number
+})
+
+export function index ({ path }) {
+  const config = new QueryConfig(path, QUERY_CONFIG_DEFAULTS, QUERY_CONFIG_PARSERS)
+  const start = config.get('start')
+  const end = config.get('end')
+  const algorithmId = config.get('algorithm')
+
+  const algorithm = filter(a => a.id === algorithmId, flatten(algorithms.map(section => section.algorithms))).next().value || null
+  const errors = []
+
+  if (algorithm === null) {
+    errors.push(`Cannot find algorithm ${repr(config.get('algorithm'))}.`)
+  } else {
+    if (start < 0 || start >= algorithm.graph.order) {
+      errors.push(`Invalid starting vertex ${start}.`)
+    }
+
+    if (end < 0 || end >= algorithm.graph.order) {
+      errors.push(`Invalid end vertex ${end}.`)
+    }
+  }
+
   const subject = new DictSubject({
-    graph: null,
-    result: null,
-    layout: null,
-    algorithm: null,
+    algorithm: errors.length > 0 ? null : algorithm,
+    graph: errors.length > 0 ? null : algorithm.graph,
+    layout: errors.length > 0 ? null : algorithm.layout,
+    result: errors.length > 0 ? null : algorithm.run(algorithm.graph, start, end),
 
     hoveredVertex: null,
     hoveredArc: null,
-    start: 0,
+    start,
 
     hoverVertex (vertex) {
       subject.update({ hoveredVertex: vertex })
@@ -28,25 +65,13 @@ export function index () {
     },
 
     changeStart (start) {
-      subject.update({
-        start,
-        result: subject.value.algorithm.run(subject.value.graph, start)
-      })
+      location$.next(config.getUpdatedPath({ start }))
     },
 
     runAlgorithm (algorithm) {
-      const graph = algorithm.graph
-
-      subject.update({
-        graph,
-        result: algorithm.run(graph, subject.value.start),
-        layout: algorithm.layout,
-        algorithm
-      })
+      location$.next(config.getUpdatedPath({ algorithm: algorithm.id }))
     }
   })
-
-  subject.value.runAlgorithm(DEFAULT_ALGORITHM)
 
   return c('div', { class: 'page playground-graphs-page' },
     c('div', { class: 'section' },
@@ -55,7 +80,9 @@ export function index () {
     ),
 
     c(algorithmDropdown, subject),
-    c(aspectRatioBox, {
+
+    errors.length > 0 && c('p', { class: 'graphs-error', text: errors.join('\n') }),
+    errors.length === 0 && c(aspectRatioBox, {
       ratio: 13 / 10,
       bottomMargin: 25,
       minHeight: 250,

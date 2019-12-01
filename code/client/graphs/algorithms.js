@@ -47,4 +47,4 @@ export const algorithms = Object.freeze([
   }
 ])
 
-export const DEFAULT_ALGORITHM = algorithms[3].algorithms[0]
+export const DEFAULT_ALGORITHM = dfsSpanningArborescence

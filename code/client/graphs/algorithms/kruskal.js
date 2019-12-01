@@ -9,12 +9,13 @@ import { DEFAULT_GRAPH_LAYOUT, DEFAULT_GRAPH_UNDIRECTED } from '../graphs.js'
 
 export const kruskal = Object.freeze({
   name: "Kruskal's algorithm",
+  id: 'kruskal',
   type: AlgorithmType.MIN_SPANNING_TREE,
   date: '2019-12-01',
   graph: DEFAULT_GRAPH_UNDIRECTED,
   layout: DEFAULT_GRAPH_LAYOUT,
 
-  run (graph) {
+  run (graph, _start, _end) {
     const tree = Graph.empty(graph.order)
     const arcs = schwartzSort(arc => arc.weight, graph.iterAllArcs())
     const components = labelComponents(tree)

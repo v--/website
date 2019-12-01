@@ -11,6 +11,7 @@ import { DEFAULT_GRAPH_LAYOUT, DEFAULT_GRAPH_DIRECTED } from '../graphs.js'
 
 export const postorderLongestPath = Object.freeze({
   name: 'Longest path based on post-order traversal',
+  id: 'postorder_longest_path',
   type: AlgorithmType.LONGEST_PATH,
   date: '2019-12-01',
   graph: DEFAULT_GRAPH_DIRECTED,

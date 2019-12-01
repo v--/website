@@ -9,12 +9,13 @@ import { DEFAULT_GRAPH_LAYOUT, DEFAULT_GRAPH_DIRECTED } from '../graphs.js'
 
 export const dijkstra = Object.freeze({
   name: "Dijsktra's algorithm",
+  id: 'dijkstra',
   type: AlgorithmType.SHORTEST_PATH_TREE,
   date: '2019-11-15',
   graph: DEFAULT_GRAPH_DIRECTED,
   layout: DEFAULT_GRAPH_LAYOUT,
 
-  run (graph, start = 0) {
+  run (graph, start = 0, _end) {
     const ancestors = constructShortestPathAncestorMap(graph, start)
 
     return new AlgorithmResult({

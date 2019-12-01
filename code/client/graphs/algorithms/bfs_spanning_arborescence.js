@@ -8,12 +8,13 @@ import { DEFAULT_GRAPH_LAYOUT, DEFAULT_GRAPH_DIRECTED } from '../graphs.js'
 
 export const bfsSpanningArborescence = Object.freeze({
   name: 'BFS-generated arborescence',
+  id: 'bfs_arborescence',
   type: AlgorithmType.ARBORESCENCE,
   date: '2019-11-30',
   graph: DEFAULT_GRAPH_DIRECTED,
   layout: DEFAULT_GRAPH_LAYOUT,
 
-  run (graph, root = 0) {
+  run (graph, root = 0, _end) {
     const ancestors = new Map()
     const marked = new Set()
     const queue = []

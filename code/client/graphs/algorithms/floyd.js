@@ -10,12 +10,13 @@ import { DEFAULT_GRAPH_LAYOUT, DEFAULT_GRAPH_DIRECTED } from '../graphs.js'
 
 export const floyd = Object.freeze({
   name: "Floyd's algorithm",
+  id: 'floyd',
   type: AlgorithmType.SHORTEST_PATH_TREE,
   date: '2019-11-24',
   graph: DEFAULT_GRAPH_DIRECTED,
   layout: DEFAULT_GRAPH_LAYOUT,
 
-  run (graph, start = 0) {
+  run (graph, start = 0, _end) {
     const pathLengths = pathLengthMatrix(graph)
     const allAncestors = Matrix.zero(graph.order)
     const ancestors = new Map()

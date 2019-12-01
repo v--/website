@@ -9,12 +9,13 @@ import { DEFAULT_GRAPH_LAYOUT, DEFAULT_GRAPH_UNDIRECTED } from '../graphs.js'
 
 export const prim = Object.freeze({
   name: "Prim's algorithm",
+  id: 'prim',
   type: AlgorithmType.MIN_SPANNING_TREE,
   date: '2019-11-30',
   graph: DEFAULT_GRAPH_UNDIRECTED,
   layout: DEFAULT_GRAPH_LAYOUT,
 
-  run (graph, root = 0) {
+  run (graph, root = 0, _end) {
     const ancestors = constructShortestPathAncestorMap(graph, root)
 
     return new AlgorithmResult({

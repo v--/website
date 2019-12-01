@@ -31,12 +31,13 @@ function addSafe (graph, tree, components, componentCount) {
 
 export const boruvka = Object.freeze({
   name: "Borůvka's algorithm",
+  id: 'boruvka',
   type: AlgorithmType.MIN_SPANNING_TREE,
   date: '2019-12-01',
   graph: DEFAULT_GRAPH_UNDIRECTED,
   layout: DEFAULT_GRAPH_LAYOUT,
 
-  run (graph) {
+  run (graph, _start, _end) {
     const tree = Graph.empty(graph.order)
     let components = labelComponents(tree)
     let componentCount = Math.max(...components.values()) + 1
