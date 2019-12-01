@@ -4,7 +4,7 @@ import { classlist } from '../../../common/support/dom_properties.js'
 
 import { arrowMarker } from './arrow_marker.js'
 
-export function graphCanvas ({ graph, layout, result, hoverArc, hoverVertex, hoveredArc, hoveredVertex, start, changeStart }) {
+export function graphCanvas ({ graph, layout, result, hoverArc, hoverVertex, hoveredArc, hoveredVertex, changeStart, changeEnd }) {
   const highlightedArcs = new Set(result.subgraph.iterAllArcs())
   const highlightedVertices = new Set(result.subgraph.iterAllVertices())
   const arcData = []
@@ -97,7 +97,7 @@ export function graphCanvas ({ graph, layout, result, hoverArc, hoverVertex, hov
             'vertex',
             highlightedVertices.has(v) && 'highlighted',
             hovered && 'hovered',
-            start === v && 'path-start',
+            result.start === v && 'path-start',
             result.end === v && 'path-end'
           )
         },
@@ -112,8 +112,14 @@ export function graphCanvas ({ graph, layout, result, hoverArc, hoverVertex, hov
           mouseleave (_event) {
             hoverVertex(null)
           },
-          click (_event) {
-            changeStart(v)
+          click (event) {
+            if (event.ctrlKey) {
+              if (result.end !== null) {
+                changeEnd(v)
+              }
+            } else if (result.start !== null) {
+              changeStart(v)
+            }
           }
         }),
 

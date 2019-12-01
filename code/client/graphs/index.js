@@ -54,7 +54,9 @@ export function index ({ path }) {
 
     hoveredVertex: null,
     hoveredArc: null,
+
     start,
+    end,
 
     hoverVertex (vertex) {
       subject.update({ hoveredVertex: vertex })
@@ -68,6 +70,10 @@ export function index ({ path }) {
       location$.next(config.getUpdatedPath({ start }))
     },
 
+    changeEnd (end) {
+      location$.next(config.getUpdatedPath({ end }))
+    },
+
     runAlgorithm (algorithm) {
       location$.next(config.getUpdatedPath({ algorithm: algorithm.id }))
     }
@@ -76,7 +82,7 @@ export function index ({ path }) {
   return c('div', { class: 'page playground-graphs-page' },
     c('div', { class: 'section' },
       c('h1', { class: 'section-title', text: 'Graph algorithm visualizations' }),
-      c('p', { text: 'You can select another algorithm or pick a different starting point' })
+      c('p', { text: 'You can select algorithms from the dropdown or pick path endpoints by clicking or ctrl-clicking a vertex. Note that not all algorithms require path endpoints.' })
     ),
 
     c(algorithmDropdown, subject),
