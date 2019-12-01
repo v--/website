@@ -3,6 +3,7 @@ import { floyd } from './algorithms/floyd.js'
 import { dfsSpanningArborescence } from './algorithms/dfs_spanning_arborescence.js'
 import { bfsSpanningArborescence } from './algorithms/bfs_spanning_arborescence.js'
 import { prim } from './algorithms/prim.js'
+import { boruvka } from './algorithms/boruvka.js'
 
 import { AlgorithmType } from './enums/algorithm_type.js'
 
@@ -20,7 +21,8 @@ export const algorithms = Object.freeze([
     type: AlgorithmType.MIN_SPANNING_TREE,
     label: 'Minimum spanning tree',
     algorithms: [
-      prim
+      prim,
+      boruvka
     ]
   },
 

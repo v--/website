@@ -1,4 +1,4 @@
-import { map, chain } from '../../support/iteration.js'
+import { map, chain, range } from '../../support/iteration.js'
 import { MathError } from '../errors.js'
 
 export class GraphError extends MathError {}
@@ -17,7 +17,7 @@ export class GraphVertexData {
 
   addArc (arc) {
     if (this._arcs.some(a => a.dest === arc.dest)) {
-      throw new GraphError(`Vertex ${this.vertex} already has an arc to ${arc.dest}`)
+      throw new GraphError(`Vertex ${this._vertex} already has an arc to ${arc.dest}`)
     }
 
     this._arcs.push(arc)
@@ -62,6 +62,12 @@ export class Graph {
     }
 
     return graph
+  }
+
+  static empty (order) {
+    return new Graph({
+      incidence: new Map(map(vertex => [vertex, new GraphVertexData({ vertex })], range(order)))
+    })
   }
 
   constructor ({ incidence = new Map() } = {}) {
