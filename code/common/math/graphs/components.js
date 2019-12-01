@@ -1,6 +1,6 @@
 function recurseAndLabel (graph, v, marked, labels) {
   const currentLabel = labels.get(v)
-  for (const arc of graph.iterOutcomingArcs(v)) {
+  for (const arc of graph.iterOutgoingArcs(v)) {
     if (!marked.has(arc.dest)) {
       labels.set(arc.dest, currentLabel)
       marked.add(arc.dest)

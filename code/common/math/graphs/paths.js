@@ -8,7 +8,7 @@ export function constructShortestPathAncestorMap (graph, start = 0) {
   while (!queue.isEmpty) {
     const min = queue.pop()
 
-    for (const arc of graph.getOutcomingArcs(min.item)) {
+    for (const arc of graph.getOutgoingArcs(min.item)) {
       const newLen = min.weight + arc.weight
 
       if (queue.hasItem(arc.dest)) {

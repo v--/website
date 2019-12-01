@@ -18,7 +18,7 @@ export const dfsSpanningArborescence = Object.freeze({
     const marked = new Set()
     const stack = []
 
-    for (const outArc of graph.getOutcomingArcs(root)) {
+    for (const outArc of graph.getOutgoingArcs(root)) {
       stack.push(outArc)
     }
 
@@ -33,7 +33,7 @@ export const dfsSpanningArborescence = Object.freeze({
       marked.add(v)
       ancestors.set(v, arc.src)
 
-      for (const outArc of graph.getOutcomingArcs(v)) {
+      for (const outArc of graph.getOutgoingArcs(v)) {
         stack.push(outArc)
       }
     }

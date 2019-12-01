@@ -1,6 +1,6 @@
 import { constructShortestPathAncestorMap } from '../../../common/math/graphs/paths.js'
-import { constructPathFromAncestors } from '../support/ancestors.js'
 
+import { constructPathFromAncestors } from '../support/ancestors.js'
 import { fillArcWeightData } from '../support/arc_data.js'
 import { fillPathAncestorVertexData } from '../support/vertex_data.js'
 import { AlgorithmResult } from '../support/algorithm_result.js'

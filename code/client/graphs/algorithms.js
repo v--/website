@@ -5,6 +5,7 @@ import { bfsSpanningArborescence } from './algorithms/bfs_spanning_arborescence.
 import { prim } from './algorithms/prim.js'
 import { boruvka } from './algorithms/boruvka.js'
 import { kruskal } from './algorithms/kruskal.js'
+import { postorderLongestPath } from './algorithms/postorder_longest_path.js'
 
 import { AlgorithmType } from './enums/algorithm_type.js'
 
@@ -34,6 +35,14 @@ export const algorithms = Object.freeze([
     algorithms: [
       dijkstra,
       floyd
+    ]
+  },
+
+  {
+    type: AlgorithmType.LONGEST_PATH,
+    label: 'Longest path',
+    algorithms: [
+      postorderLongestPath
     ]
   }
 ])

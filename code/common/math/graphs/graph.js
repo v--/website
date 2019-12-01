@@ -118,11 +118,11 @@ export class Graph {
     return Array.from(this.iterIncomingArcs(vertex))
   }
 
-  iterOutcomingArcs (vertex) {
+  iterOutgoingArcs (vertex) {
     return this._getVertexData(vertex).getArcs()[Symbol.iterator]()
   }
 
-  getOutcomingArcs (vertex) {
+  getOutgoingArcs (vertex) {
     return this._getVertexData(vertex).getArcs()
   }
 

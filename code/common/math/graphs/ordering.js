@@ -1,29 +1,32 @@
 import { GraphTraversalError } from './graph.js'
 import { repeat } from '../../support/iteration.js'
 
-function topOrderDFS (graph, preorder, postorder, reverseOrder, v, clock) {
-  preorder[v] = clock++
+function postorderDFS (graph, pre, post, order, v, clock) {
+  pre[v] = clock++
 
-  for (const arc of graph.getOutcomingArcs(v)) {
-    if (preorder[arc.dest] >= preorder[v] && postorder[arc.dest] < preorder[v]) {
-      clock = topOrderDFS(graph, preorder, postorder, reverseOrder, arc.dest, clock)
+  for (const arc of graph.getOutgoingArcs(v)) {
+    if (pre[arc.dest] >= pre[v] && post[arc.dest] < pre[v]) {
+      clock = postorderDFS(graph, pre, post, order, arc.dest, clock)
     }
   }
 
-  reverseOrder.push(v)
-  postorder[v] = clock++
+  order.push(v)
+  post[v] = clock++
   return clock
 }
 
-export function topologicalOrder (graph, start = 0) {
+export function postorder (graph, start = 0) {
   if (graph.order <= start) {
     throw new GraphTraversalError('The starting vertex must belong to the graph')
   }
 
-  const reverseOrder = []
-  const preorder = Array.from(repeat(Number.POSITIVE_INFINITY, graph.order))
-  const postorder = Array.from(repeat(Number.NEGATIVE_INFINITY, graph.order))
-  topOrderDFS(graph, preorder, postorder, reverseOrder, start, 0)
-  reverseOrder.reverse()
-  return reverseOrder
+  const order = []
+  const pre = Array.from(repeat(Number.POSITIVE_INFINITY, graph.order))
+  const post = Array.from(repeat(Number.NEGATIVE_INFINITY, graph.order))
+  postorderDFS(graph, pre, post, order, start, 0)
+  return order
+}
+
+export function topologicalOrder (graph, start = 0) {
+  return postorder(graph, start).reverse()
 }

@@ -18,7 +18,7 @@ export const bfsSpanningArborescence = Object.freeze({
     const marked = new Set()
     const queue = []
 
-    for (const outArc of graph.getOutcomingArcs(root)) {
+    for (const outArc of graph.getOutgoingArcs(root)) {
       queue.push(outArc)
     }
 
@@ -33,7 +33,7 @@ export const bfsSpanningArborescence = Object.freeze({
       marked.add(v)
       ancestors.set(v, arc.src)
 
-      for (const outArc of graph.getOutcomingArcs(v)) {
+      for (const outArc of graph.getOutgoingArcs(v)) {
         queue.push(outArc)
       }
     }

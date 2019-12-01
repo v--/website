@@ -17,11 +17,11 @@ export function fillPathAncestorVertexData (graph, ancestors, start) {
 
       vertexData.set(v, [
         {
-          label: `Shortest path from ${start}`,
+          label: `Optimal path from ${start}`,
           value: [start].concat(path.map(p => p.dest)).join(' -> ')
         },
         {
-          label: 'Shortest path weight',
+          label: 'Optimal path weight',
           value: weight
         }
       ])

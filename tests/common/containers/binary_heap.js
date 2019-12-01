@@ -15,7 +15,7 @@ describe('BinaryHeap', function () {
     it('gets the minimum of a single element heap', function () {
       const heap = new BinaryHeap()
       heap.insert(1)
-      assert.equal(heap.peek(), 1)
+      assert.equal(heap.peek().weight, 1)
     })
 
     it('gets the minimum of a three-element heap', function () {
@@ -23,7 +23,7 @@ describe('BinaryHeap', function () {
       heap.insert(3)
       heap.insert(2)
       heap.insert(1)
-      assert.equal(heap.peek(), 1)
+      assert.equal(heap.peek().weight, 1)
     })
   })
 
@@ -32,28 +32,28 @@ describe('BinaryHeap', function () {
       const heap = new BinaryHeap()
       heap.insert(1)
       heap.insert(2)
-      assert.equal(heap.peek(), 1)
+      assert.equal(heap.peek().weight, 1)
     })
 
     it('inserts multiple idential elements', function () {
       const heap = new BinaryHeap()
       heap.insert(1)
       heap.insert(1)
-      assert.equal(heap.peek(), 1)
+      assert.equal(heap.peek().weight, 1)
     })
 
     it('inserts multiple elements correctly when they are in order', function () {
       const heap = new BinaryHeap()
       heap.insert(1)
       heap.insert(2)
-      assert.equal(heap.peek(), 1)
+      assert.equal(heap.peek().weight, 1)
     })
 
     it('inserts multiple elements correctly when they are in reverse order', function () {
       const heap = new BinaryHeap()
       heap.insert(2)
       heap.insert(1)
-      assert.equal(heap.peek(), 1)
+      assert.equal(heap.peek().weight, 1)
     })
   })
 
