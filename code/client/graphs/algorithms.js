@@ -47,4 +47,4 @@ export const algorithms = Object.freeze([
   }
 ])
 
-export const DEFAULT_ALGORITHM = algorithms[2].algorithms[1]
+export const DEFAULT_ALGORITHM = algorithms[3].algorithms[0]

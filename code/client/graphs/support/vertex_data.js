@@ -1,4 +1,4 @@
-import { constructPathFromAncestors } from '../support/ancestors.js'
+import { constructPathFromAncestors } from '../../../common/math/graphs/ancestors.js'
 
 export function fillPathAncestorVertexData (graph, ancestors, start) {
   const vertexData = new Map()
@@ -17,7 +17,7 @@ export function fillPathAncestorVertexData (graph, ancestors, start) {
 
       vertexData.set(v, [
         {
-          label: `Optimal path from ${start}`,
+          label: 'Optimal path',
           value: [start].concat(path.map(p => p.dest)).join(' -> ')
         },
         {

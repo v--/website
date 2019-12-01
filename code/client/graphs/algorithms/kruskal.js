@@ -35,7 +35,7 @@ export const kruskal = Object.freeze({
     }
 
     return new AlgorithmResult({
-      highlightedArcs: tree.getAllArcs(),
+      subgraph: tree,
       vertexData: new Map(),
       arcData: fillArcWeightData(graph)
     })

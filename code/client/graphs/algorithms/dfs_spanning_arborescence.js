@@ -1,4 +1,4 @@
-import { ancestorMapToArcs } from '../support/ancestors.js'
+import { subgraphFromAncestorMap } from '../../../common/math/graphs/ancestors.js'
 
 import { fillArcWeightData } from '../support/arc_data.js'
 import { fillPathAncestorVertexData } from '../support/vertex_data.js'
@@ -40,7 +40,7 @@ export const dfsSpanningArborescence = Object.freeze({
 
     return new AlgorithmResult({
       start: root,
-      highlightedArcs: ancestorMapToArcs(graph, ancestors, root),
+      subgraph: subgraphFromAncestorMap(graph, ancestors, root),
       vertexData: fillPathAncestorVertexData(graph, ancestors, root),
       arcData: fillArcWeightData(graph)
     })

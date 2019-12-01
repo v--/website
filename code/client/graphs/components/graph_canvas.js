@@ -1,18 +1,12 @@
 import { c } from '../../../common/rendering/component.js'
 import { s } from '../../../common/support/svg.js'
-import { chain, map } from '../../../common/support/iteration.js'
 import { classlist } from '../../../common/support/dom_properties.js'
 
 import { arrowMarker } from './arrow_marker.js'
 
-export function graphCanvas ({ graph, layout, result, hoverArc, hoverVertex, hoveredArc, hoveredVertex }) {
-  const highlightedArcs = new Set(result.highlightedArcs)
-  const highlightedVertices = new Set(
-    chain(
-      map(arc => arc.src, highlightedArcs),
-      map(arc => arc.dest, highlightedArcs)
-    )
-  )
+export function graphCanvas ({ graph, layout, result, hoverArc, hoverVertex, hoveredArc, hoveredVertex, start, changeStart }) {
+  const highlightedArcs = new Set(result.subgraph.iterAllArcs())
+  const highlightedVertices = new Set(result.subgraph.iterAllVertices())
   const arcData = []
 
   for (let u = 0; u < graph.order - 1; u++) {
@@ -103,7 +97,7 @@ export function graphCanvas ({ graph, layout, result, hoverArc, hoverVertex, hov
             'vertex',
             highlightedVertices.has(v) && 'highlighted',
             hovered && 'hovered',
-            result.start === v && 'path-start',
+            start === v && 'path-start',
             result.end === v && 'path-end'
           )
         },
@@ -117,6 +111,9 @@ export function graphCanvas ({ graph, layout, result, hoverArc, hoverVertex, hov
           },
           mouseleave (_event) {
             hoverVertex(null)
+          },
+          click (_event) {
+            changeStart(v)
           }
         }),
 

@@ -1,4 +1,4 @@
-import { map, chain, range } from '../../support/iteration.js'
+import { map, chain, range, sort } from '../../support/iteration.js'
 import { MathError } from '../errors.js'
 
 export class GraphError extends MathError {}
@@ -83,12 +83,12 @@ export class Graph {
   }
 
   addArc (arc) {
-    const max = Math.max(arc.src, arc.dest)
+    if (!this._incidence.has(arc.src)) {
+      this._incidence.set(arc.src, new GraphVertexData({ vertex: arc.src }))
+    }
 
-    for (let i = 0; i <= max; i++) {
-      if (!this._incidence.has(i)) {
-        this._incidence.set(i, new GraphVertexData({ vertex: arc.src }))
-      }
+    if (!this._incidence.has(arc.dest)) {
+      this._incidence.set(arc.dest, new GraphVertexData({ vertex: arc.dest }))
     }
 
     const transposedArc = this.getArc(arc.dest, arc.src)
@@ -144,10 +144,8 @@ export class Graph {
     return Array.from(this.iterAllArcs())
   }
 
-  * iterAllVertices () {
-    for (let v = 0; v < this.order; v++) {
-      yield v
-    }
+  iterAllVertices () {
+    return sort(this._incidence.keys())
   }
 
   getAllVertices () {

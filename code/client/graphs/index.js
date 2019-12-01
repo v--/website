@@ -17,6 +17,7 @@ export function index () {
 
     hoveredVertex: null,
     hoveredArc: null,
+    start: 0,
 
     hoverVertex (vertex) {
       subject.update({ hoveredVertex: vertex })
@@ -26,12 +27,19 @@ export function index () {
       subject.update({ hoveredArc: arc })
     },
 
+    changeStart (start) {
+      subject.update({
+        start,
+        result: subject.value.algorithm.run(subject.value.graph, start)
+      })
+    },
+
     runAlgorithm (algorithm) {
       const graph = algorithm.graph
 
       subject.update({
         graph,
-        result: algorithm.run(graph),
+        result: algorithm.run(graph, subject.value.start),
         layout: algorithm.layout,
         algorithm
       })
@@ -42,7 +50,8 @@ export function index () {
 
   return c('div', { class: 'page playground-graphs-page' },
     c('div', { class: 'section' },
-      c('h1', { class: 'section-title', text: 'Graph algorithm visualizations' })
+      c('h1', { class: 'section-title', text: 'Graph algorithm visualizations' }),
+      c('p', { text: 'You can select another algorithm or pick a different starting point' })
     ),
 
     c(algorithmDropdown, subject),

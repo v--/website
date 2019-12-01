@@ -1,9 +1,7 @@
 export class AlgorithmResult {
-  constructor ({ highlightedArcs = new Set(), vertexData = new Map(), arcData = new Map(), start = null, end = null }) {
-    this.highlightedArcs = highlightedArcs
+  constructor ({ subgraph, vertexData = new Map(), arcData = new Map() } = {}) {
+    this.subgraph = subgraph
     this.vertexData = vertexData
     this.arcData = arcData
-    this.start = start
-    this.end = end
   }
 }

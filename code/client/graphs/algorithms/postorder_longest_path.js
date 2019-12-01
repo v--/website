@@ -1,7 +1,8 @@
 import { schwartzMax } from '../../../common/support/iteration.js'
+import { Graph } from '../../../common/math/graphs/graph.js'
 import { postorder } from '../../../common/math/graphs/ordering.js'
+import { constructPathFromAncestors } from '../../../common/math/graphs/ancestors.js'
 
-import { constructPathFromAncestors } from '../support/ancestors.js'
 import { fillArcWeightData } from '../support/arc_data.js'
 import { fillPathAncestorVertexData } from '../support/vertex_data.js'
 import { AlgorithmResult } from '../support/algorithm_result.js'
@@ -36,12 +37,25 @@ export const postorderLongestPath = Object.freeze({
       const max = schwartzMax(arc => lengths.get(arc.dest), arcs)
       ancestors.set(max.dest, v)
       lengths.set(v, lengths.get(max.dest) + max.weight)
+
+      if (v === start) {
+        break
+      }
+    }
+
+    const subgraph = new Graph()
+    const path = constructPathFromAncestors(graph, ancestors, start, end)
+
+    if (path !== null) {
+      for (const arc of path) {
+        subgraph.addArc(arc)
+      }
     }
 
     return new AlgorithmResult({
       start,
       end,
-      highlightedArcs: constructPathFromAncestors(graph, ancestors, start, end),
+      subgraph,
       vertexData: fillPathAncestorVertexData(graph, ancestors, start),
       arcData: fillArcWeightData(graph)
     })

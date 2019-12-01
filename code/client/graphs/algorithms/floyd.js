@@ -1,7 +1,7 @@
 import { Matrix } from '../../../common/math/linalg/matrix.js'
 import { pathLengthMatrix } from '../../../common/math/graphs/graph_matrices.js'
+import { subgraphFromAncestorMap } from '../../../common/math/graphs/ancestors.js'
 
-import { ancestorMapToArcs } from '../support/ancestors.js'
 import { fillArcWeightData } from '../support/arc_data.js'
 import { fillPathAncestorVertexData } from '../support/vertex_data.js'
 import { AlgorithmResult } from '../support/algorithm_result.js'
@@ -48,7 +48,7 @@ export const floyd = Object.freeze({
 
     return new AlgorithmResult({
       start,
-      highlightedArcs: ancestorMapToArcs(graph, ancestors, start),
+      subgraph: subgraphFromAncestorMap(graph, ancestors, start),
       vertexData: fillPathAncestorVertexData(graph, ancestors, start),
       arcData: fillArcWeightData(graph)
     })

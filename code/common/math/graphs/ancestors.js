@@ -1,3 +1,5 @@
+import { Graph } from './graph.js'
+
 export function constructPathFromAncestors (graph, ancestors, start, end) {
   if (!ancestors.has(end)) {
     return null
@@ -45,16 +47,16 @@ export function constructPathFromAncestors (graph, ancestors, start, end) {
   return path
 }
 
-export function ancestorMapToArcs (graph, ancestors) {
-  const arcs = []
+export function subgraphFromAncestorMap (graph, ancestors) {
+  const result = new Graph()
 
   for (const [to, from] of ancestors.entries()) {
     const arc = graph.getArc(from, to)
 
     if (arc !== null) {
-      arcs.push(arc)
+      result.addArc(arc)
     }
   }
 
-  return arcs
+  return result
 }

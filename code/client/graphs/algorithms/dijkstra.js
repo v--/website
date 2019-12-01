@@ -1,6 +1,6 @@
 import { constructShortestPathAncestorMap } from '../../../common/math/graphs/paths.js'
+import { subgraphFromAncestorMap } from '../../../common/math/graphs/ancestors.js'
 
-import { ancestorMapToArcs } from '../support/ancestors.js'
 import { fillArcWeightData } from '../support/arc_data.js'
 import { fillPathAncestorVertexData } from '../support/vertex_data.js'
 import { AlgorithmResult } from '../support/algorithm_result.js'
@@ -19,7 +19,7 @@ export const dijkstra = Object.freeze({
 
     return new AlgorithmResult({
       start,
-      highlightedArcs: ancestorMapToArcs(graph, ancestors),
+      subgraph: subgraphFromAncestorMap(graph, ancestors),
       vertexData: fillPathAncestorVertexData(graph, ancestors, start),
       arcData: fillArcWeightData(graph)
     })
