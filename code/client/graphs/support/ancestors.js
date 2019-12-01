@@ -49,7 +49,11 @@ export function ancestorMapToArcs (graph, ancestors) {
   const arcs = []
 
   for (const [to, from] of ancestors.entries()) {
-    arcs.push(graph.getArc(from, to))
+    const arc = graph.getArc(from, to)
+
+    if (arc !== null) {
+      arcs.push(arc)
+    }
   }
 
   return arcs

@@ -12,7 +12,7 @@ import { AlgorithmType } from './enums/algorithm_type.js'
 export const algorithms = Object.freeze([
   {
     type: AlgorithmType.ARBORESCENCE,
-    label: 'Arborescence',
+    label: 'Arborescences',
     algorithms: [
       dfsSpanningArborescence,
       bfsSpanningArborescence
@@ -21,7 +21,7 @@ export const algorithms = Object.freeze([
 
   {
     type: AlgorithmType.MIN_SPANNING_TREE,
-    label: 'Minimum spanning tree',
+    label: 'Minimum spanning trees',
     algorithms: [
       prim,
       kruskal,
@@ -30,8 +30,8 @@ export const algorithms = Object.freeze([
   },
 
   {
-    type: AlgorithmType.SHORTEST_PATH,
-    label: 'Shortest path',
+    type: AlgorithmType.SHORTEST_PATH_TREE,
+    label: 'Shortest path trees',
     algorithms: [
       dijkstra,
       floyd
@@ -40,11 +40,11 @@ export const algorithms = Object.freeze([
 
   {
     type: AlgorithmType.LONGEST_PATH,
-    label: 'Longest path',
+    label: 'Longest paths',
     algorithms: [
       postorderLongestPath
     ]
   }
 ])
 
-export const DEFAULT_ALGORITHM = algorithms[0].algorithms[0]
+export const DEFAULT_ALGORITHM = algorithms[2].algorithms[1]
