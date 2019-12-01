@@ -91,6 +91,12 @@ export class Graph {
       }
     }
 
+    const transposedArc = this.getArc(arc.dest, arc.src)
+
+    if (transposedArc !== null && arc.weight !== transposedArc.weight) {
+      throw new GraphError('Cannot have different weights for the same edge')
+    }
+
     this._incidence.get(arc.src).addArc(arc)
   }
 
