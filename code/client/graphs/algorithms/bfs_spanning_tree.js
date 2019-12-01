@@ -4,13 +4,13 @@ import { fillArcWeightData } from '../support/arc_data.js'
 import { fillPathAncestorVertexData } from '../support/vertex_data.js'
 import { AlgorithmResult } from '../support/algorithm_result.js'
 import { AlgorithmType } from '../enums/algorithm_type.js'
-import { DEFAULT_GRAPH_LAYOUT, DEFAULT_GRAPH_DIRECTED } from '../graphs.js'
+import { DEFAULT_GRAPH_LAYOUT, DEFAULT_GRAPH_UNDIRECTED } from '../graphs.js'
 
-export const bfsSpanningArborescence = Object.freeze({
-  name: 'BFS-generated spanning arborescence',
+export const bfsSpanningTree = Object.freeze({
+  name: 'BFS-generated spanning tree',
   type: AlgorithmType.SPANNING_ARBORESCENCE,
   date: '2019-11-30',
-  graph: DEFAULT_GRAPH_DIRECTED,
+  graph: DEFAULT_GRAPH_UNDIRECTED,
   layout: DEFAULT_GRAPH_LAYOUT,
 
   run (graph, root = 0) {
