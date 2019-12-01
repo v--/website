@@ -1,4 +1,4 @@
-import { constructShortestPathAncestorMap } from '../../../common/math/graphs/paths.js'
+import { BinaryHeap } from '../../../common/containers/binary_heap.js'
 import { subgraphFromAncestorMap } from '../../../common/math/graphs/ancestors.js'
 
 import { fillArcWeightData } from '../support/arc_data.js'
@@ -16,7 +16,27 @@ export const dijkstra = Object.freeze({
   layout: DEFAULT_GRAPH_LAYOUT,
 
   run (graph, start = 0, _end) {
-    const ancestors = constructShortestPathAncestorMap(graph, start)
+    const ancestors = new Map()
+    const queue = new BinaryHeap()
+    queue.insert(start, 0)
+
+    while (!queue.isEmpty) {
+      const min = queue.pop()
+
+      for (const arc of graph.getOutgoingArcs(min.item)) {
+        const newLen = min.weight + arc.weight
+
+        if (queue.hasItem(arc.dest)) {
+          if (newLen < queue.getItemWeight(arc.dest)) {
+            queue.updateItemWeight(arc.dest, newLen)
+            ancestors.set(arc.dest, min.item)
+          }
+        } else if (!ancestors.has(arc.dest)) {
+          queue.insert(arc.dest, newLen)
+          ancestors.set(arc.dest, min.item)
+        }
+      }
+    }
 
     return new AlgorithmResult({
       start,
