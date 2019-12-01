@@ -36,7 +36,7 @@ export const boruvka = Object.freeze({
   graph: DEFAULT_GRAPH_UNDIRECTED,
   layout: DEFAULT_GRAPH_LAYOUT,
 
-  run (graph, root = 0) {
+  run (graph) {
     const tree = Graph.empty(graph.order)
     let components = labelComponents(tree)
     let componentCount = Math.max(...components.values()) + 1
@@ -48,7 +48,6 @@ export const boruvka = Object.freeze({
     }
 
     return new AlgorithmResult({
-      start: root,
       highlightedArcs: tree.getAllArcs(),
       vertexData: new Map(),
       arcData: fillArcWeightData(graph)

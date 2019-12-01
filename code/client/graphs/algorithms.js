@@ -4,6 +4,7 @@ import { dfsSpanningArborescence } from './algorithms/dfs_spanning_arborescence.
 import { bfsSpanningArborescence } from './algorithms/bfs_spanning_arborescence.js'
 import { prim } from './algorithms/prim.js'
 import { boruvka } from './algorithms/boruvka.js'
+import { kruskal } from './algorithms/kruskal.js'
 
 import { AlgorithmType } from './enums/algorithm_type.js'
 
@@ -22,6 +23,7 @@ export const algorithms = Object.freeze([
     label: 'Minimum spanning tree',
     algorithms: [
       prim,
+      kruskal,
       boruvka
     ]
   },
