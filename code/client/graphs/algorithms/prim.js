@@ -5,13 +5,13 @@ import { fillArcWeightData } from '../support/arc_data.js'
 import { fillPathAncestorVertexData } from '../support/vertex_data.js'
 import { AlgorithmResult } from '../support/algorithm_result.js'
 import { AlgorithmType } from '../enums/algorithm_type.js'
-import { DEFAULT_GRAPH_LAYOUT, DEFAULT_GRAPH_DIRECTED } from '../graphs.js'
+import { DEFAULT_GRAPH_LAYOUT, DEFAULT_GRAPH_UNDIRECTED } from '../graphs.js'
 
 export const prim = Object.freeze({
   name: "Prim's algorithm",
-  type: AlgorithmType.SPANNING_ARBORESCENCE,
+  type: AlgorithmType.SPANNING_TREE,
   date: '2019-11-30',
-  graph: DEFAULT_GRAPH_DIRECTED,
+  graph: DEFAULT_GRAPH_UNDIRECTED,
   layout: DEFAULT_GRAPH_LAYOUT,
 
   run (graph, root = 0) {

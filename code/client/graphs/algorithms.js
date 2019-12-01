@@ -12,7 +12,14 @@ export const algorithms = Object.freeze([
     label: 'Spanning arborescence',
     algorithms: [
       dfsSpanningArborescence,
-      bfsSpanningArborescence,
+      bfsSpanningArborescence
+    ]
+  },
+
+  {
+    type: AlgorithmType.SPANNING_TREE,
+    label: 'Spanning tree',
+    algorithms: [
       prim
     ]
   },
