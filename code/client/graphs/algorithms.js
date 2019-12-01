@@ -8,8 +8,8 @@ import { AlgorithmType } from './enums/algorithm_type.js'
 
 export const algorithms = Object.freeze([
   {
-    type: AlgorithmType.SPANNING_ARBORESCENCE,
-    label: 'Spanning arborescence',
+    type: AlgorithmType.ARBORESCENCE,
+    label: 'Arborescence',
     algorithms: [
       dfsSpanningArborescence,
       bfsSpanningArborescence
@@ -17,8 +17,8 @@ export const algorithms = Object.freeze([
   },
 
   {
-    type: AlgorithmType.SPANNING_TREE,
-    label: 'Spanning tree',
+    type: AlgorithmType.MIN_SPANNING_TREE,
+    label: 'Minimum spanning tree',
     algorithms: [
       prim
     ]

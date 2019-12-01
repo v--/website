@@ -7,8 +7,8 @@ import { AlgorithmType } from '../enums/algorithm_type.js'
 import { DEFAULT_GRAPH_LAYOUT, DEFAULT_GRAPH_DIRECTED } from '../graphs.js'
 
 export const bfsSpanningArborescence = Object.freeze({
-  name: 'BFS-generated spanning arborescence',
-  type: AlgorithmType.SPANNING_ARBORESCENCE,
+  name: 'BFS-generated arborescence',
+  type: AlgorithmType.ARBORESCENCE,
   date: '2019-11-30',
   graph: DEFAULT_GRAPH_DIRECTED,
   layout: DEFAULT_GRAPH_LAYOUT,

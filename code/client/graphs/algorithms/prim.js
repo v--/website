@@ -9,7 +9,7 @@ import { DEFAULT_GRAPH_LAYOUT, DEFAULT_GRAPH_UNDIRECTED } from '../graphs.js'
 
 export const prim = Object.freeze({
   name: "Prim's algorithm",
-  type: AlgorithmType.SPANNING_TREE,
+  type: AlgorithmType.MIN_SPANNING_TREE,
   date: '2019-11-30',
   graph: DEFAULT_GRAPH_UNDIRECTED,
   layout: DEFAULT_GRAPH_LAYOUT,
