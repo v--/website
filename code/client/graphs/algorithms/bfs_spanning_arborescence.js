@@ -4,29 +4,23 @@ import { fillArcWeightData } from '../support/arc_data.js'
 import { fillPathAncestorVertexData } from '../support/vertex_data.js'
 import { AlgorithmResult } from '../support/algorithm_result.js'
 import { AlgorithmType } from '../enums/algorithm_type.js'
-import { DEFAULT_GRAPH_LAYOUT, DEFAULT_GRAPH_UNDIRECTED } from '../graphs.js'
+import { DEFAULT_GRAPH_LAYOUT, DEFAULT_GRAPH_DIRECTED } from '../graphs.js'
 
-export const bfsSpanningTree = Object.freeze({
-  name: 'BFS-generated spanning tree',
-  type: AlgorithmType.SHORTEST_PATH,
+export const bfsSpanningArborescence = Object.freeze({
+  name: 'BFS-generated spanning arborescence',
+  type: AlgorithmType.SPANNING_ARBORESCENCE,
   date: '2019-11-30',
-  graph: DEFAULT_GRAPH_UNDIRECTED,
+  graph: DEFAULT_GRAPH_DIRECTED,
   layout: DEFAULT_GRAPH_LAYOUT,
 
   run (graph, root = 0) {
-    const startArc = graph.iterOutcomingArcs(root).next().value
-
-    if (startArc === null) {
-      return new AlgorithmResult({
-        highlightedArcs: [],
-        vertexData: new Map(),
-        arcData: fillArcWeightData(graph)
-      })
-    }
-
     const ancestors = new Map()
     const marked = new Set()
-    const queue = [startArc]
+    const queue = []
+
+    for (const outArc of graph.getOutcomingArcs(root)) {
+      queue.push(outArc)
+    }
 
     while (queue.length > 0) {
       const arc = queue.shift()

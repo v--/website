@@ -1,18 +1,18 @@
 import { dijkstra } from './algorithms/dijkstra.js'
 import { floyd } from './algorithms/floyd.js'
-import { dfsSpanningTree } from './algorithms/dfs_spanning_tree.js'
-import { bfsSpanningTree } from './algorithms/bfs_spanning_tree.js'
+import { dfsSpanningArborescence } from './algorithms/dfs_spanning_arborescence.js'
+import { bfsSpanningArborescence } from './algorithms/bfs_spanning_arborescence.js'
 import { prim } from './algorithms/prim.js'
 
 import { AlgorithmType } from './enums/algorithm_type.js'
 
 export const algorithms = Object.freeze([
   {
-    type: AlgorithmType.SPANNING_TREE,
-    label: 'Spanning tree',
+    type: AlgorithmType.SPANNING_ARBORESCENCE,
+    label: 'Spanning arborescence',
     algorithms: [
-      dfsSpanningTree,
-      bfsSpanningTree,
+      dfsSpanningArborescence,
+      bfsSpanningArborescence,
       prim
     ]
   },
@@ -27,4 +27,4 @@ export const algorithms = Object.freeze([
   }
 ])
 
-export const DEFAULT_ALGORITHM = algorithms[0].algorithms[2]
+export const DEFAULT_ALGORITHM = algorithms[0].algorithms[0]
