@@ -1,13 +1,18 @@
-import { dijkstra } from './algorithms/dijkstra.js'
-import { floyd } from './algorithms/floyd.js'
+import { AlgorithmType } from './enums/algorithm_type.js'
+
 import { dfsSpanningArborescence } from './algorithms/dfs_spanning_arborescence.js'
 import { bfsSpanningArborescence } from './algorithms/bfs_spanning_arborescence.js'
+
 import { prim } from './algorithms/prim.js'
 import { boruvka } from './algorithms/boruvka.js'
 import { kruskal } from './algorithms/kruskal.js'
-import { postorderLongestPath } from './algorithms/postorder_longest_path.js'
 
-import { AlgorithmType } from './enums/algorithm_type.js'
+import { dijkstra } from './algorithms/dijkstra.js'
+import { floyd } from './algorithms/floyd.js'
+import { bellmanFord } from './algorithms/bellman_ford.js'
+import { topologicalShortestPath } from './algorithms/topological_shortest_path.js'
+
+import { postorderLongestPath } from './algorithms/postorder_longest_path.js'
 
 export const algorithms = Object.freeze([
   {
@@ -34,7 +39,9 @@ export const algorithms = Object.freeze([
     label: 'Shortest path trees',
     algorithms: [
       dijkstra,
-      floyd
+      floyd,
+      topologicalShortestPath,
+      bellmanFord
     ]
   },
 

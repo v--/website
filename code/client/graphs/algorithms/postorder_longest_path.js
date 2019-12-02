@@ -18,11 +18,10 @@ export const postorderLongestPath = Object.freeze({
   layout: DEFAULT_GRAPH_LAYOUT,
 
   run (graph, start = 0, end = graph.order - 1) {
-    const order = postorder(graph)
     const lengths = new Map()
     const ancestors = new Map()
 
-    for (const v of order) {
+    for (const v of postorder(graph)) {
       if (v === end) {
         lengths.set(v, 0)
         continue
@@ -35,7 +34,7 @@ export const postorderLongestPath = Object.freeze({
         continue
       }
 
-      const max = schwartzMax(arc => lengths.get(arc.dest), arcs)
+      const max = schwartzMax(arc => lengths.get(arc.dest) + arc.weight, arcs)
       ancestors.set(max.dest, v)
       lengths.set(v, lengths.get(max.dest) + max.weight)
 
