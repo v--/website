@@ -21,12 +21,16 @@ export const bellmanFord = Object.freeze({
 
     for (let i = 0; i < graph.order; i++) {
       for (const arc of graph.iterAllArcs()) {
+        if (!lengths.has(arc.src)) {
+          continue
+        }
+
         const newLen = lengths.get(arc.src) + arc.weight
         const oldLen = lengths.get(arc.dest)
 
         if (oldLen === undefined || newLen < oldLen) {
-          ancestors.set(arc.dest, arc.src)
           lengths.set(arc.dest, newLen)
+          ancestors.set(arc.dest, arc.src)
         }
       }
     }
