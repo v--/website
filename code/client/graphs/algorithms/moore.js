@@ -6,9 +6,9 @@ import { AlgorithmResult } from '../support/algorithm_result.js'
 import { AlgorithmType } from '../enums/algorithm_type.js'
 import { DEFAULT_GRAPH_LAYOUT, DEFAULT_GRAPH_DIRECTED } from '../graphs.js'
 
-export const bellmanFord = Object.freeze({
-  name: "Bellman and Ford's algorithm",
-  id: 'bellman_ford',
+export const moore = Object.freeze({
+  name: "Moore's algorithm",
+  id: 'moore',
   type: AlgorithmType.SHORTEST_PATH_TREE,
   date: '2019-11-15',
   graph: DEFAULT_GRAPH_DIRECTED,
@@ -18,15 +18,19 @@ export const bellmanFord = Object.freeze({
     const ancestors = new Map()
     const lengths = new Map()
     lengths.set(start, 0)
+    const queue = [start]
 
-    for (let i = 0; i < graph.order; i++) {
-      for (const arc of graph.iterAllArcs()) {
+    while (queue.length > 0) {
+      const v = queue.shift()
+
+      for (const arc of graph.iterOutgoingArcs(v)) {
         const newLen = lengths.get(arc.src) + arc.weight
         const oldLen = lengths.get(arc.dest)
 
         if (oldLen === undefined || newLen < oldLen) {
           ancestors.set(arc.dest, arc.src)
           lengths.set(arc.dest, newLen)
+          queue.push(arc.dest)
         }
       }
     }
