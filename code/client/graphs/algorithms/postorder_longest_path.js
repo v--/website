@@ -21,26 +21,24 @@ export const postorderLongestPath = Object.freeze({
     const lengths = new Map()
     const ancestors = new Map()
 
-    for (const v of postorder(graph)) {
-      if (v === end) {
-        lengths.set(v, 0)
-        continue
-      }
+    const order = postorder(graph)
+    const chain = order.slice(
+      order.indexOf(end) + 1,
+      order.indexOf(start) + 1
+    )
 
+    lengths.set(end, 0)
+
+    for (const v of chain) {
       const arcs = graph.getOutgoingArcs(v)
 
       if (arcs.length === 0) {
-        lengths.set(v, Number.NEGATIVE_INFINITY)
         continue
       }
 
-      const max = schwartzMax(arc => lengths.get(arc.dest) + arc.weight, arcs)
+      const max = schwartzMax(arc => lengths.get(arc.dest) + arc.weight, arcs, false)
       ancestors.set(max.dest, v)
       lengths.set(v, lengths.get(max.dest) + max.weight)
-
-      if (v === start) {
-        break
-      }
     }
 
     const subgraph = new Graph()

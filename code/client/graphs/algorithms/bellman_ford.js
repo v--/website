@@ -19,7 +19,7 @@ export const bellmanFord = Object.freeze({
     const lengths = new Map()
     lengths.set(start, 0)
 
-    for (let i = 0; i < graph.order; i++) {
+    for (let i = 1; i < graph.order; i++) {
       for (const arc of graph.iterAllArcs()) {
         if (!lengths.has(arc.src)) {
           continue

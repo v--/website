@@ -133,11 +133,11 @@ export function schwartzSort (transform, iter) {
   return array.sort((a, b) => values.get(a) - values.get(b))
 }
 
-export function schwartzMax (transform, iterable) {
-  return schwartzMin(x => -transform(x), iterable)
+export function schwartzMax (transform, iterable, strict = true) {
+  return schwartzMin(x => -transform(x), iterable, strict)
 }
 
-export function schwartzMin (transform, iterable) {
+export function schwartzMin (transform, iterable, strict = true) {
   const iter = iterable[Symbol.iterator]()
   let { value: x, done } = iter.next()
 
@@ -151,7 +151,7 @@ export function schwartzMin (transform, iterable) {
   for (; !done; { value: x, done } = iter.next()) {
     const value = transform(x)
 
-    if (value < minValue) {
+    if (strict ? value < minValue : value <= minValue) {
       minX = x
       minValue = value
     }

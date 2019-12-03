@@ -20,25 +20,23 @@ export const topologicalShortestPath = Object.freeze({
     const ancestors = new Map()
     const lengths = new Map()
 
-    for (const v of topologicalOrder(graph)) {
-      if (v === start) {
-        lengths.set(v, 0)
-        continue
-      }
+    const order = topologicalOrder(graph)
+    const chain = order.slice(
+      order.indexOf(start) + 1
+    )
 
-      const arcs = graph.getIncomingArcs(v)
+    lengths.set(start, 0)
+
+    for (const v of chain) {
+      const arcs = graph.getIncomingArcs(v).filter(arc => lengths.has(arc.src))
 
       if (arcs.length === 0) {
-        lengths.set(v, Number.POSITIVE_INFINITY)
         continue
       }
 
-      const min = schwartzMin(arc => lengths.get(arc.src) + arc.weight, arcs)
+      const min = schwartzMin(arc => lengths.get(arc.src) + arc.weight, arcs, false)
       lengths.set(v, lengths.get(min.src) + min.weight)
-
-      if (Number.isFinite(lengths.get(min.src))) {
-        ancestors.set(v, min.src)
-      }
+      ancestors.set(v, min.src)
     }
 
     return new AlgorithmResult({
