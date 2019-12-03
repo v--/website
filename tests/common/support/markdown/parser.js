@@ -363,7 +363,7 @@ describe('parseMarkdown()', function () {
 
   describe('for headings', function () {
     it('handles h1', function () {
-      const string = `#Heading\n`
+      const string = '#Heading\n'
       assert.deepEqual(
         parseMarkdown(string),
         {

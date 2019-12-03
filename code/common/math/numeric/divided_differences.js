@@ -20,7 +20,7 @@ export function dividedDifferences (f, points) {
       const last = points[n - 1]
 
       if (first === last) {
-        throw new DuplicatePointsError(`Computing the divided differences of repeated points is not supported.`)
+        throw new DuplicatePointsError('Computing the divided differences of repeated points is not supported.')
       }
 
       const forward = dividedDifferences(f, points.slice(1))
