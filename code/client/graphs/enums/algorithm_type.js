@@ -4,5 +4,6 @@ export const AlgorithmType = enumerate(
   'ARBORESCENCE',
   'MIN_SPANNING_TREE',
   'SHORTEST_PATH_TREE',
-  'LONGEST_PATH'
+  'LONGEST_PATH',
+  'MAXIMUM_FLOW'
 )

@@ -15,6 +15,8 @@ import { topologicalShortestPath } from './algorithms/topological_shortest_path.
 
 import { postorderLongestPath } from './algorithms/postorder_longest_path.js'
 
+import { fordFulkerson } from './algorithms/ford_fulkerson.js'
+
 export const algorithms = Object.freeze([
   {
     type: AlgorithmType.ARBORESCENCE,
@@ -52,6 +54,14 @@ export const algorithms = Object.freeze([
     label: 'Longest paths',
     algorithms: [
       postorderLongestPath
+    ]
+  },
+
+  {
+    type: AlgorithmType.MAXIMUM_FLOW,
+    label: 'Maximum flows',
+    algorithms: [
+      fordFulkerson
     ]
   }
 ])

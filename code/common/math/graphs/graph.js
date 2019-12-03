@@ -1,4 +1,4 @@
-import { map, chain, range, sort } from '../../support/iteration.js'
+import { map, range, sort } from '../../support/iteration.js'
 import { MathError } from '../errors.js'
 
 export class GraphError extends MathError {}
@@ -37,7 +37,7 @@ export class GraphVertexData {
 }
 
 export class GraphArc {
-  constructor ({ src, dest, label = null, weight = 1 } = {}) {
+  constructor ({ src, dest, weight = 1 } = {}) {
     if (src === dest) {
       throw new GraphError('The graph cannot contain loops')
     }
@@ -45,7 +45,6 @@ export class GraphArc {
     this.src = src
     this.dest = dest
     this.weight = weight
-    this.label = label
   }
 
   clone () {
@@ -54,6 +53,16 @@ export class GraphArc {
 }
 
 export class Graph {
+  static fromArcs (arcs) {
+    const graph = new this()
+
+    for (const arc of arcs) {
+      graph.addArc(arc)
+    }
+
+    return graph
+  }
+
   static fromArcData (arcs) {
     const graph = new this()
 
@@ -64,7 +73,7 @@ export class Graph {
     return graph
   }
 
-  static empty (order) {
+  static empty (order = 0) {
     return new Graph({
       incidence: new Map(map(vertex => [vertex, new GraphVertexData({ vertex })], range(order)))
     })
@@ -89,12 +98,6 @@ export class Graph {
 
     if (!this._incidence.has(arc.dest)) {
       this._incidence.set(arc.dest, new GraphVertexData({ vertex: arc.dest }))
-    }
-
-    const transposedArc = this.getArc(arc.dest, arc.src)
-
-    if (transposedArc !== null && arc.weight !== transposedArc.weight) {
-      throw new GraphError('Cannot have different weights for the same edge')
     }
 
     this._incidence.get(arc.src).addArc(arc)
@@ -159,11 +162,17 @@ export class Graph {
   }
 
   getSymmetricClosure () {
-    const arcs = chain(
-      this.iterAllArcs(),
-      map(arc => ({ src: arc.dest, dest: arc.src, weight: arc.weight }), this.iterAllArcs())
-    )
+    const closure = new this.constructor()
 
-    return this.constructor.fromArcData(arcs)
+    for (const arc of this.iterAllArcs()) {
+      closure.addArc(arc)
+      const rev = this.getArc(arc.dest, arc.src)
+
+      if (rev === null) {
+        closure.addArc(new GraphArc({ src: arc.dest, dest: arc.src, weight: arc.weight }))
+      }
+    }
+
+    return closure
   }
 }

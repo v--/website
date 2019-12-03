@@ -14,7 +14,7 @@ function stringifyDatum (datum) {
   }, datum)
 }
 
-export function graphDetails ({ hoveredVertex, hoveredArc, result }) {
+function hoveredDetails ({ hoveredVertex, hoveredArc, result }) {
   if (hoveredVertex !== null) {
     const datum = result.vertexData.get(hoveredVertex) || null
     let name = String(hoveredVertex)
@@ -27,7 +27,7 @@ export function graphDetails ({ hoveredVertex, hoveredArc, result }) {
       name += ' (end)'
     }
 
-    return c('div', { class: 'graph-details' },
+    return c('div', { class: 'graph-hovered-details' },
       c('div', { class: 'card' },
         c('div', { class: 'card-title', text: 'Vertex' }),
         c('div', { class: 'card-body', text: name })
@@ -40,7 +40,7 @@ export function graphDetails ({ hoveredVertex, hoveredArc, result }) {
   if (hoveredArc !== null) {
     const datum = result.arcData.get(hoveredArc) || null
 
-    return c('div', { class: 'graph-details' },
+    return c('div', { class: 'graph-hovered-details' },
       c('div', { class: 'card' },
         c('div', { class: 'card-title', text: 'Arc' }),
         c('div', { class: 'card-body', text: `(${hoveredArc.src}, ${hoveredArc.dest})` })
@@ -50,7 +50,15 @@ export function graphDetails ({ hoveredVertex, hoveredArc, result }) {
     )
   }
 
-  return c('div', { class: 'graph-details' },
+  return c('div', { class: 'graph-hovered-details' },
     c('p', { text: 'Hover over any vertex or arc to show associated information.' })
+  )
+}
+
+export function graphDetails ({ hoveredVertex, hoveredArc, result }) {
+  return c('div', { class: 'graph-details' },
+    ...stringifyDatum(result.summary),
+    result.summary.length > 0 && c('hr', { class: 'graph-details-ruler' }),
+    c(hoveredDetails, { hoveredVertex, hoveredArc, result })
   )
 }
