@@ -1,0 +1,32 @@
+@import "../colors.scss";
+
+@import "./components/graph_details.scss";
+@import "./components/graph_canvas.scss";
+@import "./components/algorithm_dropdown.scss";
+
+.playground-graphs-page {
+  height: 100%;
+
+  .graphs-subtitle {
+    margin-bottom: 1.5em;
+  }
+
+  .graphs-error {
+    color: $color-danger;
+  }
+
+  .graph-split-container {
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+
+    .graph-canvas {
+      flex-basis: 70%;
+      flex-shrink: 0;
+    }
+
+    .graph-details {
+      padding-left: 1em;
+    }
+  }
+}

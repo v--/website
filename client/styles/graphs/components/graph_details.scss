@@ -1,0 +1,21 @@
+@import "../../colors.scss";
+
+.graph-details {
+  box-sizing: border-box;
+  width: 150px;
+
+  .graph-details-ruler {
+    border: 0;
+    border-top: 1px solid $color-light;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1em;
+
+    .card-title {
+      font-weight: bold;
+    }
+  }
+}

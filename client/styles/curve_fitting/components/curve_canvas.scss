@@ -1,0 +1,49 @@
+@import "../../colors.scss";
+
+.curve-canvas {
+  background-color: $color-midground;
+
+  .point-grid {
+    .grid-point {
+      fill: $color-light;
+    }
+  }
+
+  .hover-grid {
+    .grid-square {
+      fill: transparent;
+      opacity: 0.75;
+      user-select: none;
+
+      &:hover {
+        fill: $color-accent;
+      }
+    }
+  }
+
+  .active-points {
+    pointer-events: none;
+
+    .grid-point {
+      fill: $color-accent;
+    }
+  }
+
+  .curve {
+    fill: none;
+    pointer-events: none;
+    stroke-width: 0.1;
+
+    @for $i from 1 through length($palette-chalk) {
+      &.curve-#{$i} {
+        stroke: nth($palette-chalk, $i);
+      }
+    }
+  }
+
+  .legend {
+    .legend-background {
+      fill: $color-dark;
+    }
+  }
+}

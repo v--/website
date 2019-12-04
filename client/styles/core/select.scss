@@ -1,0 +1,14 @@
+@import "../time.scss";
+@import "../sizes.scss";
+@import "../colors.scss";
+
+.cool-select {
+  width: 100%;
+  padding: 0.25em;
+  border: $border-width solid $color-dark;
+  background-color: transparent;
+
+  optgroup {
+    font-weight: bold;
+  }
+}
