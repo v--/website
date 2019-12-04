@@ -1,29 +1,26 @@
-SOURCE = $(shell find code client tests benchmarks build gulpfile.cjs -name '*.js' -o -name '*.js')
+SOURCE = $(shell find code client tests benchmarks build gulpfile.esm.js -name '*.js')
 
 TESTS = $(shell find tests -name '*.js' ! -name '_*.js')
 BENCHMARKS = $(shell find benchmarks -name '*.js' ! -name '_*.js')
 
-.PHONY: build server test $(TESTS) $(BENCHMARKS)
+.PHONY: build server test $(TESTS) $(BENCHMARKS) tests/_observables.js
 
 test ?= $(shell find tests -name '*.js' ! -name '_*.js')
 
 $(BENCHMARKS):
-	@node $@
+	@node --require esm $@
 
 lint:
 	@eslint $(SOURCE)
 
 tests/_observables.js:
-	@node $@
+	@node --require esm $@
 
 $(TESTS):
-	@mocha --require esm $@
+	@npx mocha --require esm $@
 
 test:
-	@mocha --require esm $(TESTS)
+	@npx mocha --require esm $(TESTS)
 
 build: lint test tests/_observables.js
-	@env NODE_ENV=production gulp --gulpfile gulpfile.cjs client:build
-
-server:
-	@gulp --gulpfile gulpfile.cjs
+	@env NODE_ENV=production gulp client:build
