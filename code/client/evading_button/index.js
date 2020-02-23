@@ -4,7 +4,7 @@ import { Vector } from '../../common/math/geom2d/vector.js'
 import { Rectangle } from '../../common/math/geom2d/rectangle.js'
 import { throttleObservable } from '../../common/observables/throttle.js'
 
-import { cursor$ } from '../core/shared_observables.js'
+import { cursor$, windowSize$ } from '../core/shared_observables.js'
 import { dispatcher } from '../core/render_dispatcher.js'
 import { EventLoop } from '../core/support/event_loop.js'
 import { getBoundingBox, getDimensions } from '../core/support/dom_properties.js'
@@ -39,26 +39,34 @@ export function index () {
 
 {
   let cursorSubscription = null
+  let windowSizeSubscription = null
+
+  function initialize (node) {
+    const canvas = getBoundingBox(node.element)
+    const buttonDims = getDimensions(node.element.firstChild)
+    const button = new Rectangle({
+      origin: canvas.center.sub(buttonDims.scale(0.5)),
+      dims: buttonDims
+    })
+
+    subject.update({ canvas, button })
+    eventLoop.start()
+  }
 
   dispatcher.events.create.subscribe({
     next (node) {
       if (node.component.type === evadingButtonCanvas) {
-        const cursorObservable = throttleObservable(cursor$, UPDATE_INTERVAL)
-        cursorSubscription = cursorObservable.subscribe(function (pos) {
+        cursorSubscription = throttleObservable(cursor$, UPDATE_INTERVAL).subscribe(function (pos) {
           cursorition.x = pos.x
           cursorition.y = pos.y
         })
 
-        window.requestAnimationFrame(function () {
-          const canvas = getBoundingBox(node.element)
-          const buttonDims = getDimensions(node.element.firstChild)
-          const button = new Rectangle({
-            origin: canvas.center.sub(buttonDims.scale(0.5)),
-            dims: buttonDims
-          })
+        windowSizeSubscription = throttleObservable(windowSize$, UPDATE_INTERVAL).subscribe(function () {
+          initialize(node)
+        })
 
-          subject.update({ canvas, button })
-          eventLoop.start()
+        window.requestAnimationFrame(function () {
+          initialize(node)
         })
       }
     }
@@ -75,6 +83,10 @@ export function index () {
 
         if (cursorSubscription !== null) {
           cursorSubscription.unsubscribe()
+        }
+
+        if (windowSizeSubscription !== null) {
+          windowSizeSubscription.unsubscribe()
         }
       }
     }
