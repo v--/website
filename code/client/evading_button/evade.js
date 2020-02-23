@@ -7,7 +7,7 @@ const ZERO_VECTOR = new Vector({ x: 0, y: 0 })
 const UNSAFE_DISTANCE = 100
 const SPEED = 30
 
-function evadeImpl (canvas, button, mousePosition) {
+function evadeImpl (canvas, button, cursor) {
   const projections = [
     new Vector({ x: button.center.x, y: canvas.origin.y }),
     new Vector({ x: button.center.x, y: canvas.origin.y + canvas.dims.y }),
@@ -17,7 +17,7 @@ function evadeImpl (canvas, button, mousePosition) {
 
   const nearestProjection = schwartzMin(x => x.distanceTo(button.center), projections)
   const canvasForce = button.center.sub(nearestProjection)
-  const mouseForce = button.center.sub(mousePosition)
+  const mouseForce = button.center.sub(cursor)
 
   if (mouseForce.getNorm() >= UNSAFE_DISTANCE) {
     return ZERO_VECTOR
@@ -30,14 +30,14 @@ function evadeImpl (canvas, button, mousePosition) {
   return mouseForce.scaleToNormed()
 }
 
-export function evade (subject, mousePosition) {
+export function evade (subject, cursor) {
   const { button, canvas } = subject.value
 
   if (canvas === null) {
     return
   }
 
-  const direction = evadeImpl(canvas, button, mousePosition)
+  const direction = evadeImpl(canvas, button, cursor)
 
   subject.update({
     button: new Rectangle({

@@ -4,8 +4,8 @@ import { Vector } from '../../common/math/geom2d/vector.js'
 import { Rectangle } from '../../common/math/geom2d/rectangle.js'
 import { throttleObservable } from '../../common/observables/throttle.js'
 
+import { cursor$ } from '../core/shared_observables.js'
 import { dispatcher } from '../core/render_dispatcher.js'
-import { createMousePositionObservable } from '../core/support/dom_observables.js'
 import { EventLoop } from '../core/support/event_loop.js'
 import { getBoundingBox, getDimensions } from '../core/support/dom_properties.js'
 
@@ -13,7 +13,7 @@ import { evadingButtonCanvas } from './components/evading_button_canvas.js'
 import { evade } from './evade.js'
 
 const UPDATE_INTERVAL = 50
-const mousePosition = new Vector({ x: 0, y: 0 })
+const cursorition = new Vector({ x: 0, y: 0 })
 
 const subject = new DictSubject({
   button: null,
@@ -24,7 +24,7 @@ let eventLoop = null
 
 export function index () {
   const eventLoopListeners = new Map([
-    [evade.bind(null, subject, mousePosition), UPDATE_INTERVAL]
+    [evade.bind(null, subject, cursorition), UPDATE_INTERVAL]
   ])
 
   eventLoop = new EventLoop(eventLoopListeners)
@@ -38,15 +38,15 @@ export function index () {
 }
 
 {
-  let mousePosSubscription = null
+  let cursorSubscription = null
 
   dispatcher.events.create.subscribe({
     next (node) {
       if (node.component.type === evadingButtonCanvas) {
-        const mousePosObservable = throttleObservable(createMousePositionObservable(), UPDATE_INTERVAL)
-        mousePosSubscription = mousePosObservable.subscribe(function (pos) {
-          mousePosition.x = pos.x
-          mousePosition.y = pos.y
+        const cursorObservable = throttleObservable(cursor$, UPDATE_INTERVAL)
+        cursorSubscription = cursorObservable.subscribe(function (pos) {
+          cursorition.x = pos.x
+          cursorition.y = pos.y
         })
 
         window.requestAnimationFrame(function () {
@@ -73,8 +73,8 @@ export function index () {
           eventLoop.stop()
         }
 
-        if (mousePosSubscription !== null) {
-          mousePosSubscription.unsubscribe()
+        if (cursorSubscription !== null) {
+          cursorSubscription.unsubscribe()
         }
       }
     }

@@ -62,7 +62,7 @@ export function createKeyUpObservable () {
   return subject
 }
 
-export function createMousePositionObservable () {
+export function createCursorObservable () {
   const subject = new Subject()
 
   function onMouseMove (event) {

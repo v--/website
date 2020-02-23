@@ -2,9 +2,9 @@ import { c } from '../../common/rendering/component.js'
 import { DictSubject } from '../../common/observables/dict_subject.js'
 
 import { aspectRatioBox } from '../core/components/aspect_ratio_box.js'
-import { createKeyDownObservable, createKeyUpObservable } from '../core/support/dom_observables.js'
 import { dispatcher } from '../core/render_dispatcher.js'
 import { EventLoop } from '../core/support/event_loop.js'
+import { keyDown$, keyUp$ } from '../core/shared_observables.js'
 
 import { breakout } from './components/breakout.js'
 import { GameStatus } from './enums/game_status.js'
@@ -58,13 +58,11 @@ export function index () {
   dispatcher.events.create.subscribe({
     next (node) {
       if (node.component.type === breakout) {
-        const keyDownObservable = createKeyDownObservable()
-        keyDownSubscription = keyDownObservable.subscribe(function (key) {
+        keyDownSubscription = keyDown$.subscribe(function (key) {
           onKeyDown(node.component.stateSource, key)
         })
 
-        const keyUpObservable = createKeyUpObservable()
-        keyUpSubscription = keyUpObservable.subscribe(function (key) {
+        keyUpSubscription = keyUp$.subscribe(function (key) {
           onKeyUp(node.component.stateSource, key)
         })
       }
