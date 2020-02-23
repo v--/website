@@ -1,9 +1,15 @@
+@import "../../sizes.scss";
+
 .evading-button-canvas {
+  min-width: $main-base-width;
+  min-height: $main-base-width;
+
   height: 100%;
   position: relative;
 
   .evading-button {
     position: absolute;
+    transform: translate(-50%, -50%);
     transition: 0;
   }
 }

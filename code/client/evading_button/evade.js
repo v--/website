@@ -1,48 +1,59 @@
 import { schwartzMin } from '../../common/support/iteration.js'
 
 import { Vector } from '../../common/math/geom2d/vector.js'
-import { Rectangle } from '../../common/math/geom2d/rectangle.js'
 
-const ZERO_VECTOR = new Vector({ x: 0, y: 0 })
+import { getBoundingBox, getDimensions } from '../core/support/dom_properties.js'
+
 const UNSAFE_DISTANCE = 100
-const SPEED = 30
+const CANVAS_FORCE_RATIO = 3
+const SPEED = 40
 
-function evadeImpl (canvas, button, cursor) {
+function getEvationDirection (canvas, buttonCenter, cursor) {
   const projections = [
-    new Vector({ x: button.center.x, y: canvas.origin.y }),
-    new Vector({ x: button.center.x, y: canvas.origin.y + canvas.dims.y }),
-    new Vector({ x: canvas.origin.x, y: button.center.y }),
-    new Vector({ x: canvas.origin.x + canvas.dims.x, y: button.center.y })
+    new Vector({ x: buttonCenter.x, y: canvas.origin.y }),
+    new Vector({ x: buttonCenter.x, y: canvas.origin.y + canvas.dims.y }),
+    new Vector({ x: canvas.origin.x, y: buttonCenter.y }),
+    new Vector({ x: canvas.origin.x + canvas.dims.x, y: buttonCenter.y })
   ]
 
-  const nearestProjection = schwartzMin(x => x.distanceTo(button.center), projections)
-  const canvasForce = button.center.sub(nearestProjection)
-  const mouseForce = button.center.sub(cursor)
+  const nearestProjection = schwartzMin(x => x.distanceTo(buttonCenter), projections)
+  const canvasForce = buttonCenter.sub(nearestProjection)
+  const mouseForce = buttonCenter.sub(cursor)
 
   if (mouseForce.getNorm() >= UNSAFE_DISTANCE) {
-    return ZERO_VECTOR
+    return null
   }
 
   if (canvasForce.getNorm() < UNSAFE_DISTANCE) {
-    return canvasForce.scaleToNormed().scale(3)
+    return canvasForce.scaleToNormed().scale(CANVAS_FORCE_RATIO)
   }
 
   return mouseForce.scaleToNormed()
 }
 
-export function evade (subject, cursor) {
-  const { button, canvas } = subject.value
-
-  if (canvas === null) {
+export function evade (sharedState, subject) {
+  if (sharedState === null) {
     return
   }
 
-  const direction = evadeImpl(canvas, button, cursor)
+  const { cursor, canvasElement } = sharedState
+  const { buttonOrigin } = subject.value
 
-  subject.update({
-    button: new Rectangle({
-      origin: button.origin.add(direction.scale(SPEED)),
-      dims: button.dims
-    })
+  const canvas = getBoundingBox(canvasElement)
+  const buttonDims = getDimensions(canvasElement.firstChild)
+  const buttonCenter = new Vector({
+    x: canvas.origin.x + buttonOrigin.x * canvas.dims.x - buttonDims.x / 2,
+    y: canvas.origin.y + buttonOrigin.y * canvas.dims.y - buttonDims.y / 2
   })
+
+  const direction = getEvationDirection(canvas, buttonCenter, cursor)
+
+  if (direction !== null) {
+    subject.update({
+      buttonOrigin: new Vector({
+        x: buttonOrigin.x + direction.x * SPEED / canvas.dims.x,
+        y: buttonOrigin.y + direction.y * SPEED / canvas.dims.y
+      })
+    })
+  }
 }
