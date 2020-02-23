@@ -1,0 +1,9 @@
+.evading-button-canvas {
+  height: 100%;
+  position: relative;
+
+  .evading-button {
+    position: absolute;
+    transition: 0;
+  }
+}

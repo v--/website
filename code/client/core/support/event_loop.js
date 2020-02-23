@@ -1,4 +1,4 @@
-import { createIntervalObservable } from '../core/support/timeout.js'
+import { createIntervalObservable } from './timeout.js'
 
 export class EventLoop {
   constructor (listenerMap) {

@@ -1,0 +1,9 @@
+@import "../colors.scss";
+
+@import "./components/evading_button_canvas.scss";
+
+.playground-evading-button-page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}

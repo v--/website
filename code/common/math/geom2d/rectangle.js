@@ -11,6 +11,8 @@ export class Rectangle {
       new Line({ a: -1, b: 0, c: this.origin.x }),
       new Line({ a: -1, b: 0, c: this.origin.x + this.dims.x })
     ]
+
+    this.center = this.origin.add(this.dims.scale(0.5))
   }
 
   containsPoint (point) {

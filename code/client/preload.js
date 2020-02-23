@@ -13,7 +13,7 @@ window.PLAYGROUND_COMPATIBILITY = {
   resolution: availableFeatures.modules,
   breakout: availableFeatures.modules,
   graphs: availableFeatures.modules,
-  running_button: availableFeatures.modules
+  evading_button: availableFeatures.modules
 }
 
 // Now do some hackish DOM initialization to avoid "flashing" when to main code kicks in

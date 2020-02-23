@@ -1,3 +1,3 @@
-import { createWindowSizeObservable } from './support/dom.js'
+import { createWindowSizeObservable } from './support/dom_observables.js'
 
 export const windowSize$ = createWindowSizeObservable()
