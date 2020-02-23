@@ -4,28 +4,28 @@ import { Vector } from '../../../common/math/geom2d/vector.js'
 import { Line } from '../../../common/math/geom2d/line.js'
 
 export class Reflection {
-  constructor (ball, figure) {
+  constructor ({ ball, figure }) {
     this.ball = ball
     this.figure = figure
   }
 }
 
 export class GameBall {
-  constructor (center, direction, radius) {
+  constructor ({ center, direction, radius }) {
     this.center = center
     this.direction = direction
     this.radius = radius
   }
 
   translate (amount) {
-    return new this.constructor(
-      new Vector(
-        this.center.x + amount * this.direction.x,
-        this.center.y + amount * this.direction.y
-      ),
-      this.direction,
-      this.radius
-    )
+    return new this.constructor({
+      center: new Vector({
+        x: this.center.x + amount * this.direction.x,
+        y: this.center.y + amount * this.direction.y
+      }),
+      direction: this.direction,
+      radius: this.radius
+    })
   }
 
   findClosestReflection (reflectionsIterable) {
@@ -43,10 +43,10 @@ export class GameBall {
   * _iterCornerDirections () {
     const d = this.direction
     yield d
-    yield new Vector(d.y, -d.x)
-    yield new Vector(-d.y, d.x)
-    yield new Vector(d.y + d.x, d.y - d.x).scaleToNormed()
-    yield new Vector(d.x - d.y, d.x + d.y).scaleToNormed()
+    yield new Vector({ x: d.y, y: -d.x })
+    yield new Vector({ x: -d.y, y: d.x })
+    yield new Vector({ x: d.y + d.x, y: d.y - d.x }).scaleToNormed()
+    yield new Vector({ x: d.x - d.y, y: d.x + d.y }).scaleToNormed()
   }
 
   * _iterCorners () {
@@ -56,10 +56,10 @@ export class GameBall {
   }
 
   * _iterReflectionsInRect (rect) {
-    for (const wall of rect.walls) {
+    for (const edge of rect.edges) {
       for (const corner of this._iterCorners()) {
         const motionLine = Line.fromPointAndVector(corner, this.direction)
-        const motionInt = wall.intersectWith(motionLine)
+        const motionInt = edge.intersectWith(motionLine)
 
         if (motionInt === null) {
           continue
@@ -72,12 +72,12 @@ export class GameBall {
         }
 
         const reflectedCenter = motionDirection.add(this.center)
-        const reflectedDirection = wall.reflectDirection(corner, this.direction)
+        const reflectedDirection = edge.reflectDirection(corner, this.direction)
 
-        yield new Reflection(
-          new GameBall(reflectedCenter, reflectedDirection, this.radius),
-          rect
-        )
+        yield new Reflection({
+          ball: new GameBall({ center: reflectedCenter, direction: reflectedDirection, radius: this.radius }),
+          figure: rect
+        })
       }
     }
   }
@@ -104,10 +104,10 @@ export class GameBall {
       const reflectedCenter = motionInt.sub(corner.sub(this.center))
       const reflectedDirection = tangent.reflectDirection(corner, this.direction)
 
-      yield new Reflection(
-        new GameBall(reflectedCenter, reflectedDirection, this.radius),
-        ellipse
-      )
+      yield new Reflection({
+        ball: new GameBall({ center: reflectedCenter, direction: reflectedDirection, radius: this.radius }),
+        figure: ellipse
+      })
     }
   }
 
@@ -122,6 +122,6 @@ export class GameBall {
       return null
     }
 
-    return new Reflection(reflection.ball, brick)
+    return new Reflection({ ball: reflection.ball, figure: brick })
   }
 }

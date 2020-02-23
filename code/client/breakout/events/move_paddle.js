@@ -17,10 +17,10 @@ export function movePaddle (subject) {
     return
   }
 
-  const edge = paddleDirection * (stage.size.x / 2 - paddle.axes.x)
+  const edge = paddleDirection * (stage.dims.x / 2 - paddle.axes.x)
 
   const newX = (paddleDirection < 0 && candidateX >= edge) || (paddleDirection > 0 && candidateX <= edge) ? candidateX : edge
-  const newPaddle = new Ellipse(new Vector(newX, paddle.center.y), paddle.axes)
+  const newPaddle = new Ellipse({ center: new Vector({ x: newX, y: paddle.center.y }), axes: paddle.axes })
 
   subject.update({ paddle: newPaddle })
 }

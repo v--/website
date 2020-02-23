@@ -13,7 +13,7 @@ export function evolve (subject) {
   let newBricks = null
 
   if (evolveBrickItself) {
-    const newBrick = selectedBrick.evolve()
+    const newBrick = selectedBrick.getEvolved()
 
     if (newBrick !== null) {
       newBricks = changeBrick(bricks, selectedBrick, newBrick)
@@ -33,7 +33,7 @@ export function evolve (subject) {
     const existingBrick = existingIndex > -1 ? bricks[existingIndex] : null
 
     if (existingBrick) {
-      const newBrick = selectedBrick.evolve()
+      const newBrick = selectedBrick.getEvolved()
 
       if (newBrick !== null) {
         newBricks = changeBrick(bricks, selectedBrick, newBrick)

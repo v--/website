@@ -9,31 +9,31 @@ export const DEFAULT_GAME_STATE = {
   score: 0,
 
   paddleDirection: 0,
-  paddle: new Ellipse(
-    new Vector(0, 15),
-    new Vector(2, 0.5)
-  ),
+  paddle: new Ellipse({
+    center: new Vector({ x: 0, y: 15 }),
+    axes: new Vector({ x: 2, y: 0.5 })
+  }),
 
-  stage: new Rectangle(
-    new Vector(-10, 0),
-    new Vector(20, 15)
-  ),
+  stage: new Rectangle({
+    origin: new Vector({ x: -10, y: 0 }),
+    dims: new Vector({ x: 20, y: 15 })
+  }),
 
-  ball: new GameBall(
-    new Vector(0, 5),
-    new Vector(0, 1),
-    0.3
-  ),
+  ball: new GameBall({
+    center: new Vector({ x: 0, y: 5 }),
+    direction: new Vector({ x: 0, y: 1 }),
+    radius: 0.3
+  }),
 
   bricks: [
-    new GameBrick(
-      new Vector(-7, 3),
-      1
-    ),
+    new GameBrick({
+      origin: new Vector({ x: -7, y: 3 }),
+      power: 1
+    }),
 
-    new GameBrick(
-      new Vector(6, 3),
-      1
-    )
+    new GameBrick({
+      origin: new Vector({ x: 6, y: 3 }),
+      power: 1
+    })
   ]
 }

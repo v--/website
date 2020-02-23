@@ -50,6 +50,15 @@ export function playground () {
             link: 'playground/graphs',
             isInternal: true
           })
+        ),
+
+        c('li', null,
+          c(link, {
+            class: 'playground-link',
+            text: 'A running button',
+            link: 'playground/running_button',
+            isInternal: true
+          })
         )
       )
     )

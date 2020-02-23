@@ -32,7 +32,7 @@ export function moveBall (subject) {
   const { eventLoop, score, stage, paddle, ball, bricks } = subject.value
 
   let reflected = null
-  let nextReflected = new Reflection(ball, null)
+  let nextReflected = new Reflection({ ball, figure: null })
 
   let delta = null
   let nextDelta = MOVEMENT_DELTA
@@ -45,7 +45,7 @@ export function moveBall (subject) {
     reflected = nextReflected
 
     if (reflected.figure instanceof GameBrick) {
-      const newBrick = reflected.figure.hit()
+      const newBrick = reflected.figure.getHit()
       newBricks = newBrick === null ? removeBrick(newBricks, reflected.figure) : changeBrick(newBricks, reflected.figure, newBrick)
       newScore++
     }
@@ -69,7 +69,7 @@ export function moveBall (subject) {
       bricks: newBricks,
       ball: ball.translate(delta)
     })
-  } else if (isGreaterThan(reflected.ball.center.y + ball.radius, stage.size.y)) {
+  } else if (isGreaterThan(reflected.ball.center.y + ball.radius, stage.dims.y)) {
     eventLoop.stop()
     subject.update({
       status: GameStatus.GAME_OVER,

@@ -26,7 +26,7 @@ function getSplashMessage (status) {
 
 export function breakout ({ status, score, stage, paddle, ball, bricks }) {
   const splash = getSplashMessage(status)
-  const viewBox = [-stage.size.x / 2, 0, stage.size.x, stage.size.y].join(' ')
+  const viewBox = [-stage.dims.x / 2, 0, stage.dims.x, stage.dims.y].join(' ')
 
   return s(
     'svg',
@@ -50,9 +50,9 @@ export function breakout ({ status, score, stage, paddle, ball, bricks }) {
     s('text', { class: 'score', text: `Score: ${score}`, x: '-9.5', y: '1' }),
 
     splash !== null &&
-      s('text', { class: 'splash', text: getSplashMessage(status), y: String(stage.size.y / 2) }),
+      s('text', { class: 'splash', text: getSplashMessage(status), y: String(stage.dims.y / 2) }),
 
     splash !== null &&
-      s('text', { class: 'subsplash', text: 'Press Space Bar', y: String(stage.size.y / 2 + 2) })
+      s('text', { class: 'subsplash', text: 'Press Space Bar', y: String(stage.dims.y / 2 + 2) })
   )
 }

@@ -1,22 +1,22 @@
 import { Line } from './line.js'
 
 export class Rectangle {
-  constructor (origin, size) {
+  constructor ({ origin, dims }) {
     this.origin = origin
-    this.size = size
+    this.dims = dims
 
-    this.walls = [
-      new Line(0, -1, this.origin.y),
-      new Line(0, -1, this.origin.y + this.size.y),
-      new Line(-1, 0, this.origin.x),
-      new Line(-1, 0, this.origin.x + this.size.x)
+    this.edges = [
+      new Line({ a: 0, b: -1, c: this.origin.y }),
+      new Line({ a: 0, b: -1, c: this.origin.y + this.dims.y }),
+      new Line({ a: -1, b: 0, c: this.origin.x }),
+      new Line({ a: -1, b: 0, c: this.origin.x + this.dims.x })
     ]
   }
 
   containsPoint (point) {
     return point.x >= this.origin.x &&
-      point.x <= this.origin.x + this.size.x &&
+      point.x <= this.origin.x + this.dims.x &&
       point.y >= this.origin.y &&
-      point.y <= this.origin.y + this.size.y
+      point.y <= this.origin.y + this.dims.y
   }
 }

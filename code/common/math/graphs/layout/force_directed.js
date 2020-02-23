@@ -28,7 +28,7 @@ export function getForceDirectedLayout (graph) {
     const displacement = []
 
     for (const v of graph.iterAllVertices()) {
-      displacement[v] = new Vector(0, 0)
+      displacement[v] = new Vector({ x: 0, y: 0 })
 
       for (let u = 0; u < n; u++) {
         if (u === v) {

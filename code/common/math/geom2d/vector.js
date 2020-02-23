@@ -6,27 +6,27 @@ class ZeroVectorError extends VectorError {}
 
 export class Vector {
   static fromPolar (length, angle) {
-    return new this(
-      length * Math.cos(angle),
-      length * Math.sin(angle)
-    )
+    return new this({
+      x: length * Math.cos(angle),
+      y: length * Math.sin(angle)
+    })
   }
 
-  constructor (x, y) {
+  constructor ({ x, y }) {
     this.x = x
     this.y = y
   }
 
   add (other) {
-    return new Vector(this.x + other.x, this.y + other.y)
+    return new Vector({ x: this.x + other.x, y: this.y + other.y })
   }
 
   sub (other) {
-    return new Vector(this.x - other.x, this.y - other.y)
+    return new Vector({ x: this.x - other.x, y: this.y - other.y })
   }
 
   scale (amount) {
-    return new Vector(amount * this.x, amount * this.y)
+    return new Vector({ x: amount * this.x, y: amount * this.y })
   }
 
   scaleToNormed () {
@@ -54,9 +54,9 @@ export class Vector {
   }
 
   convexSum (other, coeff) {
-    return new Vector(
-      this.x * coeff + other.x * (1 - coeff),
-      this.y * coeff + other.y * (1 - coeff)
-    )
+    return new Vector({
+      x: this.x * coeff + other.x * (1 - coeff),
+      y: this.y * coeff + other.y * (1 - coeff)
+    })
   }
 }

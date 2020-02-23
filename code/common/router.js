@@ -80,6 +80,13 @@ async function routerImpl (path, store) {
               factory: 'graphs',
               sidebarID: SidebarId.PLAYGROUND
             }
+
+          case 'running_button':
+            return {
+              title: 'running button | playground',
+              factory: 'running_button',
+              sidebarID: SidebarId.PLAYGROUND
+            }
         }
       }
   }

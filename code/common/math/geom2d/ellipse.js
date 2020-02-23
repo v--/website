@@ -4,7 +4,7 @@ import { Vector } from './vector.js'
 import { Line } from './line.js'
 
 export class Ellipse {
-  constructor (center, axes) {
+  constructor ({ center, axes }) {
     this.center = center
     this.axes = axes
   }
@@ -13,7 +13,7 @@ export class Ellipse {
     const { center, axes } = this
 
     if (isSameNumber(line.a, 0)) {
-      return new Vector(center.x - axes.x, center.y)
+      return new Vector({ x: center.x - axes.x, y: center.y })
     }
 
     const a = (line.b / (line.a * axes.x)) ** 2 + 1 / (axes.y ** 2)
@@ -28,7 +28,7 @@ export class Ellipse {
 
     const y = (-b - Math.sqrt(d)) / (2 * a)
     const x = -(line.c + line.b * y) / line.a
-    return new Vector(x, y)
+    return new Vector({ x, y })
   }
 
   tangentAtLowerSemiellipse (point) {
@@ -39,6 +39,6 @@ export class Ellipse {
     }
 
     const deriv = axes.y / (axes.x ** 2) * (point.x - center.x) / Math.sqrt(1 - ((point.x - center.x) / axes.x) ** 2)
-    return new Line(deriv, -1, point.y - point.x * deriv)
+    return new Line({ a: deriv, b: -1, c: point.y - point.x * deriv })
   }
 }
