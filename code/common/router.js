@@ -83,7 +83,7 @@ async function routerImpl (path, store) {
 
           case 'evading_button':
             return {
-              title: 'running button | playground',
+              title: 'evading button | playground',
               factory: 'evading_button',
               sidebarID: SidebarId.PLAYGROUND
             }
