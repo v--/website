@@ -5,7 +5,7 @@ import { Vector } from '../../common/math/geom2d/vector.js'
 import { getBoundingBox, getDimensions } from '../core/support/dom_properties.js'
 
 const UNSAFE_DISTANCE = 100
-const CANVAS_FORCE_RATIO = 2
+const CANVAS_FORCE_RATIO = 1.5
 const SPEED = 50
 
 function getFleeingDirection (canvas, buttonCenter, cursor) {
