@@ -3,6 +3,7 @@ import { repr } from '../../common/support/strings.js'
 import { filter, flatten } from '../../common/support/iteration.js'
 import { aspectRatioBox } from '../core/components/aspect_ratio_box.js'
 import { DictSubject } from '../../common/observables/dict_subject.js'
+import { playgroundTitle } from '../../common/components/playground_title.js'
 
 import { graphCanvas } from './components/graph_canvas.js'
 import { graphDetails } from './components/graph_details.js'
@@ -81,7 +82,7 @@ export function index ({ path }) {
 
   return c('div', { class: 'page playground-graphs-page' },
     c('div', { class: 'section' },
-      c('h1', { class: 'section-title', text: 'Graph algorithm visualizations' }),
+      c(playgroundTitle, { text: 'Graph algorithm visualizations' }),
       c('p', { text: 'You can select algorithms from the dropdown or pick path endpoints by clicking or ctrl-clicking a vertex. Note that not all algorithms require path endpoints.' })
     ),
 

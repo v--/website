@@ -2,6 +2,7 @@ import { c } from '../../common/rendering/component.js'
 import { DictSubject } from '../../common/observables/dict_subject.js'
 import { Vector } from '../../common/math/geom2d/vector.js'
 import { throttleObservable } from '../../common/observables/throttle.js'
+import { playgroundTitle } from '../../common/components/playground_title.js'
 
 import { cursor$ } from '../core/shared_observables.js'
 import { dispatcher } from '../core/render_dispatcher.js'
@@ -25,7 +26,7 @@ const eventLoop = new EventLoop(new Map([
 export function index () {
   return c('div', { class: 'page playground-evading-button-page' },
     c('div', { class: 'section' },
-      c('h1', { class: 'section-title', text: 'An evading button' })
+      c(playgroundTitle, { text: 'An evading button' })
     ),
     c(evadingButtonCanvas, subject)
   )

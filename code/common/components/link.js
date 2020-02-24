@@ -23,6 +23,10 @@ export function link (state, children) {
     childState.text = state.link
   }
 
+  if ('title' in state) {
+    childState.title = state.title
+  }
+
   childState.class = classlist('link', state.class)
   return c('a', childState, ...children)
 }

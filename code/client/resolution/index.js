@@ -3,6 +3,7 @@ import { form } from '../../common/components/form.js'
 import { QueryConfig } from '../../common/support/query_config.js'
 import { location$ } from '../../common/shared_observables.js'
 import { CoolError } from '../../common/errors.js'
+import { playgroundTitle } from '../../common/components/playground_title.js'
 
 import { ExpressionType } from './enums/expression_type.js'
 import { stringifyExpression, stringifyDisjunct, stringifyResolvent } from './support/stringify.js'
@@ -114,7 +115,7 @@ export function index ({ path }) {
 
   return c('div', { class: 'page playground-resolution-page' },
     c('div', { class: 'section' },
-      c('h1', { class: 'section-title', text: 'First-order logic resolution engine' }),
+      c(playgroundTitle, { text: 'First-order logic resolution engine' }),
       c('p', { text: 'Resolution is a purely syntactic method for proving theorems. It relies on a series of formula transformation that are briefly described below.' }),
       c('p', { text: 'Zero-arity functions are treated as constants and free variables are treated the same as universally quantified variables.' }),
       c('p', { text: 'The raw input syntax is as follows: "A" and "E" are the two quantifiers, "&", "v", "->" and "<->" are the logical connectives and "!" negates formulas. Variables are named x, y, z; functions are named f, g, h; predicates are named p, q, r. All names are allowed to have arbitrary numeric suffixes. Parentheses are mandatory around connectives and illegal elsewhere, except for the parentheses that are parts of function/predicate definitions.' }),
