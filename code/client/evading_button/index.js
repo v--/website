@@ -55,6 +55,9 @@ export function index () {
     next (node) {
       if (node.component.type === evadingButtonCanvas) {
         sharedState = null
+        subject.update({
+          buttonOrigin: new Vector({ x: 0.5, y: 0.5 })
+        })
 
         if (eventLoop !== null) {
           eventLoop.stop()

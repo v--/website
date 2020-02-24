@@ -6,7 +6,7 @@ import { getBoundingBox, getDimensions } from '../core/support/dom_properties.js
 
 const UNSAFE_DISTANCE = 100
 const CANVAS_FORCE_RATIO = 3
-const SPEED = 40
+const SPEED = 50
 
 function getEvationDirection (canvas, buttonCenter, cursor) {
   const projections = [
