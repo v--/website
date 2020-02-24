@@ -20,10 +20,10 @@ export function evolve (subject) {
     }
   } else {
     const angle = Math.random() * Math.PI
-    const origin = new Vector(
-      selectedBrick.origin.x + Math.round(Math.cos(angle)),
-      selectedBrick.origin.y + Math.round(Math.sin(angle))
-    )
+    const origin = new Vector({
+      x: selectedBrick.origin.x + Math.round(Math.cos(angle)),
+      y: selectedBrick.origin.y + Math.round(Math.sin(angle))
+    })
 
     if (!stage.containsPoint(origin) || origin.distanceTo(ball.center) < NEW_BRICK_SAFETY_DISTANCE) {
       return
@@ -39,7 +39,7 @@ export function evolve (subject) {
         newBricks = changeBrick(bricks, selectedBrick, newBrick)
       }
     } else {
-      const newBrick = new GameBrick(origin, 1)
+      const newBrick = new GameBrick({ origin, power: 1 })
       newBricks = addBrick(bricks, newBrick)
     }
   }
