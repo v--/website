@@ -1,12 +1,7 @@
 @import "../../colors.scss";
 
 .playground-title {
-  display: flex;
-  align-items: center;
-
   .link {
-    display: flex;
-
     .icon {
       background-color: $color-foreground;
       fill: $color-background;
