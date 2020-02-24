@@ -55,8 +55,8 @@ export function playground () {
         c('li', null,
           c(link, {
             class: 'playground-link',
-            text: 'An evading button',
-            link: 'playground/evading_button',
+            text: 'A fleeing button',
+            link: 'playground/fleeing_button',
             isInternal: true
           })
         )

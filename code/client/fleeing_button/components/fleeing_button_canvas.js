@@ -1,10 +1,10 @@
 import { c } from '../../../common/rendering/component.js'
 import { styles } from '../../../common/support/dom_properties.js'
 
-export function evadingButtonCanvas ({ buttonOrigin }) {
-  return c('div', { class: 'evading-button-canvas' },
+export function fleeingButtonCanvas ({ buttonOrigin }) {
+  return c('div', { class: 'fleeing-button-canvas' },
     c('button', {
-      class: 'cool-button evading-button',
+      class: 'cool-button fleeing-button',
       text: 'Click me',
       style: styles({
         left: buttonOrigin === null ? '0' : 100 * buttonOrigin.x + '%',

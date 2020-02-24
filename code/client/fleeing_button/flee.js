@@ -8,7 +8,7 @@ const UNSAFE_DISTANCE = 100
 const CANVAS_FORCE_RATIO = 3
 const SPEED = 50
 
-function getEvationDirection (canvas, buttonCenter, cursor) {
+function getFleeingDirection (canvas, buttonCenter, cursor) {
   const projections = [
     new Vector({ x: buttonCenter.x, y: canvas.origin.y }),
     new Vector({ x: buttonCenter.x, y: canvas.origin.y + canvas.dims.y }),
@@ -31,7 +31,7 @@ function getEvationDirection (canvas, buttonCenter, cursor) {
   return mouseForce.scaleToNormed()
 }
 
-export function evade (sharedState, subject) {
+export function flee (sharedState, subject) {
   if (sharedState === null) {
     return
   }
@@ -46,7 +46,7 @@ export function evade (sharedState, subject) {
     y: canvas.origin.y + buttonOrigin.y * canvas.dims.y - buttonDims.y / 2
   })
 
-  const direction = getEvationDirection(canvas, buttonCenter, cursor)
+  const direction = getFleeingDirection(canvas, buttonCenter, cursor)
 
   if (direction !== null) {
     subject.update({

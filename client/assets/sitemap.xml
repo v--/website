@@ -44,4 +44,9 @@
         <loc>https://ivasilev.net/playground/graphs</loc>
         <priority>1.000</priority>
     </url>
+
+    <url>
+        <loc>https://ivasilev.net/playground/fleeing_button</loc>
+        <priority>1.000</priority>
+    </url>
 </urlset>
