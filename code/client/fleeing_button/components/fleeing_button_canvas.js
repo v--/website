@@ -10,8 +10,12 @@ export function fleeingButtonCanvas ({ buttonOrigin }) {
         left: buttonOrigin === null ? '0' : 100 * buttonOrigin.x + '%',
         top: buttonOrigin === null ? '0' : 100 * buttonOrigin.y + '%'
       }),
-      click (_event) {
+      mouseup (_event) {
         window.alert('You have won!')
+      },
+      touchend (event) {
+        window.alert('Using touchscreens is cheating. Try chasing the button with a mouse.')
+        event.preventDefault()
       }
     })
   )
