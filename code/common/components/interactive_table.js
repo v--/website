@@ -9,9 +9,9 @@ import { table } from './table.js'
 import { icon } from './icon.js'
 import { link } from './link.js'
 
+// The sorting key is specified below using Object.assign
 const QUERY_CONFIG_DEFAULTS = Object.freeze({
   per_page: 10,
-  sorting: 0,
   page: 1
 })
 
@@ -76,12 +76,12 @@ function * pagination (pages, config) {
 }
 
 export function interactiveTable ({ class: cssClass, columns, data, defaultSorting = 1, fixedData = [], path }) {
-  const config = new QueryConfig(path, QUERY_CONFIG_DEFAULTS, QUERY_CONFIG_PARSERS)
+  const config = new QueryConfig(path, Object.assign({ sorting: defaultSorting }, QUERY_CONFIG_DEFAULTS), QUERY_CONFIG_PARSERS)
   const perPage = config.get('per_page')
   const page = config.get('page')
-  const sorting = config.get('sorting') === 0 ? defaultSorting : config.get('sorting')
+  const sorting = config.get('sorting')
 
-  if (Math.abs(sorting) > columns.length) {
+  if (sorting === 0 || Math.abs(sorting) > columns.length) {
     throw new ClientError(`Invalid column index ${Math.abs(sorting)} specified`)
   }
 

@@ -1,5 +1,4 @@
 import { c } from '../rendering/component.js'
-import { orderComparator } from '../support/sorting.js'
 
 import { link } from '../components/link.js'
 import { markdown } from '../components/markdown.js'
