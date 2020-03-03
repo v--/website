@@ -1,4 +1,5 @@
 import { CoolError } from '../errors.js'
+import { orderComparator, inverseOrderComparator } from './sorting.js'
 
 export class IterError extends CoolError {}
 export class EmptyIterError extends IterError {}
@@ -121,10 +122,10 @@ export function sort (iter, ascending = true) {
   const array = Array.from(iter)
 
   if (ascending) {
-    return array.sort((a, b) => a - b)
+    return array.sort(orderComparator)
   }
 
-  return array.sort((a, b) => b - a)
+  return array.sort(inverseOrderComparator)
 }
 
 export function schwartzSort (transform, iter) {

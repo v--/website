@@ -2,6 +2,7 @@ import { c } from '../rendering/component.js'
 import { ClientError } from '../errors.js'
 import { classlist } from '../support/dom_properties.js'
 import { QueryConfig } from '../support/query_config.js'
+import { orderComparator, inverseOrderComparator } from '../support/sorting.js'
 
 import { table } from './table.js'
 
@@ -10,7 +11,7 @@ import { link } from './link.js'
 
 const QUERY_CONFIG_DEFAULTS = Object.freeze({
   per_page: 10,
-  sorting: 1,
+  sorting: 0,
   page: 1
 })
 
@@ -20,20 +21,12 @@ const QUERY_CONFIG_PARSERS = Object.freeze({
   page: Number
 })
 
-function sliceData ({ columns, data, fixedData, config }) {
-  const sorting = config.get('sorting')
-  const perPage = config.get('per_page')
-  const page = config.get('page')
-
+function sliceData ({ columns, data, fixedData, sorting, perPage, page }) {
   const column = columns[Math.abs(sorting) - 1]
-  const ascending = sorting > 0 ? 1 : -1
+  const valueComparator = sorting > 0 ? orderComparator : inverseOrderComparator
 
-  function comparator (a, b) {
-    if (column.value(a) === column.value(b)) {
-      return 0
-    }
-
-    return ascending * (column.value(a) > column.value(b) ? 1 : -1)
+  const comparator = function comparator (a, b) {
+    return valueComparator(column.value(a), column.value(b))
   }
 
   const pageStart = (page - 1) * perPage
@@ -82,13 +75,13 @@ function * pagination (pages, config) {
   )
 }
 
-export function interactiveTable ({ class: cssClass, columns, data, fixedData = [], path }) {
+export function interactiveTable ({ class: cssClass, columns, data, defaultSorting = 1, fixedData = [], path }) {
   const config = new QueryConfig(path, QUERY_CONFIG_DEFAULTS, QUERY_CONFIG_PARSERS)
   const perPage = config.get('per_page')
   const page = config.get('page')
-  const sorting = config.get('sorting')
+  const sorting = config.get('sorting') === 0 ? defaultSorting : config.get('sorting')
 
-  if (sorting === 0 || Math.abs(sorting) > columns.length) {
+  if (Math.abs(sorting) > columns.length) {
     throw new ClientError(`Invalid column index ${Math.abs(sorting)} specified`)
   }
 
@@ -102,7 +95,7 @@ export function interactiveTable ({ class: cssClass, columns, data, fixedData = 
     throw new ClientError(`Invalid page index ${page} specified`)
   }
 
-  const sliced = sliceData({ columns, data, fixedData, config })
+  const sliced = sliceData({ columns, data, fixedData, sorting, perPage, page })
   const patchedColumns = []
 
   for (let i = 1; i <= columns.length; i++) {

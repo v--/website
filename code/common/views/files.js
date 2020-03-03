@@ -1,8 +1,19 @@
 import { c } from '../rendering/component.js'
+import { orderComparator } from '../support/sorting.js'
 
 import { link } from '../components/link.js'
 import { markdown } from '../components/markdown.js'
 import { interactiveTable } from '../components/interactive_table.js'
+
+function getFileExtension (fileName) {
+  const extIndex = fileName.lastIndexOf('.')
+
+  if (extIndex !== -1) {
+    return fileName.slice(extIndex + 1).toUpperCase()
+  }
+
+  return ''
+}
 
 export function files ({ path, data }) {
   const columns = [
@@ -22,17 +33,16 @@ export function files ({ path, data }) {
       label: 'Type',
       class: 'col-type',
       value (entry) {
+        if (entry.name === '..') {
+          return '-'
+        }
+
         if (!entry.isFile) {
           return 'Directory'
         }
 
-        const extIndex = entry.name.lastIndexOf('.')
-
-        if (~extIndex) {
-          return entry.name.slice(extIndex + 1).toUpperCase() + ' file'
-        }
-
-        return 'Dotfile'
+        const ext = getFileExtension(entry.name)
+        return ext.length > 0 ? `File: ${ext}` : 'Dotfile'
       }
     },
 
@@ -99,6 +109,7 @@ export function files ({ path, data }) {
         class: 'files-table',
         data: dynamic,
         fixedData: fixed,
+        defaultSorting: 2,
         columns,
         path
       }),
