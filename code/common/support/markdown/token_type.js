@@ -9,6 +9,7 @@ export const TokenType = enumerate(
   'CODE_BLOCK',
   'CODE',
   'EMPHASIS',
+  'STRONG_EMPHASIS',
   'HEADING',
   'BULLET',
   'BULLET_LIST',

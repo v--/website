@@ -8,11 +8,16 @@ const COMMON_RULES = [
   TokenType.ANCHOR_LINK,
   TokenType.CODE_BLOCK,
   TokenType.CODE,
-  TokenType.EMPHASIS,
   cat(TokenType.LINE_BREAK, TokenType.HEADING)
 ]
 
-const LINE_MATCHER = alt(...COMMON_RULES, neg('\n'))
+const COMMON_RULES_WITH_EMPHASIS = [
+  ...COMMON_RULES,
+  TokenType.STRONG_EMPHASIS,
+  TokenType.EMPHASIS
+]
+
+const LINE_MATCHER = alt(...COMMON_RULES_WITH_EMPHASIS, neg('\n'))
 
 function createBlockRule (start, end, matcher = alt(term('\\' + end), neg(end, '\n'))) {
   return cat(
@@ -23,25 +28,23 @@ function createBlockRule (start, end, matcher = alt(term('\\' + end), neg(end, '
   )
 }
 
-function createNestedBlockRule (start, end, matcher = alt(term('\\' + end), neg(end, '\n'))) {
-  return createBlockRule(start, end, alt(...COMMON_RULES, TokenType.LINE_BREAK, matcher))
+function createNestedBlockRule (start, end, rules, matcher = alt(term('\\' + end), neg(end, '\n'))) {
+  return createBlockRule(start, end, alt(...rules, TokenType.LINE_BREAK, matcher))
 }
 
 export const markdownRules = Object.freeze({
   [TokenType.WHITESPACE]: rep(term(' ')),
   [TokenType.LINE_BREAK]: cat(term('\n'), TokenType.WHITESPACE),
 
-  [TokenType.ANCHOR_NODE]: createNestedBlockRule('[', ']'),
+  [TokenType.ANCHOR_NODE]: createNestedBlockRule('[', ']', COMMON_RULES_WITH_EMPHASIS),
   [TokenType.ANCHOR_LINK]: createBlockRule('(', ')'),
   [TokenType.ANCHOR]: cat(TokenType.ANCHOR_NODE, TokenType.ANCHOR_LINK),
 
   [TokenType.CODE_BLOCK]: createBlockRule('```', '```', alt(term('\\`'), neg('```'))),
   [TokenType.CODE]: createBlockRule('`', '`'),
 
-  [TokenType.EMPHASIS]: alt(
-    createNestedBlockRule('*', '*'),
-    createNestedBlockRule('_', '_')
-  ),
+  [TokenType.STRONG_EMPHASIS]: createNestedBlockRule('**', '**', [...COMMON_RULES, TokenType.EMPHASIS]),
+  [TokenType.EMPHASIS]: createNestedBlockRule('*', '*', COMMON_RULES),
 
   [TokenType.HEADING]: cat(
     term('#'),
@@ -72,7 +75,7 @@ export const markdownRules = Object.freeze({
     opt(TokenType.BULLET_LIST),
     rep(
       alt(
-        ...COMMON_RULES,
+        ...COMMON_RULES_WITH_EMPHASIS,
         TokenType.BULLET_LIST,
         TokenType.LINE_BREAK,
         wildcard

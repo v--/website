@@ -259,22 +259,8 @@ describe('parseMarkdown()', function () {
   })
 
   describe('for emphasis', function () {
-    it('handles emphasis with asterisks', function () {
+    it('handles emphasis', function () {
       const string = '*text*'
-      assert.deepEqual(
-        parseMarkdown(string),
-        {
-          type: NodeType.EMPHASIS,
-          node: {
-            type: NodeType.TEXT,
-            text: 'text'
-          }
-        }
-      )
-    })
-
-    it('handles emphasis with underscores', function () {
-      const string = '_text_'
       assert.deepEqual(
         parseMarkdown(string),
         {
@@ -301,36 +287,8 @@ describe('parseMarkdown()', function () {
       )
     })
 
-    it('handles strong emphasis with asterisks', function () {
+    it('handles strong emphasis', function () {
       const string = '**text**'
-      assert.deepEqual(
-        parseMarkdown(string),
-        {
-          type: NodeType.STRONG_EMPHASIS,
-          node: {
-            type: NodeType.TEXT,
-            text: 'text'
-          }
-        }
-      )
-    })
-
-    it('handles strong emphasis with underscores', function () {
-      const string = '__text__'
-      assert.deepEqual(
-        parseMarkdown(string),
-        {
-          type: NodeType.STRONG_EMPHASIS,
-          node: {
-            type: NodeType.TEXT,
-            text: 'text'
-          }
-        }
-      )
-    })
-
-    it('handles strong emphasis with mixed syntax', function () {
-      const string = '_*text*_'
       assert.deepEqual(
         parseMarkdown(string),
         {
@@ -348,9 +306,9 @@ describe('parseMarkdown()', function () {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.EMPHASIS,
+          type: NodeType.STRONG_EMPHASIS,
           node: {
-            type: NodeType.STRONG_EMPHASIS,
+            type: NodeType.EMPHASIS,
             node: {
               type: NodeType.TEXT,
               text: 'text'

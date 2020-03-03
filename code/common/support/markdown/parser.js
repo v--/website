@@ -83,16 +83,19 @@ function collapseAnchor (matches) {
   }
 }
 
-function collapseEmphasis (matches) {
-  const escaped = matches[matches.length - 1]
+function collapseStrongEmphasis (matches) {
+  const escaped = matches[0]
   const collapsed = collapse(unescapeMatches(removeBounds(matches), escaped))
 
-  if (collapsed.type === NodeType.EMPHASIS) {
-    return {
-      type: NodeType.STRONG_EMPHASIS,
-      node: collapsed.node
-    }
+  return {
+    type: NodeType.STRONG_EMPHASIS,
+    node: collapsed
   }
+}
+
+function collapseEmphasis (matches) {
+  const escaped = matches[0]
+  const collapsed = collapse(unescapeMatches(removeBounds(matches), escaped))
 
   return {
     type: NodeType.EMPHASIS,
@@ -248,6 +251,9 @@ export function buildAST (parseTree) {
         type: NodeType.CODE_BLOCK,
         code: unescape(joinTextBlocks(removeBounds(parseTree.matches)), '`')
       }
+
+    case TokenType.STRONG_EMPHASIS:
+      return collapseStrongEmphasis(parseTree.matches)
 
     case TokenType.EMPHASIS:
       return collapseEmphasis(parseTree.matches)
