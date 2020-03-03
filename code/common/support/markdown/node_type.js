@@ -10,5 +10,7 @@ export const NodeType = enumerate(
   'EMPHASIS',
   'STRONG_EMPHASIS',
   'HEADING',
+  'BULLET_UNORDERED',
+  'BULLET_ORDERED',
   'BULLET_LIST'
 )

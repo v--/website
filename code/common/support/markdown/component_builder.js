@@ -44,11 +44,16 @@ export function buildComponentTree (ast) {
       return c('h' + ast.level, { class: 'h' + ast.level }, buildComponentTree(ast.node))
 
     case NodeType.BULLET_LIST:
-      return c(ast.ordered ? 'ol' : 'ul', { class: 'cool-list' }, ...ast.bullets.map(function (node) {
-        if (node.type === NodeType.BULLET_LIST) {
-          return buildComponentTree(node)
-        } else {
-          return c('li', null, buildComponentTree(node))
+      return c(ast.ordered ? 'ol' : 'ul', { class: 'cool-list' }, ...ast.bullets.map(function (bullet) {
+        switch (bullet.type) {
+          case NodeType.BULLET_LIST:
+            return buildComponentTree(bullet.node)
+
+          case NodeType.BULLET_UNORDERED:
+            return c('li', null, buildComponentTree(bullet.node))
+
+          case NodeType.BULLET_ORDERED:
+            return c('li', { value: String(bullet.order) }, buildComponentTree(bullet.node))
         }
       }))
 

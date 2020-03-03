@@ -424,8 +424,12 @@ describe('parseMarkdown()', function () {
           ordered: false,
           bullets: [
             {
-              type: NodeType.TEXT,
-              text: 'bullet'
+              type: NodeType.BULLET_UNORDERED,
+              level: 1,
+              node: {
+                type: NodeType.TEXT,
+                text: 'bullet'
+              }
             }
           ]
         }
@@ -438,7 +442,7 @@ describe('parseMarkdown()', function () {
 `
 
       assert.equal(
-        parseMarkdown(string).bullets[0].text,
+        parseMarkdown(string).bullets[0].node.text,
         'bullet'
       )
     })
@@ -449,14 +453,14 @@ describe('parseMarkdown()', function () {
 `
 
       assert.equal(
-        parseMarkdown(string).bullets[0].text,
+        parseMarkdown(string).bullets[0].node.text,
         ' bullet'
       )
     })
 
     it('handles ordered lists', function () {
       const string = `
-+ bullet
+1) bullet
 `
 
       assert.deepEqual(
@@ -466,18 +470,23 @@ describe('parseMarkdown()', function () {
           ordered: true,
           bullets: [
             {
-              type: NodeType.TEXT,
-              text: 'bullet'
+              type: NodeType.BULLET_ORDERED,
+              level: 1,
+              order: 1,
+              node: {
+                type: NodeType.TEXT,
+                text: 'bullet'
+              }
             }
           ]
         }
       )
     })
 
-    it('ordered lists are determined by the first element', function () {
+    it('handles custom orders in ordered lists', function () {
       const string = `
-+ bullet1
-* bullet2
+13) bullet1
+4) bullet2
 `
 
       assert.deepEqual(
@@ -487,13 +496,23 @@ describe('parseMarkdown()', function () {
           ordered: true,
           bullets: [
             {
-              type: NodeType.TEXT,
-              text: 'bullet1'
+              type: NodeType.BULLET_ORDERED,
+              level: 1,
+              order: 13,
+              node: {
+                type: NodeType.TEXT,
+                text: 'bullet1'
+              }
             },
 
             {
-              type: NodeType.TEXT,
-              text: 'bullet2'
+              type: NodeType.BULLET_ORDERED,
+              level: 1,
+              order: 4,
+              node: {
+                type: NodeType.TEXT,
+                text: 'bullet2'
+              }
             }
           ]
         }
@@ -520,8 +539,12 @@ describe('parseMarkdown()', function () {
               ordered: false,
               bullets: [
                 {
-                  type: NodeType.TEXT,
-                  text: 'bullet'
+                  type: NodeType.BULLET_UNORDERED,
+                  level: 1,
+                  node: {
+                    type: NodeType.TEXT,
+                    text: 'bullet'
+                  }
                 }
               ]
             }
@@ -530,7 +553,7 @@ describe('parseMarkdown()', function () {
       )
     })
 
-    it('handles two bullets', function () {
+    it('handles two unordered bullets', function () {
       const string = `
 * bullet1
 * bullet2
@@ -543,12 +566,21 @@ describe('parseMarkdown()', function () {
           ordered: false,
           bullets: [
             {
-              type: NodeType.TEXT,
-              text: 'bullet1'
+              type: NodeType.BULLET_UNORDERED,
+              level: 1,
+              node: {
+                type: NodeType.TEXT,
+                text: 'bullet1'
+              }
             },
+
             {
-              type: NodeType.TEXT,
-              text: 'bullet2'
+              type: NodeType.BULLET_UNORDERED,
+              level: 1,
+              node: {
+                type: NodeType.TEXT,
+                text: 'bullet2'
+              }
             }
           ]
         }
@@ -568,8 +600,12 @@ describe('parseMarkdown()', function () {
           ordered: false,
           bullets: [
             {
-              type: NodeType.TEXT,
-              text: 'bullet1'
+              type: NodeType.BULLET_UNORDERED,
+              level: 1,
+              node: {
+                type: NodeType.TEXT,
+                text: 'bullet1'
+              }
             },
 
             {
@@ -577,8 +613,12 @@ describe('parseMarkdown()', function () {
               ordered: false,
               bullets: [
                 {
-                  type: NodeType.TEXT,
-                  text: 'bullet2'
+                  type: NodeType.BULLET_UNORDERED,
+                  level: 2,
+                  node: {
+                    type: NodeType.TEXT,
+                    text: 'bullet2'
+                  }
                 }
               ]
             }
@@ -602,8 +642,12 @@ describe('parseMarkdown()', function () {
           ordered: false,
           bullets: [
             {
-              type: NodeType.TEXT,
-              text: 'bullet1'
+              type: NodeType.BULLET_UNORDERED,
+              level: 1,
+              node: {
+                type: NodeType.TEXT,
+                text: 'bullet1'
+              }
             },
 
             {
@@ -611,15 +655,23 @@ describe('parseMarkdown()', function () {
               ordered: false,
               bullets: [
                 {
-                  type: NodeType.TEXT,
-                  text: 'bullet2'
+                  type: NodeType.BULLET_UNORDERED,
+                  level: 2,
+                  node: {
+                    type: NodeType.TEXT,
+                    text: 'bullet2'
+                  }
                 }
               ]
             },
 
             {
-              type: NodeType.TEXT,
-              text: 'bullet3'
+              type: NodeType.BULLET_UNORDERED,
+              level: 1,
+              node: {
+                type: NodeType.TEXT,
+                text: 'bullet3'
+              }
             },
 
             {
@@ -627,8 +679,12 @@ describe('parseMarkdown()', function () {
               ordered: false,
               bullets: [
                 {
-                  type: NodeType.TEXT,
-                  text: 'bullet4'
+                  type: NodeType.BULLET_UNORDERED,
+                  level: 2,
+                  node: {
+                    type: NodeType.TEXT,
+                    text: 'bullet4'
+                  }
                 }
               ]
             }
@@ -652,8 +708,12 @@ describe('parseMarkdown()', function () {
           ordered: false,
           bullets: [
             {
-              type: NodeType.TEXT,
-              text: 'bullet1'
+              type: NodeType.BULLET_UNORDERED,
+              level: 1,
+              node: {
+                type: NodeType.TEXT,
+                text: 'bullet1'
+              }
             },
 
             {
@@ -661,8 +721,12 @@ describe('parseMarkdown()', function () {
               ordered: false,
               bullets: [
                 {
-                  type: NodeType.TEXT,
-                  text: 'bullet2'
+                  type: NodeType.BULLET_UNORDERED,
+                  level: 2,
+                  node: {
+                    type: NodeType.TEXT,
+                    text: 'bullet2'
+                  }
                 },
 
                 {
@@ -670,8 +734,12 @@ describe('parseMarkdown()', function () {
                   ordered: false,
                   bullets: [
                     {
-                      type: NodeType.TEXT,
-                      text: 'bullet3'
+                      type: NodeType.BULLET_UNORDERED,
+                      level: 3,
+                      node: {
+                        type: NodeType.TEXT,
+                        text: 'bullet3'
+                      }
                     }
                   ]
                 }
@@ -679,8 +747,12 @@ describe('parseMarkdown()', function () {
             },
 
             {
-              type: NodeType.TEXT,
-              text: 'bullet4'
+              type: NodeType.BULLET_UNORDERED,
+              level: 1,
+              node: {
+                type: NodeType.TEXT,
+                text: 'bullet4'
+              }
             }
           ]
         }
@@ -694,8 +766,8 @@ describe('parseMarkdown()', function () {
 
 ## Action items
 
-* Action item 1
-* Action item 2 (__important__)
+1) Action item 1
+2) Action item 2 (__important__)
 
 ## Status
 
@@ -735,16 +807,26 @@ block\`\`\`
 
             {
               type: NodeType.BULLET_LIST,
-              ordered: false,
+              ordered: true,
               bullets: [
                 {
-                  type: NodeType.TEXT,
-                  text: 'Action item 1'
+                  type: NodeType.BULLET_ORDERED,
+                  order: 1,
+                  level: 1,
+                  node: {
+                    type: NodeType.TEXT,
+                    text: 'Action item 1'
+                  }
                 },
 
                 {
-                  type: NodeType.TEXT,
-                  text: 'Action item 2 (__important__)'
+                  type: NodeType.BULLET_ORDERED,
+                  order: 2,
+                  level: 1,
+                  node: {
+                    type: NodeType.TEXT,
+                    text: 'Action item 2 (__important__)'
+                  }
                 }
               ]
             },
@@ -767,50 +849,66 @@ block\`\`\`
               ordered: false,
               bullets: [
                 {
-                  type: NodeType.TEXT,
-                  text: 'Item 1'
+                  type: NodeType.BULLET_UNORDERED,
+                  level: 1,
+                  node: {
+                    type: NodeType.TEXT,
+                    text: 'Item 1'
+                  }
                 },
 
                 {
-                  type: NodeType.CONTAINER,
-                  children: [
-                    {
-                      type: NodeType.TEXT,
-                      text: 'Item 2 with '
-                    },
+                  type: NodeType.BULLET_UNORDERED,
+                  level: 1,
+                  node: {
+                    type: NodeType.CONTAINER,
+                    children: [
+                      {
+                        type: NodeType.TEXT,
+                        text: 'Item 2 with '
+                      },
 
-                    {
-                      type: NodeType.ANCHOR,
-                      link: 'https://ipsum.dolor',
-                      node: {
-                        type: NodeType.EMPHASIS,
+                      {
+                        type: NodeType.ANCHOR,
+                        link: 'https://ipsum.dolor',
                         node: {
-                          type: NodeType.TEXT,
-                          text: 'hyperlink'
+                          type: NodeType.EMPHASIS,
+                          node: {
+                            type: NodeType.TEXT,
+                            text: 'hyperlink'
+                          }
                         }
                       }
-                    }
-                  ]
+                    ]
+                  }
                 },
 
                 {
-                  type: NodeType.CONTAINER,
-                  children: [
-                    {
-                      type: NodeType.TEXT,
-                      text: 'Item 3 with a '
-                    },
+                  type: NodeType.BULLET_UNORDERED,
+                  level: 1,
+                  node: {
+                    type: NodeType.CONTAINER,
+                    children: [
+                      {
+                        type: NodeType.TEXT,
+                        text: 'Item 3 with a '
+                      },
 
-                    {
-                      type: NodeType.CODE_BLOCK,
-                      code: 'code\nblock'
-                    }
-                  ]
+                      {
+                        type: NodeType.CODE_BLOCK,
+                        code: 'code\nblock'
+                      }
+                    ]
+                  }
                 },
 
                 {
-                  type: NodeType.TEXT,
-                  text: 'Item 4'
+                  type: NodeType.BULLET_UNORDERED,
+                  level: 1,
+                  node: {
+                    type: NodeType.TEXT,
+                    text: 'Item 4'
+                  }
                 }
               ]
             }

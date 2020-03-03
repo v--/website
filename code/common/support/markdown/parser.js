@@ -124,12 +124,23 @@ function collapseHeading (matches) {
   }
 }
 
-function collapseBullet (matches) {
+function collapseUnorderedBullet (matches) {
   return {
+    type: NodeType.BULLET_UNORDERED,
     level: matches[1].matches.length + 1,
-    ordered: matches[2] === '+',
     node: collapse(
       matches.slice(matches[3] === ' ' ? 4 : 3)
+    )
+  }
+}
+
+function collapseOrderedBullet (matches) {
+  return {
+    type: NodeType.BULLET_ORDERED,
+    order: parseInt(matches[2].matches.join(''), 10),
+    level: matches[1].matches.length + 1,
+    node: collapse(
+      matches.slice(matches[4] === ' ' ? 5 : 4)
     )
   }
 }
@@ -143,7 +154,7 @@ function collapseBulletList (matches) {
   const root = {
     type: NodeType.BULLET_LIST,
     bullets: [],
-    ordered: flatBulletList[0].ordered
+    ordered: flatBulletList[0].type === NodeType.BULLET_ORDERED
   }
 
   const rootLevels = new Map([[root, minLevel]])
@@ -154,12 +165,12 @@ function collapseBulletList (matches) {
     let currentLevel = rootLevels.get(currentRoot)
 
     if (bullet.level === currentLevel) {
-      currentRoot.bullets.push(bullet.node)
+      currentRoot.bullets.push(bullet)
     } else if (bullet.level > currentLevel) {
       const newRoot = {
         type: NodeType.BULLET_LIST,
-        bullets: [bullet.node],
-        ordered: bullet.ordered
+        bullets: [bullet],
+        ordered: bullet.type === NodeType.BULLET_ORDERED
       }
 
       rootLevels.set(newRoot, bullet.level)
@@ -172,7 +183,7 @@ function collapseBulletList (matches) {
         currentLevel = rootLevels.get(currentRoot)
       }
 
-      currentRoot.bullets.push(bullet.node)
+      currentRoot.bullets.push(bullet)
     }
   }
 
@@ -261,8 +272,11 @@ export function buildAST (parseTree) {
     case TokenType.HEADING:
       return collapseHeading(parseTree.matches)
 
-    case TokenType.BULLET:
-      return collapseBullet(parseTree.matches)
+    case TokenType.BULLET_UNORDERED:
+      return collapseUnorderedBullet(parseTree.matches)
+
+    case TokenType.BULLET_ORDERED:
+      return collapseOrderedBullet(parseTree.matches)
 
     case TokenType.BULLET_LIST:
       return collapseBulletList(parseTree.matches)

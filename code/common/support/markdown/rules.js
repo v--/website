@@ -36,6 +36,13 @@ export const markdownRules = Object.freeze({
   [TokenType.WHITESPACE]: rep(term(' ')),
   [TokenType.LINE_BREAK]: cat(term('\n'), TokenType.WHITESPACE),
 
+  [TokenType.NATURAL_NUMBER]: cat(
+    term('1', '2', '3', '4', '5', '6', '7', '8', '9'),
+    rep(
+      term('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
+    )
+  ),
+
   [TokenType.ANCHOR_NODE]: createNestedBlockRule('[', ']', COMMON_RULES_WITH_EMPHASIS),
   [TokenType.ANCHOR_LINK]: createBlockRule('(', ')'),
   [TokenType.ANCHOR]: cat(TokenType.ANCHOR_NODE, TokenType.ANCHOR_LINK),
@@ -55,7 +62,7 @@ export const markdownRules = Object.freeze({
     term('\n')
   ),
 
-  [TokenType.BULLET]: cat(
+  [TokenType.BULLET_UNORDERED]: cat(
     term('\n'),
     TokenType.WHITESPACE,
     term('+', '*'),
@@ -64,9 +71,21 @@ export const markdownRules = Object.freeze({
     rep(LINE_MATCHER)
   ),
 
+  [TokenType.BULLET_ORDERED]: cat(
+    term('\n'),
+    TokenType.WHITESPACE,
+    TokenType.NATURAL_NUMBER,
+    term('.', ')'),
+    opt(term(' ')),
+    LINE_MATCHER,
+    rep(LINE_MATCHER)
+  ),
+
   [TokenType.BULLET_LIST]: cat(
-    TokenType.BULLET,
-    rep(TokenType.BULLET),
+    alt(
+      cat(TokenType.BULLET_UNORDERED, rep(TokenType.BULLET_UNORDERED)),
+      cat(TokenType.BULLET_ORDERED, rep(TokenType.BULLET_ORDERED))
+    ),
     term('\n')
   ),
 

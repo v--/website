@@ -3,6 +3,7 @@ import { enumerate } from '../enumerate.js'
 export const TokenType = enumerate(
   'WHITESPACE',
   'LINE_BREAK',
+  'NATURAL_NUMBER',
   'ANCHOR_NODE',
   'ANCHOR_LINK',
   'ANCHOR',
@@ -11,7 +12,8 @@ export const TokenType = enumerate(
   'EMPHASIS',
   'STRONG_EMPHASIS',
   'HEADING',
-  'BULLET',
+  'BULLET_UNORDERED',
+  'BULLET_ORDERED',
   'BULLET_LIST',
   'MARKDOWN'
 )
