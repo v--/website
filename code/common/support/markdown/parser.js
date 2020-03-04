@@ -83,26 +83,6 @@ function collapseAnchor (matches) {
   }
 }
 
-function collapseStrongEmphasis (matches) {
-  const escaped = matches[0]
-  const collapsed = collapse(unescapeMatches(removeBounds(matches), escaped))
-
-  return {
-    type: NodeType.STRONG_EMPHASIS,
-    node: collapsed
-  }
-}
-
-function collapseEmphasis (matches) {
-  const escaped = matches[0]
-  const collapsed = collapse(unescapeMatches(removeBounds(matches), escaped))
-
-  return {
-    type: NodeType.EMPHASIS,
-    node: collapsed
-  }
-}
-
 function collapseHeading (matches) {
   const refinedMatches = []
   let level = 1
@@ -229,7 +209,7 @@ export function buildAST (parseTree) {
   if (typeof parseTree === 'string') {
     return {
       type: NodeType.TEXT,
-      text: parseTree
+      text: unescape(parseTree, '_')
     }
   }
 
@@ -263,11 +243,23 @@ export function buildAST (parseTree) {
         code: unescape(joinTextBlocks(removeBounds(parseTree.matches)), '`')
       }
 
+    case TokenType.VERY_STRONG_EMPHASIS:
+      return {
+        type: NodeType.VERY_STRONG_EMPHASIS,
+        node: collapse(unescapeMatches(removeBounds(parseTree.matches), parseTree.matches[0]))
+      }
+
     case TokenType.STRONG_EMPHASIS:
-      return collapseStrongEmphasis(parseTree.matches)
+      return {
+        type: NodeType.STRONG_EMPHASIS,
+        node: collapse(unescapeMatches(removeBounds(parseTree.matches), parseTree.matches[0]))
+      }
 
     case TokenType.EMPHASIS:
-      return collapseEmphasis(parseTree.matches)
+      return {
+        type: NodeType.EMPHASIS,
+        node: collapse(unescapeMatches(removeBounds(parseTree.matches), parseTree.matches[0]))
+      }
 
     case TokenType.HEADING:
       return collapseHeading(parseTree.matches)

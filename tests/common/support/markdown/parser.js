@@ -301,18 +301,15 @@ describe('parseMarkdown()', function () {
       )
     })
 
-    it('nests emphasis levels', function () {
+    it('handles very strong emphasis', function () {
       const string = '***text***'
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.STRONG_EMPHASIS,
+          type: NodeType.VERY_STRONG_EMPHASIS,
           node: {
-            type: NodeType.EMPHASIS,
-            node: {
-              type: NodeType.TEXT,
-              text: 'text'
-            }
+            type: NodeType.TEXT,
+            text: 'text'
           }
         }
       )
@@ -824,8 +821,24 @@ block\`\`\`
                   order: 2,
                   level: 1,
                   node: {
-                    type: NodeType.TEXT,
-                    text: 'Action item 2 (__important__)'
+                    type: NodeType.CONTAINER,
+                    children: [
+                      {
+                        type: NodeType.TEXT,
+                        text: 'Action item 2 ('
+                      },
+                      {
+                        type: NodeType.STRONG_EMPHASIS,
+                        node: {
+                          type: NodeType.TEXT,
+                          text: 'important'
+                        }
+                      },
+                      {
+                        type: NodeType.TEXT,
+                        text: ')'
+                      }
+                    ]
                   }
                 }
               ]

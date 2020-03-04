@@ -11,6 +11,7 @@ export const TokenType = enumerate(
   'CODE',
   'EMPHASIS',
   'STRONG_EMPHASIS',
+  'VERY_STRONG_EMPHASIS',
   'HEADING',
   'BULLET_UNORDERED',
   'BULLET_ORDERED',

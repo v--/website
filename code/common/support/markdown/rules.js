@@ -4,20 +4,15 @@ import { TokenType } from './token_type.js'
 
 const COMMON_RULES = [
   TokenType.ANCHOR,
-  TokenType.ANCHOR_NODE,
-  TokenType.ANCHOR_LINK,
   TokenType.CODE_BLOCK,
   TokenType.CODE,
+  TokenType.VERY_STRONG_EMPHASIS,
+  TokenType.STRONG_EMPHASIS,
+  TokenType.EMPHASIS,
   cat(TokenType.LINE_BREAK, TokenType.HEADING)
 ]
 
-const COMMON_RULES_WITH_EMPHASIS = [
-  ...COMMON_RULES,
-  TokenType.STRONG_EMPHASIS,
-  TokenType.EMPHASIS
-]
-
-const LINE_MATCHER = alt(...COMMON_RULES_WITH_EMPHASIS, neg('\n'))
+const LINE_MATCHER = alt(...COMMON_RULES, neg('\n'))
 
 function createBlockRule (start, end, matcher = alt(term('\\' + end), neg(end, '\n'))) {
   return cat(
@@ -43,15 +38,27 @@ export const markdownRules = Object.freeze({
     )
   ),
 
-  [TokenType.ANCHOR_NODE]: createNestedBlockRule('[', ']', COMMON_RULES_WITH_EMPHASIS),
+  [TokenType.ANCHOR_NODE]: createNestedBlockRule('[', ']', COMMON_RULES),
   [TokenType.ANCHOR_LINK]: createBlockRule('(', ')'),
   [TokenType.ANCHOR]: cat(TokenType.ANCHOR_NODE, TokenType.ANCHOR_LINK),
 
   [TokenType.CODE_BLOCK]: createBlockRule('```', '```', alt(term('\\`'), neg('```'))),
   [TokenType.CODE]: createBlockRule('`', '`'),
 
-  [TokenType.STRONG_EMPHASIS]: createNestedBlockRule('**', '**', [...COMMON_RULES, TokenType.EMPHASIS]),
-  [TokenType.EMPHASIS]: createNestedBlockRule('*', '*', COMMON_RULES),
+  [TokenType.VERY_STRONG_EMPHASIS]: alt(
+    createBlockRule('***', '***'),
+    createBlockRule('___', '___')
+  ),
+
+  [TokenType.STRONG_EMPHASIS]: alt(
+    createBlockRule('**', '**'),
+    createBlockRule('__', '__')
+  ),
+
+  [TokenType.EMPHASIS]: alt(
+    createBlockRule('*', '*'),
+    createBlockRule('_', '_')
+  ),
 
   [TokenType.HEADING]: cat(
     term('#'),
@@ -94,7 +101,7 @@ export const markdownRules = Object.freeze({
     opt(TokenType.BULLET_LIST),
     rep(
       alt(
-        ...COMMON_RULES_WITH_EMPHASIS,
+        ...COMMON_RULES,
         TokenType.BULLET_LIST,
         TokenType.LINE_BREAK,
         wildcard

@@ -40,6 +40,11 @@ export function buildComponentTree (ast) {
     case NodeType.STRONG_EMPHASIS:
       return c('b', null, buildComponentTree(ast.node))
 
+    case NodeType.VERY_STRONG_EMPHASIS:
+      return c('em', null,
+        c('b', null, buildComponentTree(ast.node))
+      )
+
     case NodeType.HEADING:
       return c('h' + ast.level, { class: 'h' + ast.level }, buildComponentTree(ast.node))
 
@@ -47,7 +52,7 @@ export function buildComponentTree (ast) {
       return c(ast.ordered ? 'ol' : 'ul', { class: 'cool-list' }, ...ast.bullets.map(function (bullet) {
         switch (bullet.type) {
           case NodeType.BULLET_LIST:
-            return buildComponentTree(bullet.node)
+            return buildComponentTree(bullet)
 
           case NodeType.BULLET_UNORDERED:
             return c('li', null, buildComponentTree(bullet.node))
