@@ -3,7 +3,6 @@ import { wildcard, term, neg, opt, rep, cat, alt } from '../../../common/support
 import { TokenType } from './token_type.js'
 
 const COMMON_RULES = [
-  TokenType.ANCHOR,
   TokenType.CODE_BLOCK,
   TokenType.CODE,
   TokenType.VERY_STRONG_EMPHASIS,
@@ -12,7 +11,7 @@ const COMMON_RULES = [
   cat(TokenType.LINE_BREAK, TokenType.HEADING)
 ]
 
-const LINE_MATCHER = alt(...COMMON_RULES, neg('\n'))
+const LINE_MATCHER = alt(...COMMON_RULES, TokenType.ANCHOR, neg('\n'))
 
 function createBlockRule (start, end, matcher = alt(term('\\' + end), neg(end, '\n'))) {
   return cat(
@@ -102,6 +101,7 @@ export const markdownRules = Object.freeze({
     rep(
       alt(
         ...COMMON_RULES,
+        TokenType.ANCHOR,
         TokenType.BULLET_LIST,
         TokenType.LINE_BREAK,
         wildcard
