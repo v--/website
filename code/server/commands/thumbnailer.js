@@ -4,7 +4,7 @@ import path from 'path'
 import { readFileSync } from 'fs'
 import { spawn } from 'child_process'
 
-import { stat, mkdir, readdir } from '../support/fs.js'
+import { stat, mkdir, rmdir, readdir, unlink } from '../support/fs.js'
 import { Logger } from '../support/logger.js'
 
 import { CoolError } from '../../common/errors.js'
@@ -13,7 +13,8 @@ const THUMB_WIDTH = 300
 const THUMB_HEIGHT = 9 / 16 * THUMB_WIDTH
 
 const config = JSON.parse(readFileSync('config/active.json'))
-const { galleryPath, galleryThumbPath } = config.store
+const { galleryPath } = config.store
+const thumbsPath = path.join(galleryPath, '.thumbs')
 const logger = new Logger('thumbnailer')
 
 class ThumbnailingError extends CoolError {}
@@ -50,18 +51,18 @@ function spawnFileThumbnailer (filePath, thumbPath) {
 
 async function spawnDirThumbnailer (dirPath, thumbPath) {
   const fileNames = await readdir(thumbPath, 'utf8')
-  const fileStats = await Promise.all(fileNames.map(file => stat(file)))
+  const filePaths = fileNames.map(fileName => path.join(thumbPath, fileName))
+  const fileStats = await Promise.all(filePaths.map(file => stat(file)))
 
-  const args = fileNames
-    .filter((_fileName, i) => fileStats[i].isFile())
+  const args = filePaths
+    .filter((_filePath, i) => fileStats[i].isFile())
     .slice(0, 4)
-    .map(fileName => path.join(thumbPath, fileName))
     .concat(['-tile', '2x2', '-geometry', `${THUMB_WIDTH}x${THUMB_HEIGHT}`, thumbPath + '.jpg'])
 
   return spawnProcess('/usr/bin/montage', args)
 }
 
-async function refreshThumbnails (basePath) {
+async function refreshThumbnails (basePath, validThumbs) {
   logger.debug(`Processing directory ${path.join(galleryPath, basePath)}`)
 
   for (const fileName of await readdir(path.join(galleryPath, basePath), 'utf8')) {
@@ -70,28 +71,87 @@ async function refreshThumbnails (basePath) {
     }
 
     const filePath = path.join(galleryPath, basePath, fileName)
-    const thumbPath = path.join(galleryThumbPath, basePath, fileName)
+    const thumbPath = path.join(thumbsPath, basePath, fileName)
+    const thumbFilePath = thumbPath + '.jpg'
     const fileStat = await stat(filePath)
 
-    try {
-      await stat(thumbPath + '.jpg2')
-      logger.debug(`Thumbnail already exists for ${filePath}`)
-    } catch (err) {
-      if (err.code === 'ENOENT') {
-        if (fileStat.isFile()) {
-          logger.info(`Generating a thumbnail for file ${filePath}`)
-          await spawnFileThumbnailer(filePath, thumbPath + '.jpg')
-        } else {
-          await mkdir(thumbPath)
-          await refreshThumbnails(galleryPath, path.join(basePath, fileName))
-          logger.info(`Generating a thumbnails for dir ${filePath}`)
-          await spawnDirThumbnailer(filePath, thumbPath)
+    if (fileStat.isFile()) {
+      try {
+        await stat(thumbFilePath)
+        logger.debug(`Thumbnail already exists for file ${filePath}`)
+        validThumbs.add(thumbFilePath)
+      } catch (err) {
+        if (err.code !== 'ENOENT') {
+          throw err
         }
-      } else {
-        throw err
+
+        logger.info(`Generating a thumbnail for file ${filePath}`)
+        await spawnFileThumbnailer(filePath, thumbFilePath)
+        validThumbs.add(thumbFilePath)
+      }
+    } else {
+      try {
+        await stat(thumbFilePath)
+        logger.debug(`Thumbnail already exists for dir ${filePath}`)
+        validThumbs.add(thumbFilePath)
+        await refreshThumbnails(path.join(basePath, fileName), validThumbs)
+      } catch (err) {
+        if (err.code !== 'ENOENT') {
+          throw err
+        }
+
+        try {
+          await mkdir(thumbPath)
+        } catch (err) {
+          if (err.code !== 'EEXIST') {
+            throw err
+          }
+        }
+
+        await refreshThumbnails(path.join(basePath, fileName), validThumbs)
+        logger.info(`Generating a thumbnails for dir ${filePath}`)
+        await spawnDirThumbnailer(filePath, thumbPath)
+        validThumbs.add(thumbFilePath)
       }
     }
   }
 }
 
-refreshThumbnails('/')
+async function garbageCollectThumbs (basePath, thumbs) {
+  const dirPath = path.join(thumbsPath, basePath)
+
+  for (const fileName of await readdir(dirPath, 'utf8')) {
+    const filePath = path.join(dirPath, fileName)
+    const fileStat = await stat(filePath)
+
+    if (!fileStat.isFile()) {
+      garbageCollectThumbs(path.join(basePath, fileName), thumbs)
+    } else if (!thumbs.has(filePath)) {
+      logger.info('Removing stale thumbnail ' + filePath)
+      await unlink(filePath)
+    }
+  }
+
+  const newFileNames = await readdir(dirPath, 'utf8')
+
+  if (newFileNames.length === 0) {
+    logger.info('Removing stale thumbnail dir ' + dirPath)
+    await rmdir(dirPath)
+  }
+}
+
+async function runCommand () {
+  try {
+    await mkdir(thumbsPath)
+  } catch (err) {
+    if (err.code !== 'EEXIST') {
+      throw err
+    }
+  }
+
+  const validThumbs = new Set()
+  await refreshThumbnails('/', validThumbs)
+  await garbageCollectThumbs('/', validThumbs)
+}
+
+runCommand()
