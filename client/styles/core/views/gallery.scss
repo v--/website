@@ -33,6 +33,7 @@ $gallery-tile-height: 9 / 16 * $gallery-tile-width;
         color: $color-foreground;
         background-color: rgba($color-light, 0.85);
         bottom: -1px;
+        line-height: 2rem;
         position: absolute;
       }
 
@@ -40,7 +41,7 @@ $gallery-tile-height: 9 / 16 * $gallery-tile-width;
         position: absolute;
         font-size: 3rem;
         fill: $color-midground;
-        filter: drop-shadow(0 0 2rem $color-foreground);
+        filter: drop-shadow(0 0 1rem $color-foreground);
       }
     }
   }

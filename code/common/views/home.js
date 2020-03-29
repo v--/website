@@ -43,7 +43,7 @@ export function home () {
 
           c(siteSection, {
             link: '/gallery',
-            text: 'a plain-file media gallery that is used occasionally to avoid crippled compression in media hosting services.'
+            text: 'a plain-file media gallery that I use occasionally to avoid crippled compression in media hosting services.'
           }),
 
           c(siteSection, {

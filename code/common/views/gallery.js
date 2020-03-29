@@ -47,9 +47,11 @@ export function gallery ({ data, path }) {
         ),
         c('span', { text: `Index of ${path.underCooked}` })
       ),
-      c('p', {
-        text: 'A plain-file media gallery. Used occasionally to avoid crippled compression in media hosting services.'
-      })
+      c('p', null,
+        c('span', { text: 'A plain-file media gallery that I use occasionally to avoid crippled compression in media hosting services. All content is ' }),
+        c(link, { text: 'CC0', link: 'https://creativecommons.org/share-your-work/public-domain/cc0/' }),
+        c('span', { text: '-licensed.' })
+      )
     ),
 
     c('div', { class: 'gallery' },
