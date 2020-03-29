@@ -1,0 +1,30 @@
+@import "../colors.scss";
+
+.section-title {
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 3rem;
+  font-weight: normal;
+  white-space: nowrap;
+  overflow-x: hidden;
+  word-wrap: break-word;
+  text-overflow: ellipsis;
+
+  .link {
+    .icon {
+      background-color: $color-foreground;
+      fill: $color-background;
+      border-radius: 50%;
+      margin-right: 1rem;
+      width: 0.75em;
+      height: 0.75em;
+    }
+
+    &:hover {
+      .icon {
+        fill: $color-light;
+      }
+    }
+  }
+}

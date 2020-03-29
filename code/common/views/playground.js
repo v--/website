@@ -1,10 +1,11 @@
 import { c } from '../rendering/component.js'
 import { link } from '../components/link.js'
+import { sectionTitle } from '../components/section_title.js'
 
 export function playground () {
   return c('div', { class: 'page playground-page' },
-    c('div', { class: 'section' },
-      c('h1', { class: 'section-title', text: '/playground' }),
+    c('div', null,
+      c(sectionTitle, { text: '/playground' }),
       c('p', { text: "These are some of the browser-based visualizations and simulations I have created. The code is neither precompiled nor bundled and can be easily explored using any browser's developer tools." }),
       c('ul', { class: 'cool-list' },
         c('li', null,

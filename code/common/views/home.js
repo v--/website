@@ -3,6 +3,7 @@ import { c } from '../rendering/component.js'
 import { icon } from '../components/icon.js'
 import { link } from '../components/link.js'
 import { pgpLink } from '../components/pgp_link.js'
+import { sectionTitle } from '../components/section_title.js'
 
 function siteSection (state) {
   return c('li', null,
@@ -25,15 +26,15 @@ export function home () {
     c('article', { class: 'info' },
       c('div', { class: 'me-irl' }),
 
-      c('div', { class: 'section' },
-        c('h1', { class: 'section-title', text: 'About me' }),
+      c('div', null,
+        c(sectionTitle, { text: 'About me' }),
         c('p', {
           text: 'My name is Ianis Vasilev. I am a statistician according to my diploma, a programmer according to my contract, a musician according to my ego and a trail runner according to my legs.'
         })
       ),
 
-      c('div', { class: 'section' },
-        c('h1', { class: 'section-title', text: 'About this website' }),
+      c('div', null,
+        c(sectionTitle, { text: 'About this website' }),
         c('p', { text: 'This is my personal website. It contains a few diverse sections:' }),
         c('ul', { class: 'cool-list' },
           c(siteSection, {
@@ -72,7 +73,7 @@ export function home () {
       c('div', { class: 'me-irl' }),
 
       c('div', { class: 'section' },
-        c('h1', { class: 'section-title', text: 'Contacts' }),
+        c(sectionTitle, { text: 'Contacts' }),
         c('ul', null,
           c(contact, {
             text: 'Email',

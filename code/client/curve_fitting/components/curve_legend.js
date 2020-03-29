@@ -2,10 +2,11 @@ import { sort } from '../../../common/support/iteration.js'
 
 import { c } from '../../../common/rendering/component.js'
 import { table } from '../../../common/components/table.js'
+import { sectionTitle } from '../../../common/components/section_title.js'
 
 export function curveLegend ({ mapping, curves, fitters, enableFitter, disableFitter }) {
   return c('div', { class: 'curve-legend' },
-    c('h1', { class: 'section-title legend-title', text: 'Legend' }),
+    c(sectionTitle, { class: 'legend-title', text: 'Legend' }),
     c('div', { class: 'data-points' },
       c('div', { class: 'point-pair info-point-pair' },
         c('div', { text: 'x' }),

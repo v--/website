@@ -1,6 +1,6 @@
 import { c } from '../../common/rendering/component.js'
 import { DictSubject } from '../../common/observables/dict_subject.js'
-import { playgroundTitle } from '../../common/components/playground_title.js'
+import { sectionTitle } from '../../common/components/section_title.js'
 
 import { aspectRatioBox } from '../core/components/aspect_ratio_box.js'
 import { dispatcher } from '../core/render_dispatcher.js'
@@ -20,7 +20,7 @@ import { evolve } from './events/evolve.js'
 
 let eventLoop = null
 
-export function index () {
+export function index ({ path }) {
   const subject = new DictSubject(DEFAULT_GAME_STATE)
   const eventLoopListeners = new Map([
     [movePaddle.bind(null, subject), MOVEMENT_PERIOD],
@@ -36,11 +36,9 @@ export function index () {
   })
 
   return c('div', { class: 'page playground-breakout-page' },
-    c('div', { class: 'section' },
-      c(playgroundTitle, { text: 'A Breakout variant with evolving bricks' }),
-      c('p', { text: 'This is a variant of the classic Breakout game where the bricks follow a stochastic evolution pattern.' }),
-      c('p', { text: 'The space bar toggles pause mode and the arrow keys move the paddle.' })
-    ),
+    c(sectionTitle, { text: 'A Breakout variant with evolving bricks', path }),
+    c('p', { text: 'This is a variant of the classic Breakout game where the bricks follow a stochastic evolution pattern.' }),
+    c('p', { text: 'The space bar toggles pause mode and the arrow keys move the paddle.' }),
 
     c(aspectRatioBox, {
       ratio: 4 / 3,

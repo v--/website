@@ -7,6 +7,7 @@ import { QueryConfig } from '../support/query_config.js'
 import { link } from '../components/link.js'
 import { icon } from '../components/icon.js'
 import { pagination } from '../components/pagination.js'
+import { sectionTitle } from '../components/section_title.js'
 
 const QUERY_CONFIG_DEFAULTS = Object.freeze({
   per_page: 12,
@@ -40,13 +41,9 @@ export function gallery ({ data, path }) {
   const sliced = data.files.slice(pageStart, pageStart + perPage)
 
   return c('div', { class: 'page gallery-page' },
-    c('div', { class: 'section' },
-      c('h1', { class: 'section-title' },
-        c(link, { link: getParentGalleryPath(path).underCooked, isInternal: true, title: 'Go to the parent gallery folder' },
-          c(icon, { name: 'chevron-up' })
-        ),
-        c('span', { text: `Index of ${path.underCooked}` })
-      ),
+    c('div', null,
+      c(sectionTitle, { text: `Index of ${path.underCooked}`,
+        path }),
       c('p', null,
         c('span', { text: 'A plain-file media gallery that I use occasionally to avoid crippled compression in media hosting services. All content is ' }),
         c(link, { text: 'CC0', link: 'https://creativecommons.org/share-your-work/public-domain/cc0/' }),

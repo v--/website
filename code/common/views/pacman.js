@@ -1,6 +1,7 @@
 import { map } from '../support/iteration.js'
 import { c } from '../rendering/component.js'
 import { pgpLink } from '../components/pgp_link.js'
+import { sectionTitle } from '../components/section_title.js'
 
 function * iterPackages (pkgs) {
   for (const { name, version, description } of pkgs) {
@@ -29,8 +30,8 @@ export function pacman ({ data }) {
   }
 
   return c('div', { class: 'page pacman-page' },
-    c('div', { class: 'section' },
-      c('h1', { class: 'section-title', text: 'Pacman repository' }),
+    c('div', null,
+      c(sectionTitle, { text: 'Pacman repository' }),
 
       c('p', {
         text: 'The repo contains a variety of packages, mostly my own software and AUR builds.'
@@ -55,8 +56,8 @@ export function pacman ({ data }) {
       )
     ),
 
-    c('div', { class: 'section' },
-      c('h1', { class: 'section-title', text: 'Packages' }),
+    c('div', null,
+      c(sectionTitle, { text: 'Packages' }),
       ...map(([arch, pkgs]) => c(packages, { arch, pkgs }), arches.entries())
     )
   )

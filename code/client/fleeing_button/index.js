@@ -2,7 +2,7 @@ import { c } from '../../common/rendering/component.js'
 import { DictSubject } from '../../common/observables/dict_subject.js'
 import { Vector } from '../../common/math/geom2d/vector.js'
 import { throttleObservable } from '../../common/observables/throttle.js'
-import { playgroundTitle } from '../../common/components/playground_title.js'
+import { sectionTitle } from '../../common/components/section_title.js'
 
 import { cursor$ } from '../core/shared_observables.js'
 import { dispatcher } from '../core/render_dispatcher.js'
@@ -23,11 +23,9 @@ const eventLoop = new EventLoop(new Map([
   [() => flee(sharedState, subject), UPDATE_INTERVAL]
 ]))
 
-export function index () {
+export function index ({ path }) {
   return c('div', { class: 'page playground-fleeing-button-page' },
-    c('div', { class: 'section' },
-      c(playgroundTitle, { text: 'A fleeing button' })
-    ),
+    c(sectionTitle, { class: 'fleeing-button-title', text: 'A fleeing button', path }),
     c(fleeingButtonCanvas, subject)
   )
 }

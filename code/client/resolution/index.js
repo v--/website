@@ -3,7 +3,7 @@ import { form } from '../../common/components/form.js'
 import { QueryConfig } from '../../common/support/query_config.js'
 import { location$ } from '../../common/shared_observables.js'
 import { CoolError } from '../../common/errors.js'
-import { playgroundTitle } from '../../common/components/playground_title.js'
+import { sectionTitle } from '../../common/components/section_title.js'
 
 import { ExpressionType } from './enums/expression_type.js'
 import { stringifyExpression, stringifyDisjunct, stringifyResolvent } from './support/stringify.js'
@@ -114,78 +114,76 @@ export function index ({ path }) {
   const proof = inferEmptyDisjunct(disjuncts)
 
   return c('div', { class: 'page playground-resolution-page' },
-    c('div', { class: 'section' },
-      c(playgroundTitle, { text: 'First-order logic resolution engine' }),
-      c('p', { text: 'Resolution is a purely syntactic method for proving theorems. It relies on a series of formula transformation that are briefly described below.' }),
-      c('p', { text: 'Zero-arity functions are treated as constants and free variables are treated the same as universally quantified variables.' }),
-      c('p', { text: 'The raw input syntax is as follows: "A" and "E" are the two quantifiers, "&", "v", "->" and "<->" are the logical connectives and "!" negates formulas. Variables are named x, y, z; functions are named f, g, h; predicates are named p, q, r. All names are allowed to have arbitrary numeric suffixes. Parentheses are mandatory around connectives and illegal elsewhere, except for the parentheses that are parts of function/predicate definitions.' }),
-      c(form,
-        {
-          novalidate: true,
-          class: 'resolution-form',
-          callback (data) {
-            const axioms = data.axioms.split('\n').filter(Boolean).join(';')
-            const goal = data.goal
-            location$.next(config.getUpdatedPath({ axioms, goal }))
-          }
-        },
-        c('label', null,
-          c('b', { text: 'Axioms' }),
-          c('textarea', { name: 'axioms', text: axioms.join('\n'), rows: '4' })
-        ),
-        c('label', null,
-          c('b', { text: 'Goal' }),
-          c('textarea', { name: 'goal', text: goal, rows: '1' })
-        ),
-        c('hr', { style: 'visibility: hidden' }),
-        c('button', { class: 'cool-button', type: 'submit', text: 'Try to proove' })
+    c(sectionTitle, { text: 'First-order logic resolution engine', path }),
+    c('p', { text: 'Resolution is a purely syntactic method for proving theorems. It relies on a series of formula transformation that are briefly described below.' }),
+    c('p', { text: 'Zero-arity functions are treated as constants and free variables are treated the same as universally quantified variables.' }),
+    c('p', { text: 'The raw input syntax is as follows: "A" and "E" are the two quantifiers, "&", "v", "->" and "<->" are the logical connectives and "!" negates formulas. Variables are named x, y, z; functions are named f, g, h; predicates are named p, q, r. All names are allowed to have arbitrary numeric suffixes. Parentheses are mandatory around connectives and illegal elsewhere, except for the parentheses that are parts of function/predicate definitions.' }),
+    c(form,
+      {
+        novalidate: true,
+        class: 'resolution-form',
+        callback (data) {
+          const axioms = data.axioms.split('\n').filter(Boolean).join(';')
+          const goal = data.goal
+          location$.next(config.getUpdatedPath({ axioms, goal }))
+        }
+      },
+      c('label', null,
+        c('b', { text: 'Axioms' }),
+        c('textarea', { name: 'axioms', text: axioms.join('\n'), rows: '4' })
+      ),
+      c('label', null,
+        c('b', { text: 'Goal' }),
+        c('textarea', { name: 'goal', text: goal, rows: '1' })
+      ),
+      c('hr', { style: 'visibility: hidden' }),
+      c('button', { class: 'cool-button', type: 'submit', text: 'Try to proove' })
+    ),
+
+    c('br'),
+    error && c('p', { class: 'resolution-error', text: error }),
+    !error && c('div', { class: 'resolution-proof' },
+      c('h2', { class: 'h2', text: 'Proof' }),
+      c('h3', { class: 'h3', text: 'Formulas' }),
+      c('p', { text: 'The axioms and the negation of the goal.' }),
+      c('pre', null,
+        c('code', formulasToText(formulas))
       ),
 
       c('br'),
-      error && c('p', { class: 'resolution-error', text: error }),
-      !error && c('div', { class: 'resolution-proof' },
-        c('h2', { class: 'h2', text: 'Proof' }),
-        c('h3', { class: 'h3', text: 'Formulas' }),
-        c('p', { text: 'The axioms and the negation of the goal.' }),
-        c('pre', null,
-          c('code', formulasToText(formulas))
-        ),
+      c('h3', { class: 'h3', text: 'Simplified formulas' }),
+      c('p', { text: 'We use the equivalences P → Q ≡ ¬P ∨ Q, P ↔ Q ≡ (¬P ∨ Q) & (P ∨ ¬Q) and P ∨ (Q & R) ≡ (P ∨ Q) & (P ∨ R), de Morgan\'s laws and quantifier inversion rules. The resulting formulas are "almost" in conjunctive normal form but with quantifiers.' }),
+      c('pre', null,
+        c('code', formulasToText(simplified))
+      ),
 
-        c('br'),
-        c('h3', { class: 'h3', text: 'Simplified formulas' }),
-        c('p', { text: 'We use the equivalences P → Q ≡ ¬P ∨ Q, P ↔ Q ≡ (¬P ∨ Q) & (P ∨ ¬Q) and P ∨ (Q & R) ≡ (P ∨ Q) & (P ∨ R), de Morgan\'s laws and quantifier inversion rules. The resulting formulas are "almost" in conjunctive normal form but with quantifiers.' }),
-        c('pre', null,
-          c('code', formulasToText(simplified))
-        ),
+      c('br'),
+      c('h3', { class: 'h3', text: 'Prenex normal form' }),
+      c('p', { text: 'Duplicate bound variables are renamed to t1, t2, …' }),
+      c('pre', null,
+        c('code', formulasToText(pnf))
+      ),
 
-        c('br'),
-        c('h3', { class: 'h3', text: 'Prenex normal form' }),
-        c('p', { text: 'Duplicate bound variables are renamed to t1, t2, …' }),
-        c('pre', null,
-          c('code', formulasToText(pnf))
-        ),
+      c('br'),
+      c('h3', { class: 'h3', text: 'Skolem normal form' }),
+      c('p', { text: 'New functions are named u1, u2, ….' }),
+      c('pre', null,
+        c('code', formulasToText(snf))
+      ),
 
-        c('br'),
-        c('h3', { class: 'h3', text: 'Skolem normal form' }),
-        c('p', { text: 'New functions are named u1, u2, ….' }),
-        c('pre', null,
-          c('code', formulasToText(snf))
-        ),
+      c('br'),
+      c('h3', { class: 'h3', text: 'Disjuncts' }),
+      c('p', { text: 'A sequence of disjuncts (sets of literals).' }),
+      c('pre', null,
+        c('code', { text: disjuncts.map((d, i) => String(i + 1) + '. ' + stringifyDisjunct(d)).join('\n') })
+      ),
 
-        c('br'),
-        c('h3', { class: 'h3', text: 'Disjuncts' }),
-        c('p', { text: 'A sequence of disjuncts (sets of literals).' }),
-        c('pre', null,
-          c('code', { text: disjuncts.map((d, i) => String(i + 1) + '. ' + stringifyDisjunct(d)).join('\n') })
-        ),
-
-        c('br'),
-        c('h3', { class: 'h3', text: 'Proof' }),
-        c('p', { text: 'A sequence of derived disjuncts with the input disjuncts and resolution literal specified.' }),
-        c('pre', null,
-          !proof && c('code', { text: 'No proof found in under 25 steps.' }),
-          proof && c('code', { text: proof.map((r, i) => String(i + disjuncts.length + 1) + '. ' + stringifyResolvent(r)).join('\n') })
-        )
+      c('br'),
+      c('h3', { class: 'h3', text: 'Proof' }),
+      c('p', { text: 'A sequence of derived disjuncts with the input disjuncts and resolution literal specified.' }),
+      c('pre', null,
+        !proof && c('code', { text: 'No proof found in under 25 steps.' }),
+        proof && c('code', { text: proof.map((r, i) => String(i + disjuncts.length + 1) + '. ' + stringifyResolvent(r)).join('\n') })
       )
     )
   )

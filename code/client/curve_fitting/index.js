@@ -1,7 +1,7 @@
 import { c } from '../../common/rendering/component.js'
 import { aspectRatioBox } from '../core/components/aspect_ratio_box.js'
 import { DictSubject } from '../../common/observables/dict_subject.js'
-import { playgroundTitle } from '../../common/components/playground_title.js'
+import { sectionTitle } from '../../common/components/section_title.js'
 
 import { curveCanvas } from './components/curve_canvas.js'
 import { curveLegend } from './components/curve_legend.js'
@@ -35,7 +35,7 @@ function buildCurves (mapping) {
     })
 }
 
-export function index () {
+export function index ({ path }) {
   const subject$ = new DictSubject({
     width: WIDTH,
     height: HEIGHT,
@@ -75,13 +75,11 @@ export function index () {
   })
 
   return c('div', { class: 'page playground-curve-fitting-page' },
-    c('div', { class: 'section' },
-      c(playgroundTitle, { text: 'Plane curve fitting visualizations' }),
-      c('p', {
-        class: 'curve-fitting-subtitle',
-        text: 'Use the table below to toggle the curves you want to see. Click anywhere on the chart to add or move data points.'
-      })
-    ),
+    c(sectionTitle, { text: 'Plane curve fitting visualizations', path }),
+    c('p', {
+      class: 'curve-fitting-subtitle',
+      text: 'Use the table below to toggle the curves you want to see. Click anywhere on the chart to add or move data points.'
+    }),
 
     c(aspectRatioBox, {
       ratio: 5 / 4,
