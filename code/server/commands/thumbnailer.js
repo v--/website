@@ -10,7 +10,7 @@ import { Logger } from '../support/logger.js'
 import { zipLongest, filter, flatten, take } from '../../common/support/iteration.js'
 import { CoolError } from '../../common/errors.js'
 
-const THUMB_WIDTH = 300
+const THUMB_WIDTH = 360
 const THUMB_HEIGHT = 9 / 16 * THUMB_WIDTH
 
 const config = JSON.parse(readFileSync('config/active.json'))
@@ -70,6 +70,7 @@ async function listRelativePathsRecursively (baseDir, dir, limit) {
     ...await Promise.all(dirPaths.map(dirPath => listRelativePathsRecursively(baseDir, dirPath, limit)))
   ])
 
+  console.warn(Array.from(zipped))
   return Array.from(take(filter(Boolean, flatten(zipped)), limit))
 }
 
