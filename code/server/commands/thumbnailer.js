@@ -114,9 +114,10 @@ async function refreshThumbnails (basePath, validThumbs) {
     } else {
       try {
         await stat(thumbFilePath)
-        updated = updated || await refreshThumbnails(path.join(basePath, fileName), validThumbs)
+        const childUpdated = await refreshThumbnails(path.join(basePath, fileName), validThumbs)
+        updated = updated || childUpdated
 
-        if (updated) {
+        if (childUpdated) {
           logger.info(`Updating thumbnail for dir ${filePath}`)
           await spawnDirThumbnailer(filePath, thumbPath)
         } else {
@@ -137,7 +138,8 @@ async function refreshThumbnails (basePath, validThumbs) {
           }
         }
 
-        updated = updated || await refreshThumbnails(path.join(basePath, fileName), validThumbs)
+        await refreshThumbnails(path.join(basePath, fileName), validThumbs)
+        updated = true
         logger.info(`Generating a thumbnail for dir ${filePath}`)
         await spawnDirThumbnailer(filePath, thumbPath)
         validThumbs.add(thumbFilePath)
