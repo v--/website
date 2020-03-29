@@ -77,7 +77,7 @@ async function spawnDirThumbnailer (dirPath, thumbPath) {
   const relativePaths = await listRelativePathsRecursively(dirPath, '/', 4)
   const args = relativePaths
     .map(relative => path.join(thumbPath, relative) + '.jpg')
-    .concat(['-tile', '2x2', '-geometry', `${THUMB_WIDTH}x${THUMB_HEIGHT}`, thumbPath + '.jpg'])
+    .concat(['-tile', '2x2', '-background', '#eee', '-geometry', `${THUMB_WIDTH}x${THUMB_HEIGHT}`, thumbPath + '.jpg'])
 
   return spawnProcess('/usr/bin/montage', args)
 }
