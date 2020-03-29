@@ -12,6 +12,7 @@ $image-side: 200px;
     border-radius: 2px;
     background-image: url(/images/me_irl.jpg);
     transition: all 1s;
+    background-size: cover;
   }
 
   .about-me {
