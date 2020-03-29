@@ -65,12 +65,11 @@ async function listRelativePathsRecursively (baseDir, dir, limit) {
     }
   }
 
-  const zipped = zipLongest([
+  const zipped = zipLongest(
     filePaths,
     ...await Promise.all(dirPaths.map(dirPath => listRelativePathsRecursively(baseDir, dirPath, limit)))
-  ])
+  )
 
-  console.warn(Array.from(zipped))
   return Array.from(take(filter(Boolean, flatten(zipped)), limit))
 }
 

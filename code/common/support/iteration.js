@@ -127,7 +127,9 @@ export function * zipLongest (...iterables) {
       }
     }
 
-    yield values
+    if (atLeastOne) {
+      yield values
+    }
   }
 }
 
