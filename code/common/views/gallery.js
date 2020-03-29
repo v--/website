@@ -23,7 +23,7 @@ export function gallery ({ data, path }) {
         c('span', { text: `Index of ${path.underCooked}` })
       ),
       c('p', {
-        text: 'A plain-file media gallery. Used to avoid media services with high compression. Click on any of the thumbnails to open the corresponding file in a new tab.'
+        text: 'A plain-file media gallery. Occasionally used to avoid crippled compression in media hosting services.'
       })
     ),
 
@@ -34,7 +34,7 @@ export function gallery ({ data, path }) {
           {
             class: 'gallery-tile',
             link: '/gallery/' + file.url,
-            style: styles({ 'background-image': `url('/${file.thumbnail.replace("'", "\\'")}')` }),
+            style: styles({ 'background-image': `url('/gallery/.thumbs/${file.thumbnail.replace("'", "\\'")}')` }),
             isInternal: !file.isFile,
             newTab: file.isFile
           },

@@ -104,6 +104,33 @@ export function * zip (...iterables) {
   }
 }
 
+export function * zipLongest (...iterables) {
+  if (iterables.length === 0) {
+    return []
+  }
+
+  const iterators = iterables.map(iterable => iterable[Symbol.iterator]())
+  let atLeastOne = true
+
+  while (atLeastOne) {
+    atLeastOne = false
+    const values = []
+
+    for (const i in iterators) {
+      const { done, value } = iterators[i].next()
+
+      if (done) {
+        values[i] = undefined
+      } else {
+        values[i] = value
+        atLeastOne = true
+      }
+    }
+
+    yield values
+  }
+}
+
 export function * uniqueBy (iter, key) {
   const values = Array.from(iter)
   const set = new Set()
@@ -177,7 +204,7 @@ export function shuffle (iter) {
 
 export function * flatten (iter) {
   for (const value of iter) {
-    if (value && value !== iter && value[Symbol.iterator]) {
+    if (value && value !== iter && typeof value !== 'string' && value[Symbol.iterator]) {
       yield * flatten(value)
     } else {
       yield value
@@ -185,7 +212,7 @@ export function * flatten (iter) {
   }
 }
 
-export function * repeat (value, times = Number.Infinity) {
+export function * repeat (value, times = Number.POSITIVE_INFINITY) {
   for (let i = 0; i < times; i++) {
     yield value
   }

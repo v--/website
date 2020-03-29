@@ -32,8 +32,13 @@ export const sync = {
         },
 
         {
-          route: '/gallery_thumbs',
-          dir: ['./gallery_thumbs']
+          route: '/files',
+          dir: ['./mocks']
+        },
+
+        {
+          route: '/gallery',
+          dir: ['./mocks/gallery']
         }
       ]
     })

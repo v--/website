@@ -5,7 +5,7 @@ import { NotFoundError } from '../../common/errors.js'
 
 export class GalleryCollection {
   async readDirectory (basePath) {
-    const { galleryPath, galleryThumbPath } = this.store.config
+    const { galleryPath } = this.store.config
     let fileNames
 
     try {
@@ -27,7 +27,7 @@ export class GalleryCollection {
 
       const filePath = path.join(galleryPath, basePath, fileName)
       const fileStat = await stat(filePath)
-      const thumbPath = path.join(galleryThumbPath, basePath, fileName) + '.jpg'
+      const thumbPath = path.join(basePath, fileName) + '.jpg'
 
       files.push({
         isFile: fileStat.isFile(),

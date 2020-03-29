@@ -43,7 +43,7 @@ export function home () {
 
           c(siteSection, {
             link: '/gallery',
-            text: 'a plain-file media gallery, mostly unprocessed drone videos.'
+            text: 'a plain-file media gallery, occasionally used to avoid crippled compression in media hosting services.'
           }),
 
           c(siteSection, {

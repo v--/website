@@ -7,6 +7,7 @@ import { spawn } from 'child_process'
 import { stat, mkdir, rmdir, readdir, unlink } from '../support/fs.js'
 import { Logger } from '../support/logger.js'
 
+import { zipLongest, filter, flatten, take } from '../../common/support/iteration.js'
 import { CoolError } from '../../common/errors.js'
 
 const THUMB_WIDTH = 300
@@ -39,7 +40,7 @@ function spawnFileThumbnailer (filePath, thumbPath) {
 
   switch (ext) {
     case '.jpg':
-      return spawnProcess('/usr/bin/convert', [filePath, '-resize', `${THUMB_WIDTH}x${THUMB_HEIGHT}`, thumbPath])
+      return spawnProcess('/usr/bin/convert', [filePath, '-auto-orient', '-resize', `${THUMB_WIDTH}x${THUMB_HEIGHT}`, thumbPath])
 
     case '.mp4':
       return spawnProcess('/usr/bin/ffmpeg', ['-ss', '0', '-i', filePath, '-vframes', '1', '-filter:v', `scale=${THUMB_WIDTH}:${THUMB_HEIGHT}`, thumbPath])
@@ -49,14 +50,33 @@ function spawnFileThumbnailer (filePath, thumbPath) {
   }
 }
 
-async function spawnDirThumbnailer (dirPath, thumbPath) {
-  const fileNames = await readdir(thumbPath, 'utf8')
-  const filePaths = fileNames.map(fileName => path.join(thumbPath, fileName))
-  const fileStats = await Promise.all(filePaths.map(file => stat(file)))
+async function listRelativePathsRecursively (baseDir, dir, limit) {
+  const filePaths = []
+  const dirPaths = []
 
-  const args = filePaths
-    .filter((_filePath, i) => fileStats[i].isFile())
-    .slice(0, 4)
+  for (const fileName of await readdir(path.join(baseDir, dir), 'utf8')) {
+    const relativePath = path.join(dir, fileName)
+    const fileStat = await stat(path.join(baseDir, relativePath))
+
+    if (fileStat.isFile()) {
+      filePaths.push(relativePath)
+    } else {
+      dirPaths.push(relativePath)
+    }
+  }
+
+  const zipped = zipLongest([
+    filePaths,
+    ...await Promise.all(dirPaths.map(dirPath => listRelativePathsRecursively(baseDir, dirPath, limit)))
+  ])
+
+  return Array.from(take(filter(Boolean, flatten(zipped)), limit))
+}
+
+async function spawnDirThumbnailer (dirPath, thumbPath) {
+  const relativePaths = await listRelativePathsRecursively(dirPath, '/', 4)
+  const args = relativePaths
+    .map(relative => path.join(thumbPath, relative) + '.jpg')
     .concat(['-tile', '2x2', '-geometry', `${THUMB_WIDTH}x${THUMB_HEIGHT}`, thumbPath + '.jpg'])
 
   return spawnProcess('/usr/bin/montage', args)
@@ -109,7 +129,7 @@ async function refreshThumbnails (basePath, validThumbs) {
         }
 
         await refreshThumbnails(path.join(basePath, fileName), validThumbs)
-        logger.info(`Generating a thumbnails for dir ${filePath}`)
+        logger.info(`Generating a thumbnail for dir ${filePath}`)
         await spawnDirThumbnailer(filePath, thumbPath)
         validThumbs.add(thumbFilePath)
       }
