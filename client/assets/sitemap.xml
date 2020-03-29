@@ -11,6 +11,11 @@
     </url>
 
     <url>
+        <loc>https://ivasilev.net/gallery</loc>
+        <priority>1.000</priority>
+    </url>
+
+    <url>
         <loc>https://ivasilev.net/pacman</loc>
         <priority>1.000</priority>
     </url>

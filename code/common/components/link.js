@@ -17,6 +17,10 @@ export function link (state, children) {
     }
   }
 
+  if (state.newTab) {
+    childState.target = '_blank'
+  }
+
   if ('text' in state) {
     childState.text = state.text
   } else if (children.length === 0 && state.link) {
@@ -25,6 +29,10 @@ export function link (state, children) {
 
   if ('title' in state) {
     childState.title = state.title
+  }
+
+  if ('style' in state) {
+    childState.style = state.style
   }
 
   childState.class = classlist('link', state.class)

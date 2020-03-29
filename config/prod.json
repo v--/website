@@ -5,6 +5,8 @@
 
     "store": {
         "fileRootPath": "/srv/http/files",
+        "galleryPath": "/srv/http/gallery",
+        "galleryThumbPath": "/srv/http/gallery/.thumbs",
         "pacmanDBPath": "/srv/http/pacman/x86_64/ivasilev.db"
     }
 }

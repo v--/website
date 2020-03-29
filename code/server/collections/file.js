@@ -16,11 +16,11 @@ export class FileCollection {
 
     try {
       files = await readdir(fullPath, 'utf8')
-    } catch (e) {
-      if (e.code === 'ENOENT' || e.code === 'ENOTDIR') {
+    } catch (err) {
+      if (err.code === 'ENOENT' || err.code === 'ENOTDIR') {
         throw new NotFoundError()
       } else {
-        throw e
+        throw err
       }
     }
 

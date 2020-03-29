@@ -9,10 +9,10 @@ export async function serverRouter (path, store) {
       return Response.json(await store.collections.pacmanPackages.load())
     }
 
-    if (path.segments[1] === 'files') {
+    if (path.segments[1] === 'files' || path.segments[1] === 'gallery') {
       try {
         const directory = path.segments.slice(2).join('/')
-        return Response.json(await store.collections.files.readDirectory(directory))
+        return Response.json(await store.collections[path.segments[1]].readDirectory(directory))
       } catch (e) {
         if (!(e instanceof NotFoundError)) {
           throw e

@@ -19,6 +19,12 @@ export class Store {
         }
       },
 
+      gallery: {
+        readDirectory: (path) => {
+          return fetchJSON(`/api/gallery/${path}`)
+        }
+      },
+
       pacmanPackages: {
         load: () => {
           return fetchJSON('/api/pacman')
@@ -32,6 +38,10 @@ export class MockStore {
   constructor (data) {
     this.collections = {
       files: {
+        readDirectory () { return data }
+      },
+
+      gallery: {
         readDirectory () { return data }
       },
 

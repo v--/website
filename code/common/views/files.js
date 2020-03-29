@@ -1,8 +1,17 @@
 import { c } from '../rendering/component.js'
 
 import { link } from '../components/link.js'
+import { icon } from '../components/icon.js'
 import { markdown } from '../components/markdown.js'
 import { interactiveTable } from '../components/interactive_table.js'
+
+function getParentFilesPath (path) {
+  if (path.segments.length === 1) {
+    return path
+  }
+
+  return path.getParentPath()
+}
 
 function getFileExtension (fileName) {
   const extIndex = fileName.lastIndexOf('.')
@@ -103,7 +112,13 @@ export function files ({ path, data }) {
 
   return c('div', { class: 'page files-page' },
     c('div', { class: 'section' },
-      c('h1', { class: 'section-title', text: `Index of ${path.underCooked}` }),
+      c('h1', { class: 'section-title' },
+        c(link, { link: getParentFilesPath(path).underCooked, isInternal: true, title: 'Go to the parent directory' },
+          c(icon, { name: 'chevron-up' })
+        ),
+        c('span', { text: `Index of ${path.underCooked}` })
+      ),
+
       c(interactiveTable, {
         class: 'files-table',
         data: dynamic,

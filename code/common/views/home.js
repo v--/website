@@ -42,6 +42,11 @@ export function home () {
           }),
 
           c(siteSection, {
+            link: '/gallery',
+            text: 'a plain-file media gallery, mostly unprocessed drone videos.'
+          }),
+
+          c(siteSection, {
             link: '/pacman',
             text: 'information about a pacman repository hosted under the same domain name as the website.'
           }),

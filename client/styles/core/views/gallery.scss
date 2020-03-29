@@ -1,0 +1,46 @@
+@import "../../colors.scss";
+@import "../../sizes.scss";
+
+$gallery-tile-width: 360px;
+$gallery-tile-height: 9 / 16 * $gallery-tile-width;
+
+.gallery-page {
+  .gallery {
+    display: flex;
+    flex-wrap: wrap;
+
+    .gallery-tile {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      width: $gallery-tile-width;
+      height: $gallery-tile-height;
+      text-decoration: none;
+      background-color: $color-midground;
+      border: 1px solid $color-light;
+      margin-bottom: 1em;
+      margin-right: 1em;
+
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+
+      .gallery-tile-title {
+        width: 100%;
+        align-self: flex-end;
+        text-align: center;
+        color: $color-foreground;
+        background-color: rgba($color-light, 0.85);
+      }
+
+      .gallery-tile-arrow {
+        position: absolute;
+        font-size: 3rem;
+        fill: $color-midground;
+        filter: drop-shadow(0 0 0.5rem $color-foreground);
+      }
+    }
+  }
+}

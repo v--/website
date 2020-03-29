@@ -5,6 +5,8 @@
 
     "store": {
         "fileRootPath": "/home/ianis/Documents",
+        "galleryPath": "/home/ianis/Pictures/Drone",
+        "galleryThumbPath": "gallery_thumbs",
         "pacmanDBPath": "/var/lib/pacman/sync/ivasilev.db"
     }
 }

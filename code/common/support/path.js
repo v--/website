@@ -26,6 +26,13 @@ export class Path {
     )
   }
 
+  getParentPath () {
+    return new this.constructor(
+      this.segments.slice(0, this.segments.length - 1),
+      new Map(this.query)
+    )
+  }
+
   join (segment) {
     return new Path(this.segments.concat(segment), this.query)
   }

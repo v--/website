@@ -29,6 +29,11 @@ export const sync = {
         {
           route: '/icons.json',
           dir: ['./public/icons.json']
+        },
+
+        {
+          route: '/gallery_thumbs',
+          dir: ['./gallery_thumbs']
         }
       ]
     })

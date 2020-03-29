@@ -5,6 +5,7 @@ export async function clientRouter (path, api) {
   try {
     return await router(path, api)
   } catch (e) {
+    console.error(e)
     return RouterState.error(path, e)
   }
 }

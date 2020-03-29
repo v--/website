@@ -20,9 +20,10 @@
 @import "./components/table.scss";
 @import "./components/playground_title.scss";
 
-@import "./views/error.scss";
-@import "./views/files.scss";
 @import "./views/home.scss";
+@import "./views/files.scss";
+@import "./views/gallery.scss";
+@import "./views/error.scss";
 @import "./views/unsupported.scss";
 
 body {

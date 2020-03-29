@@ -1,7 +1,9 @@
 [
     "chevron-left",
+    "chevron-up",
     "alert",
     "chart-arc",
+    "play",
 
     "sort-variant",
     "sort-descending",
@@ -11,6 +13,7 @@
     "folder",
     "code-greater-than",
     "download",
+    "image-multiple",
     "file-document",
 
     "email",
