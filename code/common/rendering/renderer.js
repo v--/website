@@ -166,14 +166,12 @@ export class FactoryRenderer extends Renderer {
 
           if (oldChild.stateSource !== newChild.stateSource) {
             oldChild.updateStateSource(newChild.stateSource)
-            this.rerenderChildren(oldChild, newChild)
-          } else {
-            this.rerenderChildren(oldChild, newChild)
-            const newRenderer = this.dispatcher.cache.get(oldChild)
-            // Some of the nested children may have been updated
-            newRenderer.rerender()
           }
 
+          this.rerenderChildren(oldChild, newChild)
+          const newRenderer = this.dispatcher.cache.get(oldChild)
+          // Some of the nested children may have been updated
+          newRenderer.rerender()
           break
         }
 
