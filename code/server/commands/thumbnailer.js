@@ -62,6 +62,10 @@ async function refreshThumbnails (basePath) {
   logger.debug(`Processing directory ${path.join(galleryPath, basePath)}`)
 
   for (const fileName of await readdir(path.join(galleryPath, basePath), 'utf8')) {
+    if (fileName[0] === '.') {
+      continue
+    }
+
     const filePath = path.join(galleryPath, basePath, fileName)
     const thumbPath = path.join(galleryThumbPath, basePath, fileName)
     const fileStat = await stat(filePath)

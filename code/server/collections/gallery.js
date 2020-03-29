@@ -21,6 +21,10 @@ export class GalleryCollection {
     const files = []
 
     for (const fileName of fileNames) {
+      if (fileName[0] === '.') {
+        continue
+      }
+
       const filePath = path.join(galleryPath, basePath, fileName)
       const fileStat = await stat(filePath)
       const thumbPath = path.join(galleryThumbPath, basePath, fileName) + '.jpg'
