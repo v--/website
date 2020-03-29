@@ -50,7 +50,10 @@ function spawnFileThumbnailer (filePath, thumbPath) {
 
 async function spawnDirThumbnailer (dirPath, thumbPath) {
   const fileNames = await readdir(thumbPath, 'utf8')
+  const fileStats = await Promise.all(fileNames.map(file => stat(file)))
+
   const args = fileNames
+    .filter((_fileName, i) => fileStats[i].isFile())
     .slice(0, 4)
     .map(fileName => path.join(thumbPath, fileName))
     .concat(['-tile', '2x2', '-geometry', `${THUMB_WIDTH}x${THUMB_HEIGHT}`, thumbPath + '.jpg'])
