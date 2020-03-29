@@ -5,6 +5,7 @@ import { QueryConfig } from '../support/query_config.js'
 import { orderComparator, inverseOrderComparator } from '../support/sorting.js'
 
 import { table } from './table.js'
+import { pagination } from './pagination.js'
 
 import { icon } from './icon.js'
 import { link } from './link.js'
@@ -35,44 +36,6 @@ function sliceData ({ columns, data, fixedData, sorting, perPage, page }) {
     .slice(pageStart, pageStart + perPage - fixed.length + 1)
 
   return fixed.concat(dynamic)
-}
-
-function * pagination (pages, config) {
-  const currentPage = config.get('page')
-
-  yield c(link,
-    {
-      class: classlist('paginator paginator-prev', currentPage === 1 && 'disabled'),
-      link: currentPage === 1 ? '' : config.getUpdatedPath({ page: currentPage - 1 }),
-      isInternal: true
-    },
-    c(icon, {
-      name: 'chevron-left'
-    })
-  )
-
-  for (let i = 1; i <= pages; i++) {
-    yield c(link,
-      {
-        class: classlist('paginator', currentPage === i && 'disabled'),
-        link: config.getUpdatedPath({ page: i }),
-        isInternal: true
-      },
-      c('span', { text: String(i) })
-    )
-  }
-
-  yield c(link,
-    {
-      disabled: currentPage === pages,
-      class: classlist('paginator paginator-next', currentPage === pages && 'disabled'),
-      link: currentPage === pages ? '' : config.getUpdatedPath({ page: currentPage + 1 }),
-      isInternal: true
-    },
-    c(icon, {
-      name: 'chevron-left'
-    })
-  )
 }
 
 export function interactiveTable ({ class: cssClass, columns, data, defaultSorting = 1, fixedData = [], path }) {
@@ -131,10 +94,8 @@ export function interactiveTable ({ class: cssClass, columns, data, defaultSorti
     },
     pages > 1 && c('thead', null,
       c('tr', null,
-        c('td', { colspan: '4', class: 'pagination-wrapper' },
-          c('div', { class: 'pagination' },
-            ...pagination(pages, config)
-          )
+        c('th', { colspan: '4', class: 'pagination-wrapper' },
+          pagination(pages, config)
         )
       )
     )

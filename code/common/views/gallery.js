@@ -1,9 +1,22 @@
 import { c } from '../rendering/component.js'
+import { ClientError } from '../errors.js'
 import { styles } from '../support/dom_properties.js'
 import { map } from '../support/iteration.js'
+import { QueryConfig } from '../support/query_config.js'
 
 import { link } from '../components/link.js'
 import { icon } from '../components/icon.js'
+import { pagination } from '../components/pagination.js'
+
+const QUERY_CONFIG_DEFAULTS = Object.freeze({
+  per_page: 15,
+  page: 1
+})
+
+const QUERY_CONFIG_PARSERS = Object.freeze({
+  per_page: Number,
+  page: Number
+})
 
 function getParentGalleryPath (path) {
   if (path.segments.length === 1) {
@@ -14,6 +27,18 @@ function getParentGalleryPath (path) {
 }
 
 export function gallery ({ data, path }) {
+  const config = new QueryConfig(path, QUERY_CONFIG_DEFAULTS, QUERY_CONFIG_PARSERS)
+  const perPage = config.get('per_page')
+  const page = config.get('page')
+  const pages = Math.ceil(data.files.length / perPage)
+
+  if (page < 1 || (pages !== 0 && page > pages)) {
+    throw new ClientError(`Invalid page index ${page} specified`)
+  }
+
+  const pageStart = (page - 1) * perPage
+  const sliced = data.files.slice(pageStart, pageStart + perPage)
+
   return c('div', { class: 'page gallery-page' },
     c('div', { class: 'section' },
       c('h1', { class: 'section-title' },
@@ -49,7 +74,11 @@ export function gallery ({ data, path }) {
             name: 'play'
           })
         )
-      }, data.files)
+      }, sliced)
+    ),
+
+    pages > 1 && c('div', { class: 'pagination-wrapper' },
+      pagination(pages, config)
     )
   )
 }

@@ -44,4 +44,11 @@ $gallery-tile-height: 9 / 16 * $gallery-tile-width;
       }
     }
   }
+
+  .pagination-wrapper {
+    border-top: 1px solid $color-midground;
+    border-bottom: 1px solid $color-midground;
+    line-height: 2rem;
+    margin-bottom: 1rem;
+  }
 }
