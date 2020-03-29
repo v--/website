@@ -9,7 +9,7 @@ import { icon } from '../components/icon.js'
 import { pagination } from '../components/pagination.js'
 
 const QUERY_CONFIG_DEFAULTS = Object.freeze({
-  per_page: 15,
+  per_page: 12,
   page: 1
 })
 

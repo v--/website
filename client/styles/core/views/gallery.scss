@@ -1,13 +1,17 @@
 @import "../../colors.scss";
 @import "../../sizes.scss";
 
-$gallery-tile-width: 360px;
+$gallery-tile-width: 23rem;
 $gallery-tile-height: 9 / 16 * $gallery-tile-width;
+$gallery-tile-margin: 1rem;
+$gallery-tile-border-width: 1px;
 
 .gallery-page {
   .gallery {
     display: flex;
     flex-wrap: wrap;
+    width: $gallery-tile-width;
+    margin: 0 auto;
 
     .gallery-tile {
       position: relative;
@@ -19,9 +23,9 @@ $gallery-tile-height: 9 / 16 * $gallery-tile-width;
       height: $gallery-tile-height;
       text-decoration: none;
       background-color: $color-midground;
-      border: 1px solid $color-light;
-      margin-bottom: 1em;
-      margin-right: 1em;
+      border: $gallery-tile-border-width solid $color-light;
+      margin-bottom: $gallery-tile-margin;
+      margin-right: $gallery-tile-margin;
 
       background-size: contain;
       background-repeat: no-repeat;
@@ -51,5 +55,15 @@ $gallery-tile-height: 9 / 16 * $gallery-tile-width;
     border-bottom: 1px solid $color-midground;
     line-height: 2rem;
     margin-bottom: 1rem;
+  }
+}
+
+@each $count in 2, 3, 4, 6 {
+  @media (min-width: $sidebar-width + 2 * $sidebar-padding + 2 * $main-hpadding-desktop + $count * $gallery-tile-width) {
+    .gallery-page {
+      .gallery {
+        width: calc(#{$count * ($gallery-tile-width + $gallery-tile-margin)} + #{2 * $count * $gallery-tile-border-width});
+      }
+    }
   }
 }
