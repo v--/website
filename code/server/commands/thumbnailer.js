@@ -84,6 +84,7 @@ async function spawnDirThumbnailer (dirPath, thumbPath) {
 
 async function refreshThumbnails (basePath, validThumbs) {
   logger.debug(`Processing directory ${path.join(galleryPath, basePath)}`)
+  let updated = false
 
   for (const fileName of await readdir(path.join(galleryPath, basePath), 'utf8')) {
     if (fileName[0] === '.') {
@@ -108,13 +109,21 @@ async function refreshThumbnails (basePath, validThumbs) {
         logger.info(`Generating a thumbnail for file ${filePath}`)
         await spawnFileThumbnailer(filePath, thumbFilePath)
         validThumbs.add(thumbFilePath)
+        updated = true
       }
     } else {
       try {
         await stat(thumbFilePath)
-        logger.debug(`Thumbnail already exists for dir ${filePath}`)
+        updated = updated || await refreshThumbnails(path.join(basePath, fileName), validThumbs)
+
+        if (updated) {
+          logger.info(`Updating thumbnail for dir ${filePath}`)
+          await spawnDirThumbnailer(filePath, thumbPath)
+        } else {
+          logger.debug(`Already updated thumbnail for dir ${filePath}`)
+        }
+
         validThumbs.add(thumbFilePath)
-        await refreshThumbnails(path.join(basePath, fileName), validThumbs)
       } catch (err) {
         if (err.code !== 'ENOENT') {
           throw err
@@ -128,13 +137,15 @@ async function refreshThumbnails (basePath, validThumbs) {
           }
         }
 
-        await refreshThumbnails(path.join(basePath, fileName), validThumbs)
+        updated = updated || await refreshThumbnails(path.join(basePath, fileName), validThumbs)
         logger.info(`Generating a thumbnail for dir ${filePath}`)
         await spawnDirThumbnailer(filePath, thumbPath)
         validThumbs.add(thumbFilePath)
       }
     }
   }
+
+  return updated
 }
 
 async function garbageCollectThumbs (basePath, thumbs) {
