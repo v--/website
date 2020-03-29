@@ -10,7 +10,7 @@ import { Logger } from '../support/logger.js'
 import { zipLongest, filter, flatten, take } from '../../common/support/iteration.js'
 import { CoolError } from '../../common/errors.js'
 
-const THUMB_WIDTH = 360
+const THUMB_WIDTH = 720
 const THUMB_HEIGHT = 9 / 16 * THUMB_WIDTH
 
 const config = JSON.parse(readFileSync('config/active.json'))
