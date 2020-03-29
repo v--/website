@@ -48,7 +48,7 @@ export function gallery ({ data, path }) {
         c('span', { text: `Index of ${path.underCooked}` })
       ),
       c('p', {
-        text: 'A plain-file media gallery. Occasionally used to avoid crippled compression in media hosting services.'
+        text: 'A plain-file media gallery. Used occasionally to avoid crippled compression in media hosting services.'
       })
     ),
 
