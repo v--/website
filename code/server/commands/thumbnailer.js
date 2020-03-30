@@ -8,6 +8,7 @@ import { stat, mkdir, rmdir, readdir, unlink } from '../support/fs.js'
 import { Logger } from '../support/logger.js'
 
 import { zipLongest, filter, flatten, take } from '../../common/support/iteration.js'
+import { inverseOrderComparator } from '../../common/support/sorting.js'
 import { CoolError } from '../../common/errors.js'
 
 const THUMB_WIDTH = 720
@@ -51,10 +52,11 @@ function spawnFileThumbnailer (filePath, thumbPath) {
 }
 
 async function listRelativePathsRecursively (baseDir, dir, limit) {
+  const childNames = (await readdir(path.join(baseDir, dir), 'utf8')).sort(inverseOrderComparator)
   const filePaths = []
   const dirPaths = []
 
-  for (const fileName of await readdir(path.join(baseDir, dir), 'utf8')) {
+  for (const fileName of childNames) {
     const relativePath = path.join(dir, fileName)
     const fileStat = await stat(path.join(baseDir, relativePath))
 
