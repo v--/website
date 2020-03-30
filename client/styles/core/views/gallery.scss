@@ -3,6 +3,10 @@
 
 $gallery-tile-width: 23rem;
 $gallery-tile-height: 9 / 16 * $gallery-tile-width;
+
+$gallery-tile-width-mobile: 19rem;
+$gallery-tile-height-mobile: 9 / 16 * $gallery-tile-width-mobile;
+
 $gallery-tile-margin: 1rem;
 $gallery-tile-border-width: 1px;
 
@@ -56,6 +60,20 @@ $gallery-tile-border-width: 1px;
     border-bottom: 1px solid $color-midground;
     line-height: 2rem;
     margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: $mobile-width) {
+  .gallery-page {
+    .gallery {
+      width: $gallery-tile-width-mobile;
+
+      .gallery-tile {
+        width: $gallery-tile-width-mobile;
+        height: $gallery-tile-height-mobile;
+        margin-right: 0;
+      }
+    }
   }
 }
 
