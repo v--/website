@@ -11,7 +11,7 @@ export function inverseOrderComparator (a, b) {
 }
 
 export function imageSortingComparator (a, b) {
-  if ((a.startsWith('IMG_') && b.startsWith('IMG_')) || (a.startsWith('VID_') && b.startsWith('VID_'))) {
+  if (a.match(/\d{4}/) && b.match(/\d{4}/)) {
     return inverseOrderComparator(a, b)
   }
 
