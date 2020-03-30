@@ -34,12 +34,13 @@ $gallery-tile-border-width: 1px;
       background-position: center;
 
       .gallery-tile-title {
-        width: 100%;
         text-align: center;
         color: $color-foreground;
-        background-color: rgba($color-light, 0.85);
+        background-color: rgba($color-midground, 0.85);
         bottom: -1px;
-        line-height: 2rem;
+        right: -1px;
+        left: -1px;
+        line-height: 2.5rem;
         position: absolute;
       }
 
@@ -53,9 +54,10 @@ $gallery-tile-border-width: 1px;
   }
 
   .pagination-wrapper {
-    border-top: 1px solid $color-midground;
-    border-bottom: 1px solid $color-midground;
+    border-top: 1px solid $color-light;
+    border-bottom: 1px solid $color-light;
     line-height: 2rem;
+    margin-top: 1rem;
     margin-bottom: 1rem;
   }
 }
