@@ -23,7 +23,7 @@ export function files ({ path, data }) {
       value (entry) {
         return c(link, {
           text: entry.name,
-          link: (entry.name === '..' ? path.parent : path.join(entry.name)).underCooked,
+          link: path.join(entry.name).underCooked,
           isInternal: !entry.isFile
         })
       }
@@ -33,10 +33,6 @@ export function files ({ path, data }) {
       label: 'Type',
       class: 'col-type',
       value (entry) {
-        if (entry.name === '..') {
-          return '-'
-        }
-
         if (!entry.isFile) {
           return 'Directory'
         }
@@ -79,10 +75,6 @@ export function files ({ path, data }) {
       label: 'Modified',
       class: 'col-modified',
       view (entry) {
-        if (entry.name === '..') {
-          return '-'
-        }
-
         return new Date(entry.modified).toUTCString()
       },
       value (entry) {
@@ -91,24 +83,12 @@ export function files ({ path, data }) {
     }
   ]
 
-  const fixed = []
-  const dynamic = []
-
-  for (const entry of data.entries) {
-    if (entry.name === '..') {
-      fixed.push(entry)
-    } else {
-      dynamic.push(entry)
-    }
-  }
-
   return c('div', { class: 'page files-page' },
     c('div', null,
       c(sectionTitle, { text: path.underCooked, path }),
       c(interactiveTable, {
         class: 'files-table',
-        data: dynamic,
-        fixedData: fixed,
+        data: data.entries,
         defaultSorting: 2,
         columns,
         path

@@ -22,7 +22,7 @@ const QUERY_CONFIG_PARSERS = Object.freeze({
   page: Number
 })
 
-function sliceData ({ columns, data, fixedData, sorting, perPage, page }) {
+function sliceData ({ columns, data, sorting, perPage, page }) {
   const column = columns[Math.abs(sorting) - 1]
   const valueComparator = sorting > 0 ? orderComparator : inverseOrderComparator
 
@@ -31,14 +31,11 @@ function sliceData ({ columns, data, fixedData, sorting, perPage, page }) {
   }
 
   const pageStart = (page - 1) * perPage
-  const fixed = Array.from(fixedData).sort(comparator)
-  const dynamic = Array.from(data).sort(comparator)
-    .slice(pageStart, pageStart + perPage - fixed.length + 1)
-
-  return fixed.concat(dynamic)
+  return Array.from(data).sort(comparator)
+    .slice(pageStart, pageStart + perPage)
 }
 
-export function interactiveTable ({ class: cssClass, columns, data, defaultSorting = 1, fixedData = [], path }) {
+export function interactiveTable ({ class: cssClass, columns, data, defaultSorting = 1, path }) {
   const config = new QueryConfig(path, Object.assign({ sorting: defaultSorting }, QUERY_CONFIG_DEFAULTS), QUERY_CONFIG_PARSERS)
   const perPage = config.get('per_page')
   const page = config.get('page')
@@ -58,7 +55,7 @@ export function interactiveTable ({ class: cssClass, columns, data, defaultSorti
     throw new ClientError(`Invalid page index ${page} specified`)
   }
 
-  const sliced = sliceData({ columns, data, fixedData, sorting, perPage, page })
+  const sliced = sliceData({ columns, data, sorting, perPage, page })
   const patchedColumns = []
 
   for (let i = 1; i <= columns.length; i++) {

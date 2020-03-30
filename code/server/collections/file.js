@@ -24,17 +24,6 @@ export class FileCollection {
       }
     }
 
-    const parentStat = await stat(fullPath)
-
-    if (basePath !== '') {
-      result.entries.push({
-        name: '..',
-        isFile: false,
-        modified: String(parentStat.mtime),
-        size: parentStat.size
-      })
-    }
-
     for (const name of files) {
       const childStat = await stat(path.join(fullPath, name))
 

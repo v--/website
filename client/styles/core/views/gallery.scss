@@ -14,9 +14,7 @@ $gallery-tile-border-width: 1px;
   .gallery {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     width: $gallery-tile-width;
-    margin: 0 auto;
 
     .gallery-tile {
       position: relative;
