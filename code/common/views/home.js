@@ -82,15 +82,21 @@ export function home () {
           }),
 
           c(contact, {
+            text: 'Facebook',
+            icon: 'facebook',
+            link: 'https://www.facebook.com/ianis.vasilev'
+          }),
+
+          c(contact, {
             text: 'GitHub',
             icon: 'github-circle',
             link: 'https://github.com/v--'
           }),
 
           c(contact, {
-            text: 'Facebook',
-            icon: 'facebook',
-            link: 'https://www.facebook.com/ianis.vasilev'
+            text: 'Reddit',
+            icon: 'reddit',
+            link: 'https://www.reddit.com/user/IanisVasilev'
           })
         ),
 
