@@ -11,7 +11,7 @@ export function inverseOrderComparator (a, b) {
 }
 
 export function imageSortingComparator (a, b) {
-  for (const regex of [/^IMG_/, /^VID_/, /^\d{4}-\d{2}-\d{2}/]) {
+  for (const regex of [/^(IMG|VID)_/, /^\d{4}-\d{2}-\d{2}/]) {
     if (regex.test(a) && regex.test(b)) {
       return inverseOrderComparator(a, b)
     }
