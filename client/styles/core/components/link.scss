@@ -9,12 +9,16 @@
     border: 0;
   }
 
-  color: $color-accent-saturated;
-  fill: $color-accent-saturated;
+  color: $color-accent;
+  fill: $color-accent;
+
+  &:visited {
+    color: $color-accent;
+    fill: $color-accent;
+  }
 
   &:hover,
-  &:active,
-  &:visited {
+  &:active {
     color: $color-accent-saturated;
     fill: $color-accent-saturated;
   }

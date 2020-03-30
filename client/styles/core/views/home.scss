@@ -15,8 +15,13 @@ $image-side: 200px;
     background-size: cover;
   }
 
+  .info {
+    height: 100%;
+  }
+
   .about-me {
-    margin-right: 2em;
+    margin-bottom: 1rem;
+    margin-right: 2rem;
     width: 100%;
 
     .me-irl {

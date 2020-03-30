@@ -104,7 +104,7 @@ export function files ({ path, data }) {
 
   return c('div', { class: 'page files-page' },
     c('div', null,
-      c(sectionTitle, { text: `Index of ${path.underCooked}`, path }),
+      c(sectionTitle, { text: path.underCooked, path }),
       c(interactiveTable, {
         class: 'files-table',
         data: dynamic,

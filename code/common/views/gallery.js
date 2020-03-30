@@ -42,8 +42,7 @@ export function gallery ({ data, path }) {
 
   return c('div', { class: 'page gallery-page' },
     c('div', null,
-      c(sectionTitle, { text: `Index of ${path.underCooked}`,
-        path }),
+      c(sectionTitle, { text: path.underCooked, path }),
       c('p', null,
         c('span', { text: 'A plain-file media gallery that I use occasionally to avoid crippled compression in media hosting services. All content is ' }),
         c(link, { text: 'CC0', link: 'https://creativecommons.org/share-your-work/public-domain/cc0/' }),

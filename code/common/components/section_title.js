@@ -14,8 +14,8 @@ function getParentPathWithinSection (path) {
 
 export function sectionTitle ({ text, class: className, path = null }) {
   return c('h1', { class: classlist('section-title', className) },
-    path !== null && c(link, { link: getParentPathWithinSection(path).cooked, isInternal: true, title: 'Go one level up' },
-      c(icon, { name: 'chevron-up' })
+    path !== null && c(link, { link: getParentPathWithinSection(path).cooked, isInternal: true, title: 'Go one level up', disabled: true },
+      c(icon, { name: 'upload' })
     ),
     c('span', { text, title: text })
   )

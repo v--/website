@@ -10,7 +10,10 @@ export function link (state, children) {
 
     if (state.isInternal) {
       childState.click = function click (event) {
-        if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return
+        if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
+          return
+        }
+
         location$.next(state.link)
         event.preventDefault()
       }
@@ -27,12 +30,10 @@ export function link (state, children) {
     childState.text = state.link
   }
 
-  if ('title' in state) {
-    childState.title = state.title
-  }
-
-  if ('style' in state) {
-    childState.style = state.style
+  for (const prop of ['title', 'style']) {
+    if (prop in state) {
+      childState[prop] = state[prop]
+    }
   }
 
   childState.class = classlist('link', state.class)
