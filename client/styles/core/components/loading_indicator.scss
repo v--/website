@@ -12,9 +12,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: $z-index-loading-indicator;
 
   .loading-indicator {
-    z-index: $z-index-loading-indicator;
     font-size: 5em;
     font-weight: bold;
     transition: opacity $transition-loading;
