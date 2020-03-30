@@ -19,14 +19,6 @@ const QUERY_CONFIG_PARSERS = Object.freeze({
   page: Number
 })
 
-function getParentGalleryPath (path) {
-  if (path.segments.length === 1) {
-    return path
-  }
-
-  return path.getParentPath()
-}
-
 export function gallery ({ data, path }) {
   const config = new QueryConfig(path, QUERY_CONFIG_DEFAULTS, QUERY_CONFIG_PARSERS)
   const perPage = config.get('per_page')

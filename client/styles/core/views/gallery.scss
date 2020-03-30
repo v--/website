@@ -76,7 +76,7 @@ $gallery-tile-border-width: 1px;
   }
 }
 
-@each $count in 2, 3, 4, 6 {
+@each $count in 2, 3, 4, 6, 12 {
   @media (min-width: $sidebar-width + 2 * $main-hpadding-desktop + $count * $gallery-tile-width + ($count - 1) * $gallery-tile-margin) {
     .gallery-page {
       .gallery {
