@@ -1,7 +1,7 @@
 import path from 'path'
 
 import { stat, readdir } from '../support/fs.js'
-import { inverseOrderComparator } from '../../common/support/sorting.js'
+import { imageSortingComparator } from '../../common/support/sorting.js'
 import { NotFoundError } from '../../common/errors.js'
 
 export class GalleryCollection {
@@ -10,7 +10,7 @@ export class GalleryCollection {
     let fileNames
 
     try {
-      fileNames = (await readdir(path.join(galleryPath, basePath), 'utf8')).sort(inverseOrderComparator)
+      fileNames = (await readdir(path.join(galleryPath, basePath), 'utf8')).sort(imageSortingComparator)
     } catch (err) {
       if (err.code === 'ENOENT' || err.code === 'ENOTDIR') {
         throw new NotFoundError()
