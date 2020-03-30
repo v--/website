@@ -20,7 +20,7 @@ async function routerImpl (path, store) {
   switch (path.segments[0]) {
     case 'files':
       return {
-        title: `index of ${path.underCooked}`,
+        title: path.underCooked,
         factory: files,
         data: await store.collections.files.readDirectory(path.segments.slice(1).join('/')),
         sidebarID: SidebarId.FILES
@@ -28,7 +28,7 @@ async function routerImpl (path, store) {
 
     case 'gallery':
       return {
-        title: `index of ${path.underCooked}`,
+        title: path.underCooked,
         factory: gallery,
         data: await store.collections.gallery.readDirectory(path.segments.slice(1).join('/')),
         sidebarID: SidebarId.GALLERY
