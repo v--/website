@@ -8,7 +8,8 @@ $gallery-tile-width-mobile: 19rem;
 $gallery-tile-height-mobile: 9 / 16 * $gallery-tile-width-mobile;
 
 $gallery-tile-margin: 1rem;
-$gallery-tile-border-width: 1px;
+
+$transition-gallery: 250ms;
 
 .gallery-page {
   .gallery {
@@ -28,11 +29,11 @@ $gallery-tile-border-width: 1px;
       height: $gallery-tile-height;
       text-decoration: none;
       background-color: $color-midground;
-      border: $gallery-tile-border-width solid $color-light;
 
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
+      transition: box-shadow $transition-gallery;
 
       .gallery-tile-title {
         text-align: center;
@@ -50,6 +51,10 @@ $gallery-tile-border-width: 1px;
         font-size: 3rem;
         fill: $color-midground;
         filter: drop-shadow(0 0 1rem $color-foreground);
+      }
+
+      &:hover {
+        box-shadow: 0 0 1rem $color-dark;
       }
     }
   }
