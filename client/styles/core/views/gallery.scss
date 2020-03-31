@@ -16,6 +16,7 @@ $gallery-tile-border-width: 1px;
     grid-template-columns: $gallery-tile-width;
     grid-gap: $gallery-tile-margin;
     justify-content: center;
+    margin-bottom: 1rem;
 
     .gallery-tile {
       position: relative;
