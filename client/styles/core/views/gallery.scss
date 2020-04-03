@@ -39,9 +39,9 @@ $transition-gallery: 250ms;
         text-align: center;
         color: $color-foreground;
         background-color: rgba($color-midground, 0.85);
-        bottom: -1px;
-        right: -1px;
-        left: -1px;
+        bottom: 0;
+        right: 0;
+        left: 0;
         line-height: 2.5rem;
         position: absolute;
       }
