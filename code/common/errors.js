@@ -91,5 +91,11 @@ export class NotFoundError extends HTTPError {
   }
 }
 
+export class ForbiddenError extends HTTPError {
+  constructor () {
+    super(403, 'Forbidden')
+  }
+}
+
 // This is for restoring server errors that do not have their class id set
 export class GenericError extends CoolError {}

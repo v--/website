@@ -2,12 +2,12 @@ import path from 'path'
 
 import { stat, readdir } from '../support/fs.js'
 import { imageSortingComparator } from '../../common/support/sorting.js'
-import { NotFoundError } from '../../common/errors.js'
+import { ForbiddenError, NotFoundError } from '../../common/errors.js'
 
 export class GalleryCollection {
   async readDirectory (basePath) {
-    if (/\/?Unlisted\/*$/.test(basePath)) {
-      throw new NotFoundError()
+    if (/\/?Unlisted\/*$/.test(basePath) || basePath.startsWith('.thumbs')) {
+      throw new ForbiddenError()
     }
 
     const { galleryPath } = this.store.config
