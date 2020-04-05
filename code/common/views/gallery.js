@@ -32,8 +32,6 @@ export function gallery ({ data, path }) {
   const pageStart = (page - 1) * perPage
   const sliced = data.files.slice(pageStart, pageStart + perPage)
 
-  const stuff = '/' + path.segments.map(s => s.length > '3' ? '...' : s).join('/')
-
   return c('div', { class: 'page gallery-page' },
     c('div', null,
       c(breadcrumbsTitle, { path, root: '/gallery' }),

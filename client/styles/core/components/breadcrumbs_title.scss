@@ -1,6 +1,7 @@
 @import "../colors.scss";
 @import "../z_index.scss";
 
+$breadcrumb-up-link-width: 3.5rem;
 $breadcrumb-max-width: 10rem;
 
 .breadcrumbs-title {
@@ -12,7 +13,7 @@ $breadcrumb-max-width: 10rem;
   position: relative;
 
   .up-link {
-    margin-top: 1rem;
+    margin-top: 0.75rem;
     position: absolute;
     z-index: $z-index-up-arrow;
     display: flex;
@@ -27,7 +28,7 @@ $breadcrumb-max-width: 10rem;
     align-items: center;
     overflow-x: hidden;
     flex-shrink: 2;
-    min-width: 4rem;
+    min-width: $breadcrumb-up-link-width;
   }
 
   .breadcrumb {
@@ -49,12 +50,12 @@ $breadcrumb-max-width: 10rem;
     }
 
     &.first-breadcrumb {
-      padding-left: 3.5rem;
+      padding-left: $breadcrumb-up-link-width;
     }
 
     &.last-breadcrumb {
       min-width: 0;
-      max-width: calc(100% - 4rem);
+      max-width: calc(100% - #{$breadcrumb-up-link-width});
 
       .breadcrumb-text {
         max-width: none;

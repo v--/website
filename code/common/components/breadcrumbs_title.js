@@ -7,6 +7,7 @@ import { cumulative, last } from '../support/iteration.js'
 
 export function breadcrumbsTitle ({ class: className, path, root }) {
   const cumSegments = Array.from(cumulative(path.segments.slice(0, -1))).reverse()
+  const lastOverallSegment = last(path.segments)
 
   return c('h1', { class: classlist('breadcrumbs-title', 'h1', className) },
     path.underCooked === root
@@ -28,7 +29,7 @@ export function breadcrumbsTitle ({ class: className, path, root }) {
     ),
 
     c('div', { class: classlist('breadcrumb', 'last-breadcrumb', cumSegments.length === 0 && 'first-breadcrumb') },
-      c('span', { class: 'breadcrumb-text', text: last(path.segments) })
+      c('span', { class: 'breadcrumb-text', text: lastOverallSegment, title: lastOverallSegment })
     )
   )
 }
