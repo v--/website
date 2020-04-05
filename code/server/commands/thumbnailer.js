@@ -89,7 +89,7 @@ async function refreshThumbnails (basePath, validThumbs) {
   let updated = false
 
   for (const fileName of await readdir(path.join(galleryPath, basePath), 'utf8')) {
-    if (fileName[0] === '.') {
+    if (fileName === '.thumbs') {
       continue
     }
 

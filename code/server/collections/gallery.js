@@ -6,6 +6,10 @@ import { NotFoundError } from '../../common/errors.js'
 
 export class GalleryCollection {
   async readDirectory (basePath) {
+    if (/\/?Unlisted\/*$/.test(basePath)) {
+      throw new NotFoundError()
+    }
+
     const { galleryPath } = this.store.config
     let fileNames
 
@@ -22,7 +26,7 @@ export class GalleryCollection {
     const files = []
 
     for (const fileName of fileNames) {
-      if (fileName[0] === '.') {
+      if (fileName[0] === '.' || fileName === 'Unlisted') {
         continue
       }
 
