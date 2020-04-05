@@ -1,19 +1,24 @@
 @import "../colors.scss";
 @import "../z_index.scss";
 
+$breadcrumb-max-width: 10rem;
+
 .breadcrumbs-title {
   width: 100%;
   margin-top: 0;
   margin-bottom: 1rem;
   font-weight: normal;
   display: flex;
+  position: relative;
 
   .up-link {
-    flex: 0 0 1em;
-    box-shadow: 1rem 0 0.5rem $color-background;
+    margin-top: 1rem;
+    position: absolute;
     z-index: $z-index-up-arrow;
     display: flex;
     align-items: center;
+    background-color: $color-background;
+    box-shadow: 0 0 0.5rem 0.25rem $color-background;
   }
 
   .breadcrumbs {
@@ -21,25 +26,38 @@
     flex-direction: row-reverse;
     align-items: center;
     overflow-x: hidden;
+    flex-shrink: 2;
+    min-width: 4rem;
+  }
 
-    .breadcrumb {
-      display: flex;
-      align-items: center;
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
 
-      .breadcrumb-link {
-        text-decoration: none;
-        max-width: 10rem;
-        overflow-x: hidden;
-        text-overflow: ellipsis;
-      }
+    .breadcrumb-text {
+      max-width: $breadcrumb-max-width;
+      text-decoration: none;
+      white-space: nowrap;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .icon {
+      transform: scaleX(-1);
+      flex: 0 0 1em;
+    }
+
+    &.first-breadcrumb {
+      padding-left: 3.5rem;
+    }
+
+    &.last-breadcrumb {
+      min-width: 0;
+      max-width: calc(100% - 4rem);
 
       .breadcrumb-text {
-        white-space: nowrap;
-      }
-
-      .icon {
-        transform: scaleX(-1);
-        flex: 0 0 1em;
+        max-width: none;
       }
     }
   }

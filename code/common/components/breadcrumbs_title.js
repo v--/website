@@ -17,18 +17,18 @@ export function breadcrumbsTitle ({ class: className, path, root }) {
         c(icon, { name: 'upload' })
       ),
 
-    c('div', { class: 'breadcrumbs' },
-      c('div', { class: 'breadcrumb' },
-        c(icon, { name: 'chevron-left' }),
-        c('span', { class: 'breadcrumb-text', text: last(path.segments) })
-      ),
+    cumSegments.length > 0 && c('div', { class: 'breadcrumbs' },
       ...cumSegments.map(segments => {
         const lastSegment = last(segments)
-        return c('div', { class: 'breadcrumb' },
-          c(icon, { name: 'chevron-left' }),
-          c(link, { class: 'breadcrumb-link breadcrumb-text', text: lastSegment, title: lastSegment, link: '/' + segments.join('/'), isInternal: true })
+        return c('div', { class: classlist('breadcrumb', segments.length === 1 && 'first-breadcrumb') },
+          c(link, { class: 'breadcrumb-text', text: lastSegment, title: lastSegment, link: '/' + segments.join('/'), isInternal: true }),
+          c(icon, { name: 'chevron-left' })
         )
       })
+    ),
+
+    c('div', { class: classlist('breadcrumb', 'last-breadcrumb', cumSegments.length === 0 && 'first-breadcrumb') },
+      c('span', { class: 'breadcrumb-text', text: last(path.segments) })
     )
   )
 }
