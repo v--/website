@@ -27,12 +27,17 @@ $breadcrumb-max-width: 10rem;
     flex-direction: row-reverse;
     align-items: center;
     overflow-x: hidden;
-    flex-shrink: 2;
-    min-width: $breadcrumb-up-link-width;
+    flex-shrink: 1;
   }
 
   .breadcrumb {
     flex-shrink: 0;
+    display: flex;
+
+    .breadcrumb-slash {
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
 
     .breadcrumb-text {
       max-width: $breadcrumb-max-width;
@@ -43,12 +48,12 @@ $breadcrumb-max-width: 10rem;
     }
 
     &.first-breadcrumb {
-      padding-left: $breadcrumb-up-link-width;
+      padding-left: $breadcrumb-up-link-width - 0.5rem;
     }
 
     &.last-breadcrumb {
       min-width: 0;
-      max-width: calc(100% - #{$breadcrumb-up-link-width});
+      max-width: calc(100% - #{$breadcrumb-up-link-width - 0.5rem});
 
       .breadcrumb-text {
         max-width: none;
