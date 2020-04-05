@@ -16,6 +16,7 @@
 @import "./components/main.scss";
 @import "./components/markdown.scss";
 @import "./components/section_title.scss";
+@import "./components/breadcrumbs_title.scss";
 @import "./components/sidebar.scss";
 @import "./components/sidebar_toggle.scss";
 @import "./components/table.scss";
@@ -33,9 +34,11 @@ body {
   height: 100vh;
   background-color: $color-background;
   color: $color-foreground;
+}
 
+html {
   // Basic typography
   font-family: "Open Sans", "Helvetica", "Arial", sans;
   line-height: 1.6;
-  font-size: 15px;
+  font-size: 14px;
 }

@@ -303,3 +303,30 @@ export function first (iterable) {
 
   return state.value
 }
+
+export function last (iterable) {
+  const iter = iterable[Symbol.iterator]()
+  let newState = iter.next()
+
+  if (newState.done) {
+    throw new EmptyIterError('Cannot get the last element of an empty iterable')
+  }
+
+  let state = newState
+
+  while (!newState.done) {
+    state = newState
+    newState = iter.next()
+  }
+
+  return state.value
+}
+
+export function * cumulative (iterable) {
+  const payload = []
+
+  for (const value of iterable) {
+    payload.push(value)
+    yield payload.slice()
+  }
+}

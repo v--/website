@@ -7,7 +7,7 @@ import { QueryConfig } from '../support/query_config.js'
 import { link } from '../components/link.js'
 import { icon } from '../components/icon.js'
 import { pagination } from '../components/pagination.js'
-import { sectionTitle } from '../components/section_title.js'
+import { breadcrumbsTitle } from '../components/breadcrumbs_title.js'
 
 const QUERY_CONFIG_DEFAULTS = Object.freeze({
   per_page: 12,
@@ -32,9 +32,11 @@ export function gallery ({ data, path }) {
   const pageStart = (page - 1) * perPage
   const sliced = data.files.slice(pageStart, pageStart + perPage)
 
+  const stuff = '/' + path.segments.map(s => s.length > '3' ? '...' : s).join('/')
+
   return c('div', { class: 'page gallery-page' },
     c('div', null,
-      c(sectionTitle, { text: path.underCooked, path }),
+      c(breadcrumbsTitle, { path, root: '/gallery' }),
       c('p', null,
         c('span', { text: 'A plain-file media gallery that I use occasionally to avoid crippled compression in media hosting services. All content is ' }),
         c(link, { text: 'CC0', link: 'https://creativecommons.org/share-your-work/public-domain/cc0/' }),

@@ -4,19 +4,19 @@
   width: 100%;
   margin-top: 0;
   margin-bottom: 1rem;
-  font-size: 3rem;
-  font-weight: normal;
+
   white-space: nowrap;
   overflow-x: hidden;
   word-wrap: break-word;
   text-overflow: ellipsis;
 
-  .link {
-    .icon {
-      margin-left: -0.35rem;
-      margin-right: 0.5rem;
-      width: 0.75em;
-      height: 0.75em;
-    }
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .up-link {
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
   }
 }

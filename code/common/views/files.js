@@ -3,7 +3,7 @@ import { c } from '../rendering/component.js'
 import { link } from '../components/link.js'
 import { markdown } from '../components/markdown.js'
 import { interactiveTable } from '../components/interactive_table.js'
-import { sectionTitle } from '../components/section_title.js'
+import { breadcrumbsTitle } from '../components/breadcrumbs_title.js'
 
 function getFileExtension (fileName) {
   const extIndex = fileName.lastIndexOf('.')
@@ -85,7 +85,7 @@ export function files ({ path, data }) {
 
   return c('div', { class: 'page files-page' },
     c('div', null,
-      c(sectionTitle, { text: path.underCooked, path }),
+      c(breadcrumbsTitle, { path, root: '/files' }),
       c(interactiveTable, {
         class: 'files-table',
         data: data.entries,

@@ -1,0 +1,41 @@
+@import "../colors.scss";
+@import "../z_index.scss";
+
+.breadcrumbs-title {
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-weight: normal;
+  display: flex;
+
+  .up-link {
+    flex: 0 0 1em;
+    box-shadow: 1rem 0 0.5rem $color-background;
+    z-index: $z-index-up-arrow;
+    display: flex;
+    align-items: center;
+  }
+
+  .breadcrumbs {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    overflow-x: hidden;
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+
+      .link {
+        text-decoration: none;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+        max-width: 10rem;
+      }
+
+      .icon {
+        transform: scaleX(-1);
+      }
+    }
+  }
+}
