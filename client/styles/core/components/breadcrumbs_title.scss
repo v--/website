@@ -26,15 +26,20 @@
       display: flex;
       align-items: center;
 
-      .link {
+      .breadcrumb-link {
         text-decoration: none;
+        max-width: 10rem;
         overflow-x: hidden;
         text-overflow: ellipsis;
-        max-width: 10rem;
+      }
+
+      .breadcrumb-text {
+        white-space: nowrap;
       }
 
       .icon {
         transform: scaleX(-1);
+        flex: 0 0 1em;
       }
     }
   }

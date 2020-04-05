@@ -20,13 +20,13 @@ export function breadcrumbsTitle ({ class: className, path, root }) {
     c('div', { class: 'breadcrumbs' },
       c('div', { class: 'breadcrumb' },
         c(icon, { name: 'chevron-left' }),
-        c('span', { text: last(path.segments) })
+        c('span', { class: 'breadcrumb-text', text: last(path.segments) })
       ),
       ...cumSegments.map(segments => {
         const lastSegment = last(segments)
         return c('div', { class: 'breadcrumb' },
           c(icon, { name: 'chevron-left' }),
-          c(link, { link: '/' + segments.join('/'), isInternal: true, title: lastSegment, text: lastSegment })
+          c(link, { class: 'breadcrumb-link breadcrumb-text', text: lastSegment, title: lastSegment, link: '/' + segments.join('/'), isInternal: true })
         )
       })
     )
