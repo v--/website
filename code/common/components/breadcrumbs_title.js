@@ -22,13 +22,14 @@ export function breadcrumbsTitle ({ class: className, path, root }) {
       ...cumSegments.map(segments => {
         const lastSegment = last(segments)
         return c('div', { class: classlist('breadcrumb', segments.length === 1 && 'first-breadcrumb') },
-          c(link, { class: 'breadcrumb-text', text: lastSegment, title: lastSegment, link: '/' + segments.join('/'), isInternal: true }),
-          c(icon, { name: 'chevron-left' })
+          c('span', { text: '/' }),
+          c(link, { class: 'breadcrumb-text', text: lastSegment, title: lastSegment, link: '/' + segments.join('/'), isInternal: true })
         )
       })
     ),
 
     c('div', { class: classlist('breadcrumb', 'last-breadcrumb', cumSegments.length === 0 && 'first-breadcrumb') },
+      c('span', { text: '/' }),
       c('span', { class: 'breadcrumb-text', text: lastOverallSegment, title: lastOverallSegment })
     )
   )

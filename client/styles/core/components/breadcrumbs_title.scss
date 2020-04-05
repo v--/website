@@ -32,8 +32,6 @@ $breadcrumb-max-width: 10rem;
   }
 
   .breadcrumb {
-    display: flex;
-    align-items: center;
     flex-shrink: 0;
 
     .breadcrumb-text {
@@ -42,11 +40,6 @@ $breadcrumb-max-width: 10rem;
       white-space: nowrap;
       overflow-x: hidden;
       text-overflow: ellipsis;
-    }
-
-    .icon {
-      transform: scaleX(-1);
-      flex: 0 0 1em;
     }
 
     &.first-breadcrumb {
