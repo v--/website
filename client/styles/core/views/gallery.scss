@@ -83,7 +83,8 @@ $transition-gallery: 250ms;
 }
 
 @each $count in 2, 3, 4, 6, 12 {
-  @media (min-width: $sidebar-width + 2 * $main-hpadding-desktop + $count * $gallery-tile-width + ($count - 1) * $gallery-tile-margin) {
+  // This min-width calculation doesn't really match my expectations, however it works...
+  @media (min-width: $sidebar-width + $count * ($gallery-tile-width - $gallery-tile-margin)) {
     .gallery-page {
       .gallery {
         grid-template-columns: repeat($count, $gallery-tile-width);
