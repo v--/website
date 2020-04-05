@@ -13,8 +13,8 @@ $breadcrumb-max-width: 10rem;
   position: relative;
 
   .up-link {
-    margin-top: 0.75rem;
     position: absolute;
+    height: 100%;
     z-index: $z-index-up-arrow;
     display: flex;
     align-items: center;
