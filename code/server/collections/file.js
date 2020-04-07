@@ -1,10 +1,14 @@
 import path from 'path'
 
 import { stat, readFile, readdir } from '../support/fs.js'
-import { NotFoundError } from '../../common/errors.js'
+import { ForbiddenError, NotFoundError } from '../../common/errors.js'
 
 export class FileCollection {
   async readDirectory (basePath) {
+    if (/\/?Unlisted\/*$/.test(basePath)) {
+      throw new ForbiddenError()
+    }
+
     const fullPath = path.join(this.store.config.fileRootPath, basePath)
 
     const result = {
@@ -31,7 +35,7 @@ export class FileCollection {
         result.readme = await readFile(path.join(fullPath, name), 'utf8')
       }
 
-      if (name[0] === '.') {
+      if (name[0] === '.' || name === 'Unlisted') {
         continue
       }
 
