@@ -4,6 +4,7 @@ import { link } from '../components/link.js'
 import { markdown } from '../components/markdown.js'
 import { interactiveTable } from '../components/interactive_table.js'
 import { breadcrumbsTitle } from '../components/breadcrumbs_title.js'
+import { ccNotice } from '../components/cc_notice.js'
 
 function getFileExtension (fileName) {
   const extIndex = fileName.lastIndexOf('.')
@@ -84,8 +85,8 @@ export function files ({ path, data }) {
   ]
 
   return c('div', { class: 'page files-page' },
-    c('div', null,
-      c(breadcrumbsTitle, { path, root: '/files' }),
+    c(breadcrumbsTitle, { path, root: '/files' }),
+    c('div', { class: 'files-table-container' },
       c(interactiveTable, {
         class: 'files-table',
         data: data.entries,
@@ -96,6 +97,7 @@ export function files ({ path, data }) {
 
       data.readme && c('br'),
       data.readme && c(markdown, { source: data.readme })
-    )
+    ),
+    c(ccNotice)
   )
 }

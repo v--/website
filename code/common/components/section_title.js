@@ -9,6 +9,6 @@ export function sectionTitle ({ text, class: className, path = null }) {
     path !== null && c(link, { link: path.getParentPath().cooked, isInternal: true, title: 'Go one level up', class: 'up-link' },
       c(icon, { name: 'upload' })
     ),
-    c('span', { text, title: text })
+    c('span', { class: 'section-title-text', text, title: text })
   )
 }

@@ -12,71 +12,80 @@ $gallery-tile-margin: 1rem;
 $transition-gallery: 250ms;
 
 .gallery-page {
-  .gallery {
-    display: grid;
-    grid-template-columns: $gallery-tile-width;
-    grid-gap: $gallery-tile-margin;
-    justify-content: center;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .gallery-container {
+    flex-grow: 1;
     margin-bottom: 1rem;
 
-    .gallery-tile {
-      position: relative;
-      display: flex;
-      align-items: center;
+    .gallery {
+      display: grid;
+      grid-template-columns: $gallery-tile-width;
+      grid-gap: $gallery-tile-margin;
       justify-content: center;
 
-      width: $gallery-tile-width;
-      height: $gallery-tile-height;
-      text-decoration: none;
-      background-color: $color-midground;
+      .gallery-tile {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      transition: box-shadow $transition-gallery;
+        width: $gallery-tile-width;
+        height: $gallery-tile-height;
+        text-decoration: none;
+        background-color: $color-midground;
 
-      .gallery-tile-title {
-        text-align: center;
-        color: $color-foreground;
-        background-color: rgba($color-midground, 0.85);
-        bottom: 0;
-        right: 0;
-        left: 0;
-        line-height: 2.5rem;
-        position: absolute;
-      }
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        transition: box-shadow $transition-gallery;
 
-      .gallery-tile-arrow {
-        position: absolute;
-        font-size: 3rem;
-        fill: $color-midground;
-        filter: drop-shadow(0 0 1rem $color-foreground);
-      }
+        .gallery-tile-title {
+          text-align: center;
+          color: $color-foreground;
+          background-color: rgba($color-midground, 0.85);
+          bottom: 0;
+          right: 0;
+          left: 0;
+          line-height: 2.5rem;
+          position: absolute;
+        }
 
-      &:hover {
-        box-shadow: 0 0 1rem $color-dark;
+        .gallery-tile-arrow {
+          position: absolute;
+          font-size: 3rem;
+          fill: $color-midground;
+          filter: drop-shadow(0 0 1rem $color-foreground);
+        }
+
+        &:hover {
+          box-shadow: 0 0 1rem $color-dark;
+        }
       }
     }
-  }
 
-  .pagination-wrapper {
-    border-top: 1px solid $color-light;
-    border-bottom: 1px solid $color-light;
-    line-height: 2rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    .pagination-wrapper {
+      border-top: 1px solid $color-light;
+      border-bottom: 1px solid $color-light;
+      line-height: 2rem;
+      margin-top: 1rem;
+    }
   }
 }
 
 @media (max-width: $mobile-width) {
   .gallery-page {
-    .gallery {
-      grid-template-columns: $gallery-tile-width-mobile;
+    .gallery-container {
+      .gallery {
+        grid-template-columns: $gallery-tile-width-mobile;
 
-      .gallery-tile {
-        width: $gallery-tile-width-mobile;
-        height: $gallery-tile-height-mobile;
-        margin-right: 0;
+        .gallery-tile {
+          width: $gallery-tile-width-mobile;
+          height: $gallery-tile-height-mobile;
+          margin-right: 0;
+        }
       }
     }
   }
@@ -86,8 +95,10 @@ $transition-gallery: 250ms;
   // This min-width calculation appear off, however sizing works almost perfectly this way...
   @media (min-width: $sidebar-width + /* 2 * $main-hpadding-desktop */ + $count * $gallery-tile-width - ($count - 1) * $gallery-tile-margin) {
     .gallery-page {
-      .gallery {
-        grid-template-columns: repeat($count, $gallery-tile-width);
+      .gallery-container {
+        .gallery {
+          grid-template-columns: repeat($count, $gallery-tile-width);
+        }
       }
     }
   }

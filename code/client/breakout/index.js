@@ -42,7 +42,7 @@ export function index ({ path }) {
 
     c(aspectRatioBox, {
       ratio: 4 / 3,
-      bottomMargin: 25,
+      bottomMargin: 21 /* 1.5rem */,
       minHeight: 250,
       maxHeight: 550,
       item: c(breakout, subject)

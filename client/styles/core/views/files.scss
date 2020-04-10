@@ -1,17 +1,24 @@
 @import "../../colors.scss";
 
 .files-page {
-  .files-table {
-    .col-name,
-    .col-modified {
-      width: 30%;
-    }
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
 
-    .col-type,
-    .col-size {
-      width: 20%;
+  .files-table-container {
+    flex-grow: 1;
+    margin-bottom: 1rem;
+
+    .files-table {
+      .col-name,
+      .col-modified {
+        width: 30%;
+      }
+
+      .col-type,
+      .col-size {
+        width: 20%;
+      }
     }
   }
-
-  padding-bottom: 2em;
 }

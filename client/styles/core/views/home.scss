@@ -4,6 +4,8 @@
 $image-side: 200px;
 
 .home-page {
+  display: flex;
+
   .me-irl {
     margin: 0.5em auto;
     width: $image-side;
@@ -16,15 +18,18 @@ $image-side: 200px;
 
   .info {
     height: 100%;
+
+    .me-irl {
+      display: none;
+    }
   }
 
   .about-me {
-    margin-bottom: 1rem;
     margin-right: 2rem;
     width: 100%;
 
     .me-irl {
-      display: none;
+      display: block;
     }
 
     .contact {
@@ -49,24 +54,19 @@ $image-side: 200px;
   }
 }
 
-@media (min-width: $mobile-width) {
+@media (max-width: $mobile-width) {
   .home-page {
-    display: flex;
-    flex-direction: row-reverse;
+    flex-direction: column-reverse;
 
     .about-me {
-      flex: 0 1 $image-side;
-
       .me-irl {
-        display: block;
+        display: none;
       }
     }
 
     .info {
-      flex: 1;
-
       .me-irl {
-        display: none;
+        display: block;
       }
     }
   }

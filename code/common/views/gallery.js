@@ -8,6 +8,7 @@ import { link } from '../components/link.js'
 import { icon } from '../components/icon.js'
 import { pagination } from '../components/pagination.js'
 import { breadcrumbsTitle } from '../components/breadcrumbs_title.js'
+import { ccNotice } from '../components/cc_notice.js'
 
 const QUERY_CONFIG_DEFAULTS = Object.freeze({
   per_page: 12,
@@ -33,42 +34,39 @@ export function gallery ({ data, path }) {
   const sliced = data.files.slice(pageStart, pageStart + perPage)
 
   return c('div', { class: 'page gallery-page' },
-    c('div', null,
-      c(breadcrumbsTitle, { path, root: '/gallery' }),
-      c('p', null,
-        c('span', { text: 'A plain-file media gallery that I use occasionally to avoid crippled compression in media hosting services. All content is ' }),
-        c(link, { text: 'CC0', link: 'https://creativecommons.org/share-your-work/public-domain/cc0/' }),
-        c('span', { text: '-licensed.' })
+    c(breadcrumbsTitle, { path, root: '/gallery' }),
+
+    c('div', { class: 'gallery-container' },
+      c('div', { class: 'gallery' },
+        ...map(function (file) {
+          return c(
+            link,
+            {
+              class: 'gallery-tile',
+              link: '/gallery/' + file.url,
+              style: styles({ 'background-image': `url('/gallery/.thumbs/${file.thumbnail.replace("'", "\\'")}')` }),
+              isInternal: !file.isFile,
+              newTab: file.isFile
+            },
+
+            c('div', {
+              class: 'gallery-tile-title',
+              text: file.name
+            }),
+
+            file.isFile && file.name.toLowerCase().endsWith('.mp4') && c(icon, {
+              class: 'gallery-tile-arrow',
+              name: 'play'
+            })
+          )
+        }, sliced)
+      ),
+
+      pages > 1 && c('div', { class: 'pagination-wrapper' },
+        pagination(pages, config)
       )
     ),
 
-    c('div', { class: 'gallery' },
-      ...map(function (file) {
-        return c(
-          link,
-          {
-            class: 'gallery-tile',
-            link: '/gallery/' + file.url,
-            style: styles({ 'background-image': `url('/gallery/.thumbs/${file.thumbnail.replace("'", "\\'")}')` }),
-            isInternal: !file.isFile,
-            newTab: file.isFile
-          },
-
-          c('div', {
-            class: 'gallery-tile-title',
-            text: file.name
-          }),
-
-          file.isFile && file.name.toLowerCase().endsWith('.mp4') && c(icon, {
-            class: 'gallery-tile-arrow',
-            name: 'play'
-          })
-        )
-      }, sliced)
-    ),
-
-    pages > 1 && c('div', { class: 'pagination-wrapper' },
-      pagination(pages, config)
-    )
+    c(ccNotice)
   )
 }

@@ -38,7 +38,7 @@ export function pacman ({ data }) {
       }),
 
       c('p', {
-        text: 'I mantain "any" and "x86_64" repos. "x86_64" includes packages from "any". "$arch" can be overridden by both.'
+        text: 'I mantain "any" and "x86_64" repos. "x86_64" includes packages from "any". "$arch" can be replaced by both.'
       }),
 
       c('pre', null,

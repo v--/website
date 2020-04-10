@@ -23,6 +23,45 @@ function contact (state) {
 
 export function home () {
   return c('div', { class: 'page home-page' },
+    c('div', { class: 'about-me' },
+      c('div', { class: 'me-irl' }),
+      c('div', null,
+        c(sectionTitle, { text: 'Contacts' }),
+        c('ul', null,
+          c(contact, {
+            text: 'Email',
+            icon: 'email',
+            link: 'mailto:ianis@ivasilev.net'
+          }),
+
+          c(contact, {
+            text: 'Facebook',
+            icon: 'facebook',
+            link: 'https://www.facebook.com/ianis.vasilev'
+          }),
+
+          c(contact, {
+            text: 'GitHub',
+            icon: 'github-circle',
+            link: 'https://github.com/v--'
+          }),
+
+          c(contact, {
+            text: 'Reddit',
+            icon: 'reddit',
+            link: 'https://www.reddit.com/user/IanisVasilev'
+          })
+        ),
+
+        c('p', null,
+          c('span', {
+            text: 'PGP public key: '
+          }),
+          c(pgpLink)
+        )
+      )
+    ),
+
     c('article', { class: 'info' },
       c('div', { class: 'me-irl' }),
 
@@ -63,46 +102,6 @@ export function home () {
           c('span', { text: "Except for the playground, most of the website is static and works without JavaScript. However, it still benefits from having a full-fledged home-grown lightweight (~1K LoC) frontend rendering engine. The code has no external dependencies and so things like observables and markdown/FOL parsers are also implemented from scratch. There are also a lot of symbolic and numeric mathematical algorithms implemented in pure JavaScript. The frontend code is neither precompiled nor bundled and can be easily explored using any browser's developer tools. It is licensed under " }),
           c(link, { text: 'the Unlicense', link: 'https://unlicense.org/' }),
           c('span', { text: '.' })
-        )
-      )
-    ),
-
-    c('div', { class: 'about-me' },
-      c('div', { class: 'me-irl' }),
-
-      c('div', { class: 'section' },
-        c(sectionTitle, { text: 'Contacts' }),
-        c('ul', null,
-          c(contact, {
-            text: 'Email',
-            icon: 'email',
-            link: 'mailto:ianis@ivasilev.net'
-          }),
-
-          c(contact, {
-            text: 'Facebook',
-            icon: 'facebook',
-            link: 'https://www.facebook.com/ianis.vasilev'
-          }),
-
-          c(contact, {
-            text: 'GitHub',
-            icon: 'github-circle',
-            link: 'https://github.com/v--'
-          }),
-
-          c(contact, {
-            text: 'Reddit',
-            icon: 'reddit',
-            link: 'https://www.reddit.com/user/IanisVasilev'
-          })
-        ),
-
-        c('p', null,
-          c('span', {
-            text: 'PGP public key: '
-          }),
-          c(pgpLink)
         )
       )
     )

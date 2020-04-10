@@ -5,11 +5,6 @@
   margin-top: 0;
   margin-bottom: 1rem;
 
-  white-space: nowrap;
-  overflow-x: hidden;
-  word-wrap: break-word;
-  text-overflow: ellipsis;
-
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -18,5 +13,12 @@
     display: flex;
     align-items: center;
     margin-right: 1rem;
+  }
+
+  .section-title-text {
+    white-space: nowrap;
+    overflow-x: hidden;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
   }
 }
