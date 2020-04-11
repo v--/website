@@ -99,7 +99,7 @@ export class RouterService {
   async processPath (path) {
     this._path = path
 
-    const isCollapsed = !windowSize$.value.isDesktop
+    const isCollapsed = this.state$.value.isCollapsed || !windowSize$.value.isDesktop
 
     if (path.underCooked === this.state$.value.path.underCooked) {
       this.state$.update({ path, isCollapsed })
