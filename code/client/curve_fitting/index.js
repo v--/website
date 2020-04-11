@@ -35,7 +35,7 @@ function buildCurves (mapping) {
     })
 }
 
-export function index ({ path }) {
+export function index ({ path, description }) {
   const subject$ = new DictSubject({
     width: WIDTH,
     height: HEIGHT,
@@ -75,7 +75,7 @@ export function index ({ path }) {
   })
 
   return c('div', { class: 'page playground-curve-fitting-page' },
-    c(sectionTitle, { text: 'Plane curve fitting visualizations', path }),
+    c(sectionTitle, { text: description, path }),
     c('p', {
       class: 'curve-fitting-subtitle',
       text: 'Use the table below to toggle the curves you want to see. Click anywhere on the chart to add or move data points.'

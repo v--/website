@@ -7,13 +7,13 @@ import { algorithms } from './algorithms.js'
 import { sequences } from './sequences.js'
 import { Sorter } from './sorter.js'
 
-export function index ({ path }) {
+export function index ({ path, description }) {
   const sorters = algorithms.map(function (algorithm) {
     return new Sorter(algorithm, sequences)
   })
 
   return c('div', { class: 'page playground-sorting-page' },
-    c(sectionTitle, { text: 'Sorting algorithms visualizations', path }),
+    c(sectionTitle, { text: description, path }),
     c('div', { class: 'sorting-button-container' },
       c('button', {
         class: 'cool-button sorting-top-button',

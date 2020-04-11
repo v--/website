@@ -84,7 +84,7 @@ function parseFormulas (axioms, goal) {
   return formulas
 }
 
-export function index ({ path }) {
+export function index ({ path, description }) {
   const config = new QueryConfig(path, QUERY_CONFIG_DEFAULTS, QUERY_CONFIG_PARSERS)
   const axioms = config.get('axioms').split(';').map(string => string.trim())
   const goal = config.get('goal')
@@ -114,7 +114,7 @@ export function index ({ path }) {
   const proof = inferEmptyDisjunct(disjuncts)
 
   return c('div', { class: 'page playground-resolution-page' },
-    c(sectionTitle, { text: 'First-order logic resolution engine', path }),
+    c(sectionTitle, { text: description, path }),
     c('p', { text: 'Resolution is a purely syntactic method for proving theorems. It relies on a series of formula transformation that are briefly described below.' }),
     c('p', { text: 'Zero-arity functions are treated as constants and free variables are treated the same as universally quantified variables.' }),
     c('p', { text: 'The raw input syntax is as follows: "A" and "E" are the two quantifiers, "&", "v", "->" and "<->" are the logical connectives and "!" negates formulas. Variables are named x, y, z; functions are named f, g, h; predicates are named p, q, r. All names are allowed to have arbitrary numeric suffixes. Parentheses are mandatory around connectives and illegal elsewhere, except for the parentheses that are parts of function/predicate definitions.' }),

@@ -8,15 +8,17 @@ export class RouterState {
       path,
       sidebarID: SidebarId.ERROR,
       title: CoolError.isDisplayable(err) ? err.title.toLowerCase() : 'error',
+      description: 'An error has occurred.',
       factory: errorView,
       data: err
     })
   }
 
-  constructor ({ title, path, factory, data = null, loading = false, sidebarID = null }) {
+  constructor ({ title, path, factory, description = '', data = null, loading = false, sidebarID = null }) {
     this.data = data
     this.path = path
     this.title = title
+    this.description = description
     this.factory = factory
     this.loading = loading
     this.sidebarID = sidebarID

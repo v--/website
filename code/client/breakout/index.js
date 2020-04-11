@@ -20,7 +20,7 @@ import { evolve } from './events/evolve.js'
 
 let eventLoop = null
 
-export function index ({ path }) {
+export function index ({ path, description }) {
   const subject = new DictSubject(DEFAULT_GAME_STATE)
   const eventLoopListeners = new Map([
     [movePaddle.bind(null, subject), MOVEMENT_PERIOD],
@@ -36,7 +36,7 @@ export function index ({ path }) {
   })
 
   return c('div', { class: 'page playground-breakout-page' },
-    c(sectionTitle, { text: 'A Breakout variant with evolving bricks', path }),
+    c(sectionTitle, { text: description, path }),
     c('p', { text: 'This is a variant of the classic Breakout game where the bricks follow a stochastic evolution pattern.' }),
     c('p', { text: 'The space bar toggles pause mode and the arrow keys move the paddle.' }),
 

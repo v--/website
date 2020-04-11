@@ -23,9 +23,9 @@ const eventLoop = new EventLoop(new Map([
   [() => flee(sharedState, subject), UPDATE_INTERVAL]
 ]))
 
-export function index ({ path }) {
+export function index ({ path, description }) {
   return c('div', { class: 'page playground-fleeing-button-page' },
-    c(sectionTitle, { class: 'fleeing-button-title', text: 'A fleeing button', path }),
+    c(sectionTitle, { class: 'fleeing-button-title', text: description, path }),
     c(fleeingButtonCanvas, subject)
   )
 }

@@ -1,4 +1,5 @@
 import { c } from '../rendering/component.js'
+import { PAGE_DESCRIPTIONS } from '../constants/page_descriptions.js'
 
 import { icon } from '../components/icon.js'
 import { link } from '../components/link.js'
@@ -78,22 +79,22 @@ export function home () {
         c('ul', { class: 'cool-list' },
           c(siteSection, {
             link: '/files',
-            text: 'a file explorer for a server containing math notes, presentation slides, musical scores and a few other miscellaneous files.'
+            text: PAGE_DESCRIPTIONS.files
           }),
 
           c(siteSection, {
             link: '/gallery',
-            text: 'a plain-file media gallery that I use occasionally to avoid crippled compression in media hosting services.'
+            text: PAGE_DESCRIPTIONS.gallery
           }),
 
           c(siteSection, {
             link: '/pacman',
-            text: 'information about a pacman repository hosted under the same domain name as the website.'
+            text: PAGE_DESCRIPTIONS.pacman
           }),
 
           c(siteSection, {
             link: '/playground',
-            text: 'interactive browser-based simulations and visualizations.'
+            text: PAGE_DESCRIPTIONS.playground.index
           })
         ),
 

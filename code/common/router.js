@@ -1,6 +1,7 @@
 import { NotFoundError } from './errors.js'
 import { SidebarId } from './enums/sidebar_id.js'
 import { RouterState } from './support/router_state.js'
+import { PAGE_DESCRIPTIONS } from './constants/page_descriptions.js'
 
 import { home } from './views/home.js'
 import { files } from './views/files.js'
@@ -12,6 +13,7 @@ async function routerImpl (path, store) {
   if (path.segments.length === 0) {
     return {
       title: 'home',
+      description: PAGE_DESCRIPTIONS.home,
       factory: home,
       sidebarID: SidebarId.HOME
     }
@@ -21,6 +23,7 @@ async function routerImpl (path, store) {
     case 'files':
       return {
         title: path.underCooked,
+        description: PAGE_DESCRIPTIONS.files,
         factory: files,
         data: await store.collections.files.readDirectory(path.segments.slice(1).join('/')),
         sidebarID: SidebarId.FILES
@@ -29,6 +32,7 @@ async function routerImpl (path, store) {
     case 'gallery':
       return {
         title: path.underCooked,
+        description: PAGE_DESCRIPTIONS.gallery,
         factory: gallery,
         data: await store.collections.gallery.readDirectory(path.segments.slice(1).join('/')),
         sidebarID: SidebarId.GALLERY
@@ -41,6 +45,7 @@ async function routerImpl (path, store) {
 
       return {
         title: 'pacman',
+        description: PAGE_DESCRIPTIONS.pacman,
         factory: pacman,
         data: await store.collections.pacmanPackages.load(),
         sidebarID: SidebarId.PACMAN
@@ -50,6 +55,7 @@ async function routerImpl (path, store) {
       if (path.segments.length === 1) {
         return {
           title: 'playground',
+          description: PAGE_DESCRIPTIONS.playground.index,
           factory: playground,
           sidebarID: SidebarId.PLAYGROUND
         }
@@ -58,6 +64,7 @@ async function routerImpl (path, store) {
           case 'sorting':
             return {
               title: 'sorting | playground',
+              description: PAGE_DESCRIPTIONS.playground.sorting,
               factory: 'sorting',
               sidebarID: SidebarId.PLAYGROUND
             }
@@ -65,6 +72,7 @@ async function routerImpl (path, store) {
           case 'curve_fitting':
             return {
               title: 'curve fitting | playground',
+              description: PAGE_DESCRIPTIONS.playground.curve_fitting,
               factory: 'curve_fitting',
               sidebarID: SidebarId.PLAYGROUND
             }
@@ -72,6 +80,7 @@ async function routerImpl (path, store) {
           case 'resolution':
             return {
               title: 'resolution | playground',
+              description: PAGE_DESCRIPTIONS.playground.resolution,
               factory: 'resolution',
               sidebarID: SidebarId.PLAYGROUND
             }
@@ -79,6 +88,7 @@ async function routerImpl (path, store) {
           case 'breakout':
             return {
               title: 'breakout | playground',
+              description: PAGE_DESCRIPTIONS.playground.breakout,
               factory: 'breakout',
               sidebarID: SidebarId.PLAYGROUND
             }
@@ -86,6 +96,7 @@ async function routerImpl (path, store) {
           case 'graphs':
             return {
               title: 'graphs | playground',
+              description: PAGE_DESCRIPTIONS.playground.graphs,
               factory: 'graphs',
               sidebarID: SidebarId.PLAYGROUND
             }
@@ -93,6 +104,7 @@ async function routerImpl (path, store) {
           case 'fleeing_button':
             return {
               title: 'fleeing button | playground',
+              description: PAGE_DESCRIPTIONS.playground.fleeing_button,
               factory: 'fleeing_button',
               sidebarID: SidebarId.PLAYGROUND
             }

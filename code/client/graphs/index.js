@@ -26,7 +26,7 @@ const QUERY_CONFIG_PARSERS = Object.freeze({
   end: Number
 })
 
-export function index ({ path }) {
+export function index ({ path, description }) {
   const config = new QueryConfig(path, QUERY_CONFIG_DEFAULTS, QUERY_CONFIG_PARSERS)
   const start = config.get('start')
   const end = config.get('end')
@@ -81,7 +81,7 @@ export function index ({ path }) {
   })
 
   return c('div', { class: 'page playground-graphs-page' },
-    c(sectionTitle, { text: 'Graph algorithm visualizations', path }),
+    c(sectionTitle, { text: description, path }),
     c('p', { text: 'You can select algorithms from the dropdown or pick path endpoints by clicking or ctrl-clicking a vertex. Note that not all algorithms require path endpoints.' }),
     c(algorithmDropdown, subject),
 

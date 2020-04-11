@@ -21,6 +21,7 @@ export function index ({ state }) {
       c(title, state),
       c('meta', { charset: 'UTF-8' }),
       c('meta', { name: 'viewport', content: 'width=device-width, initial-scale=1' }),
+      c('meta', { name: 'description', content: state.description + '.' }),
       c('link', { rel: 'shortcut icon', type: 'image/x-icon', href: '/images/favicon.png' }),
       c('link', { rel: 'stylesheet', href: '/styles/core/index.css' }),
       c('script', { id: 'data', type: 'application/json', text: serializedData }),
