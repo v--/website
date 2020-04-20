@@ -26,28 +26,37 @@ $image-side: 200px;
 
   .about-me {
     margin-right: 2rem;
-    width: 100%;
+    text-align: center;
 
     .me-irl {
       display: block;
+      margin-bottom: 1.0rem;
     }
 
-    .contact {
-      list-style-type: none;
-      line-height: 2em;
+    .contacts {
+      .section-title {
+        display: block;
+        margin-bottom: 0;
+      }
 
-      a {
-        display: inline-flex;
-        align-items: center;
+      .contact {
+        list-style-type: none;
+        line-height: 2em;
+        text-align: left;
 
-        > .icon {
-          height: 1.5em;
-          width: 1.5em;
-          margin-top: -0.1em;
-        }
+        a {
+          display: inline-flex;
+          align-items: center;
 
-        > span {
-          margin-left: 0.75em;
+          > .icon {
+            height: 1.5em;
+            width: 1.5em;
+            margin-top: -0.1em;
+          }
+
+          > span {
+            margin-left: 0.75em;
+          }
         }
       }
     }

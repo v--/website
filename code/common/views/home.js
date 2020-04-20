@@ -26,7 +26,7 @@ export function home () {
   return c('div', { class: 'page home-page' },
     c('div', { class: 'about-me' },
       c('div', { class: 'me-irl' }),
-      c('div', null,
+      c('div', { class: 'contacts' },
         c(sectionTitle, { text: 'Contacts' }),
         c('ul', null,
           c(contact, {
