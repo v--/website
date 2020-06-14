@@ -36,7 +36,7 @@ export const postorderLongestPath = Object.freeze({
         continue
       }
 
-      const max = schwartzMax(arc => lengths.get(arc.dest) + arc.weight, arcs, false)
+      const max = schwartzMax(arc => (lengths.get(arc.dest) || 0) + arc.weight, arcs, false)
       ancestors.set(max.dest, v)
       lengths.set(v, lengths.get(max.dest) + max.weight)
     }

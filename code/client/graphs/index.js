@@ -82,12 +82,16 @@ export function index ({ path, description }) {
 
   return c('div', { class: 'page playground-graphs-page' },
     c(sectionTitle, { text: description, path }),
-    c('p', { text: 'You can select algorithms from the dropdown or pick path endpoints by clicking or ctrl-clicking a vertex. Note that not all algorithms require path endpoints.' }),
+    c('p', { text: 'For the algorithms that requires endpoints:' }),
+    c('ul', null,
+      c('li', { text: 'Starting vertices are marked in green and can be changed by clicking a vertex' }),
+      c('li', { text: 'End vertices are marked in yellow and can be changed by ctrl-clicking a vertex' })
+    ),
     c(algorithmDropdown, subject),
 
     errors.length > 0 && c('p', { class: 'graphs-error', text: errors.join('\n') }),
     errors.length === 0 && c(aspectRatioBox, {
-      ratio: 13 / 10,
+      ratio: 14 / 10,
       bottomMargin: 30,
       minHeight: 250,
       maxHeight: 750,
