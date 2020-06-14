@@ -1,9 +1,9 @@
-import gulp from 'gulp'
+const gulp = require('gulp')
 
-import './build/client.js'
-import './build/server.js'
-import { armor } from './build/armor.js'
-import { sync } from './build/sync.js'
+const { armor } = require('./build/armor.cjs')
+const { sync } = require('./build/sync.cjs')
+require('./build/client.cjs')
+require('./build/server.cjs')
 
 gulp.task('watch', function (done) {
   gulp.watch('client/styles/**/*.scss', armor(gulp.series('client:build:styles')))
@@ -20,7 +20,7 @@ gulp.task('watch', function (done) {
   process.on('SIGINT', function () {
     done()
     sync.destruct()
-    process.exit()
+    process.exit() // eslint-disable-line no-process-exit
   })
 })
 

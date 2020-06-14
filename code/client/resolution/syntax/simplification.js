@@ -59,6 +59,7 @@ function mostlyConvertToCNF (expression) {
 
     case ExpressionType.CONJUNCTION:
     case ExpressionType.DISJUNCTION:
+    {
       const subformulas = expression.formulas.map(simplify)
       const flattened = []
 
@@ -74,18 +75,22 @@ function mostlyConvertToCNF (expression) {
         type: expression.type,
         formulas: flattened
       }
+    }
 
     // P → Q ≡ ¬P ∨ Q
     case ExpressionType.IMPLICATION:
+    {
       const [a, b] = expression.formulas.map(simplify)
 
       return simplify({
         type: ExpressionType.DISJUNCTION,
         formulas: [negate(a), b]
       })
+    }
 
     // P ↔ Q ≡ (¬P ∨ Q) & (P ∨ ¬Q)
     case ExpressionType.EQUIVALENCE:
+    {
       const [c, d] = expression.formulas.map(simplify)
 
       return simplify({
@@ -101,6 +106,7 @@ function mostlyConvertToCNF (expression) {
           }
         ]
       })
+    }
   }
 }
 

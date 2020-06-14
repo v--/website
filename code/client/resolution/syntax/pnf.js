@@ -14,6 +14,7 @@ export function mostlyConvertToPNF (expression, counter, replacementMap) {
 
     case ExpressionType.UNIVERSAL_QUANTIFICATION:
     case ExpressionType.EXISTENTIAL_QUANTIFICATION:
+    {
       const oldReplacement = replacementMap.get(expression.variable)
       const newVarName = oldReplacement ? 't' + counter.value++ : expression.variable
       replacementMap.set(expression.variable, { type: ExpressionType.VARIABLE, name: newVarName })
@@ -28,6 +29,7 @@ export function mostlyConvertToPNF (expression, counter, replacementMap) {
         variable: newVarName,
         formula: newSubformula
       }
+    }
 
     case ExpressionType.NEGATION:
       return {
@@ -37,6 +39,7 @@ export function mostlyConvertToPNF (expression, counter, replacementMap) {
 
     case ExpressionType.CONJUNCTION:
     case ExpressionType.DISJUNCTION:
+    {
       // Split the prefix and the inner expression
       const combinedPrefix = []
       const inner = {
@@ -70,6 +73,7 @@ export function mostlyConvertToPNF (expression, counter, replacementMap) {
       }
 
       return current
+    }
   }
 }
 

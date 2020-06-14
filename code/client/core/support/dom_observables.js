@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 import { Subject } from '../../../common/observables/subject.js'
 import { BehaviorSubject } from '../../../common/observables/behavior_subject.js'
 

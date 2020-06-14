@@ -88,6 +88,7 @@ export function index ({ path, description }) {
     errors.length > 0 && c('p', { class: 'graphs-error', text: errors.join('\n') }),
     errors.length === 0 && c(aspectRatioBox, {
       ratio: 13 / 10,
+      bottomMargin: 30,
       minHeight: 250,
       maxHeight: 750,
       item: c('div', { class: 'graph-split-container' },

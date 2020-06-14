@@ -1,9 +1,11 @@
 import { XMLComponent, FactoryComponent } from '../../common/rendering/component.js'
 import { XMLRenderer, FactoryRenderer, RenderDispatcher } from '../../common/rendering/renderer.js'
 
+import { createElement } from './support/dom.js'
+
 export class DOMXMLRenderer extends XMLRenderer {
   _createNode () {
-    return document.createElementNS(this.component.namespace, this.component.type)
+    return createElement(this.component.type, this.component.namespace)
   }
 
   _setAttribute (key, value, oldValue) {

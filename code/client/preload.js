@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 // Set compatibility status
 const availableFeatures = {}
 

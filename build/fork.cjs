@@ -1,6 +1,6 @@
-import childProcess from 'child_process'
+const childProcess = require('child_process')
 
-export class Fork {
+class Fork {
   constructor (path, options = {}) {
     this.path = path
     this.options = options
@@ -29,3 +29,5 @@ export class Fork {
     this.start()
   }
 }
+
+module.exports = { Fork }

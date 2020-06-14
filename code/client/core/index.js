@@ -1,3 +1,5 @@
+/* eslint-env browser */
+
 import { GenericError, HTTPError, ClientError } from '../../common/errors.js'
 import { location$ } from '../../common/shared_observables.js'
 import { c } from '../../common/rendering/component.js'

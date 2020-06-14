@@ -1,3 +1,7 @@
+/* eslint-env browser */
+
+import { ForbiddenError, NotFoundError } from '../../../common/errors.js'
+
 export function onDocumentReady () {
   return new Promise(function (resolve) {
     window.requestAnimationFrame(function () {
@@ -23,33 +27,33 @@ export function getCurrentURL () {
   return document.location.href.slice(document.location.origin.length)
 }
 
-export function loadCSSFile (filePath) {
-  const href = window.location.origin + filePath
-  const links = document.head.getElementsByTagName('link')
+export function navigateTo (url) {
+  window.history.pushState(null, null, url)
+}
 
-  for (let i = 0; i < links.length; i++) {
-    if (links[i].href === href) {
-      return Promise.resolve()
-    }
+export function showMessage (message) {
+  window.alert(message)
+}
+
+export function createElement (type, namespace = null) {
+  if (namespace === null) {
+    return document.createElement(type)
   }
 
-  const element = document.createElement('link')
-  element.rel = 'stylesheet'
-  element.href = href
-  document.head.appendChild(element)
+  return document.createElementNS(namespace, type)
+}
 
-  return new Promise(function (resolve, reject) {
-    function onLoad () {
-      element.removeEventListener('load', onLoad)
-      resolve()
-    }
+export async function fetchJSON (url) {
+  const response = await window.fetch(url)
 
-    function onError (err) {
-      element.removeEventListener('error', onError)
-      reject(err)
-    }
+  switch (response.status) {
+    case 403:
+      throw new ForbiddenError()
 
-    element.addEventListener('load', onLoad)
-    element.addEventListener('error', onError)
-  })
+    case 404:
+      throw new NotFoundError()
+
+    default:
+      return response.json()
+  }
 }

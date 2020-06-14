@@ -85,7 +85,7 @@ export function index ({ path, description }) {
       ratio: 5 / 4,
       bottomMargin: 100,
       minHeight: 250,
-      maxHeight: 500,
+      maxHeight: 600,
       item: c(curveCanvas, subject$)
     }),
 

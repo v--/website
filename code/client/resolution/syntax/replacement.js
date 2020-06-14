@@ -33,6 +33,7 @@ export function replaceVariables (expression, termMap) {
 
     case ExpressionType.UNIVERSAL_QUANTIFICATION:
     case ExpressionType.EXISTENTIAL_QUANTIFICATION:
+    {
       const replacement = termMap.get(expression.variable)
 
       if (replacement && replacement.type !== ExpressionType.VARIABLE) {
@@ -44,5 +45,6 @@ export function replaceVariables (expression, termMap) {
         variable: replacement ? replacement.name : expression.variable,
         formula: replaceVariables(expression.formula, termMap)
       }
+    }
   }
 }

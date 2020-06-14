@@ -3,6 +3,8 @@ import { c } from '../../../common/rendering/component.js'
 
 import { dispatcher } from '../render_dispatcher.js'
 import { createIntervalObservable } from '../support/timeout.js'
+import { combineLatest } from '../../../common/observables/combine.js'
+import { windowSize$ } from '../shared_observables.js'
 
 export class AspectRatioError extends CoolError {}
 export class NodeAlreadyRegisteredError extends AspectRatioError {}
@@ -30,7 +32,7 @@ function setStyleIfNecessary (element, propName, value) {
 }
 
 const resizeObserver = {
-  next () {
+  next ([windowSize, ]) {
     if (currentBox === null) {
       return
     }
@@ -43,7 +45,7 @@ const resizeObserver = {
     const clampedWidth = tryClamp(availableWidth, boxState.minWidth, boxState.maxWidth)
     let width = clampedWidth
 
-    const availableHeight = window.innerHeight - box.offsetTop - (boxState.bottomMargin || 0)
+    const availableHeight = windowSize.height - box.offsetTop - (boxState.bottomMargin || 0)
     const clampedHeight = tryClamp(availableHeight, boxState.minHeight, boxState.maxHeight)
     let height = clampedHeight
 
@@ -64,7 +66,8 @@ const resizeObserver = {
   }
 }
 
-createIntervalObservable(REFRESH_TIMEOUT).subscribe(resizeObserver)
+combineLatest(windowSize$, createIntervalObservable(REFRESH_TIMEOUT))
+  .subscribe(resizeObserver)
 
 dispatcher.events.create.subscribe({
   next (node) {

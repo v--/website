@@ -1,19 +1,4 @@
-import { ForbiddenError, NotFoundError } from '../../common/errors.js'
-
-async function fetchJSON (url) {
-  const response = await window.fetch(url)
-
-  switch (response.status) {
-    case 403:
-      throw new ForbiddenError()
-
-    case 404:
-      throw new NotFoundError()
-
-    default:
-      return response.json()
-  }
-}
+import { fetchJSON } from './support/dom.js'
 
 export class Store {
   constructor () {

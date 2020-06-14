@@ -1,36 +1,23 @@
 import { DictSubject } from '../../../common/observables/dict_subject.js'
 import { Path } from '../../../common/support/path.js'
 import { RouterState } from '../../../common/support/router_state.js'
-import { unsupported } from '../../../common/views/unsupported.js'
 import { CoolError } from '../../../common/errors.js'
-import { repr } from '../../../common/support/strings.js'
 
 import { Store, MockStore } from '../store.js'
 import { clientRouter } from '../router.js'
 import { windowSize$ } from '../shared_observables.js'
-import { dynamicImport } from '../support/dynamic_import.js'
-import { loadCSSFile } from '../support/dom.js'
+import { loadBundle, isBrowserCompatibleWithBundle } from '../support/load_bundle.js'
+import { navigateTo } from '../support/dom.js'
+import { unsupported } from '../../../common/views/unsupported.js'
+import { repr } from '../../../common/support/strings.js'
 
 class RoutingError extends CoolError {}
 
-async function loadBundle (bundle) {
-  const [m] = await Promise.all([
-    dynamicImport(`${window.location.origin}/code/client/${bundle}/index.js`),
-    loadCSSFile(`/styles/${bundle}/index.css`)
-  ])
-
-  if (!m || !(m.index instanceof Function)) {
-    throw new RoutingError(`${repr(bundle)} does not export a component`)
-  }
-
-  return m.index
-}
-
-async function loadFactory ({ factory: factorySpec, path }) {
+export async function loadFactory ({ factory: factorySpec }) {
   switch (typeof factorySpec) {
     case 'function': return factorySpec
     case 'string':
-      if (window.PLAYGROUND_COMPATIBILITY[path.segments[1]]) {
+      if (isBrowserCompatibleWithBundle(factorySpec)) {
         return loadBundle(factorySpec)
       }
 
@@ -130,7 +117,7 @@ export class RouterService {
 
   async changeURL (url) {
     const path = Path.parse(url)
-    window.history.pushState(null, null, path.cooked)
+    navigateTo(path.cooked)
     await this.processPath(path)
   }
 

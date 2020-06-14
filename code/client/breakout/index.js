@@ -44,7 +44,7 @@ export function index ({ path, description }) {
       ratio: 4 / 3,
       bottomMargin: 21 /* 1.5rem */,
       minHeight: 250,
-      maxHeight: 550,
+      maxHeight: 600,
       item: c(breakout, subject)
     })
   )

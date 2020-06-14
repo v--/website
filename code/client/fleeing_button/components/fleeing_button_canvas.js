@@ -1,5 +1,6 @@
 import { c } from '../../../common/rendering/component.js'
 import { styles } from '../../../common/support/dom_properties.js'
+import { showMessage } from '../../core/support/dom.js'
 
 export function fleeingButtonCanvas ({ buttonOrigin }) {
   return c('div', { class: 'fleeing-button-canvas' },
@@ -11,10 +12,10 @@ export function fleeingButtonCanvas ({ buttonOrigin }) {
         top: buttonOrigin === null ? '0' : 100 * buttonOrigin.y + '%'
       }),
       mouseup (_event) {
-        window.alert('You have won!')
+        showMessage('You have won!')
       },
       touchend (event) {
-        window.alert('Using touchscreens is cheating. Try chasing the button with a mouse.')
+        showMessage('Using touchscreens is cheating. Try chasing the button with a mouse.')
         event.preventDefault()
       }
     })

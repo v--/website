@@ -35,7 +35,7 @@ export const fordFulkerson = Object.freeze({
 
     let pathMaxFlow = Math.min(...path.map(a => a.weight))
 
-    while (true) {
+    while (true) { // eslint-disable-line no-constant-condition
       // Calculate new capacities
       const newCapacities = new Map()
 

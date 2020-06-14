@@ -1,25 +1,21 @@
 {
   "private": true,
   "type": "module",
-  "devDependencies": {
+  "dependencies": {
+    "@mdi/svg": "^5.3.45",
     "benchmark": "^2.1.4",
     "browser-sync": "^2.26.7",
-    "chai": "^4.1.2",
+    "chai": "^4.2.0",
     "es-observable-tests": "^0.3.0",
-    "eslint": "^6.7.1",
-    "eslint-config-standard": "^13.0.1",
+    "eslint": "^7.2.0",
     "eslint-plugin-import": "^2.18.2",
-    "eslint-plugin-mocha": "^6.0.0",
-    "eslint-plugin-node": "^9.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.0",
-    "esm": "^3.2.25",
+    "eslint-plugin-mocha": "^7.0.1",
+    "eslint-plugin-node": "^11.1.0",
     "gulp": "^4.0.2",
-    "gulp-dart-sass": "^0.9.1",
+    "gulp-dart-sass": "^1.0.2",
     "gulp-svgo": "^1.5.4",
-    "mdi-svg": "^2.2.43",
-    "mocha": "^5.2.0",
-    "svgo": "v1.3.0",
+    "mocha": "^8.0.1",
+    "svgo": "v1.3.2",
     "vinyl-source-stream": "^2.0.0"
   }
 }

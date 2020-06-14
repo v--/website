@@ -16,6 +16,7 @@ export function dividedDifferences (f, points) {
       return f(points[0])
 
     default:
+    {
       const first = points[0]
       const last = points[n - 1]
 
@@ -26,5 +27,6 @@ export function dividedDifferences (f, points) {
       const forward = dividedDifferences(f, points.slice(1))
       const backward = dividedDifferences(f, points.slice(0, n - 1))
       return (forward - backward) / (last - first)
+    }
   }
 }

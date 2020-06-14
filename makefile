@@ -1,29 +1,29 @@
-SOURCE = $(shell find code client tests benchmarks build gulpfile.esm.js -name '*.js')
+SOURCE = ${shell find code client tests benchmarks build gulpfile.cjs -name '*.*js'}
 
-TESTS = $(shell find tests -name '*.js' ! -name '_*.js')
-BENCHMARKS = $(shell find benchmarks -name '*.js' ! -name '_*.js')
+TESTS = ${shell find tests -name '*.js' ! -name '_*.js'}
+BENCHMARKS = ${shell find benchmarks -name '*.js' ! -name '_*.js'}
 
-.PHONY: build server test $(TESTS) $(BENCHMARKS) tests/_observables.js thumbnailer
+.PHONY: build server test ${TESTS} ${BENCHMARKS} tests/_observables.js thumbnailer
 
-test ?= $(shell find tests -name '*.js' ! -name '_*.js')
+test ?= ${shell find tests -name '*.js' ! -name '_*.js'}
 
-$(BENCHMARKS):
-	@node --require esm $@
+${BENCHMARKS}:
+	@node $@
 
 lint:
-	@eslint $(SOURCE)
+	@eslint ${SOURCE}
 
 tests/_observables.js:
-	@node --require esm $@
+	@node $@
 
-$(TESTS):
-	@npx mocha --require esm $@
+${TESTS}:
+	@npx mocha $@
 
 test:
-	@npx mocha --require esm $(TESTS)
+	@npx mocha ${TESTS}
 
 build: lint test tests/_observables.js
 	@env NODE_ENV=production gulp client:build
 
 thumbnailer:
-	@node --experimental-modules code/server/commands/thumbnailer.js
+	@node code/server/commands/thumbnailer.js

@@ -1,6 +1,5 @@
 {
   "extends": ["../.eslintrc.json", "plugin:mocha/recommended"],
-  "plugins": ["mocha"],
   "rules": {
     "mocha/max-top-level-suites": "off",
     "mocha/no-setup-in-describe": "off"

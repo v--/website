@@ -1,11 +1,17 @@
 {
-  "extends": ["standard", "plugin:import/errors"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:node/recommended",
+    "plugin:import/errors"
+  ],
   "rules": {
+    "semi": ["warn", "never"],
+    "indent": ["warn", 2, { "SwitchCase": 1 }],
     "no-var": "warn",
     "no-unused-vars": ["warn", { "vars": "all", "argsIgnorePattern": "^_" }],
     "quotes": ["warn", "single", { "avoidEscape": true }],
-    "import/extensions": ["error", "always", { "ignorePackages": true }],
     "no-console": ["error", { "allow": ["error"] }],
+    "import/extensions": ["error", "always", { "ignorePackages": true }],
     "no-restricted-syntax": [
       "warn",
       {
