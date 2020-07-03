@@ -42,7 +42,7 @@ function spawnFileThumbnailer (filePath, thumbPath) {
       return spawnProcess('/usr/bin/convert', [filePath, '-auto-orient', '-resize', `${THUMB_WIDTH}x${THUMB_HEIGHT}`, thumbPath])
 
     case '.mp4':
-      return spawnProcess('/usr/bin/ffmpeg', ['-ss', '0', '-i', filePath, '-vframes', '1', '-filter:v', `scale=${THUMB_WIDTH}:${THUMB_HEIGHT}`, thumbPath])
+      return spawnProcess('/usr/bin/ffmpeg', ['-ss', '0', '-i', filePath, '-vframes', '1', '-filter:v', `scale=-1:${THUMB_HEIGHT}`, thumbPath])
 
     default:
       throw new ThumbnailingError('Unknown file extension ' + ext)
