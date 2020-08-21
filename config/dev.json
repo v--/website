@@ -5,7 +5,6 @@
 
     "store": {
         "fileRootPath": "mocks",
-        "galleryPath": "mocks/gallery",
         "pacmanDBPath": "mocks/ivasilev.db"
     }
 }

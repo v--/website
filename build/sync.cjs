@@ -34,11 +34,6 @@ module.exports = {
           {
             route: '/files',
             dir: ['./mocks']
-          },
-
-          {
-            route: '/gallery',
-            dir: ['./mocks/gallery']
           }
         ]
       })

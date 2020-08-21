@@ -1,5 +1,4 @@
 import { FileCollection } from './collections/file.js'
-import { GalleryCollection } from './collections/gallery.js'
 import { PacmanPackageCollection } from './collections/pacman_package.js'
 
 export class Store {
@@ -7,7 +6,6 @@ export class Store {
     this.config = config
     this.collections = {
       files: new FileCollection(this),
-      gallery: new GalleryCollection(this),
       pacmanPackages: new PacmanPackageCollection(this)
     }
   }

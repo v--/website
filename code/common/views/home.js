@@ -83,11 +83,6 @@ export function home () {
           }),
 
           c(siteSection, {
-            link: '/gallery',
-            text: PAGE_DESCRIPTIONS.gallery
-          }),
-
-          c(siteSection, {
             link: '/pacman',
             text: PAGE_DESCRIPTIONS.pacman
           }),

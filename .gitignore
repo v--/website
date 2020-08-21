@@ -1,6 +1,5 @@
 /node_modules
 /public
-/mocks/gallery/.thumbs
 
 /config/active.json
 /code/common/icons.js

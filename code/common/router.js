@@ -5,7 +5,6 @@ import { PAGE_DESCRIPTIONS } from './constants/page_descriptions.js'
 
 import { home } from './views/home.js'
 import { files } from './views/files.js'
-import { gallery } from './views/gallery.js'
 import { pacman } from './views/pacman.js'
 import { playground } from './views/playground.js'
 
@@ -27,15 +26,6 @@ async function routerImpl (path, store) {
         factory: files,
         data: await store.collections.files.readDirectory(path.segments.slice(1).join('/')),
         sidebarID: SidebarId.FILES
-      }
-
-    case 'gallery':
-      return {
-        title: path.underCooked,
-        description: PAGE_DESCRIPTIONS.gallery,
-        factory: gallery,
-        data: await store.collections.gallery.readDirectory(path.segments.slice(1).join('/')),
-        sidebarID: SidebarId.GALLERY
       }
 
     case 'pacman':

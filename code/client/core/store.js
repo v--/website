@@ -9,12 +9,6 @@ export class Store {
         }
       },
 
-      gallery: {
-        readDirectory: (path) => {
-          return fetchJSON(`/api/gallery/${path}`)
-        }
-      },
-
       pacmanPackages: {
         load: () => {
           return fetchJSON('/api/pacman')

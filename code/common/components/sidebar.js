@@ -44,13 +44,6 @@ export function sidebar ({ sidebarID, isCollapsed, toggleCollapsed }) {
     }),
 
     c(entry, {
-      id: SidebarId.GALLERY,
-      text: 'Gallery',
-      icon: 'image-multiple',
-      link: '/gallery'
-    }),
-
-    c(entry, {
       id: SidebarId.PACMAN,
       text: 'Pacman repo',
       icon: 'download',
