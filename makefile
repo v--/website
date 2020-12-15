@@ -24,6 +24,3 @@ test:
 
 build: lint test tests/_observables.js
 	@env NODE_ENV=production gulp client:build
-
-thumbnailer:
-	@node code/server/commands/thumbnailer.js
