@@ -27,7 +27,7 @@ module.exports = {
       const promises = JSON.parse(icons)
         .map(async function (name) {
           return {
-            [name]: await readPathFromIconFile(`node_modules/mdi-svg/svg/${name}.svg`)
+            [name]: await readPathFromIconFile(`node_modules/@mdi/svg/svg/${name}.svg`)
           }
         })
 

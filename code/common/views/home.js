@@ -43,7 +43,7 @@ export function home () {
 
           c(contact, {
             text: 'GitHub',
-            icon: 'github-circle',
+            icon: 'github',
             link: 'https://github.com/v--'
           }),
 
