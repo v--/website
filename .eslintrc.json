@@ -1,17 +1,17 @@
 {
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
   "extends": [
     "eslint:recommended",
-    "plugin:node/recommended",
-    "plugin:import/errors"
+    "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
     "semi": ["warn", "never"],
     "indent": ["warn", 2, { "SwitchCase": 1 }],
     "no-var": "warn",
-    "no-unused-vars": ["warn", { "vars": "all", "argsIgnorePattern": "^_" }],
     "quotes": ["warn", "single", { "avoidEscape": true }],
     "no-console": ["error", { "allow": ["error"] }],
-    "import/extensions": ["error", "always", { "ignorePackages": true }],
+    "space-before-function-paren": ["warn", "never"],
     "no-restricted-syntax": [
       "warn",
       {
@@ -26,6 +26,12 @@
         "selector": "NewExpression[callee.name='CoolError']",
         "message": "Please subclass CoolError instead of instantiating it directly"
       }
-    ]
+    ],
+    "@typescript-eslint/ban-types": ["off"],
+    "@typescript-eslint/no-empty-interface": ["off"],
+    "@typescript-eslint/no-non-null-assertion": ["off"],
+    "@typescript-eslint/no-unused-vars": ["off"],
+    "@typescript-eslint/explicit-module-boundary-types": ["off"],
+    "@typescript-eslint/no-this-alias": ["off"]
   }
 }

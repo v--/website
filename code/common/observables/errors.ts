@@ -1,0 +1,11 @@
+import { CoolError } from '../errors.js'
+import { Constructor } from '../types/typecons.js'
+
+export class ObservableError extends CoolError {}
+
+// Allow the error class to be modified to allow of the observable tests to pass
+export const errors: {
+  ErrorClass: Constructor<[string], Error>
+} = {
+  ErrorClass: ObservableError
+}

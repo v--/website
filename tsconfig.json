@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ESNEXT",                       
+    "module": "ESNext",                     
+    "lib": ["DOM"],                           
+    "removeComments": false,                  
+    "downlevelIteration": true,               
+    "strict": true,                           
+    "noImplicitAny": true,                    
+    "moduleResolution": "node",               
+    "esModuleInterop": true,                  
+    "forceConsistentCasingInFileNames": true
+  }
+}

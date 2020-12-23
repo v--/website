@@ -1,21 +1,40 @@
 {
   "private": true,
   "type": "module",
+  "scripts": {
+    "ts-node-esm": "node --loader ts-node/esm",
+    "gulp": "npm run ts-node-esm -- node_modules/gulp/bin/gulp",
+    "build": "npm run lint && npm run test && npm run gulp build",
+    "server": "gulp",
+    "lint": "eslint --ext ts build code tests benchmarks",
+    "test": "npm run ts-node-esm node_modules/mocha/lib/cli/cli.js"
+  },
   "dependencies": {
     "@mdi/svg": "^5.3.45",
+    "@types/benchmark": "^2.1.0",
+    "@types/browser-sync": "^2.26.1",
+    "@types/chai": "^4.2.14",
+    "@types/gulp": "^4.0.7",
+    "@types/undertaker": "^1.2.5",
+    "@types/vinyl-source-stream": "^0.0.30",
+    "@typescript-eslint/eslint-plugin": "^4.10.0",
+    "@typescript-eslint/parser": "^4.10.0",
     "benchmark": "^2.1.4",
     "browser-sync": "^2.26.7",
     "chai": "^4.2.0",
     "es-observable-tests": "^0.3.0",
     "eslint": "^7.2.0",
-    "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-mocha": "^7.0.1",
     "eslint-plugin-node": "^11.1.0",
     "gulp": "^4.0.2",
     "gulp-dart-sass": "^1.0.2",
     "gulp-svgo": "^1.5.4",
+    "gulp-typescript": "^6.0.0-alpha.1",
     "mocha": "^8.0.1",
     "svgo": "v1.3.2",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3",
+    "undertaker": "^1.2.1",
     "vinyl-source-stream": "^2.0.0"
   }
 }

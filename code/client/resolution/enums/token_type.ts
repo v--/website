@@ -1,0 +1,21 @@
+export enum TokenType {
+  whitespace,
+  naturalNumber,
+  variable,
+  function,
+  functionName,
+  predicateName,
+  predicate,
+  negation,
+  term,
+  arguments,
+  formula,
+  universalQuantification,
+  existentialQuantification,
+  conjunction,
+  disjunction,
+  implication,
+  equivalence,
+  connectiveFormula,
+  topLevelFormula
+}
