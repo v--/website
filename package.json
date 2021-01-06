@@ -36,9 +36,5 @@
     "typescript": "^4.1.3",
     "undertaker": "^1.2.1",
     "vinyl-source-stream": "^2.0.0"
-  },
-  "devDependencies": {
-    "gulp-sourcemaps": "^3.0.0",
-    "gulp-terser": "^2.0.0"
   }
 }
