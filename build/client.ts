@@ -3,6 +3,8 @@ import gulp from 'gulp'
 import scss from 'gulp-dart-sass'
 import svgo from 'gulp-svgo'
 import ts from 'gulp-typescript'
+import terser from 'gulp-terser'
+import sourcemaps from 'gulp-sourcemaps'
 
 import fs from 'fs/promises'
 
@@ -14,7 +16,10 @@ const tsProject = ts.createProject(tsConfig.compilerOptions)
 
 gulp.task('client:build:code', function() {
   return gulp.src('code/{common,client}/**/*.ts')
+    .pipe(sourcemaps.init())
     .pipe(tsProject())
+    .pipe(terser())
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('dist'))
 })
 

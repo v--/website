@@ -3,7 +3,6 @@
     "target": "ESNEXT",                       
     "module": "ESNext",                     
     "lib": ["DOM"],                           
-    "removeComments": false,                  
     "downlevelIteration": true,               
     "strict": true,                           
     "noImplicitAny": true,                    
