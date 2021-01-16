@@ -36,7 +36,7 @@ export interface MatrixParams {
 
 export interface Matrix extends MatrixParams {}
 export class Matrix {
-  static fill(rows: number, cols: uint32, fill: uint32) {
+  static fill(fill: float64, rows: uint32, cols: uint32 = rows) {
     return new this({
       rows,
       cols,
@@ -45,7 +45,7 @@ export class Matrix {
   }
 
   static zero(rows: uint32, cols = rows) {
-    return this.fill(rows, cols, 0)
+    return this.fill(0, rows, cols)
   }
 
   static unit(n: uint32) {

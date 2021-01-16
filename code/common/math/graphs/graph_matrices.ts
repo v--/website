@@ -13,7 +13,7 @@ export function adjacencyMatrix(graph: Graph<uint32>) {
 }
 
 export function pathLengthMatrix(graph: Graph<uint32>) {
-  const result = Matrix.fill(graph.order, graph.order, Number.POSITIVE_INFINITY)
+  const result = Matrix.fill(Number.POSITIVE_INFINITY, graph.order)
 
   for (const arc of graph.iterAllArcs()) {
     result.set(arc.src, arc.dest, arc.weight)

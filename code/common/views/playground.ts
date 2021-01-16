@@ -62,6 +62,15 @@ export function playground() {
             link: 'playground/fleeing_button',
             isInternal: true
           })
+        ),
+
+        c('li', undefined,
+          c(link, {
+            class: 'playground-link',
+            text: PAGE_DESCRIPTIONS.playground.motifs,
+            link: 'playground/motifs',
+            isInternal: true
+          })
         )
       )
     )

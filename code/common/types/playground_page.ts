@@ -4,4 +4,5 @@ export type PlaygroundPage =
   'resolution' |
   'breakout' |
   'graphs' |
-  'fleeing_button'
+  'fleeing_button' |
+  'motifs'

@@ -100,6 +100,14 @@ async function routerImpl(path: Path, store: IStore): Promise<Omit<RouterStatePa
               factory: 'fleeing_button',
               sidebarId: SidebarId.playground
             }
+
+          case 'motifs':
+            return {
+              title: 'motifs | playground',
+              description: PAGE_DESCRIPTIONS.playground.motifs,
+              factory: 'motifs',
+              sidebarId: SidebarId.playground
+            }
         }
       }
   }

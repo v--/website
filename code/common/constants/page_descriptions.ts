@@ -9,6 +9,7 @@ export const PAGE_DESCRIPTIONS = Object.freeze({
     resolution: 'A first-order logic resolution engine',
     breakout: 'A Breakout variant with evolving bricks',
     graphs: 'Graph algorithm visualizations',
-    fleeing_button: 'A fleeing button'
+    fleeing_button: 'A fleeing button',
+    motifs: 'Procedurally generated Bulgarian motifs'
   })
 })

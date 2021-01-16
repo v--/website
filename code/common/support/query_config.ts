@@ -8,7 +8,7 @@ export class QueryConfig<Schema extends Record<string, any>> {
   constructor(
     public path: Path,
     public defaults: Partial<Schema>,
-    public parsers: Record<keyof Schema, (raw: string) => unknown>
+    public parsers: Record<keyof Schema, (raw: string) => unknown>,
   ) {}
 
   get(key: string) {

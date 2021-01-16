@@ -254,6 +254,7 @@ export function product(): Generator<[]>
 export function product<T>(...iterables: [Iterable<T>]): Generator<[T]>
 export function product<T, S>(...iterables: [Iterable<T>, Iterable<S>]): Generator<[T, S]>
 export function product<T, S, R>(...iterables: [Iterable<T>, Iterable<S>, Iterable<R>]): Generator<[T, S, R]>
+export function product<T, S, R, P>(...iterables: [Iterable<T>, Iterable<S>, Iterable<R>, Iterable<P>]): Generator<[T, S, R, P]>
 export function * product(...iterables: Iterable<unknown>[]): Generator<unknown[]> {
   function * productImpl(fixed: unknown[], variable: Array<unknown[]>): Generator<unknown[]> {
     if (variable.length === 0) {

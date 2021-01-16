@@ -16,7 +16,8 @@
     resolution: availableFeatures.modules,
     breakout: availableFeatures.modules,
     graphs: availableFeatures.modules,
-    fleeing_button: availableFeatures.modules
+    fleeing_button: availableFeatures.modules,
+    motifs: availableFeatures.modules
   }
 
   // Now do some hackish DOM initialization to avoid "flashing" when to main code kicks in
