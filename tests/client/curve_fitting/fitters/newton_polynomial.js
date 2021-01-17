@@ -2,11 +2,17 @@ import { describe, it, assert } from '../../../_common.js'
 
 import { newtonPolynomial } from '../../../../code/client/curve_fitting/fitters/newton_polynomial.js'
 
-function quadraticTest(x: float64) {
+/**
+ * @param {float64} x
+ */
+function quadraticTest(x) {
   return x ** 2 + 13
 }
 
-function createTestMapping(domain: float64[]) {
+/**
+ * @param {float64[]} domain
+ */
+function createTestMapping(domain) {
   return new Map(domain.map(x => [x, quadraticTest(x)]))
 }
 

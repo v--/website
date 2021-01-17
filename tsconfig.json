@@ -1,5 +1,10 @@
 {
-  "include": "./code/types/index.d.ts",
+  "include": [
+    "./code/**/*.ts",
+    "./benchmarks/**/*.js",
+    "./tests/**/*.js",
+    "./build/**/*.js"
+  ],
   "compilerOptions": {
     "target": "ESNEXT",
     "module": "ESNext",

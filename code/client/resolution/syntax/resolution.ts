@@ -1,4 +1,4 @@
-import { product } from '../../../common/support/iteration.js'
+import { product2 } from '../../../common/support/iteration.js'
 import { ExpressionType } from '../enums/expression_type.js'
 import { replaceVariables } from './replacement.js'
 import { stringifyExpression, stringifyDisjunct } from '../support/stringify.js'
@@ -72,7 +72,7 @@ function findTransforms(
   positive: Array<PredicateExpression>,
   negative: Array<NegationExpression<PredicateExpression>>
 ) {
-  for (const [l1, l2n] of product(positive, negative)) {
+  for (const [l1, l2n] of product2(positive, negative)) {
     const l2 = l2n.formula
     const cumulative = {
       positive: new Map<string, FOLTerm>(),

@@ -1,4 +1,4 @@
-import { zip, map, range, product } from '../../../common/support/iteration.js'
+import { zip2, map, range, product2 } from '../../../common/support/iteration.js'
 import { join } from '../../../common/support/strings.js'
 import { s } from '../../../common/support/svg.js'
 import { getMappingDomain } from '../support/mapping.js'
@@ -8,7 +8,7 @@ export function curveCanvas({ width, height, mapping, curves, fitters, updateMap
   const grid = Array.from(
     map(
       ([x, y]) => ({ x, y }),
-      product(
+      product2(
         range(-width / 2, width / 2 + 1),
         range(-height / 2, height / 2 + 1)
       )
@@ -78,7 +78,7 @@ export function curveCanvas({ width, height, mapping, curves, fitters, updateMap
               ' ',
               map(
                 ([x, y]) => `${x},${y}`,
-                zip(domain, domain.map(x => curve.eval(x)))
+                zip2(domain, domain.map(x => curve.eval(x)))
               )
             )
           }

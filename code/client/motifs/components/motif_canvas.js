@@ -6,7 +6,10 @@ import { Motif } from '../motif.js'
 const SQUARE_VISUAL_PADDING = 0.01
 const SQUARE_VISUAL_SIZE_STRING = String(1 - 2 * SQUARE_VISUAL_PADDING)
 
-export function motifCanvas({ motif }: { motif: Motif }) {
+/**
+ * @param {{ motif: Motif }} arg0
+ */
+export function motifCanvas({ motif }) {
   const side = motif.side
   const viewBox = [-side + 1, -side + 1, 2 * side - 1, 2 * side - 1].join(' ')
 
@@ -38,7 +41,13 @@ export function motifCanvas({ motif }: { motif: Motif }) {
             y: String(pointRadius * Math.sin(pointAngle) + SQUARE_VISUAL_PADDING)
           })
         },
-        product(range<uint32>(0, side), range<uint32>(1, side), [0, Math.PI / 2, Math.PI, 3 / 2 * Math.PI])
+        /** @type {Iterable<[uint32, uint32, float64]>} */ (
+          product(
+            range(0, side),
+            range(1, side),
+            [0, Math.PI / 2, Math.PI, 3 / 2 * Math.PI]
+          )
+        )
       ),
       s('rect', {
         fill: motif.getColorString(0, 0),

@@ -1,5 +1,5 @@
 import { CoolError } from '../../errors.js'
-import { union, chain, range, repeat, zip, map, all } from '../../support/iteration.js'
+import { union, chain, range, repeat, zip2, map, all } from '../../support/iteration.js'
 
 import { stringifyLinearCombination } from '../stringify.js'
 import { isSameNumber, roundNumber } from '../../../common/math/numeric/floating.js'
@@ -72,7 +72,7 @@ export class Polynomial {
     const n = Math.max(this.order, other.order)
     const coef = map(
       ([a, b]) => a + b,
-      zip(
+      zip2(
         chain(this.coef, repeat(0, n - this.order)),
         chain(other.coef, repeat(0, n - other.order))
       )
@@ -170,7 +170,7 @@ export class Polynomial {
   }
 
   equals(other: Polynomial) {
-    return this.order === other.order && all(([a, b]) => a === b, zip(this.coef, other.coef))
+    return this.order === other.order && all(([a, b]) => a === b, zip2(this.coef, other.coef))
   }
 
   getDerivative() {

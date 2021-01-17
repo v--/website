@@ -1,5 +1,5 @@
 import { Graph, GraphTraversalError } from './graph.js'
-import { repeat, zip } from '../../support/iteration.js'
+import { repeat, zip2 } from '../../support/iteration.js'
 
 function postorderDFS<T>(graph: Graph<T>, pre: Map<T, uint32>, post: Map<T, uint32>, order: T[], v: T, clock: uint32) {
   pre.set(v, clock++)
@@ -21,8 +21,8 @@ export function postorder<T>(graph: Graph<T>, start: T) {
   }
 
   const order: T[] = []
-  const pre = new Map(zip(graph.iterAllVertices(), repeat(Number.POSITIVE_INFINITY, graph.order)))
-  const post = new Map(zip(graph.iterAllVertices(), repeat(Number.NEGATIVE_INFINITY, graph.order)))
+  const pre = new Map(zip2(graph.iterAllVertices(), repeat(Number.POSITIVE_INFINITY, graph.order)))
+  const post = new Map(zip2(graph.iterAllVertices(), repeat(Number.NEGATIVE_INFINITY, graph.order)))
   postorderDFS(graph, pre, post, order, start, 0)
   return order
 }

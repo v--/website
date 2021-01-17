@@ -52,7 +52,7 @@ describe('zip()', function() {
 
 describe('reduce()', function() {
   it("doesn't throw when trying to reduce nothing with a default value", function() {
-    assert.doesNotThrow(() => reduce<boolean>(Boolean, [], true), EmptyIterError)
+    assert.doesNotThrow(() => reduce(Boolean, [], true), EmptyIterError)
   })
 
   it('correctly sums an array of values', function() {
@@ -117,12 +117,12 @@ describe('flatten()', function() {
   })
 
   it('flattens a nested array', function() {
-    const flattened = flatten<number>([[1, 2], [3, 4], [5, 6]])
+    const flattened = flatten([[1, 2], [3, 4], [5, 6]])
     assert.deepEqual(Array.from(flattened), [1, 2, 3, 4, 5, 6])
   })
 
   it('flattens a double nested array', function() {
-    const flattened = flatten<number>([[[1, 2], [3, 4]], [[5, 6], [7, 8]]])
+    const flattened = /** @type {Generator<number>} */ (flatten([[[1, 2], [3, 4]], [[5, 6], [7, 8]]]))
     assert.deepEqual(Array.from(flattened), [1, 2, 3, 4, 5, 6, 7, 8])
   })
 

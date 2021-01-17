@@ -1,4 +1,4 @@
-import { map, zip } from '../../support/iteration.js'
+import { map, zip2 } from '../../support/iteration.js'
 
 import { stringifyLinearCombination } from '../stringify.js'
 import { IRealFunction } from '../types/real_function.js'
@@ -6,7 +6,7 @@ import { BSpline } from './b_spline.js'
 
 function * iterExtendedDomain(degree: uint32, x: float64[]): Generator<float64, void, undefined> {
   const n = x.length
-  const differences = map(([a, b]) => a - b, zip(x.slice(1), x.slice(0, n - 1)))
+  const differences = map(([a, b]) => a - b, zip2(x.slice(1), x.slice(0, n - 1)))
   const diameter = Math.max(1, Math.max(...differences))
 
   yield x[0] - diameter
@@ -57,7 +57,7 @@ export class Spline {
   eval(x: float64) {
     let result = 0
 
-    for (const [coef, fun] of zip(this.coef, this.basis)) {
+    for (const [coef, fun] of zip2(this.coef, this.basis)) {
       result += coef * fun.eval(x)
     }
 

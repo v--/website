@@ -1,5 +1,5 @@
 import { join, repr } from '../../support/strings.js'
-import { map, repeat, zip, all, reduce } from '../../support/iteration.js'
+import { map, repeat, zip2, all, reduce } from '../../support/iteration.js'
 import { isSameNumber } from '../../math/numeric/floating.js'
 
 import { MathError } from '../errors.js'
@@ -24,7 +24,7 @@ function * iterToString(matrix: Matrix) {
 }
 
 function dotProduct(u: float64[], v: float64[]) {
-  return reduce(([x, y], accum) => accum + x * y, zip(u, v), 0)
+  return reduce(([x, y], accum) => accum + x * y, zip2(u, v), 0)
 }
 
 export interface MatrixParams {
@@ -164,7 +164,7 @@ export class Matrix {
   equals(other: Matrix) {
     return this.cols === other.cols &&
       this.rows === other.rows &&
-      all(([a, b]) => isSameNumber(a, b), zip(this.payload, other.payload))
+      all(([a, b]) => isSameNumber(a, b), zip2(this.payload, other.payload))
   }
 
   add(other: Matrix) {
@@ -175,7 +175,7 @@ export class Matrix {
     return new Matrix({
       rows: this.rows,
       cols: this.cols,
-      payload: Array.from(map(([x, y]) => x + y, zip(this.payload, other.payload)))
+      payload: Array.from(map(([x, y]) => x + y, zip2(this.payload, other.payload)))
     })
   }
 

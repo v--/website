@@ -3,7 +3,7 @@ import { roundNumber } from '../math/numeric/floating.js'
 
 export function join(delimiter: string, iterable: Iterable<string>): string {
   try {
-    return reduce<string>((value, accum) => accum === '' ? value : `${accum}${delimiter}${value}`, iterable, '')
+    return reduce<string, string>((value, accum) => accum === '' ? value : `${accum}${delimiter}${value}`, iterable, '')
   } catch (e) {
     if (e instanceof EmptyIterError) {
       return ''
