@@ -1,8 +1,8 @@
 {
   "include": [
     "./code/**/*.js",
-    "./code/**/*.d.ts",
-    "./code/**/*.js",
+    "./code/types/**/*.d.ts",
+    "./code/**/*.ts",
     "./benchmarks/**/*.js",
     "./tests/**/*.js",
     "./tests/**/*.ts",

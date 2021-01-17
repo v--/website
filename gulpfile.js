@@ -5,6 +5,7 @@ import gulp from 'gulp'
 import { armor } from './build/armor.js'
 import { sync } from './build/sync.js'
 import './build/client.js'
+import './build/server.js'
 
 gulp.task('watch', function(done) {
   gulp.watch('client/styles/**/*.scss', armor(gulp.series('client:build:styles')))
@@ -22,5 +23,5 @@ gulp.task('watch', function(done) {
   })
 })
 
-gulp.task('build', gulp.series('client:build'))
+gulp.task('build', gulp.parallel('server:build', 'client:build'))
 gulp.task('default', gulp.series(armor(gulp.series('client:build')), 'watch'))
