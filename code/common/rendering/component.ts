@@ -48,7 +48,7 @@ function * processChildren(children: PotentialComponent[]) {
 }
 
 export class Component {
-  _stateSubscription?: Subscription<ComponentState>
+  private stateSubscription?: Subscription<ComponentState>
   state = new BehaviorSubject<Optional<ComponentState>>(undefined)
 
   /**
@@ -94,8 +94,8 @@ export class Component {
   }
 
   unsubscribeFromStateSource(): void {
-    if (this._stateSubscription) {
-      this._stateSubscription.unsubscribe()
+    if (this.stateSubscription) {
+      this.stateSubscription.unsubscribe()
     }
   }
 
@@ -103,7 +103,7 @@ export class Component {
     this.unsubscribeFromStateSource()
 
     if (Observable.isObservable(newSource)) {
-      this._stateSubscription = (newSource as IObservable<ComponentState>).subscribe(newState => {
+      this.stateSubscription = (newSource as IObservable<ComponentState>).subscribe(newState => {
         this.stateSource = newSource
         this.updateState(newState as ComponentState)
       })

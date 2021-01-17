@@ -38,6 +38,8 @@ export class RouterService {
   private store: Store
   private path: Path
   private resizeObserver: PotentialObserver<WindowSize>
+  private pathQueue: Path[] = []
+  private processing = false
 
   static async initialize(url: string, serverData: unknown) {
     const path = Path.parse(url)
@@ -86,7 +88,7 @@ export class RouterService {
     this.state$.update(RouterState.error(Path.parse(url), err))
   }
 
-  async processPath(path: Path): Promise<void> {
+  private async processPath(path: Path): Promise<void> {
     this.path = path
 
     const isCollapsed = this.state$.value.isCollapsed || !windowSize$.value.isDesktop
@@ -113,14 +115,36 @@ export class RouterService {
     this.state$.update({ ...route, factory })
   }
 
-  async processURL(url: string) {
-    const path = Path.parse(url)
-    this.processPath(path)
+  async processPaths() {
+    if (this.processing) {
+      return
+    }
+
+    this.processing = true
+
+    while (this.pathQueue.length > 0) {
+      const path = this.pathQueue.pop()!
+
+      while (this.pathQueue.length > 0) {
+        this.pathQueue.pop()
+      }
+
+      await this.processPath(path)
+      navigateTo(path.cooked)
+    }
+
+    this.processing = false
   }
 
-  async changeURL(url: string) {
+  processURL(url: string) {
     const path = Path.parse(url)
-    navigateTo(path.cooked)
-    await this.processPath(path)
+    this.pathQueue.push(path)
+    this.processPaths()
+  }
+
+  changeURL(url: string) {
+    const path = Path.parse(url)
+    this.pathQueue.push(path)
+    this.processPaths()
   }
 }

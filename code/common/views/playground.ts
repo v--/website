@@ -14,7 +14,7 @@ export function playground() {
           c(link, {
             class: 'playground-link',
             text: PAGE_DESCRIPTIONS.playground.sorting,
-            link: 'playground/sorting',
+            link: '/playground/sorting',
             isInternal: true
           })
         ),
@@ -23,7 +23,7 @@ export function playground() {
           c(link, {
             class: 'playground-link',
             text: PAGE_DESCRIPTIONS.playground.curve_fitting,
-            link: 'playground/curve_fitting',
+            link: '/playground/curve_fitting',
             isInternal: true
           })
         ),
@@ -32,7 +32,7 @@ export function playground() {
           c(link, {
             class: 'playground-link',
             text: PAGE_DESCRIPTIONS.playground.resolution,
-            link: 'playground/resolution',
+            link: '/playground/resolution',
             isInternal: true
           })
         ),
@@ -41,7 +41,7 @@ export function playground() {
           c(link, {
             class: 'playground-link',
             text: PAGE_DESCRIPTIONS.playground.breakout,
-            link: 'playground/breakout',
+            link: '/playground/breakout',
             isInternal: true
           })
         ),
@@ -50,7 +50,7 @@ export function playground() {
           c(link, {
             class: 'playground-link',
             text: PAGE_DESCRIPTIONS.playground.graphs,
-            link: 'playground/graphs',
+            link: '/playground/graphs',
             isInternal: true
           })
         ),
@@ -59,7 +59,7 @@ export function playground() {
           c(link, {
             class: 'playground-link',
             text: PAGE_DESCRIPTIONS.playground.fleeing_button,
-            link: 'playground/fleeing_button',
+            link: '/playground/fleeing_button',
             isInternal: true
           })
         ),
@@ -68,7 +68,7 @@ export function playground() {
           c(link, {
             class: 'playground-link',
             text: PAGE_DESCRIPTIONS.playground.motifs,
-            link: 'playground/motifs',
+            link: '/playground/motifs',
             isInternal: true
           })
         )

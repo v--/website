@@ -30,16 +30,16 @@ export function index({ path, description }: RouterState) {
 
   return c('div', { class: 'page playground-motifs-page' },
     c(sectionTitle, { text: description, path }),
-    c('p', { text: 'It is currently very primitive. I plan on experimenting with randomized formal grammars when I have the time.' }),
+    c('p', { text: 'The generator is currently very primitive. I plan on experimenting with randomized formal grammars when I have the time.' }),
     motif && c(aspectRatioBox, {
       ratio: 1,
-      bottomMargin: 63 /* 4.5rem */,
+      bottomMargin: 84 /* 5rem */,
       minHeight: 250,
       maxHeight: 800,
       item: c(motifCanvas, { motif })
     }),
 
-    c('footer', undefined,
+    c('div', { class: 'footer' },
       c(
         'button',
         {

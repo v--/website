@@ -29,7 +29,7 @@ export class Path {
   getParentPath() {
     return new Path(
       this.segments.slice(0, this.segments.length - 1),
-      new Map(this.query)
+      new Map()
     )
   }
 
@@ -41,12 +41,16 @@ export class Path {
     return '/' + this.segments.join('/')
   }
 
+  get queryString() {
+    return Array.from(this.query.entries())
+      .map(([key, value]) => `${key}=${value.replace('&', '%24')}`)
+      .sort()
+      .join('&')
+  }
+
   get cooked() {
     if (this.query.size > 0) {
-      return this.underCooked + '?' + Array.from(this.query.entries())
-        .map(([key, value]) => `${key}=${value.replace('&', '%24')}`)
-        .sort()
-        .join('&')
+      return this.underCooked + '?' + this.queryString
     } else {
       return this.underCooked
     }

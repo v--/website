@@ -1,5 +1,7 @@
 import { uint32 } from './types/numeric.js'
 
+Error.stackTraceLimit = Number.POSITIVE_INFINITY
+
 export const errorClassIds = ['HTTPError', 'ClientError', 'CoolError', 'DataFormatError'] as const
 export type ErrorClassId = typeof errorClassIds[number]
 

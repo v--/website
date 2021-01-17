@@ -11,7 +11,7 @@ export function main(state: RouterState) {
     c(sidebar, state),
     c('div', { class: 'page-wrapper' },
       c(loadingIndicator, { visible: state.loading }),
-      typeof state.factory === 'function' && c(state.factory, state as RouterState)
+      typeof state.factory === 'function' && c(state.factory, state)
     )
   )
 }
