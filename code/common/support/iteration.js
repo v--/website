@@ -6,12 +6,7 @@ export class EmptyIterError extends IterError { }
 
 /**
  * @template T
- * @typedef {(arg: T) => boolean} Predicate
- */
-
-/**
- * @template T
- * @param {Predicate<T>} predicate
+ * @param {TypeCons.Predicate<T>} predicate
  * @param {Iterable<T>} iter
  * @returns boolean
  */
@@ -26,12 +21,7 @@ export function all(predicate, iter) {
 
 /**
  * @template T, S = T
- * @typedef {(value: T, accum: S) => S} Reducer
- */
-
-/**
- * @template T, S = T
- * @param {Reducer<T, S>} reducer
+ * @param {TypeCons.Reducer<T, S>} reducer
  * @param {Iterable<T>} iterable
  * @param {S} initial
  * @returns S
@@ -70,12 +60,7 @@ export function* range(from, to, step = 1) {
 
 /**
  * @template T, S
- * @typedef {(value: T) => S} Mapper
- */
-
-/**
- * @template T, S
- * @param {Mapper<T, S>} transform
+ * @param {TypeCons.Mapper<T, S>} transform
  * @param {Iterable<T>} iter
  * @returns {Generator<S>}
  */
@@ -87,7 +72,7 @@ export function* map(transform, iter) {
 
 /**
  * @template T
- * @param {Predicate<T>} predicate
+ * @param {TypeCons.Predicate<T>} predicate
  * @param {Iterable<T>} iter
  * @returns {Generator<T>}
  */
@@ -210,7 +195,7 @@ export function zipLongest2(iter1, iter2) {
 /**
  * @template T, S
  * @param {Iterable<T>} iter
- * @param {Mapper<T, S>} [key]
+ * @param {TypeCons.Mapper<T, S>} [key]
  * @returns {Generator<T>}
  */
 export function* uniqueBy(iter, key) {
@@ -247,7 +232,7 @@ export function sort(iter, ascending = true) {
 
 /**
  * @template T
- * @param {Mapper<T, Num.UInt32>} transform
+ * @param {TypeCons.Mapper<T, Num.UInt32>} transform
  * @param {Iterable<T>} iter
  * @returns {T[]}
  */
@@ -263,7 +248,7 @@ export function schwartzSort(transform, iter) {
 
 /**
  * @template T
- * @param {Mapper<T, Num.UInt32>} transform
+ * @param {TypeCons.Mapper<T, Num.UInt32>} transform
  * @param {Iterable<T>} iterable
  * @param {boolean} strict
  * @returns {T}
@@ -274,7 +259,7 @@ export function schwartzMax(transform, iterable, strict = true) {
 
 /**
  * @template T
- * @param {Mapper<T, Num.UInt32>} transform
+ * @param {TypeCons.Mapper<T, Num.UInt32>} transform
  * @param {Iterable<T>} iterable
  * @param {boolean} strict
  * @returns {T}
