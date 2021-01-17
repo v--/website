@@ -1,6 +1,5 @@
 import { Polynomial } from '../../../common/math/algebra/polynomial.js'
 import { dividedDifferences } from '../../../common/math/numeric/divided_differences.js'
-import { float64 } from '../../../common/types/numeric.js'
 import { getMappingDomain } from '../support/mapping.js'
 import { Fitter } from '../types/fitter.js'
 

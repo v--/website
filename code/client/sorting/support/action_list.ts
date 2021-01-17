@@ -1,5 +1,4 @@
 import { swap } from '../../../common/support/iteration.js'
-import { float64, uint32 } from '../../../common/types/numeric.js'
 import { SortAction } from './types/action.js'
 
 export interface ActionListParams {

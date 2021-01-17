@@ -8,7 +8,6 @@ import { NonStrictMap } from '../../../common/types/non_strict_map.js'
 import { GraphAlgorithmResult } from '../support/algorithm_result.js'
 import { GraphAlgorithm } from '../types/graph_algorithm.js'
 import { Graph } from '../../../common/math/graphs/graph.js'
-import { uint32 } from '../../../common/types/numeric.js'
 
 export const bellmanFord: GraphAlgorithm<uint32> = Object.freeze({
   name: "Bellman and Ford's algorithm",

@@ -1,4 +1,3 @@
-import { uint32 } from '../../../common/types/numeric.js'
 import { SortAlgorithm } from '../types/sort_algorithm.js'
 import { ActionList } from '../support/action_list.js'
 

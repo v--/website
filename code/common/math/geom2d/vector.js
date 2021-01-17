@@ -1,13 +1,8 @@
-// @ts-check
-
 import { isSameNumber } from '../numeric/floating.js'
 import { MathError } from '../errors.js'
 
 class VectorError extends MathError {}
 class ZeroVectorError extends VectorError {}
-
-/** @typedef { import('../../types/numeric').float64 } float64 */
-/** @typedef { import('../../types/numeric').UnitRatio } UnitRatio */
 
 /**
  * @typedef {object} VectorParams

@@ -1,4 +1,3 @@
-import { float64 } from '../../../common/types/numeric.js'
 import { sort } from '../../../common/support/iteration.js'
 
 export type NumericMapping = Map<float64, float64>

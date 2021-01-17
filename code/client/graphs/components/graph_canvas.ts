@@ -4,7 +4,6 @@ import { classlist } from '../../../common/support/dom_properties.js'
 
 import { arrowMarker } from './arrow_marker.js'
 import { SuccessfulGraphAlgorithmState } from '../types/state.js'
-import { uint32 } from '../../../common/types/numeric.js'
 import { GraphArc } from '../../../common/math/graphs/graph.js'
 import { map } from '../../../common/support/iteration.js'
 

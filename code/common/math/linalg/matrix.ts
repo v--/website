@@ -3,7 +3,6 @@ import { map, repeat, zip, all, reduce } from '../../support/iteration.js'
 import { isSameNumber } from '../../math/numeric/floating.js'
 
 import { MathError } from '../errors.js'
-import { float64, uint32 } from '../../../common/types/numeric.js'
 
 export class MatrixError extends MathError {}
 export class MatrixDimensionError extends MatrixError {}

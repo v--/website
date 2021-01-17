@@ -1,4 +1,3 @@
-import { uint32 } from '../../../common/types/numeric.js'
 import { Matrix, MatrixDimensionError } from './matrix.js'
 
 function swapRowsInline(matrix: Matrix, a: uint32, b: uint32) {

@@ -1,4 +1,4 @@
-import { IObservable } from '../observables/observable.js'
+import { IObservable } from '../../common/observables/observable'
 
 export type PartialWith<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
 export type RequiredWith<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>

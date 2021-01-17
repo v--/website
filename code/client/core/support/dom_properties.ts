@@ -1,6 +1,5 @@
 import { Vector } from '../../../common/math/geom2d/vector.js'
 import { Rectangle } from '../../../common/math/geom2d/rectangle.js'
-import { float64 } from '../../../common/types/numeric.js'
 
 export function accumulateNumericProperty(element: HTMLElement | null, key: keyof HTMLElement): float64 {
   if (element === null) {

@@ -1,6 +1,5 @@
 import { repr } from '../support/strings.js'
 import { CoolError } from '../errors.js'
-import { float64 } from '../types/numeric.js'
 
 export class StringifyError extends CoolError {}
 

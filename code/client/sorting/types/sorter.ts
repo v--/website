@@ -1,5 +1,4 @@
 import { Action } from '../../../common/types/typecons.js'
-import { float64 } from '../../../common/types/numeric.js'
 import { SortAction } from '../support/types/action.js'
 import { Sequence } from './sequences.js'
 import { SortAlgorithm } from './sort_algorithm.js'

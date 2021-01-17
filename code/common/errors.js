@@ -1,8 +1,4 @@
-// @ts-check
-
 Error.stackTraceLimit = Number.POSITIVE_INFINITY
-
-/** @typedef { import('./types/numeric').uint32 } uint32 */
 
 /**
  * @typedef {'HTTPError' | 'ClientError' | 'CoolError' | 'DataFormatError'} ErrorClassId

@@ -1,4 +1,3 @@
-import { uint32 } from '../../common/types/numeric.js'
 import { Motif, MotifColor } from './motif.js'
 
 export function drawRectangle(motif: Motif, iStart: uint32, iEnd: uint32, jStart: uint32, jEnd: uint32, color: MotifColor): void {

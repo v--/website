@@ -1,6 +1,5 @@
 import { Graph, GraphTraversalError } from './graph.js'
 import { repeat, zip } from '../../support/iteration.js'
-import { uint32 } from '../../../common/types/numeric.js'
 
 function postorderDFS<T>(graph: Graph<T>, pre: Map<T, uint32>, post: Map<T, uint32>, order: T[], v: T, clock: uint32) {
   pre.set(v, clock++)

@@ -1,6 +1,5 @@
 import { Graph } from '../../common/math/graphs/graph.js'
 import { getForceDirectedLayout } from '../../common/math/graphs/layout/force_directed.js'
-import { uint32 } from '../../common/types/numeric.js'
 
 export const DEFAULT_GRAPH_DIRECTED = Graph.fromArcData<uint32>([
   { src: 0, dest: 1, weight: 1 },

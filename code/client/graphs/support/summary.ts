@@ -1,6 +1,5 @@
 import { Graph } from '../../../common/math/graphs/graph.js'
 import { repr } from '../../../common/support/strings.js'
-import { float64 } from '../../../common/types/numeric.js'
 import { GraphAlgorithmDatum } from '../types/algorithm_data.js'
 
 export type GraphAlgorithmSummary = GraphAlgorithmDatum[]

@@ -2,7 +2,6 @@ import { CoolError } from '../../common/errors.js'
 import { swap } from '../../common/support/iteration.js'
 import { repr } from '../../common/support/strings.js'
 import { NonStrictMap } from '../types/non_strict_map.js'
-import { float64, uint32 } from '../types/numeric.js'
 
 export class BinaryHeapError extends CoolError {}
 export class EmptyHeapError extends BinaryHeapError {}

@@ -1,5 +1,4 @@
 import { Vector } from '../../../common/math/geom2d/vector.js'
-import { uint32 } from '../../../common/types/numeric.js'
 import { GameBrick } from '../geom/game_brick.js'
 
 export function findBrickIndex(bricks: GameBrick[], origin: Vector): uint32 {

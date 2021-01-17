@@ -18,7 +18,6 @@ import { GraphAlgorithm, GraphAlgorithmId } from './types/graph_algorithm.js'
 import { GraphAlgorithmState, SuccessfulGraphAlgorithmState } from './types/state.js'
 import { GraphArc } from '../../common/math/graphs/graph.js'
 import { IObservable } from '../../common/observables/observable.js'
-import { uint32 } from '../../common/types/numeric.js'
 
 interface IQueryConfig {
   algorithm: GraphAlgorithmId

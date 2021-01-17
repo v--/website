@@ -2,7 +2,6 @@ import { reduce } from '../../../common/support/iteration.js'
 
 import { Polynomial } from '../../../common/math/algebra/polynomial.js'
 import { Fitter } from '../types/fitter.js'
-import { float64 } from '../../../common/types/numeric.js'
 import { getMappingDomain, getMappingRange } from '../support/mapping.js'
 
 function sum(values: float64[]): float64 {

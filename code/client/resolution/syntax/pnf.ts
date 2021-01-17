@@ -3,7 +3,6 @@ import { replaceVariables } from './replacement.js'
 import { extractFreeVariables } from './extractors.js'
 import { simplify } from './simplification.js'
 import { FOLTerm, SimplifiedFormula, PNFFormula, ConjunctionExpression, SimplifiedInnerFormula, DisjunctionExpression } from '../types/expression.js'
-import { uint32 } from '../../../common/types/numeric.js'
 
 export function mostlyConvertToPNF(
   expression: SimplifiedFormula,

@@ -1,4 +1,3 @@
-import { float64, uint32 } from '../types/numeric.js'
 import { CoolError } from '../errors.js'
 import { IterBase } from '../types/typecons.js'
 import { orderComparator, inverseOrderComparator } from './sorting.js'

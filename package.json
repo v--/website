@@ -3,7 +3,6 @@
   "type": "module",
   "scripts": {
     "ts-node-esm": "node --loader ts-node/esm",
-    "gulp": "npm run ts-node-esm -- node_modules/gulp/bin/gulp",
     "build": "npm run lint && npm run test && npm run gulp build",
     "server": "gulp",
     "lint": "eslint --ext ts build code tests benchmarks",

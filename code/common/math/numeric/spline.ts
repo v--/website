@@ -1,4 +1,3 @@
-import { float64, uint32 } from '../../../common/types/numeric.js'
 import { map, zip } from '../../support/iteration.js'
 
 import { stringifyLinearCombination } from '../stringify.js'

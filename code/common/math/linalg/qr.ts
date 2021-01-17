@@ -1,4 +1,3 @@
-import { uint32 } from '../../../common/types/numeric.js'
 import { isSameNumber, roundNumber } from '../numeric/floating.js'
 
 import { Matrix, MatrixDimensionError } from './matrix.js'

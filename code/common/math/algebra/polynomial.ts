@@ -3,7 +3,6 @@ import { union, chain, range, repeat, zip, map, all } from '../../support/iterat
 
 import { stringifyLinearCombination } from '../stringify.js'
 import { isSameNumber, roundNumber } from '../../../common/math/numeric/floating.js'
-import { float64, uint32 } from '../../../common/types/numeric.js'
 import { IRealFunction } from '../types/real_function.js'
 
 const MAX_ITER = 1000

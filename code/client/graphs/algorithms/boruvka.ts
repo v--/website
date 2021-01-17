@@ -3,7 +3,6 @@ import { GraphComponentMap, labelComponents } from '../../../common/math/graphs/
 
 import { fillArcWeightData } from '../support/arc_data.js'
 import { DEFAULT_GRAPH_LAYOUT, DEFAULT_GRAPH_UNDIRECTED } from '../graphs.js'
-import { uint32 } from '../../../common/types/numeric.js'
 import { GraphAlgorithm } from '../types/graph_algorithm.js'
 import { GraphAlgorithmResult } from '../support/algorithm_result.js'
 import { GraphAlgorithmType } from '../enums/algorithm_type.js'

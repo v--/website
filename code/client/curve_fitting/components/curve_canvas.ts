@@ -1,7 +1,6 @@
 import { zip, map, range, product } from '../../../common/support/iteration.js'
 import { join } from '../../../common/support/strings.js'
 import { s } from '../../../common/support/svg.js'
-import { float64 } from '../../../common/types/numeric.js'
 import { getMappingDomain } from '../support/mapping.js'
 import { CurveFittingState } from '../types/state.js'
 

@@ -1,5 +1,4 @@
 import { Matrix } from '../../common/math/linalg/matrix.js'
-import { uint32, UnitRatio } from '../../common/types/numeric.js'
 
 export const motifColor = ['r', 'g', 'b'] as const
 export type MotifColor = typeof motifColor[number]

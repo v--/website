@@ -4,7 +4,6 @@ import { CoolError } from '../../../common/errors.js'
 import { dividedDifferences } from './divided_differences.js'
 import { stringifyNumber } from '../stringify.js'
 import { IRealFunction } from '../types/real_function.js'
-import { float64 } from '../../../common/types/numeric.js'
 
 export class BSplineError extends CoolError {}
 export class NotEnoughPointsError extends BSplineError {}

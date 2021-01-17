@@ -3,7 +3,6 @@ import { subgraphFromAncestorMap } from '../../../common/math/graphs/ancestors.j
 import { fillArcWeightData } from '../support/arc_data.js'
 import { fillPathAncestorVertexData } from '../support/vertex_data.js'
 import { DEFAULT_GRAPH_LAYOUT, DEFAULT_GRAPH_DIRECTED } from '../graphs.js'
-import { uint32 } from '../../../common/types/numeric.js'
 import { GraphAlgorithm } from '../types/graph_algorithm.js'
 import { Graph, GraphArc } from '../../../common/math/graphs/graph.js'
 import { NonStrictMap } from '../../../common/types/non_strict_map.js'

@@ -1,5 +1,4 @@
 import { Observable } from '../../../common/observables/observable.js'
-import { uint32 } from '../../../common/types/numeric.js'
 
 export function createTimeoutObservable(period: uint32) {
   return new Observable<void>(function(observer) {

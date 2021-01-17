@@ -1,4 +1,3 @@
-import { float64, uint32 } from '../../../common/types/numeric.js'
 import { Curve } from './curve.js'
 import { Fitter } from './fitter.js'
 

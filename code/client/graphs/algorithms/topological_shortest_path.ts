@@ -8,7 +8,6 @@ import { DEFAULT_GRAPH_LAYOUT, DEFAULT_GRAPH_DIRECTED } from '../graphs.js'
 import { GraphAlgorithm } from '../types/graph_algorithm.js'
 import { GraphAlgorithmType } from '../enums/algorithm_type.js'
 import { Graph } from '../../../common/math/graphs/graph.js'
-import { uint32 } from '../../../common/types/numeric.js'
 import { GraphAlgorithmResult } from '../support/algorithm_result.js'
 import { NonStrictMap } from '../../../common/types/non_strict_map.js'
 

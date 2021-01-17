@@ -1,4 +1,3 @@
-import { uint32 } from '../../../common/types/numeric.js'
 import { ExpressionType } from '../enums/expression_type.js'
 import { FOLTerm, PNFFormula, SNFFormula, SNFInnerFormula } from '../types/expression.js'
 import { replaceVariables } from './replacement.js'

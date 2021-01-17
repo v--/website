@@ -1,6 +1,5 @@
 import { c } from '../../../common/rendering/component.js'
 import { map, flatten } from '../../../common/support/iteration.js'
-import { uint32 } from '../../../common/types/numeric.js'
 
 import { algorithms } from '../algorithms.js'
 import { GraphAlgorithmState } from '../types/state.js'

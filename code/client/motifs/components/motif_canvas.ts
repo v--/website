@@ -2,7 +2,6 @@ import { s } from '../../../common/support/svg.js'
 import { map, range, product } from '../../../common/support/iteration.js'
 
 import { Motif } from '../motif.js'
-import { uint32 } from '../../../common/types/numeric.js'
 
 const SQUARE_VISUAL_PADDING = 0.01
 const SQUARE_VISUAL_SIZE_STRING = String(1 - 2 * SQUARE_VISUAL_PADDING)

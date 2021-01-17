@@ -1,5 +1,4 @@
 import { shuffle } from '../../support/iteration.js'
-import { uint32 } from '../../../common/types/numeric.js'
 
 export function * iterPermutations(n: uint32): Generator<uint32[]> {
   if (n === 0) {

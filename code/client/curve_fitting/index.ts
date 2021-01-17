@@ -10,7 +10,6 @@ import { CurveFittingState } from './types/state.js'
 import { RouterState } from '../../common/support/router_state.js'
 import { Curve } from './types/curve.js'
 import { IRealFunction } from '../../common/math/types/real_function.js'
-import { float64 } from '../../common/types/numeric.js'
 
 export const ZERO: IRealFunction = {
   eval(_x) {

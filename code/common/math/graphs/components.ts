@@ -1,5 +1,4 @@
 import { NonStrictMap } from '../../types/non_strict_map.js'
-import { uint32 } from '../../../common/types/numeric.js'
 import { Graph } from './graph.js'
 
 function recurseAndLabel<T>(graph: Graph<T>, v: T, marked: Set<T>, labels: GraphComponentMap<T>) {

@@ -1,7 +1,6 @@
 import { describe, it, assert } from '../../../_common.js'
 
 import { newtonPolynomial } from '../../../../code/client/curve_fitting/fitters/newton_polynomial.js'
-import { float64 } from '../../../../code/types/common/numeric.js'
 
 function quadraticTest(x: float64) {
   return x ** 2 + 13

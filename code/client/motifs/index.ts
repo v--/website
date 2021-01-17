@@ -10,7 +10,6 @@ import { location$ } from '../../common/shared_observables.js'
 import { ClientError } from '../../common/errors.js'
 import { repr } from '../../common/support/strings.js'
 import { randInt } from '../../common/math/prob/random.js'
-import { uint32 } from '../../common/types/numeric.js'
 
 const QUERY_CONFIG_PARSERS = Object.freeze({
   seed: Number

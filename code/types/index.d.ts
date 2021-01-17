@@ -15,3 +15,17 @@ declare module 'es-observable-tests' {
 
   export default API
 }
+
+// https://spin.atomicobject.com/2018/01/15/typescript-flexible-nominal-typing/
+declare interface Flavoring<K extends string> {
+  ['@@flavoringSymbol']?: K
+}
+
+declare type Flavor<T, K extends string> = T & Flavoring<K>
+
+// numeric types
+declare type uint32 = Flavor<number, 'uint32'>
+declare type int32 = Flavor<number, 'int32'> | uint32
+
+declare type UnitRatio = Flavor<number, 'UnitRatio'>
+declare type float64 = Flavor<number, 'float64'> | int32 | UnitRatio

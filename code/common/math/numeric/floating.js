@@ -1,7 +1,3 @@
-// @ts-check
-
-/** @typedef { import('../../types/numeric').float64 } float64 */
-
 const EPSILON = 1e-10
 
 /**

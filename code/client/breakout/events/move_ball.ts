@@ -11,7 +11,6 @@ import { IGameState } from '../game_state.js'
 import { BreakoutError } from '../errors.js'
 import { DictSubject } from '../../../common/observables/dict_subject.js'
 import { Optional } from '../../../common/types/typecons.js'
-import { float64 } from '../../../common/types/numeric.js'
 
 class InvalidReflectionError extends BreakoutError {}
 
