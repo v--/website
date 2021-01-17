@@ -1,4 +1,4 @@
-/// <reference types="../code/type_definitions" />
+/// <reference types="../code/types" />
 import gulp from 'gulp'
 import scss from 'gulp-dart-sass'
 import svgo from 'gulp-svgo'
@@ -13,7 +13,7 @@ const tsConfig = JSON.parse(await fs.readFile('tsconfig.json', 'utf8'))
 const tsProject = ts.createProject(tsConfig.compilerOptions)
 
 gulp.task('client:build:code', function() {
-  return gulp.src('code/{common,client}/**/*.ts')
+  return gulp.src('code/{common,client}/**/*.{js,ts,d.ts}')
     .pipe(tsProject())
     .pipe(gulp.dest('dist'))
 })

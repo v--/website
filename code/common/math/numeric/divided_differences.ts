@@ -1,6 +1,6 @@
 import { CoolError } from '../../errors.js'
 import { repr } from '../../support/strings.js'
-import { float64 } from '../../types/numeric.js'
+import { float64 } from '../../../common/types/numeric.js'
 
 export class DividedDifferencesError extends CoolError {}
 export class NoPointsError extends DividedDifferencesError {}

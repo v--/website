@@ -1,5 +1,5 @@
 import { map, range, sort } from '../../support/iteration.js'
-import { float64 } from '../../types/numeric.js'
+import { float64 } from '../../../common/types/numeric.js'
 import { MathError } from '../errors.js'
 
 export class GraphError extends MathError {}

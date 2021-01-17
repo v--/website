@@ -1,37 +1,61 @@
+// @ts-check
+
 import { isSameNumber } from '../numeric/floating.js'
 import { MathError } from '../errors.js'
-import { float64, UnitRatio } from '../../types/numeric.js'
 
 class VectorError extends MathError {}
 class ZeroVectorError extends VectorError {}
 
-export interface VectorParams {
-  x: float64
-  y: float64
-}
+/** @typedef { import('../../types/numeric').float64 } float64 */
+/** @typedef { import('../../types/numeric').UnitRatio } UnitRatio */
 
-export interface Vector extends VectorParams {}
+/**
+ * @typedef {object} VectorParams
+ * @property {float64} x
+ * @property {float64} y
+ */
+
+/**
+ * @implements VectorParams
+ */
 export class Vector {
-  static fromPolar(length: float64, angle: float64) {
+  /**
+   * @param {float64} length
+   * @param {float64} angle
+   */
+  static fromPolar(length, angle) {
     return new this({
       x: length * Math.cos(angle),
       y: length * Math.sin(angle)
     })
   }
 
-  constructor(params: VectorParams) {
-    Object.assign(this, params)
+  /**
+   * @param {VectorParams} params
+   */
+  constructor({ x, y }) {
+    this.x = x
+    this.y = y
   }
 
-  add(other: Vector) {
+  /**
+   * @param {Vector} other
+   */
+  add(other) {
     return new Vector({ x: this.x + other.x, y: this.y + other.y })
   }
 
-  sub(other: Vector) {
+  /**
+   * @param {Vector} other
+   */
+  sub(other) {
     return new Vector({ x: this.x - other.x, y: this.y - other.y })
   }
 
-  scale(amount: float64) {
+  /**
+   * @param {float64} amount
+   */
+  scale(amount) {
     return new Vector({ x: amount * this.x, y: amount * this.y })
   }
 
@@ -47,7 +71,10 @@ export class Vector {
     return Math.sqrt(this.x ** 2 + this.y ** 2)
   }
 
-  distanceTo(other: Vector) {
+  /**
+   * @param {Vector} other
+   */
+  distanceTo(other) {
     return this.sub(other).getNorm()
   }
 
@@ -55,11 +82,18 @@ export class Vector {
     return isSameNumber(this.x, 0) && isSameNumber(this.y, 0)
   }
 
-  isUnidirectionalWith(other: Vector) {
+  /**
+   * @param {Vector} other
+   */
+  isUnidirectionalWith(other) {
     return isSameNumber(this.scaleToNormed().distanceTo(other.scaleToNormed()), 0)
   }
 
-  convexSum(other: Vector, coeff: UnitRatio) {
+  /**
+   * @param {Vector} other
+   * @param {UnitRatio} coeff
+   */
+  convexSum(other, coeff) {
     return new Vector({
       x: this.x * coeff + other.x * (1 - coeff),
       y: this.y * coeff + other.y * (1 - coeff)

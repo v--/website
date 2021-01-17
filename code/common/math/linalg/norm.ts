@@ -1,4 +1,4 @@
-import { uint32 } from '../../types/numeric.js'
+import { uint32 } from '../../../common/types/numeric.js'
 import { Matrix } from './matrix.js'
 
 export function lNorm(matrix: Matrix, p: uint32, q: uint32) {

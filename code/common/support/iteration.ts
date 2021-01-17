@@ -1,5 +1,5 @@
+import { float64, uint32 } from '../types/numeric.js'
 import { CoolError } from '../errors.js'
-import { uint32 } from '../types/numeric.js'
 import { IterBase } from '../types/typecons.js'
 import { orderComparator, inverseOrderComparator } from './sorting.js'
 
@@ -172,11 +172,11 @@ export function schwartzSort<T>(transform: Mapper<T, uint32>, iter: Iterable<T>)
   return array.sort((a, b) => values.get(a)! - values.get(b)!)
 }
 
-export function schwartzMax<T>(transform: Mapper<T, uint32>, iterable: Iterable<T>, strict = true): T {
+export function schwartzMax<T>(transform: Mapper<T, float64>, iterable: Iterable<T>, strict = true): T {
   return schwartzMin(x => -transform(x), iterable, strict)
 }
 
-export function schwartzMin<T>(transform: Mapper<T, uint32>, iterable: Iterable<T>, strict = true): T {
+export function schwartzMin<T>(transform: Mapper<T, float64>, iterable: Iterable<T>, strict = true): T {
   const iter = iterable[Symbol.iterator]()
   let { value: x, done } = iter.next()
 

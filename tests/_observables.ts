@@ -1,5 +1,4 @@
-/// <reference types="../code/type_definitions" />
-import observableTests from 'es-observable-tests.js'
+import observableTests from 'es-observable-tests'
 
 import { errors } from '../code/common/observables/errors.js'
 import { Observable } from '../code/common/observables/observable.js'

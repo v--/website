@@ -1,4 +1,4 @@
-import { Flavor } from './flavoring.js'
+import { Flavor } from './flavoring'
 
 export type uint32 = Flavor<number, 'uint32'>
 export type int32 = Flavor<number, 'int32'> | uint32

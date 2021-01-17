@@ -1,12 +1,12 @@
 import { Vector } from '../../common/math/geom2d/vector.js'
 import { Rectangle } from '../../common/math/geom2d/rectangle.js'
 import { Ellipse } from '../../common/math/geom2d/ellipse.js'
-import { uint32 } from '../../common/types/numeric.js'
 
 import { GameBall } from './geom/game_ball.js'
 import { GameBrick } from './geom/game_brick.js'
 import { GameStatus } from './enums/game_status.js'
 import { EventLoop } from '../core/support/event_loop.js'
+import { uint32 } from '../../common/types/numeric.js'
 
 export type PaddleDirection = -1 | 0 | 1
 export interface IGameState {

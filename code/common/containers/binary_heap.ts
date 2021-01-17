@@ -8,15 +8,15 @@ export class BinaryHeapError extends CoolError {}
 export class EmptyHeapError extends BinaryHeapError {}
 export class NoSuchItemError extends BinaryHeapError {}
 
-export interface BinaryHeapParams<T> {
+export interface IBinaryHeapParams<T> {
   payload?: T[],
   weights?: float64[],
   payloadMap?: NonStrictMap<T, uint32>
 }
 
-export interface BinaryHeap<T> extends Required<BinaryHeapParams<T>> {}
+export interface BinaryHeap<T> extends Required<IBinaryHeapParams<T>> {}
 export class BinaryHeap<T> {
-  constructor({ payload = [], weights = [], payloadMap = new Map() }: BinaryHeapParams<T> = {}) {
+  constructor({ payload = [], weights = [], payloadMap = new Map() }: IBinaryHeapParams<T> = {}) {
     this.payload = payload
     this.weights = weights
     this.payloadMap = payloadMap

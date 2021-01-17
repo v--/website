@@ -6,11 +6,11 @@ import { createIntervalObservable } from '../core/support/timeout.js'
 import { ActionList } from './support/action_list.js'
 import { Sequence } from './types/sequences.js'
 import { SortAlgorithm } from './types/sort_algorithm.js'
-import { float64, uint32 } from '../../common/types/numeric.js'
 import { IObservable } from '../../common/observables/observable.js'
 import { SortAction } from './support/types/action.js'
 import { ISubscription } from '../../common/observables/subscription.js'
 import { SorterComponentState, SorterState } from './types/sorter.js'
+import { float64, uint32 } from '../../common/types/numeric.js'
 
 class SorterError extends CoolError {}
 

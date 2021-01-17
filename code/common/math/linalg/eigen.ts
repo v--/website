@@ -1,5 +1,5 @@
 import { schwartzSort } from '../../support/iteration.js'
-import { float64, uint32 } from '../../types/numeric.js'
+import { float64, uint32 } from '../../../common/types/numeric.js'
 import { isSameNumber } from '../numeric/floating.js'
 
 import { Matrix, MatrixDimensionError } from './matrix.js'

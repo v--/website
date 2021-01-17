@@ -1,0 +1,6 @@
+import { float64 } from '../../../common/types/numeric.js'
+
+declare interface IVectorParams {
+  x: float64
+  y: float64
+}

@@ -1,4 +1,4 @@
-import { uint32 } from '../../types/numeric.js'
+import { uint32 } from '../../../common/types/numeric.js'
 import { Matrix } from '../linalg/matrix.js'
 import { Graph } from './graph.js'
 

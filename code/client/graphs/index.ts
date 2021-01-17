@@ -14,11 +14,11 @@ import { algorithms, DEFAULT_ALGORITHM } from './algorithms.js'
 import { QueryConfig } from '../../common/support/query_config.js'
 import { location$ } from '../../common/shared_observables.js'
 import { RouterState } from '../../common/support/router_state.js'
-import { uint32 } from '../../common/types/numeric.js'
 import { GraphAlgorithm, GraphAlgorithmId } from './types/graph_algorithm.js'
 import { GraphAlgorithmState, SuccessfulGraphAlgorithmState } from './types/state.js'
 import { GraphArc } from '../../common/math/graphs/graph.js'
 import { IObservable } from '../../common/observables/observable.js'
+import { uint32 } from '../../common/types/numeric.js'
 
 interface IQueryConfig {
   algorithm: GraphAlgorithmId
