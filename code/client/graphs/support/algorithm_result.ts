@@ -1,5 +1,4 @@
 import { Graph } from '../../../common/math/graphs/graph.js'
-import { RequiredWith } from '../../../common/types/typecons.js'
 import { GraphAlgorithmArcData } from './arc_data.js'
 import { GraphAlgorithmSummary } from './summary.js'
 import { GraphAlgorithmVertexData } from './vertex_data.js'

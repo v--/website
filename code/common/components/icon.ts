@@ -1,5 +1,4 @@
 import { s } from '../support/svg.js'
-import { Action } from '../types/typecons.js'
 
 export const iconMap = new Map()
 

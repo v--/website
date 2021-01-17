@@ -1,4 +1,3 @@
-import { Action } from '../../../common/types/typecons.js'
 import { SortAction } from '../support/types/action.js'
 import { Sequence } from './sequences.js'
 import { SortAlgorithm } from './sort_algorithm.js'

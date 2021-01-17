@@ -5,7 +5,6 @@ import { NEW_BRICK_SAFETY_DISTANCE } from '../constants.js'
 import { GameBrick } from '../geom/game_brick.js'
 import { DictSubject } from '../../../common/observables/dict_subject.js'
 import { IGameState } from '../game_state.js'
-import { Optional } from '../../../common/types/typecons.js'
 
 export function evolve(subject$: DictSubject<IGameState>) {
   const { ball, stage, bricks } = subject$.value

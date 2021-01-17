@@ -1,7 +1,6 @@
 import { location$ } from '../shared_observables.js'
 import { c, Component } from '../rendering/component.js'
 import { classlist } from '../support/dom_properties.js'
-import { Action } from '../types/typecons.js'
 
 export function link(state: {
   link: string,

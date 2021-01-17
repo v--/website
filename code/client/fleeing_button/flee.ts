@@ -3,7 +3,6 @@ import { schwartzMin } from '../../common/support/iteration.js'
 import { Vector } from '../../common/math/geom2d/vector.js'
 
 import { getBoundingBox, getDimensions } from '../core/support/dom_properties.js'
-import { Optional } from '../../common/types/typecons.js'
 import { SharedState, SubjectState } from './types/state.js'
 import { DictSubject } from '../../common/observables/dict_subject.js'
 import { Rectangle } from '../../common/math/geom2d/rectangle.js'

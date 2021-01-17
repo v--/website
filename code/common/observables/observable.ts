@@ -3,6 +3,7 @@ import { SubscriberFunction, SubscriptionObserver } from './subscription_observe
 import { Subscription } from './subscription.js'
 import { IObserver, PotentialObserver } from './observer.js'
 
+export type ObservableBase<T> = T extends IObservable<infer R> ? R : T
 export interface IObservable<T> {
   subscribe(potentialObserver: PotentialObserver<T>) : Subscription<T>
 }

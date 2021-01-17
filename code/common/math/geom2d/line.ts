@@ -1,4 +1,3 @@
-import { Optional } from '../../types/typecons.js'
 import { isSameNumber } from '../numeric/floating.js'
 
 import { Vector } from './vector.js'

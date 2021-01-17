@@ -10,7 +10,6 @@ import { Ellipse } from '../../../common/math/geom2d/ellipse.js'
 import { IGameState } from '../game_state.js'
 import { BreakoutError } from '../errors.js'
 import { DictSubject } from '../../../common/observables/dict_subject.js'
-import { Optional } from '../../../common/types/typecons.js'
 
 class InvalidReflectionError extends BreakoutError {}
 

@@ -13,7 +13,6 @@ import { flee } from './flee.js'
 import { ISubscription } from '../../common/observables/subscription.js'
 import { Renderer } from '../../common/rendering/renderer.js'
 import { RouterState } from '../../common/support/router_state.js'
-import { Optional } from '../../common/types/typecons.js'
 import { SharedState, SubjectState } from './types/state.js'
 
 // There is a lot of shared state here because I needed the event loop to know about global observables

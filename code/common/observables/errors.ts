@@ -1,5 +1,4 @@
 import { CoolError } from '../errors.js'
-import { Constructor } from '../types/typecons.js'
 
 export class ObservableError extends CoolError {}
 

@@ -1,6 +1,5 @@
 import { XMLComponent } from '../../common/rendering/component.js'
 import { RenderDispatcher, INodeManipulator } from '../../common/rendering/renderer.js'
-import { Action } from '../../common/types/typecons.js'
 
 import { createElement } from './support/dom.js'
 

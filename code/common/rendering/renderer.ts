@@ -4,7 +4,6 @@ import { CoolError } from '../errors.js'
 import { Subject } from '../observables/subject.js'
 import { Component, ComponentState, FactoryComponent, XMLComponent } from './component.js'
 import { PotentialObserver } from '../observables/observer.js'
-import { Optional } from '../types/typecons.js'
 
 export class RenderError extends CoolError {}
 

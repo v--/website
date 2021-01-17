@@ -4,7 +4,6 @@ import { c, XMLComponent, ComponentSanityError, HTMLComponent, Component } from 
 import { RenderError, RenderDispatcher, INodeManipulator } from '../../../code/common/rendering/renderer.js'
 import { BehaviorSubject } from '../../../code/common/observables/behavior_subject.js'
 import { DictSubject } from '../../../code/common/observables/dict_subject.js'
-import { Optional } from '../../../code/common/types/typecons.js'
 
 export const mirrorDOMManipulator: INodeManipulator<XMLComponent> = {
   createNode(component: XMLComponent) {

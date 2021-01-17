@@ -1,9 +1,8 @@
 import { repr, join } from '../support/strings.js'
-import { IObservable, Observable } from '../observables/observable.js'
+import { IObservable, Observable, ObservableBase } from '../observables/observable.js'
 import { BehaviorSubject } from '../observables/behavior_subject.js'
 import { CoolError } from '../errors.js'
 import { Subscription } from '../observables/subscription.js'
-import { ObservableBase, Optional } from '../types/typecons.js'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ComponentState<T = any> = T

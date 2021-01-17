@@ -5,7 +5,6 @@ import { c } from '../rendering/component.js'
 import { icon } from './icon.js'
 import { link } from './link.js'
 import { RouterState } from '../support/router_state.js'
-import { Action } from '../types/typecons.js'
 
 export function sidebar({ sidebarId, isCollapsed, toggleCollapsed }: RouterState) {
   function entry(state: {

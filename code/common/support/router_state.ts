@@ -3,7 +3,6 @@ import { error as errorView } from '../views/error.js'
 import { SidebarId } from '../enums/sidebar_id.js'
 import { Path } from './path.js'
 import { FactoryComponentType } from '../rendering/component.js'
-import { Action } from '../types/typecons.js'
 import { PlaygroundPage } from '../types/playground_page.js'
 
 export interface RouterStateParams {

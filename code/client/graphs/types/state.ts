@@ -1,6 +1,5 @@
 import { Graph, GraphArc } from '../../../common/math/graphs/graph.js'
 import { GraphLayout } from '../../../common/math/graphs/types/layout.js'
-import { Action, RequiredWith } from '../../../common/types/typecons.js'
 import { GraphAlgorithmResult } from '../support/algorithm_result.js'
 import { GraphAlgorithm } from './graph_algorithm.js'
 

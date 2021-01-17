@@ -1,7 +1,6 @@
 import { c, Component } from '../rendering/component.js'
 import { classlist } from '../support/dom_properties.js'
 import { SubmitEvent } from '../types/events.js'
-import { Action } from '../types/typecons.js'
 
 function buildDict(form: HTMLFormElement) {
   const dict: Record<string, string> = {}

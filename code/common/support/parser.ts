@@ -1,5 +1,4 @@
 import { CoolError } from '../errors.js'
-import { Optional } from '../types/typecons.js'
 import { repr } from './strings.js'
 
 export class ParserError extends CoolError {}

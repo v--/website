@@ -1,4 +1,3 @@
-import { Optional } from '../../types/typecons.js'
 import { Graph, GraphArc } from './graph.js'
 
 export function findPath<T>(graph: Graph<T>, start: T, end: T, marked = new Set<T>()): Optional<Array<GraphArc<T>>> {

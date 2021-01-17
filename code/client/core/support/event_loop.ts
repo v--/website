@@ -1,5 +1,4 @@
 import { Subscription } from '../../../common/observables/subscription.js'
-import { Action } from '../../../common/types/typecons.js'
 import { createIntervalObservable } from './timeout.js'
 
 export class EventLoop {
