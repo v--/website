@@ -1,4 +1,4 @@
 export interface IRealFunction {
-  eval(x: float64): float64
+  eval(x: Num.Float64): Num.Float64
   toString(): string
 }

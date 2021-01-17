@@ -6,10 +6,9 @@ import { DEFAULT_GRAPH_LAYOUT, DEFAULT_GRAPH_DIRECTED } from '../graphs.js'
 import { GraphAlgorithm } from '../types/graph_algorithm.js'
 import { GraphAlgorithmType } from '../enums/algorithm_type.js'
 import { Graph, GraphArc } from '../../../common/math/graphs/graph.js'
-import { NonStrictMap } from '../../../common/types/non_strict_map.js'
 import { GraphAlgorithmResult } from '../support/algorithm_result.js'
 
-export const bfsSpanningArborescence: GraphAlgorithm<uint32> = Object.freeze({
+export const bfsSpanningArborescence: GraphAlgorithm<Num.UInt32> = Object.freeze({
   name: 'BFS-generated arborescence',
   id: 'bfs_arborescence',
   type: GraphAlgorithmType.arborescence,
@@ -17,8 +16,8 @@ export const bfsSpanningArborescence: GraphAlgorithm<uint32> = Object.freeze({
   graph: DEFAULT_GRAPH_DIRECTED,
   layout: DEFAULT_GRAPH_LAYOUT,
 
-  run<T extends uint32>(graph: Graph<T>, start: T = 0 as T, _end: T) {
-    const ancestors: NonStrictMap<T, T> = new Map()
+  run<T extends Num.UInt32>(graph: Graph<T>, start: T = 0 as T, _end: T) {
+    const ancestors: TypeCons.NonStrictMap<T, T> = new Map()
     const marked = new Set<T>()
     const queue: Array<GraphArc<T>> = []
 

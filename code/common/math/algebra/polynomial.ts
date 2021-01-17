@@ -8,7 +8,7 @@ import { IRealFunction } from '../types/real_function.js'
 const MAX_ITER = 1000
 const STURM_LEFT_BOUND_OFFSET = 1e-10
 
-export function countSignChanges(array: float64[]) {
+export function countSignChanges(array: Num.Float64[]) {
   let changeCount = 0
 
   for (let i = 1; i < array.length; i++) {
@@ -20,11 +20,11 @@ export function countSignChanges(array: float64[]) {
   return changeCount
 }
 
-export function evalArray(array: Polynomial[], x: float64) {
+export function evalArray(array: Polynomial[], x: Num.Float64) {
   return array.map(p => p.eval(x))
 }
 
-function monomialString(n: uint32) {
+function monomialString(n: Num.UInt32) {
   if (n === 0) {
     return ''
   }
@@ -41,14 +41,14 @@ export class PolynomialRootError extends PolynomialError {}
 export class ZeroPolynomialError extends PolynomialError {}
 
 export interface PolynomialParams {
-  coef: float64[]
+  coef: Num.Float64[]
 }
 
 export interface Polynomial extends PolynomialParams, IRealFunction {}
 export class Polynomial {
   static ZERO = new Polynomial({ coef: [0] })
 
-  static stripTrailingZeroes(coef: float64[]) {
+  static stripTrailingZeroes(coef: Num.Float64[]) {
     let prefixLength = coef.length
 
     while (coef[prefixLength - 1] === 0) {
@@ -85,7 +85,7 @@ export class Polynomial {
     return this.add(other.scale(-1))
   }
 
-  scale(scalar: float64) {
+  scale(scalar: Num.Float64) {
     if (scalar === 0) {
       return Polynomial.ZERO
     }
@@ -150,7 +150,7 @@ export class Polynomial {
     }
   }
 
-  eval(x: float64) {
+  eval(x: Num.Float64) {
     let result = 0
 
     for (let i = this.order; i > 0; i--) {
@@ -192,7 +192,7 @@ export class Polynomial {
     }
   }
 
-  _findRootsIn(sturmSequence: Polynomial[], a: float64, b: float64, iter = 0): Set<float64> {
+  _findRootsIn(sturmSequence: Polynomial[], a: Num.Float64, b: Num.Float64, iter = 0): Set<Num.Float64> {
     const rootCount = countSignChanges(evalArray(sturmSequence, a)) - countSignChanges(evalArray(sturmSequence, b))
 
     if (rootCount === 0 || iter > MAX_ITER) {

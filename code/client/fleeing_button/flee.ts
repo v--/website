@@ -11,7 +11,7 @@ const UNSAFE_DISTANCE = 100
 const CANVAS_FORCE_RATIO = 1.5
 const SPEED = 50
 
-function getFleeingDirection(canvas: Rectangle, buttonCenter: Vector, cursor: Vector): Optional<Vector> {
+function getFleeingDirection(canvas: Rectangle, buttonCenter: Vector, cursor: Vector): TypeCons.Optional<Vector> {
   const projections = [
     new Vector({ x: buttonCenter.x, y: canvas.origin.y }),
     new Vector({ x: buttonCenter.x, y: canvas.origin.y + canvas.dims.y }),
@@ -34,7 +34,7 @@ function getFleeingDirection(canvas: Rectangle, buttonCenter: Vector, cursor: Ve
   return mouseForce.scaleToNormed()
 }
 
-export function flee(sharedState: Optional<SharedState>, subject: DictSubject<SubjectState>) {
+export function flee(sharedState: TypeCons.Optional<SharedState>, subject: DictSubject<SubjectState>) {
   if (sharedState === undefined) {
     return
   }

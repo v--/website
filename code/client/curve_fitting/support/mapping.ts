@@ -1,6 +1,6 @@
 import { sort } from '../../../common/support/iteration.js'
 
-export type NumericMapping = Map<float64, float64>
+export type NumericMapping = Map<Num.Float64, Num.Float64>
 
 export function getMappingDomain(mapping: NumericMapping) {
   return sort(mapping.keys())

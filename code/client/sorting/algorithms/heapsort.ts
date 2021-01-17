@@ -2,7 +2,7 @@ import { SortAlgorithm } from '../types/sort_algorithm.js'
 import { ActionList } from '../support/action_list.js'
 
 // The procedure is much simpler, but maintaining the action list requires a lot of conditional logic
-function siftDown(sortable: ActionList, start: uint32, end: uint32) {
+function siftDown(sortable: ActionList, start: Num.UInt32, end: Num.UInt32) {
   let root = start
   let leftChild = 2 * root + 1
   let rightChild = 2 * root + 2

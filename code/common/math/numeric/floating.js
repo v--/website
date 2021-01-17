@@ -1,8 +1,8 @@
 const EPSILON = 1e-10
 
 /**
- * @param {float64} a
- * @param {float64} b
+ * @param {Num.Float64} a
+ * @param {Num.Float64} b
  * @returns {boolean}
  */
 export function isSameNumber(a, b) {
@@ -10,8 +10,8 @@ export function isSameNumber(a, b) {
 }
 
 /**
- * @param {float64} a
- * @param {float64} b
+ * @param {Num.Float64} a
+ * @param {Num.Float64} b
  * @returns {boolean}
  */
 export function isGreaterThan(a, b) {
@@ -19,8 +19,8 @@ export function isGreaterThan(a, b) {
 }
 
 /**
- * @param {float64} x
- * @returns {float64}
+ * @param {Num.Float64} x
+ * @returns {Num.Float64}
  */
 export function roundNumber(x) {
   return Math.round(x / EPSILON) * EPSILON

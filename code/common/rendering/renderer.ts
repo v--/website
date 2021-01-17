@@ -13,7 +13,7 @@ export interface RenderingFunction<ComponentType, NodeType> {
 export abstract class Renderer<NodeType> {
   oldState?: ComponentState
   element?: NodeType
-  observer: Observables.IPotentialObserver<Optional<ComponentState>>
+  observer: Observables.IPotentialObserver<TypeCons.Optional<ComponentState>>
 
   abstract render(): NodeType
   abstract rerender(): void

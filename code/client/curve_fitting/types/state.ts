@@ -2,13 +2,13 @@ import { Curve } from './curve.js'
 import { Fitter } from './fitter.js'
 
 export interface CurveFittingState {
-  width: uint32,
-  height: uint32,
-  mapping: Map<float64, float64>,
+  width: Num.UInt32,
+  height: Num.UInt32,
+  mapping: Map<Num.Float64, Num.Float64>,
   fitters: Set<Fitter>,
   curves: Curve[],
-  updateMapping(x: float64, y: float64): void,
-  deleteMapping(x: float64): void,
+  updateMapping(x: Num.Float64, y: Num.Float64): void,
+  deleteMapping(x: Num.Float64): void,
   enableFitter(fitter: Fitter): void,
   disableFitter(fitter: Fitter): void
 }

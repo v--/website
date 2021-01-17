@@ -8,10 +8,9 @@ import { DEFAULT_GRAPH_LAYOUT, DEFAULT_GRAPH_DIRECTED } from '../graphs.js'
 import { GraphAlgorithmResult } from '../support/algorithm_result.js'
 import { Graph } from '../../../common/math/graphs/graph.js'
 import { GraphAlgorithmType } from '../enums/algorithm_type.js'
-import { NonStrictMap } from '../../../common/types/non_strict_map.js'
 import { GraphAlgorithm } from '../types/graph_algorithm.js'
 
-export const floyd: GraphAlgorithm<uint32> = Object.freeze({
+export const floyd: GraphAlgorithm<Num.UInt32> = Object.freeze({
   name: "Floyd's algorithm",
   id: 'floyd',
   type: GraphAlgorithmType.shortestPathTree,
@@ -19,10 +18,10 @@ export const floyd: GraphAlgorithm<uint32> = Object.freeze({
   graph: DEFAULT_GRAPH_DIRECTED,
   layout: DEFAULT_GRAPH_LAYOUT,
 
-  run<T extends uint32>(graph: Graph<T>, start: T = 0 as T, _end: T) {
+  run<T extends Num.UInt32>(graph: Graph<T>, start: T = 0 as T, _end: T) {
     const pathLengths = pathLengthMatrix(graph)
     const allAncestors = Matrix.zero(graph.order)
-    const ancestors: NonStrictMap<T, T> = new Map()
+    const ancestors: TypeCons.NonStrictMap<T, T> = new Map()
 
     for (const u of graph.iterAllVertices()) {
       ancestors.set(u, start)

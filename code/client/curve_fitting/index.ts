@@ -25,7 +25,7 @@ const WIDTH = 20
 const HEIGHT = 16
 const DEFAULT_MAPPING = new Map([[-7, 2], [0, -2], [5, 1], [8, -3]])
 
-function buildCurves(mapping: Map<float64, float64>): Curve[] {
+function buildCurves(mapping: Map<Num.Float64, Num.Float64>): Curve[] {
   return fitters
     .map(function(fitter, i) {
       const curve = mapping.size === 0 ? ZERO : fitter.fit(mapping)

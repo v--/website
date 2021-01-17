@@ -14,7 +14,7 @@ export interface RouterStateParams {
   loading?: boolean
   sidebarId?: SidebarId,
   isCollapsed?: boolean
-  toggleCollapsed?: Action<MouseEvent>
+  toggleCollapsed?: TypeCons.Action<MouseEvent>
 }
 
 export interface RouterState extends Required<RouterStateParams> {}

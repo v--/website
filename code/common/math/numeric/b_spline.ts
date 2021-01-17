@@ -9,7 +9,7 @@ export class BSplineError extends CoolError {}
 export class NotEnoughPointsError extends BSplineError {}
 
 export interface BSplineParams {
-  points: float64[]
+  points: Num.Float64[]
 }
 
 export interface BSpline extends BSplineParams, IRealFunction {}
@@ -22,7 +22,7 @@ export class BSpline {
     this.points = points
   }
 
-  eval(t: float64) {
+  eval(t: Num.Float64) {
     return dividedDifferences(x => x > t ? Math.pow(x - t, this.degree) : 0, this.points)
   }
 

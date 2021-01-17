@@ -20,8 +20,8 @@ import { GraphArc } from '../../common/math/graphs/graph.js'
 
 interface IQueryConfig {
   algorithm: GraphAlgorithmId
-  start: uint32
-  end: uint32
+  start: Num.UInt32
+  end: Num.UInt32
 }
 
 const QUERY_CONFIG_DEFAULTS: IQueryConfig = Object.freeze({
@@ -38,8 +38,8 @@ const QUERY_CONFIG_PARSERS = Object.freeze({
 
 export function index({ path, description }: RouterState) {
   const config = new QueryConfig(path, QUERY_CONFIG_DEFAULTS, QUERY_CONFIG_PARSERS)
-  const start = config.get('start') as uint32
-  const end = config.get('end') as uint32
+  const start = config.get('start') as Num.UInt32
+  const end = config.get('end') as Num.UInt32
   const algorithmId = config.get('algorithm')
 
   const algorithm = first(filter(a => a.id === algorithmId, flatten(algorithms.map(section => section.algorithms))))
@@ -57,7 +57,7 @@ export function index({ path, description }: RouterState) {
     errors.push(`Cannot find algorithm ${repr(config.get('algorithm'))}.`)
   }
 
-  const subject = new DictSubject<GraphAlgorithmState<uint32>>({
+  const subject = new DictSubject<GraphAlgorithmState<Num.UInt32>>({
     algorithm: errors.length > 0 ? undefined : algorithm,
     graph: errors.length > 0 ? undefined : algorithm.graph,
     layout: errors.length > 0 ? undefined : algorithm.layout,
@@ -66,23 +66,23 @@ export function index({ path, description }: RouterState) {
     start,
     end,
 
-    hoverVertex(vertex?: uint32) {
+    hoverVertex(vertex?: Num.UInt32) {
       subject.update({ hoveredVertex: vertex })
     },
 
-    hoverArc(arc?: GraphArc<uint32>) {
+    hoverArc(arc?: GraphArc<Num.UInt32>) {
       subject.update({ hoveredArc: arc })
     },
 
-    changeStart(start?: uint32) {
+    changeStart(start?: Num.UInt32) {
       location$.next(config.getUpdatedPath({ start }))
     },
 
-    changeEnd(end?: uint32) {
+    changeEnd(end?: Num.UInt32) {
       location$.next(config.getUpdatedPath({ end }))
     },
 
-    runAlgorithm(algorithm: GraphAlgorithm<uint32>) {
+    runAlgorithm(algorithm: GraphAlgorithm<Num.UInt32>) {
       location$.next(config.getUpdatedPath({ algorithm: algorithm.id }))
     }
   })
@@ -103,8 +103,8 @@ export function index({ path, description }: RouterState) {
       minHeight: 250,
       maxHeight: 750,
       item: c('div', { class: 'graph-split-container' },
-        c(graphCanvas, subject as Observables.IObservable<SuccessfulGraphAlgorithmState<uint32>>),
-        c(graphDetails, subject as Observables.IObservable<SuccessfulGraphAlgorithmState<uint32>>)
+        c(graphCanvas, subject as Observables.IObservable<SuccessfulGraphAlgorithmState<Num.UInt32>>),
+        c(graphDetails, subject as Observables.IObservable<SuccessfulGraphAlgorithmState<Num.UInt32>>)
       )
     })
   )

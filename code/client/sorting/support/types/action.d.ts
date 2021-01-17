@@ -1,5 +1,5 @@
 export interface SortAction {
-  i: uint32
-  j: uint32
+  i: Num.UInt32
+  j: Num.UInt32
   swapped: boolean
 }

@@ -18,7 +18,7 @@ export function link(state: {
     target?: string,
     title?: string,
     style?: string,
-    click?: Action<MouseEvent>
+    click?: TypeCons.Action<MouseEvent>
   } = {
     href: encodeURI(state.link)
   }

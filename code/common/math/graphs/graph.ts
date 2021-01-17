@@ -8,7 +8,7 @@ export class GraphTraversalError extends GraphError {}
 export interface GraphArcParams<T> {
   src: T
   dest: T
-  weight?: float64
+  weight?: Num.Float64
 }
 
 export interface GraphArc<T> extends Required<GraphArcParams<T>> {}

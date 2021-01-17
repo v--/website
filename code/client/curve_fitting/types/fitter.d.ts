@@ -5,5 +5,5 @@ export interface Fitter {
   name: string,
   date: ISODateString
   hideByDefault?: boolean
-  fit(mapping: Map<float64, float64>): IRealFunction
+  fit(mapping: Map<Num.Float64, Num.Float64>): IRealFunction
 }

@@ -4,7 +4,7 @@ import { simplify } from './simplification.js'
 
 export function mostlyConvertToPNF(
   expression: Resolution.SimplifiedFormula,
-  counter: { value: uint32 } = { value: 1 },
+  counter: { value: Num.UInt32 } = { value: 1 },
   replacementMap: Map<string, Resolution.FOLTerm> = new Map(),
 ): Resolution.SimplifiedFormula {
   switch (expression.type) {
@@ -86,7 +86,7 @@ export function mostlyConvertToPNF(
 
 export function convertToPNF(
   expression: Resolution.SimplifiedFormula,
-  counter: { value: uint32 } = { value: 1 },
+  counter: { value: Num.UInt32 } = { value: 1 },
   replacementMap: Map<string, Resolution.FOLTerm> = new Map(),
 ): Resolution.PNFFormula {
   for (const variable of extractFreeVariables(expression)) {

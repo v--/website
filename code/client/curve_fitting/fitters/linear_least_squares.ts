@@ -4,11 +4,11 @@ import { Polynomial } from '../../../common/math/algebra/polynomial.js'
 import { Fitter } from '../types/fitter.js'
 import { getMappingDomain, getMappingRange } from '../support/mapping.js'
 
-function sum(values: float64[]): float64 {
+function sum(values: Num.Float64[]): Num.Float64 {
   return reduce((value, accum) => value + accum, values, 0)
 }
 
-function dot(x: float64[], y: float64[]): float64 {
+function dot(x: Num.Float64[], y: Num.Float64[]): Num.Float64 {
   const n = Math.min(x.length, y.length)
   let prod = 0
 

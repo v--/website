@@ -47,7 +47,7 @@ function * processChildren(children: PotentialComponent[]) {
 
 export class Component {
   private stateSubscription?: Observables.ISubscription
-  state = new BehaviorSubject<Optional<ComponentState>>(undefined)
+  state = new BehaviorSubject<TypeCons.Optional<ComponentState>>(undefined)
 
   /**
    * Do sanity checks before creating the actual component instance.

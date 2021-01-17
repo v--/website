@@ -113,7 +113,7 @@ export function* chain(...iterables) {
 /**
  * @template T
  * @param {Iterable<T>} iterable
- * @param {uint32} count
+ * @param {Num.UInt32} count
  * @returns {Generator<T, void, undefined>}
  */
 export function* take(iterable, count) {
@@ -247,14 +247,14 @@ export function sort(iter, ascending = true) {
 
 /**
  * @template T
- * @param {Mapper<T, uint32>} transform
+ * @param {Mapper<T, Num.UInt32>} transform
  * @param {Iterable<T>} iter
  * @returns {T[]}
  */
 export function schwartzSort(transform, iter) {
   const array = Array.from(iter)
 
-  const values = /** @type {NonStrictMap<T, uint32>} */ (new Map(
+  const values = /** @type {TypeCons.NonStrictMap<T, Num.UInt32>} */ (new Map(
     map(x => [x, transform(x)], array)
   ))
 
@@ -263,7 +263,7 @@ export function schwartzSort(transform, iter) {
 
 /**
  * @template T
- * @param {Mapper<T, uint32>} transform
+ * @param {Mapper<T, Num.UInt32>} transform
  * @param {Iterable<T>} iterable
  * @param {boolean} strict
  * @returns {T}
@@ -274,7 +274,7 @@ export function schwartzMax(transform, iterable, strict = true) {
 
 /**
  * @template T
- * @param {Mapper<T, uint32>} transform
+ * @param {Mapper<T, Num.UInt32>} transform
  * @param {Iterable<T>} iterable
  * @param {boolean} strict
  * @returns {T}
@@ -323,8 +323,8 @@ export function shuffle(iter) {
 
 /**
  * @template T
- * @param {Iterable<FlattenIterableType<IterBase<T>>>} iter
- * @returns {Generator<IterBase<T>>}
+ * @param {Iterable<TypeCons.FlattenIterableType<TypeCons.IterBase<T>>>} iter
+ * @returns {Generator<TypeCons.IterBase<T>>}
  */
 export function* flatten(iter) {
   for (const value of iter) {
@@ -333,7 +333,7 @@ export function* flatten(iter) {
     }
 
     else {
-      yield /** @type {IterBase<T>} */ (value)
+      yield /** @type {TypeCons.IterBase<T>} */ (value)
     }
   }
 }
@@ -353,10 +353,10 @@ export function* repeat(value, times = Number.POSITIVE_INFINITY) {
 /**
  * @template T
  * @param {Iterable<T>} iter
- * @returns {Map<T, uint32>}
+ * @returns {Map<T, Num.UInt32>}
  */
 export function counter(iter) {
-  /** @type {NonStrictMap<T, uint32>} */
+  /** @type {TypeCons.NonStrictMap<T, Num.UInt32>} */
   const cntr = new Map()
 
   for (const value of iter) {
@@ -375,8 +375,8 @@ export function counter(iter) {
 /**
  * @template T
  * @param {T[]} array
- * @param {uint32} i
- * @param {uint32} j
+ * @param {Num.UInt32} i
+ * @param {Num.UInt32} j
  */
 export function swap(array, i, j) {
   const tmp = array[i]
@@ -524,7 +524,7 @@ export function * cumulative(iterable) {
 /**
  * @template T
  * @param {Iterable<T>} iterable
- * @returns {Generator<[uint32, T]>}
+ * @returns {Generator<[Num.UInt32, T]>}
  */
 export function * enumerate(iterable) {
   let i = 0

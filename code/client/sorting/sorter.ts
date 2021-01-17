@@ -15,7 +15,7 @@ const SORT_INTERVAL = 25
 
 interface ActionListCollection {
   sequence: Sequence,
-  currentState: float64[],
+  currentState: Num.Float64[],
   actions: (SortAction | undefined)[]
 }
 
@@ -36,7 +36,7 @@ function constructActionListCollections(algorithm: SortAlgorithm, sequences: Seq
   })
 }
 
-function getStatesAtIndex(actionListCollections: ActionListCollection[], index: uint32): SorterState[] {
+function getStatesAtIndex(actionListCollections: ActionListCollection[], index: Num.UInt32): SorterState[] {
   return actionListCollections.map(function({ currentState, sequence, actions }) {
     const action = actions[Math.min(index, actions.length - 1)]
 
@@ -57,8 +57,8 @@ export interface SorterParams {
   sequences: Sequence[]
   state$: DictSubject<SorterComponentState>
   actionListCollections: ActionListCollection[]
-  actionListIndex: uint32
-  maxActionListIndex: uint32
+  actionListIndex: Num.UInt32
+  maxActionListIndex: Num.UInt32
 }
 
 export interface Sorter extends SorterParams {

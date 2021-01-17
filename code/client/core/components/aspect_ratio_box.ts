@@ -13,9 +13,9 @@ export class NodeAlreadyRegisteredError extends AspectRatioError {}
 
 const REFRESH_TIMEOUT = 300
 
-let currentBox: Optional<Renderer<HTMLElement>>
+let currentBox: TypeCons.Optional<Renderer<HTMLElement>>
 
-function tryClamp(x: float64, min: float64, max: float64): float64 {
+function tryClamp(x: Num.Float64, min: Num.Float64, max: Num.Float64): Num.Float64 {
   if (typeof min === 'number' && x < min) {
     return min
   }

@@ -7,8 +7,8 @@ import { GraphAlgorithm } from '../types/graph_algorithm.js'
 import { GraphAlgorithmResult } from '../support/algorithm_result.js'
 import { GraphAlgorithmType } from '../enums/algorithm_type.js'
 
-function addSafe<T>(graph: Graph<T>, tree: Graph<T>, components: GraphComponentMap<T>, componentCount: uint32) {
-  const safe = new Map<uint32, GraphArc<T>>()
+function addSafe<T>(graph: Graph<T>, tree: Graph<T>, components: GraphComponentMap<T>, componentCount: Num.UInt32) {
+  const safe = new Map<Num.UInt32, GraphArc<T>>()
 
   for (const arc of graph.iterAllArcs()) {
     const cu = components.get(arc.src)
@@ -34,7 +34,7 @@ function addSafe<T>(graph: Graph<T>, tree: Graph<T>, components: GraphComponentM
   }
 }
 
-export const boruvka: GraphAlgorithm<uint32> = Object.freeze({
+export const boruvka: GraphAlgorithm<Num.UInt32> = Object.freeze({
   name: "Borůvka's algorithm",
   id: 'boruvka',
   type: GraphAlgorithmType.minSpanningTree,
@@ -42,7 +42,7 @@ export const boruvka: GraphAlgorithm<uint32> = Object.freeze({
   graph: DEFAULT_GRAPH_UNDIRECTED,
   layout: DEFAULT_GRAPH_LAYOUT,
 
-  run<T extends uint32>(graph: Graph<T>, _start?: T, _end?: T) {
+  run<T extends Num.UInt32>(graph: Graph<T>, _start?: T, _end?: T) {
     const tree = Graph.empty(graph.order)
     let components = labelComponents(tree)
     let oldComponentCount = -1

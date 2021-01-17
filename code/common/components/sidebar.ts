@@ -24,7 +24,7 @@ export function sidebar({ sidebarId, isCollapsed, toggleCollapsed }: RouterState
   const toggleButtonState: {
     class: string,
     disabled?: boolean,
-    click?: Action<MouseEvent>
+    click?: TypeCons.Action<MouseEvent>
   } = {
     class: 'cool-button entry'
   }

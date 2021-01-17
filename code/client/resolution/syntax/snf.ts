@@ -2,7 +2,7 @@ import { replaceVariables } from './replacement.js'
 
 export function convertToSNF(
   formula: Resolution.PNFFormula,
-  counter: { value: uint32 } = { value: 1 },
+  counter: { value: Num.UInt32 } = { value: 1 },
   nameMap: Map<string, Resolution.FOLTerm> = new Map(),
   univVarNames: string[] = []
 ): Resolution.SNFFormula {

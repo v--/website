@@ -1,5 +1,5 @@
 
 export interface Sequence {
   name: string,
-  constructArray(): float64[]
+  constructArray(): Num.Float64[]
 }

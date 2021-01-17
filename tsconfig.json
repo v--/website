@@ -1,8 +1,11 @@
 {
   "include": [
-    "./code/**/*.ts",
+    "./code/**/*.js",
+    "./code/**/*.d.ts",
+    "./code/**/*.js",
     "./benchmarks/**/*.js",
     "./tests/**/*.js",
+    "./tests/**/*.ts",
     "./build/**/*.js"
   ],
   "compilerOptions": {

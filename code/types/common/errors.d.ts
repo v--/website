@@ -5,6 +5,6 @@ declare namespace Errors {
    classId: ErrorClassId
    message: string
    title?: string
-   code?: uint32
+   code?: Num.UInt32
   }
 }

@@ -8,13 +8,13 @@ import { GraphArc } from '../../../common/math/graphs/graph.js'
 import { map } from '../../../common/support/iteration.js'
 
 interface ArcDatum {
-  arc: GraphArc<uint32>
+  arc: GraphArc<Num.UInt32>
   isEdge: boolean
   isHovered: boolean
   isHighlighted: boolean
 }
 
-export function graphCanvas({ graph, layout, result, hoverArc, hoverVertex, hoveredArc, hoveredVertex, changeStart, changeEnd }: SuccessfulGraphAlgorithmState<uint32>) {
+export function graphCanvas({ graph, layout, result, hoverArc, hoverVertex, hoveredArc, hoveredVertex, changeStart, changeEnd }: SuccessfulGraphAlgorithmState<Num.UInt32>) {
   const highlightedArcs = new Set(result.subgraph.iterAllArcs())
   const highlightedVertices = new Set(result.subgraph.iterAllVertices())
   const arcData: Array<ArcDatum> = []

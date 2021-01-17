@@ -1,7 +1,6 @@
 import { product2 } from '../../../common/support/iteration.js'
 import { replaceVariables } from './replacement.js'
 import { stringifyExpression, stringifyDisjunct } from '../support/stringify.js'
-import { NonStrictMap } from '../../../common/types/non_strict_map.js'
 
 const MAX_RESOLVENT_COUNT = 25
 
@@ -121,7 +120,7 @@ function applyTransform(
     }
   }
 ) {
-  const newDisjunctMap: NonStrictMap<string, Resolution.FOLLiteral> = new Map()
+  const newDisjunctMap: TypeCons.NonStrictMap<string, Resolution.FOLLiteral> = new Map()
 
   for (const lit of d1) {
     if (lit !== transform.positive) {

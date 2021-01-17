@@ -16,7 +16,7 @@ export const mirrorDOMManipulator: INodeManipulator<XMLComponent> = {
   },
 
   removeAttribute<T>(node: XMLComponent, key: string, _oldValue: T) {
-    const oldState = node.state.value as Optional<Record<string, unknown>>
+    const oldState = node.state.value as TypeCons.Optional<Record<string, unknown>>
 
     if (oldState) {
       const newState = { ...oldState }

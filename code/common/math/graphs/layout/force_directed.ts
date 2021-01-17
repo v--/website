@@ -1,5 +1,4 @@
 import { enumerate } from '../../../support/iteration.js'
-import { NonStrictMap } from '../../../types/non_strict_map.js'
 import { Vector } from '../../geom2d/vector.js'
 import { Graph } from '../graph.js'
 import { GraphLayout } from '../types/layout.js'
@@ -21,7 +20,7 @@ export function getForceDirectedLayout<T>(graph: Graph<T>): GraphLayout<T> {
   const n = graph.order
   const area = 4 // The bounding square of the unit circle
   const k = Math.sqrt(area / n)
-  const layout = new Map() as NonStrictMap<T, Vector>
+  const layout = new Map() as TypeCons.NonStrictMap<T, Vector>
 
   // Initialize a circular layout
   for (const [i, v] of enumerate(graph.iterAllVertices())) {
@@ -29,7 +28,7 @@ export function getForceDirectedLayout<T>(graph: Graph<T>): GraphLayout<T> {
   }
 
   for (let temperature = 1; temperature > 0; temperature -= 1e-1) {
-    const displacement = new Map() as NonStrictMap<T, Vector>
+    const displacement = new Map() as TypeCons.NonStrictMap<T, Vector>
 
     for (const v of graph.iterAllVertices()) {
       displacement.set(v, new Vector({ x: 0, y: 0 }))

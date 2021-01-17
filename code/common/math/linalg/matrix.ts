@@ -23,7 +23,7 @@ function * iterToString(matrix: Matrix) {
   yield '\n])'
 }
 
-function dotProduct(u: float64[], v: float64[]) {
+function dotProduct(u: Num.Float64[], v: Num.Float64[]) {
   return reduce(([x, y], accum) => accum + x * y, zip2(u, v), 0)
 }
 
@@ -35,7 +35,7 @@ export interface MatrixParams {
 
 export interface Matrix extends MatrixParams {}
 export class Matrix {
-  static fill(fill: float64, rows: uint32, cols: uint32 = rows) {
+  static fill(fill: Num.Float64, rows: Num.UInt32, cols: Num.UInt32 = rows) {
     return new this({
       rows,
       cols,
@@ -43,11 +43,11 @@ export class Matrix {
     })
   }
 
-  static zero(rows: uint32, cols = rows) {
+  static zero(rows: Num.UInt32, cols = rows) {
     return this.fill(0, rows, cols)
   }
 
-  static unit(n: uint32) {
+  static unit(n: Num.UInt32) {
     const result = this.zero(n, n)
 
     for (let i = 0; i < n; i++) {
@@ -57,7 +57,7 @@ export class Matrix {
     return result
   }
 
-  static diagonal(items: float64[]) {
+  static diagonal(items: Num.Float64[]) {
     const n = items.length
     const result = this.zero(n, n)
 
@@ -68,7 +68,7 @@ export class Matrix {
     return result
   }
 
-  static fromRows(rows: float64[][]) {
+  static fromRows(rows: Num.Float64[][]) {
     if (rows.length === 0) {
       throw new MatrixDimensionError('At least one row is required')
     }
@@ -93,7 +93,7 @@ export class Matrix {
     })
   }
 
-  static fromCols(cols: float64[][]) {
+  static fromCols(cols: Num.Float64[][]) {
     if (cols.length === 0) {
       throw new MatrixDimensionError('At least one row is required')
     }
@@ -101,7 +101,7 @@ export class Matrix {
     return this.fromRows(cols).transpose()
   }
 
-  static row(array: float64[]) {
+  static row(array: Num.Float64[]) {
     return new this({
       payload: array,
       rows: 1,
@@ -109,7 +109,7 @@ export class Matrix {
     })
   }
 
-  static col(array: float64[]) {
+  static col(array: Num.Float64[]) {
     return new this({
       payload: array,
       rows: array.length,
@@ -121,7 +121,7 @@ export class Matrix {
     Object.assign(this, payload)
   }
 
-  get(i: uint32, j: uint32) {
+  get(i: Num.UInt32, j: Num.UInt32) {
     if (i < 0 || i >= this.rows || j < 0 || j >= this.cols) {
       throw new MatrixIndexError(`Invalid indices ${i} and ${j} for ${repr(this)}`)
     }
@@ -129,7 +129,7 @@ export class Matrix {
     return this.payload[i * this.cols + j]
   }
 
-  set(i: uint32, j: uint32, value: float64) {
+  set(i: Num.UInt32, j: Num.UInt32, value: Num.Float64) {
     if (i < 0 || i >= this.rows || j < 0 || j >= this.cols) {
       throw new MatrixIndexError(`Invalid indices ${i} and ${j} for ${repr(this)}`)
     }
@@ -179,7 +179,7 @@ export class Matrix {
     })
   }
 
-  scale(scalar: float64) {
+  scale(scalar: Num.Float64) {
     return new Matrix({
       rows: this.rows,
       cols: this.cols,
@@ -223,7 +223,7 @@ export class Matrix {
     return this.transpose().toRows()
   }
 
-  getRow(i: uint32) {
+  getRow(i: Num.UInt32) {
     if (i < 0 || i >= this.rows) {
       throw new MatrixIndexError(`Invalid row ${i} for ${repr(this)}`)
     }
@@ -231,7 +231,7 @@ export class Matrix {
     return Matrix.row(this.payload.slice(i * this.cols, (i + 1) * this.cols))
   }
 
-  getCol(j: uint32) {
+  getCol(j: Num.UInt32) {
     if (j < 0 || j >= this.cols) {
       throw new MatrixIndexError(`Invalid row ${j} for ${repr(this)}`)
     }
@@ -245,7 +245,7 @@ export class Matrix {
     return Matrix.col(payload)
   }
 
-  delete(row: uint32, col: uint32) {
+  delete(row: Num.UInt32, col: Num.UInt32) {
     const result = Matrix.zero(this.rows - 1, this.cols - 1)
 
     for (let i = 0; i < this.rows; i++) {

@@ -1,5 +1,4 @@
 import { Graph, GraphArc } from '../../../common/math/graphs/graph.js'
-import { NonStrictMap } from '../../../common/types/non_strict_map.js'
 import { GraphAlgorithmDatum } from '../types/algorithm_data.js'
 
 export type GraphAlgorithmArcData<T> = Map<GraphArc<T>, GraphAlgorithmDatum>

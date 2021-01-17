@@ -9,9 +9,8 @@ import { DEFAULT_GRAPH_LAYOUT, DEFAULT_GRAPH_DIRECTED } from '../graphs.js'
 import { GraphAlgorithmResult } from '../support/algorithm_result.js'
 import { GraphAlgorithm } from '../types/graph_algorithm.js'
 import { GraphAlgorithmType } from '../enums/algorithm_type.js'
-import { NonStrictMap } from '../../../common/types/non_strict_map.js'
 
-export const postorderLongestPath: GraphAlgorithm<uint32> = Object.freeze({
+export const postorderLongestPath: GraphAlgorithm<Num.UInt32> = Object.freeze({
   name: 'Longest path based on post-order traversal',
   id: 'postorder_longest_path',
   type: GraphAlgorithmType.longestPath,
@@ -19,9 +18,9 @@ export const postorderLongestPath: GraphAlgorithm<uint32> = Object.freeze({
   graph: DEFAULT_GRAPH_DIRECTED,
   layout: DEFAULT_GRAPH_LAYOUT,
 
-  run<T extends uint32>(graph: Graph<T>, start: T = 0 as T, end: T = graph.order - 1 as T) {
+  run<T extends Num.UInt32>(graph: Graph<T>, start: T = 0 as T, end: T = graph.order - 1 as T) {
     const lengths = new Map()
-    const ancestors: NonStrictMap<T, T> = new Map()
+    const ancestors: TypeCons.NonStrictMap<T, T> = new Map()
 
     const order = postorder(graph, start)
     const chain = new Set(order.slice(

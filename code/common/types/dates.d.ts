@@ -1,1 +1,1 @@
-export type ISODateString = Flavor<string, 'ISODateString'>
+export type ISODateString = Flavoring.Flavor<string, 'ISODateString'>

@@ -5,7 +5,7 @@ export class DividedDifferencesError extends CoolError {}
 export class NoPointsError extends DividedDifferencesError {}
 export class DuplicatePointsError extends DividedDifferencesError {}
 
-export function dividedDifferences(f: (x: float64) => float64, points: float64[]): float64 {
+export function dividedDifferences(f: (x: Num.Float64) => Num.Float64, points: Num.Float64[]): Num.Float64 {
   const n = points.length
 
   switch (n) {

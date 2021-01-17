@@ -23,7 +23,7 @@ export function form<T extends object>({
   callback,
   class: className
 }: {
-  callback: Action<T>
+  callback: TypeCons.Action<T>
   class: string
 }, children: Component[]) {
   return c('div', { class: classlist(className, 'form-container') },

@@ -8,9 +8,8 @@ import { GraphAlgorithmType } from '../enums/algorithm_type.js'
 import { DEFAULT_GRAPH_LAYOUT, DEFAULT_GRAPH_DIRECTED } from '../graphs.js'
 import { GraphAlgorithm } from '../types/graph_algorithm.js'
 import { GraphAlgorithmResult } from '../support/algorithm_result.js'
-import { NonStrictMap } from '../../../common/types/non_strict_map.js'
 
-export const fordFulkerson: GraphAlgorithm<uint32> = Object.freeze({
+export const fordFulkerson: GraphAlgorithm<Num.UInt32> = Object.freeze({
   name: "Ford and Fulkerson's algorithm",
   id: 'ford_fulkerson',
   type: GraphAlgorithmType.maximumFlow,
@@ -18,11 +17,11 @@ export const fordFulkerson: GraphAlgorithm<uint32> = Object.freeze({
   graph: DEFAULT_GRAPH_DIRECTED,
   layout: DEFAULT_GRAPH_LAYOUT,
 
-  run<T extends uint32>(graph: Graph<T>, start: T = 0 as T, end: T = graph.order - 1 as T) {
+  run<T extends Num.UInt32>(graph: Graph<T>, start: T = 0 as T, end: T = graph.order - 1 as T) {
     const undirected = graph.getSymmetricClosure()
     const possiblyPath = findPath(graph, start, end)
-    let flow = new Map(map(a => [a, 0], undirected.iterAllArcs())) as NonStrictMap<GraphArc<T>, float64>
-    let capacities = new Map(map(a => [a, a.weight], undirected.iterAllArcs())) as NonStrictMap<GraphArc<T>, float64>
+    let flow = new Map(map(a => [a, 0], undirected.iterAllArcs())) as TypeCons.NonStrictMap<GraphArc<T>, Num.Float64>
+    let capacities = new Map(map(a => [a, a.weight], undirected.iterAllArcs())) as TypeCons.NonStrictMap<GraphArc<T>, Num.Float64>
     let reduced = graph
 
     if (possiblyPath === undefined || possiblyPath.length === 0) {

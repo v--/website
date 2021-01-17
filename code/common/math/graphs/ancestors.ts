@@ -1,7 +1,6 @@
-import { NonStrictMap } from '../../types/non_strict_map.js'
 import { Graph } from './graph.js'
 
-export function constructPathFromAncestors<T>(graph: Graph<T>, ancestors: NonStrictMap<T, T>, start: T, end: T) {
+export function constructPathFromAncestors<T>(graph: Graph<T>, ancestors: TypeCons.NonStrictMap<T, T>, start: T, end: T) {
   if (!ancestors.has(end)) {
     return undefined
   }
@@ -48,7 +47,7 @@ export function constructPathFromAncestors<T>(graph: Graph<T>, ancestors: NonStr
   return path
 }
 
-export function subgraphFromAncestorMap<T>(graph: Graph<T>, ancestors: NonStrictMap<T, T>) {
+export function subgraphFromAncestorMap<T>(graph: Graph<T>, ancestors: TypeCons.NonStrictMap<T, T>) {
   const result = new Graph<T>()
 
   for (const [to, from] of ancestors.entries()) {

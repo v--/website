@@ -1,4 +1,3 @@
-import { NonStrictMap } from '../../types/non_strict_map.js'
 import { Graph } from './graph.js'
 
 function recurseAndLabel<T>(graph: Graph<T>, v: T, marked: Set<T>, labels: GraphComponentMap<T>) {
@@ -12,7 +11,7 @@ function recurseAndLabel<T>(graph: Graph<T>, v: T, marked: Set<T>, labels: Graph
   }
 }
 
-export type GraphComponentMap<T> = NonStrictMap<T, uint32>
+export type GraphComponentMap<T> = TypeCons.NonStrictMap<T, Num.UInt32>
 
 export function labelComponents<T>(graph: Graph<T>): GraphComponentMap<T> {
   const marked = new Set<T>()

@@ -12,7 +12,7 @@ export interface GraphAlgorithmResultParams<T> {
   end?: T
 }
 
-export interface GraphAlgorithmResult<T> extends RequiredWith<GraphAlgorithmResultParams<T>, 'summary'> {}
+export interface GraphAlgorithmResult<T> extends TypeCons.RequiredWith<GraphAlgorithmResultParams<T>, 'summary'> {}
 export class GraphAlgorithmResult<T> {
   constructor(params: GraphAlgorithmResultParams<T>) {
     Object.assign(this, { summary: [] }, params)

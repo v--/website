@@ -1,7 +1,6 @@
 import { CoolError } from '../../common/errors.js'
 import { swap } from '../../common/support/iteration.js'
 import { repr } from '../../common/support/strings.js'
-import { NonStrictMap } from '../types/non_strict_map.js'
 
 export class BinaryHeapError extends CoolError {}
 export class EmptyHeapError extends BinaryHeapError {}
@@ -9,8 +8,8 @@ export class NoSuchItemError extends BinaryHeapError {}
 
 export interface IBinaryHeapParams<T> {
   payload?: T[],
-  weights?: float64[],
-  payloadMap?: NonStrictMap<T, uint32>
+  weights?: Num.Float64[],
+  payloadMap?: TypeCons.NonStrictMap<T, Num.UInt32>
 }
 
 export interface BinaryHeap<T> extends Required<IBinaryHeapParams<T>> {}
@@ -25,14 +24,14 @@ export class BinaryHeap<T> {
     return this.payload.length === 0
   }
 
-  _swap(i: uint32, j: uint32) {
+  _swap(i: Num.UInt32, j: Num.UInt32) {
     swap(this.payload, i, j)
     swap(this.weights, i, j)
     this.payloadMap.set(this.payload[i], i)
     this.payloadMap.set(this.payload[j], j)
   }
 
-  _siftDown(start: uint32) {
+  _siftDown(start: Num.UInt32) {
     let node = start
     let leftChild = 2 * start + 1
     let rightChild = 2 * start + 2
@@ -59,7 +58,7 @@ export class BinaryHeap<T> {
     }
   }
 
-  insert(item: T, weight?: float64) {
+  insert(item: T, weight?: Num.Float64) {
     let node = this.payload.length
     let parent = Math.ceil(node / 2) - 1
 
@@ -130,7 +129,7 @@ export class BinaryHeap<T> {
     return this.weights[index]
   }
 
-  updateItemWeight(item: T, weight: float64) {
+  updateItemWeight(item: T, weight: Num.Float64) {
     const index = this.payloadMap.get(item)
 
     if (index === undefined) {

@@ -9,9 +9,8 @@ import { GraphAlgorithm } from '../types/graph_algorithm.js'
 import { GraphAlgorithmType } from '../enums/algorithm_type.js'
 import { Graph } from '../../../common/math/graphs/graph.js'
 import { GraphAlgorithmResult } from '../support/algorithm_result.js'
-import { NonStrictMap } from '../../../common/types/non_strict_map.js'
 
-export const topologicalShortestPath: GraphAlgorithm<uint32> = Object.freeze({
+export const topologicalShortestPath: GraphAlgorithm<Num.UInt32> = Object.freeze({
   name: 'Shortest path tree based on topological order',
   id: 'topological_shortest_path',
   type: GraphAlgorithmType.shortestPathTree,
@@ -19,9 +18,9 @@ export const topologicalShortestPath: GraphAlgorithm<uint32> = Object.freeze({
   graph: DEFAULT_GRAPH_DIRECTED,
   layout: DEFAULT_GRAPH_LAYOUT,
 
-  run<T extends uint32>(graph: Graph<T>, start: T = 0 as T, _end?: T) {
-    const ancestors: NonStrictMap<T, T> = new Map()
-    const lengths: NonStrictMap<T, uint32> = new Map()
+  run<T extends Num.UInt32>(graph: Graph<T>, start: T = 0 as T, _end?: T) {
+    const ancestors: TypeCons.NonStrictMap<T, T> = new Map()
+    const lengths: TypeCons.NonStrictMap<T, Num.UInt32> = new Map()
 
     const order = topologicalOrder(graph, start)
     const chain = order.slice(

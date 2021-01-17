@@ -3,7 +3,7 @@ import { Observable } from './observable.js'
 /**
  * @template T
  * @param {Observables.IObservable<T>} observable
- * @param {float64} time
+ * @param {Num.Float64} time
  * @returns {Observables.IObservable<T>}
  */
 export function throttleObservable(observable, time) {

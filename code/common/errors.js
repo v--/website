@@ -110,7 +110,7 @@ export class HTTPError extends ClientError {
   }
 
   /**
-   * @param {uint32} code
+   * @param {Num.UInt32} code
    * @param {string} title
    */
   constructor(code, title) {

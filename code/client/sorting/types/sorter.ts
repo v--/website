@@ -7,13 +7,13 @@ export interface SorterComponentState {
   algorithm: SortAlgorithm,
   isRunning: boolean,
   hasFinished: boolean,
-  run: Action<void>,
-  pause: Action<void>,
-  reset: Action<void>
+  run: TypeCons.Action<void>,
+  pause: TypeCons.Action<void>,
+  reset: TypeCons.Action<void>
 }
 
 export interface SorterState {
   lastAction?: SortAction,
   sequence: Sequence,
-  state: float64[]
+  state: Num.Float64[]
 }

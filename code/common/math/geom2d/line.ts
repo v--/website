@@ -36,7 +36,7 @@ export class Line {
     return this.isParallelWith(other) && isSameNumber(this.b * other.c, this.c * other.b)
   }
 
-  intersectWith(other: Line): Optional<Vector> {
+  intersectWith(other: Line): TypeCons.Optional<Vector> {
     if (isSameNumber(this.a, 0) && isSameNumber(other.a, 0)) {
       return 
     } else if (isSameNumber(this.a, 0)) {

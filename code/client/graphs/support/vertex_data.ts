@@ -1,11 +1,10 @@
 import { constructPathFromAncestors } from '../../../common/math/graphs/ancestors.js'
 import { Graph } from '../../../common/math/graphs/graph.js'
-import { NonStrictMap } from '../../../common/types/non_strict_map.js'
 import { GraphAlgorithmDatum } from '../types/algorithm_data.js'
 
 export type GraphAlgorithmVertexData<T> = Map<T, GraphAlgorithmDatum>
 
-export function fillPathAncestorVertexData<T>(graph: Graph<T>, ancestors: NonStrictMap<T, T>, start: T): GraphAlgorithmVertexData<T> {
+export function fillPathAncestorVertexData<T>(graph: Graph<T>, ancestors: TypeCons.NonStrictMap<T, T>, start: T): GraphAlgorithmVertexData<T> {
   const vertexData = new Map()
 
   for (const v of graph.iterAllVertices()) {

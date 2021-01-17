@@ -2,7 +2,7 @@ import { randInt } from '../../../common/math/prob/random.js'
 import { SortAlgorithm } from '../types/sort_algorithm.js'
 import { ActionList } from '../support/action_list.js'
 
-function partition(sortable: ActionList, start: uint32, end: uint32) {
+function partition(sortable: ActionList, start: Num.UInt32, end: Num.UInt32) {
   const pivotIndex = randInt(start, end)
   const pivot = sortable.get(pivotIndex)
   let newPivotIndex = start
@@ -25,7 +25,7 @@ function partition(sortable: ActionList, start: uint32, end: uint32) {
   return newPivotIndex
 }
 
-function sort(sortable: ActionList, start: uint32, end: uint32) {
+function sort(sortable: ActionList, start: Num.UInt32, end: Num.UInt32) {
   const pivotIndex = partition(sortable, start, end)
 
   if (start < pivotIndex) {

@@ -1,8 +1,7 @@
-import { NonStrictMap } from '../../../common/types/non_strict_map.js'
 import { SortAlgorithm } from '../types/sort_algorithm.js'
 import { ActionList } from '../support/action_list.js'
 
-function updateIndexMap(map: NonStrictMap<uint32, uint32>, src: uint32, dest: uint32) {
+function updateIndexMap(map: TypeCons.NonStrictMap<Num.UInt32, Num.UInt32>, src: Num.UInt32, dest: Num.UInt32) {
   let ind = dest
 
   while (map.has(ind)) {

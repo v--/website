@@ -8,7 +8,7 @@ import { GraphAlgorithmType } from '../enums/algorithm_type.js'
 import { GraphAlgorithmResult } from '../support/algorithm_result.js'
 import { GraphAlgorithm } from '../types/graph_algorithm.js'
 
-export const kruskal: GraphAlgorithm<uint32> = Object.freeze({
+export const kruskal: GraphAlgorithm<Num.UInt32> = Object.freeze({
   name: "Kruskal's algorithm",
   id: 'kruskal',
   type: GraphAlgorithmType.minSpanningTree,
@@ -16,7 +16,7 @@ export const kruskal: GraphAlgorithm<uint32> = Object.freeze({
   graph: DEFAULT_GRAPH_UNDIRECTED,
   layout: DEFAULT_GRAPH_LAYOUT,
 
-  run<T extends uint32>(graph: Graph<T>, _start: T, _end: T) {
+  run<T extends Num.UInt32>(graph: Graph<T>, _start: T, _end: T) {
     const tree = Graph.empty(graph.order)
     const arcs = schwartzSort(arc => arc.weight as T, graph.iterAllArcs())
     const components = labelComponents(tree)

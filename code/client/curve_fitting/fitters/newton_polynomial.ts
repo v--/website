@@ -14,7 +14,7 @@ export const newtonPolynomial: Fitter = Object.freeze({
     }
 
     const x = getMappingDomain(mapping)
-    const f = (x: float64) => mapping.get(x)!
+    const f = (x: Num.Float64) => mapping.get(x)!
 
     let result = new Polynomial({ coef: [f(x[0])] })
 

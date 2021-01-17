@@ -1,6 +1,6 @@
 import { Observable } from '../../../common/observables/observable.js'
 
-export function createTimeoutObservable(period: uint32) {
+export function createTimeoutObservable(period: Num.UInt32) {
   return new Observable<void>(function(observer) {
     const timeout = setTimeout(function() {
       observer.next()
@@ -13,7 +13,7 @@ export function createTimeoutObservable(period: uint32) {
   })
 }
 
-export function createIntervalObservable(period: uint32) {
+export function createIntervalObservable(period: Num.UInt32) {
   return new Observable<void>(function(observer) {
     const interval = setInterval(function() {
       observer.next()
