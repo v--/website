@@ -1,4 +1,3 @@
-/// <reference types="../code/types" />
 import gulp from 'gulp'
 import scss from 'gulp-dart-sass'
 import svgo from 'gulp-svgo'

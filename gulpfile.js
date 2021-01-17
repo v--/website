@@ -1,3 +1,5 @@
+/* eslint-env node */
+
 import gulp from 'gulp'
 
 import { armor } from './build/armor.js'

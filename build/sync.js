@@ -5,7 +5,7 @@ const instance = BrowserSync.create()
 const config = JSON.parse((await readFile('config/active.json')).toString('utf8'))
 
 export const sync = {
-  init(): void {
+  init() {
     instance.init({
       open: false,
       proxy: 'localhost:' + config.server.socket,
@@ -33,15 +33,19 @@ export const sync = {
     })
   },
 
-  reload(): void {
+  reload() {
     instance.reload()
   },
 
-  stream(options?: BrowserSync.StreamOptions): NodeJS.ReadWriteStream {
+  /**
+   * @param {BrowserSync.StreamOptions} [options]
+   * @returns {NodeJS.ReadWriteStream}
+   */
+  stream(options) {
     return instance.stream(options)
   },
 
-  destruct(): void {
+  destruct() {
     instance.exit()
   }
 }
