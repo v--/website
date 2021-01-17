@@ -1,47 +1,45 @@
-import { ExpressionType } from '../enums/expression_type.js'
-
 /**
- * @param {import('../types/expression.js').FOLExpression} expression
+ * @param {Resolution.FOLExpression} expression
  * @returns {string}
  */
 export function stringifyExpression(expression) {
   switch (expression.type) {
-    case ExpressionType.variable:
+    case 'variable':
       return expression.name
 
-    case ExpressionType.function:
-    case ExpressionType.predicate:
+    case 'function':
+    case 'predicate':
       if (expression.args.length > 0) {
         return expression.name + '(' + expression.args.map(stringifyExpression).join(', ') + ')'
       }
 
       return expression.name
 
-    case ExpressionType.negation:
+    case 'negation':
       return '¬' + stringifyExpression(expression.formula)
 
-    case ExpressionType.universalQuantification:
+    case 'universalQuantification':
       return '∀' + expression.variable + ' ' + stringifyExpression(expression.formula)
 
-    case ExpressionType.existentialQuantification:
+    case 'existentialQuantification':
       return '∃' + expression.variable + ' ' + stringifyExpression(expression.formula)
 
-    case ExpressionType.conjunction:
+    case 'conjunction':
       return '(' + expression.formulas.map(stringifyExpression).join(' & ') + ')'
 
-    case ExpressionType.disjunction:
+    case 'disjunction':
       return '(' + expression.formulas.map(stringifyExpression).join(' ∨ ') + ')'
 
-    case ExpressionType.implication:
+    case 'implication':
       return '(' + expression.formulas.map(stringifyExpression).join(' → ') + ')'
 
-    case ExpressionType.equivalence:
+    case 'equivalence':
       return '(' + expression.formulas.map(stringifyExpression).join(' ↔ ') + ')'
   }
 }
 
 /**
- * @param {import('../types/expression.js').FOLDisjunct} disjunct
+ * @param {Resolution.FOLDisjunct} disjunct
  * @returns {string}
  */
 export function stringifyDisjunct(disjunct) {
@@ -49,7 +47,7 @@ export function stringifyDisjunct(disjunct) {
 }
 
 /**
- * @param {Required<import('../types/expression.js').FOLResolvent>} resolvent
+ * @param {Required<Resolution.FOLResolvent>} resolvent
  * @returns {string}
  */
 export function stringifyResolvent(resolvent) {

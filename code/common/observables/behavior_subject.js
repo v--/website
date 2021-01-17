@@ -1,22 +1,32 @@
-import { IObserver } from './observer.js'
 import { Subject } from './subject.js'
 
-export class BehaviorSubject<T> extends Subject<T> {
-  _value: T
-
-  constructor(value: T) {
+/**
+ * @template T
+ * @extends Subject<T>
+ */
+export class BehaviorSubject extends Subject {
+  /**
+   * @param {T} value
+   */
+  constructor(value) {
     super()
     this._value = value
   }
 
-  _subscriber(observer: IObserver<T>) {
+  /**
+   * @param {Observables.IObserver<T>} observer
+   */
+  _subscriber(observer) {
     const index = this.observers.length
     this.observers.push(observer)
     observer.next(this._value)
     return Array.prototype.splice.bind(this.observers, index, 1)
   }
 
-  next(value: T) {
+  /**
+   * @param {T} value
+   */
+  next(value) {
     this._value = value
     return super.next(value)
   }

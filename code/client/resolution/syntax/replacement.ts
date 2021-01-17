@@ -1,50 +1,48 @@
-import { ExpressionType } from '../enums/expression_type.js'
 import { CoolError } from '../../../common/errors.js'
-import { FOLExpression, FOLFormula, FOLTerm, NegationExpression } from '../types/expression.js'
 
 export class ReplacementError extends CoolError {}
 
-export function replaceVariables(expression: FOLExpression, termMap: Map<string, FOLTerm>): FOLExpression {
+export function replaceVariables(expression: Resolution.FOLExpression, termMap: Map<string, Resolution.FOLTerm>): Resolution.FOLExpression {
   switch (expression.type) {
-    case ExpressionType.variable:
+    case 'variable':
       return termMap.get(expression.name) || expression
 
-    case ExpressionType.function:
-    case ExpressionType.predicate:
+    case 'function':
+    case 'predicate':
       return {
         type: expression.type,
         name: expression.name,
-        args: expression.args.map(arg => replaceVariables(arg, termMap) as FOLTerm)
+        args: expression.args.map(arg => replaceVariables(arg, termMap) as Resolution.FOLTerm)
       }
 
-    case ExpressionType.negation:
+    case 'negation':
       return {
         type: expression.type,
         formula: replaceVariables(expression.formula, termMap)
-      } as NegationExpression
+      } as Resolution.NegationExpression
 
-    case ExpressionType.conjunction:
-    case ExpressionType.disjunction:
-    case ExpressionType.implication:
-    case ExpressionType.equivalence:
+    case 'conjunction':
+    case 'disjunction':
+    case 'implication':
+    case 'equivalence':
       return {
         type: expression.type,
-        formulas: expression.formulas.map(arg => replaceVariables(arg, termMap) as FOLFormula)
+        formulas: expression.formulas.map(arg => replaceVariables(arg, termMap) as Resolution.FOLFormula)
       }
 
-    case ExpressionType.universalQuantification:
-    case ExpressionType.existentialQuantification:
+    case 'universalQuantification':
+    case 'existentialQuantification':
     {
       const replacement = termMap.get(expression.variable)
 
-      if (replacement && replacement.type !== ExpressionType.variable) {
+      if (replacement && replacement.type !== 'variable') {
         throw new ReplacementError('Cannot replace bound variables with arbitrary terms')
       }
 
       return {
         type: expression.type,
         variable: replacement ? replacement.name : expression.variable,
-        formula: replaceVariables(expression.formula, termMap) as FOLFormula
+        formula: replaceVariables(expression.formula, termMap) as Resolution.FOLFormula
       }
     }
   }

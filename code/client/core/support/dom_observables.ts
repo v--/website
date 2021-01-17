@@ -4,7 +4,6 @@ import { Subject } from '../../../common/observables/subject.js'
 import { BehaviorSubject } from '../../../common/observables/behavior_subject.js'
 
 import { Vector } from '../../../common/math/geom2d/vector.js'
-import { IObservable } from '../../../common/observables/observable.js'
 
 export interface WindowSize {
   width: number
@@ -37,7 +36,7 @@ export function createWindowSizeObservable(): BehaviorSubject<WindowSize> {
   return subject
 }
 
-export function createKeyDownObservable(): IObservable<string> {
+export function createKeyDownObservable(): Observables.IObservable<string> {
   const subject = new Subject()
 
   function onKeyDown(event: KeyboardEvent) {
@@ -54,7 +53,7 @@ export function createKeyDownObservable(): IObservable<string> {
   return subject
 }
 
-export function createKeyUpObservable(): IObservable<string> {
+export function createKeyUpObservable(): Observables.IObservable<string> {
   const subject = new Subject()
 
   function onKeyDown(event: KeyboardEvent) {
@@ -71,7 +70,7 @@ export function createKeyUpObservable(): IObservable<string> {
   return subject
 }
 
-export function createCursorObservable(): IObservable<Vector> {
+export function createCursorObservable(): Observables.IObservable<Vector> {
   const subject = new Subject<Vector>()
 
   function onMouseMove(event: MouseEvent) {

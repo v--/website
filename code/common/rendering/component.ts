@@ -1,16 +1,15 @@
 import { repr, join } from '../support/strings.js'
-import { IObservable, Observable, ObservableBase } from '../observables/observable.js'
+import { Observable } from '../observables/observable.js'
 import { BehaviorSubject } from '../observables/behavior_subject.js'
 import { CoolError } from '../errors.js'
-import { Subscription } from '../observables/subscription.js'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ComponentState<T = any> = T
-export type FactoryComponentType<T> = (state: ObservableBase<T>, children: Component[]) => Component
+export type FactoryComponentType<T> = (state: Observables.BaseType<T>, children: Component[]) => Component
 
 export type PotentialComponent = Component | null | undefined | boolean | number | string
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type ComponentStateSource<T = any> = ComponentState<T> | IObservable<ComponentState<T>>
+export type ComponentStateSource<T = any> = ComponentState<T> | Observables.IObservable<ComponentState<T>>
 
 const htmlVoidTags = new Set([
   'area',
@@ -47,15 +46,15 @@ function * processChildren(children: PotentialComponent[]) {
 }
 
 export class Component {
-  private stateSubscription?: Subscription<ComponentState>
+  private stateSubscription?: Observables.ISubscription
   state = new BehaviorSubject<Optional<ComponentState>>(undefined)
 
   /**
    * Do sanity checks before creating the actual component instance.
    */
   static safeCreate<T>(
-    type: string | FactoryComponentType<ObservableBase<T>>,
-    stateSource?: ComponentStateSource<ObservableBase<T>>,
+    type: string | FactoryComponentType<Observables.BaseType<T>>,
+    stateSource?: ComponentStateSource<Observables.BaseType<T>>,
     ...children: PotentialComponent[]
   ): Component {
     if (!(stateSource instanceof Object) && stateSource !== undefined) { 
@@ -102,7 +101,7 @@ export class Component {
     this.unsubscribeFromStateSource()
 
     if (Observable.isObservable(newSource)) {
-      this.stateSubscription = (newSource as IObservable<ComponentState>).subscribe(newState => {
+      this.stateSubscription = (newSource as Observables.IObservable<ComponentState>).subscribe(newState => {
         this.stateSource = newSource
         this.updateState(newState as ComponentState)
       })
@@ -209,8 +208,8 @@ export class HTMLComponent extends XMLComponent {
 
 export class FactoryComponent extends Component {
   static safeCreate<T>(
-    type: FactoryComponentType<ObservableBase<T>>,
-    state: ObservableBase<T>,
+    type: FactoryComponentType<Observables.BaseType<T>>,
+    state: Observables.BaseType<T>,
     ...children: PotentialComponent[]
   ): FactoryComponent {
     return super.safeCreate(type, state, ...children) as FactoryComponent
@@ -249,8 +248,8 @@ export function c<T>(
   ...children: PotentialComponent[]
 ): Component 
 export function c<T>(
-  type: FactoryComponentType<ObservableBase<T>>,
-  stateSource: ComponentStateSource<ObservableBase<T>>,
+  type: FactoryComponentType<Observables.BaseType<T>>,
+  stateSource: ComponentStateSource<Observables.BaseType<T>>,
   ...children: PotentialComponent[]
 ): Component
 export function c(

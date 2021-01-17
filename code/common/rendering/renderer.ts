@@ -3,7 +3,6 @@ import { chain, uniqueBy } from '../support/iteration.js'
 import { CoolError } from '../errors.js'
 import { Subject } from '../observables/subject.js'
 import { Component, ComponentState, FactoryComponent, XMLComponent } from './component.js'
-import { PotentialObserver } from '../observables/observer.js'
 
 export class RenderError extends CoolError {}
 
@@ -14,7 +13,7 @@ export interface RenderingFunction<ComponentType, NodeType> {
 export abstract class Renderer<NodeType> {
   oldState?: ComponentState
   element?: NodeType
-  observer: PotentialObserver<Optional<ComponentState>>
+  observer: Observables.IPotentialObserver<Optional<ComponentState>>
 
   abstract render(): NodeType
   abstract rerender(): void

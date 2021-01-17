@@ -1,84 +1,81 @@
-import { ExpressionType } from '../enums/expression_type.js'
-import { FOLFormula, SimplifiedFormula, SimplifiedInnerFormula } from '../types/expression.js'
-
-export function negate(expression: FOLFormula): FOLFormula {
+export function negate(expression: Resolution.FOLFormula): Resolution.FOLFormula {
   switch (expression.type) {
-    case ExpressionType.negation:
+    case 'negation':
       return expression.formula
 
-    case ExpressionType.predicate:
+    case 'predicate':
       return {
-        type: ExpressionType.negation,
+        type: 'negation',
         formula: expression
       }
 
     // Quantifier inversion rules
-    case ExpressionType.universalQuantification:
+    case 'universalQuantification':
       return {
-        type: ExpressionType.existentialQuantification,
+        type: 'existentialQuantification',
         variable: expression.variable,
         formula: negate(expression.formula)
       }
 
-    case ExpressionType.existentialQuantification:
+    case 'existentialQuantification':
       return {
-        type: ExpressionType.universalQuantification,
+        type: 'universalQuantification',
         variable: expression.variable,
         formula: negate(expression.formula)
       }
 
     // de Morgan's laws
-    case ExpressionType.conjunction:
+    case 'conjunction':
       return {
-        type: ExpressionType.disjunction,
+        type: 'disjunction',
         formulas: expression.formulas.map(negate)
       }
 
-    case ExpressionType.disjunction:
+    case 'disjunction':
       return {
-        type: ExpressionType.conjunction,
+        type: 'conjunction',
         formulas: expression.formulas.map(negate)
       }
 
-    case ExpressionType.implication:
+    case 'implication':
       return {
-        type: ExpressionType.implication,
+        type: 'implication',
         formulas: [negate(expression.formulas[1]), negate(expression.formulas[0])]
       }
 
-    case ExpressionType.equivalence:
+    case 'equivalence':
       return {
-        type: ExpressionType.equivalence,
+        type: 'equivalence',
         formulas: [negate(expression.formulas[0]), negate(expression.formulas[1])]
       }
   }
 }
 
-function mostlyConvertToCNF(expression: FOLFormula): FOLFormula {
+function mostlyConvertToCNF(expression: Resolution.FOLFormula): Resolution.FOLFormula {
   switch (expression.type) {
-    case ExpressionType.predicate:
+    case 'predicate':
       return expression
 
-    case ExpressionType.negation:
+    case 'negation':
       return negate(simplify(expression.formula))
 
-    case ExpressionType.universalQuantification:
-    case ExpressionType.existentialQuantification:
+    case 'universalQuantification':
+    case 'existentialQuantification':
       return {
         type: expression.type,
         variable: expression.variable,
         formula: simplify(expression.formula)
       }
 
-    case ExpressionType.conjunction:
-    case ExpressionType.disjunction:
+    case 'conjunction':
+    case 'disjunction':
     {
       const subformulas = expression.formulas.map(simplify)
       const flattened = []
 
       for (const subf of subformulas) {
         if (subf.type === expression.type) {
-          flattened.push(...(subf.formulas as FOLFormula[]).map(simplify))
+          flattened.push(...(subf.formulas as Resolution.FOLFormula[]).map(simplify))
         } else {
           flattened.push(subf)
         }
@@ -91,30 +88,30 @@ function mostlyConvertToCNF(expression: FOLFormula): FOLFormula {
     }
 
     // P → Q ≡ ¬P ∨ Q
-    case ExpressionType.implication:
+    case 'implication':
     {
       const [a, b] = expression.formulas.map(simplify)
 
       return simplify({
-        type: ExpressionType.disjunction,
+        type: 'disjunction',
         formulas: [negate(a), b]
       })
     }
 
     // P ↔ Q ≡ (¬P ∨ Q) & (P ∨ ¬Q)
-    case ExpressionType.equivalence:
+    case 'equivalence':
     {
       const [c, d] = expression.formulas.map(simplify)
 
       return simplify({
-        type: ExpressionType.conjunction,
+        type: 'conjunction',
         formulas: [
           {
-            type: ExpressionType.disjunction,
+            type: 'disjunction',
             formulas: [negate(c), d]
           },
           {
-            type: ExpressionType.disjunction,
+            type: 'disjunction',
             formulas: [c, negate(d)]
           }
         ]
@@ -123,11 +120,11 @@ function mostlyConvertToCNF(expression: FOLFormula): FOLFormula {
   }
 }
 
-export function simplify(expression: FOLFormula): SimplifiedFormula {
+export function simplify(expression: Resolution.FOLFormula): Resolution.SimplifiedFormula {
   const cnf = mostlyConvertToCNF(expression)
 
-  if (cnf.type !== ExpressionType.disjunction) {
-    return cnf as SimplifiedFormula
+  if (cnf.type !== 'disjunction') {
+    return cnf as Resolution.SimplifiedFormula
   }
 
   const subformulas = cnf.formulas
@@ -135,19 +132,19 @@ export function simplify(expression: FOLFormula): SimplifiedFormula {
   for (let i = 0; i < subformulas.length; i++) {
     const subf = subformulas[i]
 
-    if (subf.type === ExpressionType.conjunction) {
-      const before = subformulas.slice(0, i) as SimplifiedInnerFormula[]
-      const after = subformulas.slice(i + 1) as SimplifiedInnerFormula[]
+    if (subf.type === 'conjunction') {
+      const before = subformulas.slice(0, i) as Resolution.SimplifiedInnerFormula[]
+      const after = subformulas.slice(i + 1) as Resolution.SimplifiedInnerFormula[]
 
       return {
-        type: ExpressionType.conjunction,
+        type: 'conjunction',
         formulas: subf.formulas.map(ssubf => ({
-          type: ExpressionType.disjunction,
-          formulas: before.concat([simplify(ssubf) as SimplifiedInnerFormula]).concat(after)
+          type: 'disjunction',
+          formulas: before.concat([simplify(ssubf) as Resolution.SimplifiedInnerFormula]).concat(after)
         }))
       }
     }
   }
 
-  return cnf as SimplifiedFormula
+  return cnf as Resolution.SimplifiedFormula
 }

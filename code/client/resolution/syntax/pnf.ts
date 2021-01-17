@@ -1,29 +1,27 @@
-import { ExpressionType } from '../enums/expression_type.js'
 import { replaceVariables } from './replacement.js'
 import { extractFreeVariables } from './extractors.js'
 import { simplify } from './simplification.js'
-import { FOLTerm, SimplifiedFormula, PNFFormula, ConjunctionExpression, SimplifiedInnerFormula, DisjunctionExpression } from '../types/expression.js'
 
 export function mostlyConvertToPNF(
-  expression: SimplifiedFormula,
+  expression: Resolution.SimplifiedFormula,
   counter: { value: uint32 } = { value: 1 },
-  replacementMap: Map<string, FOLTerm> = new Map(),
-): SimplifiedFormula {
+  replacementMap: Map<string, Resolution.FOLTerm> = new Map(),
+): Resolution.SimplifiedFormula {
   switch (expression.type) {
-    case ExpressionType.predicate:
+    case 'predicate':
       return {
         type: expression.type,
         name: expression.name,
-        args: expression.args.map(arg => replaceVariables(arg, replacementMap) as FOLTerm)
+        args: expression.args.map(arg => replaceVariables(arg, replacementMap) as Resolution.FOLTerm)
       }
 
-    case ExpressionType.universalQuantification:
-    case ExpressionType.existentialQuantification:
+    case 'universalQuantification':
+    case 'existentialQuantification':
     {
       const oldReplacement = replacementMap.get(expression.variable)
       const newVarName = oldReplacement ? 't' + counter.value++ : expression.variable
-      replacementMap.set(expression.variable, { type: ExpressionType.variable, name: newVarName })
-      const newSubformula = mostlyConvertToPNF(expression.formula, counter, replacementMap) as SimplifiedInnerFormula
+      replacementMap.set(expression.variable, { type: 'variable', name: newVarName })
+      const newSubformula = mostlyConvertToPNF(expression.formula, counter, replacementMap) as Resolution.SimplifiedInnerFormula
 
       if (oldReplacement) {
         replacementMap.set(expression.variable, oldReplacement)
@@ -36,18 +34,18 @@ export function mostlyConvertToPNF(
       }
     }
 
-    case ExpressionType.negation:
+    case 'negation':
       return {
         type: expression.type,
-        formula: mostlyConvertToPNF(expression.formula, counter, replacementMap) as SimplifiedInnerFormula
+        formula: mostlyConvertToPNF(expression.formula, counter, replacementMap) as Resolution.SimplifiedInnerFormula
       }
 
-    case ExpressionType.conjunction:
-    case ExpressionType.disjunction:
+    case 'conjunction':
+    case 'disjunction':
     {
       // Split the prefix and the inner expression
       const combinedPrefix = []
-      const inner: (ConjunctionExpression<SimplifiedFormula> | DisjunctionExpression<SimplifiedInnerFormula>) = {
+      const inner: (Resolution.ConjunctionExpression<Resolution.SimplifiedFormula> | Resolution.DisjunctionExpression<Resolution.SimplifiedInnerFormula>) = {
         type: expression.type,
         formulas: []
       }
@@ -57,7 +55,7 @@ export function mostlyConvertToPNF(
         const ssubfs = [newSubf]
 
         for (const ssubf of ssubfs) {
-          if (ssubf.type === ExpressionType.universalQuantification || ssubf.type === ExpressionType.existentialQuantification) {
+          if (ssubf.type === 'universalQuantification' || ssubf.type === 'existentialQuantification') {
             combinedPrefix.push({
               type: ssubf.type,
               variable: ssubf.variable
@@ -65,17 +63,17 @@ export function mostlyConvertToPNF(
 
             ssubfs.push(ssubf.formula)
           } else {
-            inner.formulas.push(ssubf as SimplifiedInnerFormula)
+            inner.formulas.push(ssubf as Resolution.SimplifiedInnerFormula)
           }
         }
       }
 
       // Recombine the prefix with the inner expression
-      let current: SimplifiedFormula = inner
+      let current: Resolution.SimplifiedFormula = inner
 
       for (const pref of combinedPrefix.reverse()) {
         current = {
-          formula: current as SimplifiedInnerFormula,
+          formula: current as Resolution.SimplifiedInnerFormula,
           ...pref
         }
       }
@@ -87,13 +85,13 @@ export function mostlyConvertToPNF(
 
 
 export function convertToPNF(
-  expression: SimplifiedFormula,
+  expression: Resolution.SimplifiedFormula,
   counter: { value: uint32 } = { value: 1 },
-  replacementMap: Map<string, FOLTerm> = new Map(),
-): PNFFormula {
+  replacementMap: Map<string, Resolution.FOLTerm> = new Map(),
+): Resolution.PNFFormula {
   for (const variable of extractFreeVariables(expression)) {
-    replacementMap.set(variable, { type: ExpressionType.variable, name: variable })
+    replacementMap.set(variable, { type: 'variable', name: variable })
   }
 
-  return simplify(mostlyConvertToPNF(expression, counter, replacementMap)) as PNFFormula
+  return simplify(mostlyConvertToPNF(expression, counter, replacementMap)) as Resolution.PNFFormula
 }

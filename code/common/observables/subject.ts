@@ -1,9 +1,8 @@
-import { IObservable, Observable } from './observable.js'
-import { IObserver, PotentialObserver } from './observer.js'
+import { Observable } from './observable.js'
 
-export class Subject<T> implements IObservable<T>, IObserver<T> {
-  observers: IObserver<T>[]
-  observable: Observable<T>
+export class Subject<T> implements Observables.IObservable<T>, Observables.IObserver<T> {
+  observers: Observables.IObserver<T>[]
+  observable: Observables.IObservable<T>
 
   constructor() {
     this.observers = []
@@ -14,7 +13,7 @@ export class Subject<T> implements IObservable<T>, IObserver<T> {
     return this
   }
 
-  _subscriber(observer: IObserver<T>) {
+  _subscriber(observer: Observables.IObserver<T>) {
     const index = this.observers.length
     this.observers.push(observer)
 
@@ -55,7 +54,7 @@ export class Subject<T> implements IObservable<T>, IObserver<T> {
     return value
   }
 
-  subscribe(potentialObserver: PotentialObserver<T>) {
+  subscribe(potentialObserver: Observables.IPotentialObserver<T>) {
     // eslint-disable-next-line prefer-rest-params
     return this.observable.subscribe(potentialObserver)
   }

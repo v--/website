@@ -10,7 +10,6 @@ import { EventLoop } from '../core/support/event_loop.js'
 
 import { fleeingButtonCanvas } from './components/fleeing_button_canvas.js'
 import { flee } from './flee.js'
-import { ISubscription } from '../../common/observables/subscription.js'
 import { Renderer } from '../../common/rendering/renderer.js'
 import { RouterState } from '../../common/support/router_state.js'
 import { SharedState, SubjectState } from './types/state.js'
@@ -37,7 +36,7 @@ export function index({ path, description }: RouterState) {
 }
 
 {
-  let cursorSubscription: ISubscription
+  let cursorSubscription: Observables.ISubscription
 
   dispatcher.events.create.subscribe({
     next(node: Renderer<HTMLElement>) {

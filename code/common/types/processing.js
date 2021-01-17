@@ -1,13 +1,17 @@
 import { DataFormatError } from '../errors.js'
 import { repr } from '../support/strings.js'
 
-export function processDatum<T>(processor: (data: Record<string, unknown>) => T | undefined) {
-  return function(rawData: unknown) {
+/**
+ * @template T
+ * @param {(data: Record<string, unknown>) => T | undefined} processor
+ */
+export function processDatum(processor) {
+  return /** @param {unknown} rawData */ function(rawData) {
     if (!(rawData instanceof Object)) {
       throw new DataFormatError(`Expected ${repr(rawData)} to be an object`)
     }
 
-    const result = processor(rawData as Record<string, unknown>)
+    const result = processor(/** @type {Record<string, unknown>} */ (rawData))
 
     if (result === undefined) {
       throw new DataFormatError(`Data ${repr(rawData)} is in an incorrect format`)
@@ -17,14 +21,18 @@ export function processDatum<T>(processor: (data: Record<string, unknown>) => T 
   }
 }
 
-export function processData<T>(processor: (data: Record<string, unknown>) => T | undefined) {
-  return function(rawData: unknown) {
+/**
+ * @template T
+ * @param {(data: Record<string, unknown>) => T | undefined} processor
+ */
+export function processData(processor) {
+  return /** @param {unknown} rawData */ function(rawData) {
     if (!(rawData instanceof Array)) {
       throw new DataFormatError(`Expected ${repr(rawData)} to be an array`)
     }
 
-    const datumProcessor = processDatum<T>(processor)
-    const result = (rawData as unknown[]).map(datumProcessor)
+    const datumProcessor = processDatum(processor)
+    const result = (/** @type {unknown[]} */ (rawData)).map(datumProcessor)
 
     if (result.some(x => x === undefined)) {
       throw new DataFormatError(`Data ${repr(rawData)} is in an incorrect format`)

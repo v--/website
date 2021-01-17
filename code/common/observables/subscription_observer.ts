@@ -1,41 +1,32 @@
 import { errors } from './errors.js'
-import { IObserver } from './observer.js'
-import { Subscription } from './subscription.js'
 
-export type CleanupFunction = (() => void)
-export type Cleanup<T> = Subscription<T> | CleanupFunction | null | undefined
-
-export interface SubscriberFunction<T> {
-  (observer: SubscriptionObserver<T>): Cleanup<T> | Subscription<T> | void;
-}
-
-export class SubscriptionObserver<T> implements IObserver<T> {
-  cleanupFunction?: CleanupFunction
+export class SubscriptionObserver<T> implements Observables.ISubscriptionObserver<T> {
+  cleanupFunction?: Observables.CleanupFunction
   private _closed: boolean
 
   constructor(
-    private observer: Partial<IObserver<T>>
+    private observer: Partial<Observables.IObserver<T>>
   ) {
     this._closed = false
   }
 
-  subscribe(subscriber: SubscriberFunction<T>) {
-    let cleanup: Cleanup<T>
+  subscribe(subscriber: Observables.SubscriberFunction<T>) {
+    let cleanup: Observables.Cleanup
 
     try {
-      cleanup = subscriber(this) as Cleanup<T>
+      cleanup = subscriber(this) as Observables.Cleanup
     } catch (err) {
       this.error(err)
     }
 
-    if (cleanup instanceof Object && (cleanup as Subscription<T>).unsubscribe instanceof Function) {
-      this.cleanupFunction = (cleanup as Subscription<T>).unsubscribe
+    if (cleanup instanceof Object && (cleanup as Observables.ISubscription).unsubscribe instanceof Function) {
+      this.cleanupFunction = (cleanup as Observables.ISubscription).unsubscribe
     } else if (cleanup === undefined || cleanup === null) {
       this.cleanupFunction = undefined
     } else if (cleanup instanceof Function) {
       this.cleanupFunction = cleanup
     } else {
-      throw new errors.ErrorClass('Cleanup must be a subscription, a function, null or undefined')
+      throw new errors.ErrorClass('Observables.Cleanup must be a subscription, a function, null or undefined')
     }
 
     if (this.closed && this.cleanupFunction) {

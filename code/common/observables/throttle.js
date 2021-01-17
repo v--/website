@@ -1,9 +1,15 @@
-import { IObservable, Observable } from './observable.js'
+import { Observable } from './observable.js'
 
-export function throttleObservable<T>(observable: IObservable<T>, time: number): Observable<T> {
+/**
+ * @template T
+ * @param {Observables.IObservable<T>} observable
+ * @param {float64} time
+ * @returns {Observables.IObservable<T>}
+ */
+export function throttleObservable(observable, time) {
   let lastEvent = Date.now()
 
-  return new Observable(function(observer) {
+  return new Observable(/** @param {Observables.IObserver<T>} observer */ function(observer) {
     observable.subscribe({
       error: observer.error,
       complete: observer.complete,

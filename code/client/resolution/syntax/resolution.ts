@@ -1,13 +1,11 @@
 import { product2 } from '../../../common/support/iteration.js'
-import { ExpressionType } from '../enums/expression_type.js'
 import { replaceVariables } from './replacement.js'
 import { stringifyExpression, stringifyDisjunct } from '../support/stringify.js'
-import { FOLDisjunct, FOLLiteral, FOLResolvent, FOLTerm, NegationExpression, PredicateExpression } from '../types/expression.js'
 import { NonStrictMap } from '../../../common/types/non_strict_map.js'
 
 const MAX_RESOLVENT_COUNT = 25
 
-type NameTransform = Map<string, FOLTerm>
+type NameTransform = Map<string, Resolution.FOLTerm>
 
 function joinTransforms(a: NameTransform, b: NameTransform) {
   const joint: NameTransform = new Map()
@@ -27,18 +25,18 @@ function joinTransforms(a: NameTransform, b: NameTransform) {
   return joint
 }
 
-export function findTermTransform(t1: FOLTerm, t2: FOLTerm) {
+export function findTermTransform(t1: Resolution.FOLTerm, t2: Resolution.FOLTerm) {
   const cumulative = {
-    positive: new Map<string, FOLTerm>(),
-    negative: new Map<string, FOLTerm>()
+    positive: new Map<string, Resolution.FOLTerm>(),
+    negative: new Map<string, Resolution.FOLTerm>()
   }
 
-  if (t1.type === ExpressionType.variable) {
+  if (t1.type === 'variable') {
     cumulative.positive.set(t1.name, t2)
     return cumulative
   }
 
-  if (t2.type === ExpressionType.variable) {
+  if (t2.type === 'variable') {
     cumulative.negative.set(t2.name, t1)
     return cumulative
   }
@@ -69,14 +67,14 @@ export function findTermTransform(t1: FOLTerm, t2: FOLTerm) {
 }
 
 function findTransforms(
-  positive: Array<PredicateExpression>,
-  negative: Array<NegationExpression<PredicateExpression>>
+  positive: Array<Resolution.PredicateExpression>,
+  negative: Array<Resolution.NegationExpression<Resolution.PredicateExpression>>
 ) {
   for (const [l1, l2n] of product2(positive, negative)) {
     const l2 = l2n.formula
     const cumulative = {
-      positive: new Map<string, FOLTerm>(),
-      negative: new Map<string, FOLTerm>()
+      positive: new Map<string, Resolution.FOLTerm>(),
+      negative: new Map<string, Resolution.FOLTerm>()
     }
 
     if (l1.name !== l2.name) {
@@ -112,29 +110,29 @@ function findTransforms(
 }
 
 function applyTransform(
-  d1: Array<PredicateExpression>,
-  d2: Array<NegationExpression<PredicateExpression>>,
+  d1: Array<Resolution.PredicateExpression>,
+  d2: Array<Resolution.NegationExpression<Resolution.PredicateExpression>>,
   transform: {
-    positive: FOLLiteral,
-    negative: FOLLiteral,
+    positive: Resolution.FOLLiteral,
+    negative: Resolution.FOLLiteral,
     nameMap: {
       positive: NameTransform,
       negative: NameTransform
     }
   }
 ) {
-  const newDisjunctMap: NonStrictMap<string, FOLLiteral> = new Map()
+  const newDisjunctMap: NonStrictMap<string, Resolution.FOLLiteral> = new Map()
 
   for (const lit of d1) {
     if (lit !== transform.positive) {
-      const newLit = replaceVariables(lit, transform.nameMap.positive) as PredicateExpression
+      const newLit = replaceVariables(lit, transform.nameMap.positive) as Resolution.PredicateExpression
       newDisjunctMap.set(stringifyExpression(newLit), newLit)
     }
   }
 
   for (const lit of d2) {
     if (lit.formula !== transform.negative) {
-      const newLit = replaceVariables(lit, transform.nameMap.negative) as NegationExpression<PredicateExpression>
+      const newLit = replaceVariables(lit, transform.nameMap.negative) as Resolution.NegationExpression<Resolution.PredicateExpression>
       newDisjunctMap.set(stringifyExpression(newLit), newLit)
     }
   }
@@ -142,11 +140,11 @@ function applyTransform(
   return Array.from(newDisjunctMap.values())
 }
 
-function resolve(d1: FOLDisjunct, d2: FOLDisjunct) {
-  const pd1 = d1.filter(literal => literal.type === ExpressionType.predicate) as Array<PredicateExpression>
-  const nd1 = d2.filter(literal => literal.type === ExpressionType.negation) as Array<NegationExpression<PredicateExpression>>
-  const pd2 = d1.filter(literal => literal.type === ExpressionType.predicate) as Array<PredicateExpression>
-  const nd2 = d2.filter(literal => literal.type === ExpressionType.negation) as Array<NegationExpression<PredicateExpression>>
+function resolve(d1: Resolution.FOLDisjunct, d2: Resolution.FOLDisjunct) {
+  const pd1 = d1.filter(literal => literal.type === 'predicate') as Array<Resolution.PredicateExpression>
+  const nd1 = d2.filter(literal => literal.type === 'negation') as Array<Resolution.NegationExpression<Resolution.PredicateExpression>>
+  const pd2 = d1.filter(literal => literal.type === 'predicate') as Array<Resolution.PredicateExpression>
+  const nd2 = d2.filter(literal => literal.type === 'negation') as Array<Resolution.NegationExpression<Resolution.PredicateExpression>>
 
   let transform = findTransforms(pd1, nd2)
 
@@ -158,11 +156,11 @@ function resolve(d1: FOLDisjunct, d2: FOLDisjunct) {
           transform.nameMap.positive
         ),
         transform.nameMap.negative
-      ) as FOLLiteral,
+      ) as Resolution.FOLLiteral,
 
       disjunct: applyTransform(
-        d1 as Array<PredicateExpression>,
-        d2 as Array<NegationExpression<PredicateExpression>>,
+        d1 as Array<Resolution.PredicateExpression>,
+        d2 as Array<Resolution.NegationExpression<Resolution.PredicateExpression>>,
         transform
       )
     }
@@ -178,19 +176,19 @@ function resolve(d1: FOLDisjunct, d2: FOLDisjunct) {
           transform.nameMap.positive
         ),
         transform.nameMap.negative
-      ) as FOLLiteral,
+      ) as Resolution.FOLLiteral,
 
       disjunct: applyTransform(
-        d2 as Array<PredicateExpression>,
-        d1 as Array<NegationExpression<PredicateExpression>>,
+        d2 as Array<Resolution.PredicateExpression>,
+        d1 as Array<Resolution.NegationExpression<Resolution.PredicateExpression>>,
         transform
       )
     }
   }
 }
 
-function inferEmptyDisjunctImpl(disjuncts: FOLDisjunct[]): FOLResolvent[] | undefined {
-  const inference: FOLResolvent[] = disjuncts.map((d, i) => ({ disjunct: d, index: i }))
+function inferEmptyDisjunctImpl(disjuncts: Resolution.FOLDisjunct[]): Resolution.FOLResolvent[] | undefined {
+  const inference: Resolution.FOLResolvent[] = disjuncts.map((d, i) => ({ disjunct: d, index: i }))
   const disjunctSet = new Set(disjuncts.map(d => stringifyDisjunct(d)))
   let resolventCount = 0
 
@@ -233,7 +231,7 @@ function inferEmptyDisjunctImpl(disjuncts: FOLDisjunct[]): FOLResolvent[] | unde
   }
 }
 
-function filterInference(disjuncts: FOLDisjunct[], inference: FOLResolvent[]) {
+function filterInference(disjuncts: Resolution.FOLDisjunct[], inference: Resolution.FOLResolvent[]) {
   const last = inference[inference.length - 1]
   const filteredSet = new Set([last])
   const indexMap = new Map([[last, 1]])
@@ -264,7 +262,7 @@ function filterInference(disjuncts: FOLDisjunct[], inference: FOLResolvent[]) {
     })
 }
 
-export function inferEmptyDisjunct(disjuncts: FOLDisjunct[]) {
+export function inferEmptyDisjunct(disjuncts: Resolution.FOLDisjunct[]) {
   const inference = inferEmptyDisjunctImpl(disjuncts)
 
   if (inference) {

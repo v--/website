@@ -1,6 +1,6 @@
+// @ts-check
 /* eslint-env browser */
 
-import { ErrorJsonObject } from '../../common/errors.js'
 import { location$ } from '../../common/shared_observables.js'
 import { c } from '../../common/rendering/component.js'
 
@@ -11,23 +11,37 @@ import { iconMap } from '../../common/components/icon.js'
 import { RouterService } from './services/router.js'
 import { onDocumentReady, getCurrentURL } from './support/dom.js'
 import { dispatcher } from './render_dispatcher.js'
-import { IObservable } from '../../common/observables/observable.js'
 import { RouterState } from '../../common/support/router_state.js'
 import { processErrorJsonObject, restoreError } from '../../common/support/process_error.js'
 
-function renderObservable(observable: IObservable<RouterState>) {
-  document.body.replaceChild(
-    dispatcher.render(c(main, observable)),
-    document.querySelector('main')!
-  )
+/**
+ * @param {Observables.IObservable<RouterState>} observable
+ */
+function renderObservable(observable) {
+  const mainElement = document.querySelector('main')
 
-  document.head.replaceChild(
-    dispatcher.render(c(title, observable)),
-    document.querySelector('title')!
-  )
+  if (mainElement) {
+    document.body.replaceChild(
+      dispatcher.render(c(main, observable)),
+      mainElement
+    )
+  }
+
+  const titleElement = document.querySelector('title')
+
+  if (titleElement) {
+    document.head.replaceChild(
+      dispatcher.render(c(title, observable)),
+      titleElement
+    )
+  }
 }
 
-function renderError(routerService: RouterService, err: Error) {
+/**
+ * @param {RouterService} routerService
+ * @param {Error} err
+ */
+function renderError(routerService, err) {
   console.error(err)
   routerService.state$.complete()
   routerService.displayError(getCurrentURL(), err)
@@ -36,6 +50,7 @@ function renderError(routerService: RouterService, err: Error) {
 
 async function fetchIcons() {
   const response = await window.fetch('/icons.json')
+  /** @type {Record<string, string>} */
   const icons = await response.json()
 
   for (const [name, icon] of Object.entries(icons)) {
@@ -43,14 +58,18 @@ async function fetchIcons() {
   }
 }
 
-interface ServerData {
-  data?: unknown
-  errorData?: ErrorJsonObject
-}
+/**
+ * @typedef {object} ServerData
+ * @property {unknown} [data]
+ * @property {Errors.ErrorJsonObject} [errorData]
+ */
 
-function readServerData(): ServerData {
+/**
+ * @returns {ServerData}
+ */
+function readServerData() {
   try {
-    const { data, errorData } = JSON.parse(window.data.textContent!)
+    const { data, errorData } = JSON.parse((/** @type {any} */ (window)).data.textContent)
 
     return {
       data,
@@ -70,12 +89,18 @@ Promise.all([onDocumentReady(), fetchIcons()]).then(async function() {
   const service = await RouterService.initialize(getCurrentURL(), data)
 
   service.state$.subscribe({
+    /**
+     * @param {Error} err
+     */
     error(err) {
       renderError(service, err)
     }
   })
 
   location$.subscribe({
+    /**
+     * @param {string} value
+     */
     async next(value) {
       try {
         await service.changeURL(value)
@@ -84,7 +109,10 @@ Promise.all([onDocumentReady(), fetchIcons()]).then(async function() {
       }
     },
 
-    error(err: Error) {
+    /**
+     * @param {Error} err
+     */
+    error(err) {
       service.displayError(getCurrentURL(), err)
     }
   })

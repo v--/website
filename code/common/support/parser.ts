@@ -3,7 +3,7 @@ import { repr } from './strings.js'
 
 export class ParserError extends CoolError {}
 
-type ParserRef = number // A simple way to match all enum values
+type ParserRef = number | string // A simple way to match all enum values
 type RuleMap = Record<ParserRef, ParserRule>
 
 export type RefType = ParserRule | ParserRef

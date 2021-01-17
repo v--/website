@@ -1,11 +1,9 @@
 import { describe, it, assertEqualExpressions } from '../../../_common.js'
 
-import { ExpressionType } from '../../../../code/client/resolution/enums/expression_type.js'
 import { simplify } from '../../../../code/client/resolution/syntax/simplification.js'
 import { convertToPNF } from '../../../../code/client/resolution/syntax/pnf.js'
 import { replaceVariables } from '../../../../code/client/resolution/syntax/replacement.js'
 import { parseExpression } from '../../../../code/client/resolution/syntax/ast.js'
-import { FOLTerm } from '../../../../code/client/resolution/types/expression.js'
 import { NonStrictMap } from '../../../../code/common/types/non_strict_map.js'
 
 function parseSimplified(string: string) {
@@ -30,7 +28,7 @@ describe('convertToPNF()', function() {
   })
 
   it('properly renames multiple bound variables with the same names', function() {
-    const termMap = new Map([['x1', { type: ExpressionType.variable, name: 't1' }]]) as NonStrictMap<string, FOLTerm>
+    const termMap = new Map([['x1', { type: 'variable', name: 't1' }]]) as NonStrictMap<string, Resolution.FOLTerm>
 
     assertEqualExpressions(
       convertToPNF(parseSimplified('(Ax p(x) & Ex q(x))')),
@@ -39,7 +37,7 @@ describe('convertToPNF()', function() {
   })
 
   it('properly renames nested bound variables with the same names', function() {
-    const termMap = new Map([['y1', { type: ExpressionType.variable, name: 't1' }]]) as NonStrictMap<string, FOLTerm>
+    const termMap = new Map([['y1', { type: 'variable', name: 't1' }]]) as NonStrictMap<string, Resolution.FOLTerm>
 
     assertEqualExpressions(
       convertToPNF(parseSimplified('Ax (Ex p(x) & q(x))')),
@@ -56,9 +54,9 @@ describe('convertToPNF()', function() {
 
   it('leaves free variables intact', function() {
     const termMap = new Map([
-      ['x1', { type: ExpressionType.variable, name: 't1' }],
-      ['x2', { type: ExpressionType.variable, name: 't2' }]
-    ]) as NonStrictMap<string, FOLTerm>
+      ['x1', { type: 'variable', name: 't1' }],
+      ['x2', { type: 'variable', name: 't2' }]
+    ]) as NonStrictMap<string, Resolution.FOLTerm>
 
     assertEqualExpressions(
       convertToPNF(simplify(parseSimplified('Ay (Ax p(x, y) <-> p(y, x))'))),

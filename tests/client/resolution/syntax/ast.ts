@@ -7,13 +7,13 @@ import { ParserError } from '../../../../code/common/support/parser.js'
 import { parseExpression, parseExpressionSilently } from '../../../../code/client/resolution/syntax/ast.js'
 
 describe('parseExpression()', function() {
-  describe('TokenType.VARIABLE', function() {
+  describe('TokenType.variable', function() {
     it('handles variables without indices', function() {
       const string = 'x'
       assertEqualExpressions(
         parseExpression(string, TokenType.variable),
         {
-          type: ExpressionType.variable,
+          type: 'variable',
           name: 'x'
         }
       )
@@ -24,7 +24,7 @@ describe('parseExpression()', function() {
       assertEqualExpressions(
         parseExpression(string, TokenType.variable),
         {
-          type: ExpressionType.variable,
+          type: 'variable',
           name: 'x2'
         }
       )
@@ -47,13 +47,13 @@ describe('parseExpression()', function() {
     })
   })
 
-  describe('TokenType.FUNCTION', function() {
+  describe('TokenType.function', function() {
     it('parses zero-arity functions (constants)', function() {
       const string = 'f'
       assertEqualExpressions(
         parseExpression(string, TokenType.function),
         {
-          type: ExpressionType.function,
+          type: 'function',
           name: 'f',
           args: []
         }
@@ -65,11 +65,11 @@ describe('parseExpression()', function() {
       assertEqualExpressions(
         parseExpression(string, TokenType.function),
         {
-          type: ExpressionType.function,
+          type: 'function',
           name: 'f',
           args: [
             {
-              type: ExpressionType.function,
+              type: 'function',
               name: 'g',
               args: []
             }
@@ -83,16 +83,16 @@ describe('parseExpression()', function() {
       assertEqualExpressions(
         parseExpression(string, TokenType.function),
         {
-          type: ExpressionType.function,
+          type: 'function',
           name: 'f',
           args: [
             {
-              type: ExpressionType.function,
+              type: 'function',
               name: 'g',
               args: []
             },
             {
-              type: ExpressionType.function,
+              type: 'function',
               name: 'h',
               args: []
             }
@@ -106,26 +106,26 @@ describe('parseExpression()', function() {
       assertEqualExpressions(
         parseExpression(string, TokenType.function),
         {
-          type: ExpressionType.function,
+          type: 'function',
           name: 'f',
           args: [
             {
-              type: ExpressionType.function,
+              type: 'function',
               name: 'g1',
               args: [
                 {
-                  type: ExpressionType.function,
+                  type: 'function',
                   name: 'h1',
                   args: []
                 }
               ]
             },
             {
-              type: ExpressionType.function,
+              type: 'function',
               name: 'g2',
               args: [
                 {
-                  type: ExpressionType.function,
+                  type: 'function',
                   name: 'h2',
                   args: []
                 }
@@ -137,19 +137,19 @@ describe('parseExpression()', function() {
     })
   })
 
-  describe('TokenType.NEGATION', function() {
+  describe('TokenType.negation', function() {
     it('handles negation on predicates', function() {
       const string = '!p(f)'
       assert.deepEqual(
         parseExpression(string, TokenType.negation),
         {
-          type: ExpressionType.negation,
+          type: 'negation',
           formula: {
-            type: ExpressionType.predicate,
+            type: 'predicate',
             name: 'p',
             args: [
               {
-                type: ExpressionType.function,
+                type: 'function',
                 name: 'f',
                 args: []
               }
@@ -160,20 +160,20 @@ describe('parseExpression()', function() {
     })
   })
 
-  describe('TokenType.UNIVERSAL_QUANTIFICATION', function() {
+  describe('TokenType.universal_quantification', function() {
     it('handles universal formulas', function() {
       const string = 'Ax p(x)'
       assert.deepEqual(
         parseExpression(string, TokenType.universalQuantification),
         {
-          type: ExpressionType.universalQuantification,
+          type: 'universalQuantification',
           variable: 'x',
           formula: {
-            type: ExpressionType.predicate,
+            type: 'predicate',
             name: 'p',
             args: [
               {
-                type: ExpressionType.variable,
+                type: 'variable',
                 name: 'x'
               }
             ]
@@ -183,20 +183,20 @@ describe('parseExpression()', function() {
     })
   })
 
-  describe('TokenType.EXISTENTIAL_QUANTIFICATION', function() {
+  describe('TokenType.existential_quantification', function() {
     it('handles existential formulas', function() {
       const string = 'Ex p(x)'
       assert.deepEqual(
         parseExpression(string, TokenType.existentialQuantification),
         {
-          type: ExpressionType.existentialQuantification,
+          type: 'existentialQuantification',
           variable: 'x',
           formula: {
-            type: ExpressionType.predicate,
+            type: 'predicate',
             name: 'p',
             args: [
               {
-                type: ExpressionType.variable,
+                type: 'variable',
                 name: 'x'
               }
             ]
@@ -206,31 +206,31 @@ describe('parseExpression()', function() {
     })
   })
 
-  describe('TokenType.CONJUNCTION', function() {
+  describe('TokenType.conjunction', function() {
     it('handles binary conjunctions', function() {
       const string = 'p(f) & p(g)'
       assert.deepEqual(
         parseExpression(string, TokenType.conjunction),
         {
-          type: ExpressionType.conjunction,
+          type: 'conjunction',
           formulas: [
             {
-              type: ExpressionType.predicate,
+              type: 'predicate',
               name: 'p',
               args: [
                 {
-                  type: ExpressionType.function,
+                  type: 'function',
                   name: 'f',
                   args: []
                 }
               ]
             },
             {
-              type: ExpressionType.predicate,
+              type: 'predicate',
               name: 'p',
               args: [
                 {
-                  type: ExpressionType.function,
+                  type: 'function',
                   name: 'g',
                   args: []
                 }
@@ -246,36 +246,36 @@ describe('parseExpression()', function() {
       assert.deepEqual(
         parseExpression(string, TokenType.conjunction),
         {
-          type: ExpressionType.conjunction,
+          type: 'conjunction',
           formulas: [
             {
-              type: ExpressionType.predicate,
+              type: 'predicate',
               name: 'p',
               args: [
                 {
-                  type: ExpressionType.function,
+                  type: 'function',
                   name: 'f',
                   args: []
                 }
               ]
             },
             {
-              type: ExpressionType.predicate,
+              type: 'predicate',
               name: 'p',
               args: [
                 {
-                  type: ExpressionType.function,
+                  type: 'function',
                   name: 'g',
                   args: []
                 }
               ]
             },
             {
-              type: ExpressionType.predicate,
+              type: 'predicate',
               name: 'p',
               args: [
                 {
-                  type: ExpressionType.function,
+                  type: 'function',
                   name: 'h',
                   args: []
                 }
@@ -287,31 +287,31 @@ describe('parseExpression()', function() {
     })
   })
 
-  describe('TokenType.DISJUNCTION', function() {
+  describe('TokenType.disjunction', function() {
     it('handles binary disjunctions', function() {
       const string = 'p(f) v p(g)'
       assert.deepEqual(
         parseExpression(string, TokenType.disjunction),
         {
-          type: ExpressionType.disjunction,
+          type: 'disjunction',
           formulas: [
             {
-              type: ExpressionType.predicate,
+              type: 'predicate',
               name: 'p',
               args: [
                 {
-                  type: ExpressionType.function,
+                  type: 'function',
                   name: 'f',
                   args: []
                 }
               ]
             },
             {
-              type: ExpressionType.predicate,
+              type: 'predicate',
               name: 'p',
               args: [
                 {
-                  type: ExpressionType.function,
+                  type: 'function',
                   name: 'g',
                   args: []
                 }
@@ -327,36 +327,36 @@ describe('parseExpression()', function() {
       assert.deepEqual(
         parseExpression(string, TokenType.disjunction),
         {
-          type: ExpressionType.disjunction,
+          type: 'disjunction',
           formulas: [
             {
-              type: ExpressionType.predicate,
+              type: 'predicate',
               name: 'p',
               args: [
                 {
-                  type: ExpressionType.function,
+                  type: 'function',
                   name: 'f',
                   args: []
                 }
               ]
             },
             {
-              type: ExpressionType.predicate,
+              type: 'predicate',
               name: 'p',
               args: [
                 {
-                  type: ExpressionType.function,
+                  type: 'function',
                   name: 'g',
                   args: []
                 }
               ]
             },
             {
-              type: ExpressionType.predicate,
+              type: 'predicate',
               name: 'p',
               args: [
                 {
-                  type: ExpressionType.function,
+                  type: 'function',
                   name: 'h',
                   args: []
                 }
@@ -368,31 +368,31 @@ describe('parseExpression()', function() {
     })
   })
 
-  describe('TokenType.IMPLICATION', function() {
+  describe('TokenType.implication', function() {
     it('handles implication', function() {
       const string = 'p(f) -> p(h)'
       assert.deepEqual(
         parseExpression(string, TokenType.implication),
         {
-          type: ExpressionType.implication,
+          type: 'implication',
           formulas: [
             {
-              type: ExpressionType.predicate,
+              type: 'predicate',
               name: 'p',
               args: [
                 {
-                  type: ExpressionType.function,
+                  type: 'function',
                   name: 'f',
                   args: []
                 }
               ]
             },
             {
-              type: ExpressionType.predicate,
+              type: 'predicate',
               name: 'p',
               args: [
                 {
-                  type: ExpressionType.function,
+                  type: 'function',
                   name: 'h',
                   args: []
                 }
@@ -412,31 +412,31 @@ describe('parseExpression()', function() {
     })
   })
 
-  describe('TokenType.EQUIVALENCE', function() {
+  describe('TokenType.equivalence', function() {
     it('handles equivalence', function() {
       const string = 'p(f) <-> p(h)'
       assert.deepEqual(
         parseExpression(string, TokenType.equivalence),
         {
-          type: ExpressionType.equivalence,
+          type: 'equivalence',
           formulas: [
             {
-              type: ExpressionType.predicate,
+              type: 'predicate',
               name: 'p',
               args: [
                 {
-                  type: ExpressionType.function,
+                  type: 'function',
                   name: 'f',
                   args: []
                 }
               ]
             },
             {
-              type: ExpressionType.predicate,
+              type: 'predicate',
               name: 'p',
               args: [
                 {
-                  type: ExpressionType.function,
+                  type: 'function',
                   name: 'h',
                   args: []
                 }
@@ -478,38 +478,38 @@ describe('parseExpressionSilently()', function() {
     assert.deepEqual(
       parseExpressionSilently(string),
       {
-        type: ExpressionType.conjunction,
+        type: 'conjunction',
         formulas: [
           {
-            type: ExpressionType.universalQuantification,
+            type: 'universalQuantification',
             variable: 'x',
             formula: {
-              type: ExpressionType.existentialQuantification,
+              type: 'existentialQuantification',
               variable: 'y',
               formula: {
-                type: ExpressionType.implication,
+                type: 'implication',
                 formulas: [
                   {
-                    type: ExpressionType.predicate,
+                    type: 'predicate',
                     name: 'p',
                     args: [
                       {
-                        type: ExpressionType.variable,
+                        type: 'variable',
                         name: 'x'
                       }
                     ]
                   },
                   {
-                    type: ExpressionType.predicate,
+                    type: 'predicate',
                     name: 'q',
                     args: [
                       {
-                        type: ExpressionType.function,
+                        type: 'function',
                         name: 'f',
                         args: []
                       },
                       {
-                        type: ExpressionType.variable,
+                        type: 'variable',
                         name: 'y'
                       }
                     ]
@@ -519,20 +519,20 @@ describe('parseExpressionSilently()', function() {
             }
           },
           {
-            type: ExpressionType.negation,
+            type: 'negation',
             formula: {
-              type: ExpressionType.existentialQuantification,
+              type: 'existentialQuantification',
               variable: 'x',
               formula: {
-                type: ExpressionType.predicate,
+                type: 'predicate',
                 name: 'q',
                 args: [
                   {
-                    type: ExpressionType.variable,
+                    type: 'variable',
                     name: 'x'
                   },
                   {
-                    type: ExpressionType.function,
+                    type: 'function',
                     name: 'f',
                     args: []
                   }

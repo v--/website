@@ -1,11 +1,6 @@
 import { SubscriptionObserver } from './subscription_observer.js'
 
-export interface ISubscription {
-  unsubscribe(): void
-  closed: boolean
-}
-
-export class Subscription<T> implements ISubscription {
+export class Subscription<T> implements Observables.ISubscription {
   constructor(
     private subscriptionObserver: SubscriptionObserver<T>
   ) {}

@@ -2,107 +2,103 @@ import { CoolError } from '../../../common/errors.js'
 import { repr } from '../../../common/support/strings.js'
 import { IParseTree, parse, ParserError } from '../../../common/support/parser.js'
 
-import { TokenType } from '../enums/token_type.js'
-import { ExpressionType } from '../enums/expression_type.js'
-
 import { folRules } from './parser_rules.js'
-import { FOLExpression, FOLFormula, FOLTerm, VariableExpression } from '../types/expression.js'
 
 export class FormulaASTError extends CoolError {}
 
-export function buildAST(parseTree: IParseTree): FOLExpression | string | (FOLExpression | string)[] {
+export function buildAST(parseTree: IParseTree): Resolution.FOLExpression | string | (Resolution.FOLExpression | string)[] {
   const matchesAsTrees = parseTree.matches as IParseTree[]
 
   switch (parseTree.type) {
-    case TokenType.arguments:
-      return matchesAsTrees.filter(m => m.type === TokenType.term).map(buildAST) as FOLFormula[]
+    case 'arguments':
+      return matchesAsTrees.filter(m => m.type === 'term').map(buildAST) as Resolution.FOLFormula[]
 
-    case TokenType.whitespace:
+    case 'whitespace':
       return ''
 
-    case TokenType.naturalNumber:
+    case 'naturalNumber':
       return matchesAsTrees.join('')
 
-    case TokenType.functionName:
-    case TokenType.predicateName:
+    case 'functionName':
+    case 'predicateName':
       if (parseTree.matches.length === 1) {
         return parseTree.matches[0] as string
       }
 
       return parseTree.matches[0] as string + buildAST(matchesAsTrees[1])
 
-    case TokenType.variable:
+    case 'variable':
       return {
-        type: ExpressionType.variable,
+        type: 'variable',
         name: matchesAsTrees[0] + (matchesAsTrees.length === 1 ? '' : buildAST(matchesAsTrees[1]) as string)
       }
 
-    case TokenType.function:
+    case 'function':
       return {
-        type: ExpressionType.function,
+        type: 'function',
         name: buildAST(matchesAsTrees[0]) as string,
-        args: matchesAsTrees.length === 1 ? [] : buildAST(matchesAsTrees[1]) as FOLTerm[]
+        args: matchesAsTrees.length === 1 ? [] : buildAST(matchesAsTrees[1]) as Resolution.FOLTerm[]
       }
 
-    case TokenType.predicate:
+    case 'predicate':
       return {
-        type: ExpressionType.predicate,
+        type: 'predicate',
         name: buildAST(matchesAsTrees[0]) as string,
-        args: buildAST(matchesAsTrees[1]) as FOLTerm[]
+        args: buildAST(matchesAsTrees[1]) as Resolution.FOLTerm[]
       }
 
-    case TokenType.term:
-    case TokenType.formula:
+    case 'term':
+    case 'formula':
       return buildAST(matchesAsTrees[0])
 
-    case TokenType.topLevelFormula:
+    case 'topLevelFormula':
       return buildAST(matchesAsTrees[1])
 
-    case TokenType.negation:
+    case 'negation':
       return {
-        type: ExpressionType.negation,
-        formula: buildAST(matchesAsTrees[1]) as FOLFormula
+        type: 'negation',
+        formula: buildAST(matchesAsTrees[1]) as Resolution.FOLFormula
       }
 
-    case TokenType.universalQuantification:
+    case 'universalQuantification':
       return {
-        type: ExpressionType.universalQuantification,
-        variable: (buildAST(matchesAsTrees[2]) as VariableExpression).name,
-        formula: buildAST(matchesAsTrees[4]) as FOLFormula
+        type: 'universalQuantification',
+        variable: (buildAST(matchesAsTrees[2]) as Resolution.VariableExpression).name,
+        formula: buildAST(matchesAsTrees[4]) as Resolution.FOLFormula
       }
 
-    case TokenType.existentialQuantification:
+    case 'existentialQuantification':
       return {
-        type: ExpressionType.existentialQuantification,
-        variable: (buildAST(matchesAsTrees[2]) as VariableExpression).name,
-        formula: buildAST(matchesAsTrees[4]) as FOLFormula
+        type: 'existentialQuantification',
+        variable: (buildAST(matchesAsTrees[2]) as Resolution.VariableExpression).name,
+        formula: buildAST(matchesAsTrees[4]) as Resolution.FOLFormula
       }
 
-    case TokenType.conjunction:
+    case 'conjunction':
       return {
-        type: ExpressionType.conjunction,
-        formulas: matchesAsTrees.filter(m => m.type === TokenType.formula).map(buildAST) as FOLFormula[]
+        type: 'conjunction',
+        formulas: matchesAsTrees.filter(m => m.type === 'formula').map(buildAST) as Resolution.FOLFormula[]
       }
 
-    case TokenType.disjunction:
+    case 'disjunction':
       return {
-        type: ExpressionType.disjunction,
-        formulas: matchesAsTrees.filter(m => m.type === TokenType.formula).map(buildAST) as FOLFormula[]
+        type: 'disjunction',
+        formulas: matchesAsTrees.filter(m => m.type === 'formula').map(buildAST) as Resolution.FOLFormula[]
       }
 
-    case TokenType.implication:
+    case 'implication':
       return {
-        type: ExpressionType.implication,
-        formulas: matchesAsTrees.filter(m => m.type === TokenType.formula).map(buildAST) as FOLFormula[]
+        type: 'implication',
+        formulas: matchesAsTrees.filter(m => m.type === 'formula').map(buildAST) as Resolution.FOLFormula[]
       }
 
-    case TokenType.equivalence:
+    case 'equivalence':
       return {
-        type: ExpressionType.equivalence,
-        formulas: matchesAsTrees.filter(m => m.type === TokenType.formula).map(buildAST) as FOLFormula[]
+        type: 'equivalence',
+        formulas: matchesAsTrees.filter(m => m.type === 'formula').map(buildAST) as Resolution.FOLFormula[]
       }
 
-    case TokenType.connectiveFormula:
+    case 'connectiveFormula':
       return buildAST(matchesAsTrees[2])
 
     default:
@@ -110,11 +106,11 @@ export function buildAST(parseTree: IParseTree): FOLExpression | string | (FOLEx
   }
 }
 
-export function parseExpression(string: string, initialRuleRef: TokenType = TokenType.topLevelFormula) {
-  return buildAST(parse(folRules, initialRuleRef, string)) as FOLFormula
+export function parseExpression(string: string, initialRuleRef: Resolution.TokenType = 'topLevelFormula') {
+  return buildAST(parse(folRules, initialRuleRef, string)) as Resolution.FOLFormula
 }
 
-export function parseExpressionSilently(string: string, initialRuleRef?: TokenType) {
+export function parseExpressionSilently(string: string, initialRuleRef?: Resolution.TokenType) {
   try {
     return parseExpression(string, initialRuleRef)
   } catch (err) {

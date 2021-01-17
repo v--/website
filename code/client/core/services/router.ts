@@ -11,7 +11,6 @@ import { navigateTo } from '../support/dom.js'
 import { unsupported } from '../../../common/views/unsupported.js'
 import { repr } from '../../../common/support/strings.js'
 import { FactoryComponentType } from '../../../common/rendering/component.js'
-import { PotentialObserver } from '../../../common/observables/observer.js'
 import { WindowSize } from '../support/dom_observables.js'
 import { PlaygroundPage } from '../../../common/types/playground_page.js'
 
@@ -37,7 +36,7 @@ export class RouterService {
 
   private store: Store
   private path: Path
-  private resizeObserver: PotentialObserver<WindowSize>
+  private resizeObserver: Observables.IPotentialObserver<WindowSize>
   private pathQueue: Path[] = []
   private processing = false
 
@@ -136,15 +135,15 @@ export class RouterService {
     this.processing = false
   }
 
-  processURL(url: string) {
+  async processURL(url: string) {
     const path = Path.parse(url)
     this.pathQueue.push(path)
-    this.processPaths()
+    await this.processPaths()
   }
 
-  changeURL(url: string) {
+  async changeURL(url: string) {
     const path = Path.parse(url)
     this.pathQueue.push(path)
-    this.processPaths()
+    await this.processPaths()
   }
 }

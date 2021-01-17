@@ -1,23 +1,11 @@
 Error.stackTraceLimit = Number.POSITIVE_INFINITY
 
-/**
- * @typedef {'HTTPError' | 'ClientError' | 'CoolError' | 'DataFormatError'} ErrorClassId
- */
-
-/** @type {ErrorClassId[]} */
+/** @type {Errors.ErrorClassId[]} */
 export const errorClassIds = ['HTTPError', 'ClientError', 'CoolError', 'DataFormatError']
-
-/**
- * @typedef {object} ErrorJsonObject
- * @property {ErrorClassId} classId
- * @property {string} message
- * @property {string=} title
- * @property {uint32=} code
- */
 
 export class CoolError extends Error {
   /**
-   * @param {ErrorJsonObject} json
+   * @param {Errors.ErrorJsonObject} json
    */
   static fromJSON({ message }) {
     return new this(message)
@@ -39,7 +27,7 @@ export class CoolError extends Error {
   }
 
   /**
-   * @returns {ErrorJsonObject}
+   * @returns {Errors.ErrorJsonObject}
    */
   toJSON() {
     return {
@@ -49,7 +37,7 @@ export class CoolError extends Error {
   }
 
   /**
-   * @returns {ErrorClassId}
+   * @returns {Errors.ErrorClassId}
    */
   get classId() {
     return 'CoolError'
@@ -79,7 +67,7 @@ export class NotImplementedError extends CoolError {}
 
 export class ClientError extends CoolError {
   /**
-   * @param {ErrorJsonObject} json
+   * @param {Errors.ErrorJsonObject} json
    */
   static fromJSON({ message, title }) {
     return new this(message, title)
@@ -95,7 +83,7 @@ export class ClientError extends CoolError {
   }
 
   /**
-   * @returns {ErrorJsonObject}
+   * @returns {Errors.ErrorJsonObject}
    */
   toJSON() {
     return {
@@ -106,7 +94,7 @@ export class ClientError extends CoolError {
   }
 
   /**
-   * @returns {ErrorClassId}
+   * @returns {Errors.ErrorClassId}
    */
   get classId() {
     return 'ClientError'
@@ -115,7 +103,7 @@ export class ClientError extends CoolError {
 
 export class HTTPError extends ClientError {
   /**
-   * @param {ErrorJsonObject} json
+   * @param {Errors.ErrorJsonObject} json
    */
   static fromJSON({ code = 400, title = 'Bad Request' }) {
     return new this(code, title)
@@ -132,7 +120,7 @@ export class HTTPError extends ClientError {
   }
 
   /**
-   * @returns {ErrorJsonObject}
+   * @returns {Errors.ErrorJsonObject}
    */
   toJSON() {
     return {
@@ -144,7 +132,7 @@ export class HTTPError extends ClientError {
   }
 
   /**
-   * @returns {ErrorClassId}
+   * @returns {Errors.ErrorClassId}
    */
   get classId() {
     return 'HTTPError'
@@ -165,14 +153,14 @@ export class ForbiddenError extends HTTPError {
 
 export class DataFormatError extends CoolError {
   /**
-   * @param {ErrorJsonObject} json
+   * @param {Errors.ErrorJsonObject} json
    */
   static fromJSON({ message }) {
     return new this(message)
   }
 
   /**
-   * @returns {ErrorJsonObject}
+   * @returns {Errors.ErrorJsonObject}
    */
   toJSON() {
     return {
@@ -182,7 +170,7 @@ export class DataFormatError extends CoolError {
   }
 
   /**
-   * @returns {ErrorClassId}
+   * @returns {Errors.ErrorClassId}
    */
   get classId() {
     return 'DataFormatError'

@@ -1,14 +1,8 @@
 import { errors } from './errors.js'
-import { SubscriberFunction, SubscriptionObserver } from './subscription_observer.js'
+import { SubscriptionObserver } from './subscription_observer.js'
 import { Subscription } from './subscription.js'
-import { IObserver, PotentialObserver } from './observer.js'
 
-export type ObservableBase<T> = T extends IObservable<infer R> ? R : T
-export interface IObservable<T> {
-  subscribe(potentialObserver: PotentialObserver<T>) : Subscription<T>
-}
-
-export class Observable<T> implements IObservable<T> {
+export class Observable<T> implements Observables.IObservable<T> {
   static isObservable(object: unknown): boolean {
     return object instanceof Object && '@@observable' in object
   }
@@ -59,7 +53,7 @@ export class Observable<T> implements IObservable<T> {
     throw new errors.ErrorClass('The source must be either an iterable or an observable')
   }
 
-  constructor(private subscriber: SubscriberFunction<T>) {
+  constructor(private subscriber: Observables.SubscriberFunction<T>) {
     if (!(subscriber instanceof Function)) {
       throw new errors.ErrorClass('The subscriber must be a function')
     }
@@ -69,8 +63,8 @@ export class Observable<T> implements IObservable<T> {
     return this
   }
 
-  subscribe(potentialObserver: PotentialObserver<T>) {
-    let observer: Partial<IObserver<T>>
+  subscribe(potentialObserver: Observables.IPotentialObserver<T>) {
+    let observer: Partial<Observables.IObserver<T>>
 
     if (potentialObserver instanceof Function) {
       observer = {

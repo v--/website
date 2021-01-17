@@ -17,7 +17,6 @@ import { RouterState } from '../../common/support/router_state.js'
 import { GraphAlgorithm, GraphAlgorithmId } from './types/graph_algorithm.js'
 import { GraphAlgorithmState, SuccessfulGraphAlgorithmState } from './types/state.js'
 import { GraphArc } from '../../common/math/graphs/graph.js'
-import { IObservable } from '../../common/observables/observable.js'
 
 interface IQueryConfig {
   algorithm: GraphAlgorithmId
@@ -104,8 +103,8 @@ export function index({ path, description }: RouterState) {
       minHeight: 250,
       maxHeight: 750,
       item: c('div', { class: 'graph-split-container' },
-        c(graphCanvas, subject as IObservable<SuccessfulGraphAlgorithmState<uint32>>),
-        c(graphDetails, subject as IObservable<SuccessfulGraphAlgorithmState<uint32>>)
+        c(graphCanvas, subject as Observables.IObservable<SuccessfulGraphAlgorithmState<uint32>>),
+        c(graphDetails, subject as Observables.IObservable<SuccessfulGraphAlgorithmState<uint32>>)
       )
     })
   )

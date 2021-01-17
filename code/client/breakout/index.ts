@@ -16,7 +16,6 @@ import { onKeyUp } from './events/key_up.js'
 import { movePaddle } from './events/move_paddle.js'
 import { moveBall } from './events/move_ball.js'
 import { evolve } from './events/evolve.js'
-import { Subscription } from '../../common/observables/subscription.js'
 import { Renderer } from '../../common/rendering/renderer.js'
 import { RouterState } from '../../common/support/router_state.js'
 
@@ -50,8 +49,8 @@ export function index({ path, description }: RouterState) {
 }
 
 {
-  let keyDownSubscription: Subscription<string> | undefined
-  let keyUpSubscription: Subscription<string> | undefined
+  let keyDownSubscription: Observables.ISubscription | undefined
+  let keyUpSubscription: Observables.ISubscription | undefined
 
   dispatcher.events.create.subscribe({
     next(renderer: Renderer<HTMLElement>) {

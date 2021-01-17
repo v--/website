@@ -1,53 +1,51 @@
 import { sort, uniqueBy, union, flatten } from '../../../common/support/iteration.js'
-import { ExpressionType } from '../enums/expression_type.js'
 import { stringifyExpression, stringifyDisjunct } from '../support/stringify.js'
-import { FOLDisjunct, FOLExpression, FOLFormula, FOLLiteral, SNFFormula } from '../types/expression.js'
 
-export function extractDisjuncts(expression: SNFFormula): FOLDisjunct[] {
+export function extractDisjuncts(expression: Resolution.SNFFormula): Resolution.FOLDisjunct[] {
   switch (expression.type) {
-    case ExpressionType.predicate:
-    case ExpressionType.negation:
-      return [[expression as FOLLiteral]]
+    case 'predicate':
+    case 'negation':
+      return [[expression as Resolution.FOLLiteral]]
 
-    case ExpressionType.conjunction:
+    case 'conjunction':
       return Array.from(uniqueBy(expression.formulas.map(subformula => {
         switch (subformula.type) {
-          case ExpressionType.predicate:
-          case ExpressionType.negation:
-            return [subformula as FOLLiteral]
+          case 'predicate':
+          case 'negation':
+            return [subformula as Resolution.FOLLiteral]
 
-          case ExpressionType.disjunction:
-            return Array.from(uniqueBy(subformula.formulas as FOLDisjunct, stringifyExpression))
+          case 'disjunction':
+            return Array.from(uniqueBy(subformula.formulas as Resolution.FOLDisjunct, stringifyExpression))
         }
       }), stringifyDisjunct))
 
-    case ExpressionType.disjunction:
-      return [Array.from(uniqueBy(expression.formulas as FOLDisjunct, stringifyExpression))]
+    case 'disjunction':
+      return [Array.from(uniqueBy(expression.formulas as Resolution.FOLDisjunct, stringifyExpression))]
 
-    case ExpressionType.universalQuantification:
+    case 'universalQuantification':
       return extractDisjuncts(expression.formula)
   }
 }
 
-function extractPredicatesImpl(expression: FOLFormula): Set<string> {
+function extractPredicatesImpl(expression: Resolution.FOLFormula): Set<string> {
   switch (expression.type) {
-    case ExpressionType.predicate:
+    case 'predicate':
       return new Set([`${expression.name}#${expression.args.length}`])
 
-    case ExpressionType.negation:
-    case ExpressionType.universalQuantification:
-    case ExpressionType.existentialQuantification:
+    case 'negation':
+    case 'universalQuantification':
+    case 'existentialQuantification':
       return extractPredicatesImpl(expression.formula)
 
-    case ExpressionType.conjunction:
-    case ExpressionType.disjunction:
-    case ExpressionType.implication:
-    case ExpressionType.equivalence:
+    case 'conjunction':
+    case 'disjunction':
+    case 'implication':
+    case 'equivalence':
       return union(...expression.formulas.map(extractPredicatesImpl))
   }
 }
 
-export function extractPredicates(expression: FOLFormula) {
+export function extractPredicates(expression: Resolution.FOLFormula) {
   return Array.from(extractPredicatesImpl(expression)).map(function(pred) {
     const [name, arityString] = pred.split('#')
     return {
@@ -56,33 +54,33 @@ export function extractPredicates(expression: FOLFormula) {
   })
 }
 
-export function extractFunctionsImpl(expression: FOLExpression): Set<string> {
+export function extractFunctionsImpl(expression: Resolution.FOLExpression): Set<string> {
   switch (expression.type) {
-    case ExpressionType.variable:
+    case 'variable':
       return new Set()
 
-    case ExpressionType.function:
+    case 'function':
       return union([
         `${expression.name}#${expression.args.length}`
       ], ...expression.args.map(extractFunctionsImpl))
 
-    case ExpressionType.predicate:
+    case 'predicate':
       return union(...expression.args.map(extractFunctionsImpl))
 
-    case ExpressionType.negation:
-    case ExpressionType.universalQuantification:
-    case ExpressionType.existentialQuantification:
+    case 'negation':
+    case 'universalQuantification':
+    case 'existentialQuantification':
       return extractFunctionsImpl(expression.formula)
 
-    case ExpressionType.conjunction:
-    case ExpressionType.disjunction:
-    case ExpressionType.implication:
-    case ExpressionType.equivalence:
+    case 'conjunction':
+    case 'disjunction':
+    case 'implication':
+    case 'equivalence':
       return union(...expression.formulas.map(extractFunctionsImpl))
   }
 }
 
-export function extractFunctions(expression: FOLExpression) {
+export function extractFunctions(expression: Resolution.FOLExpression) {
   return Array.from(extractFunctionsImpl(expression)).map(function(func) {
     const [name, arityString] = func.split('#')
     return {
@@ -91,76 +89,76 @@ export function extractFunctions(expression: FOLExpression) {
   })
 }
 
-export function extractVariablesImpl(expression: FOLExpression): Set<string> {
+export function extractVariablesImpl(expression: Resolution.FOLExpression): Set<string> {
   switch (expression.type) {
-    case ExpressionType.variable:
+    case 'variable':
       return new Set([expression.name])
 
-    case ExpressionType.function:
-    case ExpressionType.predicate:
+    case 'function':
+    case 'predicate':
       return union(...expression.args.map(extractVariablesImpl))
 
-    case ExpressionType.negation:
-    case ExpressionType.universalQuantification:
-    case ExpressionType.existentialQuantification:
+    case 'negation':
+    case 'universalQuantification':
+    case 'existentialQuantification':
       return extractVariablesImpl(expression.formula)
 
-    case ExpressionType.conjunction:
-    case ExpressionType.disjunction:
-    case ExpressionType.implication:
-    case ExpressionType.equivalence:
+    case 'conjunction':
+    case 'disjunction':
+    case 'implication':
+    case 'equivalence':
       return union(...expression.formulas.map(extractVariablesImpl))
   }
 }
 
-export function extractVariables(expression: FOLExpression) {
+export function extractVariables(expression: Resolution.FOLExpression) {
   return Array.from(extractVariablesImpl(expression))
 }
 
-export function extractBoundVariables(expression: FOLExpression): string[] {
+export function extractBoundVariables(expression: Resolution.FOLExpression): string[] {
   switch (expression.type) {
-    case ExpressionType.variable:
+    case 'variable':
       return []
 
-    case ExpressionType.function:
-    case ExpressionType.predicate:
+    case 'function':
+    case 'predicate':
       return Array.from(flatten(expression.args.map(extractBoundVariables)))
 
-    case ExpressionType.negation:
+    case 'negation':
       return extractBoundVariables(expression.formula)
 
-    case ExpressionType.universalQuantification:
-    case ExpressionType.existentialQuantification:
+    case 'universalQuantification':
+    case 'existentialQuantification':
       return [expression.variable].concat(extractBoundVariables(expression.formula))
 
-    case ExpressionType.conjunction:
-    case ExpressionType.disjunction:
-    case ExpressionType.implication:
-    case ExpressionType.equivalence:
+    case 'conjunction':
+    case 'disjunction':
+    case 'implication':
+    case 'equivalence':
       return Array.from(flatten(expression.formulas.map(extractBoundVariables)))
   }
 }
 
-export function extractFreeVariables(expression: FOLExpression): string[] {
+export function extractFreeVariables(expression: Resolution.FOLExpression): string[] {
   switch (expression.type) {
-    case ExpressionType.variable:
+    case 'variable':
       return [expression.name]
 
-    case ExpressionType.function:
-    case ExpressionType.predicate:
+    case 'function':
+    case 'predicate':
       return sort(uniqueBy(flatten(expression.args.map(extractFreeVariables))))
 
-    case ExpressionType.negation:
+    case 'negation':
       return extractFreeVariables(expression.formula)
 
-    case ExpressionType.universalQuantification:
-    case ExpressionType.existentialQuantification:
+    case 'universalQuantification':
+    case 'existentialQuantification':
       return sort(uniqueBy(extractFreeVariables(expression.formula))).filter(v => v !== expression.variable)
 
-    case ExpressionType.conjunction:
-    case ExpressionType.disjunction:
-    case ExpressionType.implication:
-    case ExpressionType.equivalence:
+    case 'conjunction':
+    case 'disjunction':
+    case 'implication':
+    case 'equivalence':
       return sort(uniqueBy(flatten(expression.formulas.map(extractFreeVariables))))
   }
 }

@@ -6,9 +6,7 @@ import { createIntervalObservable } from '../core/support/timeout.js'
 import { ActionList } from './support/action_list.js'
 import { Sequence } from './types/sequences.js'
 import { SortAlgorithm } from './types/sort_algorithm.js'
-import { IObservable } from '../../common/observables/observable.js'
 import { SortAction } from './support/types/action.js'
-import { ISubscription } from '../../common/observables/subscription.js'
 import { SorterComponentState, SorterState } from './types/sorter.js'
 
 class SorterError extends CoolError {}
@@ -64,8 +62,8 @@ export interface SorterParams {
 }
 
 export interface Sorter extends SorterParams {
-  intervalObservable: IObservable<void>
-  intervalSubscription?: ISubscription
+  intervalObservable: Observables.IObservable<void>
+  intervalSubscription?: Observables.ISubscription
 }
 
 export class Sorter {

@@ -5,7 +5,6 @@ import { location$ } from '../../common/shared_observables.js'
 import { CoolError } from '../../common/errors.js'
 import { sectionTitle } from '../../common/components/section_title.js'
 
-import { ExpressionType } from './enums/expression_type.js'
 import { stringifyExpression, stringifyDisjunct, stringifyResolvent } from './support/stringify.js'
 import { parseExpressionSilently } from './syntax/ast.js'
 import { extractPredicates, extractFunctions, extractDisjuncts } from './syntax/extractors.js'
@@ -13,12 +12,11 @@ import { simplify } from './syntax/simplification.js'
 import { convertToPNF } from './syntax/pnf.js'
 import { convertToSNF } from './syntax/snf.js'
 import { inferEmptyDisjunct } from './syntax/resolution.js'
-import { FOLFormula } from './types/expression.js'
 import { RouterState } from '../../common/support/router_state.js'
 
 export class ResolutionError extends CoolError {}
 
-export function formulasToText(formulas: FOLFormula[]) {
+export function formulasToText(formulas: Resolution.FOLFormula[]) {
   return { text: formulas.map(stringifyExpression).join('\n') }
 }
 
@@ -41,7 +39,7 @@ const QUERY_CONFIG_PARSERS = Object.freeze({
 })
 
 function parseFormulas(axioms: string[], goal: string) {
-  const formulas: FOLFormula[] = []
+  const formulas: Resolution.FOLFormula[] = []
 
   for (let i = 0; i < axioms.length; i++) {
     const formula = parseExpressionSilently(axioms[i])
@@ -59,7 +57,7 @@ function parseFormulas(axioms: string[], goal: string) {
     throw new ResolutionError('Failed to parse the goal: ' + goal)
   } else {
     formulas.push({
-      type: ExpressionType.negation,
+      type: 'negation',
       formula: goalFormula
     })
   }
@@ -95,7 +93,7 @@ export function index({ path, description }: RouterState) {
   const config = new QueryConfig<IQueryConfig>(path, QUERY_CONFIG_DEFAULTS, QUERY_CONFIG_PARSERS)
   const axioms = (config.get('axioms') as string).split(';').map(string => string.trim())
   const goal = (config.get('goal') as string)
-  let formulas: FOLFormula[] = []
+  let formulas: Resolution.FOLFormula[] = []
   let error = ''
 
   try {
@@ -157,7 +155,7 @@ export function index({ path, description }: RouterState) {
       ),
 
       c('br'),
-      c('h3', { class: 'h3', text: 'Simplified formulas' }),
+      c('h3', { class: 'h3', text: 'Resolution.Simplified formulas' }),
       c('p', { text: 'We use the equivalences P → Q ≡ ¬P ∨ Q, P ↔ Q ≡ (¬P ∨ Q) & (P ∨ ¬Q) and P ∨ (Q & R) ≡ (P ∨ Q) & (P ∨ R), de Morgan\'s laws and quantifier inversion rules. The resulting formulas are "almost" in conjunctive normal form but with quantifiers.' }),
       c('pre', undefined,
         c('code', formulasToText(simplified))
@@ -189,7 +187,7 @@ export function index({ path, description }: RouterState) {
       c('p', { text: 'A sequence of derived disjuncts with the input disjuncts and resolution literal specified.' }),
       c('pre', undefined,
         !proof && c('code', { text: 'No proof found in under 25 steps.' }),
-        proof && c('code', { text: proof.map((r, i) => String(i + disjuncts.length + 1) + '. ' + stringifyResolvent(r)).join('\n') })
+        proof && c('code', { text: proof.map((r, i) => String(i + disjuncts.length + 1) + '. ' + stringifyResolvent(r as Required<Resolution.FOLResolvent>)).join('\n') })
       )
     )
   )
