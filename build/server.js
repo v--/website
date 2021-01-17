@@ -9,7 +9,7 @@ const tsConfig = JSON.parse(await fs.readFile('tsconfig.json', 'utf8'))
 const tsProject = ts.createProject(tsConfig.compilerOptions)
 
 gulp.task('server:build', function() {
-  return gulp.src('code/{common,server}/**/*.ts')
+  return gulp.src('code/{common,client,types}/**/*.{js,ts,d.ts}')
     .pipe(tsProject())
     .pipe(gulp.dest('dist'))
 })

@@ -1,7 +1,10 @@
 import { ExpressionType } from '../enums/expression_type.js'
-import { FOLDisjunct, FOLExpression, FOLResolvent } from '../types/expression.js'
 
-export function stringifyExpression(expression: FOLExpression): string {
+/**
+ * @param {import('../types/expression.js').FOLExpression} expression
+ * @returns {string}
+ */
+export function stringifyExpression(expression) {
   switch (expression.type) {
     case ExpressionType.variable:
       return expression.name
@@ -37,10 +40,26 @@ export function stringifyExpression(expression: FOLExpression): string {
   }
 }
 
-export function stringifyDisjunct(disjunct: FOLDisjunct) {
+/**
+ * @param {import('../types/expression.js').FOLDisjunct} disjunct
+ * @returns {string}
+ */
+export function stringifyDisjunct(disjunct) {
   return '{' + disjunct.map(stringifyExpression).join(', ') + '}'
 }
 
-export function stringifyResolvent(resolvent: FOLResolvent) {
-  return `R(${resolvent.r1!.index + 1}, ${resolvent.r2!.index + 1}, ${stringifyExpression(resolvent.literal!)}) = ${stringifyDisjunct(resolvent.disjunct)}`
+/**
+ * @param {Required<import('../types/expression.js').FOLResolvent>} resolvent
+ * @returns {string}
+ */
+export function stringifyResolvent(resolvent) {
+  return `R(${
+    resolvent.r1.index + 1
+  }, ${
+    resolvent.r2.index + 1
+  }, ${
+    stringifyExpression(resolvent.literal)
+  }) = ${
+    stringifyDisjunct(resolvent.disjunct)
+  }`
 }

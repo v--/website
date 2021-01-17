@@ -1,9 +1,14 @@
 import { EmptyIterError, map, reduce } from './iteration.js'
 import { roundNumber } from '../math/numeric/floating.js'
 
-export function join(delimiter: string, iterable: Iterable<string>): string {
+/**
+ * @param {string} delimiter
+ * @param {Iterable<string>} iterable
+ * @returns {string}
+ */
+export function join(delimiter, iterable) {
   try {
-    return reduce<string, string>((value, accum) => accum === '' ? value : `${accum}${delimiter}${value}`, iterable, '')
+    return reduce((value, accum) => accum === '' ? value : `${accum}${delimiter}${value}`, iterable, '')
   } catch (e) {
     if (e instanceof EmptyIterError) {
       return ''
@@ -13,13 +18,21 @@ export function join(delimiter: string, iterable: Iterable<string>): string {
   }
 }
 
-function * iterKeyValuePairs(object: object): Generator<string> {
+/**
+ * @param {object} object
+ * @returns {Generator<string>}
+ */
+function * iterKeyValuePairs(object) {
   for (const [key, value] of Object.entries(object)) {
     yield `${key}: ${repr(value)}`
   }
 }
 
-function serializeObject(object: object): string {
+/**
+ * @param {object} object
+ * @returns {string}
+ */
+function serializeObject(object) {
   const guts = join(', ', iterKeyValuePairs(object))
 
   if (guts) {
@@ -29,7 +42,11 @@ function serializeObject(object: object): string {
   return '{}'
 }
 
-export function repr(value: unknown): string {
+/**
+ * @param {unknown} value
+ * @returns {string}
+ */
+export function repr(value) {
   if (typeof value === 'number') {
     return String(roundNumber(value))
   }

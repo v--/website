@@ -4,15 +4,22 @@ import { stringifyExpression } from '../code/client/resolution/support/stringify
 import { isSameNumber } from '../code/common/math/numeric/floating.js'
 import { repr } from '../code/common/support/strings.js'
 import { CoolError } from '../code/common/errors.js'
-import { FOLExpression } from '../code/client/resolution/types/expression.js'
 
 class AssertionError extends CoolError {}
 
-export function assertEqualExpressions(a: FOLExpression, b: FOLExpression): void {
+/**
+ * @param {import('../code/client/resolution/types/expression').FOLExpression} a
+ * @param {import('../code/client/resolution/types/expression').FOLExpression} b
+ */
+export function assertEqualExpressions(a, b) {
   chai.assert.strictEqual(stringifyExpression(a), stringifyExpression(b))
 }
 
-export function assertReprEqual(src: unknown, target: unknown) {
+/**
+ * @param {unknown} src
+ * @param {unknown} target
+ */
+export function assertReprEqual(src, target) {
   const r = repr(src)
 
   if (r !== target) {
@@ -20,13 +27,17 @@ export function assertReprEqual(src: unknown, target: unknown) {
   }
 }
 
-export function assertCustomEqual(a: unknown, b: unknown) {
+/**
+ * @param {unknown} a
+ * @param {unknown} b
+ */
+export function assertCustomEqual(a, b) {
   if (!(a instanceof Object)) {
     chai.assert.strictEqual(a, b)
   }
 
-  if ('equals' in (a as object)) {
-    if (!(a as { equals(b: unknown): boolean }).equals(b)) {
+  if ('equals' in /** @type {object} */ (a)) {
+    if (!(/** @type {{ equals: (value: unknown) => boolean }} */ (a)).equals(b)) {
       throw new AssertionError(`${repr(a)} does not equal ${repr(b)}`)
     }
   } else {
@@ -34,7 +45,11 @@ export function assertCustomEqual(a: unknown, b: unknown) {
   }
 }
 
-export function assertSameNumber(a: number, b: number) {
+/**
+ * @param {number} a
+ * @param {number} b
+ */
+export function assertSameNumber(a, b) {
   if (!isSameNumber(a, b)) {
     throw new AssertionError(`${repr(a)} is not indistinguishable from ${repr(b)}`)
   }
@@ -43,7 +58,7 @@ export function assertSameNumber(a: number, b: number) {
 export const expect = chai.expect
 export const assert = chai.assert
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const describe = (global as any).describe
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const it = (global as any).it
+// eslint-disable-next-line no-undef
+export const describe = (/** @type {any} */ (global)).describe
+// eslint-disable-next-line no-undef
+export const it = (/** @type {any} */ (global)).it

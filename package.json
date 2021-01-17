@@ -5,7 +5,7 @@
     "ts-node-esm": "node --loader ts-node/esm",
     "build": "npm run lint && npm run test && npm run gulp build",
     "server": "gulp",
-    "lint": "eslint --ext ts build code tests benchmarks",
+    "lint": "eslint --ext js,ts,d.ts build code tests benchmarks",
     "test": "npm run ts-node-esm node_modules/mocha/lib/cli/cli.js"
   },
   "dependencies": {

@@ -44,9 +44,12 @@ describe('repr()', function() {
 
   it('works for custom class instances with no own toString method', function() {
     class Custom {
-      constructor(
-        public arg: unknown
-      ) {}
+      /**
+       * @param {unknown} arg
+       */
+      constructor(arg) {
+        this.arg = arg
+      }
     }
 
     assert.equal(repr(new Custom(13)), 'Custom { arg: 13 }')
@@ -54,9 +57,12 @@ describe('repr()', function() {
 
   it('works for custom class instances with own toString method', function() {
     class Custom {
-      constructor(
-        public arg: unknown
-      ) {}
+      /**
+       * @param {unknown} arg
+       */
+      constructor(arg) {
+        this.arg = arg
+      }
 
       toString() {
         return `Custom<${this.arg}>`
