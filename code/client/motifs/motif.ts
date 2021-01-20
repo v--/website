@@ -4,8 +4,8 @@ export const motifColor = ['r', 'g', 'b'] as const
 export type MotifColor = typeof motifColor[number]
 
 export interface MotifParams {
-  seed: Num.UInt32
-  side: Num.UInt32
+  seed: TNum.UInt32
+  side: TNum.UInt32
   r?: Matrix
   g?: Matrix
   b?: Matrix
@@ -23,7 +23,7 @@ export class Motif {
     }
   }
 
-  setSingleColor(i: Num.UInt32, j: Num.UInt32, color: MotifColor, value: Num.UnitRatio = 0.5) {
+  setSingleColor(i: TNum.UInt32, j: TNum.UInt32, color: MotifColor, value: TNum.UnitRatio = 0.5) {
     for (const c of motifColor) {
       if (c === color) {
         this[c].set(i, j, value)
@@ -33,7 +33,7 @@ export class Motif {
     }
   }
 
-  getColorString(i: Num.UInt32, j: Num.UInt32) {
+  getColorString(i: TNum.UInt32, j: TNum.UInt32) {
     return `rgb(${
       this.r.get(i, j) * 256
     }, ${

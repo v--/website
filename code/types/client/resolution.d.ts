@@ -1,4 +1,4 @@
-declare namespace Resolution {
+declare namespace TResolution {
   export type TokenType =
     'whitespace' |
     'naturalNumber' |

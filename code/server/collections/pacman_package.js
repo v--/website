@@ -79,7 +79,7 @@ function parsePacmanInfoStream(stream) {
 
 /**
  * @param {string} path
- * @returns {Promise<PacmanPackages.IPackage[]>}
+ * @returns {Promise<TPacmanPackages.IPackage[]>}
  */
 async function parsePacmanDatabase(path) {
   const proc = spawn('/usr/bin/tar', ['--extract', '--file', path, '--to-stdout'])
@@ -90,13 +90,13 @@ async function parsePacmanDatabase(path) {
       name: meta.NAME,
       version: meta.VERSION,
       description: meta.DESC,
-      arch: /** @type {PacmanPackages.Architecture} */ (meta.ARCH)
+      arch: /** @type {TPacmanPackages.Architecture} */ (meta.ARCH)
     }
   })
 }
 
 /**
- * @implements Stores.IPacmanPackageCollection
+ * @implements TStore.IPacmanPackageCollection
  */
 export class PacmanPackageCollection {
   /**
@@ -105,7 +105,7 @@ export class PacmanPackageCollection {
   constructor(pacmanDBPath) {
     this.pacmanDBPath = pacmanDBPath
 
-    /** @type {PacmanPackages.IPackage[] | undefined} */
+    /** @type {TPacmanPackages.IPackage[] | undefined} */
     this.cachedPackages = undefined
   }
 

@@ -16,14 +16,14 @@ export const domManipulator: INodeManipulator<Element> = {
     } else if (typeof value === 'string') {
       node.setAttribute(key, value)
     } else if (value instanceof Function) {
-      node.removeEventListener(key, oldValue as TypeCons.Action<Event>)
-      node.addEventListener(key, value as TypeCons.Action<Event>)
+      node.removeEventListener(key, oldValue as TCons.Action<Event>)
+      node.addEventListener(key, value as TCons.Action<Event>)
     }
   },
 
   removeAttribute<T extends unknown>(node: Element, key: string, oldValue: T) {
     if (oldValue instanceof Function) {
-      node.removeEventListener(key, oldValue as TypeCons.Action<Event>)
+      node.removeEventListener(key, oldValue as TCons.Action<Event>)
     } else {
       node.removeAttribute(key)
     }

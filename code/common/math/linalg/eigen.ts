@@ -27,7 +27,7 @@ export function findMatrixMax(matrix: Matrix) {
   }
 }
 
-export function givensRotation(n: Num.UInt32, i: Num.UInt32, j: Num.UInt32, phi: Num.Float64) {
+export function givensRotation(n: TNum.UInt32, i: TNum.UInt32, j: TNum.UInt32, phi: TNum.Float64) {
   const matrix = Matrix.unit(n)
   matrix.set(i, i, Math.cos(phi))
   matrix.set(i, j, -Math.sin(phi))
@@ -36,7 +36,7 @@ export function givensRotation(n: Num.UInt32, i: Num.UInt32, j: Num.UInt32, phi:
   return matrix
 }
 
-export function jacobiMethod(matrix: Matrix, maxIter: Num.UInt32 = 1000) {
+export function jacobiMethod(matrix: Matrix, maxIter: TNum.UInt32 = 1000) {
   if (matrix.rows !== matrix.cols) {
     throw new MatrixDimensionError('Can only find eigenvalues for square matrices')
   }

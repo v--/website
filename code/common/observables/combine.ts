@@ -1,10 +1,10 @@
 import { Observable } from './observable.js'
 
-export function combineLatest<T>(_a: Observables.IObservable<T>): Observables.IObservable<[T]> 
-export function combineLatest<T, R>(_a: Observables.IObservable<T>, _b: Observables.IObservable<R>): Observables.IObservable<[T, R]>
-export function combineLatest<T, R, S>(_a: Observables.IObservable<T>, _b: Observables.IObservable<R>, _c: Observables.IObservable<S>): Observables.IObservable<[T, R, S]>
-export function combineLatest(...observables: Array<Observables.IObservable<unknown>>): Observables.IObservable<unknown[]> {
-  const values = new Map<Observables.IObservable<unknown>, unknown>()
+export function combineLatest<T>(_a: TObservables.IObservable<T>): TObservables.IObservable<[T]> 
+export function combineLatest<T, R>(_a: TObservables.IObservable<T>, _b: TObservables.IObservable<R>): TObservables.IObservable<[T, R]>
+export function combineLatest<T, R, S>(_a: TObservables.IObservable<T>, _b: TObservables.IObservable<R>, _c: TObservables.IObservable<S>): TObservables.IObservable<[T, R, S]>
+export function combineLatest(...observables: Array<TObservables.IObservable<unknown>>): TObservables.IObservable<unknown[]> {
+  const values = new Map<TObservables.IObservable<unknown>, unknown>()
 
   return new Observable(function(observer) {
     for (const observable of observables) {

@@ -227,7 +227,7 @@ describe('mirrorDOMManipulator for factory components', function() {
 
       const subject = new BehaviorSubject({ components: [h1, h2, h3] })
 
-      function factory({ components }: { components: Components.IComponent[] }) {
+      function factory({ components }: { components: TComponents.IComponent[] }) {
         return c('div', undefined, ...components)
       }
 
@@ -364,7 +364,7 @@ describe('mirrorDOMManipulator for factory components', function() {
     it('can rerender on observable change in transcluded components nested in XML components', function() {
       const outerSubject = new BehaviorSubject({ text: 'text' })
 
-      function transcluded(_state: unknown, children: Components.IComponent[]) {
+      function transcluded(_state: unknown, children: TComponents.IComponent[]) {
         return c('main', undefined, ...children)
       }
 
@@ -391,7 +391,7 @@ describe('mirrorDOMManipulator for factory components', function() {
     it('can add new children to transcluded components nested in XML components', function() {
       const outerSubject = new BehaviorSubject<{ text?: string }>({})
 
-      function transcluded(_state: unknown, children: Components.IComponent[]) {
+      function transcluded(_state: unknown, children: TComponents.IComponent[]) {
         return c('main', undefined, ...children)
       }
 

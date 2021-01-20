@@ -3,7 +3,7 @@ import { CoolError } from '../errors.js'
 
 export class StringifyError extends CoolError {}
 
-export function stringifyNumber(x: Num.Float64): string {
+export function stringifyNumber(x: TNum.Float64): string {
   const s = String(Math.round(1e4 * x) / 1e4)
 
   if (s === '0' && x !== 0) {
@@ -15,7 +15,7 @@ export function stringifyNumber(x: Num.Float64): string {
   return s
 }
 
-export function stringifyLinearCombination(coef: Num.Float64[], values: string[]): string {
+export function stringifyLinearCombination(coef: TNum.Float64[], values: string[]): string {
   if (coef.length !== values.length) {
     throw new StringifyError(`Mismatch between the dimensions of ${repr(coef)} and ${repr(values)}`)
   }

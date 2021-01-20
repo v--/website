@@ -3,7 +3,7 @@ import { isSameNumber, roundNumber } from '../numeric/floating.js'
 import { Matrix, MatrixDimensionError } from './matrix.js'
 import { frobNorm } from './norm.js'
 
-export function householderReflection(column: Matrix, k: Num.UInt32) {
+export function householderReflection(column: Matrix, k: TNum.UInt32) {
   const n = column.rows
   const u = Matrix.zero(n, 1)
 
@@ -56,7 +56,7 @@ export function det(matrix: Matrix) {
   return result
 }
 
-export function eigenvalues(matrix: Matrix, iterations: Num.UInt32 = 50) {
+export function eigenvalues(matrix: Matrix, iterations: TNum.UInt32 = 50) {
   if (matrix.rows !== matrix.cols) {
     throw new MatrixDimensionError('Can only find eigenvalues for square matrices')
   }

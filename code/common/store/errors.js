@@ -3,16 +3,16 @@ import { processDatum } from './processing.js'
 
 export const processErrorJsonObject = processDatum(
   /**
-   * @returns {Errors.ErrorJsonObject | undefined}
+   * @returns {TErrors.ErrorJsonObject | undefined}
    */
   ({ classId, message, title, code }) => {
-    if ((typeof classId === 'string' && errorClassIds.includes(/** @type {Errors.ErrorClassId} */ (classId))) &&
+    if ((typeof classId === 'string' && errorClassIds.includes(/** @type {TErrors.ErrorClassId} */ (classId))) &&
       typeof message === 'string' &&
       (title === undefined || typeof title === 'string') &&
       (code === undefined || typeof code === 'number')) {
 
       return {
-        classId: /** @type {Errors.ErrorClassId} */ (classId),
+        classId: /** @type {TErrors.ErrorClassId} */ (classId),
         message,
         title,
         code
@@ -22,7 +22,7 @@ export const processErrorJsonObject = processDatum(
 )
 
 /**
- * @param {Errors.ErrorJsonObject} data
+ * @param {TErrors.ErrorJsonObject} data
  */
 export function restoreError(data) {
   switch (data.classId) {

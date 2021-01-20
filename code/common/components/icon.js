@@ -7,13 +7,13 @@ export const iconMap = new Map()
   @param {{
     name: string,
     class?: string,
-    click?: TypeCons.Action<MouseEvent>
+    click?: TCons.Action<MouseEvent>
   }} state
  */
 export function icon(state) {
   /**
    * @type {{
-      click?: TypeCons.Action<MouseEvent>,
+      click?: TCons.Action<MouseEvent>,
       class: string,
       viewBox: string
     }}

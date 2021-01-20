@@ -14,7 +14,7 @@ export class BehaviorSubject extends Subject {
   }
 
   /**
-   * @param {Observables.IObserver<T>} observer
+   * @param {TObservables.IObserver<T>} observer
    */
   _subscriber(observer) {
     const index = this.observers.length

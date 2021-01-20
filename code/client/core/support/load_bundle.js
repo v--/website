@@ -1,12 +1,10 @@
-/* eslint-env browser */
-
 import { repr } from '../../../common/support/strings.js'
 import { CoolError } from '../../../common/errors.js'
 import { RouterState } from '../../../common/support/router_state.js'
 
 /**
  * @typedef {object} PlaygroundModule
- * @property {Components.FactoryComponentType<RouterState>} index
+ * @property {TComponents.FactoryComponentType<RouterState>} index
  */
 
 /**
@@ -104,7 +102,7 @@ export function dynamicImport(url) {
 }
 
 /**
- * @param {Playground.PlaygroundPage} bundleName
+ * @param {TPlayground.PlaygroundPage} bundleName
  */
 export async function loadBundle(bundleName) {
   const [m] = await Promise.all([
@@ -120,7 +118,7 @@ export async function loadBundle(bundleName) {
 }
 
 /**
- * @param {Playground.PlaygroundPage} bundleName
+ * @param {TPlayground.PlaygroundPage} bundleName
  */
 export function isBrowserCompatibleWithBundle(bundleName) {
   return window.PLAYGROUND_COMPATIBILITY[bundleName]

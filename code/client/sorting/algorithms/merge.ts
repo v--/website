@@ -1,7 +1,7 @@
 import { SortAlgorithm } from '../types/sort_algorithm.js'
 import { ActionList } from '../support/action_list.js'
 
-function updateIndexMap(map: TypeCons.NonStrictMap<Num.UInt32, Num.UInt32>, src: Num.UInt32, dest: Num.UInt32) {
+function updateIndexMap(map: TCons.NonStrictMap<TNum.UInt32, TNum.UInt32>, src: TNum.UInt32, dest: TNum.UInt32) {
   let ind = dest
 
   while (map.has(ind)) {

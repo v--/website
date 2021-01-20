@@ -6,7 +6,7 @@ import { GraphAlgorithmState } from '../types/state.js'
 
 const flattenedAlgorithms = Array.from(flatten(map(ag => ag.algorithms, algorithms)))
 
-export function algorithmDropdown({ algorithm, runAlgorithm }: GraphAlgorithmState<Num.UInt32>) {
+export function algorithmDropdown({ algorithm, runAlgorithm }: GraphAlgorithmState<TNum.UInt32>) {
   return c('div', { class: 'algorithm-dropdown' },
     c('select',
       {

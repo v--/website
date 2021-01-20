@@ -1,6 +1,6 @@
 import { Matrix, MatrixDimensionError } from './matrix.js'
 
-function swapRowsInline(matrix: Matrix, a: Num.UInt32, b: Num.UInt32) {
+function swapRowsInline(matrix: Matrix, a: TNum.UInt32, b: TNum.UInt32) {
   for (let j = 0; j < matrix.cols; j++) {
     const tmp = matrix.get(a, j)
     matrix.set(a, j, matrix.get(b, j))

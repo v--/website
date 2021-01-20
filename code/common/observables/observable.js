@@ -4,7 +4,7 @@ import { Subscription } from './subscription.js'
 
 /**
  * @template T
- * @implements Observables.IObservable<T>
+ * @implements TObservables.IObservable<T>
  */
 export class Observable {
   /**
@@ -34,7 +34,7 @@ export class Observable {
 
   /**
    * @template T
-   * @param {Iterable<T> | Observables.IObservable<T>} source
+   * @param {Iterable<T> | TObservables.IObservable<T>} source
    * @returns Observable<T>
    */
   static from(source) {
@@ -55,7 +55,7 @@ export class Observable {
     }
 
     if (Observable.isObservable(source)) {
-      const result = (/** @type {Observables.IObservable<T>} */ (source)) ['@@observable']()
+      const result = (/** @type {TObservables.IObservable<T>} */ (source)) ['@@observable']()
 
       if (Observable.isObservable(result)) {
         return new Cls(result.subscribe)
@@ -68,7 +68,7 @@ export class Observable {
   }
 
   /**
-   * @param {Observables.SubscriberFunction<T>} subscriber
+   * @param {TObservables.SubscriberFunction<T>} subscriber
    */
   constructor(subscriber) {
     /** @private */
@@ -84,10 +84,10 @@ export class Observable {
   }
 
   /**
-   * @param {Observables.IPotentialObserver<T>} potentialObserver
+   * @param {TObservables.IPotentialObserver<T>} potentialObserver
    */
   subscribe(potentialObserver) {
-    /** @type {Partial<Observables.IObserver<T>>} */
+    /** @type {Partial<TObservables.IObserver<T>>} */
     let observer
 
     if (potentialObserver instanceof Function) {

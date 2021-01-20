@@ -10,7 +10,7 @@ import { GraphAlgorithmResult } from '../support/algorithm_result.js'
 import { GraphAlgorithm } from '../types/graph_algorithm.js'
 import { GraphAlgorithmType } from '../enums/algorithm_type.js'
 
-/** @type {GraphAlgorithm<Num.UInt32>} */
+/** @type {GraphAlgorithm<TNum.UInt32>} */
 export const postorderLongestPath = Object.freeze({
   name: 'Longest path based on post-order traversal',
   id: 'postorder_longest_path',
@@ -20,15 +20,15 @@ export const postorderLongestPath = Object.freeze({
   layout: DEFAULT_GRAPH_LAYOUT,
 
   /**
-   * @param {Graph<Num.UInt32>} graph
-   * @param {Num.UInt32} start
-   * @param {Num.UInt32} end
+   * @param {Graph<TNum.UInt32>} graph
+   * @param {TNum.UInt32} start
+   * @param {TNum.UInt32} end
    */
   run(graph, start = 0, end = graph.order - 1) {
-    /** @type {TypeCons.NonStrictMap<Num.UInt32, Num.Float64>} */
+    /** @type {TCons.NonStrictMap<TNum.UInt32, TNum.Float64>} */
     const lengths = new Map()
 
-    /** @type {TypeCons.NonStrictMap<Num.UInt32, Num.UInt32>} */
+    /** @type {TCons.NonStrictMap<TNum.UInt32, TNum.UInt32>} */
     const ancestors = new Map()
 
     const order = postorder(graph, start)
@@ -56,7 +56,7 @@ export const postorderLongestPath = Object.freeze({
       }
     }
 
-    /** @type {Graph<Num.UInt32>} */
+    /** @type {Graph<TNum.UInt32>} */
     const subgraph = new Graph()
     const path = constructPathFromAncestors(graph, ancestors, start, end)
 

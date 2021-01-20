@@ -1,12 +1,19 @@
 import { c } from '../rendering/component.js'
 import { classlist } from '../support/dom_properties.js'
-import { SubmitEvent } from '../types/events.js'
 
-function buildDict(form: HTMLFormElement) {
-  const dict: Record<string, string> = {}
-  const nodes: Element[] = [form]
+/**
+ * @param {HTMLFormElement} form
+ */
+function buildDict(form) {
+  /** @type {Record<string, string>} */
+  const dict = {}
+
+  /** @type {Element[]} */
+  const nodes = [form]
 
   for (const node of nodes) {
+    // This check is only run interactively anyway
+    // eslint-disable-next-line no-undef
     if (node instanceof HTMLInputElement || node instanceof HTMLTextAreaElement) {
       dict[node.name] = node.value
     }
@@ -19,18 +26,19 @@ function buildDict(form: HTMLFormElement) {
   return dict
 }
 
-export function form<T extends object>({
-  callback,
-  class: className
-}: {
-  callback: TypeCons.Action<T>
-  class: string
-}, children: Components.IComponent[]) {
+/**
+ * @param {{ callback: TCons.Action<any>, class: string }} param1
+ * @param {TComponents.IComponent[]} children
+ */
+export function form({ callback, class: className }, children) {
   return c('div', { class: classlist(className, 'form-container') },
     c('form', {
-      submit(event: SubmitEvent) {
+      /**
+       * @param {TEvents.SubmitEvent} event
+       */
+      submit(event) {
         const dict = buildDict(event.target)
-        callback(dict as T)
+        callback(dict)
         event.preventDefault()
       }
     }, ...children)

@@ -1,5 +1,3 @@
-/* eslint-env node */
-
 import { readFile } from 'fs/promises'
 
 import { HTTPServer } from './http/server.js'
@@ -16,7 +14,7 @@ async function readJSON(path) {
 }
 
 /**
- * @param { Server.IWebsiteConfig } config
+ * @param { TServer.IWebsiteConfig } config
  */
 readJSON(CONFIG_FILE).then(async function(config) {
   const server = new HTTPServer(config)

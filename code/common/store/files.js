@@ -2,7 +2,7 @@ import { processDatum } from './processing.js'
 
 export const processFile = processDatum(
   /**
-   * @returns {Files.IFile | undefined}
+   * @returns {TFiles.IFile | undefined}
    */
   ({ name, isFile, modified, size }) => {
     if (typeof name === 'string' &&
@@ -22,7 +22,7 @@ export const processFile = processDatum(
 
 export const processDirectory = processDatum(
   /**
-   * @returns {Files.IDirectory | undefined}
+   * @returns {TFiles.IDirectory | undefined}
    */
   ({ readme, entries }) => {
     if ((typeof readme === 'undefined' || typeof readme === 'string') &&

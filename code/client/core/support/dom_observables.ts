@@ -1,5 +1,3 @@
-/* eslint-env browser */
-
 import { Subject } from '../../../common/observables/subject.js'
 import { BehaviorSubject } from '../../../common/observables/behavior_subject.js'
 
@@ -36,7 +34,7 @@ export function createWindowSizeObservable(): BehaviorSubject<WindowSize> {
   return subject
 }
 
-export function createKeyDownObservable(): Observables.IObservable<string> {
+export function createKeyDownObservable(): TObservables.IObservable<string> {
   const subject = new Subject()
 
   function onKeyDown(event: KeyboardEvent) {
@@ -53,7 +51,7 @@ export function createKeyDownObservable(): Observables.IObservable<string> {
   return subject
 }
 
-export function createKeyUpObservable(): Observables.IObservable<string> {
+export function createKeyUpObservable(): TObservables.IObservable<string> {
   const subject = new Subject()
 
   function onKeyDown(event: KeyboardEvent) {
@@ -70,7 +68,7 @@ export function createKeyUpObservable(): Observables.IObservable<string> {
   return subject
 }
 
-export function createCursorObservable(): Observables.IObservable<Vector> {
+export function createCursorObservable(): TObservables.IObservable<Vector> {
   const subject = new Subject<Vector>()
 
   function onMouseMove(event: MouseEvent) {

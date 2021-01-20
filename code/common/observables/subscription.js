@@ -2,7 +2,7 @@ import { SubscriptionObserver } from './subscription_observer.js'
 
 /**
  * @template T
- * @implements Observables.ISubscription
+ * @implements TObservables.ISubscription
  */
 export class Subscription {
   /**

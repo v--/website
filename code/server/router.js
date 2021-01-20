@@ -6,7 +6,7 @@ import { Path } from '../common/support/path.js'
 
 /**
  * @param {Path} path
- * @param {Stores.IStore} store
+ * @param {TStore.IStore} store
  */
 export async function serverRouter(path, store) {
   if (path.segments[0] === 'api') {

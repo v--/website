@@ -57,7 +57,7 @@ export function table({
   data: unknown[],
   class?: string,
   style?: string
-}, children: Components.IComponent[]) {
+}, children: TComponents.IComponent[]) {
   return c('table', { class: classlist('cool-table', cssClass), style },
     c('thead', undefined,
       c('tr', undefined, ...headers(columns))

@@ -28,7 +28,7 @@ export class InvalidComponentType extends ComponentCreationError {}
 export class InvalidComponentError extends CoolError {}
 
 /**
- * @param {Components.IPotentialComponent[]} children
+ * @param {TComponents.IPotentialComponent[]} children
  */
 function * processChildren(children) {
   for (const child of children) {
@@ -41,14 +41,14 @@ function * processChildren(children) {
 }
 
 /**
- * @implements Components.IComponent
+ * @implements TComponents.IComponent
  */
 export class Component {
   /**
    * @template T
-   * @param {string | Components.FactoryComponentType<T>} type
-   * @param {Components.IComponentStateSource<T>} [stateSource]
-   * @param {Components.IPotentialComponent[]} children
+   * @param {string | TComponents.FactoryComponentType<T>} type
+   * @param {TComponents.IComponentStateSource<T>} [stateSource]
+   * @param {TComponents.IPotentialComponent[]} children
    * @returns {Component}
    */
   static safeCreate(type, stateSource, ...children) {
@@ -66,21 +66,21 @@ export class Component {
   }
 
   /**
-   * @param {string | Components.FactoryComponentType<any>} type
-   * @param {Components.IComponentStateSource} stateSource,
-   * @param {Components.IComponent[]} children
+   * @param {string | TComponents.FactoryComponentType<any>} type
+   * @param {TComponents.IComponentStateSource} stateSource,
+   * @param {TComponents.IComponent[]} children
    */
   constructor(type, stateSource, children) {
     this.type = type
     this.stateSource = stateSource
     this.children = children
 
-    /** @type {BehaviorSubject<Components.ComponentStateType | undefined>} */
+    /** @type {BehaviorSubject<TComponents.ComponentStateType | undefined>} */
     this.state = new BehaviorSubject(undefined)
     this.updateStateSource(stateSource)
   }
 
-  /** @param {Components.ComponentStateType} newState */
+  /** @param {TComponents.ComponentStateType} newState */
   updateState(newState) {
     if (!(newState instanceof Object) && newState !== undefined) { 
       throw new ComponentSanityError(`${repr(this)}'s new state ${repr(newState)} must be undefined or an object`)
@@ -100,19 +100,19 @@ export class Component {
   }
 
   /**
-   * @param {Components.IComponentStateSource} newSource
+   * @param {TComponents.IComponentStateSource} newSource
    */
   updateStateSource(newSource) {
     this.unsubscribeFromStateSource()
 
     if (Observable.isObservable(newSource)) {
-      this.stateSubscription = (/** @type {Observables.IObservable<Components.ComponentStateType>} */(newSource)).subscribe(newState => {
+      this.stateSubscription = (/** @type {TObservables.IObservable<TComponents.ComponentStateType>} */(newSource)).subscribe(newState => {
         this.stateSource = newSource
-        this.updateState(/** @type {Components.ComponentStateType} */(newState))
+        this.updateState(/** @type {TComponents.ComponentStateType} */(newState))
       })
     } else {
       this.stateSource = newSource
-      this.updateState(/** @type {Components.ComponentStateType} */ (newSource))
+      this.updateState(/** @type {TComponents.ComponentStateType} */ (newSource))
     }
   }
 
@@ -145,7 +145,7 @@ export class Component {
   }
 
   /**
-   * @param {Components.IComponent} other
+   * @param {TComponents.IComponent} other
    * @returns {boolean}
    */
   equals(other) {
@@ -161,8 +161,8 @@ export class Component {
 export class XMLComponent extends Component {
   /**
    * @param {string} type
-   * @param {Components.IComponentStateSource} stateSource,
-   * @param {Components.IComponent[]} children
+   * @param {TComponents.IComponentStateSource} stateSource,
+   * @param {TComponents.IComponent[]} children
    */
   constructor(type, stateSource, children) {
     super(type, stateSource, children)
@@ -204,8 +204,8 @@ export class HTMLComponent extends XMLComponent {
 
   /**
    * @param {string} type
-   * @param {Components.IComponentStateSource} [stateSource]
-   * @param {Components.IPotentialComponent[]} children
+   * @param {TComponents.IComponentStateSource} [stateSource]
+   * @param {TComponents.IPotentialComponent[]} children
    * @returns {HTMLComponent}
    */
   static safeCreate(type, stateSource, ...children) {
@@ -214,8 +214,8 @@ export class HTMLComponent extends XMLComponent {
 
   /**
    * @param {string} type
-   * @param {Components.IComponentStateSource} stateSource,
-   * @param {Components.IComponent[]} children
+   * @param {TComponents.IComponentStateSource} stateSource,
+   * @param {TComponents.IComponent[]} children
    */
   constructor(type, stateSource, children) {
     super(type, stateSource, children)
@@ -240,9 +240,9 @@ export class HTMLComponent extends XMLComponent {
 export class FactoryComponent extends Component {
   /**
    * @template T
-   * @param {Components.FactoryComponentType<T>} type
-   * @param {Components.IComponentStateSource<T>} [stateSource]
-   * @param {Components.IPotentialComponent[]} children
+   * @param {TComponents.FactoryComponentType<T>} type
+   * @param {TComponents.IComponentStateSource<T>} [stateSource]
+   * @param {TComponents.IPotentialComponent[]} children
    * @returns {FactoryComponent}
    */
   static safeCreate(type, stateSource, ...children) {
@@ -250,14 +250,14 @@ export class FactoryComponent extends Component {
   }
 
   /**
-   * @param {Components.FactoryComponentType<any>} type
-   * @param {Components.IComponentStateSource<any>} stateSource,
-   * @param {Components.IComponent[]} children
+   * @param {TComponents.FactoryComponentType<any>} type
+   * @param {TComponents.IComponentStateSource<any>} stateSource,
+   * @param {TComponents.IComponent[]} children
    */
   constructor(type, stateSource, children) {
     super(type, stateSource, children)
 
-    /** @type {Components.FactoryComponentType<any>} type */
+    /** @type {TComponents.FactoryComponentType<any>} type */
     this.type = type
   }
 
@@ -270,7 +270,7 @@ export class FactoryComponent extends Component {
   }
 
   /**
-   * @returns {Components.IComponent}
+   * @returns {TComponents.IComponent}
    */
   evaluate() {
     const component = this.type(this.state.value, this.children)
@@ -285,9 +285,9 @@ export class FactoryComponent extends Component {
 
 /**
  * @template T
- * @param {string | Components.FactoryComponentType<T>} type
- * @param {Components.IComponentStateSource<T>} [stateSource]
- * @param {Components.IPotentialComponent[]} children
+ * @param {string | TComponents.FactoryComponentType<T>} type
+ * @param {TComponents.IComponentStateSource<T>} [stateSource]
+ * @param {TComponents.IPotentialComponent[]} children
  * @returns {Component}
  */
 export function c(type, stateSource, ...children) {

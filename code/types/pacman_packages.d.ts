@@ -1,4 +1,4 @@
-declare namespace PacmanPackages {
+declare namespace TPacmanPackages {
   export type Architecture = 'x86_64' | 'any'
 
   export interface IPackage {

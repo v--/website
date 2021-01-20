@@ -1,10 +1,10 @@
-declare namespace Errors {
+declare namespace TErrors {
   type ErrorClassId = 'HTTPError' | 'ClientError' | 'CoolError' | 'DataFormatError'
 
   interface ErrorJsonObject {
    classId: ErrorClassId
    message: string
    title?: string
-   code?: Num.UInt32
+   code?: TNum.UInt32
   }
 }

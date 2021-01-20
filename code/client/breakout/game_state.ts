@@ -11,7 +11,7 @@ export type PaddleDirection = -1 | 0 | 1
 export interface IGameState {
   eventLoop: EventLoop
   status: GameStatus
-  score: Num.UInt32
+  score: TNum.UInt32
   paddleDirection: PaddleDirection
   paddle: Ellipse
   stage: Rectangle

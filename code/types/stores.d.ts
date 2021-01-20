@@ -1,10 +1,10 @@
-declare namespace Stores {
+declare namespace TStore {
   export interface IFileCollection {
-    readDirectory(path: string): Promise<Files.IDirectory>
+    readDirectory(path: string): Promise<TFiles.IDirectory>
   }
 
   export interface IPacmanPackageCollection {
-    load(): Promise<PacmanPackages.IPackage[]>
+    load(): Promise<TPacmanPackages.IPackage[]>
   }
 
   export interface IStore {

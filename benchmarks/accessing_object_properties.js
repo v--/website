@@ -8,7 +8,7 @@ await run(
   function mutableProperties() {
     class Test {
       /**
-       * @param {Num.Int32} age
+       * @param {TNum.Int32} age
        */
       constructor(age) {
         this.age = age
@@ -23,7 +23,7 @@ await run(
   function mutableGetters() {
     class Test {
       /**
-       * @param {Num.Int32} age
+       * @param {TNum.Int32} age
        */
       constructor(age) {
         this.age = age
@@ -41,7 +41,7 @@ await run(
   function frozenProperties() {
     class Test {
       /**
-       * @param {Num.Int32} age
+       * @param {TNum.Int32} age
        */
       constructor(age) {
         this.age = age
@@ -57,7 +57,7 @@ await run(
   function frozenGetters() {
     class Test {
       /**
-       * @param {Num.Int32} age
+       * @param {TNum.Int32} age
        */
       constructor(age) {
         this.age = age

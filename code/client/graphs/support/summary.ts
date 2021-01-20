@@ -4,7 +4,7 @@ import { GraphAlgorithmDatum } from '../types/algorithm_data.js'
 
 export type GraphAlgorithmSummary = GraphAlgorithmDatum[]
 
-export function fillMaxFlowSummary<T>(_graph: Graph<T>, maxFlow: Num.Float64): GraphAlgorithmDatum[] {
+export function fillMaxFlowSummary<T>(_graph: Graph<T>, maxFlow: TNum.Float64): GraphAlgorithmDatum[] {
   return [
     {
       label: 'Maximum flow',

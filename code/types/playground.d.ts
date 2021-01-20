@@ -1,4 +1,4 @@
-declare namespace Playground {
+declare namespace TPlayground {
   export type PlaygroundPage =
     'sorting' |
     'curve_fitting' |

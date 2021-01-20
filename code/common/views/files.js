@@ -21,7 +21,7 @@ function getFileExtension(fileName) {
 }
 
 /**
- * @param {RouterState & { data: Files.IDirectory }} state
+ * @param {RouterState & { data: TFiles.IDirectory }} state
  */
 export function files({ path, data }) {
   const columns = [
@@ -29,7 +29,7 @@ export function files({ path, data }) {
       label: 'Name',
       class: 'col-name',
       /**
-       * @param {Files.IFile} entry
+       * @param {TFiles.IFile} entry
        */
       value(entry) {
         return c(link, {
@@ -44,7 +44,7 @@ export function files({ path, data }) {
       label: 'Type',
       class: 'col-type',
       /**
-       * @param {Files.IFile} entry
+       * @param {TFiles.IFile} entry
        */
       value(entry) {
         if (!entry.isFile) {
@@ -60,7 +60,7 @@ export function files({ path, data }) {
       label: 'Size',
       class: 'col-size',
       /**
-       * @param {Files.IFile} entry
+       * @param {TFiles.IFile} entry
        */
       view(entry) {
         if (!entry.isFile) {
@@ -84,7 +84,7 @@ export function files({ path, data }) {
         return 'Invalid size'
       },
       /**
-       * @param {Files.IFile} entry
+       * @param {TFiles.IFile} entry
        */
       value(entry) {
         return entry.size
@@ -95,13 +95,13 @@ export function files({ path, data }) {
       label: 'Modified',
       class: 'col-modified',
       /**
-       * @param {Files.IFile} entry
+       * @param {TFiles.IFile} entry
        */
       view(entry) {
         return new Date(entry.modified).toUTCString()
       },
       /**
-       * @param {Files.IFile} entry
+       * @param {TFiles.IFile} entry
        */
       value(entry) {
         return Date.parse(entry.modified)

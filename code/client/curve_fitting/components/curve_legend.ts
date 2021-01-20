@@ -5,7 +5,6 @@ import { ITableColumn, table } from '../../../common/components/table.js'
 import { sectionTitle } from '../../../common/components/section_title.js'
 import { CurveFittingState } from '../types/state.js'
 import { getMappingDomain } from '../support/mapping.js'
-import { Curve } from '../types/curve.js'
 
 export function curveLegend({ mapping, curves, fitters, enableFitter, disableFitter }: CurveFittingState) {
   return c('div', { class: 'curve-legend' },
@@ -30,7 +29,7 @@ export function curveLegend({ mapping, curves, fitters, enableFitter, disableFit
       columns: [
         {
           class: 'col-checkbox',
-          value(entry: Curve) {
+          value(entry: TCurves.Curve) {
             const isChecked = fitters.has(entry.fitter)
 
             return c('input', {
@@ -48,9 +47,9 @@ export function curveLegend({ mapping, curves, fitters, enableFitter, disableFit
         } as ITableColumn,
 
         {
-          label: 'Curve name',
+          label: 'TCurves.Curve name',
           class: 'col-name',
-          value(entry: Curve) {
+          value(entry: TCurves.Curve) {
             return c('span', {
               class: entry.cssClass,
               text: entry.fitter.name
@@ -61,7 +60,7 @@ export function curveLegend({ mapping, curves, fitters, enableFitter, disableFit
         {
           label: 'Expression',
           class: 'col-expression',
-          value(entry: Curve) {
+          value(entry: TCurves.Curve) {
             return String(entry.curve)
           }
         }

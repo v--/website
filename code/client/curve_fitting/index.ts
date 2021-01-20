@@ -8,10 +8,8 @@ import { curveLegend } from './components/curve_legend.js'
 import { fitters } from './fitters.js'
 import { CurveFittingState } from './types/state.js'
 import { RouterState } from '../../common/support/router_state.js'
-import { Curve } from './types/curve.js'
-import { IRealFunction } from '../../common/math/types/real_function.js'
 
-export const ZERO: IRealFunction = {
+export const ZERO: TMath.IRealFunction = {
   eval(_x) {
     return 0
   },
@@ -25,7 +23,7 @@ const WIDTH = 20
 const HEIGHT = 16
 const DEFAULT_MAPPING = new Map([[-7, 2], [0, -2], [5, 1], [8, -3]])
 
-function buildCurves(mapping: Map<Num.Float64, Num.Float64>): Curve[] {
+function buildCurves(mapping: Map<TNum.Float64, TNum.Float64>): TCurves.Curve[] {
   return fitters
     .map(function(fitter, i) {
       const curve = mapping.size === 0 ? ZERO : fitter.fit(mapping)

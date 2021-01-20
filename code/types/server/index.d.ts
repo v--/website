@@ -1,4 +1,4 @@
-declare namespace Server {
+declare namespace TServer {
   export type HTTPServerState =
     'starting' |
     'running' |

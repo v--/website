@@ -3,14 +3,14 @@ import { describe, it, assert } from '../../../_common.js'
 import { newtonPolynomial } from '../../../../code/client/curve_fitting/fitters/newton_polynomial.js'
 
 /**
- * @param {Num.Float64} x
+ * @param {TNum.Float64} x
  */
 function quadraticTest(x) {
   return x ** 2 + 13
 }
 
 /**
- * @param {Num.Float64[]} domain
+ * @param {TNum.Float64[]} domain
  */
 function createTestMapping(domain) {
   return new Map(domain.map(x => [x, quadraticTest(x)]))

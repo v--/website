@@ -1,6 +1,6 @@
 import { Matrix } from './matrix.js'
 
-export function lNorm(matrix: Matrix, p: Num.UInt32, q: Num.UInt32) {
+export function lNorm(matrix: Matrix, p: TNum.UInt32, q: TNum.UInt32) {
   let result = 0
 
   for (let j = 0; j < matrix.cols; j++) {

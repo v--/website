@@ -1,6 +1,5 @@
 import { Graph } from '../../../common/math/graphs/graph.js'
 import { GraphLayout } from '../../../common/math/graphs/types/layout.js'
-import { ISODateString } from '../../../common/types/dates.js'
 import { GraphAlgorithmType } from '../enums/algorithm_type.js'
 import { GraphAlgorithmResult } from '../support/algorithm_result.js'
 
@@ -22,7 +21,7 @@ export interface GraphAlgorithm<T> {
   name: string,
   id: GraphAlgorithmId,
   type: GraphAlgorithmType,
-  date: ISODateString,
+  date: TDates.ISODateString,
   graph: Graph<T>,
   layout: GraphLayout<T>,
   run(graph: Graph<T>, start?: T, end?: T): GraphAlgorithmResult<T>

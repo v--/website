@@ -3,16 +3,16 @@ import { extractFreeVariables } from './extractors.js'
 import { simplify } from './simplification.js'
 
 export function mostlyConvertToPNF(
-  expression: Resolution.SimplifiedFormula,
-  counter: { value: Num.UInt32 } = { value: 1 },
-  replacementMap: Map<string, Resolution.FOLTerm> = new Map(),
-): Resolution.SimplifiedFormula {
+  expression: TResolution.SimplifiedFormula,
+  counter: { value: TNum.UInt32 } = { value: 1 },
+  replacementMap: Map<string, TResolution.FOLTerm> = new Map(),
+): TResolution.SimplifiedFormula {
   switch (expression.type) {
     case 'predicate':
       return {
         type: expression.type,
         name: expression.name,
-        args: expression.args.map(arg => replaceVariables(arg, replacementMap) as Resolution.FOLTerm)
+        args: expression.args.map(arg => replaceVariables(arg, replacementMap) as TResolution.FOLTerm)
       }
 
     case 'universalQuantification':
@@ -21,7 +21,7 @@ export function mostlyConvertToPNF(
       const oldReplacement = replacementMap.get(expression.variable)
       const newVarName = oldReplacement ? 't' + counter.value++ : expression.variable
       replacementMap.set(expression.variable, { type: 'variable', name: newVarName })
-      const newSubformula = mostlyConvertToPNF(expression.formula, counter, replacementMap) as Resolution.SimplifiedInnerFormula
+      const newSubformula = mostlyConvertToPNF(expression.formula, counter, replacementMap) as TResolution.SimplifiedInnerFormula
 
       if (oldReplacement) {
         replacementMap.set(expression.variable, oldReplacement)
@@ -37,7 +37,7 @@ export function mostlyConvertToPNF(
     case 'negation':
       return {
         type: expression.type,
-        formula: mostlyConvertToPNF(expression.formula, counter, replacementMap) as Resolution.SimplifiedInnerFormula
+        formula: mostlyConvertToPNF(expression.formula, counter, replacementMap) as TResolution.SimplifiedInnerFormula
       }
 
     case 'conjunction':
@@ -45,7 +45,7 @@ export function mostlyConvertToPNF(
     {
       // Split the prefix and the inner expression
       const combinedPrefix = []
-      const inner: (Resolution.ConjunctionExpression<Resolution.SimplifiedFormula> | Resolution.DisjunctionExpression<Resolution.SimplifiedInnerFormula>) = {
+      const inner: (TResolution.ConjunctionExpression<TResolution.SimplifiedFormula> | TResolution.DisjunctionExpression<TResolution.SimplifiedInnerFormula>) = {
         type: expression.type,
         formulas: []
       }
@@ -63,17 +63,17 @@ export function mostlyConvertToPNF(
 
             ssubfs.push(ssubf.formula)
           } else {
-            inner.formulas.push(ssubf as Resolution.SimplifiedInnerFormula)
+            inner.formulas.push(ssubf as TResolution.SimplifiedInnerFormula)
           }
         }
       }
 
       // Recombine the prefix with the inner expression
-      let current: Resolution.SimplifiedFormula = inner
+      let current: TResolution.SimplifiedFormula = inner
 
       for (const pref of combinedPrefix.reverse()) {
         current = {
-          formula: current as Resolution.SimplifiedInnerFormula,
+          formula: current as TResolution.SimplifiedInnerFormula,
           ...pref
         }
       }
@@ -85,13 +85,13 @@ export function mostlyConvertToPNF(
 
 
 export function convertToPNF(
-  expression: Resolution.SimplifiedFormula,
-  counter: { value: Num.UInt32 } = { value: 1 },
-  replacementMap: Map<string, Resolution.FOLTerm> = new Map(),
-): Resolution.PNFFormula {
+  expression: TResolution.SimplifiedFormula,
+  counter: { value: TNum.UInt32 } = { value: 1 },
+  replacementMap: Map<string, TResolution.FOLTerm> = new Map(),
+): TResolution.PNFFormula {
   for (const variable of extractFreeVariables(expression)) {
     replacementMap.set(variable, { type: 'variable', name: variable })
   }
 
-  return simplify(mostlyConvertToPNF(expression, counter, replacementMap)) as Resolution.PNFFormula
+  return simplify(mostlyConvertToPNF(expression, counter, replacementMap)) as TResolution.PNFFormula
 }

@@ -1,7 +1,7 @@
 import { Vector } from '../../../common/math/geom2d/vector.js'
 import { Rectangle } from '../../../common/math/geom2d/rectangle.js'
 
-export function accumulateNumericProperty(element: HTMLElement | null, key: keyof HTMLElement): Num.Float64 {
+export function accumulateNumericProperty(element: HTMLElement | null, key: keyof HTMLElement): TNum.Float64 {
   if (element === null) {
     return 0
   }

@@ -6,7 +6,7 @@ export class EmptyIterError extends IterError { }
 
 /**
  * @template T
- * @param {TypeCons.Predicate<T>} predicate
+ * @param {TCons.Predicate<T>} predicate
  * @param {Iterable<T>} iter
  * @returns boolean
  */
@@ -21,7 +21,7 @@ export function all(predicate, iter) {
 
 /**
  * @template T, S = T
- * @param {TypeCons.Reducer<T, S>} reducer
+ * @param {TCons.Reducer<T, S>} reducer
  * @param {Iterable<T>} iterable
  * @param {S} initial
  * @returns S
@@ -60,7 +60,7 @@ export function* range(from, to, step = 1) {
 
 /**
  * @template T, S
- * @param {TypeCons.Mapper<T, S>} transform
+ * @param {TCons.Mapper<T, S>} transform
  * @param {Iterable<T>} iter
  * @returns {Generator<S>}
  */
@@ -72,7 +72,7 @@ export function* map(transform, iter) {
 
 /**
  * @template T
- * @param {TypeCons.Predicate<T>} predicate
+ * @param {TCons.Predicate<T>} predicate
  * @param {Iterable<T>} iter
  * @returns {Generator<T>}
  */
@@ -98,7 +98,7 @@ export function* chain(...iterables) {
 /**
  * @template T
  * @param {Iterable<T>} iterable
- * @param {Num.UInt32} count
+ * @param {TNum.UInt32} count
  * @returns {Generator<T, void, undefined>}
  */
 export function* take(iterable, count) {
@@ -195,7 +195,7 @@ export function zipLongest2(iter1, iter2) {
 /**
  * @template T, S
  * @param {Iterable<T>} iter
- * @param {TypeCons.Mapper<T, S>} [key]
+ * @param {TCons.Mapper<T, S>} [key]
  * @returns {Generator<T>}
  */
 export function* uniqueBy(iter, key) {
@@ -232,14 +232,14 @@ export function sort(iter, ascending = true) {
 
 /**
  * @template T
- * @param {TypeCons.Mapper<T, Num.UInt32>} transform
+ * @param {TCons.Mapper<T, TNum.UInt32>} transform
  * @param {Iterable<T>} iter
  * @returns {T[]}
  */
 export function schwartzSort(transform, iter) {
   const array = Array.from(iter)
 
-  const values = /** @type {TypeCons.NonStrictMap<T, Num.UInt32>} */ (new Map(
+  const values = /** @type {TCons.NonStrictMap<T, TNum.UInt32>} */ (new Map(
     map(x => [x, transform(x)], array)
   ))
 
@@ -248,7 +248,7 @@ export function schwartzSort(transform, iter) {
 
 /**
  * @template T
- * @param {TypeCons.Mapper<T, Num.UInt32>} transform
+ * @param {TCons.Mapper<T, TNum.UInt32>} transform
  * @param {Iterable<T>} iterable
  * @param {boolean} strict
  * @returns {T}
@@ -259,7 +259,7 @@ export function schwartzMax(transform, iterable, strict = true) {
 
 /**
  * @template T
- * @param {TypeCons.Mapper<T, Num.UInt32>} transform
+ * @param {TCons.Mapper<T, TNum.UInt32>} transform
  * @param {Iterable<T>} iterable
  * @param {boolean} strict
  * @returns {T}
@@ -308,8 +308,8 @@ export function shuffle(iter) {
 
 /**
  * @template T
- * @param {Iterable<TypeCons.FlattenIterableType<TypeCons.IterBase<T>>>} iter
- * @returns {Generator<TypeCons.IterBase<T>>}
+ * @param {Iterable<TCons.FlattenIterableType<TCons.IterBase<T>>>} iter
+ * @returns {Generator<TCons.IterBase<T>>}
  */
 export function* flatten(iter) {
   for (const value of iter) {
@@ -318,7 +318,7 @@ export function* flatten(iter) {
     }
 
     else {
-      yield /** @type {TypeCons.IterBase<T>} */ (value)
+      yield /** @type {TCons.IterBase<T>} */ (value)
     }
   }
 }
@@ -338,10 +338,10 @@ export function* repeat(value, times = Number.POSITIVE_INFINITY) {
 /**
  * @template T
  * @param {Iterable<T>} iter
- * @returns {Map<T, Num.UInt32>}
+ * @returns {Map<T, TNum.UInt32>}
  */
 export function counter(iter) {
-  /** @type {TypeCons.NonStrictMap<T, Num.UInt32>} */
+  /** @type {TCons.NonStrictMap<T, TNum.UInt32>} */
   const cntr = new Map()
 
   for (const value of iter) {
@@ -360,8 +360,8 @@ export function counter(iter) {
 /**
  * @template T
  * @param {T[]} array
- * @param {Num.UInt32} i
- * @param {Num.UInt32} j
+ * @param {TNum.UInt32} i
+ * @param {TNum.UInt32} j
  */
 export function swap(array, i, j) {
   const tmp = array[i]
@@ -509,7 +509,7 @@ export function * cumulative(iterable) {
 /**
  * @template T
  * @param {Iterable<T>} iterable
- * @returns {Generator<[Num.UInt32, T]>}
+ * @returns {Generator<[TNum.UInt32, T]>}
  */
 export function * enumerate(iterable) {
   let i = 0

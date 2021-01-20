@@ -22,7 +22,7 @@ export function curveCanvas({ width, height, mapping, curves, fitters, updateMap
     height + 1
   ]
 
-  const domain: Num.Float64[] = Array.from(range(-(width + 1) / 2, (width + 1) / 2, 0.1))
+  const domain: TNum.Float64[] = Array.from(range(-(width + 1) / 2, (width + 1) / 2, 0.1))
   const visibleCurves = curves.filter(c => fitters.has(c.fitter))
 
   return s(

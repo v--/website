@@ -15,8 +15,8 @@ import { WindowSize } from '../support/dom_observables.js'
 class RoutingError extends CoolError {}
 
 /**
- * @param {Components.FactoryComponentType<RouterState> | Playground.PlaygroundPage} factorySpec
- * @returns {Promise<Components.FactoryComponentType<RouterState>>}
+ * @param {TComponents.FactoryComponentType<RouterState> | TPlayground.PlaygroundPage} factorySpec
+ * @returns {Promise<TComponents.FactoryComponentType<RouterState>>}
  */
 export async function loadFactory(factorySpec) {
   switch (typeof factorySpec) {

@@ -4,7 +4,7 @@ import path from 'path'
 import { ForbiddenError, NotFoundError } from '../../common/errors.js'
 
 /**
- * @implements Stores.IFileCollection
+ * @implements TStore.IFileCollection
  */
 export class FileCollection {
   /**
@@ -31,7 +31,7 @@ export class FileCollection {
 
     const fullPath = path.join(this.fileRootPath, basePath)
 
-    /** @type {Files.IDirectory} */
+    /** @type {TFiles.IDirectory} */
     const result = {
       entries: []
     }

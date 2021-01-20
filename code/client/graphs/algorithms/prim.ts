@@ -9,7 +9,7 @@ import { GraphAlgorithm } from '../types/graph_algorithm.js'
 import { Graph } from '../../../common/math/graphs/graph.js'
 import { GraphAlgorithmResult } from '../support/algorithm_result.js'
 
-export const prim: GraphAlgorithm<Num.UInt32> = Object.freeze({
+export const prim: GraphAlgorithm<TNum.UInt32> = Object.freeze({
   name: "Prim's algorithm",
   id: 'prim',
   type: GraphAlgorithmType.minSpanningTree,
@@ -17,8 +17,8 @@ export const prim: GraphAlgorithm<Num.UInt32> = Object.freeze({
   graph: DEFAULT_GRAPH_UNDIRECTED,
   layout: DEFAULT_GRAPH_LAYOUT,
 
-  run<T extends Num.UInt32>(graph: Graph<T>, start: T = 0 as T, _end?: T) {
-    const ancestors: TypeCons.NonStrictMap<T, T> = new Map()
+  run<T extends TNum.UInt32>(graph: Graph<T>, start: T = 0 as T, _end?: T) {
+    const ancestors: TCons.NonStrictMap<T, T> = new Map()
     const queue = new BinaryHeap<T>()
     queue.insert(start, 0)
 

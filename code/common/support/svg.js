@@ -8,8 +8,8 @@ export class SVGComponent extends XMLComponent {
 
   /**
    * @param {string} type
-   * @param {Components.IComponentStateSource} [stateSource]
-   * @param {Components.IPotentialComponent[]} children
+   * @param {TComponents.IComponentStateSource} [stateSource]
+   * @param {TComponents.IPotentialComponent[]} children
    * @returns {SVGComponent}
    */
   static safeCreate(type, stateSource, ...children) {
@@ -19,8 +19,8 @@ export class SVGComponent extends XMLComponent {
 
 /**
  * @param {string} type
- * @param {Components.IComponentStateSource} [stateSource]
- * @param {Components.IPotentialComponent[]} children
+ * @param {TComponents.IComponentStateSource} [stateSource]
+ * @param {TComponents.IPotentialComponent[]} children
  * @returns {SVGComponent}
  */
 export function s(type, stateSource, ...children) {

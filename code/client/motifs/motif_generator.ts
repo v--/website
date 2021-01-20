@@ -1,6 +1,6 @@
 import { Motif, MotifColor } from './motif.js'
 
-export function drawRectangle(motif: Motif, iStart: Num.UInt32, iEnd: Num.UInt32, jStart: Num.UInt32, jEnd: Num.UInt32, color: MotifColor): void {
+export function drawRectangle(motif: Motif, iStart: TNum.UInt32, iEnd: TNum.UInt32, jStart: TNum.UInt32, jEnd: TNum.UInt32, color: MotifColor): void {
   for (let i = iStart; i < iEnd; i++) {
     for (let j = jStart; j < jEnd; j++) {
       motif.setSingleColor(i, j, color)
@@ -8,7 +8,7 @@ export function drawRectangle(motif: Motif, iStart: Num.UInt32, iEnd: Num.UInt32
   }
 }
 
-export function drawTransverseLine(motif: Motif, start: Num.UInt32, end: Num.UInt32, color: MotifColor): void {
+export function drawTransverseLine(motif: Motif, start: TNum.UInt32, end: TNum.UInt32, color: MotifColor): void {
   for (let t = start; t <= end; t++) {
     for (let j = 0; j < t; j++) {
       if (j < motif.side && t - j < motif.side) {
@@ -18,7 +18,7 @@ export function drawTransverseLine(motif: Motif, start: Num.UInt32, end: Num.UIn
   }
 }
 
-export function drawDiamond(motif: Motif, iCenter: Num.UInt32, jCenter: Num.UInt32, radius: Num.UInt32, thickness: Num.UInt32, color: MotifColor): void {
+export function drawDiamond(motif: Motif, iCenter: TNum.UInt32, jCenter: TNum.UInt32, radius: TNum.UInt32, thickness: TNum.UInt32, color: MotifColor): void {
   for (let t = 0; t < thickness; t++) {
     for (let j = 0; j < radius - t; j++) {
       motif.setSingleColor(iCenter - radius + j + t, jCenter + j, color)
@@ -30,7 +30,7 @@ export function drawDiamond(motif: Motif, iCenter: Num.UInt32, jCenter: Num.UInt
   }
 }
 
-export function motifGenerator(seed: Num.UInt32, side: Num.UInt32 = 20): Motif {
+export function motifGenerator(seed: TNum.UInt32, side: TNum.UInt32 = 20): Motif {
   const motif = new Motif({ seed, side })
 
   drawTransverseLine(motif, 0, 3, 'g')

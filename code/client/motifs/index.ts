@@ -17,7 +17,7 @@ const QUERY_CONFIG_PARSERS = Object.freeze({
 
 export function index({ path, description }: RouterState) {
   const config = new QueryConfig(path, {}, QUERY_CONFIG_PARSERS)
-  const seed = config.get('seed') as Num.UInt32
+  const seed = config.get('seed') as TNum.UInt32
 
   if (seed === undefined) {
     location$.next(config.getUpdatedPath({ seed: randInt(1, 100) }))

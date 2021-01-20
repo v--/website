@@ -2,14 +2,14 @@ import { Observable } from './observable.js'
 
 /**
  * @template T
- * @implements Observables.IObservable<T>, Observables.IObserver<T>
+ * @implements TObservables.IObservable<T>, TObservables.IObserver<T>
  */
 export class Subject {
   constructor() {
-    /** @type {Observables.IObserver<T>[]} */
+    /** @type {TObservables.IObserver<T>[]} */
     this.observers = []
 
-    /** @type {Observables.IObservable<T>} */
+    /** @type {TObservables.IObservable<T>} */
     this.observable = new Observable(this._subscriber.bind(this))
   }
 
@@ -18,7 +18,7 @@ export class Subject {
   }
 
   /**
-   * @param {Observables.IObserver<T>} observer
+   * @param {TObservables.IObserver<T>} observer
    */
   _subscriber(observer) {
     const index = this.observers.length
@@ -71,7 +71,7 @@ export class Subject {
   }
 
   /**
-   * @param {Observables.IPotentialObserver<T>} potentialObserver
+   * @param {TObservables.IPotentialObserver<T>} potentialObserver
    */
   subscribe(potentialObserver) {
     // eslint-disable-next-line prefer-rest-params

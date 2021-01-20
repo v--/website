@@ -36,7 +36,7 @@ export function index({ path, description }: RouterState) {
 }
 
 {
-  let cursorSubscription: Observables.ISubscription
+  let cursorSubscription: TObservables.ISubscription
 
   dispatcher.events.create.subscribe({
     next(node: Renderer<HTMLElement>) {

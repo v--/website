@@ -41,7 +41,7 @@ export function moveBall(subject$: DictSubject<IGameState>) {
   let reflected: Reflection | undefined
   let nextReflected = new Reflection({ ball })
 
-  let delta: Num.Float64 | undefined
+  let delta: TNum.Float64 | undefined
   let nextDelta = MOVEMENT_DELTA
 
   let newBricks = bricks

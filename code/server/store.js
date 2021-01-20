@@ -2,11 +2,11 @@ import { FileCollection } from './collections/file.js'
 import { PacmanPackageCollection } from './collections/pacman_package.js'
 
 /**
- * @implements Stores.IStore
+ * @implements TStore.IStore
  */
 export class Store {
   /**
-   * @param { Server.IStoreConfig } config
+   * @param {TServer.IStoreConfig} config
    */
   constructor(config) {
     this.collections = {
@@ -19,7 +19,7 @@ export class Store {
     await this.collections.pacmanPackages.cachePackages()
   }
   /**
-   * @param { Server.IStoreConfig } config
+   * @param {TServer.IStoreConfig} config
    */
   async reload(config) {
     this.collections.pacmanPackages.updateDBPath(config.pacmanDBPath)

@@ -1,5 +1,3 @@
-/* eslint-env node */
-
 import http from 'http'
 
 import { HTTPError, CoolError, NotFoundError } from '../../common/errors.js'
@@ -13,7 +11,7 @@ import { serverRouter as router } from '../router.js'
 
 export class HTTPServer {
   /**
-   * @param {Server.IWebsiteConfig} config
+   * @param {TServer.IWebsiteConfig} config
    */
   constructor(config) {
     this.config = config
@@ -21,7 +19,7 @@ export class HTTPServer {
     this.logger = new Logger('HTTP')
     this.store = new Store(config.store)
 
-    /** @type {Server.HTTPServerState} */
+    /** @type {TServer.HTTPServerState} */
     this.state = 'inactive'
 
     /** @type {http.Server | undefined} */
@@ -56,7 +54,7 @@ export class HTTPServer {
       'Content-Length': Buffer.byteLength(context.content, 'utf8')
     })
 
-    return new Promise(/** @param {TypeCons.Action<void>} resolve */ function(resolve) {
+    return new Promise(/** @param {TCons.Action<void>} resolve */ function(resolve) {
       response.write(context.content, 'utf8', function() {
         response.end()
         resolve()
@@ -65,7 +63,7 @@ export class HTTPServer {
   }
 
   /**
-   * @param {Server.IWebsiteConfig} config
+   * @param {TServer.IWebsiteConfig} config
    */
   async reload(config) {
     if (config.server.socket !== this.config.server.socket) {

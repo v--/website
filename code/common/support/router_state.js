@@ -7,13 +7,13 @@ import { Path } from './path.js'
  * @typedef {object} RouterStateParams
  * @property {string} title
  * @property {Path} path
- * @property {Components.FactoryComponentType<RouterState> | Playground.PlaygroundPage} factory
+ * @property {TComponents.FactoryComponentType<RouterState> | TPlayground.PlaygroundPage} factory
  * @property {any} [data]
  * @property {string} [description]
  * @property {boolean} [loading]
  * @property {SidebarId} [sidebarId]
  * @property {boolean} [isCollapsed]
- * @property {TypeCons.Action<MouseEvent>} [toggleCollapsed]
+ * @property {TCons.Action<MouseEvent>} [toggleCollapsed]
  */
 
 /**

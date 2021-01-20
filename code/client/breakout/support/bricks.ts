@@ -1,7 +1,7 @@
 import { Vector } from '../../../common/math/geom2d/vector.js'
 import { GameBrick } from '../geom/game_brick.js'
 
-export function findBrickIndex(bricks: GameBrick[], origin: Vector): Num.UInt32 {
+export function findBrickIndex(bricks: GameBrick[], origin: Vector): TNum.UInt32 {
   return bricks.findIndex(brick => brick.origin.x === origin.x && brick.origin.y === origin.y)
 }
 

@@ -4,7 +4,7 @@ import { GraphAlgorithmDatum } from '../types/algorithm_data.js'
 
 export type GraphAlgorithmVertexData<T> = Map<T, GraphAlgorithmDatum>
 
-export function fillPathAncestorVertexData<T>(graph: Graph<T>, ancestors: TypeCons.NonStrictMap<T, T>, start: T): GraphAlgorithmVertexData<T> {
+export function fillPathAncestorVertexData<T>(graph: Graph<T>, ancestors: TCons.NonStrictMap<T, T>, start: T): GraphAlgorithmVertexData<T> {
   const vertexData = new Map()
 
   for (const v of graph.iterAllVertices()) {

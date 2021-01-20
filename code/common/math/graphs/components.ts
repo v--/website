@@ -11,7 +11,7 @@ function recurseAndLabel<T>(graph: Graph<T>, v: T, marked: Set<T>, labels: Graph
   }
 }
 
-export type GraphComponentMap<T> = TypeCons.NonStrictMap<T, Num.UInt32>
+export type GraphComponentMap<T> = TCons.NonStrictMap<T, TNum.UInt32>
 
 export function labelComponents<T>(graph: Graph<T>): GraphComponentMap<T> {
   const marked = new Set<T>()

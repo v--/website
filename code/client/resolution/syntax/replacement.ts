@@ -2,7 +2,7 @@ import { CoolError } from '../../../common/errors.js'
 
 export class ReplacementError extends CoolError {}
 
-export function replaceVariables(expression: Resolution.FOLExpression, termMap: Map<string, Resolution.FOLTerm>): Resolution.FOLExpression {
+export function replaceVariables(expression: TResolution.FOLExpression, termMap: Map<string, TResolution.FOLTerm>): TResolution.FOLExpression {
   switch (expression.type) {
     case 'variable':
       return termMap.get(expression.name) || expression
@@ -12,14 +12,14 @@ export function replaceVariables(expression: Resolution.FOLExpression, termMap: 
       return {
         type: expression.type,
         name: expression.name,
-        args: expression.args.map(arg => replaceVariables(arg, termMap) as Resolution.FOLTerm)
+        args: expression.args.map(arg => replaceVariables(arg, termMap) as TResolution.FOLTerm)
       }
 
     case 'negation':
       return {
         type: expression.type,
         formula: replaceVariables(expression.formula, termMap)
-      } as Resolution.NegationExpression
+      } as TResolution.NegationExpression
 
     case 'conjunction':
     case 'disjunction':
@@ -27,7 +27,7 @@ export function replaceVariables(expression: Resolution.FOLExpression, termMap: 
     case 'equivalence':
       return {
         type: expression.type,
-        formulas: expression.formulas.map(arg => replaceVariables(arg, termMap) as Resolution.FOLFormula)
+        formulas: expression.formulas.map(arg => replaceVariables(arg, termMap) as TResolution.FOLFormula)
       }
 
     case 'universalQuantification':
@@ -42,7 +42,7 @@ export function replaceVariables(expression: Resolution.FOLExpression, termMap: 
       return {
         type: expression.type,
         variable: replacement ? replacement.name : expression.variable,
-        formula: replaceVariables(expression.formula, termMap) as Resolution.FOLFormula
+        formula: replaceVariables(expression.formula, termMap) as TResolution.FOLFormula
       }
     }
   }

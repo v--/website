@@ -1,4 +1,4 @@
-declare namespace Files {
+declare namespace TFiles {
   export interface IFile {
     name: string
     isFile: boolean

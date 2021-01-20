@@ -16,7 +16,7 @@ import { RouterState } from '../../common/support/router_state.js'
 
 export class ResolutionError extends CoolError {}
 
-export function formulasToText(formulas: Resolution.FOLFormula[]) {
+export function formulasToText(formulas: TResolution.FOLFormula[]) {
   return { text: formulas.map(stringifyExpression).join('\n') }
 }
 
@@ -39,7 +39,7 @@ const QUERY_CONFIG_PARSERS = Object.freeze({
 })
 
 function parseFormulas(axioms: string[], goal: string) {
-  const formulas: Resolution.FOLFormula[] = []
+  const formulas: TResolution.FOLFormula[] = []
 
   for (let i = 0; i < axioms.length; i++) {
     const formula = parseExpressionSilently(axioms[i])
@@ -93,7 +93,7 @@ export function index({ path, description }: RouterState) {
   const config = new QueryConfig<IQueryConfig>(path, QUERY_CONFIG_DEFAULTS, QUERY_CONFIG_PARSERS)
   const axioms = (config.get('axioms') as string).split(';').map(string => string.trim())
   const goal = (config.get('goal') as string)
-  let formulas: Resolution.FOLFormula[] = []
+  let formulas: TResolution.FOLFormula[] = []
   let error = ''
 
   try {
@@ -187,7 +187,7 @@ export function index({ path, description }: RouterState) {
       c('p', { text: 'A sequence of derived disjuncts with the input disjuncts and resolution literal specified.' }),
       c('pre', undefined,
         !proof && c('code', { text: 'No proof found in under 25 steps.' }),
-        proof && c('code', { text: proof.map((r, i) => String(i + disjuncts.length + 1) + '. ' + stringifyResolvent(r as Required<Resolution.FOLResolvent>)).join('\n') })
+        proof && c('code', { text: proof.map((r, i) => String(i + disjuncts.length + 1) + '. ' + stringifyResolvent(r as Required<TResolution.FOLResolvent>)).join('\n') })
       )
     )
   )

@@ -11,7 +11,7 @@ import { Path } from './support/path.js'
 
 /**
  * @param {Path} path
- * @param {Stores.IStore} store
+ * @param {TStore.IStore} store
  * @returns {Promise<Omit<import('./support/router_state.js').RouterStateParams, 'path'>>}
  */
 async function routerImpl(path, store) {
@@ -121,7 +121,7 @@ async function routerImpl(path, store) {
 
 /**
  * @param {Path} path
- * @param {Stores.IStore} store
+ * @param {TStore.IStore} store
  * @returns RouterState
  */
 export async function router(path, store) {

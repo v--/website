@@ -1,7 +1,7 @@
 import { Graph, GraphTraversalError } from './graph.js'
 import { repeat, zip2 } from '../../support/iteration.js'
 
-function postorderDFS<T>(graph: Graph<T>, pre: Map<T, Num.UInt32>, post: Map<T, Num.UInt32>, order: T[], v: T, clock: Num.UInt32) {
+function postorderDFS<T>(graph: Graph<T>, pre: Map<T, TNum.UInt32>, post: Map<T, TNum.UInt32>, order: T[], v: T, clock: TNum.UInt32) {
   pre.set(v, clock++)
 
   for (const arc of graph.getOutgoingArcs(v)) {

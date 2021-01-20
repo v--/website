@@ -2,7 +2,7 @@ import { processData } from './processing.js'
 
 export const processPacmanPackages = processData(
   /**
-   * @returns {PacmanPackages.IPackage | undefined}
+   * @returns {TPacmanPackages.IPackage | undefined}
    */
   ({ name, version, description, arch }) => {
     if (typeof name === 'string' &&

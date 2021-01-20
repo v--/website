@@ -1,6 +1,3 @@
-// @ts-check
-/* eslint-env browser */
-
 import { location$ } from '../../common/shared_observables.js'
 import { c } from '../../common/rendering/component.js'
 
@@ -15,7 +12,7 @@ import { RouterState } from '../../common/support/router_state.js'
 import { processErrorJsonObject, restoreError } from '../../common/store/errors.js'
 
 /**
- * @param {Observables.IObservable<RouterState>} observable
+ * @param {TObservables.IObservable<RouterState>} observable
  */
 function renderObservable(observable) {
   const mainElement = document.querySelector('main')
@@ -61,7 +58,7 @@ async function fetchIcons() {
 /**
  * @typedef {object} ServerData
  * @property {unknown} [data]
- * @property {Errors.ErrorJsonObject} [errorData]
+ * @property {TErrors.ErrorJsonObject} [errorData]
  */
 
 /**

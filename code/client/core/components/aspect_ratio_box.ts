@@ -15,7 +15,7 @@ const REFRESH_TIMEOUT = 300
 
 let currentBox: Renderer<HTMLElement> | undefined
 
-function tryClamp(x: Num.Float64, min: Num.Float64, max: Num.Float64): Num.Float64 {
+function tryClamp(x: TNum.Float64, min: TNum.Float64, max: TNum.Float64): TNum.Float64 {
   if (typeof min === 'number' && x < min) {
     return min
   }

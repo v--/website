@@ -21,10 +21,10 @@ export interface GraphAlgorithmState<T> {
   changeStart: (vertex?: T) => void
   changeEnd: (vertex?: T) => void
 
-  runAlgorithm: TypeCons.Action<GraphAlgorithm<T>>
+  runAlgorithm: TCons.Action<GraphAlgorithm<T>>
 }
 
-export type SuccessfulGraphAlgorithmState<T> = TypeCons.RequiredWith<
+export type SuccessfulGraphAlgorithmState<T> = TCons.RequiredWith<
   GraphAlgorithmState<T>,
   'algorithm' | 'graph' | 'layout' | 'result'
 >

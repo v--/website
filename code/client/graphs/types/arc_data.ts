@@ -3,4 +3,4 @@ export interface GraphArcDatum {
   value: string
 }
 
-export type GraphArcData<T> = TypeCons.NonStrictMap<T, GraphArcDatum>
+export type GraphArcData<T> = TCons.NonStrictMap<T, GraphArcDatum>

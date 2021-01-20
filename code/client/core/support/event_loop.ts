@@ -2,11 +2,11 @@ import { Subscription } from '../../../common/observables/subscription.js'
 import { createIntervalObservable } from './timeout.js'
 
 export class EventLoop {
-  private listenerMap = new Map<TypeCons.Action<void>, number>()
-  private subscriptionMap = new Map<TypeCons.Action<void>, Subscription<void>>()
+  private listenerMap = new Map<TCons.Action<void>, number>()
+  private subscriptionMap = new Map<TCons.Action<void>, Subscription<void>>()
   private started = false
 
-  add(listener: TypeCons.Action<void>, period: number) {
+  add(listener: TCons.Action<void>, period: number) {
     this.listenerMap.set(listener, period)
 
     if (this.started) {
@@ -16,7 +16,7 @@ export class EventLoop {
     }
   }
 
-  remove(listener: TypeCons.Action<void>) {
+  remove(listener: TCons.Action<void>) {
     this.listenerMap.delete(listener)
     const subscription = this.subscriptionMap.get(listener)
 

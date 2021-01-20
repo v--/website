@@ -41,7 +41,7 @@ export function motifCanvas({ motif }) {
             y: String(pointRadius * Math.sin(pointAngle) + SQUARE_VISUAL_PADDING)
           })
         },
-        /** @type {Iterable<[Num.UInt32, Num.UInt32, Num.Float64]>} */ (
+        /** @type {Iterable<[TNum.UInt32, TNum.UInt32, TNum.Float64]>} */ (
           product(
             range(0, side),
             range(1, side),

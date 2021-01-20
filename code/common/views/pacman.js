@@ -5,7 +5,7 @@ import { sectionTitle } from '../components/section_title.js'
 import { RouterState } from '../support/router_state.js'
 
 /**
- * @param {PacmanPackages.IPackage[]} pkgs
+ * @param {TPacmanPackages.IPackage[]} pkgs
  */
 function * iterPackages(pkgs) {
   for (const { name, version, description } of pkgs) {
@@ -15,7 +15,7 @@ function * iterPackages(pkgs) {
 }
 
 /**
- * @param {{ arch: PacmanPackages.Architecture, pkgs: PacmanPackages.IPackage[] }} param1
+ * @param {{ arch: TPacmanPackages.Architecture, pkgs: TPacmanPackages.IPackage[] }} param1
  */
 function packages({ arch, pkgs }) {
   return c('div', { class: 'packages' },
@@ -25,10 +25,10 @@ function packages({ arch, pkgs }) {
 }
 
 /**
- * @param {RouterState & { data: PacmanPackages.IPackage[] }} param1
+ * @param {RouterState & { data: TPacmanPackages.IPackage[] }} param1
  */
 export function pacman({ data }) {
-  /** @type {TypeCons.NonStrictMap<PacmanPackages.Architecture, PacmanPackages.IPackage[]>} */
+  /** @type {TCons.NonStrictMap<TPacmanPackages.Architecture, TPacmanPackages.IPackage[]>} */
   const arches = new Map()
 
   for (const pkg of data) {

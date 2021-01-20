@@ -10,7 +10,7 @@ export function link(state: {
   text?: string,
   style?: string,
   title?: string
-}, children: Components.IComponent[]) {
+}, children: TComponents.IComponent[]) {
   const childState: {
     href: string,
     text?: string,
@@ -18,7 +18,7 @@ export function link(state: {
     target?: string,
     title?: string,
     style?: string,
-    click?: TypeCons.Action<MouseEvent>
+    click?: TCons.Action<MouseEvent>
   } = {
     href: encodeURI(state.link)
   }

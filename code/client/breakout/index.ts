@@ -49,8 +49,8 @@ export function index({ path, description }: RouterState) {
 }
 
 {
-  let keyDownSubscription: Observables.ISubscription | undefined
-  let keyUpSubscription: Observables.ISubscription | undefined
+  let keyDownSubscription: TObservables.ISubscription | undefined
+  let keyUpSubscription: TObservables.ISubscription | undefined
 
   dispatcher.events.create.subscribe({
     next(renderer: Renderer<HTMLElement>) {

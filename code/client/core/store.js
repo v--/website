@@ -4,7 +4,7 @@ import { processPacmanPackages } from '../../common/store/pacman_packages.js'
 import { fetchJSON } from './support/dom.js'
 
 /**
- * @implements Stores.IStore
+ * @implements TStore.IStore
  */
 export class Store {
   collections = {
@@ -26,7 +26,7 @@ export class Store {
 }
 
 /**
- * @implements Stores.IStore
+ * @implements TStore.IStore
  */
 export class MockStore {
   /**

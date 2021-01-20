@@ -1,5 +1,3 @@
-/* eslint-env browser */
-
 import { ForbiddenError, NotFoundError } from '../../../common/errors.js'
 
 export function onDocumentReady(): Promise<void> {

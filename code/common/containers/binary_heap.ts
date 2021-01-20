@@ -8,8 +8,8 @@ export class NoSuchItemError extends BinaryHeapError {}
 
 export interface IBinaryHeapParams<T> {
   payload?: T[],
-  weights?: Num.Float64[],
-  payloadMap?: TypeCons.NonStrictMap<T, Num.UInt32>
+  weights?: TNum.Float64[],
+  payloadMap?: TCons.NonStrictMap<T, TNum.UInt32>
 }
 
 export interface BinaryHeap<T> extends Required<IBinaryHeapParams<T>> {}
@@ -24,14 +24,14 @@ export class BinaryHeap<T> {
     return this.payload.length === 0
   }
 
-  _swap(i: Num.UInt32, j: Num.UInt32) {
+  _swap(i: TNum.UInt32, j: TNum.UInt32) {
     swap(this.payload, i, j)
     swap(this.weights, i, j)
     this.payloadMap.set(this.payload[i], i)
     this.payloadMap.set(this.payload[j], j)
   }
 
-  _siftDown(start: Num.UInt32) {
+  _siftDown(start: TNum.UInt32) {
     let node = start
     let leftChild = 2 * start + 1
     let rightChild = 2 * start + 2
@@ -58,7 +58,7 @@ export class BinaryHeap<T> {
     }
   }
 
-  insert(item: T, weight?: Num.Float64) {
+  insert(item: T, weight?: TNum.Float64) {
     let node = this.payload.length
     let parent = Math.ceil(node / 2) - 1
 
@@ -129,7 +129,7 @@ export class BinaryHeap<T> {
     return this.weights[index]
   }
 
-  updateItemWeight(item: T, weight: Num.Float64) {
+  updateItemWeight(item: T, weight: TNum.Float64) {
     const index = this.payloadMap.get(item)
 
     if (index === undefined) {

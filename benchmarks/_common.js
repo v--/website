@@ -6,7 +6,7 @@ import Benchmark from 'benchmark'
  */
 
 /**
- * @param {Array<TypeCons.Action<void>>} benchmarks
+ * @param {Array<TCons.Action<void>>} benchmarks
  */
 export function run(...benchmarks) {
   const suite = new Benchmark.Suite()

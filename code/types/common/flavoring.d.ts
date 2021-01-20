@@ -1,4 +1,4 @@
-declare namespace Flavoring {
+declare namespace TFlavoring {
   // https://spin.atomicobject.com/2018/01/15/typescript-flexible-nominal-typing/
   export interface Flavoring<K extends string> {
     ['@@flavoringSymbol']?: K

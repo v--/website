@@ -1,4 +1,4 @@
-declare namespace Observables {
+declare namespace TObservables {
   export interface ISubscription {
     unsubscribe(): void
     closed: boolean
@@ -8,7 +8,7 @@ declare namespace Observables {
   export type Cleanup = ISubscription | CleanupFunction | null | undefined
 
   export interface IObserver<T> {
-    start?(subscription: Observables.ISubscription): void
+    start?(subscription: TObservables.ISubscription): void
     next(value: T): void
     error(err: Error): void
     complete(value?: T): void

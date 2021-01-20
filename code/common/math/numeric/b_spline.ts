@@ -3,16 +3,15 @@ import { CoolError } from '../../../common/errors.js'
 
 import { dividedDifferences } from './divided_differences.js'
 import { stringifyNumber } from '../stringify.js'
-import { IRealFunction } from '../types/real_function.js'
 
 export class BSplineError extends CoolError {}
 export class NotEnoughPointsError extends BSplineError {}
 
 export interface BSplineParams {
-  points: Num.Float64[]
+  points: TNum.Float64[]
 }
 
-export interface BSpline extends BSplineParams, IRealFunction {}
+export interface BSpline extends BSplineParams, TMath.IRealFunction {}
 export class BSpline {
   constructor({ points }: BSplineParams) {
     if (points.length < 2) {
@@ -22,7 +21,7 @@ export class BSpline {
     this.points = points
   }
 
-  eval(t: Num.Float64) {
+  eval(t: TNum.Float64) {
     return dividedDifferences(x => x > t ? Math.pow(x - t, this.degree) : 0, this.points)
   }
 

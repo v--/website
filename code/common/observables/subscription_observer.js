@@ -2,35 +2,35 @@ import { errors } from './errors.js'
 
 /**
  * @template T
- * @implements Observables.ISubscriptionObserver<T>
+ * @implements TObservables.ISubscriptionObserver<T>
  */
 export class SubscriptionObserver {
   /**
-   * @param {Partial<Observables.IObserver<T>>} observer
+   * @param {Partial<TObservables.IObserver<T>>} observer
    */
   constructor(observer) {
     this.observer = observer
     this._closed = false
 
-    /** @type {Observables.CleanupFunction | undefined} */
+    /** @type {TObservables.CleanupFunction | undefined} */
     this.cleanupFunction = undefined
   }
 
   /**
-   * @param {Observables.SubscriberFunction<T>} subscriber
+   * @param {TObservables.SubscriberFunction<T>} subscriber
    */
   subscribe(subscriber) {
-    /** @type {Observables.Cleanup} */
+    /** @type {TObservables.Cleanup} */
     let cleanup
 
     try {
-      cleanup = /** @type {Observables.Cleanup} */ (subscriber(this))
+      cleanup = /** @type {TObservables.Cleanup} */ (subscriber(this))
     } catch (err) {
       this.error(err)
     }
 
-    if (cleanup instanceof Object && (/** @type {Observables.ISubscription} */ (cleanup)).unsubscribe instanceof Function) {
-      this.cleanupFunction = (/** @type {Observables.ISubscription} */ (cleanup)).unsubscribe
+    if (cleanup instanceof Object && (/** @type {TObservables.ISubscription} */ (cleanup)).unsubscribe instanceof Function) {
+      this.cleanupFunction = (/** @type {TObservables.ISubscription} */ (cleanup)).unsubscribe
     } else if (cleanup === undefined || cleanup === null) {
       this.cleanupFunction = undefined
     } else if (cleanup instanceof Function) {

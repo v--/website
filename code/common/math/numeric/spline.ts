@@ -1,10 +1,9 @@
 import { map, zip2 } from '../../support/iteration.js'
 
 import { stringifyLinearCombination } from '../stringify.js'
-import { IRealFunction } from '../types/real_function.js'
 import { BSpline } from './b_spline.js'
 
-function * iterExtendedDomain(degree: Num.UInt32, x: Num.Float64[]): Generator<Num.Float64, void, undefined> {
+function * iterExtendedDomain(degree: TNum.UInt32, x: TNum.Float64[]): Generator<TNum.Float64, void, undefined> {
   const n = x.length
   const differences = map(([a, b]) => a - b, zip2(x.slice(1), x.slice(0, n - 1)))
   const diameter = Math.max(1, Math.max(...differences))
@@ -17,7 +16,7 @@ function * iterExtendedDomain(degree: Num.UInt32, x: Num.Float64[]): Generator<N
   }
 }
 
-function * iterBasis(degree: Num.UInt32, x: Num.Float64[]) {
+function * iterBasis(degree: TNum.UInt32, x: TNum.Float64[]) {
   const domain = Array.from(iterExtendedDomain(degree, x))
 
   for (let i = 0; i < x.length; i++) {
@@ -27,12 +26,12 @@ function * iterBasis(degree: Num.UInt32, x: Num.Float64[]) {
 
 export interface SplineParams {
   basis: BSpline[]
-  coef: Num.Float64[]
+  coef: TNum.Float64[]
 }
 
-export interface Spline extends SplineParams, IRealFunction {}
+export interface Spline extends SplineParams, TMath.IRealFunction {}
 export class Spline {
-  static fromDataPoints(degree: Num.UInt32, x: Num.Float64[], y: Num.Float64[]) {
+  static fromDataPoints(degree: TNum.UInt32, x: TNum.Float64[], y: TNum.Float64[]) {
     const basis = Array.from(iterBasis(degree, x))
     const n = x.length
     const coef = Array(n).fill(0)
@@ -54,7 +53,7 @@ export class Spline {
     Object.assign(this, params)
   }
 
-  eval(x: Num.Float64) {
+  eval(x: TNum.Float64) {
     let result = 0
 
     for (const [coef, fun] of zip2(this.coef, this.basis)) {

@@ -27,7 +27,7 @@ describe('convertToPNF()', function() {
   })
 
   it('properly renames multiple bound variables with the same names', function() {
-    const termMap = new Map([['x1', { type: 'variable', name: 't1' }]]) as TypeCons.NonStrictMap<string, Resolution.FOLTerm>
+    const termMap = new Map([['x1', { type: 'variable', name: 't1' }]]) as TCons.NonStrictMap<string, TResolution.FOLTerm>
 
     assertEqualExpressions(
       convertToPNF(parseSimplified('(Ax p(x) & Ex q(x))')),
@@ -36,7 +36,7 @@ describe('convertToPNF()', function() {
   })
 
   it('properly renames nested bound variables with the same names', function() {
-    const termMap = new Map([['y1', { type: 'variable', name: 't1' }]]) as TypeCons.NonStrictMap<string, Resolution.FOLTerm>
+    const termMap = new Map([['y1', { type: 'variable', name: 't1' }]]) as TCons.NonStrictMap<string, TResolution.FOLTerm>
 
     assertEqualExpressions(
       convertToPNF(parseSimplified('Ax (Ex p(x) & q(x))')),
@@ -55,7 +55,7 @@ describe('convertToPNF()', function() {
     const termMap = new Map([
       ['x1', { type: 'variable', name: 't1' }],
       ['x2', { type: 'variable', name: 't2' }]
-    ]) as TypeCons.NonStrictMap<string, Resolution.FOLTerm>
+    ]) as TCons.NonStrictMap<string, TResolution.FOLTerm>
 
     assertEqualExpressions(
       convertToPNF(simplify(parseSimplified('Ay (Ax p(x, y) <-> p(y, x))'))),

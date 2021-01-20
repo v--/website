@@ -1,14 +1,13 @@
 import { reduce } from '../../../common/support/iteration.js'
 
 import { Polynomial } from '../../../common/math/algebra/polynomial.js'
-import { Fitter } from '../types/fitter.js'
 import { getMappingDomain, getMappingRange } from '../support/mapping.js'
 
-function sum(values: Num.Float64[]): Num.Float64 {
+function sum(values: TNum.Float64[]): TNum.Float64 {
   return reduce((value, accum) => value + accum, values, 0)
 }
 
-function dot(x: Num.Float64[], y: Num.Float64[]): Num.Float64 {
+function dot(x: TNum.Float64[], y: TNum.Float64[]): TNum.Float64 {
   const n = Math.min(x.length, y.length)
   let prod = 0
 
@@ -19,7 +18,7 @@ function dot(x: Num.Float64[], y: Num.Float64[]): Num.Float64 {
   return prod
 }
 
-export const linearLeastSquares: Fitter = Object.freeze({
+export const linearLeastSquares: TCurves.Fitter = Object.freeze({
   name: 'Linear least squares',
   date: '2018-09-06',
   hideByDefault: true,

@@ -6,8 +6,8 @@ class ZeroVectorError extends VectorError {}
 
 /**
  * @typedef {object} VectorParams
- * @property {Num.Float64} x
- * @property {Num.Float64} y
+ * @property {TNum.Float64} x
+ * @property {TNum.Float64} y
  */
 
 /**
@@ -15,8 +15,8 @@ class ZeroVectorError extends VectorError {}
  */
 export class Vector {
   /**
-   * @param {Num.Float64} length
-   * @param {Num.Float64} angle
+   * @param {TNum.Float64} length
+   * @param {TNum.Float64} angle
    */
   static fromPolar(length, angle) {
     return new this({
@@ -48,7 +48,7 @@ export class Vector {
   }
 
   /**
-   * @param {Num.Float64} amount
+   * @param {TNum.Float64} amount
    */
   scale(amount) {
     return new Vector({ x: amount * this.x, y: amount * this.y })
@@ -86,7 +86,7 @@ export class Vector {
 
   /**
    * @param {Vector} other
-   * @param {Num.UnitRatio} coeff
+   * @param {TNum.UnitRatio} coeff
    */
   convexSum(other, coeff) {
     return new Vector({
