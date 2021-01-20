@@ -1,11 +1,15 @@
 import { Observable } from './observable.js'
 
-export class Subject<T> implements Observables.IObservable<T>, Observables.IObserver<T> {
-  observers: Observables.IObserver<T>[]
-  observable: Observables.IObservable<T>
-
+/**
+ * @template T
+ * @implements Observables.IObservable<T>, Observables.IObserver<T>
+ */
+export class Subject {
   constructor() {
+    /** @type {Observables.IObserver<T>[]} */
     this.observers = []
+
+    /** @type {Observables.IObservable<T>} */
     this.observable = new Observable(this._subscriber.bind(this))
   }
 
@@ -13,7 +17,10 @@ export class Subject<T> implements Observables.IObservable<T>, Observables.IObse
     return this
   }
 
-  _subscriber(observer: Observables.IObserver<T>) {
+  /**
+   * @param {Observables.IObserver<T>} observer
+   */
+  _subscriber(observer) {
     const index = this.observers.length
     this.observers.push(observer)
 
@@ -22,7 +29,10 @@ export class Subject<T> implements Observables.IObservable<T>, Observables.IObse
     }
   }
 
-  next(value: T): T {
+  /**
+   * @param {T} value
+   */
+  next(value) {
     for (const observer of this.observers) {
       observer.next(value)
     }
@@ -30,7 +40,10 @@ export class Subject<T> implements Observables.IObservable<T>, Observables.IObse
     return value
   }
 
-  error(err: Error) {
+  /**
+   * @param {Error} err
+   */
+  error(err) {
     let hasThrown = false
 
     for (const observer of this.observers) {
@@ -46,7 +59,10 @@ export class Subject<T> implements Observables.IObservable<T>, Observables.IObse
     }
   }
 
-  complete(value?: T) {
+  /**
+   * @param {T} [value]
+   */
+  complete(value) {
     for (const observer of this.observers) {
       observer.complete(value)
     }
@@ -54,7 +70,10 @@ export class Subject<T> implements Observables.IObservable<T>, Observables.IObse
     return value
   }
 
-  subscribe(potentialObserver: Observables.IPotentialObserver<T>) {
+  /**
+   * @param {Observables.IPotentialObserver<T>} potentialObserver
+   */
+  subscribe(potentialObserver) {
     // eslint-disable-next-line prefer-rest-params
     return this.observable.subscribe(potentialObserver)
   }

@@ -1,26 +1,36 @@
 import { errors } from './errors.js'
 
-export class SubscriptionObserver<T> implements Observables.ISubscriptionObserver<T> {
-  cleanupFunction?: Observables.CleanupFunction
-  private _closed: boolean
-
-  constructor(
-    private observer: Partial<Observables.IObserver<T>>
-  ) {
+/**
+ * @template T
+ * @implements Observables.ISubscriptionObserver<T>
+ */
+export class SubscriptionObserver {
+  /**
+   * @param {Partial<Observables.IObserver<T>>} observer
+   */
+  constructor(observer) {
+    this.observer = observer
     this._closed = false
+
+    /** @type {TypeCons.Optional<Observables.CleanupFunction>} */
+    this.cleanupFunction = undefined
   }
 
-  subscribe(subscriber: Observables.SubscriberFunction<T>) {
-    let cleanup: Observables.Cleanup
+  /**
+   * @param {Observables.SubscriberFunction<T>} subscriber
+   */
+  subscribe(subscriber) {
+    /** @type {Observables.Cleanup} */
+    let cleanup
 
     try {
-      cleanup = subscriber(this) as Observables.Cleanup
+      cleanup = /** @type {Observables.Cleanup} */ (subscriber(this))
     } catch (err) {
       this.error(err)
     }
 
-    if (cleanup instanceof Object && (cleanup as Observables.ISubscription).unsubscribe instanceof Function) {
-      this.cleanupFunction = (cleanup as Observables.ISubscription).unsubscribe
+    if (cleanup instanceof Object && (/** @type {Observables.ISubscription} */ (cleanup)).unsubscribe instanceof Function) {
+      this.cleanupFunction = (/** @type {Observables.ISubscription} */ (cleanup)).unsubscribe
     } else if (cleanup === undefined || cleanup === null) {
       this.cleanupFunction = undefined
     } else if (cleanup instanceof Function) {
@@ -34,7 +44,10 @@ export class SubscriptionObserver<T> implements Observables.ISubscriptionObserve
     }
   }
 
-  _cleanupAndThrow(err: Error) {
+  /**
+   * @param {Error} err
+   */
+  _cleanupAndThrow(err) {
     if (this.cleanupFunction) {
       try {
         this.cleanupFunction()
@@ -46,7 +59,10 @@ export class SubscriptionObserver<T> implements Observables.ISubscriptionObserve
     throw err
   }
 
-  next(value: T) {
+  /**
+   * @param {T} value
+   */
+  next(value) {
     if (this._closed) {
       return
     }
@@ -68,13 +84,18 @@ export class SubscriptionObserver<T> implements Observables.ISubscriptionObserve
     }
   }
 
-  error(err: Error) {
+  /**
+   * @param {Error} err
+   */
+  error(err) {
     if (this._closed) {
       throw err
     }
 
     this._closed = true
-    let method: Function | null | undefined
+
+    /** @type {Function | null | undefined} */
+    let method
 
     try {
       method = this.observer.error
@@ -83,7 +104,8 @@ export class SubscriptionObserver<T> implements Observables.ISubscriptionObserve
     }
 
     if (method instanceof Function) {
-      let result: unknown
+      /** @type {unknown} */
+      let result
 
       try {
         result = method.call(this.observer, err)
@@ -106,13 +128,18 @@ export class SubscriptionObserver<T> implements Observables.ISubscriptionObserve
     this._cleanupAndThrow(methodErr)
   }
 
-  complete(value?: T) {
+  /**
+   * @param {T} [value]
+   */
+  complete(value) {
     if (this._closed) {
       return
     }
 
     this._closed = true
-    let method: Function | null | undefined
+
+    /** @type {Function | null | undefined} */
+    let method
 
     try {
       method = this.observer.complete

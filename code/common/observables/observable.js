@@ -2,12 +2,25 @@ import { errors } from './errors.js'
 import { SubscriptionObserver } from './subscription_observer.js'
 import { Subscription } from './subscription.js'
 
-export class Observable<T> implements Observables.IObservable<T> {
-  static isObservable(object: unknown): boolean {
+/**
+ * @template T
+ * @implements Observables.IObservable<T>
+ */
+export class Observable {
+  /**
+   * @param {unknown} object
+   * @returns {boolean}
+   */
+  static isObservable(object) {
     return object instanceof Object && '@@observable' in object
   }
 
-  static of<T>(...items: T[]): Observable<T> {
+  /**
+   * @template T
+   * @param {T[]} items
+   * @returns Observable<T>
+   */
+  static of(...items) {
     const Cls = this instanceof Function ? this : Observable
 
     return new Cls(function(observer) {
@@ -19,7 +32,12 @@ export class Observable<T> implements Observables.IObservable<T> {
     })
   }
 
-  static from<T>(source: Iterable<T> | Observable<T>): Observable<T> {
+  /**
+   * @template T
+   * @param {Iterable<T> | Observables.IObservable<T>} source
+   * @returns Observable<T>
+   */
+  static from(source) {
     const Cls = this instanceof Function ? this : Observable
 
     if (!(source instanceof Object)) {
@@ -28,7 +46,7 @@ export class Observable<T> implements Observables.IObservable<T> {
 
     if (Symbol.iterator in source) {
       return new Cls(function(observer) {
-        for (const item of source as Iterable<T>) {
+        for (const item of /** @type {Iterable<T>} */ (source)) {
           observer.next(item)
         }
 
@@ -36,24 +54,26 @@ export class Observable<T> implements Observables.IObservable<T> {
       })
     }
 
-    if ('@@observable' in source) {
-      const result = source['@@observable']() as Observable<T>
+    if (Observable.isObservable(source)) {
+      const result = (/** @type {Observables.IObservable<T>} */ (source)) ['@@observable']()
 
-      if (result instanceof Object) {
-        if (result.subscribe instanceof Function) {
-          return new Cls(result.subscribe)
-        }
-
-        return result
+      if (Observable.isObservable(result)) {
+        return new Cls(result.subscribe)
       }
 
-      throw new errors.ErrorClass('The @@observable method must return an object')
+      throw new errors.ErrorClass('The @@observable method must return an observable object')
     }
 
     throw new errors.ErrorClass('The source must be either an iterable or an observable')
   }
 
-  constructor(private subscriber: Observables.SubscriberFunction<T>) {
+  /**
+   * @param {Observables.SubscriberFunction<T>} subscriber
+   */
+  constructor(subscriber) {
+    /** @private */
+    this.subscriber = subscriber
+
     if (!(subscriber instanceof Function)) {
       throw new errors.ErrorClass('The subscriber must be a function')
     }
@@ -63,8 +83,12 @@ export class Observable<T> implements Observables.IObservable<T> {
     return this
   }
 
-  subscribe(potentialObserver: Observables.IPotentialObserver<T>) {
-    let observer: Partial<Observables.IObserver<T>>
+  /**
+   * @param {Observables.IPotentialObserver<T>} potentialObserver
+   */
+  subscribe(potentialObserver) {
+    /** @type {Partial<Observables.IObserver<T>>} */
+    let observer
 
     if (potentialObserver instanceof Function) {
       observer = {

@@ -25,7 +25,8 @@ declare namespace Observables {
   export type IPotentialObserver<T> = Partial<IObserver<T>> | ((value: T) => void)
 
   export interface IObservable<T> {
-    subscribe(potentialObserver: IPotentialObserver<T>) : ISubscription
+    '@@observable'(): IObservable<T>
+    subscribe(potentialObserver: IPotentialObserver<T>): ISubscription
   }
 
   export type BaseType<T> = T extends IObservable<infer R> ? R : T

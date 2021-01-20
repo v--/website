@@ -1,9 +1,16 @@
 import { SubscriptionObserver } from './subscription_observer.js'
 
-export class Subscription<T> implements Observables.ISubscription {
-  constructor(
-    private subscriptionObserver: SubscriptionObserver<T>
-  ) {}
+/**
+ * @template T
+ * @implements Observables.ISubscription
+ */
+export class Subscription {
+  /**
+   * @param {SubscriptionObserver<T>} subscriptionObserver
+   */
+  constructor(subscriptionObserver) {
+    this.subscriptionObserver = subscriptionObserver
+  }
 
   unsubscribe() {
     this.subscriptionObserver.complete()
