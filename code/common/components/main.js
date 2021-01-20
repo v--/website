@@ -5,7 +5,10 @@ import { sidebarToggle } from './sidebar_toggle.js'
 import { loadingIndicator } from './loading_indicator.js'
 import { RouterState } from '../support/router_state.js'
 
-export function main(state: RouterState) {
+/**
+ * @param {RouterState} state
+ */
+export function main(state) {
   return c('main', undefined,
     c(sidebarToggle, state),
     c(sidebar, state),

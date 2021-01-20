@@ -127,7 +127,7 @@ export class RouterService {
       return
     }
 
-    this.state$.update({ ...route, factory })
+    this.state$.update({ ...route, isCollapsed, factory })
   }
 
   async processPaths() {
