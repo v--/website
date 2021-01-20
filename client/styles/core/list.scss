@@ -1,3 +1,26 @@
-.cool-list li {
-  line-height: 1.75em;
+@import "../colors.scss";
+
+.cool-list {
+  li, dt, dd {
+    line-height: 1.75em;
+
+    &:not(:last-of-type) {
+      margin-bottom: 0.25em;
+    }
+  }
+
+  dt {
+    font-size: 1.1em;
+    font-weight: bold;
+  }
+
+  dd {
+    border-left: 3px solid $color-light;
+    margin-left: 20px;
+    padding-left: 10px;
+
+    // &:not(:last-of-type) {
+      margin-bottom: 1.25em;
+    // }
+  }
 }

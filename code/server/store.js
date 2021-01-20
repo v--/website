@@ -1,17 +1,14 @@
-import { IStore } from '../common/types/store.js'
 import { FileCollection } from './collections/file.js'
 import { PacmanPackageCollection } from './collections/pacman_package.js'
-import { IStoreConfig } from './config.js'
 
-export class Store implements IStore {
-  collections: {
-    files: FileCollection
-    pacmanPackages: PacmanPackageCollection
-  }
-
-  constructor(
-    public config: IStoreConfig
-  ) {
+/**
+ * @implements Stores.IStore
+ */
+export class Store {
+  /**
+   * @param { Server.IStoreConfig } config
+   */
+  constructor(config) {
     this.collections = {
       files: new FileCollection(config.fileRootPath),
       pacmanPackages: new PacmanPackageCollection(config.pacmanDBPath)
@@ -21,8 +18,10 @@ export class Store implements IStore {
   async load() {
     await this.collections.pacmanPackages.cachePackages()
   }
-
-  async reload(config: IStoreConfig) {
+  /**
+   * @param { Server.IStoreConfig } config
+   */
+  async reload(config) {
     this.collections.pacmanPackages.updateDBPath(config.pacmanDBPath)
     await this.collections.pacmanPackages.cachePackages()
     this.config = config

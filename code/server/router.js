@@ -2,10 +2,13 @@ import { router } from '../common/router.js'
 import { NotFoundError } from '../common/errors.js'
 
 import { Response } from './http/response.js'
-import { IStore } from '../common/types/store.js'
 import { Path } from '../common/support/path.js'
 
-export async function serverRouter(path: Path, store: IStore) {
+/**
+ * @param {Path} path
+ * @param {Stores.IStore} store
+ */
+export async function serverRouter(path, store) {
   if (path.segments[0] === 'api') {
     if (path.segments.length === 2 && path.segments[1] === 'pacman') {
       return Response.json(await store.collections.pacmanPackages.load())

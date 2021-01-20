@@ -1,16 +1,20 @@
 import { NotFoundError } from './errors.js'
 import { SidebarId } from './enums/sidebar_id.js'
-import { RouterState, RouterStateParams } from './support/router_state.js'
+import { RouterState } from './support/router_state.js'
 import { PAGE_DESCRIPTIONS } from './constants/page_descriptions.js'
 
 import { home } from './views/home.js'
 import { files } from './views/files.js'
 import { pacman } from './views/pacman.js'
 import { playground } from './views/playground.js'
-import { IStore } from './types/store.js'
 import { Path } from './support/path.js'
 
-async function routerImpl(path: Path, store: IStore): Promise<Omit<RouterStateParams, 'path'>> {
+/**
+ * @param {Path} path
+ * @param {Stores.IStore} store
+ * @returns {Promise<Omit<import('./support/router_state.js').RouterStateParams, 'path'>>}
+ */
+async function routerImpl(path, store) {
   if (path.segments.length === 0) {
     return {
       title: 'home',
@@ -115,7 +119,12 @@ async function routerImpl(path: Path, store: IStore): Promise<Omit<RouterStatePa
   throw new NotFoundError()
 }
 
-export async function router(path: Path, store: IStore) {
+/**
+ * @param {Path} path
+ * @param {Stores.IStore} store
+ * @returns RouterState
+ */
+export async function router(path, store) {
   const rawState = await routerImpl(path, store)
-  return new RouterState(Object.assign({ path }, rawState))
+  return new RouterState({ path, ...rawState })
 }

@@ -1,23 +1,30 @@
 import { spawn } from 'child_process'
 
-import { IPacmanPackage, PacmanPackageArchitecture } from '../../common/types/pacman_packages.js'
-import { IPacmanPackageCollection } from '../../common/types/store.js'
+/**
+ * @typedef {object} IPacmanPackageMetadata
+ * @property {string} NAME
+ * @property {string} VERSION
+ * @property {string} DESC
+ * @property {string} ARCH
+ */
 
-interface IPacmanPackageMetadata {
-  NAME: string
-  VERSION: string
-  DESC: string
-  ARCH: string
-}
-
-function parsePacmanInfoStream(stream: NodeJS.ReadableStream): Promise<IPacmanPackageMetadata[]> {
+/**
+ * @param {NodeJS.ReadableStream} stream
+ * @returns {Promise<IPacmanPackageMetadata[]>}
+ */
+function parsePacmanInfoStream(stream) {
   return new Promise(function(resolve, reject) {
-    let buffer: string[] = []
     let key = ''
     let inTitle = false
-    let currentFile: Record<string, string> = {}
 
-    const files: IPacmanPackageMetadata[] = []
+    /** @type {string[]} */
+    let buffer = []
+
+    /** @type {Record<string, string>} */
+    let currentFile = {}
+
+    /** @type {IPacmanPackageMetadata[]} */
+    const files = []
 
     stream
       .setEncoding('utf8')
@@ -70,7 +77,11 @@ function parsePacmanInfoStream(stream: NodeJS.ReadableStream): Promise<IPacmanPa
   })
 }
 
-async function parsePacmanDatabase(path: string): Promise<IPacmanPackage[]> {
+/**
+ * @param {string} path
+ * @returns {Promise<PacmanPackages.IPackage[]>}
+ */
+async function parsePacmanDatabase(path) {
   const proc = spawn('/usr/bin/tar', ['--extract', '--file', path, '--to-stdout'])
   const packageMeta = await parsePacmanInfoStream(proc.stdout)
 
@@ -79,19 +90,29 @@ async function parsePacmanDatabase(path: string): Promise<IPacmanPackage[]> {
       name: meta.NAME,
       version: meta.VERSION,
       description: meta.DESC,
-      arch: meta.ARCH as PacmanPackageArchitecture
+      arch: /** @type {PacmanPackages.Architecture} */ (meta.ARCH)
     }
   })
 }
 
-export class PacmanPackageCollection implements IPacmanPackageCollection {
-  cachedPackages?: IPacmanPackage[]
+/**
+ * @implements Stores.IPacmanPackageCollection
+ */
+export class PacmanPackageCollection {
+  /**
+   * @param {string} pacmanDBPath
+   */
+  constructor(pacmanDBPath) {
+    this.pacmanDBPath = pacmanDBPath
 
-  constructor(
-    public pacmanDBPath: string
-  ) {}
+    /** @type {PacmanPackages.IPackage[] | undefined} */
+    this.cachedPackages = undefined
+  }
 
-  async updateDBPath(dbPath: string) {
+  /**
+   * @param {string} dbPath
+   */
+  async updateDBPath(dbPath) {
     this.pacmanDBPath = dbPath
   }
 

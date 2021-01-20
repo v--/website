@@ -12,7 +12,7 @@ import { RouterService } from './services/router.js'
 import { onDocumentReady, getCurrentURL } from './support/dom.js'
 import { dispatcher } from './render_dispatcher.js'
 import { RouterState } from '../../common/support/router_state.js'
-import { processErrorJsonObject, restoreError } from '../../common/support/process_error.js'
+import { processErrorJsonObject, restoreError } from '../../common/store/errors.js'
 
 /**
  * @param {Observables.IObservable<RouterState>} observable

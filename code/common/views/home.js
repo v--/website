@@ -6,55 +6,43 @@ import { link } from '../components/link.js'
 import { pgpLink } from '../components/pgp_link.js'
 import { sectionTitle } from '../components/section_title.js'
 
-function siteSection(state: { text: string, link: string }) {
-  return c('li', undefined,
-    c('b', undefined, c(link, { link: state.link, isInternal: true })),
-    c('span', { text: ': ' + state.text })
-  )
-}
-
-function contact(state: { link: string, icon: string, text: string }) {
-  return c('li', { class: 'contact' },
-    c(link, { link: state.link },
-      c(icon, { name: state.icon }),
-      c('span', { text: state.text })
-    )
-  )
-}
-
 export function home() {
   return c('div', { class: 'page home-page' },
     c('div', { class: 'about-me' },
       c('div', { class: 'me-irl' }),
       c('div', { class: 'contacts' },
         c(sectionTitle, { text: 'Contacts' }),
-        c('ul', undefined,
-          c(contact, {
-            text: 'Email',
-            icon: 'email',
-            link: 'mailto:ianis@ivasilev.net'
-          }),
+        c('div', undefined,
+          c('div', { class: 'contact' },
+            c(link, { link: 'mailto:ianis@ivasilev.net' },
+              c(icon, { name: 'email' }),
+              c('span', { text: 'Email' })
+            )
+          ),
 
-          c(contact, {
-            text: 'Facebook',
-            icon: 'facebook',
-            link: 'https://www.facebook.com/ianis.vasilev'
-          }),
+          c('div', { class: 'contact' },
+            c(link, { link: 'https://www.facebook.com/ianis.vasilev' },
+              c(icon, { name: 'facebook' }),
+              c('span', { text: 'Facebook' })
+            )
+          ),
 
-          c(contact, {
-            text: 'GitHub',
-            icon: 'github',
-            link: 'https://github.com/v--'
-          }),
+          c('div', { class: 'contact' },
+            c(link, { link: 'https://github.com/v--' },
+              c(icon, { name: 'github' }),
+              c('span', { text: 'GitHub' })
+            )
+          ),
 
-          c(contact, {
-            text: 'Reddit',
-            icon: 'reddit',
-            link: 'https://www.reddit.com/user/IanisVasilev'
-          })
+          c('div', { class: 'contact' },
+            c(link, { link: 'https://www.reddit.com/user/IanisVasilev' },
+              c(icon, { name: 'reddit' }),
+              c('span', { text: 'Reddit' })
+            )
+          )
         ),
 
-        c('p', undefined,
+        c('p', { class: 'pgp-info' },
           c('span', {
             text: 'PGP public key: '
           }),
@@ -76,21 +64,30 @@ export function home() {
       c('div', undefined,
         c(sectionTitle, { text: 'About this website' }),
         c('p', { text: 'This is my personal website. It contains a few diverse sections:' }),
-        c('ul', { class: 'cool-list' },
-          c(siteSection, {
-            link: '/files',
-            text: PAGE_DESCRIPTIONS.files
-          }),
+        c('dl', { class: 'cool-list' },
+          c('dt', undefined,
+            c(link, {
+              link: '/files',
+              isInternal: true
+            })
+          ),
+          c('dd', { text: PAGE_DESCRIPTIONS.files + '.' }),
 
-          c(siteSection, {
-            link: '/pacman',
-            text: PAGE_DESCRIPTIONS.pacman
-          }),
+          c('dt', undefined,
+            c(link, {
+              link: '/pacman',
+              isInternal: true
+            })
+          ),
+          c('dd', { text: PAGE_DESCRIPTIONS.pacman + '.' }),
 
-          c(siteSection, {
-            link: '/playground',
-            text: PAGE_DESCRIPTIONS.playground.index
-          })
+          c('dt', undefined,
+            c(link, {
+              link: '/playground',
+              isInternal: true
+            })
+          ),
+          c('dd', { text: PAGE_DESCRIPTIONS.playground.index + '.' })
         ),
 
         c('p', undefined,

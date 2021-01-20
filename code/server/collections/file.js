@@ -2,26 +2,37 @@ import { stat, readFile, readdir } from 'fs/promises'
 import path from 'path'
 
 import { ForbiddenError, NotFoundError } from '../../common/errors.js'
-import { IFileCollection } from '../../common/types/store.js'
-import { IDirectory } from '../../common/types/files.js'
 
-export class FileCollection implements IFileCollection {
-  constructor(
-    public fileRootPath: string
-  ) {}
+/**
+ * @implements Stores.IFileCollection
+ */
+export class FileCollection {
+  /**
+   * @param {string} fileRootPath
+   */
+  constructor(fileRootPath) {
+    this.fileRootPath = fileRootPath
+  }
 
-  updateFileRootPath(path: string) {
+  /**
+   * @param {string} path
+   */
+  updateFileRootPath(path) {
     this.fileRootPath = path
   }
 
-  async readDirectory(basePath: string) {
+  /**
+   * @param {string} basePath
+   */
+  async readDirectory(basePath) {
     if (/\/?Unlisted\/*$/.test(basePath)) {
       throw new ForbiddenError()
     }
 
     const fullPath = path.join(this.fileRootPath, basePath)
 
-    const result: IDirectory = {
+    /** @type {Files.IDirectory} */
+    const result = {
       entries: []
     }
 

@@ -3,7 +3,6 @@
 import { readFile } from 'fs/promises'
 
 import { HTTPServer } from './http/server.js'
-import { HTTPServerState } from './enums/http_server_state.js'
 import { iconMap } from '../common/components/icon.js'
 
 const CONFIG_FILE = './config/active.json'
@@ -17,7 +16,7 @@ async function readJSON(path) {
 }
 
 /**
- * @param { import('./config.js').IWebsiteConfig } config
+ * @param { Server.IWebsiteConfig } config
  */
 readJSON(CONFIG_FILE).then(async function(config) {
   const server = new HTTPServer(config)
@@ -30,7 +29,7 @@ readJSON(CONFIG_FILE).then(async function(config) {
 
   for (const signal of ['SIGINT', 'SIGTERM', 'SIGQUIT']) {
     process.on(signal, async function() {
-      if (server.state === HTTPServerState.running) {
+      if (server.state === 'running') {
         server.logger.info(`Received signal ${signal}. Shutting down server.`)
         await server.stop(signal)
       }

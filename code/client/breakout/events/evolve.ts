@@ -12,7 +12,7 @@ export function evolve(subject$: DictSubject<IGameState>) {
   const selectedBrick = bricks[Math.floor(Math.random() * bricks.length)]
   const evolveBrickItself = Math.random() < 1 / 9
 
-  let newBricks: TypeCons.Optional<GameBrick[]>
+  let newBricks: GameBrick[] | undefined
 
   if (evolveBrickItself) {
     const newBrick = selectedBrick.getEvolved()

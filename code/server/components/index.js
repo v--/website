@@ -4,7 +4,10 @@ import { main } from '../../common/components/main.js'
 import { title } from '../../common/components/title.js'
 import { RouterState } from '../../common/support/router_state.js'
 
-export function index({ state }: { state: RouterState }) {
+/**
+ * @param {{ state: RouterState }} param1
+ */
+export function index({ state }) {
   let serializedData
 
   if (state.data instanceof Error) {

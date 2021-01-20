@@ -1,5 +1,5 @@
 import { ClientError, DataFormatError, errorClassIds, GenericError, HTTPError } from '../errors.js'
-import { processDatum } from '../types/processing.js'
+import { processDatum } from './processing.js'
 
 export const processErrorJsonObject = processDatum(
   /**

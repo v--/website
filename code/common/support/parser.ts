@@ -44,7 +44,7 @@ function addMatch(rule: RefType, originalMatches: (IParseTree | string)[], newMa
 }
 
 export abstract class ParserRule {
-  abstract parse(rules: RuleMap, string: string): TypeCons.Optional<IParserMatch>
+  abstract parse(rules: RuleMap, string: string): IParserMatch | undefined
 }
 
 export class WildcardRule extends ParserRule {

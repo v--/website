@@ -16,7 +16,7 @@ import { SharedState, SubjectState } from './types/state.js'
 
 // There is a lot of shared state here because I needed the event loop to know about global observables
 const UPDATE_INTERVAL = 50
-let sharedState: TypeCons.Optional<SharedState>
+let sharedState: SharedState | undefined
 
 const subject = new DictSubject<SubjectState>({
   buttonOrigin: new Vector({ x: 0.5, y: 0.5 })

@@ -2,38 +2,38 @@ import { map } from '../support/iteration.js'
 import { c } from '../rendering/component.js'
 import { pgpLink } from '../components/pgp_link.js'
 import { sectionTitle } from '../components/section_title.js'
-import { IPacmanPackage, PacmanPackageArchitecture } from '../types/pacman_packages.js'
 import { RouterState } from '../support/router_state.js'
 
-function * iterPackages(pkgs: IPacmanPackage[]) {
+/**
+ * @param {PacmanPackages.IPackage[]} pkgs
+ */
+function * iterPackages(pkgs) {
   for (const { name, version, description } of pkgs) {
-    yield c('li', { class: 'package' },
-      c('b', { text: `${name} (version ${version})` }),
-      c('br'),
-      c('span', { text: description })
-    )
+    yield c('dt', { text: `${name} (version ${version})` })
+    yield c('dd', { text: description })
   }
 }
 
-function packages({
-  arch, pkgs
-}: {
-  arch: PacmanPackageArchitecture,
-  pkgs: IPacmanPackage[]
-}) {
+/**
+ * @param {{ arch: PacmanPackages.Architecture, pkgs: PacmanPackages.IPackage[] }} param1
+ */
+function packages({ arch, pkgs }) {
   return c('div', { class: 'packages' },
     c('h2', { text: arch }),
-    c('ul', { class: 'cool-list' }, ...iterPackages(pkgs))
+    c('dl', { class: 'cool-list' }, ...iterPackages(pkgs))
   )
 }
 
-export function pacman({ data: rawData }: RouterState) {
-  const data = rawData as IPacmanPackage[]
-  const arches = new Map<PacmanPackageArchitecture, IPacmanPackage[]>()
+/**
+ * @param {RouterState & { data: PacmanPackages.IPackage[] }} param1
+ */
+export function pacman({ data }) {
+  /** @type {TypeCons.NonStrictMap<PacmanPackages.Architecture, PacmanPackages.IPackage[]>} */
+  const arches = new Map()
 
   for (const pkg of data) {
     if (arches.has(pkg.arch)) {
-      arches.get(pkg.arch)!.push(pkg)
+      arches.get(pkg.arch).push(pkg)
     } else {
       arches.set(pkg.arch, [pkg])
     }

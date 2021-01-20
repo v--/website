@@ -9,69 +9,62 @@ export function playground() {
     c('div', undefined,
       c(sectionTitle, { text: '/playground' }),
       c('p', { text: "These are some of the browser-based visualizations and simulations I have created. The code is neither precompiled nor bundled and can be easily explored using any browser's developer tools." }),
-      c('ul', { class: 'cool-list' },
-        c('li', undefined,
+      c('dl', { class: 'cool-list' },
+        c('dt', undefined,
           c(link, {
-            class: 'playground-link',
-            text: PAGE_DESCRIPTIONS.playground.sorting,
             link: '/playground/sorting',
             isInternal: true
           })
         ),
+        c('dd', { text: PAGE_DESCRIPTIONS.playground.sorting }),
 
-        c('li', undefined,
+        c('dt', undefined,
           c(link, {
-            class: 'playground-link',
-            text: PAGE_DESCRIPTIONS.playground.curve_fitting,
             link: '/playground/curve_fitting',
             isInternal: true
           })
         ),
+        c('dd', { text: PAGE_DESCRIPTIONS.playground.curve_fitting }),
 
-        c('li', undefined,
+        c('dt', undefined,
           c(link, {
-            class: 'playground-link',
-            text: PAGE_DESCRIPTIONS.playground.resolution,
             link: '/playground/resolution',
             isInternal: true
           })
         ),
+        c('dd', { text: PAGE_DESCRIPTIONS.playground.resolution }),
 
-        c('li', undefined,
+        c('dt', undefined,
           c(link, {
-            class: 'playground-link',
-            text: PAGE_DESCRIPTIONS.playground.breakout,
             link: '/playground/breakout',
             isInternal: true
           })
         ),
+        c('dd', { text: PAGE_DESCRIPTIONS.playground.breakout }),
 
-        c('li', undefined,
+        c('dt', undefined,
           c(link, {
-            class: 'playground-link',
-            text: PAGE_DESCRIPTIONS.playground.graphs,
             link: '/playground/graphs',
             isInternal: true
           })
         ),
+        c('dd', { text: PAGE_DESCRIPTIONS.playground.graphs }),
 
-        c('li', undefined,
+        c('dt', undefined,
           c(link, {
-            class: 'playground-link',
-            text: PAGE_DESCRIPTIONS.playground.fleeing_button,
             link: '/playground/fleeing_button',
             isInternal: true
           })
         ),
+        c('dd', { text: PAGE_DESCRIPTIONS.playground.fleeing_button }),
 
-        c('li', undefined,
+        c('dt', undefined,
           c(link, {
-            class: 'playground-link',
-            text: PAGE_DESCRIPTIONS.playground.motifs,
             link: '/playground/motifs',
             isInternal: true
           })
-        )
+        ),
+        c('dd', { text: PAGE_DESCRIPTIONS.playground.motifs })
       )
     )
   )

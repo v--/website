@@ -12,7 +12,7 @@ export class SubscriptionObserver {
     this.observer = observer
     this._closed = false
 
-    /** @type {TypeCons.Optional<Observables.CleanupFunction>} */
+    /** @type {Observables.CleanupFunction | undefined} */
     this.cleanupFunction = undefined
   }
 

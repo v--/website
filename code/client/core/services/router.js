@@ -11,11 +11,14 @@ import { navigateTo } from '../support/dom.js'
 import { unsupported } from '../../../common/views/unsupported.js'
 import { repr } from '../../../common/support/strings.js'
 import { WindowSize } from '../support/dom_observables.js'
-import { PlaygroundPage } from '../../../common/types/playground_page.js'
 
 class RoutingError extends CoolError {}
 
-export async function loadFactory(factorySpec: Components.FactoryComponentType<RouterState> | PlaygroundPage): Promise<Components.FactoryComponentType<RouterState>> {
+/**
+ * @param {Components.FactoryComponentType<RouterState> | Playground.PlaygroundPage} factorySpec
+ * @returns {Promise<Components.FactoryComponentType<RouterState>>}
+ */
+export async function loadFactory(factorySpec) {
   switch (typeof factorySpec) {
     case 'function': return factorySpec
     case 'string':
@@ -31,15 +34,11 @@ export async function loadFactory(factorySpec: Components.FactoryComponentType<R
 }
 
 export class RouterService {
-  state$: DictSubject<RouterState>
-
-  private store: Store
-  private path: Path
-  private resizeObserver: Observables.IPotentialObserver<WindowSize>
-  private pathQueue: Path[] = []
-  private processing = false
-
-  static async initialize(url: string, serverData: unknown) {
+  /**
+   * @param {string} url
+   * @param {any} serverData
+   */
+  static async initialize(url, serverData) {
     const path = Path.parse(url)
     const mockStore = new MockStore(serverData)
     const store = new Store()
@@ -47,7 +46,16 @@ export class RouterService {
     return new this(state, store, path)
   }
 
-  constructor(initialState: RouterState, store: Store, path: Path) {
+  /**
+   * @param {RouterState} initialState
+   * @param {Store} store
+   * @param {Path} path
+   */
+  constructor(initialState, store, path) {
+    /** @type {Path[]} */
+    this.pathQueue = []
+
+    /** @type {DictSubject<RouterState>} */
     this.state$ = new DictSubject({
       ...initialState,
       loading: true,
@@ -70,7 +78,7 @@ export class RouterService {
     this.path = path
 
     this.resizeObserver = {
-      next: (windowSize: WindowSize) => {
+      next: /** @param {WindowSize} windowSize */ (windowSize) => {
         const newValue = !windowSize.isDesktop
 
         if (this.state$.value.isCollapsed !== newValue) {
@@ -82,11 +90,20 @@ export class RouterService {
     windowSize$.subscribe(this.resizeObserver)
   }
 
-  async displayError(url: string, err: Error) {
+  /**
+   * @param {string} url
+   * @param {Error} err
+   */
+  async displayError(url, err) {
     this.state$.update(RouterState.error(Path.parse(url), err))
   }
 
-  private async processPath(path: Path): Promise<void> {
+  /**
+   * @param {Path} path
+   * @returns {Promise<void>}
+   * @private
+   */
+  async processPath(path) {
     this.path = path
 
     const isCollapsed = this.state$.value.isCollapsed || !windowSize$.value.isDesktop
@@ -121,7 +138,7 @@ export class RouterService {
     this.processing = true
 
     while (this.pathQueue.length > 0) {
-      const path = this.pathQueue.pop()!
+      const path = /** @type {Path} */ (this.pathQueue.pop())
 
       while (this.pathQueue.length > 0) {
         this.pathQueue.pop()
@@ -134,13 +151,19 @@ export class RouterService {
     this.processing = false
   }
 
-  async processURL(url: string) {
+  /**
+   * @param {string} url
+   */
+  async processURL(url) {
     const path = Path.parse(url)
     this.pathQueue.push(path)
     await this.processPaths()
   }
 
-  async changeURL(url: string) {
+  /**
+   * @param {string} url
+   */
+  async changeURL(url) {
     const path = Path.parse(url)
     this.pathQueue.push(path)
     await this.processPaths()

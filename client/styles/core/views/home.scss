@@ -30,19 +30,20 @@ $image-side: 200px;
 
     .me-irl {
       display: block;
-      margin-bottom: 1.0rem;
+      margin-bottom: 1.5rem;
     }
 
     .contacts {
       .section-title {
         display: block;
-        margin-bottom: 0;
+        margin-bottom: 1rem;
       }
 
       .contact {
         list-style-type: none;
         line-height: 2em;
         text-align: left;
+        margin-left: 3em;
 
         a {
           display: inline-flex;
@@ -58,6 +59,10 @@ $image-side: 200px;
             margin-left: 0.75em;
           }
         }
+      }
+
+      .pgp-info {
+        margin-top: 1.5rem;
       }
     }
   }

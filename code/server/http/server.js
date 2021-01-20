@@ -1,3 +1,5 @@
+/* eslint-env node */
+
 import http from 'http'
 
 import { HTTPError, CoolError, NotFoundError } from '../../common/errors.js'
@@ -8,27 +10,31 @@ import { Logger } from '../support/logger.js'
 import { Response } from '../http/response.js'
 import { Store } from '../store.js'
 import { serverRouter as router } from '../router.js'
-import { HTTPServerState } from '../enums/http_server_state.js'
-import { IWebsiteConfig } from '../config.js'
 
 export class HTTPServer {
-  logger: Logger
-  state: HTTPServerState
-  socket: string
-  store: Store
-  private server?: http.Server
-
-  constructor(
-    public config: IWebsiteConfig
-  ) {
+  /**
+   * @param {Server.IWebsiteConfig} config
+   */
+  constructor(config) {
+    this.config = config
     this.socket = config.server.socket
     this.logger = new Logger('HTTP')
-    this.state = HTTPServerState.inactive
     this.store = new Store(config.store)
+
+    /** @type {Server.HTTPServerState} */
+    this.state = 'inactive'
+
+    /** @type {http.Server | undefined} */
+    this.server = undefined
   }
 
-  async requestHandler(request: http.IncomingMessage, response: http.ServerResponse) {
-    const path = Path.parse(request.url!)
+  /**
+   * @param {http.IncomingMessage} request
+   * @param {http.ServerResponse} response
+   * @returns {Promise<void>}
+   */
+  async requestHandler(request, response) {
+    const path = Path.parse(/** @type {string} */ (request.url))
 
     if (request.method !== 'GET' && request.method !== 'HEAD') {
       this.logger.warn(`Unexpected method ${request.method} on ${path.cooked}`)
@@ -39,13 +45,18 @@ export class HTTPServer {
     await this.writeResponse(response, await router(path, this.store))
   }
 
-  writeResponse(response: http.ServerResponse, context: Response): Promise<void> {
+  /**
+   * @param {http.ServerResponse} response
+   * @param {Response} context
+   * @returns Promise<void>
+   */
+  writeResponse(response, context) {
     response.writeHead(context.code, {
       'Content-Type': context.mimeType,
       'Content-Length': Buffer.byteLength(context.content, 'utf8')
     })
 
-    return new Promise(function(resolve) {
+    return new Promise(/** @param {TypeCons.Action<void>} resolve */ function(resolve) {
       response.write(context.content, 'utf8', function() {
         response.end()
         resolve()
@@ -53,7 +64,10 @@ export class HTTPServer {
     })
   }
 
-  async reload(config: IWebsiteConfig) {
+  /**
+   * @param {Server.IWebsiteConfig} config
+   */
+  async reload(config) {
     if (config.server.socket !== this.config.server.socket) {
       this.logger.info('Server socket changed. Forcing hard reload.')
       await this.stop()
@@ -66,15 +80,18 @@ export class HTTPServer {
     }
   }
 
-  async start(): Promise<void> {
-    CoolError.assert(this.state === HTTPServerState.inactive, 'The server is already running.')
+  /**
+   * @returns {Promise<void>}
+   */
+  async start() {
+    CoolError.assert(this.state === 'inactive', 'The server is already running.')
 
-    this.state = HTTPServerState.starting
+    this.state = 'starting'
     this.server = http.createServer(async(request, response) => {
       try {
         await this.requestHandler(request, response)
       } catch (e) {
-        const path = Path.parse(request.url!)
+        const path = Path.parse(/** @type {string} */ (request.url))
 
         if (e instanceof NotFoundError) {
           this.logger.warn(`No resource found for ${request.method} ${path.cooked}`)
@@ -91,24 +108,28 @@ export class HTTPServer {
 
     await this.store.load()
 
-    return new Promise<void>((resolve) => {
+    return new Promise((resolve) => {
       if (this.server === undefined) {
         return
       }
 
-      this.server!.listen(this.socket, () => {
+      this.server.listen(this.socket, () => {
         this.logger.info(`Started web server on socket ${this.socket}.`)
-        this.state = HTTPServerState.running
+        this.state = 'running'
         resolve()
       })
     })
   }
 
-  stop(signal?: string): Promise<void> {
-    CoolError.assert(this.state === HTTPServerState.running, 'The server is not running.')
-    this.state = HTTPServerState.stopping
+  /**
+   * @param {string} [signal]
+   * @returns {Promise<void>}
+   */
+  stop(signal) {
+    CoolError.assert(this.state === 'running', 'The server is not running.')
+    this.state = 'stopping'
 
-    return new Promise<void>((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       if (this.server === undefined) {
         resolve()
         return
@@ -125,7 +146,7 @@ export class HTTPServer {
         else
           this.logger.info(`Server stopped with signal ${signal}.`)
 
-        this.state = HTTPServerState.inactive
+        this.state = 'inactive'
         resolve()
       })
     })

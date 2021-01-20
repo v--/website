@@ -5,10 +5,12 @@ import { markdown } from '../components/markdown.js'
 import { interactiveTable } from '../components/interactive_table.js'
 import { breadcrumbsTitle } from '../components/breadcrumbs_title.js'
 import { ccNotice } from '../components/cc_notice.js'
-import { IDirectory, IFile } from '../types/files.js'
 import { RouterState } from '../support/router_state.js'
 
-function getFileExtension(fileName: string) {
+/**
+ * @param {string} fileName
+ */
+function getFileExtension(fileName) {
   const extIndex = fileName.lastIndexOf('.')
 
   if (extIndex !== -1) {
@@ -18,14 +20,18 @@ function getFileExtension(fileName: string) {
   return ''
 }
 
-export function files({ path, data: rawData }: RouterState) {
-  const data = rawData as IDirectory
-
+/**
+ * @param {RouterState & { data: Files.IDirectory }} state
+ */
+export function files({ path, data }) {
   const columns = [
     {
       label: 'Name',
       class: 'col-name',
-      value(entry: IFile) {
+      /**
+       * @param {Files.IFile} entry
+       */
+      value(entry) {
         return c(link, {
           text: entry.name,
           link: path.join(entry.name).underCooked,
@@ -37,7 +43,10 @@ export function files({ path, data: rawData }: RouterState) {
     {
       label: 'Type',
       class: 'col-type',
-      value(entry: IFile) {
+      /**
+       * @param {Files.IFile} entry
+       */
+      value(entry) {
         if (!entry.isFile) {
           return 'Directory'
         }
@@ -50,7 +59,10 @@ export function files({ path, data: rawData }: RouterState) {
     {
       label: 'Size',
       class: 'col-size',
-      view(entry: IFile) {
+      /**
+       * @param {Files.IFile} entry
+       */
+      view(entry) {
         if (!entry.isFile) {
           return '-'
         }
@@ -71,7 +83,10 @@ export function files({ path, data: rawData }: RouterState) {
 
         return 'Invalid size'
       },
-      value(entry: IFile) {
+      /**
+       * @param {Files.IFile} entry
+       */
+      value(entry) {
         return entry.size
       }
     },
@@ -79,10 +94,16 @@ export function files({ path, data: rawData }: RouterState) {
     {
       label: 'Modified',
       class: 'col-modified',
-      view(entry: IFile) {
+      /**
+       * @param {Files.IFile} entry
+       */
+      view(entry) {
         return new Date(entry.modified).toUTCString()
       },
-      value(entry: IFile) {
+      /**
+       * @param {Files.IFile} entry
+       */
+      value(entry) {
         return Date.parse(entry.modified)
       }
     }

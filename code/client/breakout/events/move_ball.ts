@@ -38,10 +38,10 @@ function * generateReflections(stage: Rectangle, paddle: Ellipse, ball: GameBall
 export function moveBall(subject$: DictSubject<IGameState>) {
   const { eventLoop, score, stage, paddle, ball, bricks } = subject$.value
 
-  let reflected: TypeCons.Optional<Reflection>
+  let reflected: Reflection | undefined
   let nextReflected = new Reflection({ ball })
 
-  let delta: TypeCons.Optional<Num.Float64>
+  let delta: Num.Float64 | undefined
   let nextDelta = MOVEMENT_DELTA
 
   let newBricks = bricks

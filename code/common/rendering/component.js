@@ -75,7 +75,7 @@ export class Component {
     this.stateSource = stateSource
     this.children = children
 
-    /** @type {BehaviorSubject<TypeCons.Optional<Components.ComponentStateType>>} */
+    /** @type {BehaviorSubject<Components.ComponentStateType | undefined>} */
     this.state = new BehaviorSubject(undefined)
     this.updateStateSource(stateSource)
   }
@@ -170,7 +170,7 @@ export class XMLComponent extends Component {
     /** @type {string} */
     this.type = type
 
-    /** @type {TypeCons.Optional<string>} */
+    /** @type {string | undefined} */
     this.namespace = undefined
   }
 
