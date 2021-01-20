@@ -1,4 +1,4 @@
-import { c, Component } from '../rendering/component.js'
+import { c } from '../rendering/component.js'
 import { classlist } from '../support/dom_properties.js'
 import { SubmitEvent } from '../types/events.js'
 
@@ -25,7 +25,7 @@ export function form<T extends object>({
 }: {
   callback: TypeCons.Action<T>
   class: string
-}, children: Component[]) {
+}, children: Components.IComponent[]) {
   return c('div', { class: classlist(className, 'form-container') },
     c('form', {
       submit(event: SubmitEvent) {

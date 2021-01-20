@@ -3,14 +3,6 @@ import { Observable } from '../observables/observable.js'
 import { BehaviorSubject } from '../observables/behavior_subject.js'
 import { CoolError } from '../errors.js'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type ComponentState<T = any> = T
-export type FactoryComponentType<T> = (state: Observables.BaseType<T>, children: Component[]) => Component
-
-export type PotentialComponent = Component | null | undefined | boolean | number | string
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type ComponentStateSource<T = any> = ComponentState<T> | Observables.IObservable<ComponentState<T>>
-
 const htmlVoidTags = new Set([
   'area',
   'base',
@@ -35,7 +27,10 @@ export class ComponentSanityError extends ComponentCreationError {}
 export class InvalidComponentType extends ComponentCreationError {}
 export class InvalidComponentError extends CoolError {}
 
-function * processChildren(children: PotentialComponent[]) {
+/**
+ * @param {Components.IPotentialComponent[]} children
+ */
+function * processChildren(children) {
   for (const child of children) {
     if (child instanceof Component) {
       yield child
@@ -45,18 +40,18 @@ function * processChildren(children: PotentialComponent[]) {
   }
 }
 
+/**
+ * @implements Components.IComponent
+ */
 export class Component {
-  private stateSubscription?: Observables.ISubscription
-  state = new BehaviorSubject<TypeCons.Optional<ComponentState>>(undefined)
-
   /**
-   * Do sanity checks before creating the actual component instance.
+   * @template T
+   * @param {string | Components.FactoryComponentType<T>} type
+   * @param {Components.IComponentStateSource<T>} [stateSource]
+   * @param {Components.IPotentialComponent[]} children
+   * @returns {Component}
    */
-  static safeCreate<T>(
-    type: string | FactoryComponentType<Observables.BaseType<T>>,
-    stateSource?: ComponentStateSource<Observables.BaseType<T>>,
-    ...children: PotentialComponent[]
-  ): Component {
+  static safeCreate(type, stateSource, ...children) {
     if (!(stateSource instanceof Object) && stateSource !== undefined) { 
       throw new ComponentCreationError(`Expected either an object or undefined as an state source, but got ${repr(stateSource)}`)
     }
@@ -65,21 +60,28 @@ export class Component {
       throw new ComponentCreationError(`To prevent common errors, components are not allowed as state sources (got ${repr(stateSource)})`)
     }
 
-    const component = new this(type, stateSource, Array.from(processChildren(children)) as Component[])
+    const component = new this(type, stateSource, /** @type {Component[]} */(Array.from(processChildren(children))))
     component.checkSanity()
     return component
   }
 
-  constructor(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    public type: string | FactoryComponentType<any>,
-    public stateSource: ComponentStateSource,
-    public children: Component[]
-  ) {
+  /**
+   * @param {string | Components.FactoryComponentType<any>} type
+   * @param {Components.IComponentStateSource} stateSource,
+   * @param {Components.IComponent[]} children
+   */
+  constructor(type, stateSource, children) {
+    this.type = type
+    this.stateSource = stateSource
+    this.children = children
+
+    /** @type {BehaviorSubject<TypeCons.Optional<Components.ComponentStateType>>} */
+    this.state = new BehaviorSubject(undefined)
     this.updateStateSource(stateSource)
   }
 
-  updateState(newState: ComponentState): void {
+  /** @param {Components.ComponentStateType} newState */
+  updateState(newState) {
     if (!(newState instanceof Object) && newState !== undefined) { 
       throw new ComponentSanityError(`${repr(this)}'s new state ${repr(newState)} must be undefined or an object`)
     }
@@ -91,27 +93,33 @@ export class Component {
     this.state.next(newState)
   }
 
-  unsubscribeFromStateSource(): void {
+  unsubscribeFromStateSource() {
     if (this.stateSubscription) {
       this.stateSubscription.unsubscribe()
     }
   }
 
-  updateStateSource(newSource: ComponentStateSource): void {
+  /**
+   * @param {Components.IComponentStateSource} newSource
+   */
+  updateStateSource(newSource) {
     this.unsubscribeFromStateSource()
 
     if (Observable.isObservable(newSource)) {
-      this.stateSubscription = (newSource as Observables.IObservable<ComponentState>).subscribe(newState => {
+      this.stateSubscription = (/** @type {Observables.IObservable<Components.ComponentStateType>} */(newSource)).subscribe(newState => {
         this.stateSource = newSource
-        this.updateState(newState as ComponentState)
+        this.updateState(/** @type {Components.ComponentStateType} */(newState))
       })
     } else {
       this.stateSource = newSource
-      this.updateState(newSource as ComponentState)
+      this.updateState(/** @type {Components.ComponentStateType} */ (newSource))
     }
   }
 
-  * iterToString(): Generator<string> {
+  /**
+   * @returns {Generator<string>}
+   */
+  * iterToString() {
     yield repr(this.constructor)
     yield '('
     yield repr(this.type)
@@ -129,29 +137,44 @@ export class Component {
     yield ')'
   }
 
-  toString(): string {
+  /**
+   * @returns {string}
+   */
+  toString() {
     return join('', this.iterToString())
   }
 
-  equals(other: Component): boolean {
+  /**
+   * @param {Components.IComponent} other
+   * @returns {boolean}
+   */
+  equals(other) {
     return String(this) === String(other)
   }
 
-  checkSanity(): void {} // eslint-disable-line @typescript-eslint/no-empty-function
+  /**
+   * @returns {void}
+   */
+  checkSanity() {} // eslint-disable-line @typescript-eslint/no-empty-function
 }
 
-export abstract class XMLComponent extends Component {
-  abstract namespace: string
-
-  constructor(
-    public type: string,
-    public stateSource: ComponentStateSource,
-    public children: Component[]
-  ) {
+export class XMLComponent extends Component {
+  /**
+   * @param {string} type
+   * @param {Components.IComponentStateSource} stateSource,
+   * @param {Components.IComponent[]} children
+   */
+  constructor(type, stateSource, children) {
     super(type, stateSource, children)
+
+    /** @type {string} */
+    this.type = type
+
+    /** @type {TypeCons.Optional<string>} */
+    this.namespace = undefined
   }
 
-  checkSanity(): void {
+  checkSanity() {
     super.checkSanity()
 
     if (typeof this.type !== 'string') {
@@ -178,22 +201,30 @@ export abstract class XMLComponent extends Component {
 
 export class HTMLComponent extends XMLComponent {
   namespace = 'http://www.w3.org/1999/xhtml'
-  isVoid: boolean
 
-  static safeCreate(type: string, stateSource?: ComponentStateSource, ...children: PotentialComponent[]): HTMLComponent {
-    return super.safeCreate(type, stateSource, ...children) as HTMLComponent
+  /**
+   * @param {string} type
+   * @param {Components.IComponentStateSource} [stateSource]
+   * @param {Components.IPotentialComponent[]} children
+   * @returns {HTMLComponent}
+   */
+  static safeCreate(type, stateSource, ...children) {
+    return /** @type {HTMLComponent} */(super.safeCreate(type, stateSource, ...children))
   }
 
-  constructor(
-    public type: string,
-    public stateSource: ComponentStateSource,
-    public children: Component[]
-  ) {
+  /**
+   * @param {string} type
+   * @param {Components.IComponentStateSource} stateSource,
+   * @param {Components.IComponent[]} children
+   */
+  constructor(type, stateSource, children) {
     super(type, stateSource, children)
-    this.isVoid = htmlVoidTags.has(type)
+
+    /** @type {boolean} */
+    this.isVoid = htmlVoidTags.has(this.type)
   }
 
-  checkSanity(): void {
+  checkSanity() {
     super.checkSanity()
 
     if (this.isVoid && this.children.length > 0) {
@@ -207,23 +238,30 @@ export class HTMLComponent extends XMLComponent {
 }
 
 export class FactoryComponent extends Component {
-  static safeCreate<T>(
-    type: FactoryComponentType<Observables.BaseType<T>>,
-    state: Observables.BaseType<T>,
-    ...children: PotentialComponent[]
-  ): FactoryComponent {
-    return super.safeCreate(type, state, ...children) as FactoryComponent
+  /**
+   * @template T
+   * @param {Components.FactoryComponentType<T>} type
+   * @param {Components.IComponentStateSource<T>} [stateSource]
+   * @param {Components.IPotentialComponent[]} children
+   * @returns {FactoryComponent}
+   */
+  static safeCreate(type, stateSource, ...children) {
+    return /** @type {FactoryComponent} */(super.safeCreate(type, stateSource, ...children))
   }
 
-  constructor(
-    public type: FactoryComponentType<unknown>,
-    public stateSource: ComponentStateSource,
-    public children: Component[]
-  ) {
+  /**
+   * @param {Components.FactoryComponentType<any>} type
+   * @param {Components.IComponentStateSource<any>} stateSource,
+   * @param {Components.IComponent[]} children
+   */
+  constructor(type, stateSource, children) {
     super(type, stateSource, children)
+
+    /** @type {Components.FactoryComponentType<any>} type */
+    this.type = type
   }
 
-  checkSanity(): void {
+  checkSanity() {
     super.checkSanity()
 
     if (typeof this.type !== 'function') {
@@ -231,7 +269,10 @@ export class FactoryComponent extends Component {
     }
   }
 
-  evaluate(): Component {
+  /**
+   * @returns {Components.IComponent}
+   */
+  evaluate() {
     const component = this.type(this.state.value, this.children)
 
     if (!(component instanceof Component)) {
@@ -242,21 +283,14 @@ export class FactoryComponent extends Component {
   }
 }
 
-export function c<T>(
-  type: string,
-  stateSource?: ComponentStateSource,
-  ...children: PotentialComponent[]
-): Component 
-export function c<T>(
-  type: FactoryComponentType<Observables.BaseType<T>>,
-  stateSource: ComponentStateSource<Observables.BaseType<T>>,
-  ...children: PotentialComponent[]
-): Component
-export function c(
-  type: string | FactoryComponentType<unknown>,
-  stateSource?: ComponentStateSource<unknown>,
-  ...children: PotentialComponent[]
-) {
+/**
+ * @template T
+ * @param {string | Components.FactoryComponentType<T>} type
+ * @param {Components.IComponentStateSource<T>} [stateSource]
+ * @param {Components.IPotentialComponent[]} children
+ * @returns {Component}
+ */
+export function c(type, stateSource, ...children) {
   switch (typeof type) {
     case 'string':
       return HTMLComponent.safeCreate(type, stateSource, ...children)

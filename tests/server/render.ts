@@ -56,7 +56,7 @@ describe('Server-side .render()', function() {
   })
 
   it('properly transcludes components', function() {
-    const factory = (_state: unknown, children: Component[]) => c('div', undefined, ...children)
+    const factory = (_state: unknown, children: Components.IComponent[]) => c('div', undefined, ...children)
     const component = c(factory, {}, c('span'))
     assert.equal(renderToString(component), '<div><span></span></div>')
   })

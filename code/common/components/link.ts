@@ -1,5 +1,5 @@
 import { location$ } from '../shared_observables.js'
-import { c, Component } from '../rendering/component.js'
+import { c } from '../rendering/component.js'
 import { classlist } from '../support/dom_properties.js'
 
 export function link(state: {
@@ -10,7 +10,7 @@ export function link(state: {
   text?: string,
   style?: string,
   title?: string
-}, children: Component[]) {
+}, children: Components.IComponent[]) {
   const childState: {
     href: string,
     text?: string,

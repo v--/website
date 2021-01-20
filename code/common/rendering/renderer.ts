@@ -2,7 +2,7 @@ import { repr } from '../support/strings.js'
 import { chain, uniqueBy } from '../support/iteration.js'
 import { CoolError } from '../errors.js'
 import { Subject } from '../observables/subject.js'
-import { Component, ComponentState, FactoryComponent, XMLComponent } from './component.js'
+import { FactoryComponent, XMLComponent } from './component.js'
 
 export class RenderError extends CoolError {}
 
@@ -11,15 +11,15 @@ export interface RenderingFunction<ComponentType, NodeType> {
 }
 
 export abstract class Renderer<NodeType> {
-  oldState?: ComponentState
+  oldState?: Components.ComponentStateType
   element?: NodeType
-  observer: Observables.IPotentialObserver<TypeCons.Optional<ComponentState>>
+  observer: Observables.IPotentialObserver<TypeCons.Optional<Components.ComponentStateType>>
 
   abstract render(): NodeType
   abstract rerender(): void
 
   constructor(
-    public component: Component,
+    public component: Components.IComponent,
     public dispatcher: RenderDispatcher<NodeType>
   ) {
     if (this.dispatcher.cache.has(component)) {
@@ -34,7 +34,7 @@ export abstract class Renderer<NodeType> {
 }
 
 export interface INodeManipulator<NodeType> {
-  createNode(component: Component): NodeType
+  createNode(component: Components.IComponent): NodeType
   setAttribute<T>(node: NodeType, key: string, value: T, oldValue?: T): void
   removeAttribute<T>(node: NodeType, key: string, oldValue?: T): void
   setText(node: NodeType, value: string): void
@@ -84,7 +84,7 @@ export class XMLRenderer<NodeType> extends Renderer<NodeType> {
     return this.element!
   }
 
-  updateAttributes(oldState: ComponentState, newState: ComponentState) {
+  updateAttributes(oldState: Components.ComponentStateType, newState: Components.ComponentStateType) {
     const oldKeys = new Set(oldState === undefined ? [] : Object.keys(oldState))
     const newKeys = new Set(newState === undefined ? [] : Object.keys(newState))
     const keys = Array.from(uniqueBy(chain(oldKeys, newKeys)))
@@ -142,7 +142,7 @@ export class XMLRenderer<NodeType> extends Renderer<NodeType> {
   }
 }
 
-function * mergeChildren(oldChildren: Component[], newChildren: Component[]) {
+function * mergeChildren(oldChildren: Components.IComponent[], newChildren: Components.IComponent[]) {
   for (let i = 0; i < Math.min(oldChildren.length, newChildren.length); i++) {
     const oldChild = oldChildren[i]
     const newChild = newChildren[i]
@@ -164,7 +164,7 @@ function * mergeChildren(oldChildren: Component[], newChildren: Component[]) {
 }
 
 export class FactoryRenderer<NodeType> extends Renderer<NodeType> {
-  root?: Component
+  root?: Components.IComponent
 
   constructor(
     public component: FactoryComponent,
@@ -186,7 +186,7 @@ export class FactoryRenderer<NodeType> extends Renderer<NodeType> {
     return this.element
   }
 
-  rerenderChildren(oldRoot: Component, newRoot: Component) {
+  rerenderChildren(oldRoot: Components.IComponent, newRoot: Components.IComponent) {
     const rootRenderer = this.dispatcher.cache.get(oldRoot)
     const added = new Set<number>()
     const removed = new Set<number>()
@@ -314,7 +314,7 @@ export class FactoryRenderer<NodeType> extends Renderer<NodeType> {
 }
 
 export class RenderDispatcher<NodeType> {
-  cache = new WeakMap<Component, Renderer<NodeType>>()
+  cache = new WeakMap<Components.IComponent, Renderer<NodeType>>()
   events = {
     create: new Subject(),
     destroy: new Subject()
@@ -337,7 +337,7 @@ export class RenderDispatcher<NodeType> {
     public factoryComponentFactory: RenderingFunction<FactoryComponent, NodeType>
   ) {}
 
-  render(component: Component): NodeType {
+  render(component: Components.IComponent): NodeType {
     if (component instanceof XMLComponent) {
       return this.xmlComponentFactory(component, this)
     }

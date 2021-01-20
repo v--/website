@@ -2,7 +2,6 @@
 
 import { repr } from '../../../common/support/strings.js'
 import { CoolError } from '../../../common/errors.js'
-import { FactoryComponentType } from '../../../common/rendering/component.js'
 import { RouterState } from '../../../common/support/router_state.js'
 import { PlaygroundPage } from '../../../common/types/playground_page.js'
 
@@ -81,7 +80,7 @@ export function dynamicImport(url: string) {
 }
 
 interface Module {
-  index: FactoryComponentType<RouterState>
+  index: Components.FactoryComponentType<RouterState>
 }
 
 export async function loadBundle(bundleName: PlaygroundPage) {

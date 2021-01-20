@@ -10,13 +10,12 @@ import { loadBundle, isBrowserCompatibleWithBundle } from '../support/load_bundl
 import { navigateTo } from '../support/dom.js'
 import { unsupported } from '../../../common/views/unsupported.js'
 import { repr } from '../../../common/support/strings.js'
-import { FactoryComponentType } from '../../../common/rendering/component.js'
 import { WindowSize } from '../support/dom_observables.js'
 import { PlaygroundPage } from '../../../common/types/playground_page.js'
 
 class RoutingError extends CoolError {}
 
-export async function loadFactory(factorySpec: FactoryComponentType<RouterState> | PlaygroundPage): Promise<FactoryComponentType<RouterState>> {
+export async function loadFactory(factorySpec: Components.FactoryComponentType<RouterState> | PlaygroundPage): Promise<Components.FactoryComponentType<RouterState>> {
   switch (typeof factorySpec) {
     case 'function': return factorySpec
     case 'string':

@@ -86,9 +86,7 @@ describe('Component', function() {
 
 describe('XMLComponent', function() {
   class SVGComponent extends XMLComponent {
-    get namespace() {
-      return 'https://www.w3.org/2000/svg'
-    }
+    namespace = 'http://www.w3.org/2000/svg'
   }
 
   describe('#safeCreate()', function() {
@@ -153,11 +151,14 @@ describe('FactoryComponent', function() {
     it('handles simple factories', function() {
       const component = HTMLComponent.safeCreate('div', { text: 'text' })
 
-      function factory({ text }: { text: string }) {
+      /**
+       * @param {{ text: string }} param1
+       */
+      function factory({ text }) {
         return HTMLComponent.safeCreate('div', { text })
       }
 
-      const evaluated = FactoryComponent.safeCreate<{ text: string }>(factory, { text: 'text' }).evaluate()
+      const evaluated = FactoryComponent.safeCreate(factory, { text: 'text' }).evaluate()
       assertCustomEqual(evaluated, component)
     })
   })
