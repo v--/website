@@ -1,6 +1,4 @@
 import { NotFoundError } from './errors.js'
-import { SidebarId } from './enums/sidebar_id.js'
-import { RouterState } from './support/router_state.js'
 import { PAGE_DESCRIPTIONS } from './constants/page_descriptions.js'
 
 import { home } from './views/home.js'
@@ -12,7 +10,7 @@ import { Path } from './support/path.js'
 /**
  * @param {Path} path
  * @param {TStore.IStore} store
- * @returns {Promise<Omit<import('./support/router_state.js').RouterStateParams, 'path'>>}
+ * @returns {Promise<TCons.PartialWith<TRouter.IRouterResult, 'path' | 'data'>>}
  */
 async function routerImpl(path, store) {
   if (path.segments.length === 0) {
@@ -20,7 +18,7 @@ async function routerImpl(path, store) {
       title: 'home',
       description: PAGE_DESCRIPTIONS.home,
       factory: home,
-      sidebarId: SidebarId.home
+      sidebarId: 'home'
     }
   }
 
@@ -31,7 +29,7 @@ async function routerImpl(path, store) {
         description: PAGE_DESCRIPTIONS.files,
         factory: files,
         data: await store.collections.files.readDirectory(path.segments.slice(1).join('/')),
-        sidebarId: SidebarId.files
+        sidebarId: 'files'
       }
 
     case 'pacman':
@@ -44,7 +42,7 @@ async function routerImpl(path, store) {
         description: PAGE_DESCRIPTIONS.pacman,
         factory: pacman,
         data: await store.collections.pacmanPackages.load(),
-        sidebarId: SidebarId.pacman
+        sidebarId: 'pacman'
       }
 
     case 'playground':
@@ -53,7 +51,7 @@ async function routerImpl(path, store) {
           title: 'playground',
           description: PAGE_DESCRIPTIONS.playground.index,
           factory: playground,
-          sidebarId: SidebarId.playground
+          sidebarId: 'playground'
         }
       } else if (path.segments.length === 2) {
         switch (path.segments[1]) {
@@ -62,7 +60,7 @@ async function routerImpl(path, store) {
               title: 'sorting | playground',
               description: PAGE_DESCRIPTIONS.playground.sorting,
               factory: 'sorting',
-              sidebarId: SidebarId.playground
+              sidebarId: 'playground'
             }
 
           case 'curve_fitting':
@@ -70,7 +68,7 @@ async function routerImpl(path, store) {
               title: 'curve fitting | playground',
               description: PAGE_DESCRIPTIONS.playground.curve_fitting,
               factory: 'curve_fitting',
-              sidebarId: SidebarId.playground
+              sidebarId: 'playground'
             }
 
           case 'resolution':
@@ -78,7 +76,7 @@ async function routerImpl(path, store) {
               title: 'resolution | playground',
               description: PAGE_DESCRIPTIONS.playground.resolution,
               factory: 'resolution',
-              sidebarId: SidebarId.playground
+              sidebarId: 'playground'
             }
 
           case 'breakout':
@@ -86,7 +84,7 @@ async function routerImpl(path, store) {
               title: 'breakout | playground',
               description: PAGE_DESCRIPTIONS.playground.breakout,
               factory: 'breakout',
-              sidebarId: SidebarId.playground
+              sidebarId: 'playground'
             }
 
           case 'graphs':
@@ -94,7 +92,7 @@ async function routerImpl(path, store) {
               title: 'graphs | playground',
               description: PAGE_DESCRIPTIONS.playground.graphs,
               factory: 'graphs',
-              sidebarId: SidebarId.playground
+              sidebarId: 'playground'
             }
 
           case 'fleeing_button':
@@ -102,7 +100,7 @@ async function routerImpl(path, store) {
               title: 'fleeing button | playground',
               description: PAGE_DESCRIPTIONS.playground.fleeing_button,
               factory: 'fleeing_button',
-              sidebarId: SidebarId.playground
+              sidebarId: 'playground'
             }
 
           case 'motifs':
@@ -110,7 +108,7 @@ async function routerImpl(path, store) {
               title: 'motifs | playground',
               description: PAGE_DESCRIPTIONS.playground.motifs,
               factory: 'motifs',
-              sidebarId: SidebarId.playground
+              sidebarId: 'playground'
             }
         }
       }
@@ -122,9 +120,9 @@ async function routerImpl(path, store) {
 /**
  * @param {Path} path
  * @param {TStore.IStore} store
- * @returns RouterState
+ * @returns TRouter.IRouterState
  */
 export async function router(path, store) {
   const rawState = await routerImpl(path, store)
-  return new RouterState({ path, ...rawState })
+  return { path, data: undefined, ...rawState }
 }

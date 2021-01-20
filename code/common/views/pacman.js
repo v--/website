@@ -2,7 +2,6 @@ import { map } from '../support/iteration.js'
 import { c } from '../rendering/component.js'
 import { pgpLink } from '../components/pgp_link.js'
 import { sectionTitle } from '../components/section_title.js'
-import { RouterState } from '../support/router_state.js'
 
 /**
  * @param {TPacmanPackages.IPackage[]} pkgs
@@ -25,7 +24,7 @@ function packages({ arch, pkgs }) {
 }
 
 /**
- * @param {RouterState & { data: TPacmanPackages.IPackage[] }} param1
+ * @param {TRouter.IRouterState & { data: TPacmanPackages.IPackage[] }} param1
  */
 export function pacman({ data }) {
   /** @type {TCons.NonStrictMap<TPacmanPackages.Architecture, TPacmanPackages.IPackage[]>} */

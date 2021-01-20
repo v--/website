@@ -1,10 +1,9 @@
 import { repr } from '../../../common/support/strings.js'
 import { CoolError } from '../../../common/errors.js'
-import { RouterState } from '../../../common/support/router_state.js'
 
 /**
  * @typedef {object} PlaygroundModule
- * @property {TComponents.FactoryComponentType<RouterState>} index
+ * @property {TComponents.FactoryComponentType<TRouter.IRouterState>} index
  */
 
 /**

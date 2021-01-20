@@ -1,13 +1,13 @@
 import http from 'http'
 
 import { HTTPError, CoolError, NotFoundError } from '../../common/errors.js'
-import { RouterState } from '../../common/support/router_state.js'
 import { Path } from '../../common/support/path.js'
 
 import { Logger } from '../support/logger.js'
 import { Response } from '../http/response.js'
 import { Store } from '../store.js'
 import { serverRouter as router } from '../router.js'
+import { createErrorState } from '../../common/support/router_state.js'
 
 export class HTTPServer {
   /**
@@ -99,7 +99,7 @@ export class HTTPServer {
 
         await this.writeResponse(
           response,
-          Response.view(RouterState.error(path, e), e instanceof HTTPError ? e.code : 500)
+          Response.view(createErrorState(path, e), e instanceof HTTPError ? e.code : 500)
         )
       }
     })

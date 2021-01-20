@@ -5,7 +5,6 @@ import { markdown } from '../components/markdown.js'
 import { interactiveTable } from '../components/interactive_table.js'
 import { breadcrumbsTitle } from '../components/breadcrumbs_title.js'
 import { ccNotice } from '../components/cc_notice.js'
-import { RouterState } from '../support/router_state.js'
 
 /**
  * @param {string} fileName
@@ -21,7 +20,7 @@ function getFileExtension(fileName) {
 }
 
 /**
- * @param {RouterState & { data: TFiles.IDirectory }} state
+ * @param {TRouter.IRouterState & { data: TFiles.IDirectory }} state
  */
 export function files({ path, data }) {
   const columns = [

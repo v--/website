@@ -1,6 +1,5 @@
 import { DictSubject } from '../../../common/observables/dict_subject.js'
 import { Path } from '../../../common/support/path.js'
-import { RouterState } from '../../../common/support/router_state.js'
 import { CoolError } from '../../../common/errors.js'
 
 import { Store, MockStore } from '../store.js'
@@ -11,12 +10,13 @@ import { navigateTo } from '../support/dom.js'
 import { unsupported } from '../../../common/views/unsupported.js'
 import { repr } from '../../../common/support/strings.js'
 import { WindowSize } from '../support/dom_observables.js'
+import { createErrorState } from '../../../common/support/router_state.js'
 
 class RoutingError extends CoolError {}
 
 /**
- * @param {TComponents.FactoryComponentType<RouterState> | TPlayground.PlaygroundPage} factorySpec
- * @returns {Promise<TComponents.FactoryComponentType<RouterState>>}
+ * @param {TComponents.FactoryComponentType<TRouter.IRouterState> | TPlayground.PlaygroundPage} factorySpec
+ * @returns {Promise<TComponents.FactoryComponentType<TRouter.IRouterState>>}
  */
 export async function loadFactory(factorySpec) {
   switch (typeof factorySpec) {
@@ -47,7 +47,7 @@ export class RouterService {
   }
 
   /**
-   * @param {RouterState} initialState
+   * @param {TRouter.IRouterResult} initialState
    * @param {Store} store
    * @param {Path} path
    */
@@ -55,7 +55,7 @@ export class RouterService {
     /** @type {Path[]} */
     this.pathQueue = []
 
-    /** @type {DictSubject<RouterState>} */
+    /** @type {DictSubject<TRouter.IRouterState>} */
     this.state$ = new DictSubject({
       ...initialState,
       loading: true,
@@ -95,7 +95,7 @@ export class RouterService {
    * @param {Error} err
    */
   async displayError(url, err) {
-    this.state$.update(RouterState.error(Path.parse(url), err))
+    this.state$.update(createErrorState(Path.parse(url), err))
   }
 
   /**

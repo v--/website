@@ -8,11 +8,10 @@ import { iconMap } from '../../common/components/icon.js'
 import { RouterService } from './services/router.js'
 import { onDocumentReady, getCurrentURL } from './support/dom.js'
 import { dispatcher } from './render_dispatcher.js'
-import { RouterState } from '../../common/support/router_state.js'
 import { processErrorJsonObject, restoreError } from '../../common/store/errors.js'
 
 /**
- * @param {TObservables.IObservable<RouterState>} observable
+ * @param {TObservables.IObservable<TRouter.IRouterState>} observable
  */
 function renderObservable(observable) {
   const mainElement = document.querySelector('main')

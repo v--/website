@@ -2,10 +2,9 @@ import { c } from '../../common/rendering/component.js'
 
 import { main } from '../../common/components/main.js'
 import { title } from '../../common/components/title.js'
-import { RouterState } from '../../common/support/router_state.js'
 
 /**
- * @param {{ state: RouterState }} param1
+ * @param {{ state: TRouter.IRouterStatePartial }} componentState
  */
 export function index({ state }) {
   let serializedData
