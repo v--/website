@@ -46,21 +46,28 @@ function parsePacmanInfoStream(stream) {
                 const value = buffer.join('')
                 buffer = []
 
-                if (key === 'FILENAME') {
-                  if (Object.keys(currentFile).length > 0) {
-                    files.push({
-                      NAME: '',
-                      VERSION: '',
-                      DESC: '',
-                      ARCH: '',
-                      ...currentFile
-                    })
-                  }
+                switch (key) {
+                  case 'NAME':
+                    if (Object.keys(currentFile).length > 0) {
+                      files.push({
+                        NAME: value,
+                        VERSION: '',
+                        DESC: '',
+                        ARCH: '',
+                        ...currentFile
+                      })
 
-                  currentFile = {}
+                      currentFile = {}
+                    }
+
+                    break
+
+                  case 'VERSION':
+                  case 'DESC':
+                  case 'ARCH':
+                    currentFile[key] = value
+                    break
                 }
-
-                currentFile[key] = value
               }
 
               break
@@ -82,7 +89,7 @@ function parsePacmanInfoStream(stream) {
  * @returns {Promise<TPacmanPackages.IPackage[]>}
  */
 async function parsePacmanDatabase(path) {
-  const proc = spawn('/usr/bin/tar', ['--extract', '--file', path, '--to-stdout'])
+  const proc = spawn('/usr/bin/unxz', ['--stdout', path])
   const packageMeta = await parsePacmanInfoStream(proc.stdout)
 
   return packageMeta.map(function(meta) {
