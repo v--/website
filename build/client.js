@@ -15,6 +15,7 @@ gulp.task('client:build:code', function() {
   return gulp.src('code/{common,client,types}/**/*.{js,ts,d.ts}')
     .pipe(tsProject())
     .pipe(gulp.dest('dist'))
+    .pipe(sync.stream())
 })
 
 gulp.task('client:build:svgs', function() {
