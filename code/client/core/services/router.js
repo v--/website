@@ -9,7 +9,6 @@ import { loadBundle, isBrowserCompatibleWithBundle } from '../support/load_bundl
 import { navigateTo } from '../support/dom.js'
 import { unsupported } from '../../../common/views/unsupported.js'
 import { repr } from '../../../common/support/strings.js'
-import { WindowSize } from '../support/dom_observables.js'
 import { createErrorState } from '../../../common/support/router_state.js'
 
 class RoutingError extends CoolError {}
@@ -78,13 +77,15 @@ export class RouterService {
     this.path = path
 
     this.resizeObserver = {
-      next: /** @param {WindowSize} windowSize */ (windowSize) => {
-        const newValue = !windowSize.isDesktop
+      next:
+        /** @param {import('../support/dom_observables.js').WindowSize} windowSize */
+        (windowSize) => {
+          const newValue = !windowSize.isDesktop
 
-        if (this.state$.value.isCollapsed !== newValue) {
-          this.state$.update({ isCollapsed: newValue })
+          if (this.state$.value.isCollapsed !== newValue) {
+            this.state$.update({ isCollapsed: newValue })
+          }
         }
-      }
     }
 
     windowSize$.subscribe(this.resizeObserver)
@@ -127,7 +128,7 @@ export class RouterService {
       return
     }
 
-    this.state$.update({ ...route, isCollapsed, factory })
+    this.state$.update({ ...route, isCollapsed, factory, loading: false })
   }
 
   async processPaths() {

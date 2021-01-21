@@ -2,15 +2,14 @@
   "include": [
     "./code/**/*.js",
     "./code/types/**/*.d.ts",
-    "./code/**/*.ts",
     "./benchmarks/**/*.js",
     "./tests/**/*.js",
-    "./tests/**/*.ts",
     "./build/**/*.js"
   ],
   "compilerOptions": {
     "target": "ESNEXT",
     "module": "ESNext",
+    "noEmit": true,
     "allowJs": true,
     "checkJs": true,
     "lib": ["DOM"],

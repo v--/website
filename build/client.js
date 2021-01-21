@@ -1,22 +1,9 @@
 import gulp from 'gulp'
 import scss from 'gulp-dart-sass'
 import svgo from 'gulp-svgo'
-import ts from 'gulp-typescript'
-
-import fs from 'fs/promises'
 
 import { sync } from './sync.js'
 import { getMDIcons } from './md_icons.js'
-
-const tsConfig = JSON.parse(await fs.readFile('tsconfig.json', 'utf8'))
-const tsProject = ts.createProject(tsConfig.compilerOptions)
-
-gulp.task('client:build:code', function() {
-  return gulp.src('code/{common,client,types}/**/*.{js,ts,d.ts}')
-    .pipe(tsProject())
-    .pipe(gulp.dest('dist'))
-    .pipe(sync.stream())
-})
 
 gulp.task('client:build:svgs', function() {
   return gulp.src('client/svgs/**/*.svg')
@@ -52,7 +39,6 @@ gulp.task('client:restart', function(done) {
 })
 
 gulp.task('client:build', gulp.parallel(
-  'client:build:code',
   'client:build:assets',
   'client:build:svgs',
   'client:build:styles',

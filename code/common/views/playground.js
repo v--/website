@@ -8,12 +8,14 @@ export function playground() {
   return c('div', { class: 'page playground-page' },
     c('div', undefined,
       c(sectionTitle, { text: '/playground' }),
+      c('h2', { text: 'Most of this section is unavailable because it is in a state of refactoring.' }),
       c('p', { text: "These are some of the browser-based visualizations and simulations I have created. The code is neither precompiled nor bundled and can be easily explored using any browser's developer tools." }),
       c('dl', { class: 'cool-list' },
         c('dt', undefined,
           c(link, {
             link: '/playground/sorting',
-            isInternal: true
+            isInternal: true,
+            class: 'disabled'
           })
         ),
         c('dd', { text: PAGE_DESCRIPTIONS.playground.sorting }),
@@ -21,7 +23,8 @@ export function playground() {
         c('dt', undefined,
           c(link, {
             link: '/playground/curve_fitting',
-            isInternal: true
+            isInternal: true,
+            class: 'disabled'
           })
         ),
         c('dd', { text: PAGE_DESCRIPTIONS.playground.curve_fitting }),
@@ -29,7 +32,8 @@ export function playground() {
         c('dt', undefined,
           c(link, {
             link: '/playground/resolution',
-            isInternal: true
+            isInternal: true,
+            class: 'disabled'
           })
         ),
         c('dd', { text: PAGE_DESCRIPTIONS.playground.resolution }),
@@ -37,7 +41,8 @@ export function playground() {
         c('dt', undefined,
           c(link, {
             link: '/playground/breakout',
-            isInternal: true
+            isInternal: true,
+            class: 'disabled'
           })
         ),
         c('dd', { text: PAGE_DESCRIPTIONS.playground.breakout }),
@@ -45,7 +50,8 @@ export function playground() {
         c('dt', undefined,
           c(link, {
             link: '/playground/graphs',
-            isInternal: true
+            isInternal: true,
+            class: 'disabled'
           })
         ),
         c('dd', { text: PAGE_DESCRIPTIONS.playground.graphs }),

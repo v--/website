@@ -12,7 +12,7 @@ export const sync = {
       serveStatic: [
         {
           route: '/code',
-          dir: ['./dist']
+          dir: ['./code']
         },
 
         {

@@ -5,7 +5,6 @@ import { dispatcher } from '../render_dispatcher.js'
 import { createIntervalObservable } from '../support/timeout.js'
 import { combineLatest } from '../../../common/observables/combine.js'
 import { windowSize$ } from '../shared_observables.js'
-import { WindowSize } from '../support/dom_observables.js'
 
 export class AspectRatioError extends CoolError {}
 export class NodeAlreadyRegisteredError extends AspectRatioError {}
@@ -47,7 +46,7 @@ function setStyleIfNecessary(element, propName, value) {
 }
 
 const resizeObserver = {
-  /** @param {[WindowSize, void]} value */
+  /** @param {[import('../support/dom_observables.js').WindowSize, void]} value */
   next([windowSize, ]) {
     if (currentBox === undefined) {
       return

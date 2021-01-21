@@ -1,6 +1,9 @@
 import { ForbiddenError, NotFoundError } from '../../../common/errors.js'
 
-export function onDocumentReady(): Promise<void> {
+/**
+ * @returns {Promise<void>}
+ */
+export function onDocumentReady() {
   return new Promise(function(resolve) {
     window.requestAnimationFrame(function() {
       if (!window.CORE_COMPATIBILITY) {
@@ -21,19 +24,33 @@ export function onDocumentReady(): Promise<void> {
   })
 }
 
-export function getCurrentURL(): string {
+/**
+ * @returns {string}
+ */
+export function getCurrentURL() {
   return document.location.href.slice(document.location.origin.length)
 }
 
-export function navigateTo(url: string): void {
+/**
+ * @param {string} url
+ */
+export function navigateTo(url) {
   window.history.pushState(null, window.document.title, url)
 }
 
-export function showMessage(message: string) {
+/**
+ * @param {string} message
+ */
+export function showMessage(message) {
   window.alert(message)
 }
 
-export function createElement(type: string, namespace?: string): Element {
+/**
+ * @param {string} type
+ * @param {string} [namespace]
+ * @returns {Element}
+ */
+export function createElement(type, namespace) {
   if (namespace === undefined) {
     return document.createElement(type)
   }
@@ -41,7 +58,11 @@ export function createElement(type: string, namespace?: string): Element {
   return document.createElementNS(namespace, type)
 }
 
-export async function fetchJSON(url: string): Promise<unknown> {
+/**
+ * @param {string} url
+ * @returns {Promise<unknown>}
+ */
+export async function fetchJSON(url) {
   const response = await window.fetch(url)
 
   switch (response.status) {

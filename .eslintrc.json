@@ -27,11 +27,7 @@
         "message": "Please subclass CoolError instead of instantiating it directly"
       }
     ],
-    "@typescript-eslint/ban-types": ["off"],
-    "@typescript-eslint/no-empty-interface": ["off"],
-    "@typescript-eslint/no-non-null-assertion": ["off"],
     "@typescript-eslint/no-unused-vars": ["off"],
-    "@typescript-eslint/explicit-module-boundary-types": ["off"],
-    "@typescript-eslint/no-this-alias": ["off"]
+    "@typescript-eslint/explicit-module-boundary-types": ["off"]
   }
 }

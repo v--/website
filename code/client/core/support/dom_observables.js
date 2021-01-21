@@ -3,14 +3,19 @@ import { BehaviorSubject } from '../../../common/observables/behavior_subject.js
 
 import { Vector } from '../../../common/math/geom2d/vector.js'
 
-export interface WindowSize {
-  width: number
-  height: number
-  isDesktop: boolean
-}
+/**
+ * @typedef {object} WindowSize
+ * @property {TNum.UInt32} width
+ * @property {TNum.UInt32} height
+ * @property {boolean} isDesktop
+ */
 
-export function createWindowSizeObservable(): BehaviorSubject<WindowSize> {
-  function getWindowSize(): WindowSize {
+/**
+ * @returns {BehaviorSubject<WindowSize>}
+ */
+export function createWindowSizeObservable() {
+  /** @returns {WindowSize} */
+  function getWindowSize() {
     return {
       width: window.innerWidth,
       height: window.innerHeight,
@@ -34,10 +39,14 @@ export function createWindowSizeObservable(): BehaviorSubject<WindowSize> {
   return subject
 }
 
-export function createKeyDownObservable(): TObservables.IObservable<string> {
+/**
+ * @returns {TObservables.IObservable<string>}
+ */
+export function createKeyDownObservable() {
   const subject = new Subject()
 
-  function onKeyDown(event: KeyboardEvent) {
+  /** @param {KeyboardEvent} event */
+  function onKeyDown(event) {
     subject.next(event.key)
   }
 
@@ -51,10 +60,14 @@ export function createKeyDownObservable(): TObservables.IObservable<string> {
   return subject
 }
 
-export function createKeyUpObservable(): TObservables.IObservable<string> {
+/**
+ * @returns {TObservables.IObservable<string>}
+ */
+export function createKeyUpObservable() {
   const subject = new Subject()
 
-  function onKeyDown(event: KeyboardEvent) {
+  /** @param {KeyboardEvent} event */
+  function onKeyDown(event) {
     subject.next(event.key)
   }
 
@@ -68,10 +81,15 @@ export function createKeyUpObservable(): TObservables.IObservable<string> {
   return subject
 }
 
-export function createCursorObservable(): TObservables.IObservable<Vector> {
-  const subject = new Subject<Vector>()
+/**
+ * @returns {TObservables.IObservable<Vector>}
+ */
+export function createCursorObservable() {
+  /** @type {Subject<Vector>} */
+  const subject = new Subject()
 
-  function onMouseMove(event: MouseEvent) {
+  /** @param {MouseEvent} event */
+  function onMouseMove(event) {
     subject.next(new Vector({
       x: event.clientX,
       y: event.clientY

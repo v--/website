@@ -11,7 +11,10 @@ gulp.task('watch', function(done) {
   gulp.watch('client/assets/**/*', armor(gulp.series('client:build:assets')))
   gulp.watch('client/svgs/**/*.svg', armor(gulp.series('client:build:svgs')))
   gulp.watch('client/icons.json', armor(gulp.series('client:build:icons')))
-  gulp.watch('code/{types,common,client}/**/*.{js,ts}', armor(gulp.series('client:build:code', 'client:restart')))
+  gulp.watch([
+    'code/types/**/*.d.ts',
+    'code/{common,client}/**/*.js'
+  ], armor(gulp.series('client:restart')))
 
   sync.init()
 
