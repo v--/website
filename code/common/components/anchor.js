@@ -3,8 +3,8 @@ import { c } from '../rendering/component.js'
 import { classlist } from '../support/dom_properties.js'
 
 /**
- * @typedef {object} ILinkState
- * @property {string} link
+ * @typedef {object} IAnchorState
+ * @property {string} href
  * @property {boolean} [isInternal]
  * @property {boolean} [newTab]
  * @property {string} [class]
@@ -14,7 +14,7 @@ import { classlist } from '../support/dom_properties.js'
  */
 
 /**
- * @typedef {object} IAnchorState
+ * @typedef {object} IAnchorElementState
  * @property {string} href
  * @property {string} [text]
  * @property {string} [class]
@@ -25,13 +25,13 @@ import { classlist } from '../support/dom_properties.js'
  */
 
 /**
- * @param {ILinkState} state
+ * @param {IAnchorState} state
  * @param {TComponents.IComponent[]} children
  */
-export function link(state, children) {
-  /** @type {IAnchorState} */
+export function anchor(state, children) {
+  /** @type {IAnchorElementState} */
   const childState = {
-    href: encodeURI(state.link)
+    href: encodeURI(state.href)
   }
 
   if (state.isInternal) {
@@ -40,7 +40,7 @@ export function link(state, children) {
         return
       }
 
-      location$.next(state.link)
+      location$.next(state.href)
       event.preventDefault()
     }
   }
@@ -51,8 +51,8 @@ export function link(state, children) {
 
   if ('text' in state) {
     childState.text = state.text
-  } else if (children.length === 0 && state.link) {
-    childState.text = state.link
+  } else if (children.length === 0 && state.href) {
+    childState.text = state.href
   }
 
   if (state.title) {

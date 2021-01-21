@@ -47,8 +47,8 @@ export const markdownRules = Object.freeze({
   ),
 
   anchorNode: createNestedBlockRule('[', ']', COMMON_RULES),
-  anchorLink: createBlockRule('(', ')'),
-  anchor: cat('anchorNode', 'anchorLink'),
+  anchorHref: createBlockRule('(', ')'),
+  anchor: cat('anchorNode', 'anchorHref'),
 
   codeBlock: createBlockRule('```', '```', alt(term('\\`'), neg('```'))),
   code: createBlockRule('`', '`'),

@@ -2,7 +2,7 @@ import { classlist } from '../support/dom_properties.js'
 import { c } from '../rendering/component.js'
 
 import { icon } from './icon.js'
-import { link } from './link.js'
+import { anchor } from './anchor.js'
 
 /**
  * @param {TRouter.IRouterStatePartial} state
@@ -13,13 +13,13 @@ export function sidebar({ sidebarId, isCollapsed, toggleCollapsed }) {
    *   id: string,
    *   text: string,
    *   icon: string,
-   *   link: string
+   *   href: string
    * }} state
    */
   function entry(state) {
     const classes = classlist('cool-button', 'entry', sidebarId === state.id && 'active')
 
-    return c(link, { class: classes, link: state.link, isInternal: true },
+    return c(anchor, { class: classes, href: state.href, isInternal: true },
       c(icon, { class: 'entry-icon', name: state.icon }),
       c('span', { class: 'entry-text', text: state.text })
     )
@@ -51,28 +51,28 @@ export function sidebar({ sidebarId, isCollapsed, toggleCollapsed }) {
       id: 'home',
       text: 'Home page',
       icon: 'home',
-      link: '/'
+      href: '/'
     }),
 
     c(entry, {
       id: 'files',
       text: 'File server',
       icon: 'folder',
-      link: '/files'
+      href: '/files'
     }),
 
     c(entry, {
       id: 'pacman',
       text: 'Pacman repo',
       icon: 'download',
-      link: '/pacman'
+      href: '/pacman'
     }),
 
     c(entry, {
       id: 'playground',
       text: 'Playground',
       icon: 'code-greater-than',
-      link: '/playground'
+      href: '/playground'
     })
   )
 }

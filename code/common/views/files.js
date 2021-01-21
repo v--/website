@@ -1,6 +1,6 @@
 import { c } from '../rendering/component.js'
 
-import { link } from '../components/link.js'
+import { anchor } from '../components/anchor.js'
 import { markdown } from '../components/markdown.js'
 import { interactiveTable } from '../components/interactive_table.js'
 import { breadcrumbsTitle } from '../components/breadcrumbs_title.js'
@@ -31,9 +31,9 @@ export function files({ path, data }) {
        * @param {TFiles.IFile} entry
        */
       value(entry) {
-        return c(link, {
+        return c(anchor, {
           text: entry.name,
-          link: path.join(entry.name).underCooked,
+          href: path.join(entry.name).underCooked,
           isInternal: !entry.isFile
         })
       }

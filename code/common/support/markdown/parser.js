@@ -64,10 +64,10 @@ function collapse(matches) {
  */
 function collapseAnchor(matches) {
   const anchorNode = /** @type {TParsing.IParseTree} */ (matches[0])
-  const anchorLink = /** @type {TParsing.IParseTree} */ (matches[1])
+  const anchorHref = /** @type {TParsing.IParseTree} */ (matches[1])
 
-  const link = unescape(
-    joinTextBlocks(removeBounds(anchorLink.matches)),
+  const href = unescape(
+    joinTextBlocks(removeBounds(anchorHref.matches)),
     ')'
   )
 
@@ -79,7 +79,7 @@ function collapseAnchor(matches) {
   if (nodeMatches.length === 0) {
     node = {
       type: 'text',
-      text: link
+      text: href
     }
   } else {
     node = collapse(
@@ -92,7 +92,7 @@ function collapseAnchor(matches) {
 
   return {
     type: 'anchor',
-    link,
+    href,
     node
   }
 }
@@ -281,7 +281,7 @@ export function buildAST(parseTree) {
     case 'anchorNode':
       return collapse(parseTree.matches)
 
-    case 'anchorLink':
+    case 'anchorHref':
       return {
         type: 'text',
         text: joinTextBlocks(parseTree.matches)

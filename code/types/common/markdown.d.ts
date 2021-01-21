@@ -4,7 +4,7 @@ declare namespace TMarkdown {
     'lineBreak' |
     'naturalNumber' |
     'anchorNode' |
-    'anchorLink' |
+    'anchorHref' |
     'anchor' |
     'codeBlock' |
     'code' |
@@ -58,7 +58,7 @@ declare namespace TMarkdown {
 
   export interface IAnchorNode {
     type: 'anchor'
-    link: string
+    href: string
     node: MarkdownNode
   }
 

@@ -4,7 +4,7 @@ import { classlist } from '../support/dom_properties.js'
 import { QueryConfig } from '../support/query_config.js'
 
 import { icon } from './icon.js'
-import { link } from './link.js'
+import { anchor } from './anchor.js'
 
 /**
  * @param {TNum.UInt32} pages
@@ -17,10 +17,10 @@ function * iterPaginators(pages, config) {
     throw new ClientError(`Invalid page index ${currentPage} specified`)
   }
 
-  yield c(link,
+  yield c(anchor,
     {
       class: classlist('paginator paginator-prev', currentPage === 1 && 'disabled'),
-      link: currentPage === 1 ? '' : config.getUpdatedPath({ page: String(currentPage - 1) }),
+      href: currentPage === 1 ? '' : config.getUpdatedPath({ page: String(currentPage - 1) }),
       isInternal: true
     },
     c(icon, {
@@ -29,21 +29,21 @@ function * iterPaginators(pages, config) {
   )
 
   for (let i = 1; i <= pages; i++) {
-    yield c(link,
+    yield c(anchor,
       {
         class: classlist('paginator', currentPage === i && 'disabled'),
-        link: config.getUpdatedPath({ page: String(i) }),
+        href: config.getUpdatedPath({ page: String(i) }),
         isInternal: true
       },
       c('span', { text: String(i) })
     )
   }
 
-  yield c(link,
+  yield c(anchor,
     {
       disabled: currentPage === pages,
       class: classlist('paginator paginator-next', currentPage === pages && 'disabled'),
-      link: currentPage === pages ? '' : config.getUpdatedPath({ page: String(currentPage + 1) }),
+      href: currentPage === pages ? '' : config.getUpdatedPath({ page: String(currentPage + 1) }),
       isInternal: true
     },
     c(icon, {

@@ -59,7 +59,7 @@ describe('parseMarkdown()', function() {
         parseMarkdown(string),
         {
           type: 'anchor',
-          link: 'https://ipsum.dolor/',
+          href: 'https://ipsum.dolor/',
           node: {
             type: 'text',
             text: 'lorem'
@@ -74,7 +74,7 @@ describe('parseMarkdown()', function() {
         parseMarkdown(string),
         {
           type: 'anchor',
-          link: 'https://ipsum.dolor/',
+          href: 'https://ipsum.dolor/',
           node: {
             type: 'text',
             text: 'lorem]'
@@ -89,7 +89,7 @@ describe('parseMarkdown()', function() {
         parseMarkdown(string),
         {
           type: 'anchor',
-          link: 'https://ipsum.dolor/)',
+          href: 'https://ipsum.dolor/)',
           node: {
             type: 'text',
             text: 'lorem'
@@ -890,7 +890,7 @@ block\`\`\`
 
                       {
                         type: 'anchor',
-                        link: 'https://ipsum.dolor',
+                        href: 'https://ipsum.dolor',
                         node: {
                           type: 'emphasis',
                           node: {

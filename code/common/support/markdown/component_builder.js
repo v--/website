@@ -2,7 +2,7 @@ import { CoolError } from '../../errors.js'
 import { repr } from '../strings.js'
 import { c, Component } from '../../rendering/component.js'
 
-import { link } from '../../components/link.js'
+import { anchor } from '../../components/anchor.js'
 
 export class MarkdownComponentError extends CoolError {}
 
@@ -24,10 +24,10 @@ export function buildComponentTree(ast) {
 
     case 'anchor':
       if (ast.node.type === 'text') {
-        return c(link, { link: ast.link, text: ast.node.text })
+        return c(anchor, { href: ast.href, text: ast.node.text })
       }
 
-      return c(link, { link: ast.link }, buildComponentTree(ast.node))
+      return c(anchor, { href: ast.href }, buildComponentTree(ast.node))
 
     case 'code':
       return c('code', { text: ast.code })

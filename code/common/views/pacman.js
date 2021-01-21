@@ -1,6 +1,6 @@
 import { map } from '../support/iteration.js'
 import { c } from '../rendering/component.js'
-import { pgpLink } from '../components/pgp_link.js'
+import { pgpAnchor } from '../components/pgp_anchor.js'
 import { sectionTitle } from '../components/section_title.js'
 
 /**
@@ -60,7 +60,7 @@ export function pacman({ data }) {
         c('span', {
           text: 'All packages are signed and can be verified using my PGP public key '
         }),
-        c(pgpLink, {}),
+        c(pgpAnchor, {}),
         c('span', { text: '.' })
       )
     ),

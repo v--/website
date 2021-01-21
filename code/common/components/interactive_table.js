@@ -8,7 +8,7 @@ import { table } from './table.js'
 import { pagination } from './pagination.js'
 
 import { icon } from './icon.js'
-import { link } from './link.js'
+import { anchor } from './anchor.js'
 
 /**
  * @typedef {object} IQueryConfig
@@ -102,10 +102,10 @@ export function interactiveTable({
     }
 
     newColumn.header = c(
-      link,
+      anchor,
       {
         class: 'heading',
-        link: config.getUpdatedPath({ sorting: String(newSortingValue) }),
+        href: config.getUpdatedPath({ sorting: String(newSortingValue) }),
         isInternal: true
       },
       c(icon, { name: iconName }),

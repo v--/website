@@ -1,7 +1,7 @@
 import { c } from '../rendering/component.js'
 import { PAGE_DESCRIPTIONS } from '../constants/page_descriptions.js'
 
-import { link } from '../components/link.js'
+import { anchor } from '../components/anchor.js'
 import { sectionTitle } from '../components/section_title.js'
 
 export function playground() {
@@ -12,8 +12,8 @@ export function playground() {
       c('p', { text: "These are some of the browser-based visualizations and simulations I have created. The code is neither precompiled nor bundled and can be easily explored using any browser's developer tools." }),
       c('dl', { class: 'cool-list' },
         c('dt', undefined,
-          c(link, {
-            link: '/playground/sorting',
+          c(anchor, {
+            href: '/playground/sorting',
             isInternal: true,
             class: 'disabled'
           })
@@ -21,8 +21,8 @@ export function playground() {
         c('dd', { text: PAGE_DESCRIPTIONS.playground.sorting }),
 
         c('dt', undefined,
-          c(link, {
-            link: '/playground/curve_fitting',
+          c(anchor, {
+            href: '/playground/curve_fitting',
             isInternal: true,
             class: 'disabled'
           })
@@ -30,8 +30,8 @@ export function playground() {
         c('dd', { text: PAGE_DESCRIPTIONS.playground.curve_fitting }),
 
         c('dt', undefined,
-          c(link, {
-            link: '/playground/resolution',
+          c(anchor, {
+            href: '/playground/resolution',
             isInternal: true,
             class: 'disabled'
           })
@@ -39,8 +39,8 @@ export function playground() {
         c('dd', { text: PAGE_DESCRIPTIONS.playground.resolution }),
 
         c('dt', undefined,
-          c(link, {
-            link: '/playground/breakout',
+          c(anchor, {
+            href: '/playground/breakout',
             isInternal: true,
             class: 'disabled'
           })
@@ -48,8 +48,8 @@ export function playground() {
         c('dd', { text: PAGE_DESCRIPTIONS.playground.breakout }),
 
         c('dt', undefined,
-          c(link, {
-            link: '/playground/graphs',
+          c(anchor, {
+            href: '/playground/graphs',
             isInternal: true,
             class: 'disabled'
           })
@@ -57,8 +57,8 @@ export function playground() {
         c('dd', { text: PAGE_DESCRIPTIONS.playground.graphs }),
 
         c('dt', undefined,
-          c(link, {
-            link: '/playground/fleeing_button',
+          c(anchor, {
+            href: '/playground/fleeing_button',
             isInternal: true,
             class: 'disabled'
           })
@@ -66,8 +66,8 @@ export function playground() {
         c('dd', { text: PAGE_DESCRIPTIONS.playground.fleeing_button }),
 
         c('dt', undefined,
-          c(link, {
-            link: '/playground/motifs',
+          c(anchor, {
+            href: '/playground/motifs',
             isInternal: true,
             class: 'disabled'
           })

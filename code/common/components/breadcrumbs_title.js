@@ -1,6 +1,6 @@
 import { c } from '../rendering/component.js'
 
-import { link } from './link.js'
+import { anchor } from './anchor.js'
 import { icon } from './icon.js'
 import { classlist } from '../support/dom_properties.js'
 import { cumulative, last } from '../support/iteration.js'
@@ -21,7 +21,7 @@ export function breadcrumbsTitle({ class: className, path, root }) {
       ? c('div', { class: 'up-link', title: 'Already at topmost level' },
         c(icon, { name: 'upload' })
       )
-      : c(link, { class: 'up-link', title: 'Go one level up', link: path.getParentPath().cooked, isInternal: true },
+      : c(anchor, { class: 'up-link', title: 'Go one level up', href: path.getParentPath().cooked, isInternal: true },
         c(icon, { name: 'upload' })
       ),
 
@@ -30,7 +30,7 @@ export function breadcrumbsTitle({ class: className, path, root }) {
         const lastSegment = last(segments)
         return c('div', { class: classlist('breadcrumb', segments.length === 1 && 'first-breadcrumb') },
           c('span', { class: 'breadcrumb-slash', text: '/' }),
-          c(link, { class: 'breadcrumb-text', text: lastSegment, title: lastSegment, link: '/' + segments.join('/'), isInternal: true })
+          c(anchor, { class: 'breadcrumb-text', text: lastSegment, title: lastSegment, href: '/' + segments.join('/'), isInternal: true })
         )
       })
     ),
