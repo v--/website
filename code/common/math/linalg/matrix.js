@@ -8,7 +8,10 @@ export class MatrixError extends MathError {}
 export class MatrixDimensionError extends MatrixError {}
 export class MatrixIndexError extends MatrixError {}
 
-function * iterToString(matrix: Matrix) {
+/**
+ * @param {Matrix} matrix
+ */
+function * iterToString(matrix) {
   const rows = matrix.toRows()
   yield 'Matrix(['
 
@@ -23,19 +26,33 @@ function * iterToString(matrix: Matrix) {
   yield '\n])'
 }
 
-function dotProduct(u: TNum.Float64[], v: TNum.Float64[]) {
+/**
+ * @param {TNum.Float64[]} u
+ * @param {TNum.Float64[]} v
+ * @return {TNum.Float64}
+ */
+function dotProduct(u, v) {
   return reduce(([x, y], accum) => accum + x * y, zip2(u, v), 0)
 }
 
-export interface MatrixParams {
-  rows: number
-  cols: number
-  payload: number[]
-}
+/**
+ * @typedef {object} MatrixParams
+ * @property {TNum.UInt32} rows
+ * @property {TNum.UInt32} cols
+ * @property {TNum.Float64[]} payload
+ */
 
-export interface Matrix extends MatrixParams {}
+/**
+ * @implemenets MatrixParams
+ */
 export class Matrix {
-  static fill(fill: TNum.Float64, rows: TNum.UInt32, cols: TNum.UInt32 = rows) {
+  /**
+   * @param {TNum.Float64} fill
+   * @param {TNum.UInt32} rows
+   * @param {TNum.UInt32} cols
+   * @returns {Matrix}
+   */
+  static fill(fill, rows, cols = rows) {
     return new this({
       rows,
       cols,
@@ -43,11 +60,20 @@ export class Matrix {
     })
   }
 
-  static zero(rows: TNum.UInt32, cols = rows) {
+  /**
+   * @param {TNum.UInt32} rows
+   * @param {TNum.UInt32} cols
+   * @returns {Matrix}
+   */
+  static zero(rows, cols = rows) {
     return this.fill(0, rows, cols)
   }
 
-  static unit(n: TNum.UInt32) {
+  /**
+   * @param {TNum.UInt32} n
+   * @returns {Matrix}
+   */
+  static unit(n) {
     const result = this.zero(n, n)
 
     for (let i = 0; i < n; i++) {
@@ -57,7 +83,11 @@ export class Matrix {
     return result
   }
 
-  static diagonal(items: TNum.Float64[]) {
+  /**
+   * @param {TNum.Float64[]} items
+   * @returns {Matrix}
+   */
+  static diagonal(items) {
     const n = items.length
     const result = this.zero(n, n)
 
@@ -68,7 +98,11 @@ export class Matrix {
     return result
   }
 
-  static fromRows(rows: TNum.Float64[][]) {
+  /**
+   * @param {TNum.Float64[][]} rows
+   * @returns {Matrix}
+   */
+  static fromRows(rows) {
     if (rows.length === 0) {
       throw new MatrixDimensionError('At least one row is required')
     }
@@ -93,7 +127,11 @@ export class Matrix {
     })
   }
 
-  static fromCols(cols: TNum.Float64[][]) {
+  /**
+   * @param {TNum.Float64[][]} cols
+   * @returns {Matrix}
+   */
+  static fromCols(cols) {
     if (cols.length === 0) {
       throw new MatrixDimensionError('At least one row is required')
     }
@@ -101,7 +139,11 @@ export class Matrix {
     return this.fromRows(cols).transpose()
   }
 
-  static row(array: TNum.Float64[]) {
+  /**
+   * @param {TNum.Float64[]} array
+   * @returns {Matrix}
+   */
+  static row(array) {
     return new this({
       payload: array,
       rows: 1,
@@ -109,7 +151,11 @@ export class Matrix {
     })
   }
 
-  static col(array: TNum.Float64[]) {
+  /**
+   * @param {TNum.Float64[]} array
+   * @returns {Matrix}
+   */
+  static col(array) {
     return new this({
       payload: array,
       rows: array.length,
@@ -117,11 +163,21 @@ export class Matrix {
     })
   }
 
-  constructor(payload: MatrixParams) {
-    Object.assign(this, payload)
+  /**
+   * @param {MatrixParams} params
+   */
+  constructor({ rows, cols, payload }) {
+    this.rows = rows
+    this.cols = cols
+    this.payload = payload
   }
 
-  get(i: TNum.UInt32, j: TNum.UInt32) {
+  /**
+   * @param {TNum.UInt32} i
+   * @param {TNum.UInt32} j
+   * @returns {TNum.Float64}
+   */
+  get(i, j) {
     if (i < 0 || i >= this.rows || j < 0 || j >= this.cols) {
       throw new MatrixIndexError(`Invalid indices ${i} and ${j} for ${repr(this)}`)
     }
@@ -129,7 +185,13 @@ export class Matrix {
     return this.payload[i * this.cols + j]
   }
 
-  set(i: TNum.UInt32, j: TNum.UInt32, value: TNum.Float64) {
+  /**
+   * @param {TNum.UInt32} i
+   * @param {TNum.UInt32} j
+   * @param {TNum.Float64} value
+   * @returns {void}
+   */
+  set(i, j, value) {
     if (i < 0 || i >= this.rows || j < 0 || j >= this.cols) {
       throw new MatrixIndexError(`Invalid indices ${i} and ${j} for ${repr(this)}`)
     }
@@ -137,6 +199,9 @@ export class Matrix {
     this.payload[i * this.cols + j] = value
   }
 
+  /**
+   * @return {Matrix}
+   */
   clone() {
     return new Matrix({
       rows: this.rows,
@@ -145,6 +210,9 @@ export class Matrix {
     })
   }
 
+  /**
+   * @return {Matrix}
+   */
   transpose() {
     const result = new Matrix({
       rows: this.cols,
@@ -161,13 +229,21 @@ export class Matrix {
     return result
   }
 
-  equals(other: Matrix) {
+  /**
+   * @param {Matrix} other
+   * @returns {boolean}
+   */
+  equals(other) {
     return this.cols === other.cols &&
       this.rows === other.rows &&
       all(([a, b]) => isSameNumber(a, b), zip2(this.payload, other.payload))
   }
 
-  add(other: Matrix) {
+  /**
+   * @param {Matrix} other
+   * @returns {Matrix}
+   */
+  add(other) {
     if (this.cols !== other.cols || this.rows !== other.rows) {
       throw new MatrixDimensionError('Incompatible matrix dimensions')
     }
@@ -179,7 +255,11 @@ export class Matrix {
     })
   }
 
-  scale(scalar: TNum.Float64) {
+  /**
+   * @param {TNum.Float64} scalar
+   * @returns {Matrix}
+   */
+  scale(scalar) {
     return new Matrix({
       rows: this.rows,
       cols: this.cols,
@@ -187,11 +267,19 @@ export class Matrix {
     })
   }
 
-  sub(other: Matrix) {
+  /**
+   * @param {Matrix} other
+   * @returns {Matrix}
+   */
+  sub(other) {
     return this.add(other.scale(-1))
   }
 
-  mult(other: Matrix) {
+  /**
+   * @param {Matrix} other
+   * @returns {Matrix}
+   */
+  mult(other) {
     if (this.cols !== other.rows) {
       throw new MatrixDimensionError('Incomparible matrix dimensions')
     }
@@ -209,6 +297,9 @@ export class Matrix {
     return result
   }
 
+  /**
+   * @returns {TNum.Float64[][]}
+   */
   toRows() {
     const rows = []
 
@@ -219,11 +310,18 @@ export class Matrix {
     return rows
   }
 
+  /**
+   * @returns {TNum.Float64[][]}
+   */
   toCols() {
     return this.transpose().toRows()
   }
 
-  getRow(i: TNum.UInt32) {
+  /**
+   * @param {TNum.UInt32} i
+   * @returns {Matrix}
+   */
+  getRow(i) {
     if (i < 0 || i >= this.rows) {
       throw new MatrixIndexError(`Invalid row ${i} for ${repr(this)}`)
     }
@@ -231,7 +329,11 @@ export class Matrix {
     return Matrix.row(this.payload.slice(i * this.cols, (i + 1) * this.cols))
   }
 
-  getCol(j: TNum.UInt32) {
+  /**
+   * @param {TNum.UInt32} j
+   * @return {Matrix}
+   */
+  getCol(j) {
     if (j < 0 || j >= this.cols) {
       throw new MatrixIndexError(`Invalid row ${j} for ${repr(this)}`)
     }
@@ -245,7 +347,12 @@ export class Matrix {
     return Matrix.col(payload)
   }
 
-  delete(row: TNum.UInt32, col: TNum.UInt32) {
+  /**
+   * @param {TNum.UInt32} row
+   * @param {TNum.UInt32} col
+   * @return {Matrix}
+   */
+  delete(row, col) {
     const result = Matrix.zero(this.rows - 1, this.cols - 1)
 
     for (let i = 0; i < this.rows; i++) {
@@ -268,6 +375,9 @@ export class Matrix {
     return result
   }
 
+  /**
+   * @return {TNum.Float64[]}
+   */
   getDiagonal() {
     const result = []
 

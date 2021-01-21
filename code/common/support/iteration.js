@@ -145,7 +145,7 @@ export function * zip(...iterables) {
  * @returns {Generator<[T, S]>}
  */
 export function zip2(iter1, iter2) {
-  return /** @type {Generator<[T, S]>} */(zip2(iter1, iter2))
+  return /** @type {Generator<[T, S]>} */(zip(iter1, iter2))
 }
 
 /**

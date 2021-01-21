@@ -1,4 +1,4 @@
-import { Motif, MotifColor } from './motif.js'
+import { Motif } from './motif.js'
 
 /**
  * @param {Motif} motif
@@ -6,7 +6,7 @@ import { Motif, MotifColor } from './motif.js'
  * @param {TNum.UInt32} iEnd
  * @param {TNum.UInt32} jStart
  * @param {TNum.UInt32} jEnd
- * @param {MotifColor} color
+ * @param {import('./motif.js').MotifColor} color
  */
 export function drawRectangle(motif, iStart, iEnd, jStart, jEnd, color) {
   for (let i = iStart; i < iEnd; i++) {
@@ -20,7 +20,7 @@ export function drawRectangle(motif, iStart, iEnd, jStart, jEnd, color) {
  * @param {Motif} motif
  * @param {TNum.UInt32} start
  * @param {TNum.UInt32} end
- * @param {MotifColor} color
+ * @param {import('./motif.js').MotifColor} color
  */
 export function drawTransverseLine(motif, start, end, color) {
   for (let t = start; t <= end; t++) {
@@ -38,7 +38,7 @@ export function drawTransverseLine(motif, start, end, color) {
  * @param {TNum.UInt32} jCenter
  * @param {TNum.UInt32} radius
  * @param {TNum.UInt32} thickness
- * @param {MotifColor} color
+ * @param {import('./motif.js').MotifColor} color
  */
 export function drawDiamond(motif, iCenter, jCenter, radius, thickness, color) {
   for (let t = 0; t < thickness; t++) {

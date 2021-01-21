@@ -3,7 +3,7 @@ import { c, Component } from '../../../common/rendering/component.js'
 
 import { dispatcher } from '../render_dispatcher.js'
 import { createIntervalObservable } from '../support/timeout.js'
-import { combineLatest } from '../../../common/observables/combine.js'
+import { combineLatest2 } from '../../../common/observables/combine.js'
 import { windowSize$ } from '../shared_observables.js'
 
 export class AspectRatioError extends CoolError {}
@@ -80,7 +80,7 @@ const resizeObserver = {
   }
 }
 
-combineLatest(windowSize$, createIntervalObservable(REFRESH_TIMEOUT))
+combineLatest2(windowSize$, createIntervalObservable(REFRESH_TIMEOUT))
   .subscribe(resizeObserver)
 
 dispatcher.events.create.subscribe({

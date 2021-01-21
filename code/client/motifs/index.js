@@ -19,7 +19,7 @@ export function index({ path, description }) {
   const seedString = config.get('seed') 
   const seed = Number(seedString)
 
-  if (seed === undefined) {
+  if (seedString === undefined) {
     location$.next(config.getUpdatedPath({ seed: String(randInt(1, 100)) }))
   } else if (!Number.isFinite(seed) || !Number.isInteger(seed) || seed < 1 || seed > 100) {
     throw new ClientError(`The seed ${repr(seed)} must be an integer between 1 and 100`)
