@@ -11,6 +11,7 @@ export class Logger {
    * @param {string} message
    * @param {NodeJS.WriteStream} dest
    */
+  // eslint-disable-next-line no-undef
   log(level, message, dest = process.stdout) {
     dest.write(`${level} [${this.name}] ${message}\n`)
   }
