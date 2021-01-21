@@ -11,4 +11,7 @@ declare namespace TCons {
   export interface NonStrictMap<K, V> extends Map<K, V> {
     get(key: K): V
   }
+  export interface NonStrictWeakMap<K extends object, V> extends WeakMap<K, V> {
+    get(key: K): V
+  }
 }

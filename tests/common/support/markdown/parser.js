@@ -1,7 +1,5 @@
 import { describe, it, assert } from '../../../_common.js'
 
-import { IBulletListNode, IHeadingNode, IOrderedBulletNode, ITextNode, NodeType } from '../../../../code/common/support/markdown/node_type.js'
-
 import { parseMarkdown } from '../../../../code/common/support/markdown/parser.js'
 
 describe('parseMarkdown()', function() {
@@ -11,7 +9,7 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.TEXT,
+          type: 'text',
           text: string
         }
       )
@@ -22,7 +20,7 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.TEXT,
+          type: 'text',
           text: string
         }
       )
@@ -33,19 +31,19 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.CONTAINER,
+          type: 'container',
           children: [
             {
-              type: NodeType.TEXT,
+              type: 'text',
               text: 'lorem'
             },
 
             {
-              type: NodeType.LINE_BREAK
+              type: 'lineBreak'
             },
 
             {
-              type: NodeType.TEXT,
+              type: 'text',
               text: 'ipsum'
             }
           ]
@@ -60,10 +58,10 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.ANCHOR,
+          type: 'anchor',
           link: 'https://ipsum.dolor/',
           node: {
-            type: NodeType.TEXT,
+            type: 'text',
             text: 'lorem'
           }
         }
@@ -75,10 +73,10 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.ANCHOR,
+          type: 'anchor',
           link: 'https://ipsum.dolor/',
           node: {
-            type: NodeType.TEXT,
+            type: 'text',
             text: 'lorem]'
           }
         }
@@ -90,10 +88,10 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.ANCHOR,
+          type: 'anchor',
           link: 'https://ipsum.dolor/)',
           node: {
-            type: NodeType.TEXT,
+            type: 'text',
             text: 'lorem'
           }
         }
@@ -105,7 +103,7 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.TEXT,
+          type: 'text',
           text: string
         }
       )
@@ -116,7 +114,7 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.TEXT,
+          type: 'text',
           text: string
         }
       )
@@ -127,7 +125,7 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.TEXT,
+          type: 'text',
           text: string
         }
       )
@@ -141,7 +139,7 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.CODE,
+          type: 'code',
           code
         }
       )
@@ -152,7 +150,7 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.CODE,
+          type: 'code',
           code: '`'
         }
       )
@@ -164,7 +162,7 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.TEXT,
+          type: 'text',
           text: string
         }
       )
@@ -176,19 +174,19 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.CONTAINER,
+          type: 'container',
           children: [
             {
-              type: NodeType.TEXT,
+              type: 'text',
               text: '`while'
             },
 
             {
-              type: NodeType.LINE_BREAK
+              type: 'lineBreak'
             },
 
             {
-              type: NodeType.TEXT,
+              type: 'text',
               text: '(true);`'
             }
           ]
@@ -204,7 +202,7 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.CODE_BLOCK,
+          type: 'codeBlock',
           code
         }
       )
@@ -215,7 +213,7 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.CODE_BLOCK,
+          type: 'codeBlock',
           code: '`'
         }
       )
@@ -227,7 +225,7 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.TEXT,
+          type: 'text',
           text: string
         }
       )
@@ -239,7 +237,7 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.CODE_BLOCK,
+          type: 'codeBlock',
           code
         }
       )
@@ -251,7 +249,7 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.CODE_BLOCK,
+          type: 'codeBlock',
           code
         }
       )
@@ -264,9 +262,9 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.EMPHASIS,
+          type: 'emphasis',
           node: {
-            type: NodeType.TEXT,
+            type: 'text',
             text: 'text'
           }
         }
@@ -278,9 +276,9 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.EMPHASIS,
+          type: 'emphasis',
           node: {
-            type: NodeType.TEXT,
+            type: 'text',
             text: '*'
           }
         }
@@ -292,9 +290,9 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.STRONG_EMPHASIS,
+          type: 'strongEmphasis',
           node: {
-            type: NodeType.TEXT,
+            type: 'text',
             text: 'text'
           }
         }
@@ -306,9 +304,9 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.VERY_STRONG_EMPHASIS,
+          type: 'veryStrongEmphasis',
           node: {
-            type: NodeType.TEXT,
+            type: 'text',
             text: 'text'
           }
         }
@@ -322,10 +320,10 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.HEADING,
+          type: 'heading',
           level: 1,
           node: {
-            type: NodeType.TEXT,
+            type: 'text',
             text: 'Heading'
           }
         }
@@ -337,15 +335,15 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.CONTAINER,
+          type: 'container',
           children: [
             {
-              type: NodeType.TEXT,
+              type: 'text',
               text: ' #Heading'
             },
 
             {
-              type: NodeType.LINE_BREAK
+              type: 'lineBreak'
             }
           ]
         }
@@ -357,17 +355,17 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.CONTAINER,
+          type: 'container',
           children: [
             {
-              type: NodeType.LINE_BREAK
+              type: 'lineBreak'
             },
 
             {
-              type: NodeType.HEADING,
+              type: 'heading',
               level: 1,
               node: {
-                type: NodeType.TEXT,
+                type: 'text',
                 text: 'Heading'
               }
             }
@@ -378,16 +376,20 @@ describe('parseMarkdown()', function() {
 
     it('strips a single space off h1', function() {
       const string = '# Heading\n'
+      const root = /** @type {TMarkdown.IHeadingNode} */ (parseMarkdown(string))
+
       assert.equal(
-        ((parseMarkdown(string) as IHeadingNode).node as ITextNode).text,
+        (/** @type {TMarkdown.ITextNode} */ (root.node)).text,
         'Heading'
       )
     })
 
     it('strips only one space off h1', function() {
       const string = '#  Heading\n'
+      const root = /** @type {TMarkdown.IHeadingNode} */ (parseMarkdown(string))
+
       assert.equal(
-        ((parseMarkdown(string) as IHeadingNode).node as ITextNode).text,
+        (/** @type {TMarkdown.ITextNode} */ (root.node)).text,
         ' Heading'
       )
     })
@@ -397,10 +399,10 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.HEADING,
+          type: 'heading',
           level: 4,
           node: {
-            type: NodeType.TEXT,
+            type: 'text',
             text: 'Heading'
           }
         }
@@ -417,14 +419,14 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.BULLET_LIST,
+          type: 'bulletList',
           ordered: false,
           bullets: [
             {
-              type: NodeType.BULLET_UNORDERED,
+              type: 'bulletUnordered',
               level: 1,
               node: {
-                type: NodeType.TEXT,
+                type: 'text',
                 text: 'bullet'
               }
             }
@@ -437,9 +439,11 @@ describe('parseMarkdown()', function() {
       const string = `
 * bullet
 `
+      const root = /** @type {TMarkdown.IBulletListNode} */ (parseMarkdown(string))
+      const bullet = /** @type {TMarkdown.IOrderedBulletNode} */ (root.bullets[0])
 
       assert.equal(
-        (((parseMarkdown(string) as IBulletListNode).bullets[0] as IOrderedBulletNode).node as ITextNode).text,
+        (/** @type {TMarkdown.ITextNode} */ (bullet.node)).text,
         'bullet'
       )
     })
@@ -449,8 +453,11 @@ describe('parseMarkdown()', function() {
 *  bullet
 `
 
+      const root = /** @type {TMarkdown.IBulletListNode} */ (parseMarkdown(string))
+      const bullet = /** @type {TMarkdown.IOrderedBulletNode} */ (root.bullets[0])
+
       assert.equal(
-        (((parseMarkdown(string) as IBulletListNode).bullets[0] as IOrderedBulletNode).node as ITextNode).text,
+        (/** @type {TMarkdown.ITextNode} */ (bullet.node)).text,
         ' bullet'
       )
     })
@@ -463,15 +470,15 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.BULLET_LIST,
+          type: 'bulletList',
           ordered: true,
           bullets: [
             {
-              type: NodeType.BULLET_ORDERED,
+              type: 'bulletOrdered',
               level: 1,
               order: 1,
               node: {
-                type: NodeType.TEXT,
+                type: 'text',
                 text: 'bullet'
               }
             }
@@ -489,25 +496,25 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.BULLET_LIST,
+          type: 'bulletList',
           ordered: true,
           bullets: [
             {
-              type: NodeType.BULLET_ORDERED,
+              type: 'bulletOrdered',
               level: 1,
               order: 13,
               node: {
-                type: NodeType.TEXT,
+                type: 'text',
                 text: 'bullet1'
               }
             },
 
             {
-              type: NodeType.BULLET_ORDERED,
+              type: 'bulletOrdered',
               level: 1,
               order: 4,
               node: {
-                type: NodeType.TEXT,
+                type: 'text',
                 text: 'bullet2'
               }
             }
@@ -524,22 +531,22 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.CONTAINER,
+          type: 'container',
           children: [
             {
-              type: NodeType.TEXT,
+              type: 'text',
               text: 'text'
             },
 
             {
-              type: NodeType.BULLET_LIST,
+              type: 'bulletList',
               ordered: false,
               bullets: [
                 {
-                  type: NodeType.BULLET_UNORDERED,
+                  type: 'bulletUnordered',
                   level: 1,
                   node: {
-                    type: NodeType.TEXT,
+                    type: 'text',
                     text: 'bullet'
                   }
                 }
@@ -559,23 +566,23 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.BULLET_LIST,
+          type: 'bulletList',
           ordered: false,
           bullets: [
             {
-              type: NodeType.BULLET_UNORDERED,
+              type: 'bulletUnordered',
               level: 1,
               node: {
-                type: NodeType.TEXT,
+                type: 'text',
                 text: 'bullet1'
               }
             },
 
             {
-              type: NodeType.BULLET_UNORDERED,
+              type: 'bulletUnordered',
               level: 1,
               node: {
-                type: NodeType.TEXT,
+                type: 'text',
                 text: 'bullet2'
               }
             }
@@ -593,27 +600,27 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.BULLET_LIST,
+          type: 'bulletList',
           ordered: false,
           bullets: [
             {
-              type: NodeType.BULLET_UNORDERED,
+              type: 'bulletUnordered',
               level: 1,
               node: {
-                type: NodeType.TEXT,
+                type: 'text',
                 text: 'bullet1'
               }
             },
 
             {
-              type: NodeType.BULLET_LIST,
+              type: 'bulletList',
               ordered: false,
               bullets: [
                 {
-                  type: NodeType.BULLET_UNORDERED,
+                  type: 'bulletUnordered',
                   level: 2,
                   node: {
-                    type: NodeType.TEXT,
+                    type: 'text',
                     text: 'bullet2'
                   }
                 }
@@ -635,27 +642,27 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.BULLET_LIST,
+          type: 'bulletList',
           ordered: false,
           bullets: [
             {
-              type: NodeType.BULLET_UNORDERED,
+              type: 'bulletUnordered',
               level: 1,
               node: {
-                type: NodeType.TEXT,
+                type: 'text',
                 text: 'bullet1'
               }
             },
 
             {
-              type: NodeType.BULLET_LIST,
+              type: 'bulletList',
               ordered: false,
               bullets: [
                 {
-                  type: NodeType.BULLET_UNORDERED,
+                  type: 'bulletUnordered',
                   level: 2,
                   node: {
-                    type: NodeType.TEXT,
+                    type: 'text',
                     text: 'bullet2'
                   }
                 }
@@ -663,23 +670,23 @@ describe('parseMarkdown()', function() {
             },
 
             {
-              type: NodeType.BULLET_UNORDERED,
+              type: 'bulletUnordered',
               level: 1,
               node: {
-                type: NodeType.TEXT,
+                type: 'text',
                 text: 'bullet3'
               }
             },
 
             {
-              type: NodeType.BULLET_LIST,
+              type: 'bulletList',
               ordered: false,
               bullets: [
                 {
-                  type: NodeType.BULLET_UNORDERED,
+                  type: 'bulletUnordered',
                   level: 2,
                   node: {
-                    type: NodeType.TEXT,
+                    type: 'text',
                     text: 'bullet4'
                   }
                 }
@@ -701,40 +708,40 @@ describe('parseMarkdown()', function() {
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.BULLET_LIST,
+          type: 'bulletList',
           ordered: false,
           bullets: [
             {
-              type: NodeType.BULLET_UNORDERED,
+              type: 'bulletUnordered',
               level: 1,
               node: {
-                type: NodeType.TEXT,
+                type: 'text',
                 text: 'bullet1'
               }
             },
 
             {
-              type: NodeType.BULLET_LIST,
+              type: 'bulletList',
               ordered: false,
               bullets: [
                 {
-                  type: NodeType.BULLET_UNORDERED,
+                  type: 'bulletUnordered',
                   level: 2,
                   node: {
-                    type: NodeType.TEXT,
+                    type: 'text',
                     text: 'bullet2'
                   }
                 },
 
                 {
-                  type: NodeType.BULLET_LIST,
+                  type: 'bulletList',
                   ordered: false,
                   bullets: [
                     {
-                      type: NodeType.BULLET_UNORDERED,
+                      type: 'bulletUnordered',
                       level: 3,
                       node: {
-                        type: NodeType.TEXT,
+                        type: 'text',
                         text: 'bullet3'
                       }
                     }
@@ -744,10 +751,10 @@ describe('parseMarkdown()', function() {
             },
 
             {
-              type: NodeType.BULLET_UNORDERED,
+              type: 'bulletUnordered',
               level: 1,
               node: {
-                type: NodeType.TEXT,
+                type: 'text',
                 text: 'bullet4'
               }
             }
@@ -778,64 +785,64 @@ block\`\`\`
       assert.deepEqual(
         parseMarkdown(string),
         {
-          type: NodeType.CONTAINER,
+          type: 'container',
           children: [
             {
-              type: NodeType.HEADING,
+              type: 'heading',
               level: 1,
               node: {
                 text: 'Title',
-                type: NodeType.TEXT
+                type: 'text'
               }
             },
 
             {
-              type: NodeType.LINE_BREAK
+              type: 'lineBreak'
             },
 
             {
-              type: NodeType.HEADING,
+              type: 'heading',
               level: 2,
               node: {
                 text: 'Action items',
-                type: NodeType.TEXT
+                type: 'text'
               }
             },
 
             {
-              type: NodeType.BULLET_LIST,
+              type: 'bulletList',
               ordered: true,
               bullets: [
                 {
-                  type: NodeType.BULLET_ORDERED,
+                  type: 'bulletOrdered',
                   order: 1,
                   level: 1,
                   node: {
-                    type: NodeType.TEXT,
+                    type: 'text',
                     text: 'Action item 1'
                   }
                 },
 
                 {
-                  type: NodeType.BULLET_ORDERED,
+                  type: 'bulletOrdered',
                   order: 2,
                   level: 1,
                   node: {
-                    type: NodeType.CONTAINER,
+                    type: 'container',
                     children: [
                       {
-                        type: NodeType.TEXT,
+                        type: 'text',
                         text: 'Action item 2 ('
                       },
                       {
-                        type: NodeType.STRONG_EMPHASIS,
+                        type: 'strongEmphasis',
                         node: {
-                          type: NodeType.TEXT,
+                          type: 'text',
                           text: 'important'
                         }
                       },
                       {
-                        type: NodeType.TEXT,
+                        type: 'text',
                         text: ')'
                       }
                     ]
@@ -845,49 +852,49 @@ block\`\`\`
             },
 
             {
-              type: NodeType.LINE_BREAK
+              type: 'lineBreak'
             },
 
             {
-              type: NodeType.HEADING,
+              type: 'heading',
               level: 2,
               node: {
-                type: NodeType.TEXT,
+                type: 'text',
                 text: 'Status'
               }
             },
 
             {
-              type: NodeType.BULLET_LIST,
+              type: 'bulletList',
               ordered: false,
               bullets: [
                 {
-                  type: NodeType.BULLET_UNORDERED,
+                  type: 'bulletUnordered',
                   level: 1,
                   node: {
-                    type: NodeType.TEXT,
+                    type: 'text',
                     text: 'Item 1'
                   }
                 },
 
                 {
-                  type: NodeType.BULLET_UNORDERED,
+                  type: 'bulletUnordered',
                   level: 1,
                   node: {
-                    type: NodeType.CONTAINER,
+                    type: 'container',
                     children: [
                       {
-                        type: NodeType.TEXT,
+                        type: 'text',
                         text: 'Item 2 with '
                       },
 
                       {
-                        type: NodeType.ANCHOR,
+                        type: 'anchor',
                         link: 'https://ipsum.dolor',
                         node: {
-                          type: NodeType.EMPHASIS,
+                          type: 'emphasis',
                           node: {
-                            type: NodeType.TEXT,
+                            type: 'text',
                             text: 'hyperlink'
                           }
                         }
@@ -897,18 +904,18 @@ block\`\`\`
                 },
 
                 {
-                  type: NodeType.BULLET_UNORDERED,
+                  type: 'bulletUnordered',
                   level: 1,
                   node: {
-                    type: NodeType.CONTAINER,
+                    type: 'container',
                     children: [
                       {
-                        type: NodeType.TEXT,
+                        type: 'text',
                         text: 'Item 3 with a '
                       },
 
                       {
-                        type: NodeType.CODE_BLOCK,
+                        type: 'codeBlock',
                         code: 'code\nblock'
                       }
                     ]
@@ -916,10 +923,10 @@ block\`\`\`
                 },
 
                 {
-                  type: NodeType.BULLET_UNORDERED,
+                  type: 'bulletUnordered',
                   level: 1,
                   node: {
-                    type: NodeType.TEXT,
+                    type: 'text',
                     text: 'Item 4'
                   }
                 }

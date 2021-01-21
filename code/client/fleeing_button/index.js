@@ -10,7 +10,6 @@ import { EventLoop } from '../core/support/event_loop.js'
 
 import { fleeingButtonCanvas } from './components/fleeing_button_canvas.js'
 import { flee } from './flee.js'
-import { Renderer } from '../../common/rendering/renderer.js'
 
 // There is a lot of shared state here because I needed the event loop to know about global observables
 const UPDATE_INTERVAL = 50
@@ -43,7 +42,6 @@ export function index({ path, description }) {
   let cursorSubscription
 
   dispatcher.events.create.subscribe({
-    /** @param {Renderer<HTMLElement>} node */
     next(node) {
       if (node.component.type === fleeingButtonCanvas) {
         sharedState = {
@@ -63,7 +61,6 @@ export function index({ path, description }) {
   })
 
   dispatcher.events.destroy.subscribe({
-    /** @param {Renderer<HTMLElement>} node */
     next(node) {
       if (node.component.type === fleeingButtonCanvas) {
         sharedState = undefined

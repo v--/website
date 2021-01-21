@@ -1,23 +1,23 @@
 import { term, opt, rep, cat, alt } from '../../../common/support/parser.js'
 
 export const folRules = Object.freeze({
-  ['whitespace']: rep(term(' ')),
-  ['naturalNumber']: cat(
+  whitespace: rep(term(' ')),
+  naturalNumber: cat(
     term('1', '2', '3', '4', '5', '6', '7', '8', '9'),
     rep(
       term('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
     )
   ),
 
-  ['term']: alt('variable', 'function'),
-  ['formula']: alt('predicate', 'negation', 'universalQuantification', 'existentialQuantification', 'connectiveFormula'),
-  ['topLevelFormula']: cat(
+  term: alt('variable', 'function'),
+  formula: alt('predicate', 'negation', 'universalQuantification', 'existentialQuantification', 'connectiveFormula'),
+  topLevelFormula: cat(
     'whitespace',
     alt('conjunction', 'disjunction', 'implication', 'equivalence', 'formula'),
     'whitespace'
   ),
 
-  ['arguments']: cat(
+  arguments: cat(
     term('('),
     'whitespace',
     'term',
@@ -33,37 +33,37 @@ export const folRules = Object.freeze({
     term(')')
   ),
 
-  ['variable']: cat(
+  variable: cat(
     term('x', 'y', 'z'),
     opt('naturalNumber')
   ),
 
-  ['functionName']: cat(
+  functionName: cat(
     term('f', 'g', 'h'),
     opt('naturalNumber')
   ),
 
-  ['function']: cat(
+  function: cat(
     'functionName',
     opt('arguments')
   ),
 
-  ['predicateName']: cat(
+  predicateName: cat(
     term('p', 'q', 'r'),
     opt('naturalNumber')
   ),
 
-  ['predicate']: cat(
+  predicate: cat(
     'predicateName',
     'arguments'
   ),
 
-  ['negation']: cat(
+  negation: cat(
     term('!'),
     'formula'
   ),
 
-  ['universalQuantification']: cat(
+  universalQuantification: cat(
     term('A'),
     'whitespace',
     'variable',
@@ -71,7 +71,7 @@ export const folRules = Object.freeze({
     'formula'
   ),
 
-  ['existentialQuantification']: cat(
+  existentialQuantification: cat(
     term('E'),
     'whitespace',
     'variable',
@@ -79,7 +79,7 @@ export const folRules = Object.freeze({
     'formula'
   ),
 
-  ['conjunction']: cat(
+  conjunction: cat(
     'formula',
     'whitespace',
     term('&'),
@@ -95,7 +95,7 @@ export const folRules = Object.freeze({
     )
   ),
 
-  ['disjunction']: cat(
+  disjunction: cat(
     'formula',
     'whitespace',
     term('v'),
@@ -111,7 +111,7 @@ export const folRules = Object.freeze({
     )
   ),
 
-  ['implication']: cat(
+  implication: cat(
     'formula',
     'whitespace',
     term('->'),
@@ -119,7 +119,7 @@ export const folRules = Object.freeze({
     'formula'
   ),
 
-  ['equivalence']: cat(
+  equivalence: cat(
     'formula',
     'whitespace',
     term('<->'),
@@ -127,7 +127,7 @@ export const folRules = Object.freeze({
     'formula'
   ),
 
-  ['connectiveFormula']: cat(
+  connectiveFormula: cat(
     term('('),
     'whitespace',
     alt('conjunction', 'disjunction', 'implication', 'equivalence'),

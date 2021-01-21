@@ -2,7 +2,7 @@ import { Observable } from './observable.js'
 
 /**
  * @template T
- * @implements TObservables.IObservable<T>, TObservables.IObserver<T>
+ * @implements TObservables.ISubject<T>
  */
 export class Subject {
   constructor() {

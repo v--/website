@@ -63,7 +63,14 @@ export class CoolError extends Error {
   }
 }
 
-export class NotImplementedError extends CoolError {}
+export class NotImplementedError extends CoolError {
+  /**
+   * @param {string} [message]
+   */
+  constructor(message) {
+    super(message || 'Not implemented')
+  }
+}
 
 export class ClientError extends CoolError {
   /**

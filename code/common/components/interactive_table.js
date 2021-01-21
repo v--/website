@@ -4,7 +4,7 @@ import { classlist } from '../support/dom_properties.js'
 import { QueryConfig } from '../support/query_config.js'
 import { orderComparator, inverseOrderComparator } from '../support/sorting.js'
 
-import { ITableColumn, table } from './table.js'
+import { table } from './table.js'
 import { pagination } from './pagination.js'
 
 import { icon } from './icon.js'
@@ -19,7 +19,7 @@ import { link } from './link.js'
 
 /**
  * @param {{
-    columns: ITableColumn[],
+    columns: import('./table.js').ITableColumn[],
     data: unknown[],
     sorting: number,
     perPage: number
@@ -52,7 +52,7 @@ export function sliceData({
 /**
  * @param {{
     class: string,
-    columns: ITableColumn[],
+    columns: import('./table.js').ITableColumn[],
     data: unknown[],
     defaultSorting: number,
     path: TRouter.IPath

@@ -1,7 +1,12 @@
 import { Component, XMLComponent, FactoryComponent, HTMLComponent } from '../common/rendering/component.js'
 import { RenderDispatcher } from '../common/rendering/renderer.js'
 
-function * renderXMLComponent(component: XMLComponent, dispatcher: RenderDispatcher<Iterable<string>>) {
+/**
+ * @param {XMLComponent} component
+ * @param {TRendering.IRenderDispatcher<Iterable<string>>} dispatcher
+ * @returns {Iterable<string>}
+ */
+function * renderXMLComponent(component, dispatcher) {
   const state = component.state.value
 
   yield `<${component.type}`
@@ -23,7 +28,7 @@ function * renderXMLComponent(component: XMLComponent, dispatcher: RenderDispatc
   }
 
   if (state && 'text' in state) {
-    yield state.text!
+    yield state.text
   }
 
   for (const child of component.children) {
@@ -35,11 +40,16 @@ function * renderXMLComponent(component: XMLComponent, dispatcher: RenderDispatc
   yield `</${component.type}>`
 }
 
-function renderFactoryComponent(component: FactoryComponent, dispatcher: RenderDispatcher<Iterable<string>>) {
+/**
+ * @param {FactoryComponent} component
+ * @param {TRendering.IRenderDispatcher<Iterable<string>>} dispatcher
+ * @returns {Iterable<string>}
+ */
+function renderFactoryComponent(component, dispatcher) {
   return dispatcher.render(component.evaluate())
 }
 
-export const dispatcher = new RenderDispatcher<Iterable<string>>(
+export const dispatcher = new RenderDispatcher(
   renderXMLComponent,
   renderFactoryComponent
 )

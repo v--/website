@@ -29,5 +29,7 @@ declare namespace TObservables {
     subscribe(potentialObserver: IPotentialObserver<T>): ISubscription
   }
 
+  export type ISubject<T> = IObserver<T> & IObservable<T>
+
   export type BaseType<T> = T extends IObservable<infer R> ? R : T
 }

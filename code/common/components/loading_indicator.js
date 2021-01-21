@@ -1,7 +1,10 @@
 import { c } from '../rendering/component.js'
 import { styles } from '../support/dom_properties.js'
 
-export function loadingIndicator({ visible }: { visible: boolean }) {
+/**
+ * @param {{ visible: boolean }} state
+ */
+export function loadingIndicator({ visible }) {
   return c(
     'div',
     {

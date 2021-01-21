@@ -5,7 +5,6 @@ import { dispatcher } from '../render_dispatcher.js'
 import { createIntervalObservable } from '../support/timeout.js'
 import { combineLatest } from '../../../common/observables/combine.js'
 import { windowSize$ } from '../shared_observables.js'
-import { Renderer } from '../../../common/rendering/renderer.js'
 import { WindowSize } from '../support/dom_observables.js'
 
 export class AspectRatioError extends CoolError {}
@@ -13,7 +12,7 @@ export class NodeAlreadyRegisteredError extends AspectRatioError {}
 
 const REFRESH_TIMEOUT = 300
 
-/** @type {Renderer<HTMLElement> | undefined} */
+/** @type {TRendering.IRenderEvent<HTMLElement> | undefined} */
 let currentBox
 
 /**
@@ -86,20 +85,18 @@ combineLatest(windowSize$, createIntervalObservable(REFRESH_TIMEOUT))
   .subscribe(resizeObserver)
 
 dispatcher.events.create.subscribe({
-  /** @param {Renderer<HTMLElement>} node */
   next(node) {
     if (node.component.type === aspectRatioBox) {
       if (currentBox) {
         throw new NodeAlreadyRegisteredError('There is already a registered aspect ratio box')
       }
 
-      currentBox = node
+      currentBox = /** @type {TRendering.IRenderEvent<HTMLElement>} */ (node)
     }
   }
 })
 
 dispatcher.events.destroy.subscribe({
-  /** @param {Renderer<HTMLElement>} node */
   next(node) {
     if (node.component.type === aspectRatioBox) {
       currentBox = undefined

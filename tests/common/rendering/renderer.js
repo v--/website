@@ -1,22 +1,39 @@
 import { describe, it, assert, assertCustomEqual } from '../../_common.js'
 
 import { c, XMLComponent, ComponentSanityError, HTMLComponent, Component } from '../../../code/common/rendering/component.js'
-import { RenderError, RenderDispatcher, INodeManipulator } from '../../../code/common/rendering/renderer.js'
+import { RenderError, RenderDispatcher } from '../../../code/common/rendering/renderer.js'
 import { BehaviorSubject } from '../../../code/common/observables/behavior_subject.js'
 import { DictSubject } from '../../../code/common/observables/dict_subject.js'
 
-export const mirrorDOMManipulator: INodeManipulator<XMLComponent> = {
-  createNode(component: XMLComponent) {
-    return HTMLComponent.safeCreate(component.type, component.state.value) as XMLComponent
+/** @type {TRendering.INodeManipulator<XMLComponent>} */
+export const mirrorDOMManipulator = {
+  /**
+   * @param {XMLComponent} component
+   */
+  createNode(component) {
+    return /** @type {XMLComponent} */ (
+      HTMLComponent.safeCreate(component.type, component.state.value)
+    )
   },
 
-  setAttribute<T extends unknown>(node: XMLComponent, key: string, value: T, _oldValue?: T) {
+  /**
+   * @param {XMLComponent} node
+   * @param {string} key
+   * @param {unknown} value
+   * @param {unknown} [_oldValue]
+   */
+  setAttribute(node, key, value, _oldValue) {
     const oldState = node.state.value
     node.state.next({ ...oldState, [key]: value })
   },
 
-  removeAttribute<T>(node: XMLComponent, key: string, _oldValue: T) {
-    const oldState = node.state.value as Record<string, unknown> | undefined
+  /**
+   * @param {XMLComponent} node
+   * @param {string} key
+   * @param {unknown} _oldValue
+   */
+  removeAttribute(node, key, _oldValue) {
+    const oldState = /** @type {Record<string, unknown> | undefined} */ (node.state.value)
 
     if (oldState) {
       const newState = { ...oldState }
@@ -25,33 +42,58 @@ export const mirrorDOMManipulator: INodeManipulator<XMLComponent> = {
     }
   },
 
-  setText(node: XMLComponent, value: string) {
+  /**
+   * @param {XMLComponent} node
+   * @param {string} value
+   */
+  setText(node, value) {
     this.setAttribute(node, 'text', value)
   },
 
-  removeText(node: XMLComponent, ) {
+  /**
+   * @param {XMLComponent} node
+   */
+  removeText(node) {
     this.removeAttribute(node, 'text', undefined)
   },
 
-  appendChild(node: XMLComponent, child: XMLComponent) {
+  /**
+   * @param {XMLComponent} node
+   * @param {XMLComponent} child
+   */
+  appendChild(node, child) {
     node.children.push(child)
   },
 
-  replaceChild(node: XMLComponent, oldChild: XMLComponent, newChild: XMLComponent) {
+  /**
+   * @param {XMLComponent} node
+   * @param {XMLComponent} oldChild
+   * @param {XMLComponent} newChild
+   */
+  replaceChild(node, oldChild, newChild) {
     const index = node.children.indexOf(oldChild)
     node.children[index] = newChild
   },
 
-  removeChild(node: XMLComponent, child: XMLComponent) {
+  /**
+   * @param {XMLComponent} node
+   * @param {XMLComponent} child
+   */
+  removeChild(node, child) {
     const index = node.children.indexOf(child)
     node.children.splice(index, 1)
   }
 }
 
-export const dispatcher = RenderDispatcher.fromRenderers(mirrorDOMManipulator)
+export const dispatcher = RenderDispatcher.fromManipulator(mirrorDOMManipulator)
 
-function render(component: Component) {
-  return dispatcher.render(component) as XMLComponent
+/**
+ * @param {Component} component
+ */
+function render(component) {
+  return /** @type {XMLComponent} */ (
+    dispatcher.render(component) 
+  )
 }
 
 describe('mirrorDOMManipulator for XML components', function() {
@@ -86,7 +128,8 @@ describe('mirrorDOMManipulator for XML components', function() {
 
   describe('#rerender()', function() {
     it('adds new properties', function() {
-      const subject = new BehaviorSubject<{ text?: string }>({})
+      /** @type {BehaviorSubject<{ text?: string }>} */
+      const subject = new BehaviorSubject({})
       const src = c('div', subject)
       const dest = render(src)
       subject.next({ text: 'text' })
@@ -102,7 +145,8 @@ describe('mirrorDOMManipulator for XML components', function() {
     })
 
     it('removes old properties', function() {
-      const subject = new BehaviorSubject<{ text?: string }>({ text: 'text' })
+      /** @type {BehaviorSubject<{ text?: string }>} */
+      const subject = new BehaviorSubject({ text: 'text' })
       const src = c('div', subject)
       const dest = render(src)
       subject.next({})
@@ -110,7 +154,8 @@ describe('mirrorDOMManipulator for XML components', function() {
     })
 
     it('throws when adding text to an HTML component with children', function() {
-      const subject = new BehaviorSubject<{ text?: string }>({})
+      /** @type {BehaviorSubject<{ text?: string }>} */
+      const subject = new BehaviorSubject({})
       const src = c('div', subject, c('span'))
       render(src)
 
@@ -204,9 +249,11 @@ describe('mirrorDOMManipulator for factory components', function() {
     })
 
     it('handles swapping', function() {
-      const subject = new BehaviorSubject<{ components: [string, string, string] }>({ components: ['h1', 'h2', 'h3'] })
+      /** @type {BehaviorSubject<{ components: [string, string, string] }>} */
+      const subject = new BehaviorSubject({ components: ['h1', 'h2', 'h3'] })
 
-      function factory({ components }: { components: [string, string, string] }) {
+      /** @param {{ components: [string, string, string] }} state */
+      function factory({ components }) {
         return c('div', undefined, c(components[0]), c(components[1]), c(components[2]))
       }
 
@@ -227,7 +274,8 @@ describe('mirrorDOMManipulator for factory components', function() {
 
       const subject = new BehaviorSubject({ components: [h1, h2, h3] })
 
-      function factory({ components }: { components: TComponents.IComponent[] }) {
+      /** @param {{ components: TComponents.IComponent[] }} state */
+      function factory({ components }) {
         return c('div', undefined, ...components)
       }
 
@@ -240,9 +288,11 @@ describe('mirrorDOMManipulator for factory components', function() {
     })
 
     it('handles nested component swapping', function() {
-      const subject = new BehaviorSubject<{ components: [string, string, string] }>({ components: ['h1', 'h2', 'h3'] })
+      /** @type {BehaviorSubject<{ components: [string, string, string] }>} */
+      const subject = new BehaviorSubject({ components: ['h1', 'h2', 'h3'] })
 
-      function factory({ components }: { components: [string, string, string] }) {
+      /** @param {{ components: [string, string, string] }} state */
+      function factory({ components }) {
         return c('main', undefined,
           c('div', undefined, c(components[0]), c(components[1]), c(components[2]))
         )
@@ -261,7 +311,8 @@ describe('mirrorDOMManipulator for factory components', function() {
     it('can rerender multiple times', function() {
       const subject = new BehaviorSubject({ text: 'basic' })
 
-      function factory({ text }: { text: string }) {
+      /** @param {{ text: string }} state */
+      function factory({ text }) {
         return c('span', { text })
       }
 
@@ -277,11 +328,13 @@ describe('mirrorDOMManipulator for factory components', function() {
       const outerSubject = new BehaviorSubject({})
       const subject = new BehaviorSubject({ text: 'text' })
 
-      function factory1({ text }: { text: string }) {
+      /** @param {{ text: string }} state */
+      function factory1({ text }) {
         return c('p', { text })
       }
 
-      function factory2({ text }: { text: string }) {
+      /** @param {{ text: string }} state */
+      function factory2({ text }) {
         return c('p', { text })
       }
 
@@ -307,7 +360,8 @@ describe('mirrorDOMManipulator for factory components', function() {
     it('can rerender multiple with subcomponent replacements', function() {
       const subject = new BehaviorSubject({ type: 'div' })
 
-      function factory({ type }: { type: string }) {
+      /** @param {{ type: string }} state */
+      function factory({ type }) {
         return c('div', undefined, c(type))
       }
 
@@ -323,7 +377,8 @@ describe('mirrorDOMManipulator for factory components', function() {
       function factory() {
         const subject = new DictSubject({
           text: 'text',
-          updateText(text: string) {
+          /** @param {string} text */
+          updateText(text) {
             subject.update({ text })
           }
         })
@@ -344,7 +399,8 @@ describe('mirrorDOMManipulator for factory components', function() {
       function factory() {
         const subject = new DictSubject({
           text: 'text',
-          updateText(text: string) {
+          /** @param {string} text */
+          updateText(text) {
             subject.update({ text })
           }
         })
@@ -364,15 +420,21 @@ describe('mirrorDOMManipulator for factory components', function() {
     it('can rerender on observable change in transcluded components nested in XML components', function() {
       const outerSubject = new BehaviorSubject({ text: 'text' })
 
-      function transcluded(_state: unknown, children: TComponents.IComponent[]) {
+      /**
+       * @param {unknown} _state
+       * @param {TComponents.IComponent[]} children
+       */
+      function transcluded(_state, children) {
         return c('main', undefined, ...children)
       }
 
-      function factory({ text }: { text: string }) {
+      /** @param {{ text: string }} state */
+      function factory({ text }) {
         return c('div', { text })
       }
 
-      function outerFactory({ text }: { text: string }) {
+      /** @param {{ text: string }} state */
+      function outerFactory({ text }) {
         return c('body', undefined,
           c(transcluded, undefined,
             c(factory, { text })
@@ -389,17 +451,24 @@ describe('mirrorDOMManipulator for factory components', function() {
     })
 
     it('can add new children to transcluded components nested in XML components', function() {
-      const outerSubject = new BehaviorSubject<{ text?: string }>({})
+      /** @type {BehaviorSubject<{ text?: string }>} */
+      const outerSubject = new BehaviorSubject({})
 
-      function transcluded(_state: unknown, children: TComponents.IComponent[]) {
+      /**
+       * @param {unknown} _state
+       * @param {TComponents.IComponent[]} children
+       */
+      function transcluded(_state, children) {
         return c('main', undefined, ...children)
       }
 
-      function factory({ text }: { text?: string }) {
+      /** @param {{ text?: string }} state */
+      function factory({ text }) {
         return c('div', { text })
       }
 
-      function outerFactory({ text }: { text?: string }) {
+      /** @param {{ text?: string }} state */
+      function outerFactory({ text }) {
         return c('body', undefined,
           c(transcluded, undefined,
             text && c(factory, { text })

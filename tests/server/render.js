@@ -4,7 +4,10 @@ import { c, Component } from '../../code/common/rendering/component.js'
 import { dispatcher } from '../../code/server/render_dispatcher.js'
 import { join } from '../../code/common/support/strings.js'
 
-function renderToString(component: Component) {
+/**
+ * @param {Component} component
+ */
+function renderToString(component) {
   return join('', dispatcher.render(component))
 }
 
@@ -50,13 +53,18 @@ describe('Server-side .render()', function() {
   })
 
   it('allows passing state to components', function() {
-    const factory = ({ tag }: { tag: string }) => c('div', undefined, c(tag))
+    /** @param {{ tag: string }} state */
+    const factory = ({ tag }) => c('div', undefined, c(tag))
     const component = c(factory, { tag: 'span' })
     assert.equal(renderToString(component), '<div><span></span></div>')
   })
 
   it('properly transcludes components', function() {
-    const factory = (_state: unknown, children: TComponents.IComponent[]) => c('div', undefined, ...children)
+    /**
+     * @param {unknown} _state
+     * @param {TComponents.IComponent[]} children
+     */
+    const factory = (_state, children) => c('div', undefined, ...children)
     const component = c(factory, {}, c('span'))
     assert.equal(renderToString(component), '<div><span></span></div>')
   })
