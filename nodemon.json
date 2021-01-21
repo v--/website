@@ -1,5 +1,5 @@
 {
   "watch": ["code/types", "code/common", "code/server"],
-  "ext": "ts,js",
+  "ext": "js,d.js",
   "signal": "SIGINT"
 }

@@ -12,7 +12,7 @@ export function main(state) {
     c(sidebarToggle, state),
     c(sidebar, state),
     c('div', { class: 'page-wrapper' },
-      c(loadingIndicator, { visible: state.loading !== false /* undefined or true */ }),
+      c(loadingIndicator, { visible: state.loading === true /* we consider undefined as "server-rendered" */ }),
       typeof state.factory === 'function' && c(state.factory, /** @type {TRouter.IRouterState} */ (state))
     )
   )

@@ -59,7 +59,8 @@ export function playground() {
         c('dt', undefined,
           c(link, {
             link: '/playground/fleeing_button',
-            isInternal: true
+            isInternal: true,
+            class: 'disabled'
           })
         ),
         c('dd', { text: PAGE_DESCRIPTIONS.playground.fleeing_button }),
@@ -67,7 +68,8 @@ export function playground() {
         c('dt', undefined,
           c(link, {
             link: '/playground/motifs',
-            isInternal: true
+            isInternal: true,
+            class: 'disabled'
           })
         ),
         c('dd', { text: PAGE_DESCRIPTIONS.playground.motifs })
