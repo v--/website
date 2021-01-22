@@ -59,8 +59,7 @@ export function playground() {
         c('dt', undefined,
           c(anchor, {
             href: '/playground/fleeing_button',
-            isInternal: true,
-            class: 'disabled'
+            isInternal: true
           })
         ),
         c('dd', { text: PAGE_DESCRIPTIONS.playground.fleeing_button }),

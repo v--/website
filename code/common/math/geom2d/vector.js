@@ -5,13 +5,13 @@ class VectorError extends MathError {}
 class ZeroVectorError extends VectorError {}
 
 /**
- * @typedef {object} VectorParams
+ * @typedef {object} IVectorParams
  * @property {TNum.Float64} x
  * @property {TNum.Float64} y
  */
 
 /**
- * @implements VectorParams
+ * @implements IVectorParams
  */
 export class Vector {
   /**
@@ -26,7 +26,7 @@ export class Vector {
   }
 
   /**
-   * @param {VectorParams} params
+   * @param {IVectorParams} params
    */
   constructor({ x, y }) {
     this.x = x

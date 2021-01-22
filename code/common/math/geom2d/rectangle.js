@@ -1,19 +1,22 @@
 import { Line } from './line.js'
 import { Vector } from './vector.js'
 
-export interface RectangleParams {
-  origin: Vector
-  dims: Vector
-}
+/**
+ * @typedef {object} IRectangleParams
+ * @property {Vector} origin
+ * @property {Vector} dims
+ */
 
-export interface Rectangle extends RectangleParams {
-  edges: [Line, Line, Line, Line]
-  center: Vector
-}
-
+/**
+ * @implements IRectangleParams
+ */
 export class Rectangle {
-  constructor(params: RectangleParams) {
-    Object.assign(this, params)
+  /**
+   * @param {IRectangleParams} params
+   */
+  constructor({ origin, dims }) {
+    this.origin = origin
+    this.dims = dims
 
     this.edges = [
       new Line({ a: 0, b: -1, c: this.origin.y }),
@@ -25,7 +28,10 @@ export class Rectangle {
     this.center = this.origin.add(this.dims.scale(0.5))
   }
 
-  containsPoint(point: Vector) {
+  /**
+   * @param {Vector} point
+   */
+  containsPoint(point) {
     return point.x >= this.origin.x &&
       point.x <= this.origin.x + this.dims.x &&
       point.y >= this.origin.y &&

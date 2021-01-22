@@ -1,5 +1,0 @@
-
-declare interface IVectorParams {
-  x: Num.Float64
-  y: Num.Float64
-}

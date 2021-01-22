@@ -2,11 +2,28 @@ import { Subscription } from '../../../common/observables/subscription.js'
 import { createIntervalObservable } from './timeout.js'
 
 export class EventLoop {
-  private listenerMap = new Map<TCons.Action<void>, number>()
-  private subscriptionMap = new Map<TCons.Action<void>, Subscription<void>>()
-  private started = false
+  constructor() {
+    /**
+     * @type {Map<TCons.Action<void>, TNum.UInt32>}
+     * @private
+     */
+    this.listenerMap = new Map()
 
-  add(listener: TCons.Action<void>, period: number) {
+    /**
+     * @type {Map<TCons.Action<void>, Subscription<void>>}
+     * @private
+     */
+    this.subscriptionMap = new Map()
+
+    /** @private */
+    this.started = false
+  }
+
+  /**
+   * @param {TCons.Action<void>} listener
+   * @param {TNum.UInt32} period
+   */
+  add(listener, period) {
     this.listenerMap.set(listener, period)
 
     if (this.started) {
@@ -16,7 +33,10 @@ export class EventLoop {
     }
   }
 
-  remove(listener: TCons.Action<void>) {
+  /**
+   * @param {TCons.Action<void>} listener
+   */
+  remove(listener) {
     this.listenerMap.delete(listener)
     const subscription = this.subscriptionMap.get(listener)
 

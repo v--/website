@@ -1,7 +1,12 @@
 import { Vector } from '../../../common/math/geom2d/vector.js'
 import { Rectangle } from '../../../common/math/geom2d/rectangle.js'
 
-export function accumulateNumericProperty(element: HTMLElement | null, key: keyof HTMLElement): TNum.Float64 {
+/**
+ * @param {HTMLElement | null} element
+ * @param {keyof HTMLElement} key
+ * @returns {TNum.Float64}
+ */
+export function accumulateNumericProperty(element, key) {
   if (element === null) {
     return 0
   }
@@ -9,18 +14,21 @@ export function accumulateNumericProperty(element: HTMLElement | null, key: keyo
   return Number(element[key]) + accumulateNumericProperty(element.parentElement, key)
 }
 
-export function getOffset(element: HTMLElement) {
+/** @param {HTMLElement} element */
+export function getOffset(element) {
   return new Vector({
     x: accumulateNumericProperty(element, 'offsetLeft'),
     y: accumulateNumericProperty(element, 'offsetTop')
   })
 }
 
-export function getDimensions(element: HTMLElement) {
+/** @param {HTMLElement} element */
+export function getDimensions(element) {
   return new Vector({ x: element.offsetWidth, y: element.offsetHeight })
 }
 
-export function getBoundingBox(element: HTMLElement) {
+/** @param {HTMLElement} element */
+export function getBoundingBox(element) {
   return new Rectangle({
     origin: getOffset(element),
     dims: getDimensions(element)

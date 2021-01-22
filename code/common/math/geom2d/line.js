@@ -2,20 +2,33 @@ import { isSameNumber } from '../numeric/floating.js'
 
 import { Vector } from './vector.js'
 
-// Standard line equation, ax + by + c = 0
-export interface LineParams {
-  a: number
-  b: number
-  c: number
-}
+/**
+ * Standard line equation, ax + by + c = 0
+ * @typedef {object} ILineParams
+ * @property {TNum.Float64} a
+ * @property {TNum.Float64} b
+ * @property {TNum.Float64} c
+ */
 
-export interface Line extends LineParams {}
+/**
+ * @implements ILineParams
+ */
 export class Line {
-  static fromTwoPoints(pointA: Vector, pointB: Vector): Line {
+  /**
+   * @param {Vector} pointA
+   * @param {Vector} pointB
+   * @returns Line
+   */
+  static fromTwoPoints(pointA, pointB) {
     return this.fromPointAndVector(pointA, pointB.sub(pointA))
   }
 
-  static fromPointAndVector(point: Vector, vector: Vector): Line {
+  /**
+   * @param {Vector} point
+   * @param {Vector} vector
+   * @returns Line
+   */
+  static fromPointAndVector(point, vector) {
     const norm = vector.getNorm()
     return new this({
       a: vector.y / norm,
@@ -24,19 +37,34 @@ export class Line {
     })
   }
 
-  constructor(params: LineParams) {
-    Object.assign(this, params)
+  /**
+   * @param {ILineParams} params
+   */
+  constructor({ a, b, c }) {
+    this.a = a
+    this.b = b
+    this.c = c
   }
 
-  isParallelWith(other: Line) {
+  /**
+   * @param {Line} other
+   */
+  isParallelWith(other) {
     return isSameNumber(this.a * other.b, this.b * other.a)
   }
 
-  coincidesWith(other: Line) {
+  /**
+   * @param {Line} other
+   */
+  coincidesWith(other) {
     return this.isParallelWith(other) && isSameNumber(this.b * other.c, this.c * other.b)
   }
 
-  intersectWith(other: Line): Vector | undefined {
+  /**
+   * @param {Line} other
+   * @returns {Vector | undefined}
+   */
+  intersectWith(other) {
     if (isSameNumber(this.a, 0) && isSameNumber(other.a, 0)) {
       return 
     } else if (isSameNumber(this.a, 0)) {
@@ -55,7 +83,11 @@ export class Line {
     return new Vector({ x, y })
   }
 
-  getParallelThrough(point: Vector) {
+  /**
+   * @param {Vector} point
+   * @returns {Line}
+   */
+  getParallelThrough(point) {
     return new Line({
       a: this.a,
       b: this.b,
@@ -63,19 +95,28 @@ export class Line {
     })
   }
 
-  getNormalLineThrough(point: Vector) {
+  /**
+   * @param {Vector} point
+   * @returns {Line}
+   */
+  getNormalLineThrough(point) {
     return Line.fromPointAndVector(
       point,
       new Vector({ x: this.a, y: this.b })
     )
   }
 
-  reflectDirection(point: Vector, direction: Vector) {
+  /**
+   * @param {Vector} point
+   * @param {Vector} direction
+   * @returns {Vector}
+   */
+  reflectDirection(point, direction) {
     const normalLine = this.getNormalLineThrough(point)
     const moved = point.add(direction)
 
-    const pointNormalIntersection = normalLine.intersectWith(this.getParallelThrough(point))!
-    const movedNormalIntersection = normalLine.intersectWith(this.getParallelThrough(moved))!
+    const pointNormalIntersection = /** @type {Vector} */ (normalLine.intersectWith(this.getParallelThrough(point)))
+    const movedNormalIntersection = /** @type {Vector} */ (normalLine.intersectWith(this.getParallelThrough(moved)))
 
     const reflectedPoint = new Vector({
       x: point.x + 2 * (pointNormalIntersection.x - point.x),
@@ -90,7 +131,11 @@ export class Line {
     return reflectedPoint.sub(reflectedMoved).scaleToNormed()
   }
 
-  orientedDistanceToPoint(vector: Vector) {
+  /**
+   * @param {Vector} vector
+   * @returns {TNum.Float64}
+   */
+  orientedDistanceToPoint(vector) {
     return this.a * vector.x + this.b * vector.y + this.c
   }
 }
