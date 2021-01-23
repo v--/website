@@ -5,13 +5,7 @@ class VectorError extends MathError {}
 class ZeroVectorError extends VectorError {}
 
 /**
- * @typedef {object} IVectorParams
- * @property {TNum.Float64} x
- * @property {TNum.Float64} y
- */
-
-/**
- * @implements IVectorParams
+ * @implements TGeom2D.IVector
  */
 export class Vector {
   /**
@@ -26,7 +20,7 @@ export class Vector {
   }
 
   /**
-   * @param {IVectorParams} params
+   * @param {TGeom2D.IVectorParams} params
    */
   constructor({ x, y }) {
     this.x = x

@@ -50,8 +50,7 @@ export function playground() {
         c('dt', undefined,
           c(anchor, {
             href: '/playground/graphs',
-            isInternal: true,
-            class: 'disabled'
+            isInternal: true
           })
         ),
         c('dd', { text: PAGE_DESCRIPTIONS.playground.graphs }),

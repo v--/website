@@ -6,15 +6,12 @@ import { constructPathFromAncestors } from '../../../common/math/graphs/ancestor
 import { fillArcWeightData } from '../support/arc_data.js'
 import { fillPathAncestorVertexData } from '../support/vertex_data.js'
 import { DEFAULT_GRAPH_LAYOUT, DEFAULT_GRAPH_DIRECTED } from '../graphs.js'
-import { GraphAlgorithmResult } from '../support/algorithm_result.js'
-import { GraphAlgorithm } from '../types/graph_algorithm.js'
-import { GraphAlgorithmType } from '../enums/algorithm_type.js'
 
-/** @type {GraphAlgorithm<TNum.UInt32>} */
+/** @type {TGraphOpt.IGraphAlgorithm<TNum.UInt32>} */
 export const postorderLongestPath = Object.freeze({
   name: 'Longest path based on post-order traversal',
   id: 'postorder_longest_path',
-  type: GraphAlgorithmType.longestPath,
+  type: 'longestPath',
   date: '2019-12-01',
   graph: DEFAULT_GRAPH_DIRECTED,
   layout: DEFAULT_GRAPH_LAYOUT,
@@ -66,12 +63,12 @@ export const postorderLongestPath = Object.freeze({
       }
     }
 
-    return new GraphAlgorithmResult({
+    return {
       start,
       end,
       subgraph,
       vertexData: fillPathAncestorVertexData(graph, ancestors, start),
       arcData: fillArcWeightData(graph)
-    })
+    }
   }
 })

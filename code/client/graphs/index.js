@@ -13,15 +13,14 @@ import { algorithms, DEFAULT_ALGORITHM } from './algorithms.js'
 
 import { QueryConfig } from '../../common/support/query_config.js'
 import { location$ } from '../../common/shared_observables.js'
-import { GraphAlgorithm } from './types/graph_algorithm.js'
-import { GraphAlgorithmState, SuccessfulGraphAlgorithmState } from './types/state.js'
 import { GraphArc } from '../../common/math/graphs/graph.js'
 
 /**
- * @typedef {object} IQueryConfig
- * @property {string} algorithm
- * @property {string} start
- * @property {string} end
+ * @typedef {{
+   algorithm: string
+   start: string
+   end: string
+  }} IQueryConfig
  */
 
 /** @type {IQueryConfig} */
@@ -56,7 +55,7 @@ export function index({ path, description }) {
     errors.push(`Cannot find algorithm ${repr(config.get('algorithm'))}.`)
   }
 
-  /** @type {DictSubject<GraphAlgorithmState<TNum.UInt32>>} */
+  /** @type {DictSubject<TGraphOpt.IGraphAlgorithmState<TNum.UInt32>>} */
   const subject = new DictSubject({
     algorithm: errors.length > 0 ? undefined : algorithm,
     graph: errors.length > 0 ? undefined : algorithm.graph,
@@ -95,7 +94,7 @@ export function index({ path, description }) {
     },
 
     /**
-     * @param {GraphAlgorithm<TNum.UInt32>} algorithm
+     * @param {TGraphOpt.IGraphAlgorithm<TNum.UInt32>} algorithm
      */
     runAlgorithm(algorithm) {
       location$.next(config.getUpdatedPath({ algorithm: algorithm.id }))
@@ -118,8 +117,8 @@ export function index({ path, description }) {
       minHeight: 250,
       maxHeight: 750,
       item: c('div', { class: 'graph-split-container' },
-        c(graphCanvas, /** @type {TObservables.IObservable<SuccessfulGraphAlgorithmState<TNum.UInt32>>} */ (subject)),
-        c(graphDetails, /** @type {TObservables.IObservable<SuccessfulGraphAlgorithmState<TNum.UInt32>>} */ (subject))
+        c(graphCanvas, /** @type {TObservables.IObservable<TGraphOpt.ISuccessfulGraphAlgorithmState<TNum.UInt32>>} */ (subject)),
+        c(graphDetails, /** @type {TObservables.IObservable<TGraphOpt.ISuccessfulGraphAlgorithmState<TNum.UInt32>>} */ (subject))
       )
     })
   )
