@@ -232,7 +232,7 @@ export function sort(iter, ascending = true) {
 
 /**
  * @template T
- * @param {TCons.Mapper<T, TNum.UInt32>} transform
+ * @param {TCons.Mapper<T, TNum.Float64>} transform
  * @param {Iterable<T>} iter
  * @returns {T[]}
  */

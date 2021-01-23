@@ -4,7 +4,8 @@ import { isSameNumber } from '../numeric/floating.js'
 import { Matrix, MatrixDimensionError } from './matrix.js'
 import { frobNorm } from './norm.js'
 
-export function findMatrixMax(matrix: Matrix) {
+/** @param {Matrix} matrix */
+export function findMatrixMax(matrix) {
   let maxI = 0
   let maxJ = 0
   let max = 0
@@ -27,7 +28,13 @@ export function findMatrixMax(matrix: Matrix) {
   }
 }
 
-export function givensRotation(n: TNum.UInt32, i: TNum.UInt32, j: TNum.UInt32, phi: TNum.Float64) {
+/**
+ * @param {TNum.UInt32} n
+ * @param {TNum.UInt32} i
+ * @param {TNum.UInt32} j
+ * @param {TNum.Float64} phi
+ */
+export function givensRotation(n, i, j, phi) {
   const matrix = Matrix.unit(n)
   matrix.set(i, i, Math.cos(phi))
   matrix.set(i, j, -Math.sin(phi))
@@ -36,7 +43,11 @@ export function givensRotation(n: TNum.UInt32, i: TNum.UInt32, j: TNum.UInt32, p
   return matrix
 }
 
-export function jacobiMethod(matrix: Matrix, maxIter: TNum.UInt32 = 1000) {
+/**
+ * @param {Matrix} matrix
+ * @param {TNum.UInt32} maxIter
+ */
+export function jacobiMethod(matrix, maxIter = 1000) {
   if (matrix.rows !== matrix.cols) {
     throw new MatrixDimensionError('Can only find eigenvalues for square matrices')
   }
@@ -66,7 +77,8 @@ export function jacobiMethod(matrix: Matrix, maxIter: TNum.UInt32 = 1000) {
   return { d, l }
 }
 
-export function eigen(matrix: Matrix) {
+/** @param {Matrix} matrix */
+export function eigen(matrix) {
   const n = matrix.rows
   const pairs = []
   const { l, d } = jacobiMethod(matrix)

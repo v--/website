@@ -1,6 +1,11 @@
 import { Matrix, MatrixDimensionError } from './matrix.js'
 
-function swapRowsInline(matrix: Matrix, a: TNum.UInt32, b: TNum.UInt32) {
+/**
+ * @param {Matrix} matrix
+ * @param {TNum.UInt32} a
+ * @param {TNum.UInt32} b
+ */
+function swapRowsInline(matrix, a, b) {
   for (let j = 0; j < matrix.cols; j++) {
     const tmp = matrix.get(a, j)
     matrix.set(a, j, matrix.get(b, j))
@@ -8,7 +13,8 @@ function swapRowsInline(matrix: Matrix, a: TNum.UInt32, b: TNum.UInt32) {
   }
 }
 
-export function lu(matrix: Matrix) {
+/** @param {Matrix} matrix */
+export function lu(matrix) {
   if (matrix.rows !== matrix.cols) {
     throw new MatrixDimensionError('Can only decompose square matrices')
   }

@@ -1,6 +1,11 @@
 import { Matrix } from './matrix.js'
 
-export function lNorm(matrix: Matrix, p: TNum.UInt32, q: TNum.UInt32) {
+/**
+ * @param {Matrix} matrix
+ * @param {TNum.UInt32} p
+ * @param {TNum.UInt32} q
+ */
+export function lNorm(matrix, p, q) {
   let result = 0
 
   for (let j = 0; j < matrix.cols; j++) {
@@ -16,6 +21,9 @@ export function lNorm(matrix: Matrix, p: TNum.UInt32, q: TNum.UInt32) {
   return result ** (1 / q)
 }
 
-export function frobNorm(matrix: Matrix) {
+/**
+ * @param {Matrix} matrix
+ */
+export function frobNorm(matrix) {
   return lNorm(matrix, 2, 2)
 }

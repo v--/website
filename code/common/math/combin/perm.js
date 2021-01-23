@@ -1,6 +1,10 @@
 import { shuffle } from '../../support/iteration.js'
 
-export function * iterPermutations(n: TNum.UInt32): Generator<TNum.UInt32[]> {
+/**
+ * @param {TNum.UInt32} n
+ * @returns {Generator<TNum.UInt32[]>}
+ */
+export function * iterPermutations(n) {
   if (n === 0) {
     yield [n]
     return
@@ -15,7 +19,8 @@ export function * iterPermutations(n: TNum.UInt32): Generator<TNum.UInt32[]> {
   }
 }
 
-export function randomPermutation(n: TNum.UInt32) {
+/** @param {TNum.UInt32} n */
+export function randomPermutation(n) {
   const result = []
 
   for (let i = 0; i < n; i++) {
