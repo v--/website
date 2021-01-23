@@ -2,7 +2,7 @@ import { isGreaterThan } from '../../../common/math/numeric/floating.js'
 
 import { MOVEMENT_DELTA, REFLECTION_ADJUSTMENT } from '../constants.js'
 import { changeBrick, removeBrick } from '../support/bricks.js'
-import { GameBall, Reflection } from '../geom/game_ball.js'
+import { GameBall } from '../geom/game_ball.js'
 import { GameBrick } from '../geom/game_brick.js'
 import { Rectangle } from '../../../common/math/geom2d/rectangle.js'
 import { Ellipse } from '../../../common/math/geom2d/ellipse.js'
@@ -31,7 +31,7 @@ function * generateReflections(stage, paddle, ball, bricks) {
   }
 
   for (const brick of bricks) {
-    const brickReflection = ball.reclectInGameBrick(brick)
+    const brickReflection = ball.reflectInGameBrick(brick)
 
     if (brickReflection) {
       yield brickReflection
@@ -40,14 +40,14 @@ function * generateReflections(stage, paddle, ball, bricks) {
 }
 
 /**
- * @param {DictSubject<import('../game_state.js').IGameState>} subject$
+ * @param {DictSubject<TBreakout.IGameState>} subject$
  */
 export function moveBall(subject$) {
   const { eventLoop, score, stage, paddle, ball, bricks } = subject$.value
 
-  /** @type {Reflection | undefined} */
+  /** @type {TBreakout.IReflection | undefined} */
   let reflected
-  let nextReflected = new Reflection({ ball })
+  let nextReflected = { ball }
 
   /** @type {TNum.Float64 | undefined} */
   let delta
@@ -74,7 +74,7 @@ export function moveBall(subject$) {
     }
 
     const reflections = generateReflections(stage, paddle, reflected.ball, newBricks)
-    nextReflected = /** @type {Reflection} */ (reflected.ball.findClosestReflection(reflections))
+    nextReflected = /** @type {TBreakout.IReflection} */ (reflected.ball.findClosestReflection(reflections))
 
     delta = nextDelta
     nextDelta -= nextReflected.ball.center.distanceTo(reflected.ball.center)

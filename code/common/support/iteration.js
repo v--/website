@@ -248,7 +248,7 @@ export function schwartzSort(transform, iter) {
 
 /**
  * @template T
- * @param {TCons.Mapper<T, TNum.UInt32>} transform
+ * @param {TCons.Mapper<T, TNum.Float64>} transform
  * @param {Iterable<T>} iterable
  * @param {boolean} strict
  * @returns {T}
@@ -259,7 +259,7 @@ export function schwartzMax(transform, iterable, strict = true) {
 
 /**
  * @template T
- * @param {TCons.Mapper<T, TNum.UInt32>} transform
+ * @param {TCons.Mapper<T, TNum.Float64>} transform
  * @param {Iterable<T>} iterable
  * @param {boolean} strict
  * @returns {T}

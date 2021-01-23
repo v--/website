@@ -26,7 +26,7 @@ const eventLoop = new EventLoop()
 export function index({ path, description }) {
   eventLoop.clear()
 
-  /** @type {DictSubject<import('./game_state.js').IGameState>} */
+  /** @type {DictSubject<TBreakout.IGameState>} */
   const subject$ = new DictSubject({
     ...DEFAULT_GAME_STATE,
     eventLoop

@@ -2,35 +2,23 @@ import { schwartzMin, EmptyIterError } from '../../../common/support/iteration.j
 
 import { Vector } from '../../../common/math/geom2d/vector.js'
 import { Line } from '../../../common/math/geom2d/line.js'
-import { Figure } from '../../../common/math/geom/figure.js'
 import { Rectangle } from '../../../common/math/geom2d/rectangle.js'
 import { Ellipse } from '../../../common/math/geom2d/ellipse.js'
 import { GameBrick } from './game_brick.js'
 
-export interface ReflectionParams {
-  ball: GameBall
-  figure?: Figure
-}
-export interface Reflection extends ReflectionParams {}
-export class Reflection {
-  constructor(params: Reflection) {
-    Object.assign(this, params)
-  }
-}
-
-export interface GameBallParams {
-  center: Vector
-  direction: Vector
-  radius: number
-}
-
-export interface GameBall extends GameBallParams {}
+/**
+ * @implements TBreakout.IGameBall
+ */
 export class GameBall {
-  constructor(params: GameBallParams) {
-    Object.assign(this, params)
+  /** @param {TBreakout.IGameBallParams} params */
+  constructor({ center, direction, radius }) {
+    this.center = center
+    this.direction = direction
+    this.radius = radius
   }
 
-  translate(amount: number) {
+  /** @param {TNum.Float64} amount */
+  translate(amount) {
     return new GameBall({
       center: new Vector({
         x: this.center.x + amount * this.direction.x,
@@ -41,7 +29,8 @@ export class GameBall {
     })
   }
 
-  findClosestReflection(reflectionsIterable: Iterable<Reflection>) {
+  /** @param {Iterable<TBreakout.IReflection>} reflectionsIterable */
+  findClosestReflection(reflectionsIterable) {
     try {
       return schwartzMin(x => this.center.distanceTo(x.ball.center), reflectionsIterable)
     } catch (err) {
@@ -53,6 +42,9 @@ export class GameBall {
     }
   }
 
+  /**
+   * @returns {Iterable<Vector>}
+   */
   * _iterCornerDirections() {
     const d = this.direction
     yield d
@@ -62,13 +54,20 @@ export class GameBall {
     yield new Vector({ x: d.x - d.y, y: d.x + d.y }).scaleToNormed()
   }
 
+  /**
+   * @returns {Iterable<Vector>}
+   */
   * _iterCorners() {
     for (const cornerDirection of this._iterCornerDirections()) {
       yield this.center.add(cornerDirection.scale(this.radius))
     }
   }
 
-  * _iterReflectionsInRect(rect: Rectangle) {
+  /**
+   * @param {Rectangle} rect
+   * @returns {Iterable<TBreakout.IReflection>}
+   */
+  * _iterReflectionsInRect(rect) {
     for (const edge of rect.edges) {
       for (const corner of this._iterCorners()) {
         const motionLine = Line.fromPointAndVector(corner, this.direction)
@@ -87,19 +86,24 @@ export class GameBall {
         const reflectedCenter = motionDirection.add(this.center)
         const reflectedDirection = edge.reflectDirection(corner, this.direction)
 
-        yield new Reflection({
+        yield {
           ball: new GameBall({ center: reflectedCenter, direction: reflectedDirection, radius: this.radius }),
           figure: rect
-        })
+        }
       }
     }
   }
 
-  reflectInRect(rect: Rectangle) {
+  /** @param {Rectangle} rect */
+  reflectInRect(rect) {
     return this.findClosestReflection(this._iterReflectionsInRect(rect))
   }
 
-  * _iterReflectionsInEllipse(ellipse: Ellipse) {
+  /**
+   * @param {Ellipse} ellipse
+   * @returns {Iterable<TBreakout.IReflection>}
+   */
+  * _iterReflectionsInEllipse(ellipse) {
     for (const corner of this._iterCorners()) {
       const motionLine = Line.fromPointAndVector(corner, this.direction)
       const motionInt = ellipse.intersectWithLine(motionLine)
@@ -117,22 +121,24 @@ export class GameBall {
       const reflectedCenter = motionInt.sub(corner.sub(this.center))
       const reflectedDirection = tangent.reflectDirection(corner, this.direction)
 
-      yield new Reflection({
+      yield {
         ball: new GameBall({ center: reflectedCenter, direction: reflectedDirection, radius: this.radius }),
         figure: ellipse
-      })
+      }
     }
   }
 
-  reflectInEllipse(ellipse: Ellipse) {
+  /** @param {Ellipse} ellipse */
+  reflectInEllipse(ellipse) {
     return this.findClosestReflection(this._iterReflectionsInEllipse(ellipse))
   }
 
-  reclectInGameBrick(brick: GameBrick) {
+  /** @param {GameBrick} brick */
+  reflectInGameBrick(brick) {
     const reflection = this.reflectInRect(brick.rectangle)
 
     if (reflection) {
-      return new Reflection({ ball: reflection.ball, figure: brick })
+      return { ball: reflection.ball, figure: brick }
     }
   }
 }

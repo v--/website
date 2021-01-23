@@ -3,18 +3,20 @@ import { isSameNumber } from '../../../common/math/numeric/floating.js'
 import { Vector } from './vector.js'
 import { Line } from './line.js'
 
-export interface EllipseParams {
-  center: Vector
-  axes: Vector
-}
-
-export interface Ellipse extends EllipseParams {}
+/**
+ * @implements TGeom2D.IEllipse
+ */
 export class Ellipse {
-  constructor(params: EllipseParams) {
-    Object.assign(this, params)
+  /**
+   * @param {TGeom2D.IEllipseParams} params
+   */
+  constructor({ center, axes }) {
+    this.center = center
+    this.axes = axes
   }
 
-  intersectWithLine(line: Line) {
+  /** @param {Line} line */
+  intersectWithLine(line) {
     const { center, axes } = this
 
     if (isSameNumber(line.a, 0)) {
@@ -36,7 +38,8 @@ export class Ellipse {
     return new Vector({ x, y })
   }
 
-  tangentAtLowerSemiellipse(point: Vector) {
+  /** @param {Vector} point */
+  tangentAtLowerSemiellipse(point) {
     const { center, axes } = this
 
     if (isSameNumber(Math.abs(point.x - center.x), axes.x)) {

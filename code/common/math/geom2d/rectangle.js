@@ -2,28 +2,22 @@ import { Line } from './line.js'
 import { Vector } from './vector.js'
 
 /**
- * @typedef {object} IRectangleParams
- * @property {Vector} origin
- * @property {Vector} dims
- */
-
-/**
- * @implements IRectangleParams
+ * @implements TGeom2D.IRectangle
  */
 export class Rectangle {
   /**
-   * @param {IRectangleParams} params
+   * @param {TGeom2D.IRectangleParams} params
    */
   constructor({ origin, dims }) {
     this.origin = origin
     this.dims = dims
 
-    this.edges = [
+    this.edges = /** @type {[Line, Line, Line, Line]} */ ([
       new Line({ a: 0, b: -1, c: this.origin.y }),
       new Line({ a: 0, b: -1, c: this.origin.y + this.dims.y }),
       new Line({ a: -1, b: 0, c: this.origin.x }),
       new Line({ a: -1, b: 0, c: this.origin.x + this.dims.x })
-    ]
+    ])
 
     this.center = this.origin.add(this.dims.scale(0.5))
   }

@@ -1,6 +1,9 @@
 import { Subscription } from '../../../common/observables/subscription.js'
 import { createIntervalObservable } from './timeout.js'
 
+/**
+ * @implements TEvents.IEventLoop
+ */
 export class EventLoop {
   constructor() {
     /**

@@ -4,14 +4,7 @@ import { Vector } from './vector.js'
 
 /**
  * Standard line equation, ax + by + c = 0
- * @typedef {object} ILineParams
- * @property {TNum.Float64} a
- * @property {TNum.Float64} b
- * @property {TNum.Float64} c
- */
-
-/**
- * @implements ILineParams
+ * @implements TGeom2D.ILine
  */
 export class Line {
   /**
@@ -38,7 +31,7 @@ export class Line {
   }
 
   /**
-   * @param {ILineParams} params
+   * @param {TGeom2D.ILineParams} params
    */
   constructor({ a, b, c }) {
     this.a = a
@@ -85,7 +78,6 @@ export class Line {
 
   /**
    * @param {Vector} point
-   * @returns {Line}
    */
   getParallelThrough(point) {
     return new Line({
@@ -132,10 +124,10 @@ export class Line {
   }
 
   /**
-   * @param {Vector} vector
+   * @param {Vector} point
    * @returns {TNum.Float64}
    */
-  orientedDistanceToPoint(vector) {
-    return this.a * vector.x + this.b * vector.y + this.c
+  orientedDistanceToPoint(point) {
+    return this.a * point.x + this.b * point.y + this.c
   }
 }

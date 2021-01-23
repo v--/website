@@ -23,7 +23,7 @@ function getSplashMessage(status) {
 }
 
 /**
- * @param {import('../game_state.js').IGameState} state
+ * @param {TBreakout.IGameState} state
  */
 export function breakout({ status, score, stage, paddle, ball, bricks }) {
   const splash = getSplashMessage(status)
