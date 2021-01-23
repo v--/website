@@ -4,9 +4,9 @@ import { classlist } from '../support/dom_properties.js'
 /**
  * @typedef {{
   label: string
-  header: Component
-  class: string
-  view: (datum: any) => string
+  header?: Component
+  class?: string
+  view?: (datum: any) => string
   value: (datum: any) => any
  }} ITableColumn
  */

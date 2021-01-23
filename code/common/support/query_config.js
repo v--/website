@@ -4,7 +4,7 @@ import { Path } from './path.js'
 export class QueryStringError extends CoolError {}
 
 /**
- * @template Schema extends Record<string, string>
+ * @template {Record<string, string>} Schema
  */
 export class QueryConfig {
   /**

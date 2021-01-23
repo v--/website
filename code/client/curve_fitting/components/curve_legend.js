@@ -40,9 +40,7 @@ export function curveLegend({ mapping, curves, fitters, enableFitter, disableFit
             return c('input', {
               type: 'checkbox',
               checked: isChecked,
-              /**
-               * @param {Event} _event
-               */
+              /** @param {Event} _event */
               click(_event) {
                 if (isChecked) {
                   disableFitter(entry.fitter)
@@ -55,11 +53,9 @@ export function curveLegend({ mapping, curves, fitters, enableFitter, disableFit
         }),
 
         {
-          label: 'TCurves.Curve name',
+          label: 'Curve name',
           class: 'col-name',
-          /**
-           * @param {TCurves.Curve} entry
-           */
+          /** @param {TCurves.Curve} entry */
           value(entry) {
             return c('span', {
               class: entry.cssClass,
@@ -71,9 +67,7 @@ export function curveLegend({ mapping, curves, fitters, enableFitter, disableFit
         {
           label: 'Expression',
           class: 'col-expression',
-          /**
-           * @param {TCurves.Curve} entry
-           */
+          /** @param {TCurves.Curve} entry */
           value(entry) {
             return String(entry.curve)
           }

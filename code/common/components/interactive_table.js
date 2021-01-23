@@ -11,10 +11,11 @@ import { icon } from './icon.js'
 import { anchor } from './anchor.js'
 
 /**
- * @typedef {object} IQueryConfig
- * @property {string} sorting
- * @property {string} per_page
- * @property {string} page
+ * @typedef {{
+  sorting: string
+  per_page: string
+  page: string
+ }} IQueryConfig
  */
 
 /**
