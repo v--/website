@@ -1,4 +1,4 @@
-declare namespace TSortVis {
+declare namespace TArraySorting {
   export interface ISortAction {
     i: TNum.UInt32
     j: TNum.UInt32
@@ -50,9 +50,9 @@ declare namespace TSortVis {
   }
 
   interface IActionListCollection {
-    sequence: TSortVis.ISequence,
+    sequence: TArraySorting.ISequence,
     currentState: TNum.Float64[],
-    actions: (TSortVis.ISortAction | undefined)[]
+    actions: (TArraySorting.ISortAction | undefined)[]
   }
 
   export interface ISorterParams {

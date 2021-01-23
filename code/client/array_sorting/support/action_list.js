@@ -1,10 +1,10 @@
 import { swap } from '../../../common/support/iteration.js'
 
 /**
- * @implements {TSortVis.IActionList}
+ * @implements {TArraySorting.IActionList}
  */
 export class ActionList {
-  /** @param {TSortVis.IActionListParams} params */
+  /** @param {TArraySorting.IActionListParams} params */
   constructor({ array, actions = [] }) {
     this.originalArray = array
     this.array = array.slice()

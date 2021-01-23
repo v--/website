@@ -1,6 +1,6 @@
 import { shuffle, range, map, flatten, repeat } from '../../common/support/iteration.js'
 
-/** @type {readonly TSortVis.ISequence[]} */
+/** @type {readonly TArraySorting.ISequence[]} */
 export const sequences = [
   {
     name: 'Ascending',

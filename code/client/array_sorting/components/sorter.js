@@ -2,7 +2,7 @@ import { c } from '../../../common/rendering/component.js'
 import { s } from '../../../common/support/svg.js'
 import { classlist } from '../../../common/support/dom_properties.js'
 
-/** @param {TSortVis.ISorterState} state */
+/** @param {TArraySorting.ISorterState} state */
 export function sorter({ sequence, state, lastAction }) {
   const sorterRatio = 100 / state.length
 

@@ -21,7 +21,7 @@
     </url>
 
     <url>
-        <loc>https://ivasilev.net/playground/sorting</loc>
+        <loc>https://ivasilev.net/playground/array_sorting</loc>
         <priority>1.000</priority>
     </url>
 
@@ -31,7 +31,7 @@
     </url>
 
     <url>
-        <loc>https://ivasilev.net/playground/resolution</loc>
+        <loc>https://ivasilev.net/playground/first_order_resolution</loc>
         <priority>1.000</priority>
     </url>
 
@@ -41,7 +41,7 @@
     </url>
 
     <url>
-        <loc>https://ivasilev.net/playground/graphs</loc>
+        <loc>https://ivasilev.net/playground/graph_optimization</loc>
         <priority>1.000</priority>
     </url>
 
@@ -51,7 +51,7 @@
     </url>
 
     <url>
-        <loc>https://ivasilev.net/playground/motifs</loc>
+        <loc>https://ivasilev.net/playground/stitching_motifs</loc>
         <priority>1.000</priority>
     </url>
 </urlset>

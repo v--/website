@@ -46,7 +46,7 @@ function sort(sortable, start, end) {
   }
 }
 
-/** @type {TSortVis.ISortAlgorithm} */
+/** @type {TArraySorting.ISortAlgorithm} */
 export const quicksort = Object.freeze({
   name: 'Randomized quicksort',
   date: '2015-11-23',

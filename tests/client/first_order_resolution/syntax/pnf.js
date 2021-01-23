@@ -1,9 +1,9 @@
 import { describe, it, assertEqualExpressions } from '../../../_common.js'
 
-import { simplify } from '../../../../code/client/resolution/syntax/simplification.js'
-import { convertToPNF } from '../../../../code/client/resolution/syntax/pnf.js'
-import { replaceVariables } from '../../../../code/client/resolution/syntax/replacement.js'
-import { parseExpression } from '../../../../code/client/resolution/syntax/ast.js'
+import { simplify } from '../../../../code/client/first_order_resolution/syntax/simplification.js'
+import { convertToPNF } from '../../../../code/client/first_order_resolution/syntax/pnf.js'
+import { replaceVariables } from '../../../../code/client/first_order_resolution/syntax/replacement.js'
+import { parseExpression } from '../../../../code/client/first_order_resolution/syntax/ast.js'
 
 /** @param {string} string */
 function parseSimplified(string) {

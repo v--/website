@@ -1,6 +1,6 @@
 import { ActionList } from '../support/action_list.js'
 
-/** @type {TSortVis.ISortAlgorithm} */
+/** @type {TArraySorting.ISortAlgorithm} */
 export const selectionSort = Object.freeze({
   name: 'Selection sort',
   date: '2014-11-13',

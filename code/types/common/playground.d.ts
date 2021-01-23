@@ -1,10 +1,10 @@
 declare namespace TPlayground {
   export type PlaygroundPage =
-    'sorting' |
+    'array_sorting' |
     'curve_fitting' |
-    'resolution' |
+    'first_order_resolution' |
     'breakout' |
-    'graphs' |
+    'graph_optimization' |
     'fleeing_button' |
-    'motifs'
+    'stitching_motifs'
 }

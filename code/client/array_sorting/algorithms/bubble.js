@@ -1,6 +1,6 @@
 import { ActionList } from '../support/action_list.js'
 
-/** @type {TSortVis.ISortAlgorithm} */
+/** @type {TArraySorting.ISortAlgorithm} */
 export const bubbleSort = Object.freeze({
   name: 'Bubble sort',
   date: '2014-11-13',

@@ -1,7 +1,7 @@
 import { describe, it, assertEqualExpressions } from '../../../_common.js'
 
-import { simplify } from '../../../../code/client/resolution/syntax/simplification.js'
-import { parseExpression } from '../../../../code/client/resolution/syntax/ast.js'
+import { simplify } from '../../../../code/client/first_order_resolution/syntax/simplification.js'
+import { parseExpression } from '../../../../code/client/first_order_resolution/syntax/ast.js'
 
 describe('simplify()', function() {
   it('preserves formulas in cnf', function() {

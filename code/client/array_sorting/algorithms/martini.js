@@ -1,6 +1,6 @@
 import { ActionList } from '../support/action_list.js'
 
-/** @type {TSortVis.ISortAlgorithm} */
+/** @type {TArraySorting.ISortAlgorithm} */
 export const martiniSort = Object.freeze({
   name: 'Martini sort',
   date: '2018-10-05',

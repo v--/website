@@ -58,7 +58,7 @@ function heapify(sortable) {
   }
 }
 
-/** @type {TSortVis.ISortAlgorithm} */
+/** @type {TArraySorting.ISortAlgorithm} */
 export const heapsort = Object.freeze({
   name: 'Heapsort',
   date: '2015-11-23',

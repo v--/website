@@ -55,11 +55,11 @@ async function routerImpl(path, store) {
         }
       } else if (path.segments.length === 2) {
         switch (path.segments[1]) {
-          case 'sorting':
+          case 'array_sorting':
             return {
-              title: 'sorting | playground',
-              description: PAGE_DESCRIPTIONS.playground.sorting,
-              factory: 'sorting',
+              title: 'array sorting | playground',
+              description: PAGE_DESCRIPTIONS.playground.array_sorting,
+              factory: 'array_sorting',
               sidebarId: 'playground'
             }
 
@@ -71,11 +71,11 @@ async function routerImpl(path, store) {
               sidebarId: 'playground'
             }
 
-          case 'resolution':
+          case 'first_order_resolution':
             return {
-              title: 'resolution | playground',
-              description: PAGE_DESCRIPTIONS.playground.resolution,
-              factory: 'resolution',
+              title: 'first order resolution | playground',
+              description: PAGE_DESCRIPTIONS.playground.first_order_resolution,
+              factory: 'first_order_resolution',
               sidebarId: 'playground'
             }
 
@@ -87,11 +87,11 @@ async function routerImpl(path, store) {
               sidebarId: 'playground'
             }
 
-          case 'graphs':
+          case 'graph_optimization':
             return {
-              title: 'graphs | playground',
-              description: PAGE_DESCRIPTIONS.playground.graphs,
-              factory: 'graphs',
+              title: 'graph optimization | playground',
+              description: PAGE_DESCRIPTIONS.playground.graph_optimization,
+              factory: 'graph_optimization',
               sidebarId: 'playground'
             }
 
@@ -103,11 +103,11 @@ async function routerImpl(path, store) {
               sidebarId: 'playground'
             }
 
-          case 'motifs':
+          case 'stitching_motifs':
             return {
-              title: 'motifs | playground',
-              description: PAGE_DESCRIPTIONS.playground.motifs,
-              factory: 'motifs',
+              title: 'stitching motifs | playground',
+              description: PAGE_DESCRIPTIONS.playground.stitching_motifs,
+              factory: 'stitching_motifs',
               sidebarId: 'playground'
             }
         }

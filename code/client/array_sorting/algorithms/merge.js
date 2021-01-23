@@ -15,7 +15,7 @@ function updateIndexMap(map, src, dest) {
   map.set(src, ind)
 }
 
-/** @type {TSortVis.ISortAlgorithm} */
+/** @type {TArraySorting.ISortAlgorithm} */
 export const mergeSort = Object.freeze({
   name: 'Bottom-up merge sort',
   date: '2014-11-13',

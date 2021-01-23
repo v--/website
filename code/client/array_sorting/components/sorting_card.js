@@ -2,7 +2,7 @@ import { map } from '../../../common/support/iteration.js'
 import { c } from '../../../common/rendering/component.js'
 import { sorter } from './sorter.js'
 
-/** @param {TSortVis.ISorterComponentState} state */
+/** @param {TArraySorting.ISorterComponentState} state */
 export function sortingCard({ algorithm, states, isRunning, hasFinished, pause, run, reset }) {
   return c('div', { class: 'sorting-card' },
     c('h2', { class: 'h2 sorting-card-title', text: algorithm.name }),

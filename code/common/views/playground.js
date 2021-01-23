@@ -12,11 +12,11 @@ export function playground() {
       c('dl', { class: 'cool-list' },
         c('dt', undefined,
           c(anchor, {
-            href: '/playground/sorting',
+            href: '/playground/array_sorting',
             isInternal: true
           })
         ),
-        c('dd', { text: PAGE_DESCRIPTIONS.playground.sorting }),
+        c('dd', { text: PAGE_DESCRIPTIONS.playground.array_sorting }),
 
         c('dt', undefined,
           c(anchor, {
@@ -28,11 +28,11 @@ export function playground() {
 
         c('dt', undefined,
           c(anchor, {
-            href: '/playground/resolution',
+            href: '/playground/first_order_resolution',
             isInternal: true
           })
         ),
-        c('dd', { text: PAGE_DESCRIPTIONS.playground.resolution }),
+        c('dd', { text: PAGE_DESCRIPTIONS.playground.first_order_resolution }),
 
         c('dt', undefined,
           c(anchor, {
@@ -44,11 +44,11 @@ export function playground() {
 
         c('dt', undefined,
           c(anchor, {
-            href: '/playground/graphs',
+            href: '/playground/graph_optimization',
             isInternal: true
           })
         ),
-        c('dd', { text: PAGE_DESCRIPTIONS.playground.graphs }),
+        c('dd', { text: PAGE_DESCRIPTIONS.playground.graph_optimization }),
 
         c('dt', undefined,
           c(anchor, {
@@ -60,11 +60,11 @@ export function playground() {
 
         c('dt', undefined,
           c(anchor, {
-            href: '/playground/motifs',
+            href: '/playground/stitching_motifs',
             isInternal: true
           })
         ),
-        c('dd', { text: PAGE_DESCRIPTIONS.playground.motifs })
+        c('dd', { text: PAGE_DESCRIPTIONS.playground.stitching_motifs })
       )
     )
   )

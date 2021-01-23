@@ -10,8 +10,8 @@ class SorterError extends CoolError {}
 const SORT_INTERVAL = 25
 
 /**
- * @param {TSortVis.ISortAlgorithm} algorithm
- * @param {readonly TSortVis.ISequence[]} sequences
+ * @param {TArraySorting.ISortAlgorithm} algorithm
+ * @param {readonly TArraySorting.ISequence[]} sequences
  */
 function constructActionListCollections(algorithm, sequences) {
   return sequences.map(function(sequence) {
@@ -31,9 +31,9 @@ function constructActionListCollections(algorithm, sequences) {
 }
 
 /**
- * @param {TSortVis.IActionListCollection[]} actionListCollections
+ * @param {TArraySorting.IActionListCollection[]} actionListCollections
  * @param {TNum.UInt32} index
- * @returns {TSortVis.ISorterState[]}
+ * @returns {TArraySorting.ISorterState[]}
  */
 function getStatesAtIndex(actionListCollections, index) {
   return actionListCollections.map(function({ currentState, sequence, actions }) {
@@ -52,12 +52,12 @@ function getStatesAtIndex(actionListCollections, index) {
 }
 
 /**
- * @implements {TSortVis.ISorter} Sorter
+ * @implements {TArraySorting.ISorter} Sorter
  */
 export class Sorter {
   /**
-   * @param {TSortVis.ISortAlgorithm} algorithm
-   * @param {readonly TSortVis.ISequence[]} sequences
+   * @param {TArraySorting.ISortAlgorithm} algorithm
+   * @param {readonly TArraySorting.ISequence[]} sequences
    */
   static build(algorithm, sequences) {
     const actionListCollections = constructActionListCollections(algorithm, sequences)
@@ -89,7 +89,7 @@ export class Sorter {
     return sorter
   }
 
-  /** @param {TSortVis.ISorterParams} params */
+  /** @param {TArraySorting.ISorterParams} params */
   constructor({ algorithm, sequences, state$, actionListCollections, actionListIndex, maxActionListIndex }) {
     this.algorithm = algorithm
     this.sequences = sequences

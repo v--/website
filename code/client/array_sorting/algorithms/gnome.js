@@ -1,6 +1,6 @@
 import { ActionList } from '../support/action_list.js'
 
-/** @type {TSortVis.ISortAlgorithm} */
+/** @type {TArraySorting.ISortAlgorithm} */
 export const gnomeSort = Object.freeze({
   name: 'Gnome sort',
   date: '2016-05-20',

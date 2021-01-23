@@ -8,7 +8,7 @@ import { gnomeSort } from './algorithms/gnome.js'
 import { martiniSort } from './algorithms/martini.js'
 import { bubbleSort } from './algorithms/bubble.js'
 
-/** @type {readonly TSortVis.ISortAlgorithm[]} */
+/** @type {readonly TArraySorting.ISortAlgorithm[]} */
 export const algorithms = Object.freeze([
   heapsort,
   quicksort,
