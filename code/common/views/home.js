@@ -92,7 +92,7 @@ export function home() {
 
         c('p', undefined,
           c('b', { text: 'Technical note: ' }),
-          c('span', { text: "Except for the playground, most of the website is static and works without JavaScript. However, it still benefits from having a full-fledged home-grown lightweight (~1K LoC) frontend rendering engine. The code has no external dependencies and so things like observables and markdown/FOL parsers are also implemented from scratch. There are also a lot of symbolic and numeric mathematical algorithms implemented in pure JavaScript. The frontend code is neither precompiled nor bundled and can be easily explored using any browser's developer tools. It is licensed under " }),
+          c('span', { text: "Except for the playground, most of the website is static and works without JavaScript. However, it still benefits from having a full-fledged home-grown lightweight (~1K LoC) frontend rendering engine. The code has no external dependencies and so things like observables and markdown/FOL parsers are also implemented from scratch. There are also a lot of symbolic and numeric mathematical algorithms implemented in pure JavaScript. It is licensed under " }),
           c(anchor, { text: 'the Unlicense', href: 'https://unlicense.org/' }),
           c('span', { text: '.' })
         )

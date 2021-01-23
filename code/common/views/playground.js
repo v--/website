@@ -8,8 +8,7 @@ export function playground() {
   return c('div', { class: 'page playground-page' },
     c('div', undefined,
       c(sectionTitle, { text: '/playground' }),
-      c('h2', { text: 'Most of this section is unavailable because it is in a state of refactoring.' }),
-      c('p', { text: "These are some of the browser-based visualizations and simulations I have created. The code is neither precompiled nor bundled and can be easily explored using any browser's developer tools." }),
+      c('p', { text: "These are some of the browser-based visualizations and simulations I have created. The code is neither minified nor bundled and can be easily explored using any browser's developer tools." }),
       c('dl', { class: 'cool-list' },
         c('dt', undefined,
           c(anchor, {
