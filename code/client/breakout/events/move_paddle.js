@@ -5,7 +5,7 @@ import { MOVEMENT_DELTA } from '../constants.js'
 import { DictSubject } from '../../../common/observables/dict_subject.js'
 
 /**
- * @param {DictSubject<import('../game_state.js').IGameState>} subject$
+ * @param {DictSubject<TBreakout.IGameState>} subject$
  */
 export function movePaddle(subject$) {
   const { status, ball, stage, paddle, paddleDirection } = subject$.value

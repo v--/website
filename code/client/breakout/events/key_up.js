@@ -1,7 +1,7 @@
 import { DictSubject } from '../../../common/observables/dict_subject.js'
 
 /**
- * @param {DictSubject<import('../game_state.js').IGameState>} subject$
+ * @param {DictSubject<TBreakout.IGameState>} subject$
  * @param {string} key
  */
 export function onKeyUp(subject$, key) {

@@ -8,7 +8,7 @@ export class BrickNotFoundError extends BreakoutError {}
 /**
  * @param {GameBrick[]} bricks
  * @param {Vector} origin
- * @returns {TNum.UInt32 | undefined}
+ * @returns {TNum.UInt32 | -1}
  */
 export function findBrickIndex(bricks, origin) {
   return bricks.findIndex(brick => brick.origin.x === origin.x && brick.origin.y === origin.y)
@@ -33,7 +33,7 @@ export function changeBrick(bricks, oldBrick, newBrick) {
   const newBricks = bricks.slice()
   const i = findBrickIndex(bricks, oldBrick.origin)
 
-  if (i === undefined) {
+  if (i === -1) {
     throw new BrickNotFoundError(`Could not find brick ${repr(oldBrick)}`)
   }
 
@@ -50,7 +50,7 @@ export function removeBrick(bricks, brick) {
   const newBricks = bricks.slice()
   const i = findBrickIndex(bricks, brick.origin)
 
-  if (i === undefined) {
+  if (i === -1) {
     throw new BrickNotFoundError(`Could not find brick ${repr(brick)}`)
   }
 

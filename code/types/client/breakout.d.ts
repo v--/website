@@ -8,10 +8,13 @@ declare namespace TBreakout {
 
   export type PaddleDirection = -1 | 0 | 1
 
-  export interface IReflection {
+  export interface IReflectionParams {
     ball: IGameBall
-    figure?: TGeom2D.IFigure
+    figure: TGeom2D.IFigure | undefined
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  export interface IReflection extends IReflectionParams {}
 
   export interface IGameBallParams {
     center: TGeom2D.IVector
@@ -21,8 +24,9 @@ declare namespace TBreakout {
 
   export interface IGameBall extends IGameBallParams {
     translate(amount: TNum.Float64): IGameBall
+    reflectInRect(rect: TGeom2D.IRectangle): IReflection | undefined
     reflectInGameBrick(brick: IGameBrick): IReflection | undefined
-    reflectInEllipse(brick: TGeom2D.IEllipse): IReflection | undefined
+    reflectInEllipse(ellipse: TGeom2D.IEllipse): IReflection | undefined
     findClosestReflection(reflectionsIterable: Iterable<IReflection>): IReflection | undefined
   }
 

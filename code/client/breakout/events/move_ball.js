@@ -2,7 +2,7 @@ import { isGreaterThan } from '../../../common/math/numeric/floating.js'
 
 import { MOVEMENT_DELTA, REFLECTION_ADJUSTMENT } from '../constants.js'
 import { changeBrick, removeBrick } from '../support/bricks.js'
-import { GameBall } from '../geom/game_ball.js'
+import { GameBall, Reflection } from '../geom/game_ball.js'
 import { GameBrick } from '../geom/game_brick.js'
 import { Rectangle } from '../../../common/math/geom2d/rectangle.js'
 import { Ellipse } from '../../../common/math/geom2d/ellipse.js'
@@ -45,9 +45,9 @@ function * generateReflections(stage, paddle, ball, bricks) {
 export function moveBall(subject$) {
   const { eventLoop, score, stage, paddle, ball, bricks } = subject$.value
 
-  /** @type {TBreakout.IReflection | undefined} */
+  /** @type {Reflection | undefined} */
   let reflected
-  let nextReflected = { ball }
+  let nextReflected = new Reflection({ ball, figure: undefined })
 
   /** @type {TNum.Float64 | undefined} */
   let delta
@@ -74,7 +74,7 @@ export function moveBall(subject$) {
     }
 
     const reflections = generateReflections(stage, paddle, reflected.ball, newBricks)
-    nextReflected = /** @type {TBreakout.IReflection} */ (reflected.ball.findClosestReflection(reflections))
+    nextReflected = /** @type {Reflection} */ (reflected.ball.findClosestReflection(reflections))
 
     delta = nextDelta
     nextDelta -= nextReflected.ball.center.distanceTo(reflected.ball.center)
