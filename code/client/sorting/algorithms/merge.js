@@ -1,7 +1,11 @@
-import { SortAlgorithm } from '../types/sort_algorithm.js'
 import { ActionList } from '../support/action_list.js'
 
-function updateIndexMap(map: TCons.NonStrictMap<TNum.UInt32, TNum.UInt32>, src: TNum.UInt32, dest: TNum.UInt32) {
+/**
+ * @param {TCons.NonStrictMap<TNum.UInt32, TNum.UInt32>} map
+ * @param {TNum.UInt32} src
+ * @param {TNum.UInt32} dest
+ */
+function updateIndexMap(map, src, dest) {
   let ind = dest
 
   while (map.has(ind)) {
@@ -11,13 +15,15 @@ function updateIndexMap(map: TCons.NonStrictMap<TNum.UInt32, TNum.UInt32>, src: 
   map.set(src, ind)
 }
 
-export const mergeSort: SortAlgorithm = Object.freeze({
+/** @type {TSortVis.ISortAlgorithm} */
+export const mergeSort = Object.freeze({
   name: 'Bottom-up merge sort',
   date: '2014-11-13',
   stable: true,
   time: 'Θ(n log n)',
   space: 'O(n)',
-  implementation(sortable: ActionList) {
+  /** @param {ActionList} sortable */
+  implementation(sortable) {
     const n = sortable.length
 
     for (let span = 1; span < n; span *= 2) {

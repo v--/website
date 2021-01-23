@@ -1,8 +1,12 @@
 import { randInt } from '../../../common/math/prob/random.js'
-import { SortAlgorithm } from '../types/sort_algorithm.js'
 import { ActionList } from '../support/action_list.js'
 
-function partition(sortable: ActionList, start: TNum.UInt32, end: TNum.UInt32) {
+/**
+ * @param {ActionList} sortable
+ * @param {TNum.UInt32} start
+ * @param {TNum.UInt32} end
+ */
+function partition(sortable, start, end) {
   const pivotIndex = randInt(start, end)
   const pivot = sortable.get(pivotIndex)
   let newPivotIndex = start
@@ -25,7 +29,12 @@ function partition(sortable: ActionList, start: TNum.UInt32, end: TNum.UInt32) {
   return newPivotIndex
 }
 
-function sort(sortable: ActionList, start: TNum.UInt32, end: TNum.UInt32) {
+/**
+ * @param {ActionList} sortable
+ * @param {TNum.UInt32} start
+ * @param {TNum.UInt32} end
+ */
+function sort(sortable, start, end) {
   const pivotIndex = partition(sortable, start, end)
 
   if (start < pivotIndex) {
@@ -37,13 +46,15 @@ function sort(sortable: ActionList, start: TNum.UInt32, end: TNum.UInt32) {
   }
 }
 
-export const quicksort: SortAlgorithm = Object.freeze({
+/** @type {TSortVis.ISortAlgorithm} */
+export const quicksort = Object.freeze({
   name: 'Randomized quicksort',
   date: '2015-11-23',
   stable: false,
   time: 'Ω(n log n), O(n²)',
   space: 'O(log n)',
-  implementation(sortable: ActionList) {
+  /** @param {ActionList} sortable */
+  implementation(sortable) {
     sort(sortable, 0, sortable.length - 1)
   }
 })

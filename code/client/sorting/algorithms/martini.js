@@ -1,13 +1,14 @@
-import { SortAlgorithm } from '../types/sort_algorithm.js'
 import { ActionList } from '../support/action_list.js'
 
+/** @type {TSortVis.ISortAlgorithm} */
 export const martiniSort = Object.freeze({
   name: 'Martini sort',
   date: '2018-10-05',
   stable: true,
   time: 'Ω(n), O(n²)',
   space: 'O(1)',
-  implementation(sortable: ActionList) {
+  /** @param {ActionList} sortable */
+  implementation(sortable) {
     let ordered = false
 
     while (!ordered) {

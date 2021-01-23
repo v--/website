@@ -1,8 +1,12 @@
-import { SortAlgorithm } from '../types/sort_algorithm.js'
 import { ActionList } from '../support/action_list.js'
 
-// The procedure is much simpler, but maintaining the action list requires a lot of conditional logic
-function siftDown(sortable: ActionList, start: TNum.UInt32, end: TNum.UInt32) {
+/**
+ * The procedure is much simpler, but maintaining the action list requires a lot of conditional logic
+ * @param {ActionList} sortable
+ * @param {TNum.UInt32} start
+ * @param {TNum.UInt32} end
+ */
+function siftDown(sortable, start, end) {
   let root = start
   let leftChild = 2 * root + 1
   let rightChild = 2 * root + 2
@@ -44,7 +48,8 @@ function siftDown(sortable: ActionList, start: TNum.UInt32, end: TNum.UInt32) {
   }
 }
 
-function heapify(sortable: ActionList) {
+/** @param {ActionList} sortable */
+function heapify(sortable) {
   const end = sortable.length - 1
   const parent = Math.ceil(end / 2) - 1
 
@@ -53,13 +58,15 @@ function heapify(sortable: ActionList) {
   }
 }
 
-export const heapsort: SortAlgorithm = Object.freeze({
+/** @type {TSortVis.ISortAlgorithm} */
+export const heapsort = Object.freeze({
   name: 'Heapsort',
   date: '2015-11-23',
   stable: false,
   time: 'Ω(n), O(n log n)',
   space: 'O(1)',
-  implementation(sortable: ActionList) {
+  /** @param {ActionList} sortable */
+  implementation(sortable) {
     heapify(sortable)
 
     for (let end = sortable.length - 1; end >= 0; end--) {

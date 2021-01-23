@@ -1,13 +1,14 @@
-import { SortAlgorithm } from '../types/sort_algorithm.js'
 import { ActionList } from '../support/action_list.js'
 
-export const shellsort: SortAlgorithm = Object.freeze({
+/** @type {TSortVis.ISortAlgorithm} */
+export const shellsort = Object.freeze({
   name: 'Shellsort',
   date: '2014-11-13',
   stable: false,
   time: 'Ω(n log n), O(n²)',
   space: 'O(1)',
-  implementation(sortable: ActionList) {
+  /** @param {ActionList} sortable */
+  implementation(sortable) {
     const largestGap = Math.pow(2, Math.floor(Math.log2(sortable.length)))
 
     for (let gap = largestGap; gap >= 1; gap /= 2) {

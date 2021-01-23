@@ -1,13 +1,14 @@
-import { SortAlgorithm } from '../types/sort_algorithm.js'
 import { ActionList } from '../support/action_list.js'
 
-export const bubbleSort: SortAlgorithm = Object.freeze({
+/** @type {TSortVis.ISortAlgorithm} */
+export const bubbleSort = Object.freeze({
   name: 'Bubble sort',
   date: '2014-11-13',
   stable: true,
   time: 'Ω(n), O(n²)',
   space: 'O(1)',
-  implementation(sortable: ActionList) {
+  /** @param {ActionList} sortable */
+  implementation(sortable) {
     let ordered = false
 
     while (!ordered) {
