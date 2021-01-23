@@ -36,14 +36,7 @@ function dotProduct(u, v) {
 }
 
 /**
- * @typedef {object} MatrixParams
- * @property {TNum.UInt32} rows
- * @property {TNum.UInt32} cols
- * @property {TNum.Float64[]} payload
- */
-
-/**
- * @implemenets MatrixParams
+ * @implements TLinAlg.IMatrix
  */
 export class Matrix {
   /**
@@ -164,7 +157,7 @@ export class Matrix {
   }
 
   /**
-   * @param {MatrixParams} params
+   * @param {TLinAlg.IMatrixParams} params
    */
   constructor({ rows, cols, payload }) {
     this.rows = rows

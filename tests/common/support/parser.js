@@ -2,49 +2,51 @@ import { describe, it, assert } from '../../_common.js'
 
 import { parse, term, neg, opt, rep, cat, alt, ParserError } from '../../../code/common/support/parser.js'
 
-enum TokenType {
-  variable,
-  optional,
-  constant,
-  repetition,
-  concatenation,
-  alternation,
-  negation,
-  operator,
-  naturalNumber
-}
+/**
+ * @typedef {
+  'variable' |
+  'optional' |
+  'constant' |
+  'repetition' |
+  'concatenation' |
+  'alternation' |
+  'negation' |
+  'operator' |
+  'naturalNumber'
+ * } TokenType
+ */
 
 describe('parse()', function() {
   describe('for terminal rules', function() {
     it('parses simple terminal rules', function() {
       const rules = {
-        [TokenType.variable]: term('x')
+        variable: term('x')
       }
 
       assert.deepEqual(
-        parse(rules, TokenType.variable, 'x'),
-        { type: TokenType.variable, matches: ['x'] }
+        parse(rules, 'variable', 'x'),
+        { type: 'variable', matches: ['x'] }
       )
     })
 
     it('checks all terminals in a terminal rule', function() {
       const rules = {
-        [TokenType.variable]: term('x', 'y')
+        variable: term('x', 'y')
       }
 
       assert.deepEqual(
-        parse(rules, TokenType.variable, 'y'),
-        { type: TokenType.variable, matches: ['y'] }
+        parse(rules, 'variable', 'y'),
+        { type: 'variable', matches: ['y'] }
       )
     })
 
     it('fails to parse unmatching terminal rules', function() {
       const rules = {
-        [TokenType.variable]: term('x')
+        variable: term('x')
       }
 
       assert.throws(function() {
-        parse(rules, TokenType.variable, 'y')
+        parse(rules, 'variable', 'y')
       }, ParserError)
     })
   })
@@ -52,11 +54,11 @@ describe('parse()', function() {
   describe('for negation rules', function() {
     it('fails to parse a negation rules', function() {
       const rules = {
-        [TokenType.variable]: neg('x')
+        variable: neg('x')
       }
 
       assert.throws(function() {
-        parse(rules, TokenType.variable, 'x')
+        parse(rules, 'variable', 'x')
       }, ParserError)
     })
   })
@@ -64,38 +66,38 @@ describe('parse()', function() {
   describe('for optional rules', function() {
     it('succeeds on unmatched optional terminal rules', function() {
       const rules = {
-        [TokenType.optional]: opt(term('x'))
+        optional: opt(term('x'))
       }
 
       assert.deepEqual(
-        parse(rules, TokenType.optional, ''),
-        { type: TokenType.optional, matches: [] }
+        parse(rules, 'optional', ''),
+        { type: 'optional', matches: [] }
       )
     })
 
     it('parses anonymous optional terminal rules', function() {
       const rules = {
-        [TokenType.optional]: opt(term('x'))
+        optional: opt(term('x'))
       }
 
       assert.deepEqual(
-        parse(rules, TokenType.optional, 'x'),
-        { type: TokenType.optional, matches: ['x'] }
+        parse(rules, 'optional', 'x'),
+        { type: 'optional', matches: ['x'] }
       )
     })
 
     it('parses named optional terminal rules', function() {
       const rules = {
-        [TokenType.variable]: term('x'),
-        [TokenType.optional]: opt(TokenType.variable)
+        variable: term('x'),
+        optional: opt('variable')
       }
 
       assert.deepEqual(
-        parse(rules, TokenType.optional, 'x'),
+        parse(rules, 'optional', 'x'),
         {
-          type: TokenType.optional,
+          type: 'optional',
           matches: [
-            { type: TokenType.variable, matches: ['x'] }
+            { type: 'variable', matches: ['x'] }
           ]
         }
       )
@@ -105,13 +107,13 @@ describe('parse()', function() {
   describe('for repetition rules', function() {
     it('parses zero repetitions of terminal rules', function() {
       const rules = {
-        [TokenType.repetition]: rep(term('x'))
+        repetition: rep(term('x'))
       }
 
       assert.deepEqual(
-        parse(rules, TokenType.repetition, ''),
+        parse(rules, 'repetition', ''),
         {
-          type: TokenType.repetition,
+          type: 'repetition',
           matches: []
         }
       )
@@ -119,14 +121,14 @@ describe('parse()', function() {
 
     it('parses repetitions of anonymous terminal rules', function() {
       const rules = {
-        [TokenType.variable]: term('x'),
-        [TokenType.repetition]: rep(term('x'))
+        variable: term('x'),
+        repetition: rep(term('x'))
       }
 
       assert.deepEqual(
-        parse(rules, TokenType.repetition, 'xxx'),
+        parse(rules, 'repetition', 'xxx'),
         {
-          type: TokenType.repetition,
+          type: 'repetition',
           matches: ['x', 'x', 'x']
         }
       )
@@ -134,18 +136,18 @@ describe('parse()', function() {
 
     it('parses repetitions of named terminal rules', function() {
       const rules = {
-        [TokenType.variable]: term('x'),
-        [TokenType.repetition]: rep(TokenType.variable)
+        variable: term('x'),
+        repetition: rep('variable')
       }
 
       assert.deepEqual(
-        parse(rules, TokenType.repetition, 'xxx'),
+        parse(rules, 'repetition', 'xxx'),
         {
-          type: TokenType.repetition,
+          type: 'repetition',
           matches: [
-            { type: TokenType.variable, matches: ['x'] },
-            { type: TokenType.variable, matches: ['x'] },
-            { type: TokenType.variable, matches: ['x'] }
+            { type: 'variable', matches: ['x'] },
+            { type: 'variable', matches: ['x'] },
+            { type: 'variable', matches: ['x'] }
           ]
         }
       )
@@ -157,13 +159,13 @@ describe('parse()', function() {
       const variable = term('x', 'y')
       const operator = term('+')
       const rules = {
-        [TokenType.concatenation]: cat(variable, operator, variable)
+        concatenation: cat(variable, operator, variable)
       }
 
       assert.deepEqual(
-        parse(rules, TokenType.concatenation, 'x+y'),
+        parse(rules, 'concatenation', 'x+y'),
         {
-          type: TokenType.concatenation,
+          type: 'concatenation',
           matches: ['x', '+', 'y']
         }
       )
@@ -171,23 +173,23 @@ describe('parse()', function() {
 
     it('parses concatenations of named terminal rules', function() {
       const rules = {
-        [TokenType.variable]: term('x', 'y'),
-        [TokenType.operator]: term('+'),
-        [TokenType.concatenation]: cat(
-          TokenType.variable,
-          TokenType.operator,
-          TokenType.variable
+        variable: term('x', 'y'),
+        operator: term('+'),
+        concatenation: cat(
+          'variable',
+          'operator',
+          'variable'
         )
       }
 
       assert.deepEqual(
-        parse(rules, TokenType.concatenation, 'x+y'),
+        parse(rules, 'concatenation', 'x+y'),
         {
-          type: TokenType.concatenation,
+          type: 'concatenation',
           matches: [
-            { type: TokenType.variable, matches: ['x'] },
-            { type: TokenType.operator, matches: ['+'] },
-            { type: TokenType.variable, matches: ['y'] }
+            { type: 'variable', matches: ['x'] },
+            { type: 'operator', matches: ['+'] },
+            { type: 'variable', matches: ['y'] }
           ]
         }
       )
@@ -197,24 +199,24 @@ describe('parse()', function() {
   describe('for alternation rules', function() {
     it('parses alternations of anonymous terminal rules', function() {
       const rules = {
-        [TokenType.alternation]: alt(
+        alternation: alt(
           term('a', 'b'),
           term('x', 'y')
         )
       }
 
       assert.deepEqual(
-        parse(rules, TokenType.alternation, 'a'),
+        parse(rules, 'alternation', 'a'),
         {
-          type: TokenType.alternation,
+          type: 'alternation',
           matches: ['a']
         }
       )
 
       assert.deepEqual(
-        parse(rules, TokenType.alternation, 'x'),
+        parse(rules, 'alternation', 'x'),
         {
-          type: TokenType.alternation,
+          type: 'alternation',
           matches: ['x']
         }
       )
@@ -222,27 +224,27 @@ describe('parse()', function() {
 
     it('parses alternations of named terminal rules', function() {
       const rules = {
-        [TokenType.constant]: term('a', 'b'),
-        [TokenType.variable]: term('x', 'y'),
-        [TokenType.alternation]: alt(TokenType.constant, TokenType.variable)
+        constant: term('a', 'b'),
+        variable: term('x', 'y'),
+        alternation: alt('constant', 'variable')
       }
 
       assert.deepEqual(
-        parse(rules, TokenType.alternation, 'a'),
+        parse(rules, 'alternation', 'a'),
         {
-          type: TokenType.alternation,
+          type: 'alternation',
           matches: [
-            { type: TokenType.constant, matches: ['a'] }
+            { type: 'constant', matches: ['a'] }
           ]
         }
       )
 
       assert.deepEqual(
-        parse(rules, TokenType.alternation, 'x'),
+        parse(rules, 'alternation', 'x'),
         {
-          type: TokenType.alternation,
+          type: 'alternation',
           matches: [
-            { type: TokenType.variable, matches: ['x'] }
+            { type: 'variable', matches: ['x'] }
           ]
         }
       )
@@ -251,7 +253,7 @@ describe('parse()', function() {
 
   describe('for natural numbers', function() {
     const rules = {
-      [TokenType.naturalNumber]: cat(
+      naturalNumber: cat(
         term('1', '2', '3', '4', '5', '6', '7', '8', '9'),
         rep(
           term('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
@@ -261,28 +263,28 @@ describe('parse()', function() {
 
     it('parses single-digit natural numbers', function() {
       assert.deepEqual(
-        parse(rules, TokenType.naturalNumber, '1'),
-        { type: TokenType.naturalNumber, matches: ['1'] }
+        parse(rules, 'naturalNumber', '1'),
+        { type: 'naturalNumber', matches: ['1'] }
       )
     })
 
     it('parses natural numbers without zero digits', function() {
       assert.deepEqual(
-        parse(rules, TokenType.naturalNumber, '123'),
-        { type: TokenType.naturalNumber, matches: ['1', '2', '3'] }
+        parse(rules, 'naturalNumber', '123'),
+        { type: 'naturalNumber', matches: ['1', '2', '3'] }
       )
     })
 
     it('parses natural numbers with non-leading zero digits', function() {
       assert.deepEqual(
-        parse(rules, TokenType.naturalNumber, '100'),
-        { type: TokenType.naturalNumber, matches: ['1', '0', '0'] }
+        parse(rules, 'naturalNumber', '100'),
+        { type: 'naturalNumber', matches: ['1', '0', '0'] }
       )
     })
 
     it('fails to parse natural numbers with leading zero digits', function() {
       assert.throws(function() {
-        parse(rules, TokenType.naturalNumber, '01')
+        parse(rules, 'naturalNumber', '01')
       }, ParserError)
     })
   })

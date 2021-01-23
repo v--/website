@@ -18,7 +18,7 @@ describe('Line', function() {
     it('intersects non-collinear lines', function() {
       const l = new Line({ a: 1, b: -1, c: 0 })
       const m = new Line({ a: 1, b: 1, c: 0 })
-      const intersection = l.intersectWith(m)!
+      const intersection = /** @type {TGeom2D.IVector} */ (l.intersectWith(m))
       assert.equal(intersection.getNorm(), 0)
     })
 
