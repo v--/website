@@ -1,5 +1,5 @@
 /**
- * @param {TResolution.FOLExpression} expression
+ * @param {TResolution.Expression} expression
  * @returns {string}
  */
 export function stringifyExpression(expression) {
@@ -39,7 +39,7 @@ export function stringifyExpression(expression) {
 }
 
 /**
- * @param {TResolution.FOLDisjunct} disjunct
+ * @param {TResolution.Disjunct} disjunct
  * @returns {string}
  */
 export function stringifyDisjunct(disjunct) {
@@ -47,7 +47,7 @@ export function stringifyDisjunct(disjunct) {
 }
 
 /**
- * @param {Required<TResolution.FOLResolvent>} resolvent
+ * @param {Required<TResolution.Resolvent>} resolvent
  * @returns {string}
  */
 export function stringifyResolvent(resolvent) {

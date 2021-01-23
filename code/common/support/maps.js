@@ -1,5 +1,5 @@
 /**
- * @template T extends string | number | symbol
+ * @template {string | number | symbol} T
  * @template S
  * @param {Map<T, S>} map
  * @returns {Record<T, S>}

@@ -1,18 +1,22 @@
 import { replaceVariables } from './replacement.js'
 
-export function convertToSNF(
-  formula: TResolution.PNFFormula,
-  counter: { value: TNum.UInt32 } = { value: 1 },
-  nameMap: Map<string, TResolution.FOLTerm> = new Map(),
-  univVarNames: string[] = []
-): TResolution.SNFFormula {
+/**
+ * @param {TResolution.PNFFormula} formula
+ * @param {{ value: TNum.UInt32 }} counter
+ * @param {TResolution.NameMap} nameMap
+ * @param {string[]} univVarNames
+ * @returns {TResolution.SNFFormula}
+ */
+export function convertToSNF(formula, counter = { value: 1 }, nameMap = new Map(), univVarNames = []) {
   switch (formula.type) {
     case 'predicate':
       return {
         type: formula.type,
         name: formula.name,
         args: formula.args.map(function(term) {
-          return replaceVariables(term, nameMap) as TResolution.FOLTerm
+          return /** @type {TResolution.Term} */ (
+            replaceVariables(term, nameMap)
+          )
         })
       }
 
@@ -37,14 +41,18 @@ export function convertToSNF(
     case 'negation':
       return {
         type: formula.type,
-        formula: convertToSNF(formula.formula, counter, nameMap, univVarNames) as TResolution.SNFInnerFormula
+        formula: /** @type {TResolution.SNFInnerFormula} */ (
+          convertToSNF(formula.formula, counter, nameMap, univVarNames) 
+        )
       }
 
     case 'conjunction':
     case 'disjunction':
       return {
         type: formula.type,
-        formulas: (formula.formulas as TResolution.SNFInnerFormula[]).map(f => convertToSNF(f, counter, nameMap, univVarNames)) as TResolution.SNFInnerFormula[]
+        formulas: /** @type {TResolution.SNFInnerFormula[]} */ (
+          formula.formulas.map(f => convertToSNF(f, counter, nameMap, univVarNames)) 
+        )
       }
   }
 }

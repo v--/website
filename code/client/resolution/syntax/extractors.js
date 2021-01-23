@@ -1,33 +1,41 @@
 import { sort, uniqueBy, union, flatten } from '../../../common/support/iteration.js'
 import { stringifyExpression, stringifyDisjunct } from '../support/stringify.js'
 
-export function extractDisjuncts(expression: TResolution.SNFFormula): TResolution.FOLDisjunct[] {
+/**
+ * @param {TResolution.SNFFormula} expression
+ * @returns {TResolution.Disjunct[]}
+ */
+export function extractDisjuncts(expression) {
   switch (expression.type) {
     case 'predicate':
     case 'negation':
-      return [[expression as TResolution.FOLLiteral]]
+      return [[/** @type {TResolution.Literal} */ (expression)]]
 
     case 'conjunction':
       return Array.from(uniqueBy(expression.formulas.map(subformula => {
         switch (subformula.type) {
           case 'predicate':
           case 'negation':
-            return [subformula as TResolution.FOLLiteral]
+            return [/** @type {TResolution.Literal} */ (subformula)]
 
           case 'disjunction':
-            return Array.from(uniqueBy(subformula.formulas as TResolution.FOLDisjunct, stringifyExpression))
+            return Array.from(uniqueBy(/** @type {TResolution.Disjunct} */ (subformula.formulas), stringifyExpression))
         }
       }), stringifyDisjunct))
 
     case 'disjunction':
-      return [Array.from(uniqueBy(expression.formulas as TResolution.FOLDisjunct, stringifyExpression))]
+      return [Array.from(uniqueBy(/** @type {TResolution.Disjunct} */ (expression.formulas), stringifyExpression))]
 
     case 'universalQuantification':
       return extractDisjuncts(expression.formula)
   }
 }
 
-function extractPredicatesImpl(expression: TResolution.FOLFormula): Set<string> {
+/**
+ * @param {TResolution.Formula} expression
+ * @returns {Set<string>}
+ */
+function extractPredicatesImpl(expression) {
   switch (expression.type) {
     case 'predicate':
       return new Set([`${expression.name}#${expression.args.length}`])
@@ -45,7 +53,10 @@ function extractPredicatesImpl(expression: TResolution.FOLFormula): Set<string> 
   }
 }
 
-export function extractPredicates(expression: TResolution.FOLFormula) {
+/**
+ * @param {TResolution.Formula} expression
+ */
+export function extractPredicates(expression) {
   return Array.from(extractPredicatesImpl(expression)).map(function(pred) {
     const [name, arityString] = pred.split('#')
     return {
@@ -54,7 +65,11 @@ export function extractPredicates(expression: TResolution.FOLFormula) {
   })
 }
 
-export function extractFunctionsImpl(expression: TResolution.FOLExpression): Set<string> {
+/**
+ * @param {TResolution.Expression} expression
+ * @returns {Set<string>}
+ */
+export function extractFunctionsImpl(expression) {
   switch (expression.type) {
     case 'variable':
       return new Set()
@@ -80,7 +95,10 @@ export function extractFunctionsImpl(expression: TResolution.FOLExpression): Set
   }
 }
 
-export function extractFunctions(expression: TResolution.FOLExpression) {
+/**
+ * @param {TResolution.Formula} expression
+ */
+export function extractFunctions(expression) {
   return Array.from(extractFunctionsImpl(expression)).map(function(func) {
     const [name, arityString] = func.split('#')
     return {
@@ -89,7 +107,11 @@ export function extractFunctions(expression: TResolution.FOLExpression) {
   })
 }
 
-export function extractVariablesImpl(expression: TResolution.FOLExpression): Set<string> {
+/**
+ * @param {TResolution.Expression} expression
+ * @returns {Set<string>}
+ */
+export function extractVariablesImpl(expression) {
   switch (expression.type) {
     case 'variable':
       return new Set([expression.name])
@@ -111,11 +133,18 @@ export function extractVariablesImpl(expression: TResolution.FOLExpression): Set
   }
 }
 
-export function extractVariables(expression: TResolution.FOLExpression) {
+/**
+ * @param {TResolution.SNFFormula} expression
+ */
+export function extractVariables(expression) {
   return Array.from(extractVariablesImpl(expression))
 }
 
-export function extractBoundVariables(expression: TResolution.FOLExpression): string[] {
+/**
+ * @param {TResolution.Expression} expression
+ * @returns {string[]}
+ */
+export function extractBoundVariables(expression) {
   switch (expression.type) {
     case 'variable':
       return []
@@ -139,7 +168,11 @@ export function extractBoundVariables(expression: TResolution.FOLExpression): st
   }
 }
 
-export function extractFreeVariables(expression: TResolution.FOLExpression): string[] {
+/**
+ * @param {TResolution.Expression} expression
+ * @returns {string[]}
+ */
+export function extractFreeVariables(expression) {
   switch (expression.type) {
     case 'variable':
       return [expression.name]

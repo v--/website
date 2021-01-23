@@ -8,7 +8,7 @@ export class FormulaASTError extends CoolError {}
 
 /**
  * @param {TParsing.IParseTree} parseTree
- * @return {TResolution.FOLExpression | string | (TResolution.FOLExpression | string)[]}
+ * @return {TResolution.Expression | string | (TResolution.Expression | string)[]}
  */
 export function buildAST(parseTree) {
   const matchesAsTrees = /** @type {TParsing.IParseTree[]} */ (
@@ -17,7 +17,7 @@ export function buildAST(parseTree) {
 
   switch (parseTree.type) {
     case 'arguments':
-      return /** @type {TResolution.FOLFormula[]} */ (
+      return /** @type {TResolution.Formula[]} */ (
         matchesAsTrees.filter(m => m.type === 'term').map(buildAST)
       )
 
@@ -49,14 +49,14 @@ export function buildAST(parseTree) {
         name: /** @type {string} */ (buildAST(matchesAsTrees[0])),
         args: matchesAsTrees.length === 1 ?
           [] :
-          /** @type {TResolution.FOLTerm[]} */ (buildAST(matchesAsTrees[1]))
+          /** @type {TResolution.Term[]} */ (buildAST(matchesAsTrees[1]))
       }
 
     case 'predicate':
       return {
         type: 'predicate',
         name: /** @type {string} */ (buildAST(matchesAsTrees[0])),
-        args: /** @type {TResolution.FOLTerm[]} */ (buildAST(matchesAsTrees[1]))
+        args: /** @type {TResolution.Term[]} */ (buildAST(matchesAsTrees[1]))
       }
 
     case 'term':
@@ -69,27 +69,27 @@ export function buildAST(parseTree) {
     case 'negation':
       return {
         type: 'negation',
-        formula: /** @type {TResolution.FOLFormula} */ (buildAST(matchesAsTrees[1]))
+        formula: /** @type {TResolution.Formula} */ (buildAST(matchesAsTrees[1]))
       }
 
     case 'universalQuantification':
       return {
         type: 'universalQuantification',
         variable: (/** @type {TResolution.VariableExpression} */ (buildAST(matchesAsTrees[2]))).name,
-        formula: /** @type {TResolution.FOLFormula} */ (buildAST(matchesAsTrees[4]))
+        formula: /** @type {TResolution.Formula} */ (buildAST(matchesAsTrees[4]))
       }
 
     case 'existentialQuantification':
       return {
         type: 'existentialQuantification',
         variable: (/** @type {TResolution.VariableExpression} */ (buildAST(matchesAsTrees[2]))).name,
-        formula: /** @type {TResolution.FOLFormula} */ (buildAST(matchesAsTrees[4]))
+        formula: /** @type {TResolution.Formula} */ (buildAST(matchesAsTrees[4]))
       }
 
     case 'conjunction':
       return {
         type: 'conjunction',
-        formulas: /** @type {TResolution.FOLFormula[]} */ (
+        formulas: /** @type {TResolution.Formula[]} */ (
           matchesAsTrees.filter(m => m.type === 'formula').map(buildAST)
         )
       }
@@ -97,7 +97,7 @@ export function buildAST(parseTree) {
     case 'disjunction':
       return {
         type: 'disjunction',
-        formulas: /** @type {TResolution.FOLFormula[]} */ (
+        formulas: /** @type {TResolution.Formula[]} */ (
           matchesAsTrees.filter(m => m.type === 'formula').map(buildAST) 
         )
       }
@@ -105,7 +105,7 @@ export function buildAST(parseTree) {
     case 'implication':
       return {
         type: 'implication',
-        formulas: /** @type {TResolution.FOLFormula[]} */ (
+        formulas: /** @type {TResolution.Formula[]} */ (
           matchesAsTrees.filter(m => m.type === 'formula').map(buildAST)
         )
       }
@@ -113,7 +113,7 @@ export function buildAST(parseTree) {
     case 'equivalence':
       return {
         type: 'equivalence',
-        formulas: /** @type {TResolution.FOLFormula[]} */ (
+        formulas: /** @type {TResolution.Formula[]} */ (
           matchesAsTrees.filter(m => m.type === 'formula').map(buildAST)
         )
       }
@@ -131,7 +131,7 @@ export function buildAST(parseTree) {
  * @param {TResolution.TokenType} initialRuleRef
  */
 export function parseExpression(string, initialRuleRef = 'topLevelFormula') {
-  return /** @type {TResolution.FOLFormula} */ (
+  return /** @type {TResolution.Formula} */ (
     buildAST(parse(folRules, initialRuleRef, string))
   )
 }

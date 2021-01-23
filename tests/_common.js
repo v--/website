@@ -8,8 +8,8 @@ import { CoolError } from '../code/common/errors.js'
 class AssertionError extends CoolError {}
 
 /**
- * @param {TResolution.FOLExpression} a
- * @param {TResolution.FOLExpression} b
+ * @param {TResolution.Expression} a
+ * @param {TResolution.Expression} b
  */
 export function assertEqualExpressions(a, b) {
   chai.assert.strictEqual(stringifyExpression(a), stringifyExpression(b))

@@ -4,7 +4,7 @@ import { BehaviorSubject } from './behavior_subject.js'
 import { errors } from './errors.js'
 
 /**
- * @template T extends object
+ * @template {object} T 
  * @implements TObservables.IDictSubject<T>
  * @extends BehaviorSubject<T>
  */

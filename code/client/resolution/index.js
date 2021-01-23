@@ -16,7 +16,7 @@ import { inferEmptyDisjunct } from './syntax/resolution.js'
 export class ResolutionError extends CoolError {}
 
 /**
- * @param {TResolution.FOLFormula[]} formulas
+ * @param {TResolution.Formula[]} formulas
  */
 export function formulasToText(formulas) {
   return { text: formulas.map(stringifyExpression).join('\n') }
@@ -42,7 +42,7 @@ const QUERY_CONFIG_DEFAULTS = Object.freeze({
  * @param {string} goal
  */
 function parseFormulas(axioms, goal) {
-  /** @type {TResolution.FOLFormula[]} */
+  /** @type {TResolution.Formula[]} */
   const formulas = []
 
   for (let i = 0; i < axioms.length; i++) {
@@ -103,7 +103,7 @@ export function index({ path, description }) {
   const axioms = /** @type {string} */ (config.get('axioms')).split(';').map(string => string.trim())
   const goal = /** @type {string} */ (config.get('goal'))
 
-  /** @type {TResolution.FOLFormula[]} */
+  /** @type {TResolution.Formula[]} */
   let formulas = []
   let error = ''
 
@@ -201,7 +201,7 @@ export function index({ path, description }) {
       c('p', { text: 'A sequence of derived disjuncts with the input disjuncts and resolution literal specified.' }),
       c('pre', undefined,
         !proof && c('code', { text: 'No proof found in under 25 steps.' }),
-        proof && c('code', { text: proof.map((r, i) => String(i + disjuncts.length + 1) + '. ' + stringifyResolvent(/** @type {Required<TResolution.FOLResolvent>} */ (r))).join('\n') })
+        proof && c('code', { text: proof.map((r, i) => String(i + disjuncts.length + 1) + '. ' + stringifyResolvent(/** @type {Required<TResolution.Resolvent>} */ (r))).join('\n') })
       )
     )
   )

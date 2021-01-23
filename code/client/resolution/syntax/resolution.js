@@ -4,10 +4,13 @@ import { stringifyExpression, stringifyDisjunct } from '../support/stringify.js'
 
 const MAX_RESOLVENT_COUNT = 25
 
-type NameTransform = Map<string, TResolution.FOLTerm>
-
-function joinTransforms(a: NameTransform, b: NameTransform) {
-  const joint: NameTransform = new Map()
+/**
+ * @param {TResolution.NameMap} a
+ * @param {TResolution.NameMap} b
+ */
+function joinTransforms(a, b) {
+  /** @type {TResolution.NameMap} */
+  const joint = new Map()
 
   for (const [key, value] of a.entries()) {
     joint.set(key, value)
@@ -24,10 +27,15 @@ function joinTransforms(a: NameTransform, b: NameTransform) {
   return joint
 }
 
-export function findTermTransform(t1: TResolution.FOLTerm, t2: TResolution.FOLTerm) {
+/**
+ * @param {TResolution.Term} t1
+ * @param {TResolution.Term} t2
+ */
+export function findTermTransform(t1, t2) {
+  /** @type {{ positive: TResolution.NameMap, negative: TResolution.NameMap }} */
   const cumulative = {
-    positive: new Map<string, TResolution.FOLTerm>(),
-    negative: new Map<string, TResolution.FOLTerm>()
+    positive: new Map(),
+    negative: new Map()
   }
 
   if (t1.type === 'variable') {
@@ -65,15 +73,17 @@ export function findTermTransform(t1: TResolution.FOLTerm, t2: TResolution.FOLTe
   return cumulative
 }
 
-function findTransforms(
-  positive: Array<TResolution.PredicateExpression>,
-  negative: Array<TResolution.NegationExpression<TResolution.PredicateExpression>>
-) {
+/**
+ * @param {Array<TResolution.PredicateExpression>} positive
+ * @param {Array<TResolution.NegationExpression<TResolution.PredicateExpression>>} negative
+ */
+function findTransforms(positive, negative) {
   for (const [l1, l2n] of product2(positive, negative)) {
     const l2 = l2n.formula
+    /** @type {{ positive: TResolution.NameMap, negative: TResolution.NameMap }} */
     const cumulative = {
-      positive: new Map<string, TResolution.FOLTerm>(),
-      negative: new Map<string, TResolution.FOLTerm>()
+      positive: new Map(),
+      negative: new Map()
     }
 
     if (l1.name !== l2.name) {
@@ -108,30 +118,38 @@ function findTransforms(
   return null
 }
 
-function applyTransform(
-  d1: Array<TResolution.PredicateExpression>,
-  d2: Array<TResolution.NegationExpression<TResolution.PredicateExpression>>,
-  transform: {
-    positive: TResolution.FOLLiteral,
-    negative: TResolution.FOLLiteral,
+/**
+ * @param {Array<TResolution.PredicateExpression>} d1
+ * @param {Array<TResolution.NegationExpression<TResolution.PredicateExpression>>} d2
+ * @param {{
+    positive: TResolution.Literal,
+    negative: TResolution.Literal,
     nameMap: {
-      positive: NameTransform,
-      negative: NameTransform
+      positive: TResolution.NameMap,
+      negative: TResolution.NameMap
     }
-  }
-) {
-  const newDisjunctMap: TCons.NonStrictMap<string, TResolution.FOLLiteral> = new Map()
+  }} transform
+ */
+function applyTransform(d1, d2, transform) {
+  /** @type {TCons.NonStrictMap<string, TResolution.Literal>} */
+  const newDisjunctMap = new Map()
 
   for (const lit of d1) {
     if (lit !== transform.positive) {
-      const newLit = replaceVariables(lit, transform.nameMap.positive) as TResolution.PredicateExpression
+      const newLit = /** @type {TResolution.PredicateExpression} */ (
+        replaceVariables(lit, transform.nameMap.positive) 
+      )
+
       newDisjunctMap.set(stringifyExpression(newLit), newLit)
     }
   }
 
   for (const lit of d2) {
     if (lit.formula !== transform.negative) {
-      const newLit = replaceVariables(lit, transform.nameMap.negative) as TResolution.NegationExpression<TResolution.PredicateExpression>
+      const newLit = /** @type {TResolution.Literal} */ (
+        replaceVariables(lit, transform.nameMap.negative) 
+      )
+
       newDisjunctMap.set(stringifyExpression(newLit), newLit)
     }
   }
@@ -139,27 +157,42 @@ function applyTransform(
   return Array.from(newDisjunctMap.values())
 }
 
-function resolve(d1: TResolution.FOLDisjunct, d2: TResolution.FOLDisjunct) {
-  const pd1 = d1.filter(literal => literal.type === 'predicate') as Array<TResolution.PredicateExpression>
-  const nd1 = d2.filter(literal => literal.type === 'negation') as Array<TResolution.NegationExpression<TResolution.PredicateExpression>>
-  const pd2 = d1.filter(literal => literal.type === 'predicate') as Array<TResolution.PredicateExpression>
-  const nd2 = d2.filter(literal => literal.type === 'negation') as Array<TResolution.NegationExpression<TResolution.PredicateExpression>>
+/**
+ * @param {TResolution.Disjunct} d1
+ * @param {TResolution.Disjunct} d2
+ */
+function resolve(d1, d2) {
+  const pd1 = /** @type {Array<TResolution.PredicateExpression>} */ (
+    d1.filter(literal => literal.type === 'predicate') 
+  )
+
+  const nd1 = /** @type {Array<TResolution.NegationExpression<TResolution.PredicateExpression>>} */ (
+    d2.filter(literal => literal.type === 'negation') 
+  )
+
+  const pd2 = /** @type {Array<TResolution.PredicateExpression>} */ (
+    d1.filter(literal => literal.type === 'predicate') 
+  )
+
+  const nd2 = /** @type {Array<TResolution.NegationExpression<TResolution.PredicateExpression>>} */ (
+    d2.filter(literal => literal.type === 'negation') 
+  )
 
   let transform = findTransforms(pd1, nd2)
 
   if (transform) {
     return {
-      literal: replaceVariables(
+      literal: /** @type {TResolution.Literal} */ (replaceVariables(
         replaceVariables(
           transform.positive,
           transform.nameMap.positive
         ),
         transform.nameMap.negative
-      ) as TResolution.FOLLiteral,
+      )),
 
       disjunct: applyTransform(
-        d1 as Array<TResolution.PredicateExpression>,
-        d2 as Array<TResolution.NegationExpression<TResolution.PredicateExpression>>,
+        /** @type {Array<TResolution.PredicateExpression>} */ (d1),
+        /** @type {Array<TResolution.NegationExpression<TResolution.PredicateExpression>>} */ (d2),
         transform
       )
     }
@@ -169,25 +202,31 @@ function resolve(d1: TResolution.FOLDisjunct, d2: TResolution.FOLDisjunct) {
 
   if (transform) {
     return {
-      literal: replaceVariables(
+      literal: /** @type {TResolution.Literal} */ replaceVariables(
         replaceVariables(
           transform.positive,
           transform.nameMap.positive
         ),
         transform.nameMap.negative
-      ) as TResolution.FOLLiteral,
+      ),
 
       disjunct: applyTransform(
-        d2 as Array<TResolution.PredicateExpression>,
-        d1 as Array<TResolution.NegationExpression<TResolution.PredicateExpression>>,
+        /** @type {Array<TResolution.PredicateExpression>} */ (d2),
+        /** @type {Array<TResolution.NegationExpression<TResolution.PredicateExpression>>} */ (d1),
         transform
       )
     }
   }
 }
 
-function inferEmptyDisjunctImpl(disjuncts: TResolution.FOLDisjunct[]): TResolution.FOLResolvent[] | undefined {
-  const inference: TResolution.FOLResolvent[] = disjuncts.map((d, i) => ({ disjunct: d, index: i }))
+/**
+ * @param {TResolution.Disjunct[]} disjuncts
+ * @returns {TResolution.Resolvent[] | undefined}
+ */
+function inferEmptyDisjunctImpl(disjuncts) {
+  /** @type {TResolution.Resolvent[]} */
+  const inference = disjuncts.map((d, i) => ({ disjunct: d, index: i }))
+
   const disjunctSet = new Set(disjuncts.map(d => stringifyDisjunct(d)))
   let resolventCount = 0
 
@@ -215,7 +254,7 @@ function inferEmptyDisjunctImpl(disjuncts: TResolution.FOLDisjunct[]): TResoluti
             index: inference.length,
             r1,
             r2,
-            literal: resolvent.literal,
+            literal: /** @type {TResolution.Literal} */ (resolvent.literal),
             disjunct: resolvent.disjunct
           })
         }
@@ -230,10 +269,17 @@ function inferEmptyDisjunctImpl(disjuncts: TResolution.FOLDisjunct[]): TResoluti
   }
 }
 
-function filterInference(disjuncts: TResolution.FOLDisjunct[], inference: TResolution.FOLResolvent[]) {
+/**
+ * @param {TResolution.Disjunct[]} disjuncts
+ * @param {TResolution.Resolvent[]} inference
+ */
+function filterInference(disjuncts, inference) {
   const last = inference[inference.length - 1]
   const filteredSet = new Set([last])
-  const indexMap = new Map([[last, 1]])
+  const indexMap = /** @type {TCons.NonStrictMap<TResolution.Resolvent, TNum.UInt32>} */ (
+    new Map([[last, 1]])
+  )
+
   let newResolvents = 0
 
   do {
@@ -251,7 +297,7 @@ function filterInference(disjuncts: TResolution.FOLDisjunct[], inference: TResol
   } while (newResolvents !== 0)
 
   for (const resolvent of inference) {
-    resolvent.index = disjuncts.length + filteredSet.size - indexMap.get(resolvent)!
+    resolvent.index = disjuncts.length + filteredSet.size - indexMap.get(resolvent)
   }
 
   return Array.from(filteredSet)
@@ -261,7 +307,10 @@ function filterInference(disjuncts: TResolution.FOLDisjunct[], inference: TResol
     })
 }
 
-export function inferEmptyDisjunct(disjuncts: TResolution.FOLDisjunct[]) {
+/**
+ * @param {TResolution.Disjunct[]} disjuncts
+ */
+export function inferEmptyDisjunct(disjuncts) {
   const inference = inferEmptyDisjunctImpl(disjuncts)
 
   if (inference) {

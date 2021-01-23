@@ -11,7 +11,7 @@ const SORT_INTERVAL = 25
 
 /**
  * @param {TSortVis.ISortAlgorithm} algorithm
- * @param {TSortVis.ISequence[]} sequences
+ * @param {readonly TSortVis.ISequence[]} sequences
  */
 function constructActionListCollections(algorithm, sequences) {
   return sequences.map(function(sequence) {
@@ -57,7 +57,7 @@ function getStatesAtIndex(actionListCollections, index) {
 export class Sorter {
   /**
    * @param {TSortVis.ISortAlgorithm} algorithm
-   * @param {TSortVis.ISequence[]} sequences
+   * @param {readonly TSortVis.ISequence[]} sequences
    */
   static build(algorithm, sequences) {
     const actionListCollections = constructActionListCollections(algorithm, sequences)

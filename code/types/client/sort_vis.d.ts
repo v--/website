@@ -57,7 +57,7 @@ declare namespace TSortVis {
 
   export interface ISorterParams {
     algorithm: ISortAlgorithm
-    sequences: ISequence[]
+    sequences: readonly ISequence[]
     state$: TObservables.IDictSubject<ISorterComponentState>
     actionListCollections: IActionListCollection[]
     actionListIndex: TNum.UInt32

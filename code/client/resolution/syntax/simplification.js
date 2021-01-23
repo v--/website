@@ -1,4 +1,8 @@
-export function negate(expression: TResolution.FOLFormula): TResolution.FOLFormula {
+/**
+ * @param {TResolution.Formula} expression
+ * @returns {TResolution.Formula}
+ */
+export function negate(expression) {
   switch (expression.type) {
     case 'negation':
       return expression.formula
@@ -51,7 +55,11 @@ export function negate(expression: TResolution.FOLFormula): TResolution.FOLFormu
   }
 }
 
-function mostlyConvertToCNF(expression: TResolution.FOLFormula): TResolution.FOLFormula {
+/**
+ * @param {TResolution.Formula} expression
+ * @returns {TResolution.Formula}
+ */
+function mostlyConvertToCNF(expression) {
   switch (expression.type) {
     case 'predicate':
       return expression
@@ -75,7 +83,7 @@ function mostlyConvertToCNF(expression: TResolution.FOLFormula): TResolution.FOL
 
       for (const subf of subformulas) {
         if (subf.type === expression.type) {
-          flattened.push(...(subf.formulas as TResolution.FOLFormula[]).map(simplify))
+          flattened.push(...(/** @type {TResolution.Formula[]} */ (subf.formulas)).map(simplify))
         } else {
           flattened.push(subf)
         }
@@ -120,11 +128,15 @@ function mostlyConvertToCNF(expression: TResolution.FOLFormula): TResolution.FOL
   }
 }
 
-export function simplify(expression: TResolution.FOLFormula): TResolution.SimplifiedFormula {
+/**
+ * @param {TResolution.Formula} expression
+ * @returns {TResolution.SimplifiedFormula}
+ */
+export function simplify(expression) {
   const cnf = mostlyConvertToCNF(expression)
 
   if (cnf.type !== 'disjunction') {
-    return cnf as TResolution.SimplifiedFormula
+    return /** @type {TResolution.SimplifiedFormula} */ (cnf)
   }
 
   const subformulas = cnf.formulas
@@ -133,18 +145,18 @@ export function simplify(expression: TResolution.FOLFormula): TResolution.Simpli
     const subf = subformulas[i]
 
     if (subf.type === 'conjunction') {
-      const before = subformulas.slice(0, i) as TResolution.SimplifiedInnerFormula[]
-      const after = subformulas.slice(i + 1) as TResolution.SimplifiedInnerFormula[]
+      const before = /** @type {TResolution.SimplifiedInnerFormula[]} */ (subformulas.slice(0, i))
+      const after = /** @type {TResolution.SimplifiedInnerFormula[]} */ (subformulas.slice(i + 1))
 
       return {
         type: 'conjunction',
         formulas: subf.formulas.map(ssubf => ({
           type: 'disjunction',
-          formulas: before.concat([simplify(ssubf) as TResolution.SimplifiedInnerFormula]).concat(after)
+          formulas: before.concat([/** @type {TResolution.SimplifiedInnerFormula} */ (simplify(ssubf))]).concat(after)
         }))
       }
     }
   }
 
-  return cnf as TResolution.SimplifiedFormula
+  return /** @type {TResolution.SimplifiedFormula} */ (cnf)
 }
