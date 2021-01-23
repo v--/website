@@ -1,17 +1,14 @@
 import { describe, it, assert, assertEqualExpressions } from '../../../_common.js'
 
-import { ExpressionType } from '../../../../code/client/resolution/enums/expression_type.js'
-import { TokenType } from '../../../../code/client/resolution/enums/token_type.js'
-
 import { ParserError } from '../../../../code/common/support/parser.js'
 import { parseExpression, parseExpressionSilently } from '../../../../code/client/resolution/syntax/ast.js'
 
 describe('parseExpression()', function() {
-  describe('TokenType.variable', function() {
+  describe('variable', function() {
     it('handles variables without indices', function() {
       const string = 'x'
       assertEqualExpressions(
-        parseExpression(string, TokenType.variable),
+        parseExpression(string, 'variable'),
         {
           type: 'variable',
           name: 'x'
@@ -22,7 +19,7 @@ describe('parseExpression()', function() {
     it('handles variables with indices', function() {
       const string = 'x2'
       assertEqualExpressions(
-        parseExpression(string, TokenType.variable),
+        parseExpression(string, 'variable'),
         {
           type: 'variable',
           name: 'x2'
@@ -34,7 +31,7 @@ describe('parseExpression()', function() {
       const string = 'f'
 
       assert.throws(function() {
-        parseExpression(string, TokenType.variable)
+        parseExpression(string, 'variable')
       }, ParserError)
     })
 
@@ -42,16 +39,16 @@ describe('parseExpression()', function() {
       const string = 'eWczRqKCIaAOi'
 
       assert.throws(function() {
-        parseExpression(string, TokenType.variable)
+        parseExpression(string, 'variable')
       }, ParserError)
     })
   })
 
-  describe('TokenType.function', function() {
+  describe('function', function() {
     it('parses zero-arity functions (constants)', function() {
       const string = 'f'
       assertEqualExpressions(
-        parseExpression(string, TokenType.function),
+        parseExpression(string, 'function'),
         {
           type: 'function',
           name: 'f',
@@ -63,7 +60,7 @@ describe('parseExpression()', function() {
     it('handles functions with one argument', function() {
       const string = 'f(g)'
       assertEqualExpressions(
-        parseExpression(string, TokenType.function),
+        parseExpression(string, 'function'),
         {
           type: 'function',
           name: 'f',
@@ -81,7 +78,7 @@ describe('parseExpression()', function() {
     it('handles functions with two argument', function() {
       const string = 'f(g, h)'
       assertEqualExpressions(
-        parseExpression(string, TokenType.function),
+        parseExpression(string, 'function'),
         {
           type: 'function',
           name: 'f',
@@ -104,7 +101,7 @@ describe('parseExpression()', function() {
     it('handles functions other functions as arguments', function() {
       const string = 'f(g1(h1), g2(h2))'
       assertEqualExpressions(
-        parseExpression(string, TokenType.function),
+        parseExpression(string, 'function'),
         {
           type: 'function',
           name: 'f',
@@ -137,11 +134,11 @@ describe('parseExpression()', function() {
     })
   })
 
-  describe('TokenType.negation', function() {
+  describe('negation', function() {
     it('handles negation on predicates', function() {
       const string = '!p(f)'
       assert.deepEqual(
-        parseExpression(string, TokenType.negation),
+        parseExpression(string, 'negation'),
         {
           type: 'negation',
           formula: {
@@ -160,11 +157,11 @@ describe('parseExpression()', function() {
     })
   })
 
-  describe('TokenType.universal_quantification', function() {
+  describe('universalQuantification', function() {
     it('handles universal formulas', function() {
       const string = 'Ax p(x)'
       assert.deepEqual(
-        parseExpression(string, TokenType.universalQuantification),
+        parseExpression(string, 'universalQuantification'),
         {
           type: 'universalQuantification',
           variable: 'x',
@@ -183,11 +180,11 @@ describe('parseExpression()', function() {
     })
   })
 
-  describe('TokenType.existential_quantification', function() {
+  describe('existentialQuantification', function() {
     it('handles existential formulas', function() {
       const string = 'Ex p(x)'
       assert.deepEqual(
-        parseExpression(string, TokenType.existentialQuantification),
+        parseExpression(string, 'existentialQuantification'),
         {
           type: 'existentialQuantification',
           variable: 'x',
@@ -206,11 +203,11 @@ describe('parseExpression()', function() {
     })
   })
 
-  describe('TokenType.conjunction', function() {
+  describe('conjunction', function() {
     it('handles binary conjunctions', function() {
       const string = 'p(f) & p(g)'
       assert.deepEqual(
-        parseExpression(string, TokenType.conjunction),
+        parseExpression(string, 'conjunction'),
         {
           type: 'conjunction',
           formulas: [
@@ -244,7 +241,7 @@ describe('parseExpression()', function() {
     it('handles ternary conjunctions', function() {
       const string = 'p(f) & p(g) & p(h)'
       assert.deepEqual(
-        parseExpression(string, TokenType.conjunction),
+        parseExpression(string, 'conjunction'),
         {
           type: 'conjunction',
           formulas: [
@@ -287,11 +284,11 @@ describe('parseExpression()', function() {
     })
   })
 
-  describe('TokenType.disjunction', function() {
+  describe('disjunction', function() {
     it('handles binary disjunctions', function() {
       const string = 'p(f) v p(g)'
       assert.deepEqual(
-        parseExpression(string, TokenType.disjunction),
+        parseExpression(string, 'disjunction'),
         {
           type: 'disjunction',
           formulas: [
@@ -325,7 +322,7 @@ describe('parseExpression()', function() {
     it('handles ternary disjunctions', function() {
       const string = 'p(f) v p(g) v p(h)'
       assert.deepEqual(
-        parseExpression(string, TokenType.disjunction),
+        parseExpression(string, 'disjunction'),
         {
           type: 'disjunction',
           formulas: [
@@ -368,11 +365,11 @@ describe('parseExpression()', function() {
     })
   })
 
-  describe('TokenType.implication', function() {
+  describe('implication', function() {
     it('handles implication', function() {
       const string = 'p(f) -> p(h)'
       assert.deepEqual(
-        parseExpression(string, TokenType.implication),
+        parseExpression(string, 'implication'),
         {
           type: 'implication',
           formulas: [
@@ -407,16 +404,16 @@ describe('parseExpression()', function() {
       const string = '(p(f)->p(g)->p(h))'
 
       assert.throws(function() {
-        parseExpression(string, TokenType.implication)
+        parseExpression(string, 'implication')
       }, ParserError)
     })
   })
 
-  describe('TokenType.equivalence', function() {
+  describe('equivalence', function() {
     it('handles equivalence', function() {
       const string = 'p(f) <-> p(h)'
       assert.deepEqual(
-        parseExpression(string, TokenType.equivalence),
+        parseExpression(string, 'equivalence'),
         {
           type: 'equivalence',
           formulas: [
@@ -451,7 +448,7 @@ describe('parseExpression()', function() {
       const string = 'p(f) <-> p(g) <-> p(h)'
 
       assert.throws(function() {
-        parseExpression(string, TokenType.implication)
+        parseExpression(string, 'implication')
       }, ParserError)
     })
   })

@@ -1,29 +1,10 @@
 import { CoolError } from '../../errors.js'
-import { union, chain, range, repeat, zip2, map, all } from '../../support/iteration.js'
+import { all, chain, map, range, repeat, zip2 } from '../../support/iteration.js'
 
 import { stringifyLinearCombination } from '../stringify.js'
-import { isSameNumber, roundNumber } from '../../../common/math/numeric/floating.js'
 
-const MAX_ITER = 1000
-const STURM_LEFT_BOUND_OFFSET = 1e-10
-
-export function countSignChanges(array: TNum.Float64[]) {
-  let changeCount = 0
-
-  for (let i = 1; i < array.length; i++) {
-    if (array[i] * array[i - 1] < 0) {
-      changeCount += 1
-    }
-  }
-
-  return changeCount
-}
-
-export function evalArray(array: Polynomial[], x: TNum.Float64) {
-  return array.map(p => p.eval(x))
-}
-
-function monomialString(n: TNum.UInt32) {
+/** @param {TNum.UInt32} n */
+function monomialString(n) {
   if (n === 0) {
     return ''
   }
@@ -36,18 +17,16 @@ function monomialString(n: TNum.UInt32) {
 }
 
 export class PolynomialError extends CoolError {}
-export class PolynomialRootError extends PolynomialError {}
 export class ZeroPolynomialError extends PolynomialError {}
 
-export interface PolynomialParams {
-  coef: TNum.Float64[]
-}
-
-export interface Polynomial extends PolynomialParams, TMath.IRealFunction {}
+/**
+ * @implements TAlgebra.IPolynomial, TNumeric.IRealFunction
+ */
 export class Polynomial {
   static ZERO = new Polynomial({ coef: [0] })
 
-  static stripTrailingZeroes(coef: TNum.Float64[]) {
+  /** @param {TNum.Float64[]} coef */
+  static stripTrailingZeroes(coef) {
     let prefixLength = coef.length
 
     while (coef[prefixLength - 1] === 0) {
@@ -63,11 +42,13 @@ export class Polynomial {
     })
   }
 
-  constructor(params: PolynomialParams) {
-    Object.assign(this, params)
+  /** @param {TAlgebra.IPolynomialParams} params */
+  constructor({ coef }) {
+    this.coef = coef
   }
 
-  add(other: Polynomial) {
+  /** @param {Polynomial} other */
+  add(other) {
     const n = Math.max(this.order, other.order)
     const coef = map(
       ([a, b]) => a + b,
@@ -80,11 +61,13 @@ export class Polynomial {
     return Polynomial.stripTrailingZeroes(Array.from(coef))
   }
 
-  sub(other: Polynomial) {
+  /** @param {Polynomial} other */
+  sub(other) {
     return this.add(other.scale(-1))
   }
 
-  scale(scalar: TNum.Float64) {
+  /** @param {TNum.Float64} scalar */
+  scale(scalar) {
     if (scalar === 0) {
       return Polynomial.ZERO
     }
@@ -94,7 +77,10 @@ export class Polynomial {
     })
   }
 
-  mult(other: Polynomial) {
+  /**
+   * @param {Polynomial} other
+   */
+  mult(other) {
     const coef = []
 
     for (let k = 0; k < this.order + other.order + 1; k++) {
@@ -110,7 +96,11 @@ export class Polynomial {
     return new Polynomial({ coef })
   }
 
-  div(other: Polynomial): { quot: Polynomial, rem: Polynomial } {
+  /**
+   * @param {Polynomial} other
+   * @returns {{ quot: Polynomial, rem: Polynomial }}
+   */
+  div(other) {
     if (other.isZeroPolynomial()) {
       throw new ZeroPolynomialError('Cannot divide by the zero polynomial')
     }
@@ -149,7 +139,10 @@ export class Polynomial {
     }
   }
 
-  eval(x: TNum.Float64) {
+  /**
+   * @param {TNum.Float64} x
+   */
+  eval(x) {
     let result = 0
 
     for (let i = this.order; i > 0; i--) {
@@ -168,7 +161,10 @@ export class Polynomial {
     return this.coef[this.order]
   }
 
-  equals(other: Polynomial) {
+  /**
+   * @param {Polynomial} other
+   */
+  equals(other) {
     return this.order === other.order && all(([a, b]) => a === b, zip2(this.coef, other.coef))
   }
 
@@ -176,48 +172,6 @@ export class Polynomial {
     return Polynomial.stripTrailingZeroes(
       this.coef.map((c, i) => c * i).slice(1)
     )
-  }
-
-  * iterSturmSequence() {
-    let p0: Polynomial = this
-    let p1 = this.getDerivative()
-    yield p0
-
-    while (!p1.isZeroPolynomial()) {
-      const { rem } = p0.div(p1)
-      p0 = p1
-      p1 = rem.scale(-1)
-      yield p0
-    }
-  }
-
-  _findRootsIn(sturmSequence: Polynomial[], a: TNum.Float64, b: TNum.Float64, iter = 0): Set<TNum.Float64> {
-    const rootCount = countSignChanges(evalArray(sturmSequence, a)) - countSignChanges(evalArray(sturmSequence, b))
-
-    if (rootCount === 0 || iter > MAX_ITER) {
-      return new Set()
-    }
-
-    const c = (a + b) / 2
-
-    if (isSameNumber(this.eval(c), 0)) {
-      return new Set([roundNumber(c)])
-    }
-
-    return union(
-      this._findRootsIn(sturmSequence, a, c, iter + 1),
-      this._findRootsIn(sturmSequence, c, b, iter + 1)
-    )
-  }
-
-  numericallyFindRoots() {
-    if (this.isZeroPolynomial()) {
-      throw new ZeroPolynomialError('Cannot enumerate the roots of the zero polynomial')
-    }
-
-    const upperBound = Math.max(...this.coef.map(c => Math.abs(c / this.leading)))
-    const sturmSequence = Array.from(this.iterSturmSequence())
-    return this._findRootsIn(sturmSequence, -upperBound - STURM_LEFT_BOUND_OFFSET, upperBound)
   }
 
   isZeroPolynomial() {

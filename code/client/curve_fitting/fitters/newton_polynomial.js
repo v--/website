@@ -2,7 +2,8 @@ import { Polynomial } from '../../../common/math/algebra/polynomial.js'
 import { dividedDifferences } from '../../../common/math/numeric/divided_differences.js'
 import { getMappingDomain } from '../support/mapping.js'
 
-export const newtonPolynomial: TCurves.Fitter = Object.freeze({
+/** @type {TCurves.Fitter} */
+export const newtonPolynomial = Object.freeze({
   name: 'Newton polynomial',
   date: '2018-22-07',
   fit(mapping) {
@@ -13,7 +14,13 @@ export const newtonPolynomial: TCurves.Fitter = Object.freeze({
     }
 
     const x = getMappingDomain(mapping)
-    const f = (x: TNum.Float64) => mapping.get(x)!
+
+    /** @param {TNum.Float64} x */
+    function f(x) {
+      return /** @type {TNum.Float64} */ (
+        mapping.get(x)
+      )
+    }
 
     let result = new Polynomial({ coef: [f(x[0])] })
 

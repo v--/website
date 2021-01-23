@@ -36,7 +36,7 @@ function dotProduct(u, v) {
 }
 
 /**
- * @implements TLinAlg.IMatrix
+ * @implements TAlgebra.IMatrix
  */
 export class Matrix {
   /**
@@ -157,7 +157,7 @@ export class Matrix {
   }
 
   /**
-   * @param {TLinAlg.IMatrixParams} params
+   * @param {TAlgebra.IMatrixParams} params
    */
   constructor({ rows, cols, payload }) {
     this.rows = rows

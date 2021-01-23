@@ -7,13 +7,12 @@ import { stringifyNumber } from '../stringify.js'
 export class BSplineError extends CoolError {}
 export class NotEnoughPointsError extends BSplineError {}
 
-export interface BSplineParams {
-  points: TNum.Float64[]
-}
-
-export interface BSpline extends BSplineParams, TMath.IRealFunction {}
+/**
+ * @implements TNumeric.IBSpline
+ */
 export class BSpline {
-  constructor({ points }: BSplineParams) {
+  /** @param {TNumeric.IBSplineParams} params */
+  constructor({ points }) {
     if (points.length < 2) {
       throw new NotEnoughPointsError(`Expected at least two points, but given ${repr(points)}`)
     }
@@ -21,7 +20,8 @@ export class BSpline {
     this.points = points
   }
 
-  eval(t: TNum.Float64) {
+  /** @param {TNum.Float64} t */
+  eval(t) {
     return dividedDifferences(x => x > t ? Math.pow(x - t, this.degree) : 0, this.points)
   }
 

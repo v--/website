@@ -3,12 +3,12 @@ declare namespace TCurves {
     name: string,
     date: TDates.ISODateString
     hideByDefault?: boolean
-    fit(mapping: Map<TNum.Float64, TNum.Float64>): TMath.IRealFunction
+    fit(mapping: Map<TNum.Float64, TNum.Float64>): TNumeric.IRealFunction
   }
 
   export interface Curve {
     fitter: TCurves.Fitter
-    curve: TMath.IRealFunction
+    curve: TNumeric.IRealFunction
     cssClass: string
   }
 

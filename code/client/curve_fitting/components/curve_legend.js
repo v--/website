@@ -1,7 +1,7 @@
 import { sort } from '../../../common/support/iteration.js'
 
 import { c } from '../../../common/rendering/component.js'
-import { ITableColumn, table } from '../../../common/components/table.js'
+import { table } from '../../../common/components/table.js'
 import { sectionTitle } from '../../../common/components/section_title.js'
 import { getMappingDomain } from '../support/mapping.js'
 
@@ -29,7 +29,7 @@ export function curveLegend({ mapping, curves, fitters, enableFitter, disableFit
       class: 'curve-table',
       data: curves,
       columns: [
-        /** @type {ITableColumn} */ ({
+        /** @type {import('../../../common/components/table.js').ITableColumn} */ ({
           class: 'col-checkbox',
           /**
            * @param {TCurves.Curve} entry

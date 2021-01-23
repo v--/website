@@ -3,7 +3,12 @@ import { map, zip2 } from '../../support/iteration.js'
 import { stringifyLinearCombination } from '../stringify.js'
 import { BSpline } from './b_spline.js'
 
-function * iterExtendedDomain(degree: TNum.UInt32, x: TNum.Float64[]): Generator<TNum.Float64, void, undefined> {
+/**
+ * @param {TNum.UInt32} degree
+ * @param {TNum.Float64[]} x
+ * @returns {Iterable<TNum.Float64>}
+ */
+function * iterExtendedDomain(degree, x) {
   const n = x.length
   const differences = map(([a, b]) => a - b, zip2(x.slice(1), x.slice(0, n - 1)))
   const diameter = Math.max(1, Math.max(...differences))
@@ -16,7 +21,11 @@ function * iterExtendedDomain(degree: TNum.UInt32, x: TNum.Float64[]): Generator
   }
 }
 
-function * iterBasis(degree: TNum.UInt32, x: TNum.Float64[]) {
+/**
+ * @param {TNum.UInt32} degree
+ * @param {TNum.Float64[]} x
+ */
+function * iterBasis(degree, x) {
   const domain = Array.from(iterExtendedDomain(degree, x))
 
   for (let i = 0; i < x.length; i++) {
@@ -24,14 +33,17 @@ function * iterBasis(degree: TNum.UInt32, x: TNum.Float64[]) {
   }
 }
 
-export interface SplineParams {
-  basis: BSpline[]
-  coef: TNum.Float64[]
-}
-
-export interface Spline extends SplineParams, TMath.IRealFunction {}
+/**
+ * @implements TNumeric.ISpline
+ */
 export class Spline {
-  static fromDataPoints(degree: TNum.UInt32, x: TNum.Float64[], y: TNum.Float64[]) {
+  /**
+   * @param {TNum.UInt32} degree
+   * @param {TNum.Float64[]} x
+   * @param {TNum.Float64[]} y
+   * @returns {Spline}
+   */
+  static fromDataPoints(degree, x, y) {
     const basis = Array.from(iterBasis(degree, x))
     const n = x.length
     const coef = Array(n).fill(0)
@@ -49,11 +61,14 @@ export class Spline {
     return new this({ basis, coef })
   }
 
-  constructor(params: SplineParams) {
-    Object.assign(this, params)
+  /** @param {TNumeric.ISplineParams} params */
+  constructor({ basis, coef }) {
+    this.basis = basis
+    this.coef = coef
   }
 
-  eval(x: TNum.Float64) {
+  /** @param {TNum.Float64} x */
+  eval(x) {
     let result = 0
 
     for (const [coef, fun] of zip2(this.coef, this.basis)) {

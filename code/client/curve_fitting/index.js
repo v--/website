@@ -7,7 +7,7 @@ import { curveCanvas } from './components/curve_canvas.js'
 import { curveLegend } from './components/curve_legend.js'
 import { fitters } from './fitters.js'
 
-/** @type {TMath.IRealFunction} */
+/** @type {TNumeric.IRealFunction} */
 export const ZERO = {
   eval(_x) {
     return 0

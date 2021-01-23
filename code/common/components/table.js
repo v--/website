@@ -2,12 +2,13 @@ import { c, Component } from '../rendering/component.js'
 import { classlist } from '../support/dom_properties.js'
 
 /**
- * @typedef {object} ITableColumn
- * @property {string} [label]
- * @property {Component} [header]
- * @property {string} [class]
- * @property {(datum: any) => string} [view]
- * @property {(datum: any) => any} value
+ * @typedef {{
+  label: string
+  header: Component
+  class: string
+  view: (datum: any) => string
+  value: (datum: any) => any
+ }} ITableColumn
  */
 
 /**

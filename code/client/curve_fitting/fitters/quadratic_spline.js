@@ -2,7 +2,8 @@ import { Spline } from '../../../common/math/numeric/spline.js'
 import { Polynomial } from '../../../common/math/algebra/polynomial.js'
 import { getMappingDomain, getMappingRange } from '../support/mapping.js'
 
-export const quadraticSpline: TCurves.Fitter = Object.freeze({
+/** @type {TCurves.Fitter} */
+export const quadraticSpline = Object.freeze({
   name: 'Quadratic spline',
   date: '2018-09-10',
   fit(mapping) {

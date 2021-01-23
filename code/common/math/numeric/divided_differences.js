@@ -5,7 +5,12 @@ export class DividedDifferencesError extends CoolError {}
 export class NoPointsError extends DividedDifferencesError {}
 export class DuplicatePointsError extends DividedDifferencesError {}
 
-export function dividedDifferences(f: (x: TNum.Float64) => TNum.Float64, points: TNum.Float64[]): TNum.Float64 {
+/**
+ * @param {(x: TNum.Float64) => TNum.Float64} f
+ * @param {TNum.Float64[]} points
+ * @returns {TNum.Float64}
+ */
+export function dividedDifferences(f, points) {
   const n = points.length
 
   switch (n) {
