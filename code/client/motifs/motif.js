@@ -8,12 +8,13 @@ import { Matrix } from '../../common/math/linalg/matrix.js'
 export const motifColor = ['r', 'g', 'b']
 
 /**
- * @typedef {object} MotifParams
- * @property {TNum.UInt32} seed
- * @property {TNum.UInt32} side
- * @property {Matrix} [r]
- * @property {Matrix} [g]
- * @property {Matrix} [b]
+ * @typedef {{
+  seed: TNum.UInt32
+  side: TNum.UInt32
+  r?: Matrix
+  g?: Matrix
+  b?: Matrix
+ }} MotifParams
  */
 
 /**

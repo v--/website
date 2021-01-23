@@ -4,10 +4,11 @@ import { BehaviorSubject } from '../../../common/observables/behavior_subject.js
 import { Vector } from '../../../common/math/geom2d/vector.js'
 
 /**
- * @typedef {object} WindowSize
- * @property {TNum.UInt32} width
- * @property {TNum.UInt32} height
- * @property {boolean} isDesktop
+ * @typedef {{
+  width: TNum.UInt32
+  height: TNum.UInt32
+  isDesktop: boolean
+ }} WindowSize
  */
 
 /**

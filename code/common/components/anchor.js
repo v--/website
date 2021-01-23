@@ -3,25 +3,27 @@ import { c } from '../rendering/component.js'
 import { classlist } from '../support/dom_properties.js'
 
 /**
- * @typedef {object} IAnchorState
- * @property {string} href
- * @property {boolean} [isInternal]
- * @property {boolean} [newTab]
- * @property {string} [class]
- * @property {string} [text]
- * @property {string} [style]
- * @property {string} [title]
+ * @typedef {{
+  href: string
+  isInternal?: boolean
+  newTab?: boolean
+  class?: string
+  text?: string
+  style?: string
+  title?: string
+ }} IAnchorState
  */
 
 /**
- * @typedef {object} IAnchorElementState
- * @property {string} href
- * @property {string} [text]
- * @property {string} [class]
- * @property {string} [target]
- * @property {string} [title]
- * @property {string} [style]
- * @property {TCons.Action<MouseEvent>} [click]
+ * @typedef {{
+  href: string
+  class?: string
+  text?: string
+  target?: string
+  title?: string
+  style?: string
+  click?: TCons.Action<MouseEvent>
+ }} IAnchorElementState
  */
 
 /**

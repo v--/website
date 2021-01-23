@@ -2,8 +2,9 @@ import { repr } from '../../../common/support/strings.js'
 import { CoolError } from '../../../common/errors.js'
 
 /**
- * @typedef {object} PlaygroundModule
- * @property {TComponents.FactoryComponentType<TRouter.IRouterState>} index
+ * @typedef {{
+  index: TComponents.FactoryComponentType<TRouter.IRouterState>
+ }} PlaygroundModule
  */
 
 /**

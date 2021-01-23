@@ -11,14 +11,14 @@ const CANVAS_FORCE_RATIO = 1.5
 const SPEED = 50
 
 /**
- * @typedef {object} SharedState
- * @property {HTMLCanvasElement} canvasElement
- * @property {Vector} cursor
+ * @typedef {{
+  canvasElement: HTMLCanvasElement
+  cursor: Vector
+ }} SharedState
  */
 
 /**
- * @typedef {object} SubjectState
- * @property {Vector} buttonOrigin
+ * @typedef {{ buttonOrigin: Vector }} SubjectState
  */
 
 /**

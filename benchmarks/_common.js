@@ -1,8 +1,7 @@
 import Benchmark from 'benchmark'
 
 /**
- * @typedef {object} BenchmarkEvent
- * @property {Benchmark} target
+ * @typedef {{ target: Benchmark }} BenchmarkEvent
  */
 
 /**

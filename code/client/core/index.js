@@ -55,9 +55,7 @@ async function fetchIcons() {
 }
 
 /**
- * @typedef {object} ServerData
- * @property {unknown} [data]
- * @property {TErrors.ErrorJsonObject} [errorData]
+ * @typedef {{ data?: unknown, errorData?: TErrors.ErrorJsonObject }} ServerData
  */
 
 /**

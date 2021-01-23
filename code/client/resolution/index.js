@@ -23,9 +23,10 @@ export function formulasToText(formulas) {
 }
 
 /**
- * @typedef {object} IQueryConfig
- * @property {string} axioms
- * @property {string} goal
+ * @typedef {{
+  axioms: string
+  goal: string
+ }} IQueryConfig
  */
 
 /** @type {IQueryConfig} */

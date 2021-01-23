@@ -1,11 +1,12 @@
 import { spawn } from 'child_process'
 
 /**
- * @typedef {object} IPacmanPackageMetadata
- * @property {string} NAME
- * @property {string} VERSION
- * @property {string} DESC
- * @property {string} ARCH
+ * @typedef {{
+  NAME: string
+  VERSION: string
+  DESC: string
+  ARCH: string
+ }} IPacmanPackageMetadata
  */
 
 /**
