@@ -5,6 +5,7 @@ import { errors } from './errors.js'
 
 /**
  * @template T extends object
+ * @implements TObservables.IDictSubject<T>
  * @extends BehaviorSubject<T>
  */
 export class DictSubject extends BehaviorSubject {

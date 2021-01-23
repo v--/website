@@ -1,16 +1,11 @@
 import { swap } from '../../../common/support/iteration.js'
-import { SortAction } from './types/action.js'
 
-export interface ActionListParams {
-  array: TNum.Float64[]
-  actions?: (SortAction | undefined)[]
-}
-
-export interface ActionList extends Required<ActionListParams> {}
+/**
+ * @implements {TSortVis.IActionList}
+ */
 export class ActionList {
-  private originalArray: TNum.Float64[]
-
-  constructor({ array, actions = [] }: ActionListParams) {
+  /** @param {TSortVis.IActionListParams} params */
+  constructor({ array, actions = [] }) {
     this.originalArray = array
     this.array = array.slice()
     this.actions = actions
@@ -20,11 +15,17 @@ export class ActionList {
     return this.array.length
   }
 
-  get(i: TNum.UInt32) {
+  /** @param {TNum.UInt32} i */
+  get(i) {
     return this.array[i]
   }
 
-  update(i: TNum.UInt32, j: TNum.UInt32, swapped: boolean) {
+  /**
+   * @param {TNum.UInt32} i
+   * @param {TNum.UInt32} j
+   * @param {boolean} swapped
+   */
+  update(i, j, swapped) {
     if (swapped) {
       swap(this.array, i, j)
     }

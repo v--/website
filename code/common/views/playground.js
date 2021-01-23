@@ -14,8 +14,7 @@ export function playground() {
         c('dt', undefined,
           c(anchor, {
             href: '/playground/sorting',
-            isInternal: true,
-            class: 'disabled'
+            isInternal: true
           })
         ),
         c('dd', { text: PAGE_DESCRIPTIONS.playground.sorting }),
@@ -23,8 +22,7 @@ export function playground() {
         c('dt', undefined,
           c(anchor, {
             href: '/playground/curve_fitting',
-            isInternal: true,
-            class: 'disabled'
+            isInternal: true
           })
         ),
         c('dd', { text: PAGE_DESCRIPTIONS.playground.curve_fitting }),
@@ -32,8 +30,7 @@ export function playground() {
         c('dt', undefined,
           c(anchor, {
             href: '/playground/resolution',
-            isInternal: true,
-            class: 'disabled'
+            isInternal: true
           })
         ),
         c('dd', { text: PAGE_DESCRIPTIONS.playground.resolution }),
@@ -41,8 +38,7 @@ export function playground() {
         c('dt', undefined,
           c(anchor, {
             href: '/playground/breakout',
-            isInternal: true,
-            class: 'disabled'
+            isInternal: true
           })
         ),
         c('dd', { text: PAGE_DESCRIPTIONS.playground.breakout }),

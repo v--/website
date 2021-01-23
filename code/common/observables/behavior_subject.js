@@ -2,6 +2,7 @@ import { Subject } from './subject.js'
 
 /**
  * @template T
+ * @implements TObservables.IBehaviorSubject<T>
  * @extends Subject<T>
  */
 export class BehaviorSubject extends Subject {

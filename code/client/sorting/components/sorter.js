@@ -1,9 +1,9 @@
 import { c } from '../../../common/rendering/component.js'
 import { s } from '../../../common/support/svg.js'
 import { classlist } from '../../../common/support/dom_properties.js'
-import { SorterState } from '../types/sorter.js'
 
-export function sorter({ sequence, state, lastAction }: SorterState) {
+/** @param {TSortVis.ISorterState} state */
+export function sorter({ sequence, state, lastAction }) {
   const sorterRatio = 100 / state.length
 
   return c('div', { class: 'sorter' },

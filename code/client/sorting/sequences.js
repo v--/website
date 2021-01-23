@@ -1,7 +1,7 @@
 import { shuffle, range, map, flatten, repeat } from '../../common/support/iteration.js'
-import { Sequence } from './types/sequences.js'
 
-export const sequences: Sequence[] = [
+/** @type {readonly TSortVis.ISequence[]} */
+export const sequences = [
   {
     name: 'Ascending',
     constructArray() {

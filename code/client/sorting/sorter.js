@@ -4,22 +4,16 @@ import { DictSubject } from '../../common/observables/dict_subject.js'
 
 import { createIntervalObservable } from '../core/support/timeout.js'
 import { ActionList } from './support/action_list.js'
-import { Sequence } from './types/sequences.js'
-import { SortAlgorithm } from './types/sort_algorithm.js'
-import { SortAction } from './support/types/action.js'
-import { SorterComponentState, SorterState } from './types/sorter.js'
 
 class SorterError extends CoolError {}
 
 const SORT_INTERVAL = 25
 
-interface ActionListCollection {
-  sequence: Sequence,
-  currentState: TNum.Float64[],
-  actions: (SortAction | undefined)[]
-}
-
-function constructActionListCollections(algorithm: SortAlgorithm, sequences: Sequence[]) {
+/**
+ * @param {TSortVis.ISortAlgorithm} algorithm
+ * @param {TSortVis.ISequence[]} sequences
+ */
+function constructActionListCollections(algorithm, sequences) {
   return sequences.map(function(sequence) {
     const actionList = new ActionList({
       array: sequence.constructArray(),
@@ -36,7 +30,12 @@ function constructActionListCollections(algorithm: SortAlgorithm, sequences: Seq
   })
 }
 
-function getStatesAtIndex(actionListCollections: ActionListCollection[], index: TNum.UInt32): SorterState[] {
+/**
+ * @param {TSortVis.IActionListCollection[]} actionListCollections
+ * @param {TNum.UInt32} index
+ * @returns {TSortVis.ISorterState[]}
+ */
+function getStatesAtIndex(actionListCollections, index) {
   return actionListCollections.map(function({ currentState, sequence, actions }) {
     const action = actions[Math.min(index, actions.length - 1)]
 
@@ -52,22 +51,15 @@ function getStatesAtIndex(actionListCollections: ActionListCollection[], index: 
   })
 }
 
-export interface SorterParams {
-  algorithm: SortAlgorithm
-  sequences: Sequence[]
-  state$: DictSubject<SorterComponentState>
-  actionListCollections: ActionListCollection[]
-  actionListIndex: TNum.UInt32
-  maxActionListIndex: TNum.UInt32
-}
-
-export interface Sorter extends SorterParams {
-  intervalObservable: TObservables.IObservable<void>
-  intervalSubscription?: TObservables.ISubscription
-}
-
+/**
+ * @implements {TSortVis.ISorter} Sorter
+ */
 export class Sorter {
-  static build(algorithm: SortAlgorithm, sequences: Sequence[]) {
+  /**
+   * @param {TSortVis.ISortAlgorithm} algorithm
+   * @param {TSortVis.ISequence[]} sequences
+   */
+  static build(algorithm, sequences) {
     const actionListCollections = constructActionListCollections(algorithm, sequences)
     const state$ = new DictSubject({
       states: getStatesAtIndex(actionListCollections, 0),
@@ -97,8 +89,14 @@ export class Sorter {
     return sorter
   }
 
-  constructor(params: SorterParams) {
-    Object.assign(this, params)
+  /** @param {TSortVis.ISorterParams} params */
+  constructor({ algorithm, sequences, state$, actionListCollections, actionListIndex, maxActionListIndex }) {
+    this.algorithm = algorithm
+    this.sequences = sequences
+    this.state$ = state$
+    this.actionListCollections = actionListCollections
+    this.actionListIndex = actionListIndex
+    this.maxActionListIndex = maxActionListIndex
     this.intervalObservable = createIntervalObservable(SORT_INTERVAL)
   }
 

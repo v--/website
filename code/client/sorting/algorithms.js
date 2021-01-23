@@ -7,9 +7,9 @@ import { selectionSort } from './algorithms/selection.js'
 import { gnomeSort } from './algorithms/gnome.js'
 import { martiniSort } from './algorithms/martini.js'
 import { bubbleSort } from './algorithms/bubble.js'
-import { SortAlgorithm } from './types/sort_algorithm.js'
 
-export const algorithms: readonly SortAlgorithm[] = Object.freeze([
+/** @type {readonly TSortVis.ISortAlgorithm[]} */
+export const algorithms = Object.freeze([
   heapsort,
   quicksort,
   mergeSort,

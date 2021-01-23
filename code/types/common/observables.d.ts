@@ -31,5 +31,13 @@ declare namespace TObservables {
 
   export type ISubject<T> = IObserver<T> & IObservable<T>
 
+  export interface IBehaviorSubject<T> extends ISubject<T> {
+    value: T
+  }
+
+  export interface IDictSubject<T> extends IBehaviorSubject<T> {
+    update(value: Partial<T>): void
+  }
+
   export type BaseType<T> = T extends IObservable<infer R> ? R : T
 }
