@@ -20,6 +20,18 @@ function getFileExtension(fileName) {
 }
 
 /**
+ * @param {TFiles.IFile} entry
+ */
+function getFileTypeString(entry) {
+  if (!entry.isFile) {
+    return 'Directory'
+  }
+
+  const ext = getFileExtension(entry.name)
+  return ext.length > 0 ? `File: ${ext}` : 'Dotfile'
+}
+
+/**
  * @param {TRouter.IRouterState & { data: TFiles.IDirectory }} state
  */
 export function files({ path, data }) {
@@ -31,6 +43,12 @@ export function files({ path, data }) {
        * @param {TFiles.IFile} entry
        */
       value(entry) {
+        return entry.name
+      },
+      /**
+       * @param {TFiles.IFile} entry
+       */
+      view(entry) {
         return c(anchor, {
           text: entry.name,
           href: path.join(entry.name).underCooked,
@@ -45,13 +63,14 @@ export function files({ path, data }) {
       /**
        * @param {TFiles.IFile} entry
        */
+      view(entry) {
+        return getFileTypeString(entry)
+      },
+      /**
+       * @param {TFiles.IFile} entry
+       */
       value(entry) {
-        if (!entry.isFile) {
-          return 'Directory'
-        }
-
-        const ext = getFileExtension(entry.name)
-        return ext.length > 0 ? `File: ${ext}` : 'Dotfile'
+        return getFileTypeString(entry) + entry.name
       }
     },
 
