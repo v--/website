@@ -6,7 +6,7 @@ import { classlist } from '../support/dom_properties.js'
   label: string
   header?: Component
   class?: string
-  view?: (datum: any) => string
+  view?: (datum: any) => string | Component
   value: (datum: any) => any
  }} ITableColumn
  */

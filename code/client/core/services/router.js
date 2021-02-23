@@ -36,12 +36,13 @@ export class RouterService {
   /**
    * @param {string} url
    * @param {any} serverData
+   * @param {any} errorData
    */
-  static async initialize(url, serverData) {
+  static async initialize(url, serverData, errorData) {
     const path = Path.parse(url)
     const mockStore = new MockStore(serverData)
     const store = new Store()
-    const state = await clientRouter(path, mockStore)
+    const state = await clientRouter(path, errorData ? store : mockStore)
     return new this(state, store, path)
   }
 

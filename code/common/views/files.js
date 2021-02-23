@@ -38,6 +38,7 @@ export function files({ path, data }) {
   const columns = [
     {
       label: 'Name',
+      sortingLabel: 'name',
       class: 'col-name',
       /**
        * @param {TFiles.IFile} entry
@@ -59,6 +60,7 @@ export function files({ path, data }) {
 
     {
       label: 'Type',
+      sortingLabel: 'type',
       class: 'col-type',
       /**
        * @param {TFiles.IFile} entry
@@ -76,6 +78,7 @@ export function files({ path, data }) {
 
     {
       label: 'Size',
+      sortingLabel: 'size',
       class: 'col-size',
       /**
        * @param {TFiles.IFile} entry
@@ -111,6 +114,7 @@ export function files({ path, data }) {
 
     {
       label: 'Modified',
+      sortingLabel: 'modified',
       class: 'col-modified',
       /**
        * @param {TFiles.IFile} entry
@@ -133,7 +137,6 @@ export function files({ path, data }) {
       c(interactiveTable, {
         class: 'files-table',
         data: data.entries,
-        defaultSorting: 2,
         columns,
         path
       }),

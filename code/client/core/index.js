@@ -80,7 +80,7 @@ function readServerData() {
 Promise.all([onDocumentReady(), fetchIcons()]).then(async function() {
   // "data" is the id a script element
   const { data, errorData } = readServerData()
-  const service = await RouterService.initialize(getCurrentURL(), data)
+  const service = await RouterService.initialize(getCurrentURL(), data, errorData)
 
   service.state$.subscribe({
     /**

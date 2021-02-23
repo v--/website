@@ -9,20 +9,31 @@ import { pagination } from './pagination.js'
 
 import { icon } from './icon.js'
 import { anchor } from './anchor.js'
+import { repr } from '../support/strings.js'
 
 /**
  * @typedef {{
-  sorting: string
-  per_page: string
-  page: string
- }} IQueryConfig
+   sort_by: string
+   sort_descending: string
+   per_page: string
+   page: string
+  }} IQueryConfig
+ */
+
+/**
+ * @typedef {
+   import('./table.js').ITableColumn & {
+     sortingLabel: string
+   }
+ } IInteractiveTableColumn
  */
 
 /**
  * @param {{
-    columns: import('./table.js').ITableColumn[],
+    columns: IInteractiveTableColumn[],
     data: unknown[],
-    sorting: number,
+    sortByColumnId: number,
+    descending: boolean,
     perPage: number
     page: number
   }} param1
@@ -30,12 +41,19 @@ import { anchor } from './anchor.js'
 export function sliceData({
   columns,
   data,
-  sorting,
+  sortByColumnId,
+  descending,
   perPage,
   page
 }) {
-  const column = columns[Math.abs(sorting) - 1]
-  const valueComparator = sorting > 0 ? orderComparator : inverseOrderComparator
+  const pageStart = (page - 1) * perPage
+
+  if (sortByColumnId === -1) {
+    return data.slice(pageStart, pageStart + perPage)
+  }
+
+  const column = columns[sortByColumnId]
+  const valueComparator = descending ? inverseOrderComparator : orderComparator
 
   /**
    * @param {unknown} a
@@ -45,7 +63,6 @@ export function sliceData({
     return valueComparator(column.value(a), column.value(b))
   }
 
-  const pageStart = (page - 1) * perPage
   return Array.from(data).sort(comparator)
     .slice(pageStart, pageStart + perPage)
 }
@@ -53,9 +70,8 @@ export function sliceData({
 /**
  * @param {{
     class: string,
-    columns: import('./table.js').ITableColumn[],
+    columns: IInteractiveTableColumn[],
     data: unknown[],
-    defaultSorting: number,
     path: TRouter.IPath
   }} state
  */
@@ -63,20 +79,24 @@ export function interactiveTable({
   class: cssClass,
   columns,
   data, 
-  defaultSorting = 1,
   path
 }) {
-  /** @type {IQueryConfig} */
-  const queryDefaults = { per_page: '10', page: '1', sorting: String(defaultSorting) }
+  /** @type {TCons.PartialWith<IQueryConfig, 'sort_by'>} */
+  const queryDefaults = { per_page: '10', page: '1', sort_descending: 'false' }
   const config = new QueryConfig(path, queryDefaults)
 
+  const sortByRaw = config.get('sort_by')
+  const sortDescendingRaw = config.get('sort_descending')
   const perPage = Number(config.get('per_page'))
   const page = Number(config.get('page'))
-  const sorting = Number(config.get('sorting'))
 
-  if (sorting === 0 || Math.abs(sorting) > columns.length) {
-    throw new ClientError(`Invalid column index ${Math.abs(sorting)} specified`)
+  const sortByColumnId = sortByRaw === undefined ? -1 : columns.findIndex(c => sortByRaw === c.sortingLabel)
+
+  if (sortByRaw !== undefined && sortByColumnId === -1) {
+    throw new ClientError(`Invalid sorting column ${repr(sortByRaw)} specified`)
   }
+
+  const descending = sortDescendingRaw === 'true'
 
   if (perPage < 1) {
     throw new ClientError(`Invalid number of items per page ${perPage} specified`)
@@ -88,16 +108,15 @@ export function interactiveTable({
     throw new ClientError(`Invalid page index ${page} specified`)
   }
 
-  const sliced = sliceData({ columns, data, sorting, perPage, page })
+  const sliced = sliceData({ columns, data, sortByColumnId, descending, perPage, page })
   const patchedColumns = []
 
-  for (let i = 1; i <= columns.length; i++) {
-    const newColumn = Object.assign({}, columns[i - 1])
-    const newSortingValue = Math.abs(sorting) === i ? -sorting : i
+  for (let i = 0; i <= columns.length - 1; i++) {
+    const newColumn = Object.assign({}, columns[i])
     let iconName
 
-    if (Math.abs(sorting) === i) {
-      iconName = sorting > 0 ? 'sort-ascending' : 'sort-descending'
+    if (sortByColumnId === i) {
+      iconName = descending ? 'sort-descending' : 'sort-ascending'
     } else {
       iconName = 'sort-variant'
     }
@@ -106,8 +125,11 @@ export function interactiveTable({
       anchor,
       {
         class: 'heading',
-        href: config.getUpdatedPath({ sorting: String(newSortingValue) }),
-        isInternal: true
+        isInternal: true,
+        href: config.getUpdatedPath({
+          sort_by: columns[i].sortingLabel,
+          sort_descending: i === sortByColumnId ? String(!descending) : 'false'
+        })
       },
       c(icon, { name: iconName }),
       c('span', { text: newColumn.label })
