@@ -170,7 +170,7 @@ export function index({ path, description }) {
       ),
 
       c('br'),
-      c('h3', { class: 'h3', text: 'Resolution.Simplified formulas' }),
+      c('h3', { class: 'h3', text: 'Simplified formulas' }),
       c('p', { text: 'We use the equivalences P → Q ≡ ¬P ∨ Q, P ↔ Q ≡ (¬P ∨ Q) & (P ∨ ¬Q) and P ∨ (Q & R) ≡ (P ∨ Q) & (P ∨ R), de Morgan\'s laws and quantifier inversion rules. The resulting formulas are "almost" in conjunctive normal form but with quantifiers.' }),
       c('pre', undefined,
         c('code', formulasToText(simplified))
