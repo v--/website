@@ -48,13 +48,13 @@ function parsePacmanInfoStream(stream) {
                 buffer = []
 
                 switch (key) {
-                  case 'NAME':
+                  case 'ARCH':
                     if (Object.keys(currentFile).length > 0) {
                       files.push({
-                        NAME: value,
+                        ARCH: value,
                         VERSION: '',
                         DESC: '',
-                        ARCH: '',
+                        NAME: '',
                         ...currentFile
                       })
 
@@ -65,7 +65,7 @@ function parsePacmanInfoStream(stream) {
 
                   case 'VERSION':
                   case 'DESC':
-                  case 'ARCH':
+                  case 'NAME':
                     currentFile[key] = value
                     break
                 }
