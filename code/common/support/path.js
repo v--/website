@@ -4,7 +4,20 @@ export class Path {
    * @returns {Path}
    */
   static parse(raw) {
-    const [url, rawQuery = ''] = decodeURI(raw).split('?', 2)
+    let url, rawQuery
+
+    try {
+      const decodedURL = decodeURI(raw).split('?', 2)
+      url = decodedURL[0]
+      rawQuery = decodedURL[1] || ''
+    } catch (err) {
+      if (err instanceof URIError) {
+        return new this([raw], new Map())
+      }
+
+      throw err
+    }
+
     const segments = url.split('/').filter(Boolean)
     const query = new Map(rawQuery
       .split('&')
