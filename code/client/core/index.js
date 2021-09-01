@@ -9,6 +9,7 @@ import { RouterService } from './services/router.js'
 import { onDocumentReady, getCurrentURL } from './support/dom.js'
 import { dispatcher } from './render_dispatcher.js'
 import { processErrorJsonObject, restoreError } from '../../common/store/errors.js'
+import { microtaskEnqueue } from '../../common/observables/operators.js'
 
 /**
  * @param {TObservables.IObservable<TRouter.IRouterState>} observable
@@ -91,7 +92,7 @@ Promise.all([onDocumentReady(), fetchIcons()]).then(async function() {
     }
   })
 
-  location$.subscribe({
+  microtaskEnqueue(location$).subscribe({
     /**
      * @param {string} value
      */

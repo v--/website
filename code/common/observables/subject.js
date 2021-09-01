@@ -70,6 +70,7 @@ export class Subject {
     return value
   }
 
+
   /**
    * @param {TObservables.IPotentialObserver<T>} potentialObserver
    */

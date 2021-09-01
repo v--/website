@@ -40,4 +40,6 @@ declare namespace TObservables {
   }
 
   export type BaseType<T> = T extends IObservable<infer R> ? R : T
+
+  export type ITransformation<T, R> = (value: IObservable<T>) => IObservable<R>
 }
