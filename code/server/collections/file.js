@@ -51,7 +51,7 @@ export class FileCollection {
     for (const name of files) {
       const childStat = await stat(path.join(fullPath, name))
 
-      if (name === '.readme.md') {
+      if (name === '.README.md') {
         result.readme = await readFile(path.join(fullPath, name), 'utf8')
       }
 
