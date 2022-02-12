@@ -13,7 +13,7 @@ export class MarkdownComponentError extends CoolError {}
 export function buildComponentTree(ast) {
   switch (ast.type) {
     case 'container':
-      return c('div', undefined, ...ast.children.map(buildComponentTree))
+      return c('span', undefined, ...ast.children.map(buildComponentTree))
 
     case 'lineBreak':
       // br was not good enough
