@@ -6,7 +6,8 @@
     "client": "gulp",
     "server": "nodemon --inspect code/server/index.js",
     "lint": "tsc --project . && eslint --ext js,d.ts build code tests benchmarks",
-    "test": "mocha"
+    "test": "mocha",
+    "favicon": "convert -background transparent client/svg/favicon.svg -resize 64x64 client/assets/images/favicon.png"
   },
   "dependencies": {
     "@mdi/svg": "^5.9.55",

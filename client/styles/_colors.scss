@@ -4,7 +4,7 @@ $color-background: #fff;
 $color-midground: #eee;
 $color-foreground: #222;
 $color-accent: #2a92ea;
-$color-accent-saturated: #046FCC;
+$color-accent-saturated: darken($color-accent, 10%);
 $color-light: #ccc;
 $color-dark: #888;
 $color-danger: nth($palette-chalk, 4);
