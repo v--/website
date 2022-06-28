@@ -32,6 +32,9 @@ export const linearLeastSquares = Object.freeze({
   name: 'Linear least squares',
   date: '2018-09-06',
   hideByDefault: true,
+  /**
+   * @param {Map<TNum.Float64, TNum.Float64>} mapping
+   */
   fit(mapping) {
     const n = mapping.size
     const x = getMappingDomain(mapping)

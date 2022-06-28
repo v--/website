@@ -87,7 +87,7 @@ export function index({ path, description }) {
     },
 
     /**
-     * @param {TNum.UInt32} [start]
+     * @param {TNum.UInt32} [end]
      */
     changeEnd(end) {
       location$.next(config.getUpdatedPath({ end: String(end) }))

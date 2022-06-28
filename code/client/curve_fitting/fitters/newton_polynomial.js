@@ -6,6 +6,10 @@ import { getMappingDomain } from '../support/mapping.js'
 export const newtonPolynomial = Object.freeze({
   name: 'Newton polynomial',
   date: '2018-22-07',
+
+  /**
+   * @param {Map<TNum.Float64, TNum.Float64>} mapping
+   */
   fit(mapping) {
     const n = mapping.size
 

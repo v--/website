@@ -93,13 +93,21 @@ export class HTTPServer {
 
         if (e instanceof NotFoundError) {
           this.logger.warn(`No resource found for ${request.method} ${path.cooked}`)
-        } else {
+        } else if (e instanceof Error) {
           this.logger.warn(`Error while processing ${request.method} ${path.cooked}: ${e} ${e.stack}`)
+        } else {
+          this.logger.warn(`Error while processing ${request.method} ${path.cooked}: ${e}`)
         }
 
         await this.writeResponse(
           response,
-          Response.view(createErrorState(path, e), e instanceof HTTPError ? e.code : 500)
+          Response.view(
+            createErrorState(
+              path,
+              e instanceof Error ? e : new HTTPError(500, String(e))
+            ),
+            e instanceof HTTPError ? e.code : 500
+          )
         )
       }
     })

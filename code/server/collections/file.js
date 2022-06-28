@@ -41,7 +41,9 @@ export class FileCollection {
     try {
       files = await readdir(fullPath, 'utf8')
     } catch (err) {
-      if (err.code === 'ENOENT' || err.code === 'ENOTDIR') {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      if (err instanceof Error && err.code === 'ENOENT' || err.code === 'ENOTDIR') {
         throw new NotFoundError()
       } else {
         throw err

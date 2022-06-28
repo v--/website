@@ -45,7 +45,7 @@ export class SubscriptionObserver {
   }
 
   /**
-   * @param {Error} err
+   * @param {unknown} err
    */
   _cleanupAndThrow(err) {
     if (this.cleanupFunction) {
@@ -85,7 +85,7 @@ export class SubscriptionObserver {
   }
 
   /**
-   * @param {Error} err
+   * @param {unknown} err
    */
   error(err) {
     if (this._closed) {

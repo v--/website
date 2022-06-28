@@ -6,6 +6,10 @@ import { getMappingDomain, getMappingRange } from '../support/mapping.js'
 export const quadraticSpline = Object.freeze({
   name: 'Quadratic spline',
   date: '2018-09-10',
+
+  /**
+   * @param {Map<TNum.Float64, TNum.Float64>} mapping
+   */
   fit(mapping) {
     const n = mapping.size
 

@@ -36,7 +36,7 @@ function renderObservable(observable) {
 
 /**
  * @param {RouterService} routerService
- * @param {Error} err
+ * @param {unknown} err
  */
 function renderError(routerService, err) {
   console.error(err)

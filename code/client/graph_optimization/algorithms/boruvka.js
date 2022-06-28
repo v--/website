@@ -50,7 +50,7 @@ export const boruvka = Object.freeze({
 
   /**
    * @param {Graph<TNum.UInt32>} graph
-   * @param {TNum.UInt32} start
+   * @param {TNum.UInt32} _start
    * @param {TNum.UInt32} _end
    * @returns {TGraphOpt.IGraphAlgorithmResult<TNum.UInt32>}
    */

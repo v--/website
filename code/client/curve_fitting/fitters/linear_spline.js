@@ -6,6 +6,10 @@ import { getMappingDomain, getMappingRange } from '../support/mapping.js'
 export const linearSpline = Object.freeze({
   name: 'Linear spline',
   date: '2018-09-10',
+
+  /**
+   * @param {Map<TNum.Float64, TNum.Float64>} mapping
+   */
   fit(mapping) {
     if (mapping.size === 0) {
       return Polynomial.ZERO

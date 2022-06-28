@@ -1,6 +1,6 @@
 import { DictSubject } from '../../../common/observables/dict_subject.js'
 import { Path } from '../../../common/support/path.js'
-import { CoolError } from '../../../common/errors.js'
+import { ClientError, CoolError } from '../../../common/errors.js'
 
 import { Store, MockStore } from '../store.js'
 import { clientRouter } from '../router.js'
@@ -70,7 +70,7 @@ export class RouterService {
       try {
         this.state$.update({ factory, loading: false })
       } catch (err) {
-        this.state$.error(err)
+        this.state$.error(err instanceof Error ? err : new ClientError())
       }
     })
 
@@ -94,7 +94,7 @@ export class RouterService {
 
   /**
    * @param {string} url
-   * @param {Error} err
+   * @param {unknown} err
    */
   async displayError(url, err) {
     this.state$.update(createErrorState(Path.parse(url), err))

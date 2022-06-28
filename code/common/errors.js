@@ -84,7 +84,7 @@ export class ClientError extends CoolError {
    * @param {string} message
    * @param {string} title
    */
-  constructor(message, title = 'Error') {
+  constructor(message = 'An unknown error occurred', title = 'Error') {
     super(message)
     this.title = title
   }
