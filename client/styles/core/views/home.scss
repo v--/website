@@ -66,6 +66,10 @@ $image-side: 200px;
       }
     }
   }
+
+  .icon.telegram {
+    rotate: -35deg;
+  }
 }
 
 @media (max-width: $mobile-width) {

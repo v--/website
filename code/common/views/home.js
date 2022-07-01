@@ -21,6 +21,13 @@ export function home() {
           ),
 
           c('div', { class: 'contact' },
+            c(anchor, { href: 'https://t.me/ianis_vasilev' },
+              c(icon, { class: 'telegram', name: 'send-circle' }),
+              c('span', { text: 'Telegram' })
+            )
+          ),
+
+          c('div', { class: 'contact' },
             c(anchor, { href: 'https://www.facebook.com/ianis.vasilev' },
               c(icon, { name: 'facebook' }),
               c('span', { text: 'Facebook' })
