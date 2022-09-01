@@ -3,6 +3,10 @@
 .error-page {
   text-align: center;
 
+  .error-title {
+    margin-bottom: 0.25em;
+  }
+
   .alert {
     font-size: 15em;
   }

@@ -1,6 +1,6 @@
 import http from 'http'
 
-import { HTTPError, CoolError, NotFoundError } from '../../common/errors.js'
+import { HTTPError, CoolError, NotFoundError, InternalServerError } from '../../common/errors.js'
 import { Path } from '../../common/support/path.js'
 
 import { Logger } from '../support/logger.js'
@@ -104,7 +104,7 @@ export class HTTPServer {
           Response.view(
             createErrorState(
               path,
-              e instanceof Error ? e : new HTTPError(500, String(e))
+              e instanceof Error ? e : new InternalServerError(String(e))
             ),
             e instanceof HTTPError ? e.code : 500
           )

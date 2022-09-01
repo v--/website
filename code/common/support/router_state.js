@@ -1,4 +1,4 @@
-import { ClientError, CoolError } from '../errors.js'
+import { PresentableError } from '../errors.js'
 import { error as errorView } from '../views/error.js'
 import { Path } from './path.js'
 
@@ -8,13 +8,11 @@ import { Path } from './path.js'
  * @returns {TRouter.IRouterStatePartial}
  */
 export function createErrorState(path, err) {
-  const error = err instanceof Error ? err : new ClientError()
-
   return {
     path,
     sidebarId: 'error',
-    title: CoolError.isDisplayable(error) ? (/** @type {ClientError} */ (err)).title.toLowerCase() : 'error',
-    description: 'An error has occurred.',
+    title: err instanceof PresentableError ? err.title.toLowerCase() : 'error',
+    description: err instanceof PresentableError ? err.message : 'An error has occurred.',
     factory: errorView,
     data: err
   }

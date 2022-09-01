@@ -1,5 +1,5 @@
 import { c } from '../rendering/component.js'
-import { ClientError } from '../errors.js'
+import { NotFoundError } from '../errors.js'
 import { classlist } from '../support/dom_properties.js'
 import { QueryConfig } from '../support/query_config.js'
 import { orderComparator, inverseOrderComparator } from '../support/sorting.js'
@@ -93,19 +93,19 @@ export function interactiveTable({
   const sortByColumnId = sortByRaw === undefined ? -1 : columns.findIndex(c => sortByRaw === c.sortingLabel)
 
   if (sortByRaw !== undefined && sortByColumnId === -1) {
-    throw new ClientError(`Invalid sorting column ${repr(sortByRaw)} specified`)
+    throw new NotFoundError(`Invalid sorting column ${repr(sortByRaw)} specified`)
   }
 
   const descending = sortDescendingRaw === 'true'
 
   if (perPage < 1) {
-    throw new ClientError(`Invalid number of items per page ${perPage} specified`)
+    throw new NotFoundError(`Invalid number of items per page ${perPage} specified`)
   }
 
   const pages = Math.ceil(data.length / perPage)
 
   if (page < 1 || (pages !== 0 && page > pages)) {
-    throw new ClientError(`Invalid page index ${page} specified`)
+    throw new NotFoundError(`Invalid page index ${page} specified`)
   }
 
   const sliced = sliceData({ columns, data, sortByColumnId, descending, perPage, page })

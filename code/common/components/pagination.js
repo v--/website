@@ -1,4 +1,4 @@
-import { ClientError } from '../errors.js'
+import { BadRequestError } from '../errors.js'
 import { c } from '../rendering/component.js'
 import { classlist } from '../support/dom_properties.js'
 import { QueryConfig } from '../support/query_config.js'
@@ -14,7 +14,7 @@ function * iterPaginators(pages, config) {
   const currentPage = Number(config.get('page'))
 
   if (currentPage < 1 || (pages !== 0 && currentPage > pages)) {
-    throw new ClientError(`Invalid page index ${currentPage} specified`)
+    throw new BadRequestError(`Invalid page index ${currentPage} specified`)
   }
 
   yield c(anchor,

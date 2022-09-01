@@ -1,7 +1,7 @@
 Error.stackTraceLimit = Number.POSITIVE_INFINITY
 
 /** @type {TErrors.ErrorClassId[]} */
-export const errorClassIds = ['HTTPError', 'ClientError', 'CoolError', 'DataFormatError']
+export const errorClassIds = ['HTTPError', 'PresentableError', 'CoolError', 'DataFormatError']
 
 export class CoolError extends Error {
   /**
@@ -52,15 +52,6 @@ export class CoolError extends Error {
       throw new this(message)
     }
   }
-
-  /**
-   * @param {Error} err
-   */
-  static isDisplayable(err) {
-    return err instanceof CoolError &&
-      typeof err.title === 'string' &&
-      typeof err.message === 'string'
-  }
 }
 
 export class NotImplementedError extends CoolError {
@@ -72,7 +63,7 @@ export class NotImplementedError extends CoolError {
   }
 }
 
-export class ClientError extends CoolError {
+export class PresentableError extends CoolError {
   /**
    * @param {TErrors.ErrorJsonObject} json
    */
@@ -84,7 +75,7 @@ export class ClientError extends CoolError {
    * @param {string} message
    * @param {string} title
    */
-  constructor(message = 'An unknown error occurred', title = 'Error') {
+  constructor(title = 'Error', message = 'An unknown error occurred') {
     super(message)
     this.title = title
   }
@@ -104,26 +95,25 @@ export class ClientError extends CoolError {
    * @returns {TErrors.ErrorClassId}
    */
   get classId() {
-    return 'ClientError'
+    return 'PresentableError'
   }
 }
 
-export class HTTPError extends ClientError {
+export class HTTPError extends PresentableError {
   /**
    * @param {TErrors.ErrorJsonObject} json
    */
-  static fromJSON({ code = 400, title = 'Bad Request' }) {
-    return new this(code, title)
+  static fromJSON({ code = 500, message }) {
+    return new this(code, message)
   }
 
   /**
    * @param {TNum.UInt32} code
-   * @param {string} title
+   * @param {string} message
    */
-  constructor(code, title) {
-    super(`HTTP Error ${code}: ${title}`)
+  constructor(code, message) {
+    super(`HTTP Error ${code}`, message)
     this.code = code
-    this.title = title
   }
 
   /**
@@ -133,7 +123,6 @@ export class HTTPError extends ClientError {
     return {
       classId: this.classId,
       code: this.code,
-      title: this.title,
       message: this.message
     }
   }
@@ -146,15 +135,67 @@ export class HTTPError extends ClientError {
   }
 }
 
-export class NotFoundError extends HTTPError {
-  constructor() {
-    super(404, 'Resource not found')
+export class BadRequestError extends HTTPError {
+  /**
+   * @param {TErrors.ErrorJsonObject} json
+   */
+  static fromJSON({ message }) {
+    return new this(message)
+  }
+
+  /**
+   * @param {string} message
+   */
+  constructor(message = 'Bad request') {
+    super(400, message)
   }
 }
 
 export class ForbiddenError extends HTTPError {
-  constructor() {
-    super(403, 'Forbidden')
+  /**
+   * @param {TErrors.ErrorJsonObject} json
+   */
+  static fromJSON({ message }) {
+    return new this(message)
+  }
+
+  /**
+   * @param {string} message
+   */
+  constructor(message = 'Forbidden') {
+    super(403, message)
+  }
+}
+
+export class NotFoundError extends HTTPError {
+  /**
+   * @param {TErrors.ErrorJsonObject} json
+   */
+  static fromJSON({ message }) {
+    return new this(message)
+  }
+
+  /**
+   * @param {string} message
+   */
+  constructor(message = 'Resource not found') {
+    super(404, message)
+  }
+}
+
+export class InternalServerError extends HTTPError {
+  /**
+   * @param {TErrors.ErrorJsonObject} json
+   */
+  static fromJSON({ message }) {
+    return new this(message)
+  }
+
+  /**
+   * @param {string} message
+   */
+  constructor(message = 'Internal server error') {
+    super(500, message)
   }
 }
 

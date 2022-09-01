@@ -6,7 +6,7 @@ import { motifCanvas } from './components/motif_canvas.js'
 import { motifGenerator } from './motif_generator.js'
 import { QueryConfig } from '../../common/support/query_config.js'
 import { location$ } from '../../common/shared_observables.js'
-import { ClientError } from '../../common/errors.js'
+import { NotFoundError } from '../../common/errors.js'
 import { repr } from '../../common/support/strings.js'
 import { randInt } from '../../common/math/prob/random.js'
 
@@ -22,7 +22,7 @@ export function index({ path, description }) {
   if (seedString === undefined) {
     location$.next(config.getUpdatedPath({ seed: String(randInt(1, 100)) }))
   } else if (!Number.isFinite(seed) || !Number.isInteger(seed) || seed < 1 || seed > 100) {
-    throw new ClientError(`The seed ${repr(seed)} must be an integer between 1 and 100`)
+    throw new NotFoundError(`The seed ${repr(seed)} must be an integer between 1 and 100`)
   }
 
   const motif = seed === undefined ? undefined : motifGenerator(seed)
