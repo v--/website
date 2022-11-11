@@ -14,7 +14,7 @@
     fleeing_button: availableFeatures.modules
   }
 
-  // Now do some hackish DOM initialization to avoid "flashing" when to main code kicks in
+  // Now do some hackish DOM initialization to avoid "flashing" when the main code kicks in
   const path = window.location.pathname.split('/').slice(1)
 
   function onLoad() {
@@ -40,7 +40,7 @@
   }
 
   if (window.CORE_COMPATIBILITY) {
-    // DOMContentLoaded and load kick in too late to use here
+    // The "DOMContentLoaded" and "load" events kick in too late to use here
     window.requestAnimationFrame(onAnimationFrame)
   }
 }
