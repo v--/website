@@ -10,6 +10,9 @@
   window.DESKTOP_WIDTH = 550
   window.CORE_COMPATIBILITY = availableFeatures.modules
   window.PLAYGROUND_COMPATIBILITY = {
+    array_sorting: availableFeatures.modules,
+    curve_fitting: availableFeatures.modules,
+    first_order_resolution: availableFeatures.modules,
     breakout: availableFeatures.modules,
     fleeing_button: availableFeatures.modules
   }

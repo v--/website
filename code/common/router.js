@@ -55,6 +55,30 @@ async function routerImpl(path, store) {
         }
       } else if (path.segments.length === 2) {
         switch (path.segments[1]) {
+          case 'array_sorting':
+            return {
+              title: 'array sorting | playground',
+              description: PAGE_DESCRIPTIONS.playground.array_sorting,
+              factory: 'array_sorting',
+              sidebarId: 'playground'
+            }
+
+          case 'curve_fitting':
+            return {
+              title: 'curve fitting | playground',
+              description: PAGE_DESCRIPTIONS.playground.curve_fitting,
+              factory: 'curve_fitting',
+              sidebarId: 'playground'
+            }
+
+          case 'first_order_resolution':
+            return {
+              title: 'first order resolution | playground',
+              description: PAGE_DESCRIPTIONS.playground.first_order_resolution,
+              factory: 'first_order_resolution',
+              sidebarId: 'playground'
+            }
+
           case 'breakout':
             return {
               title: 'breakout | playground',
