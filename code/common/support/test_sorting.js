@@ -1,6 +1,6 @@
-import { describe, it, assert } from '../../_common.js'
+import { describe, it, assert } from '../../_test_common.js'
 
-import { orderComparator } from '../../../code/common/support/sorting.js'
+import { orderComparator } from './sorting.js'
 
 describe('orderComparator()', function() {
   it('compares single-digit positive numbers correctly', function() {

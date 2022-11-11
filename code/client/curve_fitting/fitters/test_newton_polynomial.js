@@ -1,6 +1,6 @@
-import { describe, it, assert } from '../../../_common.js'
+import { describe, it, assert } from '../../../_test_common.js'
 
-import { newtonPolynomial } from '../../../../code/client/curve_fitting/fitters/newton_polynomial.js'
+import { newtonPolynomial } from './newton_polynomial.js'
 
 /**
  * @param {TNum.Float64} x

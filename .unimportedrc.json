@@ -3,9 +3,9 @@
     "code/server/index.js",
     "code/client/preload.js",
     "code/client/*/index.js",
+    "code/**/test_*.js",
+    "code/_test_observables.js",
     "build/{builder,watcher}.js",
-    "tests/*/**/*.js",
-    "tests/_observables.js",
     "benchmarks/**/*.js"
   ],
   "extensions": [

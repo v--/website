@@ -1,4 +1,4 @@
-import { describe, it, assert, assertCustomEqual } from '../../_common.js'
+import { describe, it, assert, assertCustomEqual } from '../../_test_common.js'
 
 import {
   Component,
@@ -8,7 +8,7 @@ import {
   ComponentCreationError,
   ComponentSanityError,
   InvalidComponentError
-} from '../../../code/common/rendering/component.js'
+} from './component.js'
 
 describe('Component', function() {
   describe('#safeCreate()', function() {

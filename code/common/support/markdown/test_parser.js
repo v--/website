@@ -1,6 +1,6 @@
-import { describe, it, assert } from '../../../_common.js'
+import { describe, it, assert } from '../../../_test_common.js'
 
-import { parseMarkdown } from '../../../../code/common/support/markdown/parser.js'
+import { parseMarkdown } from './parser.js'
 
 describe('parseMarkdown()', function() {
   describe('for plain text', function() {

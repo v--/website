@@ -1,6 +1,6 @@
-import { describe, it, assert, assertCustomEqual, assertReprEqual, assertSameNumber } from '../../../_common.js'
+import { describe, it, assert, assertCustomEqual, assertReprEqual, assertSameNumber } from '../../../_test_common.js'
 
-import { Polynomial, ZeroPolynomialError } from '../../../../code/common/math/algebra/polynomial.js'
+import { Polynomial, ZeroPolynomialError } from './polynomial.js'
 
 describe('Polynomial', function() {
   describe('.stripTrailingZeroes()', function() {

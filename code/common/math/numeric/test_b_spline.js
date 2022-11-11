@@ -1,6 +1,6 @@
-import { describe, it, assert } from '../../../_common.js'
+import { describe, it, assert } from '../../../_test_common.js'
 
-import { BSpline, NotEnoughPointsError } from '../../../../code/common/math/numeric/b_spline.js'
+import { BSpline, NotEnoughPointsError } from './b_spline.js'
 
 describe('BSpline', function() {
   describe('#constructor()', function() {

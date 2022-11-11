@@ -1,7 +1,7 @@
-import { describe, it, assert } from '../../../_common.js'
+import { describe, it, assert } from '../../../_test_common.js'
 
-import { Line } from '../../../../code/common/math/geom2d/line.js'
-import { Vector } from '../../../../code/common/math/geom2d/vector.js'
+import { Line } from './line.js'
+import { Vector } from './vector.js'
 
 describe('Line', function() {
   describe('.fromPointAndVector()', function() {

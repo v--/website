@@ -5,7 +5,7 @@
     "build": "npm run lint && npm run test && node build/builder.js",
     "client": "node build/watcher.js",
     "server": "nodemon --inspect code/server/index.js",
-    "lint": "tsc --project . && eslint --ext js,d.ts build code tests benchmarks",
+    "lint": "tsc --project . && eslint --ext js,d.ts build code benchmarks",
     "test": "mocha",
     "unimported": "unimported",
     "favicon": "convert -background transparent client/svg/favicon.svg -resize 64x64 client/assets/images/favicon.png"

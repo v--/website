@@ -13,7 +13,10 @@ chokidar.watch(
     'code/types/**/*.d.ts',
     'code/{common,client}/**/*.js'
   ],
-  { ignoreInitial: true },
+  {
+    ignoreInitial: true,
+    ignored: /\/test_/
+  },
 ).on('all', (_event, _path) => {
   sync.reload()
 })

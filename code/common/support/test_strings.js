@@ -1,6 +1,6 @@
-import { describe, it, assert } from '../../_common.js'
+import { describe, it, assert } from '../../_test_common.js'
 
-import { repr } from '../../../code/common/support/strings.js'
+import { repr } from './strings.js'
 
 describe('repr()', function() {
   it('works for strings', function() {

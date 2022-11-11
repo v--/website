@@ -1,9 +1,9 @@
-import { describe, it, assert, assertCustomEqual } from '../../_common.js'
+import { describe, it, assert, assertCustomEqual } from '../../_test_common.js'
 
-import { c, XMLComponent, ComponentSanityError, HTMLComponent, Component } from '../../../code/common/rendering/component.js'
-import { RenderError, RenderDispatcher } from '../../../code/common/rendering/renderer.js'
-import { BehaviorSubject } from '../../../code/common/observables/behavior_subject.js'
-import { DictSubject } from '../../../code/common/observables/dict_subject.js'
+import { c, XMLComponent, ComponentSanityError, HTMLComponent, Component } from './component.js'
+import { RenderError, RenderDispatcher } from './renderer.js'
+import { BehaviorSubject } from '../observables/behavior_subject.js'
+import { DictSubject } from '../observables/dict_subject.js'
 
 /** @type {TRendering.INodeManipulator<XMLComponent>} */
 export const mirrorDOMManipulator = {
@@ -92,7 +92,7 @@ export const dispatcher = RenderDispatcher.fromManipulator(mirrorDOMManipulator)
  */
 function render(component) {
   return /** @type {XMLComponent} */ (
-    dispatcher.render(component) 
+    dispatcher.render(component)
   )
 }
 

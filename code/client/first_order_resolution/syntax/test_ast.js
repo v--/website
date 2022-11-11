@@ -1,7 +1,7 @@
-import { describe, it, assert, assertEqualExpressions } from '../../../_common.js'
+import { describe, it, assert, assertEqualExpressions } from '../../../_test_common.js'
 
-import { ParserError } from '../../../../code/common/support/parser.js'
-import { parseExpression, parseExpressionSilently } from '../../../../code/client/first_order_resolution/syntax/ast.js'
+import { ParserError } from '../../../common/support/parser.js'
+import { parseExpression, parseExpressionSilently } from './ast.js'
 
 describe('parseExpression()', function() {
   describe('variable', function() {

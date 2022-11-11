@@ -1,4 +1,4 @@
-import { describe, it, assert } from '../../_common.js'
+import { describe, it, assert } from '../../_test_common.js'
 
 import {
   EmptyIterError,
@@ -11,7 +11,7 @@ import {
   empty,
   schwartzSort,
   flatten
-} from '../../../code/common/support/iteration.js'
+} from './iteration.js'
 
 describe('zip()', function() {
   it('zips nothing', function() {

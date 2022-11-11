@@ -3,7 +3,6 @@
     "./code/**/*.js",
     "./code/types/**/*.d.ts",
     "./benchmarks/**/*.js",
-    "./tests/**/*.js",
     "./build/**/*.js"
   ],
   // Avoid checking svgo

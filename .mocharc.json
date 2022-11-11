@@ -1,5 +1,4 @@
 {
   "extension": ["js"],
-  "spec": "tests/**/*.js",
-  "ignore": "tests/**/_*.js"
+  "spec": "code/**/test_*.js"
 }
