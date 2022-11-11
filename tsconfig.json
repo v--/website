@@ -6,9 +6,15 @@
     "./tests/**/*.js",
     "./build/**/*.js"
   ],
+  // Avoid checking svgo
+  "exclude": [
+    "./build/watcher.js",
+    "./build/builder.js",
+    "./build/svg.js"
+  ],
   "compilerOptions": {
-    "target": "ESNEXT",
-    "module": "ESNext",
+    "target": "esnext",
+    "module": "esnext",
     "noEmit": true,
     "allowJs": true,
     "checkJs": true,
