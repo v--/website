@@ -1,19 +1,10 @@
 import chai from 'chai'
 
-import { stringifyExpression } from '../code/client/first_order_resolution/support/stringify.js'
 import { isSameNumber } from '../code/common/math/numeric/floating.js'
 import { repr } from '../code/common/support/strings.js'
 import { CoolError } from '../code/common/errors.js'
 
 class AssertionError extends CoolError {}
-
-/**
- * @param {TResolution.Expression} a
- * @param {TResolution.Expression} b
- */
-export function assertEqualExpressions(a, b) {
-  chai.assert.strictEqual(stringifyExpression(a), stringifyExpression(b))
-}
 
 /**
  * @param {unknown} src

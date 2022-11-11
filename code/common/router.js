@@ -55,30 +55,6 @@ async function routerImpl(path, store) {
         }
       } else if (path.segments.length === 2) {
         switch (path.segments[1]) {
-          case 'array_sorting':
-            return {
-              title: 'array sorting | playground',
-              description: PAGE_DESCRIPTIONS.playground.array_sorting,
-              factory: 'array_sorting',
-              sidebarId: 'playground'
-            }
-
-          case 'curve_fitting':
-            return {
-              title: 'curve fitting | playground',
-              description: PAGE_DESCRIPTIONS.playground.curve_fitting,
-              factory: 'curve_fitting',
-              sidebarId: 'playground'
-            }
-
-          case 'first_order_resolution':
-            return {
-              title: 'first order resolution | playground',
-              description: PAGE_DESCRIPTIONS.playground.first_order_resolution,
-              factory: 'first_order_resolution',
-              sidebarId: 'playground'
-            }
-
           case 'breakout':
             return {
               title: 'breakout | playground',
@@ -87,27 +63,11 @@ async function routerImpl(path, store) {
               sidebarId: 'playground'
             }
 
-          case 'graph_optimization':
-            return {
-              title: 'graph optimization | playground',
-              description: PAGE_DESCRIPTIONS.playground.graph_optimization,
-              factory: 'graph_optimization',
-              sidebarId: 'playground'
-            }
-
           case 'fleeing_button':
             return {
               title: 'fleeing button | playground',
               description: PAGE_DESCRIPTIONS.playground.fleeing_button,
               factory: 'fleeing_button',
-              sidebarId: 'playground'
-            }
-
-          case 'stitching_motifs':
-            return {
-              title: 'stitching motifs | playground',
-              description: PAGE_DESCRIPTIONS.playground.stitching_motifs,
-              factory: 'stitching_motifs',
               sidebarId: 'playground'
             }
         }

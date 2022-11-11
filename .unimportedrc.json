@@ -1,0 +1,34 @@
+{
+  "entry": [
+    "code/server/index.js",
+    "code/client/preload.js",
+    "code/client/*/index.js",
+    "build/{builder,watcher}.js",
+    "tests/*/**/*.js",
+    "tests/_observables.js",
+    "benchmarks/**/*.js"
+  ],
+  "extensions": [
+    ".js",
+    ".d.js"
+  ],
+  "ignorePatterns": [
+    "node_modules/**"
+  ],
+  "ignoreUnused": [
+    "@mdi/svg",
+    "@types/benchmark",
+    "@types/chai",
+    "@types/node",
+    "@typescript-eslint/eslint-plugin",
+    "@typescript-eslint/parser",
+    "eslint",
+    "eslint-plugin-import",
+    "eslint-plugin-mocha",
+    "eslint-plugin-node",
+    "mocha",
+    "nodemon",
+    "typescript",
+    "unimported"
+  ]
+}

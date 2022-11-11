@@ -4,12 +4,7 @@ export const PAGE_DESCRIPTIONS = Object.freeze({
   pacman: 'Information about a pacman repository hosted under the same domain name as the website',
   playground: Object.freeze({
     index: 'Interactive browser-based simulations and visualizations',
-    array_sorting: 'Sorting algorithm visualizations',
-    curve_fitting: 'Plane curve fitting visualizations',
-    first_order_resolution: 'A first-order logic resolution engine',
     breakout: 'A Breakout variant with evolving bricks',
-    graph_optimization: 'Graph algorithm visualizations',
-    fleeing_button: 'A fleeing button',
-    stitching_motifs: 'Procedurally generated Bulgarian motifs'
+    fleeing_button: 'A fleeing button'
   })
 })

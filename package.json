@@ -7,22 +7,20 @@
     "server": "nodemon --inspect code/server/index.js",
     "lint": "tsc --project . && eslint --ext js,d.ts build code tests benchmarks",
     "test": "mocha",
+    "unimported": "unimported",
     "favicon": "convert -background transparent client/svg/favicon.svg -resize 64x64 client/assets/images/favicon.png"
   },
   "dependencies": {
     "@mdi/svg": "^7.0.96",
     "@types/benchmark": "^2.1.2",
-    "@types/browser-sync": "^2.26.3",
     "@types/chai": "^4.3.4",
-    "@types/gulp": "^4.0.9",
-    "@types/node": "18.11.9",
-    "@types/undertaker": "^1.2.8",
-    "@types/vinyl-source-stream": "^0.0.30",
+    "@types/node": "^18.11.9",
     "@typescript-eslint/eslint-plugin": "^5.42.1",
     "@typescript-eslint/parser": "^5.42.1",
     "benchmark": "^2.1.4",
     "browser-sync": "^2.27.10",
     "chai": "^4.3.7",
+    "chokidar": "^3.5.3",
     "es-observable-tests": "^0.3.0",
     "eslint": "^8.27.0",
     "eslint-plugin-import": "^2.26.0",
@@ -30,9 +28,9 @@
     "eslint-plugin-node": "^11.1.0",
     "mocha": "^10.1.0",
     "nodemon": "^2.0.20",
-    "svgo": "v3.0.0",
+    "sass": "^1.56.1",
+    "svgo": "^v3.0.0",
     "typescript": "^4.8.4",
-    "chokidar": "3.5.3",
-    "sass": "1.56.1"
+    "unimported": "^1.22.0"
   }
 }

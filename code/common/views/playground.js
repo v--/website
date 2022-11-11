@@ -12,30 +12,6 @@ export function playground() {
       c('dl', { class: 'cool-list' },
         c('dt', undefined,
           c(anchor, {
-            href: '/playground/array_sorting',
-            isInternal: true
-          })
-        ),
-        c('dd', { text: PAGE_DESCRIPTIONS.playground.array_sorting }),
-
-        c('dt', undefined,
-          c(anchor, {
-            href: '/playground/curve_fitting',
-            isInternal: true
-          })
-        ),
-        c('dd', { text: PAGE_DESCRIPTIONS.playground.curve_fitting }),
-
-        c('dt', undefined,
-          c(anchor, {
-            href: '/playground/first_order_resolution',
-            isInternal: true
-          })
-        ),
-        c('dd', { text: PAGE_DESCRIPTIONS.playground.first_order_resolution }),
-
-        c('dt', undefined,
-          c(anchor, {
             href: '/playground/breakout',
             isInternal: true
           })
@@ -44,27 +20,11 @@ export function playground() {
 
         c('dt', undefined,
           c(anchor, {
-            href: '/playground/graph_optimization',
-            isInternal: true
-          })
-        ),
-        c('dd', { text: PAGE_DESCRIPTIONS.playground.graph_optimization }),
-
-        c('dt', undefined,
-          c(anchor, {
             href: '/playground/fleeing_button',
             isInternal: true
           })
         ),
-        c('dd', { text: PAGE_DESCRIPTIONS.playground.fleeing_button }),
-
-        c('dt', undefined,
-          c(anchor, {
-            href: '/playground/stitching_motifs',
-            isInternal: true
-          })
-        ),
-        c('dd', { text: PAGE_DESCRIPTIONS.playground.stitching_motifs })
+        c('dd', { text: PAGE_DESCRIPTIONS.playground.fleeing_button })
       )
     )
   )

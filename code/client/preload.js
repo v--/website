@@ -10,13 +10,8 @@
   window.DESKTOP_WIDTH = 550
   window.CORE_COMPATIBILITY = availableFeatures.modules
   window.PLAYGROUND_COMPATIBILITY = {
-    array_sorting: availableFeatures.modules,
-    curve_fitting: availableFeatures.modules,
-    first_order_resolution: availableFeatures.modules,
     breakout: availableFeatures.modules,
-    graph_optimization: availableFeatures.modules,
-    fleeing_button: availableFeatures.modules,
-    stitching_motifs: availableFeatures.modules
+    fleeing_button: availableFeatures.modules
   }
 
   // Now do some hackish DOM initialization to avoid "flashing" when to main code kicks in
