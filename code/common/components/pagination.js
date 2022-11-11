@@ -6,6 +6,8 @@ import { QueryConfig } from '../support/query_config.js'
 import { icon } from './icon.js'
 import { anchor } from './anchor.js'
 
+const PAGE_RANGE = 4
+
 /**
  * @param {TNum.UInt32} pages
  * @param {QueryConfig<{ page: string }>} config
@@ -28,7 +30,21 @@ function * iterPaginators(pages, config) {
     })
   )
 
-  for (let i = 1; i <= pages; i++) {
+  let lowerBound = 1
+  let upperBound = pages
+
+  if (pages > 2 * PAGE_RANGE) {
+    if (currentPage <= PAGE_RANGE) {
+      upperBound = 2 * PAGE_RANGE + 1
+    } else if (currentPage >= pages - PAGE_RANGE) {
+      lowerBound = pages - 2 * PAGE_RANGE
+    } else {
+      lowerBound = currentPage - PAGE_RANGE
+      upperBound = currentPage + PAGE_RANGE
+    }
+  }
+
+  for (let i = lowerBound; i <= upperBound; i++) {
     yield c(anchor,
       {
         class: classlist('paginator', currentPage === i && 'disabled'),
