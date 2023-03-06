@@ -19,7 +19,7 @@ export function sectionTitle({
 }) {
   return c('h1', { class: classlist('section-title', 'h1', className) },
     path && c(anchor, { href: path.getParentPath().cooked, isInternal: true, title: 'Go one level up', class: 'up-link' },
-      c(icon, { name: 'upload' })
+      c(icon, { name: 'solid/chevron-up' })
     ),
     c('span', { class: 'section-title-text', text, title: text })
   )

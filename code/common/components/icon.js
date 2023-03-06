@@ -1,6 +1,13 @@
+import { CoolError } from '../errors.js'
 import { s } from '../support/svg.js'
 
-/** @type { Map<string, string> } */
+/**
+ * @typedef {{viewBox: string, path: string}} IconSpec
+ */
+
+class InvalidIconError extends CoolError {}
+
+/** @type { Map<string, IconSpec> } */
 export const iconMap = new Map()
 
 /**
@@ -11,6 +18,12 @@ export const iconMap = new Map()
   }} state
  */
 export function icon(state) {
+  const spec = iconMap.get(state.name)
+
+  if (spec === undefined) {
+    throw new InvalidIconError(`Invalid icon ${state.name}`)
+  }
+
   /**
    * @type {{
       click?: TCons.Action<MouseEvent>,
@@ -18,7 +31,7 @@ export function icon(state) {
       viewBox: string
     }}
    */
-  const rootState = { viewBox: '0 0 24 24', class: 'icon' }
+  const rootState = { viewBox: spec.viewBox, class: 'icon' }
 
   if ('click' in state) {
     rootState.click = state.click
@@ -29,6 +42,6 @@ export function icon(state) {
   }
 
   return s('svg', rootState,
-    s('path', { d: iconMap.get(state.name) })
+    s('path', { d: spec.path })
   )
 }

@@ -116,9 +116,9 @@ export function interactiveTable({
     let iconName
 
     if (sortByColumnId === i) {
-      iconName = descending ? 'sort-descending' : 'sort-ascending'
+      iconName = descending ? 'solid/sort-down' : 'solid/sort-up'
     } else {
-      iconName = 'sort-variant'
+      iconName = 'solid/sort'
     }
 
     newColumn.header = c(

@@ -12,10 +12,13 @@ const DEST_PATH = 'public/icons.json'
  */
 async function readPathFromIconFile(fileName) {
   const svg = await readFile(fileName, 'utf8')
-  const match = svg.match(/<path d="(.*)" \/>/)
+  const match = svg.match(/<svg xmlns="http:\/\/www.w3.org\/2000\/svg" viewBox="(.*)">.*<path d="(.*)"\/><\/svg>/)
 
   if (match !== null) {
-    return match[1]
+    return {
+      viewBox: match[1],
+      path: match[2]
+    }
   }
 }
 
@@ -25,7 +28,7 @@ export async function buildIcons() {
   const promises = iconRef
     .map(async function(name) {
       return {
-        [name]: await readPathFromIconFile(`node_modules/@mdi/svg/svg/${name}.svg`)
+        [name]: await readPathFromIconFile(`fontawesome/svgs/${name}.svg`)
       }
     })
 

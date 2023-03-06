@@ -50,9 +50,8 @@ $image-side: 200px;
           align-items: center;
 
           > .icon {
-            height: 1.5em;
-            width: 1.5em;
-            margin-top: -0.1em;
+            height: 1.3em;
+            width: 1.3em;
           }
 
           > span {
@@ -65,10 +64,6 @@ $image-side: 200px;
         margin-top: 1.5rem;
       }
     }
-  }
-
-  .icon.telegram {
-    rotate: -35deg;
   }
 }
 

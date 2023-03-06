@@ -15,42 +15,42 @@ export function home() {
         c('div', undefined,
           c('div', { class: 'contact' },
             c(anchor, { href: 'mailto:ianis@ivasilev.net' },
-              c(icon, { name: 'email' }),
+              c(icon, { name: 'solid/envelope' }),
               c('span', { text: 'Email' })
             )
           ),
 
           c('div', { class: 'contact' },
             c(anchor, { href: 'https://t.me/ianis_vasilev' },
-              c(icon, { class: 'telegram', name: 'send-circle' }),
+              c(icon, { name: 'brands/telegram' }),
               c('span', { text: 'Telegram' })
             )
           ),
 
           c('div', { class: 'contact' },
             c(anchor, { href: 'https://mastodon.ivasilev.net/@ianis', rel: 'me' },
-              c(icon, { name: 'elephant' }),
+              c(icon, { name: 'brands/mastodon' }),
               c('span', { text: 'Mastodon' })
             )
           ),
 
           c('div', { class: 'contact' },
             c(anchor, { href: 'https://www.facebook.com/ianis.vasilev' },
-              c(icon, { name: 'facebook' }),
+              c(icon, { name: 'brands/facebook' }),
               c('span', { text: 'Facebook' })
             )
           ),
 
           c('div', { class: 'contact' },
             c(anchor, { href: 'https://github.com/v--' },
-              c(icon, { name: 'github' }),
+              c(icon, { name: 'brands/github' }),
               c('span', { text: 'GitHub' })
             )
           ),
 
           c('div', { class: 'contact' },
             c(anchor, { href: 'https://www.reddit.com/user/IanisVasilev' },
-              c(icon, { name: 'reddit' }),
+              c(icon, { name: 'brands/reddit' }),
               c('span', { text: 'Reddit' })
             )
           )

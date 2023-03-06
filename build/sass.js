@@ -23,7 +23,7 @@ export function getIndexSCSS(path) {
  */
 export async function buildSASS(src) {
   const result = sass.compile(src, { style: 'compressed' })
-  const dest = joinPath(DEST_PATH, relative(SRC_PATH, basename(src, '.scss'))) + '.css'
+  const dest = joinPath(DEST_PATH, relative(SRC_PATH, dirname(src)), basename(src, '.scss') + '.css')
   await mkdir(dirname(dest), { recursive: true })
   await writeFile(dest, result.css)
   logger.info(`${src} -> ${dest}`)

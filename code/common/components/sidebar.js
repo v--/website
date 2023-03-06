@@ -43,35 +43,35 @@ export function sidebar({ sidebarId, isCollapsed, toggleCollapsed }) {
 
   return c('aside', { class: classlist('sidebar', isCollapsed && 'collapsed') },
     c('button', toggleButtonState,
-      c(icon, { class: 'entry-icon', name: 'chevron-left' }),
+      c(icon, { class: 'entry-icon', name: 'solid/chevron-left' }),
       c('span', { class: 'entry-text', text: 'Hide sidebar' })
     ),
 
     c(entry, {
       id: 'home',
       text: 'Home page',
-      icon: 'home',
+      icon: 'solid/house',
       href: '/'
     }),
 
     c(entry, {
       id: 'files',
       text: 'File server',
-      icon: 'folder',
+      icon: 'solid/folder',
       href: '/files'
     }),
 
     c(entry, {
       id: 'pacman',
       text: 'Pacman repo',
-      icon: 'download',
+      icon: 'solid/download',
       href: '/pacman'
     }),
 
     c(entry, {
       id: 'playground',
       text: 'Playground',
-      icon: 'code-greater-than',
+      icon: 'solid/code',
       href: '/playground'
     })
   )

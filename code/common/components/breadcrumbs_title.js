@@ -19,10 +19,10 @@ export function breadcrumbsTitle({ class: className, path, root }) {
   return c('h1', { class: classlist('breadcrumbs-title', 'h1', className) },
     path.underCooked === root
       ? c('div', { class: 'up-link', title: 'Already at topmost level' },
-        c(icon, { name: 'upload' })
+        c(icon, { name: 'solid/chevron-up' })
       )
       : c(anchor, { class: 'up-link', title: 'Go one level up', href: path.getParentPath().cooked, isInternal: true },
-        c(icon, { name: 'upload' })
+        c(icon, { name: 'solid/chevron-up' })
       ),
 
     cumSegments.length > 0 && c('div', { class: 'breadcrumbs' },

@@ -8,7 +8,7 @@ import { icon } from './icon.js'
  */
 export function sidebarToggle({ isCollapsed, toggleCollapsed }) {
   return c(icon, {
-    name: 'chevron-left',
+    name: 'solid/circle-chevron-right',
     class: classlist('cool-button', 'sidebar-toggle', isCollapsed && 'collapsed'),
     click: toggleCollapsed
   })

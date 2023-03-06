@@ -26,11 +26,5 @@
         height: 1.2em;
       }
     }
-
-    &.paginator-next {
-      > .icon {
-        transform: scaleX(-1);
-      }
-    }
   }
 }

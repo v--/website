@@ -10,7 +10,7 @@ import { anchor } from '../components/anchor.js'
 export function error({ data: err }) {
   return c('div', { class: 'page error-page' },
     c('br'),
-    c(icon, { class: 'alert', name: 'alert' }),
+    c(icon, { class: 'alert', name: 'solid/triangle-exclamation' }),
     c('h1', {
       class: 'h1 error-title',
       text: err instanceof PresentableError ? err.title : 'Error'

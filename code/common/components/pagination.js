@@ -26,7 +26,7 @@ function * iterPaginators(pages, config) {
       isInternal: true
     },
     c(icon, {
-      name: 'chevron-left'
+      name: 'solid/chevron-left'
     })
   )
 
@@ -63,7 +63,7 @@ function * iterPaginators(pages, config) {
       isInternal: true
     },
     c(icon, {
-      name: 'chevron-left'
+      name: 'solid/chevron-right'
     })
   )
 }

@@ -47,7 +47,7 @@ function renderError(routerService, err) {
 
 async function fetchIcons() {
   const response = await window.fetch('/icons.json')
-  /** @type {Record<string, string>} */
+  /** @type {Record<string, import('../../common/components/icon.js').IconSpec>} */
   const icons = await response.json()
 
   for (const [name, icon] of Object.entries(icons)) {
