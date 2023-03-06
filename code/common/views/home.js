@@ -28,9 +28,9 @@ export function home() {
           ),
 
           c('div', { class: 'contact' },
-            c(anchor, { href: 'https://mastodon.ivasilev.net/@ianis', rel: 'me' },
+            c(anchor, { href: 'https://pub.ivasilev.net/@ianis', rel: 'me' },
               c(icon, { name: 'brands/mastodon' }),
-              c('span', { text: 'Mastodon' })
+              c('span', { text: 'Mastodon / ActivityPub' })
             )
           ),
 
