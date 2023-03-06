@@ -28,6 +28,13 @@ export function home() {
           ),
 
           c('div', { class: 'contact' },
+            c(anchor, { href: 'https://mastodon.ivasilev.net/@ianis', rel: 'me' },
+              c(icon, { name: 'elephant' }),
+              c('span', { text: 'Mastodon' })
+            )
+          ),
+
+          c('div', { class: 'contact' },
             c(anchor, { href: 'https://www.facebook.com/ianis.vasilev' },
               c(icon, { name: 'facebook' }),
               c('span', { text: 'Facebook' })

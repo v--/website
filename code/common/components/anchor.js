@@ -5,6 +5,7 @@ import { classlist } from '../support/dom_properties.js'
 /**
  * @typedef {{
   href: string
+  rel?: string
   isInternal?: boolean
   newTab?: boolean
   class?: string
@@ -17,6 +18,7 @@ import { classlist } from '../support/dom_properties.js'
 /**
  * @typedef {{
   href: string
+  rel?: string
   class?: string
   text?: string
   target?: string
@@ -55,6 +57,10 @@ export function anchor(state, children) {
     childState.text = state.text
   } else if (children.length === 0 && state.href) {
     childState.text = state.href
+  }
+
+  if (state.rel) {
+    childState.rel = state.rel
   }
 
   if (state.title) {
