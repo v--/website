@@ -7,7 +7,7 @@
     modules: window.Symbol !== undefined && window.Object.prototype.hasOwnProperty.call(Symbol, 'asyncIterator')
   }
 
-  window.DESKTOP_WIDTH = 550
+  window.DESKTOP_WIDTH = 800
   window.CORE_COMPATIBILITY = availableFeatures.modules
   window.PLAYGROUND_COMPATIBILITY = {
     array_sorting: availableFeatures.modules,
