@@ -1,8 +1,9 @@
 import { router } from '../common/router.js'
 import { NotFoundError } from '../common/errors.js'
+import { Path } from '../common/support/path.js'
 
 import { Response } from './http/response.js'
-import { Path } from '../common/support/path.js'
+import { WEBFINGER_ALIASES, WEBFINGER_LINKS } from './support/webfinger.js'
 
 /**
  * @param {Path} path
@@ -26,6 +27,20 @@ export async function serverRouter(path, store) {
     }
 
     return Response.json({ error: '404 not found' }, 404)
+  } else if (
+    path.segments.length === 2 &&
+    path.segments[0] === '.well-known' &&
+    path.segments[1] === 'webfinger'
+  ) {
+    const resource = path.query.get('resource')
+
+    if (resource && WEBFINGER_ALIASES.includes(resource)) {
+      return Response.json({
+        subject: resource,
+        aliases: WEBFINGER_ALIASES.filter(alias => alias !== resource),
+        links: WEBFINGER_LINKS
+      })
+    }
   }
 
   return Response.view(await router(path, store))
