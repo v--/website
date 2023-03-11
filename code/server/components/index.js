@@ -25,7 +25,7 @@ export function index({ state }) {
       c('meta', { charset: 'UTF-8' }),
       c('meta', { name: 'viewport', content: 'width=device-width, initial-scale=1' }),
       c('meta', { name: 'description', content: state.description + '.' }),
-      c('link', { rel: 'shortcut icon', type: 'image/x-icon', href: '/images/favicon.png' }),
+      c('link', { rel: 'icon', type: 'image/x-icon', href: '/images/favicon.png' }),
       // If on home page, preload photo
       state.path.segments.length === 0 && c('link', { rel: 'preload', as: 'image', href: '/images/me_irl.jpg' }),
       c('link', { rel: 'stylesheet', href: '/styles/core/index.css' }),
