@@ -4,7 +4,7 @@ import { PresentableError, CoolError } from '../../../common/errors.js'
 
 import { Store, MockStore } from '../store.js'
 import { clientRouter } from '../router.js'
-import { windowSize$ } from '../shared_observables.js'
+import { windowSize$, darkScheme$ } from '../shared_observables.js'
 import { loadBundle, isBrowserCompatibleWithBundle } from '../support/load_bundle.js'
 import { navigateTo } from '../support/dom.js'
 import { unsupported } from '../../../common/views/unsupported.js'
@@ -63,7 +63,16 @@ export class RouterService {
       toggleCollapsed: () => {
         const newValue = !this.state$.value.isCollapsed
         this.state$.update({ isCollapsed: newValue })
+      },
+      darkScheme: darkScheme$.value,
+      toggleDarkScheme: () => {
+        const newValue = !this.state$.value.darkScheme
+        this.state$.update({ darkScheme: newValue })
       }
+    })
+
+    darkScheme$.subscribe(darkScheme => {
+      this.state$.update({ darkScheme })
     })
 
     loadFactory(initialState.factory).then(factory => {

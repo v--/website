@@ -1,16 +1,9 @@
 @import "../sizes.scss";
 @import "../colors.scss";
 
-code {
+input, textarea {
   color: var(--color-foreground);
   background-color: var(--color-background-accented);
   border: $border-width solid var(--color-midground);
-  padding: 0.1rem 0.2rem;
-
-  pre > & {
-    display: block;
-    padding: 0.5rem 0.75rem;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-  }
+  padding: 0.5rem 0.75rem;
 }

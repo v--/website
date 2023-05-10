@@ -1,12 +1,40 @@
-$palette-chalk: #710c10, #ebb93e, #80b8e9, #e9658f, #98bc76, #7637a0;
+$color-palette-chalk: #710c10, #ebb93e, #80b8e9, #e9658f, #98bc76, #7637a0;
 
-$color-background: #fff;
-$color-midground: #eee;
-$color-foreground: #222;
+$color-light: #fff;
+$color-medium: #999;
+$color-dark: #222;
 $color-accent: #2a92ea;
-$color-accent-saturated: darken($color-accent, 10%);
-$color-light: #ccc;
-$color-dark: #888;
-$color-danger: nth($palette-chalk, 4);
-$color-warning: nth($palette-chalk, 2);
-$color-success: nth($palette-chalk, 5);
+
+@mixin light-scheme {
+  --color-foreground: #{$color-dark};
+  --color-foreground-accented: #{lighten($color-dark, 10%)};
+  --color-foreground-saturated: #{lighten($color-dark, 35%)};
+  --color-midground: #{$color-medium};
+  --color-background: #{$color-light};
+  --color-background-accented: #{darken($color-light, 10%)};
+  --color-background-saturated: #{darken($color-light, 35%)};
+
+  --color-accent: #{$color-accent};
+  --color-accent-accented: #{darken($color-accent, 10%)};
+
+  --color-danger: #{nth($color-palette-chalk, 4)};
+  --color-warning: #{nth($color-palette-chalk, 2)};
+  --color-success: #{nth($color-palette-chalk, 5)};
+}
+
+@mixin dark-scheme {
+  --color-foreground: #{$color-light};
+  --color-foreground-accented: #{darken($color-light, 10%)};
+  --color-foreground-saturated: #{darken($color-light, 35%)};
+  --color-midground: #{$color-medium};
+  --color-background: #{$color-dark};
+  --color-background-accented: #{lighten($color-dark, 10%)};
+  --color-background-saturated: #{lighten($color-dark, 35%)};
+
+  --color-accent: #{$color-accent};
+  --color-accent-accented: #{lighten($color-accent, 10%)};
+
+  --color-danger: #{nth($color-palette-chalk, 4)};
+  --color-warning: #{nth($color-palette-chalk, 2)};
+  --color-success: #{nth($color-palette-chalk, 5)};
+}

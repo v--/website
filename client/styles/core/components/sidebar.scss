@@ -3,14 +3,24 @@
 @import "../../colors.scss";
 @import "../../z_index.scss";
 
+@mixin entry-color($color) {
+  > .entry-icon {
+    fill: $color;
+  }
+
+  > .entry-text {
+    color: $color;
+  }
+}
+
 .sidebar {
   flex-grow: 0;
   flex-shrink: 0;
   flex-basis: $sidebar-width;
-  background-color: $color-foreground;
+  background-color: var(--color-foreground);
   overflow-y: auto;
   transition: margin-left $transition-sidebar;
-  padding: $sidebar-padding 0;
+  padding: 0;
   z-index: $z-index-sidebar;
   display: flex;
   flex-direction: column;
@@ -19,18 +29,28 @@
     margin-left: -$sidebar-width;
   }
 
+  > hr {
+    width: 100%;
+    margin: 0;
+    border-left: 0;
+    border-right: 0;
+    border-color: var(--color-foreground-accented);
+  }
+
   > .entry {
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    margin: 0.5em 0;
+    margin: 0;
+    padding: 1.1em;
     text-transform: uppercase;
     text-decoration: none;
     font-size: 0.9rem;
     font-weight: 600;
+    transition: none;
 
     > .entry-icon {
-      fill: $color-background;
+      fill: var(--color-background);
       font-size: 1.5rem;
       flex-grow: 0;
       flex-shrink: 0;
@@ -38,41 +58,57 @@
     }
 
     > .entry-text {
-      color: $color-background;
+      color: var(--color-background);
       line-height: 2em;
       flex-grow: 1;
       text-align: left;
       margin-left: 1.5em;
     }
 
-    &:active,
-    &:visited {
-      > .entry-icon {
-        fill: $color-background;
-      }
-
-      > .entry-text {
-        color: $color-background;
-      }
+    &.active {
+      @include entry-color(var(--color-foreground));
     }
 
     &:hover {
-      > .entry-icon {
-        fill: $color-light;
-      }
+      @include entry-color(var(--color-background-accented));
 
-      > .entry-text {
-        color: $color-light;
+      &.active {
+        background-color: var(--color-background);
+        @include entry-color(var(--color-foreground-accented));
       }
     }
 
-    &.active {
-      > .entry-icon {
-        fill: $color-foreground;
+    &[disabled] {
+      @include entry-color(var(--color-midground));
+    }
+  }
+
+  .spacer {
+    flex-grow: 2;
+  }
+
+  .dark-scheme & {
+    background-color: var(--color-background-accented);
+
+    > hr {
+      border-color: var(--color-background-saturated);
+    }
+
+    > .entry {
+      background-color: var(--color-background-accented);
+
+      @include entry-color(var(--color-foreground));
+
+      &:hover {
+        @include entry-color(var(--color-foreground-accented));
       }
 
-      > .entry-text {
-        color: $color-foreground;
+      &.active {
+        background-color: var(--color-background);
+      }
+
+      &[disabled] {
+        @include entry-color(var(--color-midground));
       }
     }
   }

@@ -22,7 +22,22 @@ export function getIndexSCSS(path) {
  * @param {string} src
  */
 export async function buildSASS(src) {
-  const result = sass.compile(src, { style: 'compressed' })
+  /**
+   * @type sass.CompileResult
+   */
+  let result
+
+  try {
+    result = sass.compile(src, { style: 'compressed' })
+  } catch (err) {
+    if (err instanceof sass.Exception) {
+      logger.warn(String(err))
+      return
+    } else {
+      throw err
+    }
+  }
+
   const dest = joinPath(DEST_PATH, relative(SRC_PATH, dirname(src)), basename(src, '.scss') + '.css')
   await mkdir(dirname(dest), { recursive: true })
   await writeFile(dest, result.css)

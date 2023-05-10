@@ -13,28 +13,28 @@
   cursor: pointer;
   padding: 0.75em 1.25em;
   border: 0;
-  color: $color-background;
-  fill: $color-foreground;
-  background-color: $color-foreground;
+  color: var(--color-background);
+  fill: var(--color-foreground);
+  background-color: var(--color-foreground);
   transition: $transition-button;
 
   &:hover {
-    color: $color-light;
+    color: var(--color-background-accented);
   }
 
   &.active {
-    color: $color-foreground;
-    fill: $color-background;
-    background-color: $color-background;
+    color: var(--color-foreground);
+    fill: var(--color-background);
+    background-color: var(--color-background);
 
     &:hover {
-      fill: $color-midground;
-      background-color: $color-midground;
+      fill: var(--color-midground);
+      background-color: var(--color-midground);
     }
   }
 
   &[disabled] {
-    color: $color-dark;
+    color: var(--color-midground);
     cursor: not-allowed;
   }
 }

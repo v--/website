@@ -9,6 +9,9 @@ main {
   display: flex;
   flex-direction: row;
 
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+
   .page-wrapper {
     position: relative;
     flex: 1;
@@ -26,6 +29,12 @@ main {
       padding: $main-vpadding-desktop $main-hpadding-desktop;
       min-width: $main-base-width;
     }
+  }
+
+  @include light-scheme;
+
+  &.dark-scheme {
+    @include dark-scheme;
   }
 }
 

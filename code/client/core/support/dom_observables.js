@@ -110,3 +110,25 @@ export function createCursorObservable() {
   window.document.addEventListener('mouseleave', onMouseMove)
   return subject
 }
+
+/**
+ * @returns {BehaviorSubject<boolean>}
+ */
+export function createDarkSchemeObservable() {
+  const media = window.matchMedia('(prefers-color-scheme: dark)')
+  const subject = new BehaviorSubject(media.matches)
+
+  /** @param {MediaQueryListEvent} event */
+  function onChange(event) {
+    subject.next(event.matches)
+  }
+
+  subject.subscribe({
+    complete() {
+      media.removeEventListener('change', onChange)
+    }
+  })
+
+  media.addEventListener('change', onChange)
+  return subject
+}

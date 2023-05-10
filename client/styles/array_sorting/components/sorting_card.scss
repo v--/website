@@ -5,7 +5,7 @@
   flex-direction: column;
   width: 15em;
   text-align: center;
-  background-color: $color-midground;
+  background-color: var(--color-background-accented);
   padding: 0 1em;
 
   .sorting-card-title {

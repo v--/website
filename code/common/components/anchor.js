@@ -71,6 +71,6 @@ export function anchor(state, children) {
     childState.style = state.style
   }
 
-  childState.class = classlist('link', state.class)
+  childState.class = classlist('anchor', state.class)
   return c('a', childState, ...children)
 }

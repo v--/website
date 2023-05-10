@@ -1,11 +1,11 @@
 @import "../../colors.scss";
 
 .curve-canvas {
-  background-color: $color-midground;
+  background-color: var(--color-background-accented);
 
   .point-grid {
     .grid-point {
-      fill: $color-light;
+      fill: var(--color-background-saturated);
     }
   }
 
@@ -16,7 +16,7 @@
       user-select: none;
 
       &:hover {
-        fill: $color-accent;
+        fill: var(--color-accent);
       }
     }
   }
@@ -25,7 +25,7 @@
     pointer-events: none;
 
     .grid-point {
-      fill: $color-accent;
+      fill: var(--color-accent);
     }
   }
 
@@ -34,16 +34,16 @@
     pointer-events: none;
     stroke-width: 0.1;
 
-    @for $i from 1 through length($palette-chalk) {
+    @for $i from 1 through length($color-palette-chalk) {
       &.curve-#{$i} {
-        stroke: nth($palette-chalk, $i);
+        stroke: nth($color-palette-chalk, $i);
       }
     }
   }
 
   .legend {
     .legend-background {
-      fill: $color-dark;
+      fill: var(--color-midground);
     }
   }
 }

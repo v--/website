@@ -18,8 +18,8 @@ $breadcrumb-max-width: 10rem;
     z-index: $z-index-up-arrow;
     display: flex;
     align-items: center;
-    background-color: $color-background;
-    box-shadow: 0 0 0.5rem 0.25rem $color-background;
+    background-color: var(--color-background);
+    box-shadow: 0 0 0.5rem 0.25rem var(--color-background);
   }
 
   .breadcrumbs {

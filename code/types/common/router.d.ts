@@ -30,8 +30,10 @@ declare namespace TRouter {
   export interface IRouterState extends IRouterResult {
     loading: boolean
     isCollapsed: boolean
-    toggleCollapsed: TCons.Action<MouseEvent>
+    toggleCollapsed: () => void
+    darkScheme: boolean
+    toggleDarkScheme: () => void
   }
 
-  export type IRouterStatePartial = TCons.PartialWith<IRouterState, 'loading' | 'isCollapsed' | 'toggleCollapsed'>
+  export type IRouterStatePartial = TCons.PartialWith<IRouterState, 'loading' | 'isCollapsed' | 'toggleCollapsed' | 'darkScheme' | 'toggleDarkScheme'>
 }

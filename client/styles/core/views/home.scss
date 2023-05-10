@@ -10,9 +10,8 @@ $image-side: 200px;
     margin: 0.5em auto;
     width: $image-side;
     height: $image-side;
-    border: 3px solid $color-foreground;
+    border: 3px solid var(--color-foreground);
     background-image: url(/images/me_irl.jpg);
-    transition: all 1s;
     background-size: cover;
   }
 

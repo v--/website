@@ -32,9 +32,9 @@
       width: 27%;
       font-weight: bold;
 
-      @for $i from 1 through length($palette-chalk) {
+      @for $i from 1 through length($color-palette-chalk) {
         .curve-#{$i} {
-          color: nth($palette-chalk, $i);
+          color: nth($color-palette-chalk, $i);
         }
       }
     }

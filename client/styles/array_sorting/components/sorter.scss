@@ -7,14 +7,14 @@
     display: block;
 
     .sorter-bar {
-      fill: $color-foreground;
+      fill: var(--color-foreground-saturated);
 
       &.swapped {
-        fill: $color-success;
+        fill: var(--color-success);
       }
 
       &.tinted {
-        fill: $color-danger;
+        fill: var(--color-danger);
       }
     }
   }

@@ -20,17 +20,31 @@
   // Now do some hackish DOM initialization to avoid "flashing" when the main code kicks in
   const path = window.location.pathname.split('/').slice(1)
 
+  /**
+   * Cast the result of document.querySelector to an HTMLElement
+   * @param {string} query
+   * @returns {HTMLElement}
+   */
+  function querySelector(query) {
+    return /** @type {HTMLElement} */ (document.querySelector(query))
+  }
+
   function onLoad() {
     if (window.innerWidth < window.DESKTOP_WIDTH) {
-      const sidebar = /** @type {HTMLElement} */ (document.querySelector('aside'))
+      const sidebar = querySelector('aside')
       // Avoid using the "collapsed" class to prevent animations
       sidebar.style.display = 'none'
     }
 
     if (path[0] === 'playground' && window.PLAYGROUND_COMPATIBILITY[path[1]]) {
-      const indicator = /** @type {HTMLElement} */ (document.querySelector('.loading-indicator-wrapper'))
+      const indicator = querySelector('.loading-indicator-wrapper')
       indicator.style.backgroundColor = 'white'
       indicator.style.visibility = 'visible'
+    }
+
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      querySelector('main').className = 'dark-scheme'
+      querySelector('.toggle-scheme-button > .entry-text').textContent = 'Light scheme'
     }
   }
 

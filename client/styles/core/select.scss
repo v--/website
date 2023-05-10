@@ -5,7 +5,7 @@
 .cool-select {
   width: 100%;
   padding: 0.25em;
-  border: $border-width solid $color-light;
+  border: $border-width solid var(--color-background-accented);
   background-color: transparent;
 
   optgroup {

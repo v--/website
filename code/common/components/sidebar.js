@@ -7,7 +7,7 @@ import { anchor } from './anchor.js'
 /**
  * @param {TRouter.IRouterStatePartial} state
  */
-export function sidebar({ sidebarId, isCollapsed, toggleCollapsed }) {
+export function sidebar({ sidebarId, isCollapsed, toggleCollapsed, darkScheme, toggleDarkScheme }) {
   /**
    * @param {{
    *   id: string,
@@ -28,24 +28,42 @@ export function sidebar({ sidebarId, isCollapsed, toggleCollapsed }) {
   /** @type {{
    *   class: string,
    *   disabled?: boolean,
-   *   click?: TCons.Action<MouseEvent>
+   *   click?: () => void
    * }}
    */
-  const toggleButtonState = {
-    class: 'cool-button entry'
+  const sidebarToggleButtonState = {
+    class: 'cool-button toggle-sidebar-button entry'
   }
 
   if (toggleCollapsed === undefined) {
-    toggleButtonState.disabled = true
+    sidebarToggleButtonState.disabled = true
   } else {
-    toggleButtonState.click = toggleCollapsed
+    sidebarToggleButtonState.click = toggleCollapsed
+  }
+
+  /** @type {{
+   *   class: string,
+   *   disabled?: boolean,
+   *   click?: () => void
+   * }}
+   */
+  const darkSchemeButtonState = {
+    class: 'cool-button toggle-scheme-button entry'
+  }
+
+  if (toggleDarkScheme === undefined) {
+    darkSchemeButtonState.disabled = true
+  } else {
+    darkSchemeButtonState.click = toggleDarkScheme
   }
 
   return c('aside', { class: classlist('sidebar', isCollapsed && 'collapsed') },
-    c('button', toggleButtonState,
+    c('button', sidebarToggleButtonState,
       c(icon, { class: 'entry-icon', name: 'solid/chevron-left' }),
       c('span', { class: 'entry-text', text: 'Hide sidebar' })
     ),
+
+    c('hr'),
 
     c(entry, {
       id: 'home',
@@ -73,6 +91,13 @@ export function sidebar({ sidebarId, isCollapsed, toggleCollapsed }) {
       text: 'Playground',
       icon: 'solid/code',
       href: '/playground'
-    })
+    }),
+
+    c('div', { class: 'spacer' }),
+    c('hr'),
+    c('button', darkSchemeButtonState,
+      c(icon, { class: 'entry-icon', name: 'solid/lightbulb' }),
+      c('span', { class: 'entry-text', text: darkScheme ? 'Light scheme' : 'Dark scheme' })
+    )
   )
 }
