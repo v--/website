@@ -53,6 +53,13 @@ export function home() {
               c(icon, { name: 'brands/reddit' }),
               c('span', { text: 'Reddit' })
             )
+          ),
+
+          c('div', { class: 'contact' },
+            c(anchor, { href: 'https://www.skypixel.com/users/djiuser-i6pxbyamfci5' },
+              c(icon, { name: 'solid/camera' }),
+              c('span', { text: 'SkyPixel' })
+            )
           )
         ),
 
