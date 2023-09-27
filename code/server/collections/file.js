@@ -1,7 +1,7 @@
 import { stat, readFile, readdir } from 'fs/promises'
 import path from 'path'
 
-import { ForbiddenError, BadRequestError, NotFoundError } from '../../common/errors.js'
+import { ForbiddenError, NotFoundError } from '../../common/errors.js'
 
 /**
  * @implements TStore.IFileCollection
@@ -25,7 +25,7 @@ export class FileCollection {
    * @param {string} basePath
    */
   async readDirectory(basePath) {
-    if (/\/?Unlisted\/*$/.test(basePath)) {
+    if (basePath.split('/').some(segment => segment.startsWith('.'))) {
       throw new ForbiddenError()
     }
 
@@ -57,7 +57,7 @@ export class FileCollection {
         result.readme = await readFile(path.join(fullPath, name), 'utf8')
       }
 
-      if (name[0] === '.' || name === 'Unlisted') {
+      if (name.startsWith('.')) {
         continue
       }
 
