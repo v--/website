@@ -1,106 +1,33 @@
 import { spawn } from 'child_process'
 
 /**
- * @typedef {{
-  NAME: string
-  VERSION: string
-  DESC: string
-  ARCH: string
- }} IPacmanPackageMetadata
- */
-
-/**
  * @param {NodeJS.ReadableStream} stream
- * @returns {Promise<IPacmanPackageMetadata[]>}
+ * @returns {Promise<TPacmanPackages.IPackage[]>}
  */
 function parsePacmanInfoStream(stream) {
   return new Promise(function(resolve, reject) {
-    let key = ''
-    let inTitle = false
-
     /** @type {string[]} */
     let buffer = []
-
-    /** @type {Record<string, string>} */
-    let currentFile = {}
-
-    /** @type {IPacmanPackageMetadata[]} */
-    const files = []
 
     stream
       .setEncoding('utf8')
       .on('data', function(data) {
-        for (const char of data) {
-          switch (char) {
-            case '%':
-              inTitle = !inTitle
-
-              if (!inTitle) {
-                key = buffer.join('')
-                buffer = []
-              }
-
-              break
-
-            case '\n':
-              if (buffer.length > 0) {
-                const value = buffer.join('')
-                buffer = []
-
-                switch (key) {
-                  case 'ARCH':
-                    if (Object.keys(currentFile).length > 0) {
-                      files.push({
-                        ARCH: value,
-                        VERSION: '',
-                        DESC: '',
-                        NAME: '',
-                        ...currentFile
-                      })
-
-                      currentFile = {}
-                    }
-
-                    break
-
-                  case 'VERSION':
-                  case 'DESC':
-                  case 'NAME':
-                    currentFile[key] = value
-                    break
-                }
-              }
-
-              break
-
-            default:
-              buffer.push(char)
-          }
-        }
+        buffer.push(data)
       })
       .on('error', reject)
       .on('end', function() {
-        resolve(files)
+        resolve(JSON.parse(buffer.join('')))
       })
   })
 }
 
 /**
- * @param {string} path
+ * @param {string} repoName
  * @returns {Promise<TPacmanPackages.IPackage[]>}
  */
-async function parsePacmanDatabase(path) {
-  const proc = spawn('/usr/bin/unxz', ['--stdout', path])
-  const packageMeta = await parsePacmanInfoStream(proc.stdout)
-
-  return packageMeta.map(function(meta) {
-    return {
-      name: meta.NAME,
-      version: meta.VERSION,
-      description: meta.DESC,
-      arch: /** @type {TPacmanPackages.Architecture} */ (meta.ARCH)
-    }
-  })
+async function parsePacmanDatabase(repoName) {
+  const proc = spawn('python', ['-m', 'dump_package_info', repoName])
+  return await parsePacmanInfoStream(proc.stdout)
 }
 
 /**
@@ -108,27 +35,27 @@ async function parsePacmanDatabase(path) {
  */
 export class PacmanPackageCollection {
   /**
-   * @param {string} pacmanDBPath
+   * @param {string} repoName
    */
-  constructor(pacmanDBPath) {
-    this.pacmanDBPath = pacmanDBPath
+  constructor(repoName) {
+    this.repoName = repoName
 
     /** @type {TPacmanPackages.IPackage[] | undefined} */
     this.cachedPackages = undefined
   }
 
   /**
-   * @param {string} dbPath
+   * @param {string} repoName
    */
-  async updateDBPath(dbPath) {
-    this.pacmanDBPath = dbPath
+  async updateDBPath(repoName) {
+    this.repoName = repoName
   }
 
   async cachePackages() {
-    this.cachedPackages = await parsePacmanDatabase(this.pacmanDBPath)
+    this.cachedPackages = await parsePacmanDatabase(this.repoName)
   }
 
   async load() {
-    return this.cachedPackages || parsePacmanDatabase(this.pacmanDBPath)
+    return this.cachedPackages || parsePacmanDatabase(this.repoName)
   }
 }

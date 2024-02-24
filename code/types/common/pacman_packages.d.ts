@@ -4,7 +4,7 @@ declare namespace TPacmanPackages {
   export interface IPackage {
     name: string
     version: string
-    description: string
+    desc: string
     arch: Architecture
   }
 }

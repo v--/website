@@ -7,9 +7,9 @@ import { sectionTitle } from '../components/section_title.js'
  * @param {TPacmanPackages.IPackage[]} pkgs
  */
 function * iterPackages(pkgs) {
-  for (const { name, version, description } of pkgs) {
+  for (const { name, version, desc } of pkgs) {
     yield c('dt', { text: `${name} (version ${version})` })
-    yield c('dd', { text: description })
+    yield c('dd', { text: desc })
   }
 }
 

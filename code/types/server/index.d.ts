@@ -11,7 +11,7 @@ declare namespace TServer {
 
   export interface IStoreConfig {
     fileRootPath: string
-    pacmanDBPath: string
+    pacmanRepo: string
   }
 
   export interface IWebsiteConfig {
