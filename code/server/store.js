@@ -11,7 +11,7 @@ export class Store {
   constructor(config) {
     this.collections = {
       files: new FileCollection(config.fileRootPath),
-      pacmanPackages: new PacmanPackageCollection(config.pacmanRepo)
+      pacmanPackages: new PacmanPackageCollection(config.pacmanDBPath)
     }
   }
 
@@ -22,7 +22,7 @@ export class Store {
    * @param {TServer.IStoreConfig} config
    */
   async reload(config) {
-    this.collections.pacmanPackages.updateDBPath(config.pacmanRepo)
+    this.collections.pacmanPackages.updateDBPath(config.pacmanDBPath)
     await this.collections.pacmanPackages.cachePackages()
     this.config = config
   }

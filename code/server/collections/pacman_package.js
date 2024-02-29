@@ -35,27 +35,27 @@ async function parsePacmanDatabase(repoName) {
  */
 export class PacmanPackageCollection {
   /**
-   * @param {string} repoName
+   * @param {string} pacmanDBPath
    */
-  constructor(repoName) {
-    this.repoName = repoName
+  constructor(pacmanDBPath) {
+    this.pacmanDBPath = pacmanDBPath
 
     /** @type {TPacmanPackages.IPackage[] | undefined} */
     this.cachedPackages = undefined
   }
 
   /**
-   * @param {string} repoName
+   * @param {string} dbPath
    */
-  async updateDBPath(repoName) {
-    this.repoName = repoName
+  async updateDBPath(dbPath) {
+    this.pacmanDBPath = dbPath
   }
 
   async cachePackages() {
-    this.cachedPackages = await parsePacmanDatabase(this.repoName)
+    this.cachedPackages = await parsePacmanDatabase(this.pacmanDBPath)
   }
 
   async load() {
-    return this.cachedPackages || parsePacmanDatabase(this.repoName)
+    return this.cachedPackages || parsePacmanDatabase(this.pacmanDBPath)
   }
 }

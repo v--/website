@@ -5,6 +5,6 @@
 
     "store": {
         "fileRootPath": ".",
-        "pacmanRepo": "ivasilev"
+        "pacmanDBPath": "/var/lib/pacman/sync/ivasilev.db"
     }
 }
