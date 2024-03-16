@@ -1,52 +1,37 @@
 import BrowserSync from 'browser-sync'
 
-import { config } from '../server/config'
+export function initBrowserSync(socket: string | number): BrowserSync.BrowserSyncInstance {
+  const instance = BrowserSync.create()
+  instance.init({
+    open: false,
+    proxy: 'localhost:' + socket,
+    serveStatic: [
+      {
+        route: '/code',
+        dir: ['./public/code']
+      },
 
-const instance = BrowserSync.create()
+      {
+        route: '/styles',
+        dir: ['./public/styles']
+      },
 
-export const sync = {
-  init() {
-    instance.init({
-      open: false,
-      proxy: 'localhost:' + config.server.socket,
-      serveStatic: [
-        {
-          route: '/code',
-          dir: ['./public/code']
-        },
+      {
+        route: '/images',
+        dir: ['./public/images', './client/assets/images']
+      },
 
-        {
-          route: '/styles',
-          dir: ['./public/styles']
-        },
+      {
+        route: '/icons.json',
+        dir: ['./public/icons.json']
+      },
 
-        {
-          route: '/images',
-          dir: ['./public/images', './client/assets/images']
-        },
+      {
+        route: '/',
+        dir: ['./client/assets']
+      }
+    ]
+  })
 
-        {
-          route: '/icons.json',
-          dir: ['./public/icons.json']
-        },
-
-        {
-          route: '/',
-          dir: ['./client/assets']
-        }
-      ]
-    })
-  },
-
-  reload() {
-    instance.reload()
-  },
-
-  stream(options: BrowserSync.StreamOptions): NodeJS.ReadWriteStream {
-    return instance.stream(options)
-  },
-
-  destruct() {
-    instance.exit()
-  }
+  return instance
 }

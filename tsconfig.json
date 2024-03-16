@@ -1,13 +1,9 @@
 {
-  "include": [
-    "./code/**/*.ts",
-    "./code/**/*.js",
-    "./code/types/**/*.d.ts"
-  ],
+  "include": ["./code"],
+  "exclude": ["./node_modules", "./private", "./public"],
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "outDir": "./public/code",
     "allowJs": true,
     "checkJs": true,
     "lib": ["DOM"],

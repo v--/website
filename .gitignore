@@ -1,6 +1,5 @@
 /node_modules
-/dist
+/private
 /public
 
 /config/active.json
-/dist/common/icons.js

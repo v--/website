@@ -1,5 +1,5 @@
 {
-  "extends": ["../.eslintrc.json", "plugin:node/recommended"],
+  "extends": ["../../.eslintrc.json", "plugin:node/recommended"],
   "rules": {
     "node/no-missing-import": "off",
     "node/no-unpublished-import": "off",

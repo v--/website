@@ -2,7 +2,7 @@ import { location$ } from '../../common/shared_observables.js'
 import { c } from '../../common/rendering/component.js'
 
 import { main } from '../../common/components/main.js'
-import { title } from '../../common/components/title'
+import { title } from '../../common/components/title.js'
 import { IconSpec, iconMap } from '../../common/components/icon.js'
 
 import { RouterService } from './services/router.js'

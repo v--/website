@@ -52,7 +52,7 @@ export function repr(value) {
   }
 
   if (typeof value === 'string') {
-    return `'${value}'`
+    return `'${value.replace(/'/g, "\\'")}'`
   }
 
   if (value instanceof Function) {

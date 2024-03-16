@@ -7,6 +7,10 @@ describe('repr()', function() {
     assert.equal(repr('string'), "'string'")
   })
 
+  it('escapes quotes in strings', function() {
+    assert.equal(repr("str'ing"), "'str\\'ing'")
+  })
+
   it('works for numbers', function() {
     assert.equal(repr(666), '666')
   })
@@ -36,6 +40,10 @@ describe('repr()', function() {
 
   it('works for arrays', function() {
     assert.equal(repr([0, 1, 2]), '[0, 1, 2]')
+  })
+
+  it('escapes quotes in strings within arrays', function() {
+    assert.equal(repr(["str'ing"]), "['str\\'ing']")
   })
 
   it('works for flat objects', function() {
