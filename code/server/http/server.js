@@ -142,7 +142,7 @@ export class HTTPServer {
       }
 
       this.server.close((err) => {
-        if (err !== null) {
+        if (err !== null && err !== undefined) {
           reject(err)
           return
         }

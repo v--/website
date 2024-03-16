@@ -1,6 +1,6 @@
 import { run } from './_common.js'
 
-import { map, reduce, range } from '../code/common/support/iteration.js'
+import { map, reduce, range } from '../common/support/iteration.js'
 
 const data = Array.from(range(0, 10 ** 5))
 

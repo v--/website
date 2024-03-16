@@ -1,16 +1,13 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 
-import { Logger } from '../code/server/support/logger.js'
+import { Logger } from '../server/support/logger.js'
 
 const logger = new Logger('icons')
 
 const SRC_PATH = 'client/iconref.json'
 const DEST_PATH = 'public/icons.json'
 
-/**
- * @param {string} fileName
- */
-async function readPathFromIconFile(fileName) {
+async function readPathFromIconFile(fileName: string) {
   const svg = await readFile(fileName, 'utf8')
   const match = svg.match(/<svg xmlns="http:\/\/www.w3.org\/2000\/svg" viewBox="(.*)">.*<path d="(.*)"\/><\/svg>/)
 
@@ -23,8 +20,7 @@ async function readPathFromIconFile(fileName) {
 }
 
 export async function buildIcons() {
-  /** @type {string[]} */
-  const iconRef = JSON.parse(await readFile(SRC_PATH, 'utf8'))
+  const iconRef: string[] = JSON.parse(await readFile(SRC_PATH, 'utf8'))
   const promises = iconRef
     .map(async function(name) {
       return {

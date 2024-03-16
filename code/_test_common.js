@@ -1,4 +1,4 @@
-import chai from 'chai'
+import * as chai from 'chai'
 
 import { stringifyExpression } from '../code/client/first_order_resolution/support/stringify.js'
 import { isSameNumber } from '../code/common/math/numeric/floating.js'

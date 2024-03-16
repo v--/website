@@ -4,6 +4,7 @@ import { c, XMLComponent, ComponentSanityError, HTMLComponent, Component } from 
 import { RenderError, RenderDispatcher } from './renderer.js'
 import { BehaviorSubject } from '../observables/behavior_subject.js'
 import { DictSubject } from '../observables/dict_subject.js'
+import { repr } from '../support/strings.js'
 
 /** @type {TRendering.INodeManipulator<XMLComponent>} */
 export const mirrorDOMManipulator = {
@@ -11,6 +12,10 @@ export const mirrorDOMManipulator = {
    * @param {XMLComponent} component
    */
   createNode(component) {
+    if (typeof component.type === 'function') {
+      throw new ComponentSanityError(`${repr(component)} must have a type string, not ${repr(component.type)}`)
+    }
+
     return /** @type {XMLComponent} */ (
       HTMLComponent.safeCreate(component.type, component.state.value)
     )

@@ -13,7 +13,7 @@ export class DictSubject extends BehaviorSubject {
    * @param {T} initial
    */
   constructor(initial) {
-    super(Object.freeze({ ...initial }))
+    super(Object.freeze(Object.assign({}, initial)))
   }
 
   /**
@@ -31,6 +31,6 @@ export class DictSubject extends BehaviorSubject {
    * @param {Partial<T>} newValue
    */
   update(newValue) {
-    return this.next(Object.freeze({ ...this.value, ...newValue }))
+    return this.next(Object.freeze(Object.assign({}, this.value, newValue)))
   }
 }

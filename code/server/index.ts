@@ -1,7 +1,7 @@
 import { readFile } from 'fs/promises'
 
 import { HTTPServer } from './http/server.js'
-import { iconMap } from '../common/components/icon.js'
+import { IconSpec, iconMap } from '../common/components/icon.js'
 
 const CONFIG_FILE = './config/active.json'
 const ICON_FILE = './public/icons.json'
@@ -41,7 +41,7 @@ readJSON(ICON_FILE).then(
    */
   function(icons) {
     for (const [name, icon] of Object.entries(icons)) {
-      iconMap.set(name, icon)
+      iconMap.set(name, icon as IconSpec)
     }
   },
 

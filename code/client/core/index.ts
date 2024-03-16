@@ -2,8 +2,8 @@ import { location$ } from '../../common/shared_observables.js'
 import { c } from '../../common/rendering/component.js'
 
 import { main } from '../../common/components/main.js'
-import { title } from '../../common/components/title.js'
-import { iconMap } from '../../common/components/icon.js'
+import { title } from '../../common/components/title'
+import { IconSpec, iconMap } from '../../common/components/icon.js'
 
 import { RouterService } from './services/router.js'
 import { onDocumentReady, getCurrentURL } from './support/dom.js'
@@ -52,7 +52,7 @@ async function fetchIcons() {
   const icons = await response.json()
 
   for (const [name, icon] of Object.entries(icons)) {
-    iconMap.set(name, icon)
+    iconMap.set(name, icon as IconSpec)
   }
 }
 
@@ -65,7 +65,7 @@ async function fetchIcons() {
  */
 function readServerData() {
   try {
-    const { data, errorData } = JSON.parse((/** @type {any} */ (window)).data.textContent)
+    const { data, errorData } = JSON.parse(window.data.textContent!)
 
     return {
       data,

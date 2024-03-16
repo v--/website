@@ -1,8 +1,8 @@
-import { readFile } from 'fs/promises'
 import BrowserSync from 'browser-sync'
 
+import { config } from '../server/config'
+
 const instance = BrowserSync.create()
-const config = JSON.parse((await readFile('config/active.json')).toString('utf8'))
 
 export const sync = {
   init() {
@@ -12,12 +12,12 @@ export const sync = {
       serveStatic: [
         {
           route: '/code',
-          dir: ['./code']
+          dir: ['./public/code']
         },
 
         {
           route: '/styles',
-          dir: './public/styles'
+          dir: ['./public/styles']
         },
 
         {
@@ -42,11 +42,7 @@ export const sync = {
     instance.reload()
   },
 
-  /**
-   * @param {BrowserSync.StreamOptions} [options]
-   * @returns {NodeJS.ReadWriteStream}
-   */
-  stream(options) {
+  stream(options: BrowserSync.StreamOptions): NodeJS.ReadWriteStream {
     return instance.stream(options)
   },
 

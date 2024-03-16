@@ -6,7 +6,7 @@ import { createElement } from './support/dom.js'
 /** @type {TRendering.INodeManipulator<Element>} */
 export const domManipulator = {
   /**
-   * @param {XMLComponent} component
+   * @param {any} component
    */
   createNode(component) {
     return createElement(component.type, component.namespace)

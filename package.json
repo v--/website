@@ -2,10 +2,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "npm run lint && npm run test && node build/builder.js",
-    "client": "node build/watcher.js",
-    "server": "nodemon --inspect code/server/index.js",
-    "lint": "tsc --project . && eslint --ext js,d.ts build code benchmarks",
+    "build": "npm run test && tsx code/build/builder.ts",
+    "client": "tsx code/build/watcher.ts",
+    "server": "tsx --watch code/server/index.ts",
+    "lint": "tsc --project . && eslint --ext js,d.ts code",
     "test": "mocha",
     "unimported": "unimported",
     "favicon": "convert -background transparent client/svg/favicon.svg -resize 64x64 client/assets/images/favicon.png"
@@ -30,6 +30,7 @@
     "nodemon": "^3.1.0",
     "sass": "^1.72.0",
     "svgo": "^v3.2.0",
+    "tsx": "^4.7.1",
     "typescript": "^5.4.2",
     "unimported": "^1.31.0"
   }

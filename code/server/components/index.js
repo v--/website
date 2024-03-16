@@ -1,7 +1,7 @@
 import { c } from '../../common/rendering/component.js'
 
 import { main } from '../../common/components/main.js'
-import { title } from '../../common/components/title.js'
+import { title } from '../../common/components/title'
 
 /**
  * @param {{ state: TRouter.IRouterStatePartial }} componentState

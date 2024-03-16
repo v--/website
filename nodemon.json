@@ -1,5 +1,8 @@
 {
   "watch": ["code/types", "code/common", "code/server"],
-  "ext": "js,d.js",
+  "ext": "ts,js,d.js",
+  "execMap": {
+    "ts": "ts-node"
+  },
   "signal": "SIGINT"
 }

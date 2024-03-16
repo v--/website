@@ -1,27 +1,20 @@
 {
   "include": [
+    "./code/**/*.ts",
     "./code/**/*.js",
-    "./code/types/**/*.d.ts",
-    "./benchmarks/**/*.js",
-    "./build/**/*.js"
-  ],
-  // Avoid checking svgo
-  "exclude": [
-    "./build/watcher.js",
-    "./build/builder.js",
-    "./build/svg.js"
+    "./code/types/**/*.d.ts"
   ],
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "noEmit": true,
+    "outDir": "./public/code",
     "allowJs": true,
     "checkJs": true,
     "lib": ["DOM"],
     "removeComments": false,
     "downlevelIteration": true,
     "strict": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "moduleResolution": "node",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

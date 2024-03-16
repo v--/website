@@ -221,7 +221,7 @@ export class HTMLComponent extends XMLComponent {
     super(type, stateSource, children)
 
     /** @type {boolean} */
-    this.isVoid = htmlVoidTags.has(this.type)
+    this.isVoid = htmlVoidTags.has(type)
   }
 
   checkSanity() {
@@ -273,6 +273,10 @@ export class FactoryComponent extends Component {
    * @returns {TComponents.IComponent}
    */
   evaluate() {
+    if (typeof this.type !== 'function') {
+      throw new ComponentSanityError(`${repr(this)} must have a type function, not ${repr(this.type)}`)
+    }
+
     const component = this.type(this.state.value, this.children)
 
     if (!(component instanceof Component)) {

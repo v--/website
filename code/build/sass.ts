@@ -1,31 +1,22 @@
 import { join as joinPath, dirname, relative, basename } from 'path'
-import { writeFile, mkdir, opendir } from 'node:fs/promises'
+import fs from 'fs/promises'
 
-import sass from 'sass'
+import * as sass from 'sass'
 
-import { Logger } from '../code/server/support/logger.js'
+import { Logger } from '../server/support/logger.js'
 
 const logger = new Logger('sass')
 
 const SRC_PATH = 'client/styles'
 const DEST_PATH = 'public/styles'
 
-/**
- * @param {string} path
- */
-export function getIndexSCSS(path) {
+export function getIndexSCSS(path: string) {
   const dir = relative(SRC_PATH, path).split('/', 2)[0]
   return joinPath(SRC_PATH, dir, 'index.scss')
 }
 
-/**
- * @param {string} src
- */
-export async function buildSASS(src) {
-  /**
-   * @type sass.CompileResult
-   */
-  let result
+export async function buildSASS(src: string) {
+  let result: sass.CompileResult
 
   try {
     result = sass.compile(src, { style: 'compressed' })
@@ -39,16 +30,13 @@ export async function buildSASS(src) {
   }
 
   const dest = joinPath(DEST_PATH, relative(SRC_PATH, dirname(src)), basename(src, '.scss') + '.css')
-  await mkdir(dirname(dest), { recursive: true })
-  await writeFile(dest, result.css)
+  await fs.mkdir(dirname(dest), { recursive: true })
+  await fs.writeFile(dest, result.css)
   logger.info(`${src} -> ${dest}`)
 }
 
-/**
- * @param {string} path
- */
-export async function buildAllSASS(path = SRC_PATH) {
-  for await (const entry of await opendir(path)) {
+export async function buildAllSASS(path: string = SRC_PATH) {
+  for await (const entry of await fs.opendir(path)) {
     const fullPath = joinPath(path, entry.name)
 
     if (entry.isDirectory()) {
