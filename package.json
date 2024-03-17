@@ -8,7 +8,7 @@
     "server": "tsx --watch code/server/index.ts",
     "lint": "tsc --project . --noEmit && eslint --ext js,ts,d.ts code",
     "test": "mocha",
-    "unimported": "unimported",
+    "unimported": "unimported --show-unused-files",
     "favicon": "convert -background transparent client/svg/favicon.svg -resize 64x64 client/assets/images/favicon.png"
   },
   "dependencies": {

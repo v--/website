@@ -6,5 +6,5 @@ $main-vpadding-mobile: 0.5rem;
 
 $sidebar-width: 14rem;
 
-$mobile-width: 800px;
+$mobile-width: 800px; // See also window.DESKTOP_WIDTH in code/client/preload.ts
 $border-width: 1px;

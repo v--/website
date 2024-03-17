@@ -8,9 +8,9 @@ await run(
   // https://codegolf.stackexchange.com/questions/61808/lossy-sorting-implement-dropsort
   function codeGolf() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let array = data
+    let array = data as any
     // eslint-disable-next-line no-return-assign, @typescript-eslint/no-explicit-any
-    return array.filter(/** @param {any} val */ (val) => array > val ? 0 : [array = val])
+    return array.filter((val: any) => array > val ? 0 : [array = val])
   },
 
   function refactoredGolf() {

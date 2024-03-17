@@ -4,10 +4,12 @@
   // Set compatibility status
   const availableFeatures = {
     // I couldn't find a way to easily test ES6 module compatibility, so I test for async iteration that was made available at roughly the same time
+    // Note that this check was written in 2017, but I don't want to remove it to avoid unconventional browsers.
     modules: window.Symbol !== undefined && window.Object.prototype.hasOwnProperty.call(Symbol, 'asyncIterator')
   }
 
-  window.DESKTOP_WIDTH = 800
+  // Only these properties are really important, the rest is "initializing elements prior to the code kicking in so that nothing flickers".
+  window.DESKTOP_WIDTH = 800 // See also $mobile-width in styles/_sizes.scss
   window.CORE_COMPATIBILITY = availableFeatures.modules
   window.PLAYGROUND_COMPATIBILITY = {
     array_sorting: availableFeatures.modules,
@@ -20,37 +22,45 @@
   // Now do some hackish DOM initialization to avoid "flashing" when the main code kicks in
   const path = window.location.pathname.split('/').slice(1)
 
-  /**
-   * Cast the result of document.querySelector to an HTMLElement
-   * @param {string} query
-   * @returns {HTMLElement}
-   */
-  function querySelector(query) {
-    return /** @type {HTMLElement} */ (document.querySelector(query))
+  function safeQuerySelector(query: string): HTMLElement {
+    const element = document.querySelector(query)
+
+    if (element === null) {
+      // eslint-disable-next-line no-restricted-syntax
+      throw new Error(`Cannot find an element satisfying ${query}.`)
+    }
+
+    return element as HTMLElement
   }
 
-  function onLoad() {
+  function initializePage() {
     if (window.innerWidth < window.DESKTOP_WIDTH) {
-      const sidebar = querySelector('aside')
       // Avoid using the "collapsed" class to prevent animations
+      const sidebar = safeQuerySelector('aside')
       sidebar.style.display = 'none'
     }
 
     if (path[0] === 'playground' && window.PLAYGROUND_COMPATIBILITY[path[1]]) {
-      const indicator = querySelector('.loading-indicator-wrapper')
+      const indicator = safeQuerySelector('.loading-indicator-wrapper')
       indicator.style.backgroundColor = 'white'
       indicator.style.visibility = 'visible'
     }
 
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      querySelector('main').className = 'dark-scheme'
-      querySelector('.toggle-scheme-button > .entry-text').textContent = 'Light scheme'
+      safeQuerySelector('main').className = 'dark-scheme'
+      safeQuerySelector('.toggle-scheme-button > .entry-text').textContent = 'Light scheme'
     }
   }
 
   function onAnimationFrame() {
     if (document.body) {
-      onLoad()
+      try {
+        initializePage()
+      } catch (err) {
+        // Log an error but don't crash
+        console.error('Initialization error; continuing nonetheless...')
+        console.error(err)
+      }
     } else {
       window.requestAnimationFrame(onAnimationFrame)
     }

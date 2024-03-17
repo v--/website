@@ -1,33 +1,19 @@
 {
   "entry": [
-    "code/server/index.js",
-    "code/client/preload.js",
-    "code/client/*/index.js",
-    "code/**/test_*.js",
-    "code/_test_observables.js",
-    "build/{builder,watcher}.js",
-    "benchmarks/**/*.js"
+    "code/server/index.ts",
+    "code/client/preload.ts",
+    "code/client/*/index.ts",
+    "code/**/test_*.{js,ts}",
+    "code/_test_observables.ts",
+    "code/build/{builder,watcher}.ts",
+    "code/benchmarks/**/*.ts"
   ],
   "extensions": [
     ".js",
+    ".ts",
     ".d.js"
   ],
   "ignorePatterns": [
-    "node_modules/**"
-  ],
-  "ignoreUnused": [
-    "@types/benchmark",
-    "@types/chai",
-    "@types/node",
-    "@typescript-eslint/eslint-plugin",
-    "@typescript-eslint/parser",
-    "eslint",
-    "eslint-plugin-import",
-    "eslint-plugin-mocha",
-    "eslint-plugin-node",
-    "mocha",
-    "nodemon",
-    "typescript",
-    "unimported"
+    "fontawesome/**"
   ]
 }

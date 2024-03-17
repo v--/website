@@ -7,11 +7,11 @@ let dummy = false // Try to force the compiler to not optimize out the property 
 await run(
   function mutableProperties() {
     class Test {
-      /**
-       * @param {TNum.Int32} age
-       */
-      constructor(age) {
-        this.age = age
+      isAdult: boolean
+
+      constructor(
+        public age: number
+      ) {
         this.isAdult = age >= 18
       }
     }
@@ -22,12 +22,9 @@ await run(
 
   function mutableGetters() {
     class Test {
-      /**
-       * @param {TNum.Int32} age
-       */
-      constructor(age) {
-        this.age = age
-      }
+      constructor(
+        public age: number
+      ) {}
 
       get isAdult() {
         return this.age >= 18
@@ -40,11 +37,11 @@ await run(
 
   function frozenProperties() {
     class Test {
-      /**
-       * @param {TNum.Int32} age
-       */
-      constructor(age) {
-        this.age = age
+      isAdult: boolean
+
+      constructor(
+        public age: number
+      ) {
         this.isAdult = age >= 18
         Object.freeze(this)
       }
@@ -56,11 +53,9 @@ await run(
 
   function frozenGetters() {
     class Test {
-      /**
-       * @param {TNum.Int32} age
-       */
-      constructor(age) {
-        this.age = age
+      constructor(
+        public age: number
+      ) {
         Object.freeze(this)
       }
 
