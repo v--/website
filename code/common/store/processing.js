@@ -1,4 +1,4 @@
-import { DataFormatError } from '../errors.js'
+import { DataFormatError } from '../errors'
 import { repr } from '../support/strings.js'
 
 /**

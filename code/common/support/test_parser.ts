@@ -1,4 +1,4 @@
-import { describe, it, assert } from '../../_test_common.js'
+import { describe, it, assert } from '../../_test_common'
 
 import { parse, term, neg, opt, rep, cat, alt, ParserError } from '../../../code/common/support/parser.js'
 

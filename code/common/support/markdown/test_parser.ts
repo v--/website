@@ -1,4 +1,4 @@
-import { describe, it, assert } from '../../../_test_common.js'
+import { describe, it, assert } from '../../../_test_common'
 
 import { parseMarkdown } from './parser.js'
 

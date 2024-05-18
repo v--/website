@@ -1,4 +1,4 @@
-import { describe, it, assert } from '../../_test_common.js'
+import { describe, it, assert } from '../../_test_common'
 
 import { repr } from './strings.js'
 

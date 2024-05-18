@@ -1,4 +1,4 @@
-import { CoolError } from '../errors.js'
+import { CoolError } from '../errors'
 import { repr } from './strings.js'
 
 export class ParserError extends CoolError {}

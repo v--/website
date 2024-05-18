@@ -1,6 +1,6 @@
 import { Vector } from '../../../common/math/geom2d/vector.js'
 import { repr } from '../../../common/support/strings.js'
-import { BreakoutError } from '../errors.js'
+import { BreakoutError } from '../errors'
 import { GameBrick } from '../geom/game_brick.js'
 
 export class BrickNotFoundError extends BreakoutError {}

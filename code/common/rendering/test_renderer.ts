@@ -1,4 +1,4 @@
-import { describe, it, assert, assertCustomEqual } from '../../_test_common.js'
+import { describe, it, assert, assertCustomEqual } from '../../_test_common'
 
 import { c, XMLComponent, ComponentSanityError, HTMLComponent, Component } from './component.js'
 import { RenderError, RenderDispatcher } from './renderer.js'

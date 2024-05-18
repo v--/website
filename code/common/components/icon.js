@@ -1,4 +1,4 @@
-import { CoolError } from '../errors.js'
+import { CoolError } from '../errors'
 import { s } from '../support/svg.js'
 
 /**

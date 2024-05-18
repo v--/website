@@ -1,6 +1,6 @@
 import { repr } from '../support/strings.js'
 import { chain, uniqueBy } from '../support/iteration.js'
-import { CoolError, NotImplementedError } from '../errors.js'
+import { CoolError, NotImplementedError } from '../errors'
 import { Subject } from '../observables/subject.js'
 import { FactoryComponent, XMLComponent } from './component.js'
 

@@ -2,7 +2,7 @@ import { c } from '../../common/rendering/component.js'
 import { form } from '../../common/components/form.js'
 import { QueryConfig } from '../../common/support/query_config.js'
 import { location$ } from '../../common/shared_observables.js'
-import { CoolError } from '../../common/errors.js'
+import { CoolError } from '../../common/errors'
 import { sectionTitle } from '../../common/components/section_title.js'
 
 import { stringifyExpression, stringifyDisjunct, stringifyResolvent } from './support/stringify.js'

@@ -1,7 +1,7 @@
 import { stat, readFile, readdir } from 'fs/promises'
 import path from 'path'
 
-import { ForbiddenError, NotFoundError } from '../../common/errors.js'
+import { ForbiddenError, NotFoundError } from '../../common/errors'
 
 /**
  * @implements TStore.IFileCollection

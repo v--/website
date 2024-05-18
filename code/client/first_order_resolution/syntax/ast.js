@@ -1,4 +1,4 @@
-import { CoolError } from '../../../common/errors.js'
+import { CoolError } from '../../../common/errors'
 import { repr } from '../../../common/support/strings.js'
 import { parse, ParserError } from '../../../common/support/parser.js'
 

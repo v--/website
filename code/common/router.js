@@ -1,4 +1,4 @@
-import { NotFoundError } from './errors.js'
+import { NotFoundError } from './errors'
 import { PAGE_DESCRIPTIONS } from './constants/page_descriptions.js'
 
 import { home } from './views/home.js'

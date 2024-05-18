@@ -6,7 +6,7 @@ import { GameBall, Reflection } from '../geom/game_ball.js'
 import { GameBrick } from '../geom/game_brick.js'
 import { Rectangle } from '../../../common/math/geom2d/rectangle.js'
 import { Ellipse } from '../../../common/math/geom2d/ellipse.js'
-import { BreakoutError } from '../errors.js'
+import { BreakoutError } from '../errors'
 import { DictSubject } from '../../../common/observables/dict_subject.js'
 
 class InvalidReflectionError extends BreakoutError {}

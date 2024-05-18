@@ -1,4 +1,4 @@
-import { CoolError } from '../../common/errors.js'
+import { CoolError } from '../../common/errors'
 import { swap } from '../../common/support/iteration.js'
 import { DictSubject } from '../../common/observables/dict_subject.js'
 

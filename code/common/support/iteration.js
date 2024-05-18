@@ -1,4 +1,4 @@
-import { CoolError } from '../errors.js'
+import { CoolError } from '../errors'
 import { orderComparator, inverseOrderComparator } from './sorting.js'
 
 export class IterError extends CoolError { }

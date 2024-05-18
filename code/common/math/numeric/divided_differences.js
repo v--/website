@@ -1,4 +1,4 @@
-import { CoolError } from '../../errors.js'
+import { CoolError } from '../../errors'
 import { repr } from '../../support/strings.js'
 
 export class DividedDifferencesError extends CoolError {}

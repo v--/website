@@ -1,7 +1,7 @@
 import { repr } from '../support/strings.js'
 
 import { BehaviorSubject } from './behavior_subject.js'
-import { errors } from './errors.js'
+import { errors } from './errors'
 
 /**
  * @template {object} T 

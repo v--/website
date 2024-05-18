@@ -1,4 +1,4 @@
-import { PresentableError } from '../errors.js'
+import { PresentableError } from '../errors'
 import { c } from '../rendering/component.js'
 
 import { icon } from '../components/icon.js'

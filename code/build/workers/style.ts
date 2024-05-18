@@ -4,7 +4,7 @@ import fs from 'fs/promises'
 import * as sass from 'sass'
 
 import { BuildWorker, IBuildContext, ICleanContext } from '../build_worker.js'
-import { BuildError } from '../errors.js'
+import { BuildError } from '../errors'
 import { repr } from '../../common/support/strings.js'
 
 interface ISassBuildWorkerConfig {

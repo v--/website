@@ -1,6 +1,6 @@
 import http from 'http'
 
-import { HTTPError, CoolError, NotFoundError, InternalServerError } from '../../common/errors.js'
+import { HTTPError, CoolError, NotFoundError, InternalServerError } from '../../common/errors'
 import { Path } from '../../common/support/path.js'
 
 import { Logger } from '../support/logger.js'

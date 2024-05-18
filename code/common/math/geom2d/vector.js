@@ -1,5 +1,5 @@
 import { isSameNumber } from '../numeric/floating.js'
-import { MathError } from '../errors.js'
+import { MathError } from '../errors'
 
 class VectorError extends MathError {}
 class ZeroVectorError extends VectorError {}

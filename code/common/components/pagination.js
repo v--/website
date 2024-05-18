@@ -1,4 +1,4 @@
-import { BadRequestError } from '../errors.js'
+import { BadRequestError } from '../errors'
 import { c } from '../rendering/component.js'
 import { classlist } from '../support/dom_properties.js'
 import { QueryConfig } from '../support/query_config.js'

@@ -1,4 +1,4 @@
-import { describe, it, assert } from '../../../_test_common.js'
+import { describe, it, assert } from '../../../_test_common'
 
 import { Line } from './line.js'
 import { Vector } from './vector.js'

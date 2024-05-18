@@ -35,5 +35,10 @@
     "tsx": "^4.7.1",
     "typescript": "^5.4.2",
     "unimported": "^1.31.0"
+  },
+  "mocha": {
+    "extension": ["ts"],
+    "node-option": ["import=tsx"],
+    "spec": "code/**/test_*.ts"
   }
 }

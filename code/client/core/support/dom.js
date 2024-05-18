@@ -1,4 +1,4 @@
-import { ForbiddenError, NotFoundError } from '../../../common/errors.js'
+import { ForbiddenError, NotFoundError } from '../../../common/errors'
 
 /**
  * @returns {Promise<void>}

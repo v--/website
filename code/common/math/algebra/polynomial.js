@@ -1,4 +1,4 @@
-import { CoolError } from '../../errors.js'
+import { CoolError } from '../../errors'
 import { all, chain, map, range, repeat, zip2 } from '../../support/iteration.js'
 
 import { stringifyLinearCombination } from '../stringify.js'

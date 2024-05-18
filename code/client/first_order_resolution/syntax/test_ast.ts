@@ -1,4 +1,4 @@
-import { describe, it, assert, assertEqualExpressions } from '../../../_test_common.js'
+import { describe, it, assert, assertEqualExpressions } from '../../../_test_common'
 
 import { ParserError } from '../../../common/support/parser.js'
 import { parseExpression, parseExpressionSilently } from './ast.js'

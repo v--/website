@@ -1,4 +1,4 @@
-import { PresentableError } from '../errors.js'
+import { PresentableError } from '../errors'
 import { error as errorView } from '../views/error.js'
 import { Path } from './path.js'
 

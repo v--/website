@@ -1,5 +1,5 @@
 import { repr } from '../../../common/support/strings.js'
-import { CoolError } from '../../../common/errors.js'
+import { CoolError } from '../../../common/errors'
 
 /**
  * @typedef {{

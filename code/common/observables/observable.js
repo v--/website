@@ -1,4 +1,4 @@
-import { errors } from './errors.js'
+import { errors } from './errors'
 import { SubscriptionObserver } from './subscription_observer.js'
 import { Subscription } from './subscription.js'
 

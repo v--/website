@@ -1,4 +1,4 @@
-import { describe, it, assert, assertCustomEqual, assertReprEqual, assertSameNumber } from '../../../_test_common.js'
+import { describe, it, assert, assertCustomEqual, assertReprEqual, assertSameNumber } from '../../../_test_common'
 
 import { Polynomial, ZeroPolynomialError } from './polynomial.js'
 

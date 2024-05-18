@@ -1,5 +1,5 @@
 import { router } from '../common/router.js'
-import { NotFoundError } from '../common/errors.js'
+import { NotFoundError } from '../common/errors'
 import { Path } from '../common/support/path.js'
 
 import { Response } from './http/response.js'

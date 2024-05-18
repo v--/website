@@ -1,4 +1,4 @@
-import { CoolError } from '../../../common/errors.js'
+import { CoolError } from '../../../common/errors'
 import { c, Component } from '../../../common/rendering/component.js'
 
 import { dispatcher } from '../render_dispatcher.js'

@@ -3,7 +3,7 @@ import * as chai from 'chai'
 import { stringifyExpression } from '../code/client/first_order_resolution/support/stringify.js'
 import { isSameNumber } from '../code/common/math/numeric/floating.js'
 import { repr } from '../code/common/support/strings.js'
-import { CoolError } from '../code/common/errors.js'
+import { CoolError } from '../code/common/errors'
 
 class AssertionError extends CoolError {}
 

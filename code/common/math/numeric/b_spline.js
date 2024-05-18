@@ -1,5 +1,5 @@
 import { repr } from '../../../common/support/strings.js'
-import { CoolError } from '../../../common/errors.js'
+import { CoolError } from '../../../common/errors'
 
 import { dividedDifferences } from './divided_differences.js'
 import { stringifyNumber } from '../stringify.js'

@@ -6,7 +6,7 @@
     "module": "esnext",
     "allowJs": true,
     "checkJs": true,
-    "lib": ["DOM"],
+    "lib": ["DOM", "es2022.error"],
     "removeComments": false,
     "downlevelIteration": true,
     "strict": true,

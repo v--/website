@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises'
-import { BuildError } from '../errors.js'
+import { BuildError } from '../errors'
 import { BuildWorker, IBuildContext, ICleanContext } from '../build_worker.js'
 
 const SVG_REGEX = /<svg xmlns="http:\/\/www.w3.org\/2000\/svg" viewBox="(.*)">.*<path d="(.*)"\/><\/svg>/

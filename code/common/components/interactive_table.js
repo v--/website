@@ -1,5 +1,5 @@
 import { c } from '../rendering/component.js'
-import { NotFoundError } from '../errors.js'
+import { NotFoundError } from '../errors'
 import { classlist } from '../support/dom_properties.js'
 import { QueryConfig } from '../support/query_config.js'
 import { orderComparator, inverseOrderComparator } from '../support/sorting.js'

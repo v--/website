@@ -1,4 +1,4 @@
-import { CoolError } from '../errors.js'
+import { CoolError } from '../errors'
 import { Path } from './path.js'
 
 export class QueryStringError extends CoolError {}

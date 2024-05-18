@@ -1,3 +1,3 @@
-import { CoolError } from '../../common/errors.js'
+import { CoolError } from '../../common/errors'
 
 export class MathError extends CoolError {}

@@ -1,4 +1,4 @@
-import { PresentableError, DataFormatError, errorClassIds, GenericError, HTTPError, BadRequestError, ForbiddenError, NotFoundError, InternalServerError } from '../errors.js'
+import { PresentableError, DataFormatError, errorClassIds, GenericError, HTTPError, BadRequestError, ForbiddenError, NotFoundError, InternalServerError } from '../errors'
 import { processDatum } from './processing.js'
 
 export const processErrorJsonObject = processDatum(

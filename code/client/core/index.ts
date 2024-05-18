@@ -8,7 +8,7 @@ import { IconSpec, iconMap } from '../../common/components/icon.js'
 import { RouterService } from './services/router.js'
 import { onDocumentReady, getCurrentURL } from './support/dom.js'
 import { dispatcher } from './render_dispatcher.js'
-import { processErrorJsonObject, restoreError } from '../../common/store/errors.js'
+import { processErrorJsonObject, restoreError } from '../../common/store/errors'
 import { microtaskEnqueue } from '../../common/observables/operators.js'
 import { darkScheme$ } from './shared_observables.js'
 

@@ -1,7 +1,7 @@
 import ts from 'typescript'
 import { dirname, extname, join as joinPath, parse as parsePath, relative } from 'path'
 import { BuildWorker, IBuildContext, ICleanContext, } from '../build_worker.js'
-import { BuildError } from '../errors.js'
+import { BuildError } from '../errors'
 
 const formatHost: ts.FormatDiagnosticsHost = {
   getCanonicalFileName: path => path,

@@ -1,4 +1,4 @@
-import { describe, it, assert } from '../../_test_common.js'
+import { describe, it, assert } from '../../_test_common'
 
 import { stringifyNumber as sn, stringifyLinearCombination as slc, StringifyError } from './stringify.js'
 

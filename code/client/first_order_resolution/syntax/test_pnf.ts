@@ -1,4 +1,4 @@
-import { describe, it, assertEqualExpressions } from '../../../_test_common.js'
+import { describe, it, assertEqualExpressions } from '../../../_test_common'
 
 import { simplify } from './simplification.js'
 import { convertToPNF } from './pnf.js'
