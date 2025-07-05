@@ -27,6 +27,7 @@ export function root({ pageState, rehydrationData }: IRootState, env: WebsiteEnv
       c('meta', { charset: 'UTF-8' }),
       c('meta', { name: 'viewport', content: 'width=device-width, initial-scale=1' }),
       c('meta', { name: 'description', content: _(pageState.descriptionSpec) }),
+      c('meta', { name: 'fediverse:creator', content: '@ianis@pub.ivasilev.net' }),
       c('link', { rel: 'icon', type: 'image/x-icon', href: '/images/favicon.png' }),
       c('link', { rel: 'stylesheet', href: '/styles/core.css' }),
       c('script', { id: 'rehydrationData', type: 'application/json', text: JSON.stringify(rehydrationData) }),
