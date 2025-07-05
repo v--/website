@@ -23,7 +23,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
         {
           bundleId: 'array_sorting', key: 'text',
           context: {
-            githubPageUrl: `${GITHUB_PROJECT_CODE_URL}/client/sorting`,
+            githubPageUrl: `${GITHUB_PROJECT_CODE_URL}/client/array_sorting`,
           },
         },
         { rich: true },

@@ -64,6 +64,7 @@ function getColumnSpecs(urlPath: UrlPath): Array<IInteractiveTableColumnSpec<IDi
       value(entry: IDirEntry) {
         return c(anchor, {
           text: entry.name,
+          title: entry.name,
           href: new UrlPath(urlPath.path.pushRight(entry.name)),
           isInternal: entry.isDir,
         })
