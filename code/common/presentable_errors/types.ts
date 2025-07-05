@@ -22,7 +22,7 @@ export interface ITranslatedGenericEncodedError {
 export const HTTP_ENCODED_ERROR_SCHEMA = Schema.union(
   Schema.object({
     errorKind: Schema.literal('http'),
-    code: Schema.literal(400, 403, 404, 500),
+    code: Schema.literal(400, 403, 404, 500, 502),
     cause: Schema.optional(
       Schema.object({
         key: Schema.string,

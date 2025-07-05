@@ -19,9 +19,14 @@
     "content": "Internal server error"
   },
 
+  "error.title.http.502": {
+    "entryKind": "plain",
+    "content": "Bad gateway"
+  },
+
   "error.message.http": {
     "entryKind": "plain",
-    "content": "HTTP error ${code}"
+    "content": "HTTP status ${code}"
   },
 
   "error.title.timeout": {
@@ -31,7 +36,7 @@
 
   "error.message.timeout": {
     "entryKind": "plain",
-    "content": "The server is taking too long to reach"
+    "content": "Reaching the server took too much time"
   },
 
   "error.title.fallback": {

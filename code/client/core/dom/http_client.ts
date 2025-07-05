@@ -52,6 +52,9 @@ export class HttpClient {
       case 404:
         throw this.createHttpError(404)
 
+      case 502:
+        throw this.createHttpError(502)
+
       default:
         throw this.createHttpError(500)
     }
