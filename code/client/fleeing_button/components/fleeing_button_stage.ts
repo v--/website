@@ -116,22 +116,22 @@ export function fleeingButtonStage({ store }: IFleeingButtonStageState, env: Cli
           y: -BUTTON_SIZE.y / 2,
           width: BUTTON_SIZE.x,
           height: BUTTON_SIZE.y,
-          async click(event: PointerEvent) {
+          click(event: PointerEvent) {
             switch (event.pointerType) {
               case 'touch': {
-                const message = await env.gettext({ bundleId: 'fleeing_button', key: 'message.click.touch' })
+                const message = env.gettext({ bundleId: 'fleeing_button', key: 'message.click.touch' })
                 window.alert(message)
                 break
               }
 
               case 'pen': {
-                const message = await env.gettext({ bundleId: 'fleeing_button', key: 'message.click.pen' })
+                const message = env.gettext({ bundleId: 'fleeing_button', key: 'message.click.pen' })
                 window.alert(message)
                 break
               }
 
               case 'mouse': {
-                const message = await env.gettext({ bundleId: 'fleeing_button', key: 'message.click.mouse' })
+                const message = env.gettext({ bundleId: 'fleeing_button', key: 'message.click.mouse' })
                 window.alert(message)
                 break
               }

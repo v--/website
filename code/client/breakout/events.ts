@@ -18,7 +18,7 @@ export function getEventParams<EventT extends Event>(store: StateStore<IGameStat
   }
 }
 
-async function toggleStatus({ state, update }: IEventParams<Event>) {
+function toggleStatus({ state, update }: IEventParams<Event>) {
   switch (state.phase) {
     case 'game_over':
     case 'completed':
@@ -36,15 +36,15 @@ async function toggleStatus({ state, update }: IEventParams<Event>) {
   }
 }
 
-async function tryReset({ env, update }: IEventParams<Event>) {
-  const message = await env.gettext({ bundleId: 'breakout', key: 'control.reset.confirmation' })
+function tryReset({ env, update }: IEventParams<Event>) {
+  const message = env.gettext({ bundleId: 'breakout', key: 'control.reset.confirmation' })
 
   if (window.confirm(message)) {
     update(DEFAULT_GAME_STATE)
   }
 }
 
-export async function handleKeyDown({ event, update }: IEventParams<KeyboardEvent>) {
+export function handleKeyDown({ event, update }: IEventParams<KeyboardEvent>) {
   switch (event.key) {
     case KEY_LEFT_SECONDARY:
     case 'ArrowLeft':
@@ -64,7 +64,7 @@ export async function handleKeyDown({ event, update }: IEventParams<KeyboardEven
   }
 }
 
-export async function handleKeyUp(params: IEventParams<KeyboardEvent>) {
+export function handleKeyUp(params: IEventParams<KeyboardEvent>) {
   const { state, event, update } = params
 
   if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) {
@@ -73,11 +73,11 @@ export async function handleKeyUp(params: IEventParams<KeyboardEvent>) {
 
   switch (event.key) {
     case KEY_CONTROL:
-      await toggleStatus(params)
+      toggleStatus(params)
       break
 
     case KEY_RESET:
-      await tryReset(params)
+      tryReset(params)
       break
 
     case KEY_DEBUG:
@@ -102,33 +102,33 @@ export async function handleKeyUp(params: IEventParams<KeyboardEvent>) {
   }
 }
 
-export async function handleResetButton(params: IEventParams<MouseEvent>) {
-  await tryReset(params)
+export function handleResetButton(params: IEventParams<MouseEvent>) {
+  tryReset(params)
 }
 
-export async function handleStageClick(params: IEventParams<MouseEvent>) {
-  await toggleStatus(params)
+export function handleStageClick(params: IEventParams<MouseEvent>) {
+  toggleStatus(params)
 }
 
-export async function handleLeftButtonDown({ state, update }: IEventParams<MouseEvent>) {
+export function handleLeftButtonDown({ state, update }: IEventParams<MouseEvent>) {
   if (state.phase === 'running') {
     update({ paddleDirection: -1 })
   }
 }
 
-export async function handleLeftButtonUp({ state, update }: IEventParams<MouseEvent>) {
+export function handleLeftButtonUp({ state, update }: IEventParams<MouseEvent>) {
   if (state.paddleDirection === -1) {
     update({ paddleDirection: 0 })
   }
 }
 
-export async function handleRightButtonDown({ state, update }: IEventParams<MouseEvent>) {
+export function handleRightButtonDown({ state, update }: IEventParams<MouseEvent>) {
   if (state.phase === 'running') {
     update({ paddleDirection: 1 })
   }
 }
 
-export async function handleRightButtonUp({ state, update }: IEventParams<MouseEvent>) {
+export function handleRightButtonUp({ state, update }: IEventParams<MouseEvent>) {
   if (state.paddleDirection === 1) {
     update({ paddleDirection: 0 })
   }

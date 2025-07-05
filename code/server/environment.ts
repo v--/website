@@ -1,5 +1,6 @@
 import { type IEnvironmentConfig, WebsiteEnvironment } from '../common/environment.ts'
 import { type IServiceManager } from '../common/services.ts'
+import { type LanguageId } from '../common/translation.ts'
 import { type ColorScheme } from '../common/types/page.ts'
 
 export interface IServerEnvironmentConfig extends IEnvironmentConfig {
@@ -24,4 +25,6 @@ export class ServerWebsiteEnvironment extends WebsiteEnvironment {
   override isContentDynamic() {
     return false
   }
+
+  override async processLanguageChange(_newLanguage: LanguageId) {}
 }

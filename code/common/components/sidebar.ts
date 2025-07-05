@@ -98,8 +98,14 @@ export function sidebar({ sidebarId, language, sidebarCollapsed, colorScheme }: 
             name: 'sidebar-langchange',
             controlValue: langChoice.language,
             selectedValue: language,
-            update(newValue: LanguageId) {
-              env.language$.next(newValue)
+            async update(newValue: LanguageId) {
+              env.loading$.next(true)
+
+              try {
+                await env.changeLanguage(newValue)
+              } finally {
+                env.loading$.next(false)
+              }
             },
           })
         }),

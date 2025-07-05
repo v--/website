@@ -41,8 +41,8 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
         c('button', {
           class: 'button-danger',
           text: _({ bundleId: 'univariate_interpolation', key: 'control.reset.label' }),
-          async click(_event: PointerEvent) {
-            const message = await env.gettext({ bundleId: 'univariate_interpolation', key: 'control.reset.confirmation' })
+          click(_event: PointerEvent) {
+            const message = env.gettext({ bundleId: 'univariate_interpolation', key: 'control.reset.confirmation' })
 
             if (window.confirm(message)) {
               store.update({ knots: DEFAULT_STATE.knots })

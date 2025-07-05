@@ -5,7 +5,7 @@ import { type IWebsitePageState } from '../common/types/page.ts'
 import { type IRehydrationData } from '../common/types/rehydration.ts'
 
 export async function encodeRehydrationData(pageState: IWebsitePageState, env: ServerWebsiteEnvironment): Promise<IRehydrationData> {
-  const languageId = env.language$.value
+  const languageId = env.getCurrentLanguage()
 
   const iconRefIds = new Set<IconRefId>(pageState.iconRefIds)
   iconRefIds.add('core')

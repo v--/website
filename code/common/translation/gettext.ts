@@ -55,11 +55,11 @@ export function gettext(params: IGettextParams): string | IRichTextDocument {
   }
 }
 
-export interface IDelayedTranslator {
-  (spec: ITranslationSpec): Promise<string>
-  (spec: ITranslationSpec, options: IGettextOptions & { rich: false | undefined }): Promise<string>
-  (spec: ITranslationSpec, options: IGettextOptions & { rich: true }): Promise<IRichTextDocument>
-  (spec: ITranslationSpec, options?: IGettextOptions): Promise<string | IRichTextDocument>
+export interface ITranslator {
+  (spec: ITranslationSpec): string
+  (spec: ITranslationSpec, options: IGettextOptions & { rich: false | undefined }): string
+  (spec: ITranslationSpec, options: IGettextOptions & { rich: true }): IRichTextDocument
+  (spec: ITranslationSpec, options?: IGettextOptions): string | IRichTextDocument
 }
 
 export interface IContinuousTranslator {

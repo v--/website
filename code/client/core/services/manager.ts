@@ -4,9 +4,9 @@ import { ClientPacmanService } from './pacman.ts'
 import { ClientPageService } from './pages.ts'
 import { ClientTranslationService } from './translation.ts'
 import { filesPage } from '../../../common/pages/files.ts'
-import { EXCEPTION_INSTANCE_LANGUAGE } from '../../../common/presentable_errors/factory.ts'
 import { type IEncodedError } from '../../../common/presentable_errors.ts'
 import { type IServiceManager } from '../../../common/services.ts'
+import { type LanguageId } from '../../../common/translation.ts'
 import { type IWebsitePageState } from '../../../common/types/page.ts'
 import { type IRehydrationData, REHYDRATION_DATA_SCHEMA } from '../../../common/types/rehydration.ts'
 import { ValidationError } from '../../../common/validation/errors.ts'
@@ -71,7 +71,7 @@ export class ClientServiceManager implements IServiceManager {
     return undefined
   }
 
-  async processPageState(pageState: IWebsitePageState) {
+  async processPageState(pageState: IWebsitePageState, lang: LanguageId) {
     if (pageState.page !== filesPage) {
       this.files.resetCache()
     }
@@ -82,11 +82,21 @@ export class ClientServiceManager implements IServiceManager {
       }
     }
 
+    await this.preloadTranslations(pageState, lang)
+  }
+
+  async preloadTranslations(pageState: IWebsitePageState, lang: LanguageId) {
+    const bundleIds = new Set(pageState.translationBundleIds)
+    bundleIds.add('core')
+
     if (pageState.errorTranslationBundleIds) {
       for (const bundleId of pageState.errorTranslationBundleIds) {
-        // We only preload the translations in English, which is necessary for creating exception objects.
-        await this.translation.preloadTranslationMap(bundleId, EXCEPTION_INSTANCE_LANGUAGE)
+        bundleIds.add(bundleId)
       }
+    }
+
+    for (const bundleId of bundleIds) {
+      await this.translation.preloadTranslationMap(bundleId, lang)
     }
   }
 

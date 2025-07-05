@@ -6,7 +6,7 @@ import { breakoutRays } from './breakout_rays.ts'
 import { breakoutScore } from './breakout_score.ts'
 import { breakoutSplash } from './breakout_splash.ts'
 import { icon } from '../../../common/components/icon.ts'
-import { EMPTY, Observable, bufferLatest, combineLatest, map, subscribeAsync, switchMap, takeUntil, timeInterval } from '../../../common/observable.ts'
+import { EMPTY, Observable, bufferLatest, combineLatest, map, switchMap, takeUntil, timeInterval } from '../../../common/observable.ts'
 import { c, s } from '../../../common/rendering/component.ts'
 import { classlist } from '../../../common/support/dom_properties.ts'
 import { StateStore } from '../../../common/support/state_store.ts'
@@ -34,23 +34,21 @@ interface IBreakoutState {
 }
 
 export function breakout({ store }: IBreakoutState, env: ClientWebsiteEnvironment) {
-  subscribeAsync(
-    fromEvent(window, 'keydown').pipe(
-      takeUntil(env.pageUnload$),
-    ),
-    async function (event) {
-      await handleKeyDown(getEventParams(store, env, event))
+  fromEvent(window, 'keydown').pipe(
+    takeUntil(env.pageUnload$),
+  ).subscribe({
+    next: function (event) {
+      handleKeyDown(getEventParams(store, env, event))
     },
-  )
+  })
 
-  subscribeAsync(
-    fromEvent(window, 'keyup').pipe(
-      takeUntil(env.pageUnload$),
-    ),
-    async function (event) {
-      await handleKeyUp(getEventParams(store, env, event))
+  fromEvent(window, 'keyup').pipe(
+    takeUntil(env.pageUnload$),
+  ).subscribe({
+    next: function (event) {
+      handleKeyUp(getEventParams(store, env, event))
     },
-  )
+  })
 
   store.keyedObservables.phase.pipe(
     takeUntil(env.pageUnload$),
@@ -117,12 +115,12 @@ export function breakout({ store }: IBreakoutState, env: ClientWebsiteEnvironmen
     c('button',
       {
         class: 'breakout-controller-button',
-        async pointerdown(event: MouseEvent) {
-          await handleLeftButtonDown(getEventParams(store, env, event))
+        pointerdown(event: MouseEvent) {
+          handleLeftButtonDown(getEventParams(store, env, event))
         },
 
-        async pointerup(event: MouseEvent) {
-          await handleLeftButtonUp(getEventParams(store, env, event))
+        pointerup(event: MouseEvent) {
+          handleLeftButtonUp(getEventParams(store, env, event))
         },
       },
       c(icon, {
@@ -138,8 +136,8 @@ export function breakout({ store }: IBreakoutState, env: ClientWebsiteEnvironmen
           map(phase => classlist('breakout', phase === 'running' && 'breakout-active')),
         ),
         viewBox: SVG_VIEW_BOX,
-        async click(event: MouseEvent) {
-          await handleStageClick(getEventParams(store, env, event))
+        click(event: MouseEvent) {
+          handleStageClick(getEventParams(store, env, event))
         },
       },
 
@@ -155,12 +153,12 @@ export function breakout({ store }: IBreakoutState, env: ClientWebsiteEnvironmen
     c('button',
       {
         class: 'breakout-controller-button',
-        async pointerdown(event: MouseEvent) {
-          await handleRightButtonDown(getEventParams(store, env, event))
+        pointerdown(event: MouseEvent) {
+          handleRightButtonDown(getEventParams(store, env, event))
         },
 
-        async pointerup(event: MouseEvent) {
-          await handleRightButtonUp(getEventParams(store, env, event))
+        pointerup(event: MouseEvent) {
+          handleRightButtonUp(getEventParams(store, env, event))
         },
       },
       c(icon, {
