@@ -60,7 +60,6 @@ export class ServerFileService implements IFileService {
       result.entries.push({
         name,
         isDir: childStat.isDirectory(),
-        modified: String(childStat.birthtime),
         size: childStat.size,
       })
     }

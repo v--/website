@@ -302,7 +302,7 @@ describe('Files page', function () {
           it('has its headings in a neutral state by default', async function () {
             await page.goto('/files')
 
-            for (const col of ['name', 'type', 'size', 'modified']) {
+            for (const col of ['name', 'type', 'size']) {
               assert.equal(await page.getTableHeaderSortDirection(col), 'neutral')
             }
           })

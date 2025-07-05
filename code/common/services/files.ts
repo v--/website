@@ -5,7 +5,6 @@ import { type Infer, Schema } from '../validation.ts'
 export const DIR_ENTRY_SCHEMA = Schema.object({
   name: Schema.string,
   isDir: Schema.boolean,
-  modified: Schema.string,
   size: Schema.uint32,
 })
 

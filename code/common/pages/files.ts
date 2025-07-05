@@ -121,18 +121,5 @@ function getColumnSpecs(urlPath: UrlPath): Array<IInteractiveTableColumnSpec<IDi
         return entry.size
       },
     },
-
-    {
-      id: 'modified',
-      label: { bundleId: 'files', key: 'table.heading.modified' },
-      class: 'col-modified',
-      value(entry: IDirEntry) {
-        return new Date(entry.modified).toUTCString()
-      },
-
-      sortingValue(entry: IDirEntry) {
-        return Date.parse(entry.modified)
-      },
-    },
   ]
 }

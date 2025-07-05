@@ -9,7 +9,6 @@ import { type Infer, Schema, validateSchema } from '../../common/validation.ts'
 export const DIR_ENTRY_ROW_SCHEMA = Schema.object({
   name: Schema.string,
   type: Schema.string,
-  modified: Schema.string,
   size: Schema.string,
 })
 
