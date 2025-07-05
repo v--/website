@@ -14,10 +14,12 @@ describe('MathMLHelper class', function () {
         values.map(name => name === undefined ? undefined : mathml.identifier(name)),
       )
 
-      return convertRichToPlain({
+      const result = convertRichToPlain({
         kind: 'document',
         entries: [mathml.root('inline', entry)],
       })
+
+      return result.slice(1, result.length - 1) // Remove dollar signs
     }
 
     it('returns zero when no data is passed', function () {
@@ -128,10 +130,12 @@ describe('MathMLHelper class', function () {
         ...argLists.map(args => args.map(a => mathml.identifier(a))),
       )
 
-      return convertRichToPlain({
+      const result = convertRichToPlain({
         kind: 'document',
         entries: [mathml.root('inline', entry)],
       })
+
+      return result.slice(1, result.length - 1) // Remove dollar signs
     }
 
     it('parenthesizes a single argument', function () {

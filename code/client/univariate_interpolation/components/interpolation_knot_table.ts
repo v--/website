@@ -1,6 +1,5 @@
 import { type KnotMapping } from '../../../common/math/numeric.ts'
 import { c } from '../../../common/rendering/component.ts'
-import { map } from '../../../common/support/iteration.ts'
 import { type ClientWebsiteEnvironment } from '../../core/environment.ts'
 
 interface IInterpolationKnotTableState {
@@ -14,7 +13,8 @@ export function interpolationKnotTable({ knots }: IInterpolationKnotTableState, 
     c('table', { class: 'interpolation-knots-table delimited-table' },
       c('tr', { class: 'interpolation-knots-table-x-row' },
         c('th', { text: 'x' }),
-        ...map(
+        // TODO: Remove Array.from once Iterator.prototype.map() proliferates
+        ...Array.from(knots.iterX()).map(
           x => c('td', { text: String(x) }),
           knots.iterX(),
         ),
@@ -25,7 +25,8 @@ export function interpolationKnotTable({ knots }: IInterpolationKnotTableState, 
       ),
       c('tr', { class: 'interpolation-knots-table-y-row' },
         c('th', { text: 'y' }),
-        ...map(
+        // TODO: Remove Array.from once Iterator.prototype.map() proliferates
+        ...Array.from(knots.iterY()).map(
           y => c('td', { text: String(y) }),
           knots.iterY(),
         ),

@@ -1,7 +1,7 @@
 import { BSpline } from './b_spline.ts'
 import { type KnotMapping } from './knot_mapping.ts'
 import { Spline } from './spline.ts'
-import { map, zip } from '../../support/iteration.ts'
+import { zip } from '../../support/iteration.ts'
 import { type uint32 } from '../../types/numbers.ts'
 
 export function splineFromKnots(degree: uint32, knots: KnotMapping) {
@@ -27,7 +27,8 @@ export function splineFromKnots(degree: uint32, knots: KnotMapping) {
 function* iterExtendedDomain(degree: uint32, knots: KnotMapping) {
   const n = knots.getNodeCount()
   const x = Array.from(knots.iterX())
-  const differences = map(([a, b]) => a - b, zip(x.slice(1), x.slice(0, n - 1)))
+  // TODO: Remove Array.from once Iterator.prototype.map() proliferates
+  const differences = Array.from(zip(x.slice(1), x.slice(0, n - 1))).map(([a, b]) => a - b)
   const diameter = Math.max(1, Math.max(...differences))
 
   yield x[0] - diameter

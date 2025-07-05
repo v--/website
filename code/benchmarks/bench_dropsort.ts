@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { runBenchmark } from './benchmark.ts'
-import { map, range } from '../common/support/iteration.ts'
+import { range } from '../common/support/iteration.ts'
 
-const data = Array.from(map(() => Math.round(Math.random() * 100), range(0, 10 ** 4)))
+const data = Array.from(range(0, 10 ** 4)).map(() => Math.round(Math.random() * 100))
 
 await runBenchmark(
   // Based on https://codegolf.stackexchange.com/questions/61808/lossy-sorting-implement-dropsort

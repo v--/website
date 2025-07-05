@@ -1,7 +1,7 @@
 import { type APIRequestContext, request } from '@playwright/test'
 
-import { type IFinalizeable } from '../../common/types/finalizable.ts'
 import { BASE_URL } from './config.ts'
+import { type IFinalizeable } from '../../common/types/finalizable.ts'
 
 interface IBaseApiClientOptions {
   httpHeaders?: Record<string, string>

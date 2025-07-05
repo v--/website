@@ -1,5 +1,5 @@
 import { runBenchmark } from './benchmark.ts'
-import { map, range, reduce } from '../common/support/iteration.ts'
+import { range } from '../common/support/iteration.ts'
 
 const data = Array.from(range(0, 10 ** 5))
 
@@ -17,8 +17,8 @@ await runBenchmark(
 
   function generators() {
     const n = data.length
-    const mean = reduce((a, b) => a + b / n, data, 0)
-    const variance = reduce((a, b) => a + b, map(x => ((x - mean) ** 2) / (n - 1), data), 0)
+    const mean = data.reduce((a, b) => a + b / n, 0)
+    const variance = data.map(x => ((x - mean) ** 2) / (n - 1)).reduce((a, b) => a + b, 0)
     const sd = variance ** 0.5
     return sd
   },

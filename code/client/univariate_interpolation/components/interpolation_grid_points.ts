@@ -1,6 +1,5 @@
 import { type IPlainVec2D } from '../../../common/math/geom2d.ts'
 import { s } from '../../../common/rendering/component.ts'
-import { map } from '../../../common/support/iteration.ts'
 import { type Action } from '../../../common/types/typecons.ts'
 import { STAGE } from '../constants.ts'
 
@@ -12,7 +11,8 @@ const GRID_POINT_RADIUS = 0.1
 
 export function interpolationGridPoints({ toggleNode }: IInterpolationGridPointsState) {
   return s('g', { class: 'interpolation-grid-points' },
-    ...map(
+    // TODO: Remove Array.from once Iterator.prototype.map() proliferates
+    ...Array.from(iterPoints()).map(
       point => s('g',
         {
           class: 'interpolation-grid-point',

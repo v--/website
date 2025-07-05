@@ -4,10 +4,10 @@ import { RenderError } from './errors.ts'
 import { FactoryRenderer, type IRendererContext, type Renderer, XmlRenderer } from './renderer.ts'
 import { type INodeManipulator } from './types.ts'
 import { type Logger } from '../logger.ts'
-import { first as firstOfIterable } from '../support/iteration.ts'
 import { repr } from '../support/strings.ts'
 import { type IFinalizeable } from '../types/finalizable.ts'
 import { type IComponentEnvironment } from './component/component.ts'
+import { firstOfIterable } from '../support/iteration.ts'
 
 export interface IRenderEvent {
   component: Component

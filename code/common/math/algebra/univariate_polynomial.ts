@@ -1,7 +1,7 @@
 import { UnivariatePolynomialError, ZeroUnivariatePolynomialError } from './errors.ts'
 import { mathml } from '../../rich.ts'
 import { DEFAULT_TOLERANCE, isClose, isZero } from '../../support/floating.ts'
-import { all, chain, map, range, repeat, zip, zipLongest } from '../../support/iteration.ts'
+import { padLeft, padRight, range, zip } from '../../support/iteration.ts'
 import { type float64, type uint32 } from '../../types/numbers.ts'
 import { type ISymbolicFunction } from '../numeric/types.ts'
 
@@ -14,12 +14,7 @@ export class UnivariatePolynomial implements IUnivariatePolynomialConfig, ISymbo
 
   static getMonomial(order: uint32) {
     return new UnivariatePolynomial({
-      coeff: Array.from(
-        chain(
-          repeat(0, order),
-          [1],
-        ),
-      ),
+      coeff: Array.from(padLeft([1], order + 1, 0)),
     })
   }
 
@@ -53,14 +48,15 @@ export class UnivariatePolynomial implements IUnivariatePolynomialConfig, ISymbo
     }
 
     const maxOrder = Math.max(aOrder, bOrder)
-
     return UnivariatePolynomial.safeCreate(
-      map(
-        ([a, b]) => a + b,
-        zipLongest(
-          chain(this.coeff, repeat(0, maxOrder - aOrder)),
-          chain(other.coeff, repeat(0, maxOrder - bOrder)),
+      // TODO: Remove Array.from once Iterator.prototype.map() proliferates
+      Array.from(
+        zip(
+          padRight(this.coeff, maxOrder + 1, 0),
+          padRight(other.coeff, maxOrder + 1, 0),
         ),
+      ).map(
+        ([a, b]) => a + b,
       ),
     )
   }
@@ -174,7 +170,17 @@ export class UnivariatePolynomial implements IUnivariatePolynomialConfig, ISymbo
   }
 
   equals(other: UnivariatePolynomial, tolerance = DEFAULT_TOLERANCE): boolean {
-    return this.getDegree() === other.getDegree() && all(([a, b]) => isClose(a, b, tolerance), zip(this.coeff, other.coeff))
+    if (this.getDegree() !== other.getDegree()) {
+      return false
+    }
+
+    for (const [a, b] of zip(this.coeff, other.coeff)) {
+      if (!isClose(a, b, tolerance)) {
+        return false
+      }
+    }
+
+    return true
   }
 
   getDerivative(): UnivariatePolynomial {
@@ -196,24 +202,21 @@ export class UnivariatePolynomial implements IUnivariatePolynomialConfig, ISymbo
   getRichTextEntry() {
     return mathml.linearCombination(
       this.coeff.toReversed(),
-      Array.from(
-        map(
-          degree => {
-            switch (degree) {
-              case 0:
-                return undefined
-              case 1:
-                return mathml.identifier('x')
-              default: {
-                return mathml.sup(
-                  mathml.identifier('x'),
-                  mathml.number(degree),
-                )
-              }
+      Array.from(range(this.coeff.length - 1, -1, -1)).map(
+        degree => {
+          switch (degree) {
+            case 0:
+              return undefined
+            case 1:
+              return mathml.identifier('x')
+            default: {
+              return mathml.sup(
+                mathml.identifier('x'),
+                mathml.number(degree),
+              )
             }
-          },
-          range(this.coeff.length - 1, -1, -1),
-        ),
+          }
+        },
       ),
     )
   }

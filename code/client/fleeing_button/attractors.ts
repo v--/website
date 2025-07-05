@@ -5,7 +5,7 @@ import {
   STAGE,
 } from './constants.ts'
 import { Vec2D } from '../../common/math/geom2d.ts'
-import { filter, schwartzMin } from '../../common/support/iteration.ts'
+import { schwartzMin } from '../../common/support/iteration.ts'
 
 export function* iterateAttractors() {
   for (let x = STAGE.getLeftPos() + ATTRACTOR_EDGE_OFFSET; x <= STAGE.getRightPos() - ATTRACTOR_EDGE_OFFSET; x += ATTRACTOR_INNER_OFFSET) {
@@ -22,6 +22,7 @@ export function adjustActiveAttractor(buttonPosition: Vec2D, mousePosition: Vec2
 
   return schwartzMin(
     att => buttonPosition.distanceTo(att),
-    filter(attractor => mousePosition.distanceTo(attractor) > MOUSE_DISTANCE_THRESHOLD, iterateAttractors()),
+    // TODO: Remove Array.from once Iterator.prototype.filter() proliferates
+    Array.from(iterateAttractors()).filter(attractor => mousePosition.distanceTo(attractor) > MOUSE_DISTANCE_THRESHOLD),
   )
 }

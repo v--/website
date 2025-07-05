@@ -1,6 +1,5 @@
 import { type WebsiteEnvironment } from '../environment.ts'
 import { Component, c } from '../rendering/component.ts'
-import { compact } from '../support/compact.ts'
 import { classlist } from '../support/dom_properties.ts'
 import { UrlPath } from '../support/url_path.ts'
 import { type AriaCurrentValue } from '../types/aria.ts'
@@ -47,14 +46,14 @@ interface IDisabledAnchorElementState {
  * [2] https://stackoverflow.com/a/10510353/2756776
  */
 export function anchor(state: IAnchorState, env: WebsiteEnvironment, children: Component[]) {
-  const childState: IDisabledAnchorElementState = compact({
+  const childState: IDisabledAnchorElementState = {
     class: classlist(state.class, state.disabled && 'disabled-anchor'),
     title: state.title,
     style: state.style,
     rel: state.rel,
     role: state.role,
     ['aria-current']: state.ariaCurrent,
-  })
+  }
 
   if ('text' in state) {
     childState.text = state.text

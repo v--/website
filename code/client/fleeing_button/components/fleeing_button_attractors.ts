@@ -1,7 +1,6 @@
 import { Vec2D } from '../../../common/math/geom2d.ts'
 import { s } from '../../../common/rendering/component.ts'
 import { classlist } from '../../../common/support/dom_properties.ts'
-import { map } from '../../../common/support/iteration.ts'
 import { iterateAttractors } from '../attractors.ts'
 
 interface FleeingButtonAttractorsState {
@@ -17,7 +16,8 @@ export function fleeingButtonAttractors({ activeAttractor, debug }: FleeingButto
   }
 
   return s('g', { class: 'fleeing-button-attractors' },
-    ...map(
+    // TODO: Remove Array.from once Iterator.prototype.map() proliferates
+    ...Array.from(iterateAttractors()).map(
       attractor => s('circle', {
         class: classlist(
           'fleeing-button-attractor',
@@ -27,7 +27,6 @@ export function fleeingButtonAttractors({ activeAttractor, debug }: FleeingButto
         cy: attractor.y,
         r: ATTRACTOR_VISIBLE_RADIUS,
       }),
-      iterateAttractors(),
     ),
   )
 }

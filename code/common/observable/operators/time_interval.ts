@@ -1,5 +1,5 @@
-import { Observable } from '../../../common/observable.ts'
 import { type uint32 } from '../../../common/types/numbers.ts'
+import { Observable } from '../observable.ts'
 
 export function timeInterval(milliseconds: uint32): Observable<void> {
   return new Observable(function (observer) {

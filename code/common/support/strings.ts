@@ -1,13 +1,13 @@
 import { stringifyNumber } from './floating.ts'
-import { getObjectEntries, intersperse, reduce } from './iteration.ts'
+import { getObjectEntries, intersperse } from './iteration.ts'
 import { type uint32 } from '../types/numbers.ts'
 
 export const BASE_INDENTATION = 2
 
 export function join(iterable: Iterable<string>, delimiter: string, lastDelimiter: string = delimiter): string {
-  return reduce(
+  // TODO: Remove Array.from once Iterator.prototype.reduce() proliferates
+  return Array.from(intersperse(iterable, delimiter, lastDelimiter)).reduce(
     (accum, value) => accum + value,
-    intersperse(iterable, delimiter, lastDelimiter),
     '',
   )
 }

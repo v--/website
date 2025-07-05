@@ -1,5 +1,5 @@
 import { isClose } from '../../support/floating.ts'
-import { filter, schwartzSort } from '../../support/iteration.ts'
+import { schwartzSort } from '../../support/iteration.ts'
 import { type float64, type uint32 } from '../../types/numbers.ts'
 import { type IPlainVec2D } from '../geom2d.ts'
 
@@ -19,8 +19,9 @@ export class KnotMapping {
   }
 
   set(x: float64, y: float64) {
+    // TODO: Remove Array.from once Iterator.prototype.filter() proliferates
     return new KnotMapping([
-      ...filter(v => v.x !== x, this.iterEntries()),
+      ...Array.from(this.iterEntries()).filter(v => v.x !== x),
       { x, y },
     ])
   }
@@ -36,8 +37,9 @@ export class KnotMapping {
   }
 
   delete(x: float64) {
+    // TODO: Remove Array.from once Iterator.prototype.filter() proliferates
     return new KnotMapping(
-      filter(v => v.x !== x, this.iterEntries()),
+      Array.from(this.iterEntries()).filter(v => v.x !== x),
     )
   }
 

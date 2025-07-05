@@ -17,19 +17,4 @@ $body-font-family-math: 'STIX Two Math', math;
       local('STIXTwoMath-Regular'),
       url('/fonts/STIXTwoMath-Regular.woff2');
   }
-
-  @font-face {
-    font-family: 'STIX Two Text';
-    src:
-      local('STIXTwoText[wght]'),
-      url('/fonts/STIXTwoText[wght].woff2');
-  }
-
-  @font-face {
-    font-style: italic;
-    font-family: 'STIX Two Text';
-    src:
-      local('STIXTwoText-Italic[wght]'),
-      url('/fonts/STIXTwoText-Italic[wght].woff2');
-  }
 }

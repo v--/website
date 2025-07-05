@@ -2,7 +2,7 @@ import { EmptyIterError } from './errors.ts'
 import { type float64 } from '../../types/numbers.ts'
 import { type Mapper } from '../../types/typecons.ts'
 
-export function first<T>(iterable: Iterable<T>): T {
+export function firstOfIterable<T>(iterable: Iterable<T>): T {
   const iter = iterable[Symbol.iterator]()
   const state = iter.next()
 
@@ -13,7 +13,7 @@ export function first<T>(iterable: Iterable<T>): T {
   return state.value
 }
 
-export function last<T>(iterable: Iterable<T>): T {
+export function lastOfIterable<T>(iterable: Iterable<T>): T {
   const iter = iterable[Symbol.iterator]()
   let newState = iter.next()
 

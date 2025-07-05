@@ -1,10 +1,11 @@
 {
   "entry": [
     "code/eslint.config.ts",
+    "code/server/index.ts",
     "code/client/browsersync_injection.ts",
     "code/client/*/index.ts",
-    "code/testing/**/test_*.ts",
     "code/testing/unit/**/*.ts",
+    "code/testing/{api,e2e}/**/test_*.ts",
     "code/build/{builder,watcher}.ts",
     "code/benchmarks/benchmark.ts",
     "code/benchmarks/bench_*.ts"
@@ -13,14 +14,11 @@
     "code/**/*.ts"
   ],
   "ignore": [
-    "code/**/test*.ts"
+    "code/**/test*.ts",
+    "code/common/support/dedent.ts"
   ],
   "ignoreDependencies": [
-    "eslint-import-resolver-typescript"
-  ],
-  "mocha": {
-    "entry": [
-      "code/**/test*.ts"
-    ]
-  }
+    "eslint-import-resolver-typescript",
+    "es-observable-tests"
+  ]
 }

@@ -4,7 +4,7 @@ import { classlist } from '../../../common/support/dom_properties.ts'
 import { isClose } from '../../../common/support/floating.ts'
 import { schwartzMin } from '../../../common/support/iteration.ts'
 import { BALL_CONTROL_POINT_ANGLES, BALL_RADIUS, STAGE } from '../constants.ts'
-import { findClosestIntersection, reflectDirectionThroughIntersection } from '../support/intersection.ts'
+import { findClosestIntersection, reflectDirectionThroughIntersection } from '../intersection.ts'
 import { type IGameState } from '../types.ts'
 
 export function breakoutRays({ ballCenter, ballDirection, bricks, paddleCenter, debug }: IGameState) {

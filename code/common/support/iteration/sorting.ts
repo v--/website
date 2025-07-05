@@ -1,4 +1,3 @@
-import { map } from './base.ts'
 import { type float64 } from '../../types/numbers.ts'
 import { type Mapper } from '../../types/typecons.ts'
 
@@ -30,7 +29,7 @@ export function schwartzSort<T>(transform: Mapper<T, string | float64>, iterable
   const array = Array.from(iterable)
 
   const values = new Map<T, string | float64>(
-    map(x => [x, transform(x)], array),
+    array.map(x => [x, transform(x)]),
   )
 
   return array.sort((a, b) => orderComparator(values.get(a), values.get(b)))

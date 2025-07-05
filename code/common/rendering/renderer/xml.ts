@@ -1,4 +1,4 @@
-import { chain, getObjectEntries, uniqueBy } from '../../support/iteration.ts'
+import { getObjectEntries } from '../../support/iteration.ts'
 import { type IComponentEnvironment, type IXmlComponentState, type XmlComponent } from '../component.ts'
 import { type RenderingManager } from '../manager.ts'
 import { type IRendererContext, Renderer } from './renderer.ts'
@@ -40,7 +40,7 @@ export class XmlRenderer<NodeT = unknown> extends Renderer<NodeT> {
   async #updateAttributes(oldState: Record<string, unknown>, newState: Record<string, unknown>) {
     const oldKeys = new Set(Object.keys(oldState))
     const newKeys = new Set(Object.keys(newState))
-    const keys = Array.from(uniqueBy(chain(oldKeys, newKeys)))
+    const keys = oldKeys.union(newKeys)
 
     for (const key of keys) {
       if (oldKeys.has(key) && newKeys.has(key)) {

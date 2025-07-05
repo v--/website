@@ -13,12 +13,11 @@ interface IInterpolationGridCurveState {
 
 export function interpolationGridCurves({ interpolated, visible }: IInterpolationGridCurveState) {
   return s('g', { class: 'interpolation-grid-curves' },
-    ...map(
+    ...interpolated.map(
       ({ fun, interpolator }) => visible[interpolator.id] && s('polyline', {
         class: `interpolation-grid-curve interpolator-${snakeToKebabCase(interpolator.id)}`,
         points: join(iterPolylinePoints(fun), ' '),
       }),
-      interpolated,
     ),
   )
 }

@@ -4,7 +4,7 @@ import { schwartzMin } from '../../../common/support/iteration.ts'
 import { type float64 } from '../../../common/types/numbers.ts'
 import { BreakoutBrick } from '../brick.ts'
 import { BALL_CONTROL_POINT_ANGLES, BALL_MOVEMENT_PER_SECOND, BALL_RADIUS, STAGE } from '../constants.ts'
-import { findClosestIntersection, reflectDirectionThroughIntersection } from '../support/intersection.ts'
+import { findClosestIntersection, reflectDirectionThroughIntersection } from '../intersection.ts'
 import { type IGameState } from '../types.ts'
 
 export function evolveBall(state: IGameState): Partial<IGameState> {

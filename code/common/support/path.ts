@@ -1,5 +1,5 @@
 import { IntegrityError } from '../errors.ts'
-import { zipLongest } from './iteration.ts'
+import { zip } from './iteration.ts'
 import { type uint32 } from '../types/numbers.ts'
 
 export class Path {
@@ -81,7 +81,11 @@ export class Path {
   }
 
   equals(other: Path) {
-    for (const [a, b] of zipLongest(this.segments, other.segments)) {
+    if (this.segments.length !== other.segments.length) {
+      return false
+    }
+
+    for (const [a, b] of zip(this.segments, other.segments)) {
       if (a !== b) {
         return false
       }

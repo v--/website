@@ -4,7 +4,7 @@ import { WebsiteEnvironment } from '../environment.ts'
 import { c } from '../rendering/component.ts'
 import { type IPacmanRepository, type PacmanPackageArch } from '../services/pacman.ts'
 import { type IPacmanPackage } from '../services.ts'
-import { groupBy, map } from '../support/iteration.ts'
+import { groupBy } from '../support/iteration.ts'
 import { type IWebsitePageState } from '../types/page.ts'
 
 export function pacmanPage({ pageData }: IWebsitePageState<IPacmanRepository>, env: WebsiteEnvironment) {
@@ -35,7 +35,8 @@ export function pacmanPage({ pageData }: IWebsitePageState<IPacmanRepository>, e
 
     c('section', undefined,
       c('h1', { text: _({ bundleId: 'pacman', key: 'heading.packages' }) }),
-      ...map(([arch, pkgs]) => c(packages, { arch, pkgs }), byArch.entries()),
+      // TODO: Remove Array.from once Iterator.prototype.map() proliferates
+      ...Array.from(byArch.entries()).map(([arch, pkgs]) => c(packages, { arch, pkgs })),
     ),
   )
 }

@@ -1,9 +1,9 @@
-import { AAEllipse, type IIntersection, Vec2D } from '../../../common/math/geom2d.ts'
-import { schwartzMin } from '../../../common/support/iteration.ts'
-import { type float64 } from '../../../common/types/numbers.ts'
-import { type BreakoutBrick } from '../brick.ts'
-import { PADDLE_HEIGHT, PADDLE_WIDTH, STAGE } from '../constants.ts'
-import { BreakoutReflectionError } from '../errors.ts'
+import { type BreakoutBrick } from './brick.ts'
+import { PADDLE_HEIGHT, PADDLE_WIDTH, STAGE } from './constants.ts'
+import { BreakoutReflectionError } from './errors.ts'
+import { AAEllipse, type IIntersection, Vec2D } from '../../common/math/geom2d.ts'
+import { schwartzMin } from '../../common/support/iteration.ts'
+import { type float64 } from '../../common/types/numbers.ts'
 
 function* iterIntersections(origin: Vec2D, direction: Vec2D, paddleCenter: float64, bricks: BreakoutBrick[]): Generator<IIntersection | undefined> {
   yield STAGE.intersectWithRay(origin, direction)

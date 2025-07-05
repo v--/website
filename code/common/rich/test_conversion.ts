@@ -283,8 +283,7 @@ describe('convertRichToPlain function', function () {
     })
   })
 
-  // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  describe.only('mathml', function () {
+  describe('mathml', function () {
     it('with only one identifier', function () {
       const rich: IRichTextDocument = {
         kind: 'document',

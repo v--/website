@@ -1,20 +1,18 @@
 import { Observable } from '../observable.ts'
 
-export async function collect<T>(observable: Observable<T>) {
-  return new Promise(function (resolve, reject) {
-    const result: T[] = []
+export function collect<T>(observable$: Observable<T>) {
+  return new Promise((resolve, reject) => {
+    const values: T[] = []
 
-    observable.subscribe({
-      next(value) {
-        result.push(value)
+    observable$.subscribe({
+      next(value: T) {
+        values.push(value)
       },
-
-      error(err) {
+      error(err: unknown) {
         reject(err)
       },
-
       complete() {
-        resolve(result)
+        resolve(values)
       },
     })
   })
