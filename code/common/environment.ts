@@ -1,4 +1,4 @@
-import { BehaviorSubject, map, Observable, ReplaySubject, Subject, switchMap } from './observable.ts'
+import { BehaviorSubject, Observable, ReplaySubject, Subject, map } from './observable.ts'
 import { type IEncodedError } from './presentable_errors/types.ts'
 import { type IRichTextDocument } from './rich.ts'
 import { type IServiceManager } from './services.ts'

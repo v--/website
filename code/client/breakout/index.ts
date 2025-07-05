@@ -46,8 +46,8 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
         c('button', {
           class: 'button-danger',
           text: _({ bundleId: 'breakout', key: 'control.reset.label' }),
-          async click(event: PointerEvent) {
-            await handleResetButton(getEventParams(store, env, event))
+          click(event: PointerEvent) {
+            handleResetButton(getEventParams(store, env, event))
           },
         }),
       ),

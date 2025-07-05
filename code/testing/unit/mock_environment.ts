@@ -1,5 +1,6 @@
 import { MockServiceManager } from './mock_services.ts'
 import { WebsiteEnvironment } from '../../common/environment.ts'
+import { type LanguageId } from '../../common/translation.ts'
 import { type ColorScheme } from '../../common/types/page.ts'
 
 export class MockEnvironment extends WebsiteEnvironment {
@@ -23,4 +24,6 @@ export class MockEnvironment extends WebsiteEnvironment {
   override isContentDynamic() {
     return false
   }
+
+  override async processLanguageChange(_newLanguage: LanguageId) {}
 }
