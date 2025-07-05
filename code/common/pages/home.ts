@@ -64,7 +64,7 @@ export function homePage(pageState: IWebsitePageState, env: WebsiteEnvironment) 
           doc: _(
             {
               bundleId: 'home', key: 'website_code',
-              context: { githubProjectUrl: GITHUB_PROJECT_URL },
+              context: { projectUrl: GITHUB_PROJECT_URL },
             },
             { rich: true },
           ),
