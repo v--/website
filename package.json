@@ -14,7 +14,7 @@
     "lint": "npm run lint:styles && npm run lint:code",
     "benchmark": "node",
     "test:runner": "node --test --experimental-test-isolation=none",
-    "test:unit:files": "find code/{server,common,client} -name 'test_*.ts'",
+    "test:unit:files": "find code/server code/common code/client -name 'test_*.ts'",
     "test:unit": "npm run test:runner --test-timeout 100 --test-global-setup code/testing/unit/global_hooks.ts $(npm run --silent test:unit:files)",
     "test:api:files": "find code/testing/api -name 'test_*.ts'",
     "test:api:dev": "npm run test:runner --test-timeout 1000 $(npm run --silent test:api:files)",
