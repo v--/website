@@ -1,0 +1,17 @@
+name: Run tests
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: 'ubuntu-24.04'
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: nodenv/actions/setup-nodenv@v3
+    - name: Install node dependencies
+      run: npm ci
+    - name: Run unit tests
+      run: |
+        npm run lint
+        npm run test:unit
