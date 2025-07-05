@@ -10,7 +10,7 @@ The MathML subsystem is flexible, but the type schema is quite loose. This is be
 
 Long story short, the code at [`../../server/markdown`](../../server/markdown) parses markdown via [CommonMark](https://commonmark.org/) and later converts the obtained AST into our rich text AST format.
 
-The website previously used a custom Markdown parser. You can find a working one [here](https://github.com/v--/website/tree/7e244705189a213bc7e29d9ba4dfa34973a4e4f4/code/common/support/markdown/parser.js) and a much better but unfinished one [here](https://github.com/v--/website/tree/master/code/common/markdown/parser.ts).
+The website previously used a custom Markdown parser. You can find a working one [here](https://github.com/v--/website/tree/7e244705189a213bc7e29d9ba4dfa34973a4e4f4/code/common/support/markdown/parser.js) and a much better but unfinished one [here](https://github.com/v--/website/tree/83183121a130960bf9f0b06c2b9f0f08471b1d09/code/common/markdown/parser.ts).
 
 There are two reasons why I decided to abandon that.
 

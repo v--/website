@@ -18,7 +18,7 @@ export type SubstitutionContext = Record<string, string | int32>
  *
  * This is a great simplification compared to my original approach involving a full-fledges template string parser,
  * which I found too complicated (maintenance-wise) for my use case. It is available at
- * https://github.com/v--/website/tree/master/code/common/formatting
+ * https://github.com/v--/website/tree/83183121a130960bf9f0b06c2b9f0f08471b1d09/code/common/formatting
  */
 export function substitutePlain(plain: string, context: SubstitutionContext): string {
   let result = plain

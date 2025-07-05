@@ -1,6 +1,6 @@
 # Code testing
 
-After almost 10 years, from the [first commit](https://github.com/v--/website/tree/46e9d45caef6c7f6606fa048871a0601509b5f6a) on 2015-08-15 to the [large refactoring commit](https://github.com/v--/website/tree/master) on 2025-07-05, we have relied on [mocha.js](https://mochajs.org/) to run our tests. The reason we removed it is it because it was simply unnecessary for several years. We now rely fully on node's [builtin test module](https://nodejs.org/api/test.html), with some custom assertions in [`./assertion.ts`](./assertion.ts).
+After almost 10 years, from the [first commit](https://github.com/v--/website/tree/46e9d45caef6c7f6606fa048871a0601509b5f6a) on 2015-08-15 to the [large refactoring commit](https://github.com/v--/website/tree/83183121a130960bf9f0b06c2b9f0f08471b1d09) on 2025-07-05, we have relied on [mocha.js](https://mochajs.org/) to run our tests. The reason we removed it is it because it was simply unnecessary for several years. We now rely fully on node's [builtin test module](https://nodejs.org/api/test.html), with some custom assertions in [`./assertion.ts`](./assertion.ts).
 
 ## Unit tests
 

@@ -13,7 +13,7 @@
       "",
       "Developed in 2020, with a full rewrite in 2025.",
       "",
-      "The code can be found [on GitHub](${githubProjectUrl}/tree/master/code/client/fleeing_button).",
+      "The code can be found [on GitHub](${githubPathUrl}).",
       "",
       "## Method",
       "",
