@@ -1,6 +1,7 @@
 {
   "private": true,
   "type": "module",
+  "license": "Unlicense",
   "scripts": {
     "clean": "rm --recursive --force private public",
     "build": "npm run clean && npm run lint && npm run unittest && node code/build/builder.ts",

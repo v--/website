@@ -4,7 +4,9 @@ This is the code for my personal website, https://ivasilev.net
 
 For learning purposes, I have made it my goal to only rely on external dependencies for development (and not for the runtime), so I have implemented a lot from scratch. I hope some of it may be useful as a simple yet working reference unburdened by the feature creep of large libraries and frameworks. Some highlights are listed in the following sections. Think of the kind of code you see in "build your own web framework" blog posts.
 
-After running the website for 12 years (with occasional development), in 2025 I did a large refactoring and have decided to publish the code on GitHub. On that occasion I wrote module overviews in the README files of some directories (perhaps a single "docs" folder would have been better?). For example, [`./code`](./code) and [`./styles`](./client/styles) contain an overview of some tools used, while the directories listed in the next section feature code that may be of interest elsewhere.
+Naturally, the code is licensed under the [Unlicense](https://unlicense.org/), and whatever other content I have here is licensed under [CC0](https://creativecommons.org/public-domain/cc0/) (except, obviously, for [Font Awesome](https://fontawesome.com/) and the [STIX Fonts](https://www.stixfonts.org/), which I have here as submodules).
+
+After running the website for 12 years (with occasional development bursts), in 2025 I did a large refactoring and have decided to publish the code on GitHub. On that occasion I wrote module overviews in the README files of some directories (perhaps a single "docs" folder would have been better?). For example, [`./code`](./code) and [`./styles`](./client/styles) contain an overview of some tools used, while the directories listed in the next section feature code that may be of interest elsewhere.
 
 To run the code, a little setup is required:
 ```
