@@ -1,14 +1,7 @@
 @use "../../colors";
 @use "../../fonts";
 
-.vertical-table-wrapper {
-  overflow-x: auto;
-  width: 100%;
-  overscroll-behavior-x: contain;
-}
-
 .vertical-table {
-  width: auto;
-  min-width: 100%;
+  width: 100%;
   table-layout: fixed;
 }

@@ -13,14 +13,12 @@ interface IVerticalTableState<T> {
 }
 
 export function verticalTable<T = unknown>({ tableClass, columnSpecs, data, style }: IVerticalTableState<T>, env: WebsiteEnvironment) {
-  return c('div', { class: 'vertical-table-wrapper' },
-    c('table', { class: classlist('vertical-table', 'delimited-table', tableClass), style },
-      c('thead', undefined,
-        c('tr', undefined, ...iterHeaderColumns(columnSpecs, env)),
-      ),
-
-      c('tbody', undefined, ...iterRows(columnSpecs, data)),
+  return c('table', { class: classlist('vertical-table', 'delimited-table', tableClass), style },
+    c('thead', undefined,
+      c('tr', undefined, ...iterHeaderColumns(columnSpecs, env)),
     ),
+
+    c('tbody', undefined, ...iterRows(columnSpecs, data)),
   )
 }
 
