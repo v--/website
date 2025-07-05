@@ -1,7 +1,11 @@
 @use "../../colors";
 
 .interactive-table-wrapper {
+  .interactive-table {
+    border-bottom: var(--table-size-border) solid var(--table-color-border);
+  }
+
   .paginator {
-    border-block: var(--table-size-border) solid var(--table-color-border);
+    border-bottom: var(--table-size-border) solid var(--table-color-border);
   }
 }
