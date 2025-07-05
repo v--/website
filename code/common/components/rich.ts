@@ -99,7 +99,7 @@ class ComponentCreationVisitor extends RichTextVisitor<Component> {
       anchor,
       {
         href: entry.href ?? '',
-        isInternal: entry.href !== undefined && entry.href.includes(':'),
+        isInternal: entry.href !== undefined && !entry.href.match('^[a-z]+:'),
         ...this.visitTextState(entry),
       },
       ...this.iterChildren(entry.children),
