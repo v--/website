@@ -9,6 +9,10 @@ export class BreakoutPage extends PlaygroundPage {
     return this._pwPage.locator('.playground-menu-toggle-button')
   }
 
+  getMenuRest() {
+    return this._pwPage.locator('.playground-menu-rest')
+  }
+
   async isMenuExpanded() {
     return await this.getMenuToggleLocator().isVisible()
   }

@@ -3,7 +3,7 @@ import { after, beforeEach, describe, it } from 'node:test'
 
 import { assertFalse, assertTrue } from '../../assertion.ts'
 import { BreakoutPage } from '../playground/breakout.ts'
-import { getBoundingBox } from '../support/locator.ts'
+import { getBoundingBox, waitForStableState } from '../support/locator.ts'
 import { VIEWPORT_SIZE_NAMES } from '../support/viewport.ts'
 
 describe('Breakout page', function () {
@@ -69,8 +69,10 @@ describe('Breakout page', function () {
       it('can expand on a small screen by clicking the menu toggle', async function () {
         await page.scaleViewport('VGA')
         await page.goto('/playground/breakout')
+        const rest = page.getMenuRest()
         const toggle = page.getMenuToggleLocator()
         await toggle.click()
+        await waitForStableState(rest)
         const reset = page.getResetButtonLocator()
         assertTrue(await reset.isVisible())
       })
@@ -78,9 +80,12 @@ describe('Breakout page', function () {
       it('can collapse by clicking the menu toggle twice', async function () {
         await page.scaleViewport('VGA')
         await page.goto('/playground/breakout')
+        const rest = page.getMenuRest()
         const toggle = page.getMenuToggleLocator()
         await toggle.click()
+        await waitForStableState(rest)
         await toggle.click()
+        await waitForStableState(rest)
         const reset = page.getResetButtonLocator()
         assertFalse(await reset.isVisible())
       })

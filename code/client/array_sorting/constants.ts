@@ -38,7 +38,7 @@ export const TIMELINES = Object.fromEntries(
       getObjectEntries(INITIAL_ARRAYS).map(function ([templateKind, array]) {
         const sortable = new SortableArray(array)
         algorithm.sort(sortable)
-        const timeline = new SortingTimeline(array, sortable.actions)
+        const timeline = new SortingTimeline(array, sortable.comparisons)
 
         return [templateKind, timeline]
       }),
