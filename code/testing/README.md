@@ -12,7 +12,7 @@ Additionally, to aim in proper resource deallocation, we have a [global hook](./
 
 ## API tests
 
-The API tests, runnable via `npm run test:api:dev` or `npm run test:api:prod`, do some basic validation of our (very simple) APIs. These tests rely on [PlayWright](https://playwright.dev/)'s `APIRequestContext`. They reside in [`./api`](./api).
+The API tests, runnable via `npm run test:api:local` or `npm run test:api:prod`, do some basic validation of our (very simple) APIs. These tests rely on [PlayWright](https://playwright.dev/)'s `APIRequestContext`. They reside in [`./api`](./api).
 
 The testing environment is configured via the `API_TEST_ENVIRONMENT` environment variable. Unless it equals `production`, we run tests locally.
 

@@ -15,7 +15,7 @@ npm install
 ln --symbolic dev.json config/active.json
 ```
 
-After that, a development server can be launched via `npm run server` and `npm run client`.
+After that, a development server can be launched via `npm run watcher` and, after the initial build, `npm run server`.
 
 ## Library code
 
