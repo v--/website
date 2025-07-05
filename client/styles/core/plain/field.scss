@@ -1,0 +1,38 @@
+@use "../../mixins";
+
+fieldset {
+  border: 0;
+}
+
+input:where(:not([type]), [type='text'], [type='number']), pre, textarea {
+  padding-inline: var(--field-size-hpadding);
+  padding-block: var(--field-size-vpadding);
+  border: var(--field-size-border) solid var(--field-color-border-normal);
+  border-radius: 0;
+  background-color: var(--field-color-background-normal);
+  color: var(--field-color-foreground-normal);
+  text-decoration: none;
+}
+
+textarea {
+  resize: none;
+}
+
+pre, textarea {
+  overflow: auto;
+  scrollbar-gutter: auto;
+  overscroll-behavior: contain;
+}
+
+input:where(:not([type]), [type='text'], [type='number']), textarea {
+  &::placeholder {
+    color: var(--field-color-placeholder);
+  }
+
+  &:disabled, fieldset[disabled] & {
+    border-color: var(--field-color-border-disabled);
+    background-color: var(--field-color-background-disabled);
+    color: var(--field-color-foreground-disabled);
+    cursor: var(--field-cursor-disabled);
+  }
+}

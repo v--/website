@@ -1,0 +1,26 @@
+@use "sass:list";
+@use "./vars";
+@use "components/interpolation_grid";
+@use "components/interpolation_grid_curves";
+@use "components/interpolation_grid_knots";
+@use "components/interpolation_grid_points";
+@use "components/interpolation_legend_table";
+@use "components/interpolation_knot_table";
+
+.univariate-interpolation-page {
+  --interpolation-color-background:     var(--body-color-ppp);
+  --interpolation-color-axis:           var(--body-color-pp);
+  --interpolation-color-point-normal:   var(--body-color-pp);
+  --interpolation-color-point-accented: var(--body-color-accented);
+  --interpolation-color-point-active:   var(--body-color-accented);
+  --interpolation-size-curve-thickness: 0.075;
+  --interpolation-size-axis-thickness:  0.05;
+  --interpolation-grid-cursor: pointer;
+
+  // Interpolators
+  @for $i from 1 through list.length(vars.$interpolators) {
+    $name: list.nth(vars.$interpolators, $i);
+
+    --interpolation-color-interpolator-#{$name}: var(--body-color-rainbow-#{$i});
+  }
+}

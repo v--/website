@@ -1,0 +1,12 @@
+@each $dynamics in ppp, pp, p, mp, mf, f, ff, fff {
+  .spacer-dynamics-#{$dynamics} {
+    &.spacer-vertical {
+      min-height: var(--body-size-#{$dynamics})
+    }
+
+    &.spacer-horizontal {
+      display: inline-block;
+      min-width: var(--body-size-#{$dynamics})
+    }
+  }
+}

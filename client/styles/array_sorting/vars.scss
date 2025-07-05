@@ -1,0 +1,24 @@
+/* stylelint-disable scss/operator-no-newline-after */
+@use "../sizes";
+
+// The sizes are carefully adjusted so that a single card fits the minimal width
+$sorting-size-card-gap: 0.8rem;
+$sorting-size-card-vpadding: 0.75rem;
+$sorting-size-card-hpadding: 0.75rem;
+$sorting-size-card-array-gap: 0.5rem;
+$sorting-size-card-width: #{calc(sizes.$main-size-min-width - 2 * sizes.$main-size-hpadding-dense)};
+
+@function sorting-size-card-item-width($count) {
+  @return #{
+    calc(
+      (
+        $sorting-size-card-width -
+        2 * $sorting-size-card-hpadding -
+        ($count - 1) * $sorting-size-card-array-gap
+      ) / $count
+    )
+  };
+};
+
+$sorting-size-card-array-width: sorting-size-card-item-width(2);
+$sorting-size-card-table-header-width: calc(3 / 4 * $sorting-size-card-array-width)

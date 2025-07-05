@@ -1,140 +1,105 @@
-import { location$ } from '../../common/shared_observables.js'
-import { c } from '../../common/rendering/component.js'
+import { fromEvent } from './dom/observable.ts'
+import { getCurrentUrlPath, getPreferredLanguage, pushIntoHistory } from './dom.ts'
+import { ClientWebsiteEnvironment } from './environment.ts'
+import { ClientLogger } from './logger.ts'
+import { ClientRoutingService } from './routing_service.ts'
+import { ClientServiceManager } from './services.ts'
+import { filter, first, map, startWith, subscribeAsync, takeUntil } from '../../common/observable.ts'
+import { type IRenderEvent } from '../../common/rendering/manager.ts'
+import { type UrlPath } from '../../common/support/url_path.ts'
+import { CANONICAL_LANGUAGE_STRING } from '../../common/translation.ts'
+import { type LanguageId } from '../../common/translation.ts'
 
-import { main } from '../../common/components/main.js'
-import { title } from '../../common/components/title.js'
-import { IconSpec, iconMap } from '../../common/components/icon.js'
+const readyState$ = fromEvent(document, 'readystatechange').pipe(
+  map(event => (event.target as Document).readyState),
+  startWith(document.readyState),
+  filter(readyState => readyState === 'complete'),
+)
 
-import { RouterService } from './services/router.js'
-import { onDocumentReady, getCurrentURL } from './support/dom.js'
-import { dispatcher } from './render_dispatcher.js'
-import { processErrorJsonObject, restoreError } from '../../common/store/errors'
-import { microtaskEnqueue } from '../../common/observables/operators.js'
-import { darkScheme$ } from './shared_observables.js'
+await first(readyState$)
 
-/**
- * @param {TObservables.IObservable<TRouter.IRouterState>} observable
- */
-function renderObservable(observable) {
-  const mainElement = document.querySelector('main')
+const rawRehydrationData = 'rehydrationData' in window && window.rehydrationData instanceof Node ?
+  window.rehydrationData.textContent ?? undefined :
+  undefined
 
-  if (mainElement) {
-    document.body.replaceChild(
-      dispatcher.render(c(main, observable)),
-      mainElement
-    )
-  }
+const logger = new ClientLogger('RENDERING', 'DEBUG')
 
-  const titleElement = document.querySelector('title')
-
-  if (titleElement) {
-    document.head.replaceChild(
-      dispatcher.render(c(title, observable)),
-      titleElement
-    )
-  }
+if (rawRehydrationData === undefined) {
+  logger.info('No rehydration data found')
+} else {
+  logger.info('Using rehydration data')
 }
 
-/**
- * @param {RouterService} routerService
- * @param {unknown} err
- */
-function renderError(routerService, err) {
-  console.error(err)
-  routerService.state$.complete()
-  routerService.displayError(getCurrentURL(), err)
-  renderObservable(routerService.state$)
+const services = ClientServiceManager.initializeWithRawRehydrationData(rawRehydrationData)
+const env = new ClientWebsiteEnvironment(logger, { services, language: getPreferredLanguage() })
+const routingService = new ClientRoutingService(logger, env)
+await routingService.initialRender(getCurrentUrlPath())
+
+// Re-rendering has been initialized at this point; it remains to add some handlers of varying importance
+
+async function handleError(err: unknown, urlPath?: UrlPath) {
+  await routingService.processError(urlPath ?? getCurrentUrlPath(), err)
 }
 
-async function fetchIcons() {
-  const response = await window.fetch('/icons.json')
-  /** @type {Record<string, import('../../common/components/icon.js').IconSpec>} */
-  const icons = await response.json()
-
-  for (const [name, icon] of Object.entries(icons)) {
-    iconMap.set(name, icon as IconSpec)
-  }
-}
-
-/**
- * @typedef {{ data?: unknown, errorData?: TErrors.ErrorJsonObject }} ServerData
- */
-
-/**
- * @returns {ServerData}
- */
-function readServerData() {
-  try {
-    const { data, errorData } = JSON.parse(window.data.textContent!)
-
-    return {
-      data,
-      errorData: errorData && processErrorJsonObject(errorData)
-    }
-  } catch (err) {
-    console.error(err)
-    // Silently ignore this error
-  }
-
-  return {}
-}
-
-Promise.all([onDocumentReady(), fetchIcons()]).then(async function() {
-  // "data" is the id a script element
-  const { data, errorData } = readServerData()
-  const service = await RouterService.initialize(getCurrentURL(), data, errorData)
-
-  service.state$.subscribe({
-    /**
-     * @param {Error} err
-     */
-    error(err) {
-      renderError(service, err)
-    }
-  })
-
-  microtaskEnqueue(location$).subscribe({
-    /**
-     * @param {string} value
-     */
-    async next(value) {
-      try {
-        await service.changeURL(value)
-      } catch (err) {
-        renderError(service, err)
+subscribeAsync(
+  routingService.renderManager.renderNotify$,
+  {
+    async next(renderEvent: IRenderEvent) {
+      if (renderEvent.status === 'failure' && !routingService.isRenderingError()) {
+        await handleError(renderEvent.error)
       }
     },
 
-    /**
-     * @param {Error} err
-     */
-    error(err) {
-      service.displayError(getCurrentURL(), err)
-    }
-  })
+    error: handleError,
+  },
+)
 
-  window.addEventListener('error', function(event) {
-    const err = event.error
-    renderError(service, err)
-    event.preventDefault()
-  })
+subscribeAsync(
+  fromEvent(window, 'error').pipe(takeUntil(routingService.unload$)),
+  {
+    async next(event: ErrorEvent) {
+      await handleError(event.error)
+    },
+  },
+)
 
-  window.addEventListener('popstate', async function() {
-    try {
-      await service.processURL(getCurrentURL())
-    } catch (err) {
-      renderError(service, err)
-    }
-  })
+subscribeAsync(
+  fromEvent(window, 'unhandledrejection').pipe(takeUntil(routingService.unload$)),
+  {
+    async next(event: PromiseRejectionEvent) {
+      await handleError(event.reason)
+    },
+  },
+)
 
-  if (errorData) {
-    const err = restoreError(errorData)
-    renderError(service, err)
-  } else {
-    try {
-      renderObservable(service.state$)
-    } catch (err) {
-      renderError(service, err)
-    }
-  }
-})
+subscribeAsync(
+  fromEvent(window, 'popstate').pipe(takeUntil(routingService.unload$)),
+  {
+    async next(_event: PopStateEvent) {
+      await routingService.processUrlPath(getCurrentUrlPath())
+    },
+  },
+)
+
+subscribeAsync(
+  env.urlPath$,
+  {
+    async next(urlPath: UrlPath) {
+      await routingService.processUrlPath(urlPath)
+      pushIntoHistory(urlPath)
+    },
+
+    error: handleError,
+  },
+)
+
+subscribeAsync(
+  env.language$,
+  {
+    async next(language: LanguageId) {
+      document.documentElement.setAttribute('lang', CANONICAL_LANGUAGE_STRING[language])
+    },
+
+    error: handleError,
+  },
+)

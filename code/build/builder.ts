@@ -1,17 +1,10 @@
-import { BuildManager } from './build_manager.js'
-import { CodeBuildWorker } from './workers/code.js'
-import { iterBuildManagers } from './managers.js'
+import fs from 'node:fs/promises'
 
-function * iterExtendedBuildManagers() {
-  yield new BuildManager({
-    builder: new CodeBuildWorker({ srcBase: './code', destBase: './private/code' }),
-    basePatterns: ['./code/types/**/*.d', './code/{common,server}/**/*.{js,ts}'],
-    ignorePatterns: ['**/test_*.{js,ts}']
-  })
+import { bulkBuild, getBuildManagers } from './managers.ts'
 
-  yield * iterBuildManagers()
-}
+await fs.rm('./public', { recursive: true })
+await fs.rm('./private', { recursive: true })
 
-await Promise.all(
-  Array.from(iterExtendedBuildManagers()).map(watcher => watcher.buildAll())
+await bulkBuild(
+  getBuildManagers({ sourceMaps: false, dev: false, loggerLevel: 'WARN' }),
 )

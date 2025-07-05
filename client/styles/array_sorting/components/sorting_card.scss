@@ -1,58 +1,62 @@
-@import "../../colors.scss";
+@use "../../mixins";
 
 .sorting-card {
   display: flex;
   flex-direction: column;
-  width: 15em;
+  row-gap: var(--sorting-size-card-gap);
+  box-sizing: border-box;
+  width: var(--sorting-size-card-width);
+  padding-inline: var(--sorting-size-card-hpadding);
+  padding-block: var(--sorting-size-card-vpadding);
+  background-color: var(--sorting-color-card-background);
   text-align: center;
-  background-color: var(--color-background-accented);
-  padding: 0 1em;
 
-  .sorting-card-title {
-    margin-top: 0.5em;
-    margin-bottom: 0;
-    font-size: 1.4em;
+  &-title {
+    @include mixins.inline-ellipsis;
+
+    overflow-y: hidden; // Why is there vertical overflow?
   }
 
-  .sorters {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
+  &-info-table {
+    width: auto;
+    table-layout: fixed;
 
-  .quick-info {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 0.5em;
+    th, td {
+      padding-block: 0;
+      text-align: left;
+    }
 
-    .info {
-      .title {
-        font-weight: bold;
-        margin-bottom: 0;
-      }
+    th {
+      @include mixins.inline-ellipsis;
 
-      .value {
-        margin-top: 0.25em;
-      }
-
-      &.time-info, &.space-info {
-        .value {
-          font-style: italic;
-        }
-      }
+      width: var(--sorting-size-card-table-header-width);
+      max-width: var(--sorting-size-card-table-header-width);
     }
   }
 
-  .buttons .sort-button {
-    width: 45%;
-    margin: 0 5% 1.5em;
+  &-buttons {
+    display: flex;
+    column-gap: var(--sorting-size-button-gap);
 
-    &:first-of-type {
-      margin-left: 0;
+    .sorting-status-button {
+      flex-grow: 1;
     }
+  }
 
-    &:last-of-type {
-      margin-right: 0;
+  &-array-grid {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sorting-size-array-gap);
+  }
+
+  &-array {
+    width: var(--sorting-size-array-width);
+
+    &-template-kind {
+      @include mixins.inline-ellipsis;
+
+      overflow-y: hidden; // Why is there vertical overflow?
     }
   }
 }

@@ -1,0 +1,21 @@
+.files-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+
+  &-content {
+    flex-grow: 1;
+  }
+
+  &-table {
+    .col-name,
+    .col-modified {
+      width: 30%;
+    }
+
+    .col-type,
+    .col-size {
+      width: 20%;
+    }
+  }
+}

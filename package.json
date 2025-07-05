@@ -3,42 +3,93 @@
   "type": "module",
   "scripts": {
     "clean": "rm --recursive --force private public",
-    "build": "npm run clean && npm run lint && npm run test && tsx code/build/builder.ts",
-    "client": "tsx code/build/watcher.ts",
-    "server": "tsx --watch code/server/index.ts",
-    "lint": "tsc --project . --noEmit && eslint --ext js,ts,d.ts code",
-    "test": "mocha",
-    "unimported": "unimported --show-unused-files",
-    "favicon": "convert -background transparent client/svg/favicon.svg -resize 64x64 client/assets/images/favicon.png"
+    "build": "npm run clean && npm run lint && npm run unittest && node code/build/builder.ts",
+    "client": "node code/build/watcher.ts",
+    "server": "node --watch code/server/index.ts",
+    "lint:styles": "stylelint client/styles",
+    "lint:code:ts": "tsc",
+    "lint:code:eslint": "eslint --config code/eslint.config.ts code",
+    "lint:code": "npm run lint:code:ts && npm run lint:code:eslint",
+    "lint": "npm run lint:styles && npm run lint:code",
+    "benchmark": "node",
+    "test:unit:files": "find code/{server,common,client} -name 'test_*.ts'",
+    "test:unit": "node --test --test-timeout 100 --test-global-setup code/testing/unit/global_hooks.ts $(npm run --silent test:unit:files)",
+    "test:api:files": "find code/testing/api -name 'test_*.ts'",
+    "test:api:dev": "node --test --test-timeout 1000 $(npm run --silent test:api:files)",
+    "test:api:prod": "API_TEST_ENVIRONMENT=production npm run test:api:dev",
+    "test:e2e:files": "find code/testing/e2e -name 'test_*.ts'",
+    "test:e2e:default": "node --test --test-timeout 6000 $(npm run --silent test:e2e:files)",
+    "test:e2e:chromium": "E2E_BROWSER=chromium npm run test:e2e:default",
+    "test:e2e:firefox": "E2E_BROWSER=firefox npm run test:e2e:default",
+    "test:e2e:webkit": "E2E_BROWSER=webkit npm run test:e2e:default",
+    "test:e2e:dev": "npm run test:e2e:chromium && npm run test:e2e:firefox && test:e2e:webkit",
+    "test:e2e:prod": "E2E_ENVIRONMENT=production npm run test:e2e:dev",
+    "clutter": "knip --dependencies --files"
   },
   "dependencies": {
+    "commonmark": "^0.31.2",
+    "lzma-native": "^8.0.6",
+    "tar": "^7.4.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.30.1",
+    "@playwright/test": "^1.53.2",
+    "@stylistic/eslint-plugin": "^5.1.0",
+    "@swc/core": "^1.12.9",
     "@types/benchmark": "^2.1.5",
     "@types/browser-sync": "^2.29.0",
-    "@types/chai": "^4.3.12",
-    "@types/node": "^20.11.28",
-    "@typescript-eslint/eslint-plugin": "^7.2.0",
-    "@typescript-eslint/parser": "^7.2.0",
+    "@types/commonmark": "^0.27.10",
+    "@types/lzma-native": "^4.0.4",
+    "@types/node": "^24.0.0",
+    "@types/svg-render": "^1.2.2",
     "benchmark": "^2.1.4",
-    "browser-sync": "^3.0.2",
-    "chai": "^5.1.0",
-    "chokidar": "^3.6.0",
+    "browser-sync": "^3.0.4",
+    "chokidar": "^4.0.3",
     "es-observable-tests": "^0.3.0",
-    "eslint": "^8.57.0",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-mocha": "^10.4.1",
-    "eslint-plugin-node": "^11.1.0",
-    "glob": "^10.3.10",
-    "mocha": "^10.3.0",
-    "nodemon": "^3.1.0",
-    "sass": "^1.72.0",
-    "svgo": "^v3.2.0",
-    "tsx": "^4.7.1",
-    "typescript": "^5.4.2",
-    "unimported": "^1.31.0"
+    "eslint": "^9.30.1",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-re-export-sort": "^0.1.15",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "find-process": "^1.4.10",
+    "globals": "^16.3.0",
+    "knip": "^5.61.3",
+    "node-html-parser": "^7.0.1",
+    "sass": "^1.89.2",
+    "stylelint": "^16.21.1",
+    "stylelint-config-hudochenkov": "^12.0.0",
+    "stylelint-config-standard-scss": "^15.0.1",
+    "stylelint-high-performance-animation": "^1.11.0",
+    "stylelint-order": "^7.0.0",
+    "stylelint-plugin-defensive-css": "^1.0.4",
+    "svg-render": "^2.0.1",
+    "svgo": "^v4.0.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.35.1"
   },
-  "mocha": {
-    "extension": ["ts"],
-    "node-option": ["import=tsx"],
-    "spec": "code/**/test_*.ts"
+  "stylelint": {
+    "extends": [
+      "stylelint-config-standard-scss",
+      "stylelint-config-hudochenkov/order"
+    ],
+    "plugins": [
+      "stylelint-high-performance-animation",
+      "stylelint-plugin-defensive-css"
+    ],
+    "rules": {
+      "custom-property-pattern": null,
+      "scss/dollar-variable-colon-space-after": null,
+      "plugin/use-defensive-css": [
+        true,
+        {
+          "severity": "warning",
+          "accidental-hover": true,
+          "background-repeat": true,
+          "scroll-chaining": true,
+          "vendor-prefix-grouping": true
+        }
+      ],
+      "plugin/no-low-performance-animation-properties": true
+    }
   }
 }

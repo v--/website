@@ -1,0 +1,33 @@
+@use "../../fonts";
+@use "../../mixins";
+
+table {
+  width: 100%; // This is needed for texht block math
+  border-collapse: collapse;
+  color: var(--table-color-foreground);
+
+  th {
+    --anchor-color-normal: var(--table-color-foreground);
+    --anchor-color-accented: var(--table-color-foreground);
+    --button-color: var(--table-color-foreground);
+    --anchor-text-decoration: none;
+
+    text-align: left;
+  }
+
+  th, td {
+    @include mixins.inline-ellipsis;
+
+    padding: 0.75em 0.25em;
+  }
+
+  &.delimited-table {
+    thead > tr,
+    > tr:not(:last-child),
+    tbody > tr:not(:last-child) {
+      > th, > td {
+        border-bottom: var(--table-size-border) solid var(--table-color-border);
+      }
+    }
+  }
+}

@@ -1,0 +1,81 @@
+@use "../../mixins";
+@use "../../misc";
+
+input:where([type="checkbox"], [type="radio"], [type="range"]) {
+  cursor: var(--control-cursor-normal);
+  accent-color: var(--control-color-input-normal);
+
+  @media (hover: hover) {
+    &:hover {
+      accent-color: var(--control-color-input-accented);
+    }
+
+    &:checked {
+      accent-color: var(--control-color-input-active);
+    }
+  }
+
+  @media (hover: none) {
+    &:checked {
+      accent-color: var(--control-color-input-active);
+    }
+  }
+
+  &[disabled], fieldset[disabled] & {
+    cursor: var(--control-cursor-disabled);
+    accent-color: var(--control-color-input-disabled);
+  }
+}
+
+label:has(input:where([type="checkbox"], [type="radio"], [type="range"])) {
+  --anchor-color-normal: var(--control-color-label-normal);
+  --anchor-color-accented: var(--control-color-label-accented);
+  --anchor-color-disabled: var(--control-color-label-disabled);
+
+  @include mixins.foreground-color(var(--control-color-label-normal));
+
+  display: inline-flex;
+  justify-content: var(--control-justify-content);
+  align-items: center;
+  padding-inline: var(--control-size-label-hpadding);
+  padding-block: var(--control-size-label-vpadding);
+  cursor: var(--control-cursor-normal);
+}
+
+label:has(input:where([type="checkbox"], [type="radio"])) {
+  @media (hover: hover) {
+    &:hover {
+      @include mixins.foreground-color(var(--control-color-label-accented));
+    }
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  input {
+    margin: 0;
+  }
+}
+
+label:has(input:where(:checked)) {
+  --anchor-color-normal: var(--control-color-label-normal);
+
+  @include mixins.foreground-color(var(--control-color-label-active));
+
+  @media (hover: hover) {
+    &:hover {
+      @include mixins.foreground-color(var(--control-color-label-accented));
+    }
+  }
+}
+
+label:has(input[type="checkbox"][disabled], input[type="radio"][disabled], input[type="range"][disabled]),
+fieldset[disabled] label:has(input[type="checkbox"], input[type="radio"], input[type="range"]) {
+  @include mixins.foreground-color(var(--control-color-label-disabled));
+
+  cursor: var(--control-cursor-disabled);
+
+  @media (hover: hover) {
+    &:hover {
+      @include mixins.foreground-color(var(--control-color-label-disabled));
+    }
+  }
+}

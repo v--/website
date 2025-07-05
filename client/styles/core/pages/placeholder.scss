@@ -1,0 +1,15 @@
+@use "../../colors";
+
+.placeholder-page {
+  height: 100%;
+  text-align: center;
+
+  &-loading {
+    align-content: center;
+    height: 100%;
+
+    &-text {
+      font-size: min(15dvw, 5em);
+    }
+  }
+}

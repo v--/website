@@ -1,0 +1,14 @@
+.breakout-splash {
+  &-background {
+    opacity: var(--breakout-opacity-splash);
+    fill: var(--breakout-color-foreground);
+  }
+
+  &-message {
+    font-size: var(--breakout-size-font-splash-message);
+  }
+
+  &-hint {
+    font-size: var(--breakout-size-font-splash-hint);
+  }
+}

@@ -1,0 +1,14 @@
+@use "../../fonts";
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+  text-align: var(--heading-text-align);
+}
+
+@for $i from 1 through 6 {
+  h#{$i} {
+    margin-block: var(--heading-h#{$i}-size-margin-top) var(--heading-h#{$i}-size-margin-bottom);
+    font-size: var(--heading-h#{$i}-size-font);
+    line-height: var(--heading-h#{$i}-size-line);
+  }
+}

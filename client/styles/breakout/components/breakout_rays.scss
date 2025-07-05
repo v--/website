@@ -1,0 +1,18 @@
+.breakout-ray {
+  fill: none;
+  stroke-width: var(--breakout-size-ray-width-normal);
+  stroke-linecap: round;
+
+  /* stylelint-disable-next-line order/order */
+  @for $i from 1 through 5 {
+    &-#{$i} {
+      opacity: 0.5;
+      stroke: var(--breakout-color-ray-#{$i});
+    }
+  }
+
+  &.breakout-ray-dominant {
+    opacity: 1;
+    stroke-width: var(--breakout-size-ray-width-dominant);
+  }
+}

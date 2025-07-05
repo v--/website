@@ -1,40 +1,35 @@
-import { join as joinPath, relative } from 'path'
-import fs from 'fs/promises'
+import fs from 'node:fs/promises'
+import { join as joinPath, relative } from 'node:path'
 
-import { BuildWorker, IBuildContext, ICleanContext } from '../build_worker.js'
+import { type IBuildContext, type IBuildWorker } from '../build_worker.ts'
 
-interface IAssetBuildWorkerConfig {
+interface IAssetIBuildWorkerConfig {
   srcBase: string
   destBase: string
 }
 
-export class AssetBuildWorker extends BuildWorker {
-  constructor(public config: IAssetBuildWorkerConfig) {
-    super()
+export class AssetIBuildWorker implements IBuildWorker {
+  readonly config: IAssetIBuildWorkerConfig
+
+  constructor(config: IAssetIBuildWorkerConfig) {
+    this.config = config
   }
 
   getDestPath(src: string): string {
     return joinPath(this.config.destBase, relative(this.config.srcBase, src))
   }
 
-  async * performBuild(src: string): AsyncIterable<IBuildContext> {
+  async* performBuild(src: string): AsyncIterable<IBuildContext> {
     try {
       const contents = await fs.readFile(src)
 
       yield {
         src,
         dest: this.getDestPath(src),
-        contents
+        contents,
       }
     } catch (err) {
       // The "file" may be a directory, so reading may fail
-    }
-  }
-
-  async * performClean(src: string): AsyncIterable<ICleanContext> {
-    yield {
-      src,
-      dest: this.getDestPath(src)
     }
   }
 }

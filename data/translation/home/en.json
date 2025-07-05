@@ -1,0 +1,56 @@
+{
+  "title": {
+    "entryKind": "plain",
+    "content": "Home page"
+  },
+
+  "description": {
+    "entryKind": "plain",
+    "content": "Home page of Ianis Vasilev's personal website."
+  },
+
+  "heading.about_me": {
+    "entryKind": "plain",
+    "content": "About me"
+  },
+
+  "heading.about_website": {
+    "entryKind": "plain",
+    "content": "About the website"
+  },
+
+  "heading.contacts": {
+    "entryKind": "plain",
+    "content": "Contacts"
+  },
+
+  "bio": {
+    "entryKind": "rich",
+    "content": "My name is Ianis Vasilev. Briefly, I am a computer programmer with a mathematical education."
+  },
+
+  "photo.alt": {
+    "entryKind": "plain",
+    "content": "Portrait photo of me"
+  },
+
+  "website_description": {
+    "entryKind": "rich",
+    "content": "This is my personal website. It is dedicated to creations I want to share with the general public that don't properly belong elsewhere."
+  },
+
+  "page_list_prefix": {
+    "entryKind": "plain",
+    "content": "There are a few distinct sections:"
+  },
+
+  "website_code": {
+    "entryKind": "rich",
+    "content": "Additionally, for me this website was a massive learning opportunity for many low-level details of web development. I have implemented much from scratch; enough to feel contented and share the code in a [GitHub repository](${projectUrl})."
+  },
+
+  "openpgp": {
+    "entryKind": "rich",
+    "content": "OpenPGP public key: [`${keyName}`](${keyUrl})"
+  }
+}

@@ -1,0 +1,7 @@
+export { AAEllipse, type IAAEllipseConfig } from './geom2d/aa_ellipse.ts'
+export { AARect, type IAARectConfig } from './geom2d/aa_rect.ts'
+export { getAngleBetween, normalizeAngle } from './geom2d/angles.ts'
+export { Circle, type ICircleConfig } from './geom2d/circle.ts'
+export { type ILine2DConfig, Line2D } from './geom2d/line2d.ts'
+export { type IIntersectible, type IIntersection } from './geom2d/types.ts'
+export { type IPlainVec2D, type IVec2DConfig, Vec2D, ZERO_VECTOR } from './geom2d/vec2d.ts'

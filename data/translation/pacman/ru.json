@@ -1,0 +1,26 @@
+{
+  "title": {
+    "entryKind": "plain",
+    "content": "Хралинище для pacman"
+  },
+  "heading.main": {
+    "entryKind": "plain",
+    "content": "Хралинище для pacman"
+  },
+  "heading.packages": {
+    "entryKind": "plain",
+    "content": "Пакеты"
+  },
+  "main": {
+    "entryKind": "rich",
+    "content": "Данное хранилище содержит множество пакетов; в основном мои собственные программы и построенные пакеты из AUR. Переменную `$arch` можно оставить как есть, а можно заменить на поддерживаемую архитектуру - `any` или `x86_64`."
+  },
+  "openpgp": {
+    "entryKind": "rich",
+    "content": "Все пакеты подписаны и могут быть верифицированы с помощью моего публичного OpenPGP ключа [`${keyName}`](${keyUrl})."
+  },
+  "version": {
+    "entryKind": "plain",
+    "content": "${name} (версия ${version})"
+  }
+}

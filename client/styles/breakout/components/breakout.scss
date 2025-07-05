@@ -1,45 +1,45 @@
-@import "../../colors.scss";
+@use "../vars";
+@use "../../mixins";
+@use "../../fonts";
 
 .breakout {
-  background-color: var(--color-background-accented);
+  width: 100%;
+  height: 100%;
+  background-color: var(--breakout-color-background);
 
-  .score {
-    paint-order: stroke;
-    fill: var(--color-midground);
-    stroke: var(--color-background-accented);
-    stroke-width: 0.1px;
-    font-size: 0.75px;
-  }
-
-  .splash, .subsplash {
-    paint-order: stroke;
-    fill: var(--color-midground);
-    stroke: var(--color-background-accented);
-    stroke-width: 0.2px;
+  &-text {
+    fill: var(--breakout-color-text);
+    stroke: var(--breakout-color-stroke);
+    stroke-width: var(--breakout-size-text-stroke);
     text-anchor: middle;
+    paint-order: stroke;
   }
 
-  .splash {
-    font-size: 2px;
+  &-active {
+    --breakout-color-stroke: var(--breakout-color-background);
   }
+}
 
-  .subsplash {
-    font-size: 1.5px;
-  }
+.breakout-controller {
+  display: flex;
+  width: 100%;
+  height: 100%;
 
-  .ball {
-    fill: var(--color-foreground);
-  }
+  &-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: vars.$breakout-controller-button-ratio;
+    height: 100%;
+    padding: 0;
 
-  .paddle {
-    fill: var(--color-background-saturated);
-  }
-
-  .brick {
-    @for $i from 1 through length($color-palette-chalk) - 1 {
-      &.brick-#{$i} {
-        fill: nth($color-palette-chalk, $i + 1);
-      }
+    &-icon {
+      width: 35%;
+      height: auto;
     }
+  }
+
+  .breakout {
+    width: auto;
   }
 }

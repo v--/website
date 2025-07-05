@@ -1,0 +1,195 @@
+import { AssertionError } from 'node:assert/strict'
+
+import { type Browser, type BrowserContext, type Page as PlayWrightPage } from '@playwright/test'
+
+import { BASE_URL, BROWSER } from './config.ts'
+import { Anchor } from './support/anchor.ts'
+import { type ViewportSizeName, transposeViewport, viewportNameMap } from './support/viewport.ts'
+import { UrlPath } from '../../common/support/url_path.ts'
+import { type LanguageId } from '../../common/translation.ts'
+import { type IFinalizeable } from '../../common/types/finalizable.ts'
+import { type ColorScheme } from '../../common/types/page.ts'
+
+interface IBasePageOptions {
+  javaScriptEnabled?: boolean
+  locale?: string
+  httpHeaders?: Record<string, string>
+  colorScheme?: ColorScheme
+  reducedMotion?: 'reduce' | 'no-preference'
+}
+
+export class BasePage implements IFinalizeable {
+  static async initialize<PageT extends BasePage>(options?: IBasePageOptions): Promise<PageT> {
+    const browser = await BROWSER.launch()
+    const context = await browser.newContext({
+      baseURL: BASE_URL,
+      javaScriptEnabled: options?.javaScriptEnabled,
+      locale: options?.locale,
+      extraHTTPHeaders: { prefer: 'data-source=mocked', ...options?.httpHeaders },
+      colorScheme: options?.colorScheme,
+      reducedMotion: options?.reducedMotion ?? 'reduce',
+    })
+
+    const page = await context.newPage()
+    return new this(browser, context, page) as PageT
+  }
+
+  readonly #browser: Browser
+  readonly #context: BrowserContext
+  protected _pwPage: PlayWrightPage
+
+  protected constructor(
+    browser: Browser,
+    context: BrowserContext,
+    pw_page: PlayWrightPage,
+  ) {
+    this.#browser = browser
+    this.#context = context
+    this._pwPage = pw_page
+  }
+
+  async goto(path: string) {
+    await this._pwPage.goto(path)
+    await this._pwPage.waitForLoadState('load')
+
+    if (await this._pwPage.locator('.require-javascript').first().isVisible()) {
+      await this._pwPage.waitForSelector('.dynamic-content')
+    }
+  }
+
+  async captureScreenshot(path: string) {
+    await this._pwPage.screenshot({ path, fullPage: true })
+  }
+
+  async getTitle() {
+    return await this._pwPage.title()
+  }
+
+  getUrlPath() {
+    return UrlPath.parse(this._pwPage.url())
+  }
+
+  async scaleViewport(name: ViewportSizeName, { vertical }: { vertical?: boolean } = {}) {
+    const size = vertical ? transposeViewport(viewportNameMap[name]) : viewportNameMap[name]
+    await this._pwPage.setViewportSize(size)
+  }
+
+  getSidebarLocator() {
+    return this._pwPage.locator('.sidebar').first()
+  }
+
+  hasSidebar() {
+    return this.getSidebarLocator().isVisible()
+  }
+
+  getBodyLocator() {
+    return this._pwPage.locator('body').first()
+  }
+
+  getPageContainerLocator() {
+    return this._pwPage.locator('.page-scroll-container').first()
+  }
+
+  getMainLocator() {
+    return this._pwPage.locator('main').first()
+  }
+
+  async getLanguage(): Promise<LanguageId | undefined> {
+    const lang = await this._pwPage.locator('html').first().getAttribute('lang')
+
+    switch (lang) {
+      case 'en-US':
+        return 'en'
+
+      case 'ru-RU':
+        return 'ru'
+
+      default:
+        return undefined
+    }
+  }
+
+  async getColorScheme(): Promise<ColorScheme> {
+    const locator = this.getBodyLocator()
+    const background: string = await locator.evaluate(function (element) {
+      return window.getComputedStyle(element).getPropertyValue('--body-color-background')
+    })
+
+    const match = background.match(/#(?<r>[0-9a-f])(?<g>[0-9a-f])(?<b>[0-9a-f])/)
+
+    if (match === null) {
+      throw new AssertionError({
+        message: `Unrecognized color ${background}`,
+      })
+    }
+
+    const { r, g, b } = match.groups!
+    const average = (parseInt(r + r, 16) + parseInt(g + g, 16) + parseInt(b + b, 16)) / 3
+    return average < 128 ? 'dark' : 'light'
+  }
+
+  async isSidebarActuallyCollapsed(): Promise<boolean> {
+    const sidebarWidth = await this.getSidebarLocator()
+      .evaluate(
+        element => element.clientWidth,
+      )
+
+    const collapsibleContentWidth = await this.getSidebarLocator()
+      .locator('.sidebar-entry-collapsible-content')
+      .first()
+      .evaluate(
+        element => (element as HTMLElement).offsetWidth,
+      )
+
+    return collapsibleContentWidth >= sidebarWidth
+  }
+
+  getSidebarCollapseLocator() {
+    return this.getSidebarLocator().locator('.sidebar-collapse-button').first()
+  }
+
+  getSidebarLanguageButtonsLocators() {
+    return {
+      en: this.getSidebarLocator().getByRole('radio', { name: 'ENG', exact: true }).first(),
+      ru: this.getSidebarLocator().getByRole('radio', { name: 'РУС', exact: true }).first(),
+    }
+  }
+
+  getSidebarColorLocator() {
+    return this.getSidebarLocator().locator('.sidebar-scheme-toggle-button').first()
+  }
+
+  async getSidebarAnchors() {
+    const locators = await this.getSidebarLocator().getByRole('link').all()
+    return locators.map(l => new Anchor(l))
+  }
+
+  async parseError() {
+    const errorTitleLocator = this._pwPage.locator('.error-page-title')
+    const errorMessageLocator = this._pwPage.locator('.error-page-message')
+    const errorCauseLocator = this._pwPage.locator('.error-page-cause')
+
+    if (!(await errorTitleLocator.isVisible())) {
+      throw new AssertionError({
+        message: 'Expected an error, but no error information found',
+      })
+    }
+
+    const hasCause = await errorCauseLocator.isVisible()
+
+    return {
+      title: await errorTitleLocator.textContent(),
+      message: await errorMessageLocator.textContent(),
+      cause: hasCause ? await errorCauseLocator.textContent() : undefined,
+    }
+  }
+
+  async reset() {
+    await this._pwPage.close()
+    this._pwPage = await this.#context.newPage()
+  }
+
+  async finalize() {
+    await this.#browser.close()
+  }
+}

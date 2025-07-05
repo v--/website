@@ -1,13 +1,3 @@
-@import "../colors.scss";
-
-@import "./components/fleeing_button_canvas.scss";
-
-.playground-fleeing-button-page {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-
-  .fleeing-button-title {
-    flex-shrink: 0;
-  }
-}
+@use "components/fleeing_button_stage";
+@use "components/fleeing_button_attractors";
+@use "components/fleeing_button_mouse_area";

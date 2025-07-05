@@ -1,0 +1,56 @@
+{
+  "title": {
+    "entryKind": "plain",
+    "content": "Домашняя страница"
+  },
+
+  "description": {
+    "entryKind": "plain",
+    "content": "Домашняя страница личного сайта Яниса Василева."
+  },
+
+  "heading.about_me": {
+    "entryKind": "plain",
+    "content": "Обо мне"
+  },
+
+  "heading.about_website": {
+    "entryKind": "plain",
+    "content": "Об этом сайте"
+  },
+
+  "heading.contacts": {
+    "entryKind": "plain",
+    "content": "Контакты"
+  },
+
+  "bio": {
+    "entryKind": "rich",
+    "content": "Меня зовут Янис Василев. Если коротко, я программист с математическим образованием."
+  },
+
+  "photo.alt": {
+    "entryKind": "plain",
+    "content": "Моя портретная фотография"
+  },
+
+  "website_description": {
+    "entryKind": "rich",
+    "content": "Это мой личный сайт. Он посвящён моим творениям, которыми я хочу поделиться с широкой публикой и для которых по сути нет более подходящих мест."
+  },
+
+  "page_list_prefix": {
+    "entryKind": "plain",
+    "content": "Есть несколько разделов:"
+  },
+
+  "website_code": {
+    "entryKind": "rich",
+    "content": "Кроме того, для меня этот сайт представлял солидную возможность выучить множество низкоуровневых деталей веб разработки. Я многое создал с нуля; достаточно для собственного довольства и желания поделиться кодом в [хралинище в GitHub]($projectUrl)."
+  },
+
+  "openpgp": {
+    "entryKind": "rich",
+    "content": "Публичный ключ OpenPGP: [`${keyName}`](${keyUrl})"
+  }
+}

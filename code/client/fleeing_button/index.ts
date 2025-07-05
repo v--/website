@@ -1,82 +1,53 @@
-import { c } from '../../common/rendering/component.js'
-import { DictSubject } from '../../common/observables/dict_subject.js'
-import { Vector } from '../../common/math/geom2d/vector.js'
-import { throttleObservable } from '../../common/observables/throttle.js'
-import { sectionTitle } from '../../common/components/section_title.js'
+import { fleeingButtonStage } from './components/fleeing_button_stage.ts'
+import { DEFAULT_STATE } from './constants.ts'
+import { type IFleeingButtonState } from './types.ts'
+import { checkbox } from '../../common/components/checkbox.ts'
+import { rich } from '../../common/components/rich.ts'
+import { spacer } from '../../common/components/spacer.ts'
+import { GITHUB_PROJECT_CODE_URL } from '../../common/constants/url.ts'
+import { c } from '../../common/rendering/component.ts'
+import { StateStore } from '../../common/support/state_store.ts'
+import { type IWebsitePageState } from '../../common/types/page.ts'
+import { playgroundMenu } from '../core/components/playground_menu.ts'
+import { spotlightPage } from '../core/components/spotlight_page.ts'
+import { type ClientWebsiteEnvironment } from '../core/environment.ts'
 
-import { cursor$ } from '../core/shared_observables.js'
-import { dispatcher } from '../core/render_dispatcher.js'
-import { EventLoop } from '../core/support/event_loop.js'
+export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnvironment) {
+  const _ = env.gettext$
+  const store = new StateStore<IFleeingButtonState>({
+    ...DEFAULT_STATE,
+    mousePosition: undefined,
+    activeAttractor: undefined,
+    debug: false,
+  }, env.pageUnload$)
 
-import { fleeingButtonCanvas } from './components/fleeing_button_canvas.js'
-import { flee } from './flee.js'
-
-// There is a lot of shared state here because I needed the event loop to know about global observables
-const UPDATE_INTERVAL = 50
-/** @type {import('./flee.js').SharedState | undefined} */
-let sharedState
-
-/** @type {DictSubject<import('./flee.js').SubjectState>} */
-const subject = new DictSubject({
-  buttonOrigin: new Vector({ x: 0.5, y: 0.5 })
-})
-
-const eventLoop = new EventLoop()
-eventLoop.add(
-  () => flee(sharedState, subject),
-  UPDATE_INTERVAL
-)
-
-/**
- * @param {TRouter.IRouterState} state
- */
-export function index({ path, description }) {
-  return c('div', { class: 'page playground-fleeing-button-page' },
-    c(sectionTitle, { class: 'fleeing-button-title', text: description, path }),
-    c(fleeingButtonCanvas, subject)
+  return c(spotlightPage,
+    {
+      class: 'fleeing-button-page',
+      stage: c(fleeingButtonStage, { store }),
+      menu: c(playgroundMenu, undefined,
+        c(checkbox, {
+          name: 'debug-mode',
+          value: store.keyedObservables.debug,
+          content: _({ bundleId: 'fleeing_button', key: 'control.debug' }),
+          update(newValue: boolean) {
+            store.update({ debug: newValue })
+          },
+        }),
+      ),
+    },
+    c(spacer),
+    c(rich, {
+      rootTag: 'article',
+      doc: _(
+        {
+          bundleId: 'fleeing_button', key: 'text',
+          context: {
+            githubPageUrl: `${GITHUB_PROJECT_CODE_URL}/client/fleeing_button`,
+          },
+        },
+        { rich: true },
+      ),
+    }),
   )
-}
-
-{
-  /** @type {TObservables.ISubscription | undefined} */
-  let cursorSubscription
-
-  dispatcher.events.create.subscribe({
-    next(node) {
-      if (node.component.type === fleeingButtonCanvas) {
-        sharedState = {
-          canvasElement: /** @type {HTMLCanvasElement} */ (node.element),
-          cursor: new Vector({ x: 0, y: 0 })
-        }
-
-        cursorSubscription = throttleObservable(cursor$, UPDATE_INTERVAL).subscribe(cursor => {
-          if (sharedState) {
-            sharedState.cursor = cursor
-          }
-        })
-
-        eventLoop.start()
-      }
-    }
-  })
-
-  dispatcher.events.destroy.subscribe({
-    next(node) {
-      if (node.component.type === fleeingButtonCanvas) {
-        sharedState = undefined
-
-        subject.update({
-          buttonOrigin: new Vector({ x: 0.5, y: 0.5 })
-        })
-
-        if (eventLoop) {
-          eventLoop.stop()
-        }
-
-        if (cursorSubscription) {
-          cursorSubscription.unsubscribe()
-        }
-      }
-    }
-  })
 }

@@ -1,25 +1,59 @@
-@import "../colors.scss";
+@use "../mixins";
+@use "../sizes";
+@use "./components/sorting_card";
+@use "./components/sorting_card_array_bars";
+@use "./vars";
 
-@import "./components/sorter.scss";
-@import "./components/sorting_card.scss";
+.sorting-page {
+  --sorting-color-main-background: var(--body-color-ppp);
+  --sorting-color-card-background: var(--body-color-pp);
+  --sorting-color-array-bar-normal:  var(--body-color-mf);
+  --sorting-color-array-bar-success: var(--body-color-success);
+  --sorting-color-array-bar-danger:  var(--body-color-danger);
+  --sorting-size-main-vpadding-loose: 0.75rem;
+  --sorting-size-main-vpadding-dense: 0.5rem;
+  --sorting-size-main-gap:        #{vars.$sorting-size-card-gap};
+  --sorting-size-card-width:      #{vars.$sorting-size-card-width};
+  --sorting-size-card-gap:        var(--sorting-size-main-gap);
+  --sorting-size-card-vpadding:   #{vars.$sorting-size-card-vpadding};
+  --sorting-size-card-hpadding:   #{vars.$sorting-size-card-hpadding};
+  --sorting-size-array-width:     #{vars.$sorting-size-card-array-width};
+  --sorting-size-array-gap:       #{vars.$sorting-size-card-array-gap};
+  --sorting-size-button-width:    var(--sorting-size-array-width);
+  --sorting-size-button-gap:      var(--sorting-size-array-gap);
+  --sorting-size-card-table-gap:  #{vars.$sorting-size-card-array-gap};
+  --sorting-size-card-table-header-width: #{vars.$sorting-size-card-table-header-width};
+}
 
-.playground-sorting-page {
-  .sorting-button-container {
-    margin: 0 -0.5em;
+.sorting-page-menu {
+  --playground-menu-color-background: var(--sorting-color-main-background);
+  --playground-menu-size-rest-gap: var(--sorting-size-button-gap);
 
-    .sorting-top-button {
-      width: 10em;
-      margin: 0.5em;
-    }
+  &-control-speed {
+    width: 100%;
   }
+}
 
-  .sorting-cards {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0 -1em;
+.sorting-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sorting-size-main-gap);
+  justify-content: center;
+  padding-block: var(--sorting-size-main-vpadding-loose);
+  background-color: var(--sorting-color-main-background);
 
-    .sorting-card {
-      margin: 1em;
+  @container page-scroll-container (max-width: #{sizes.$page-size-width-threshold-dense}) {
+    padding-block: var(--sorting-size-main-vpadding-dense);
+  }
+}
+
+.sorting-phase-button {
+  width: var(--sorting-size-button-width);
+  padding-inline: 0;
+
+  @container page-scroll-container (max-width: #{sizes.$page-size-width-threshold-dense}) {
+    .sorting-page-menu & {
+      width: auto;
     }
   }
 }

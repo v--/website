@@ -1,0 +1,70 @@
+{
+  "title": {
+    "entryKind": "plain",
+    "content": "Fleeing button"
+  },
+
+  "text": {
+    "entryKind": "rich",
+    "content": [
+      "# Fleeing button",
+      "",
+      "A button that tries to flee from the mouse cursor. Only mouse input is supported, obviously.",
+      "",
+      "Developed in 2020, with a full rewrite in 2025.",
+      "",
+      "The code can be found [on GitHub](${githubProjectUrl}/tree/master/code/client/fleeing_button).",
+      "",
+      "## Method",
+      "",
+      "The button simply rushes towards the closest acceptable attractor point on a uniform rectangular grid.",
+      "Whether the attractor is acceptable depends on its distance from the mouse cursor.",
+      "This can be visualized by enabling debug mode.",
+      "",
+      "The speed of movement depends on the speed of the mouse cursor, with double and triple increases if the cursor gets too close.",
+      "",
+      "There is an exploitable strategy for catching the button with the current approach, but it is quite difficult to use.",
+      "During development I tried more elaborate approaches, but they all had greater weaknesses.",
+      "",
+      "* Initially, I simply moved the button away from the mouse cursor and reflected it from the edges.",
+      "This was prone to error, especially on smaller screens, because it depended crucially on the reflection angle and distance.",
+      "",
+      "* Upon refactoring, I came up with an algorithm that uses repeller points.",
+      "The repellers were located at the mouse cursor and at the projections of the button center on the edges.",
+      "Each repeller had a \"range\" that determined which movement directions were forbidden.",
+      "",
+      "  When multiple repellers were at a critical distance from the button, I would try to calculate a safe direction that was not in the range of any of the repellers.",
+      "This worked quite well on the edge midpoints, where there were two repellers, but failed at the corners where there were three repellers.",
+      "",
+      "* A seemingly simpler approach presumed a single attractor in the center.",
+      "The button rushed towards the point closest to the center that was still at a safe distance from the cursor.",
+      "",
+      "  This was unsatisfying because, no matter what algorithm I choose for evading the cursor, it was possible to push the button away by moving carefully enough and \"cheating\" the algorithm."
+    ]
+  },
+
+  "control.debug": {
+    "entryKind": "plain",
+    "content": "Debug mode"
+  },
+
+  "control.reset": {
+    "entryKind": "plain",
+    "content": "Reset"
+  },
+
+  "message.click.mouse": {
+    "entryKind": "plain",
+    "content": "You have won!"
+  },
+
+  "message.click.touch": {
+    "entryKind": "plain",
+    "content": "Using a touchscreen is unfair. Try chasing the button with a mouse."
+  },
+
+  "message.click.pen": {
+    "entryKind": "plain",
+    "content": "Using a pen is unfair. Try chasing the button with a mouse."
+  }
+}

@@ -1,0 +1,6 @@
+.interpolation-grid-knots {
+  &-point {
+    pointer-events: none;
+    fill: var(--interpolation-color-point-active);
+  }
+}

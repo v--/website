@@ -1,0 +1,29 @@
+.interpolation-knots-table-wrapper {
+  /* stylelint-disable-next-line plugin/use-defensive-css */
+  overflow-x: auto;
+  width: 100%;
+  overscroll-behavior-x: contain;
+}
+
+.interpolation-knots-table {
+  width: auto;
+
+  th {
+    padding-right: 1em;
+    font-weight: bold;
+  }
+
+  td {
+    padding-inline: 1em;
+    text-align: right;
+
+    &:last-child {
+      padding-right: 0.25em;
+    }
+  }
+
+  &-placeholder-cell {
+    color: var(--body-color-disabled);
+    font-style: italic;
+  }
+}

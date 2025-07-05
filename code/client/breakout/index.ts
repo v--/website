@@ -1,93 +1,78 @@
-import { c } from '../../common/rendering/component.js'
-import { DictSubject } from '../../common/observables/dict_subject.js'
-import { sectionTitle } from '../../common/components/section_title.js'
+import { breakout } from './components/breakout.ts'
+import {
+  BRICK_MAX_POWER,
+  DEFAULT_GAME_STATE,
+  EVOLUTION_FREQUENCY,
+  KEY_CONTROL,
+  KEY_DEBUG,
+  KEY_LEFT_SECONDARY,
+  KEY_RESET,
+  KEY_RIGHT_SECONDARY,
+} from './constants.ts'
+import { getEventParams, handleResetButton } from './events.ts'
+import { type IGameState } from './types.ts'
+import { checkbox } from '../../common/components/checkbox.ts'
+import { rich } from '../../common/components/rich.ts'
+import { spacer } from '../../common/components/spacer.ts'
+import { GITHUB_PROJECT_CODE_URL } from '../../common/constants/url.ts'
+import { c } from '../../common/rendering/component.ts'
+import { StateStore } from '../../common/support/state_store.ts'
+import { type IWebsitePageState } from '../../common/types/page.ts'
+import { playgroundMenu } from '../core/components/playground_menu.ts'
+import { spotlightPage } from '../core/components/spotlight_page.ts'
+import { DEFAULT_FPS } from '../core/dom.ts'
+import { type ClientWebsiteEnvironment } from '../core/environment.ts'
 
-import { aspectRatioBox } from '../core/components/aspect_ratio_box.js'
-import { dispatcher } from '../core/render_dispatcher.js'
-import { EventLoop } from '../core/support/event_loop.js'
-import { keyDown$, keyUp$ } from '../core/shared_observables.js'
-
-import { breakout } from './components/breakout.js'
-import { MOVEMENT_PERIOD, EVOLUTION_PERIOD } from './constants.js'
-import { DEFAULT_GAME_STATE } from './game_state.js'
-
-import { onKeyDown } from './events/key_down.js'
-import { onKeyUp } from './events/key_up.js'
-import { movePaddle } from './events/move_paddle.js'
-import { moveBall } from './events/move_ball.js'
-import { evolve } from './events/evolve.js'
-import { Renderer } from '../../common/rendering/renderer.js'
-
-const eventLoop = new EventLoop()
-
-/**
- * @param {TRouter.IRouterState} state
- */
-export function index({ path, description }) {
-  eventLoop.clear()
-
-  /** @type {DictSubject<TBreakout.IGameState>} */
-  const subject$ = new DictSubject({
-    ...DEFAULT_GAME_STATE,
-    eventLoop
-  })
-
-  eventLoop.add(() => movePaddle(subject$), MOVEMENT_PERIOD)
-  eventLoop.add(() => moveBall(subject$), MOVEMENT_PERIOD)
-  eventLoop.add(() => evolve(subject$), EVOLUTION_PERIOD)
-
-  return c('div', { class: 'page playground-breakout-page' },
-    c(sectionTitle, { text: description, path }),
-    c('p', { text: 'This is a variant of the classic Breakout game where the bricks follow a stochastic evolution pattern.' }),
-    c('p', { text: 'The space bar toggles pause mode and the arrow keys move the paddle.' }),
-
-    c(aspectRatioBox, {
-      ratio: 4 / 3,
-      bottomMargin: 21 /* 1.5rem */,
-      minHeight: 250,
-      maxHeight: 600,
-      item: c(breakout, subject$)
-    })
+export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnvironment) {
+  const _ = env.gettext$
+  const store = new StateStore<IGameState>(
+    { ...DEFAULT_GAME_STATE, fps: DEFAULT_FPS, debug: false },
+    env.pageUnload$,
   )
-}
 
-{
-  /** @type {TObservables.ISubscription | undefined} */
-  let keyDownSubscription
-  /** @type {TObservables.ISubscription | undefined} */
-  let keyUpSubscription
-
-  dispatcher.events.create.subscribe({
-    /** @param {Renderer<HTMLElement>} renderer */
-    next(renderer) {
-      if (renderer.component.type === breakout) {
-        keyDownSubscription = keyDown$.subscribe(function(key) {
-          onKeyDown(renderer.component.stateSource, key)
-        })
-
-        keyUpSubscription = keyUp$.subscribe(function(key) {
-          onKeyUp(renderer.component.stateSource, key)
-        })
-      }
-    }
-  })
-
-  dispatcher.events.destroy.subscribe({
-    /** @param {Renderer<HTMLElement>} renderer */
-    next(renderer) {
-      if (renderer.component.type === breakout) {
-        if (keyDownSubscription !== undefined) {
-          keyDownSubscription.unsubscribe()
-          keyDownSubscription = undefined
-        }
-
-        if (keyUpSubscription !== undefined) {
-          keyUpSubscription.unsubscribe()
-          keyUpSubscription = undefined
-        }
-
-        eventLoop.clear()
-      }
-    }
-  })
+  return c(spotlightPage,
+    {
+      class: 'breakout-page',
+      stage: c(breakout, { store }),
+      menu: c(playgroundMenu, undefined,
+        c(checkbox, {
+          name: 'debug-mode',
+          value: store.keyedObservables.debug,
+          content: _({ bundleId: 'breakout', key: 'control.debug.label' }),
+          update(newValue: boolean) {
+            store.update({ debug: newValue })
+          },
+        }),
+        c('button', {
+          class: 'button-danger',
+          text: _({ bundleId: 'breakout', key: 'control.reset.label' }),
+          async click(event: PointerEvent) {
+            await handleResetButton(getEventParams(store, env, event))
+          },
+        }),
+      ),
+    },
+    c(spacer, { dynamics: 'mf' }),
+    c(rich, {
+      rootTag: 'article',
+      doc: _(
+        {
+          bundleId: 'breakout', key: 'text',
+          context: {
+            breakoutUrl: 'https://en.wikipedia.org/wiki/Breakout_(video_game)',
+            keyControl: KEY_CONTROL,
+            keyReset: KEY_RESET,
+            keyDebug: KEY_DEBUG,
+            keyLeftSecondary: KEY_LEFT_SECONDARY,
+            keyRightSecondary: KEY_RIGHT_SECONDARY,
+            evolutionFrequency: EVOLUTION_FREQUENCY,
+            startingBrickCount: DEFAULT_GAME_STATE.bricks.length,
+            brickMaxPower: BRICK_MAX_POWER,
+            githubPageUrl: `${GITHUB_PROJECT_CODE_URL}/client/breakout`,
+          },
+        },
+        { rich: true },
+      ),
+    }),
+  )
 }

@@ -1,0 +1,15 @@
+@use "../../mixins";
+
+code {
+  font-weight: bold;
+  font-family: var(--body-font-family-mono);
+
+  pre & {
+    font-weight: normal;
+  }
+}
+
+// pre elements use a monospace font by default; we simply adjust it
+pre {
+  font-family: var(--body-font-family-mono);
+}

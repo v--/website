@@ -1,51 +1,24 @@
-import { readFile } from 'fs/promises'
+import { readConfig } from './config.ts'
+import { HttpServer } from './http/server.ts'
 
-import { HTTPServer } from './http/server.js'
-import { IconSpec, iconMap } from '../common/components/icon.js'
+const server = new HttpServer(await readConfig())
 
-const CONFIG_FILE = './config/active.json'
-const ICON_FILE = './public/icons.json'
+process.on('SIGUSR2', function () {
+  server.logger.info('Received signal SIGUSR2. Reloading server.')
 
-/**
- * @param {string} path
- */
-async function readJSON(path) {
-  return JSON.parse(await readFile(path, 'utf8'))
-}
-
-/**
- * @param { TServer.IWebsiteConfig } config
- */
-readJSON(CONFIG_FILE).then(async function(config) {
-  const server = new HTTPServer(config)
-  await server.start()
-
-  process.on('SIGUSR2', async function() {
-    server.logger.info('Received signal SIGUSR2. Reloading server.')
-    await server.reload(await readJSON(CONFIG_FILE))
-  })
-
-  for (const signal of ['SIGINT', 'SIGTERM', 'SIGQUIT']) {
-    process.on(signal, async function() {
-      if (server.state === 'running') {
-        server.logger.info(`Received signal ${signal}. Shutting down server.`)
-        await server.stop(signal)
-      }
-    })
-  }
+  readConfig()
+    .then(async config => await server.reload(config))
+    .catch(server.handleUnexectedError)
 })
 
-readJSON(ICON_FILE).then(
-  /**
-   * @params {Record<string, string>} icons
-   */
-  function(icons) {
-    for (const [name, icon] of Object.entries(icons)) {
-      iconMap.set(name, icon as IconSpec)
+for (const signal of ['SIGINT', 'SIGTERM', 'SIGQUIT']) {
+  process.on(signal, function () {
+    if (server.getState() === 'running') {
+      server.logger.info(`Received signal ${signal}. Shutting down server.`)
+      server.stop(signal).catch(server.handleUnexectedError)
+      server.finalize().catch(server.handleUnexectedError)
     }
-  },
+  })
+}
 
-  function() {
-    // no icons
-  }
-)
+await server.start()

@@ -1,0 +1,36 @@
+{
+  "title": {
+    "entryKind": "plain",
+    "content": "Индекс ${path}"
+  },
+
+  "heading": {
+    "entryKind": "plain",
+    "content": "Файловый навигатор"
+  },
+
+  "table.heading.name": {
+    "entryKind": "plain",
+    "content": "Имя"
+  },
+
+  "table.heading.type": {
+    "entryKind": "plain",
+    "content": "Тип"
+  },
+
+  "table.heading.size": {
+    "entryKind": "plain",
+    "content": "Размер"
+  },
+
+  "table.heading.modified": {
+    "entryKind": "plain",
+    "content": "Дата изменения"
+  },
+
+  "cc_notice": {
+    "entryKind": "rich",
+    "content": "**Примечание**: Если не указано и не подразумевается иначе, содержание этой страницы лицензировано под  [CC0](${ccUrl}); то есть нет ограничений на его изменение и распространение."
+  }
+}

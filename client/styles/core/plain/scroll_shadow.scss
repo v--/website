@@ -1,0 +1,52 @@
+// The styles here are based on the following:
+// * https://css-tricks.com/books/greatest-css-tricks/scroll-shadows/
+// * https://codepen.io/vakhula/pen/OJVqBOK
+// * https://gist.github.com/gastonambrogi/9b513e2ecb11444019b1af2aa852fdb1
+// There are enough differences between the vertical and horizontal versions for us to keep them separate.
+
+.scroll-shadow-vertical {
+  background:
+    linear-gradient(to bottom, var(--scroll-shadow-color-background) 25%, transparent), // Shadow cover top
+    linear-gradient(to top,    var(--scroll-shadow-color-background) 25%, transparent), // Shadow cover bottom
+    radial-gradient(farthest-side at 50% 0,    var(--scroll-shadow-color-foreground), transparent), // Shadow top
+    radial-gradient(farthest-side at 50% 100%, var(--scroll-shadow-color-foreground), transparent); // Shadow bottom
+
+  background-attachment: local, local, scroll, scroll;
+  background-position: top center, bottom center, top center, bottom center;
+  background-size:
+    100% calc(3 * var(--scroll-shadow-size)),
+    100% calc(3 * var(--scroll-shadow-size)),
+    100% var(--scroll-shadow-size),
+    100% var(--scroll-shadow-size);
+  background-repeat: no-repeat;
+}
+
+.scroll-shadow-bottom-only {
+  background:
+    linear-gradient(to top, var(--scroll-shadow-color-background) 25%, transparent), // Shadow cover bottom
+    linear-gradient(to top, var(--scroll-shadow-color-foreground), transparent); // Shadow bottom
+
+  background-attachment: local, scroll;
+  background-position: bottom center, bottom center;
+  background-size:
+    100% calc(3 * var(--scroll-shadow-size)),
+    100% var(--scroll-shadow-size);
+  background-repeat: no-repeat;
+}
+
+.scroll-shadow-horizontal {
+  background:
+    linear-gradient(to right, var(--scroll-shadow-color-background) 25%, transparent), // Shadow cover left
+    linear-gradient(to left,  var(--scroll-shadow-color-background) 25%, transparent), // Shadow cover right
+    radial-gradient(farthest-side at 0    50%, var(--scroll-shadow-color-foreground), transparent), // Shadow left
+    radial-gradient(farthest-side at 100% 50%, var(--scroll-shadow-color-foreground), transparent); // Shadow right
+
+  background-attachment: local, local, scroll, scroll;
+  background-position: left center, right center, left center, right center;
+  background-size:
+    calc(3 * var(--scroll-shadow-size)) 100%,
+    calc(3 * var(--scroll-shadow-size)) 100%,
+    var(--scroll-shadow-size) 100%,
+    var(--scroll-shadow-size) 100%;
+  background-repeat: no-repeat;
+}

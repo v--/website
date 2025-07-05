@@ -1,0 +1,80 @@
+{
+  "sidebar.button.collapse": {
+    "entryKind": "plain",
+    "content": "Уменьшить меню"
+  },
+
+  "sidebar.button.color_scheme": {
+    "entryKind": "plain",
+    "content": "Изменить цвета"
+  },
+
+  "sidebar.page.home": {
+    "entryKind": "plain",
+    "content": "Дом. страница"
+  },
+
+  "sidebar.page.files": {
+    "entryKind": "plain",
+    "content": "Файловый сервер"
+  },
+
+  "sidebar.page.pacman": {
+    "entryKind": "plain",
+    "content": "Хран. pacman"
+  },
+
+  "sidebar.page.playground": {
+    "entryKind": "plain",
+    "content": "Мастерская"
+  },
+
+  "error_page.suggestion": {
+    "entryKind": "rich",
+    "content": [
+      "Попытайтесь освежить браузер.",
+      "Если проблема не исчезнет, можно о ней доложить [в GitHub](${githubProjectUrl}/issues) или [по почте](${emailUrl}).",
+      "Пожалуйста включите записи с браузерной консоли в докладе."
+    ]
+  },
+
+  "description.home": {
+    "entryKind": "plain",
+    "content": "Домашняя страница личного сайта Яниса Василева."
+  },
+
+  "description.files": {
+    "entryKind": "plain",
+    "content": "Навигатор для файлов, которыми я делюсь публично."
+  },
+
+  "description.pacman": {
+    "entryKind": "plain",
+    "content": "Личное хранилище для pacman."
+  },
+
+  "description.playground": {
+    "entryKind": "plain",
+    "content": "Интерактивные браузерные симуляции и визуализации."
+  },
+
+  "description.playground.array_sorting": {
+    "entryKind": "plain",
+    "content": "Визуализация алгоритмов сортировки."
+  },
+
+  "description.playground.univariate_interpolation": {
+    "entryKind": "plain",
+    "content": "Интерполяция и приближение одномерных реальнозначных функций."
+  },
+
+  "description.playground.breakout": {
+    "entryKind": "plain",
+    "content": "Вариант игры Breakout с развивающимися кирпичами."
+  },
+
+  "description.playground.fleeing_button": {
+    "entryKind": "plain",
+    "content": "Кнопка, убегающая от указателя мышки."
+  }
+}

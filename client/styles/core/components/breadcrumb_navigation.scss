@@ -1,0 +1,30 @@
+@use "../../colors";
+@use "../../fonts";
+
+.breadcrumb-navigation {
+  --breadcrumb-navigation-color-background: var(--body-color-ppp);
+  --breadcrumb-navigation-color-disabled:   var(--body-color-foreground);
+  --breadcrumb-navigation-size-slash-padding: var(--body-size-p);
+  --breadcrumb-navigation-size-hpadding: var(--body-size-mp);
+  --breadcrumb-navigation-size-vpadding: var(--body-size-pp);
+  --anchor-color-disabled: var(--breadcrumb-navigation-color-disabled);
+  --anchor-text-decoration: none;
+
+  display: flex;
+  flex-wrap: wrap;
+  padding-inline:
+    calc(var(--breadcrumb-navigation-size-hpadding) - var(--breadcrumb-navigation-size-slash-padding))
+    var(--breadcrumb-navigation-size-hpadding);
+  padding-block: var(--breadcrumb-navigation-size-vpadding);
+  background-color: var(--breadcrumb-navigation-color-background);
+  font-weight: bold;
+  font-size: var(--heading-h4-size-font);
+  overscroll-behavior-x: contain;
+  scrollbar-gutter: stable;
+
+  .breadcrumb {
+    &-slash {
+      margin-inline: var(--breadcrumb-navigation-size-slash-padding);
+    }
+  }
+}

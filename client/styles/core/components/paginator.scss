@@ -1,0 +1,14 @@
+@use "../../colors";
+
+.paginator {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5em;
+
+  .paginator-anchor {
+    --anchor-text-decoration: none;
+    --icon-size-diameter: 1.2em;
+
+    font-weight: bold;
+  }
+}

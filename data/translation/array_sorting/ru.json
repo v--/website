@@ -1,0 +1,186 @@
+{
+  "title": {
+    "entryKind": "plain",
+    "content": "Сортировка массивов"
+  },
+
+  "text": {
+    "entryKind": "rich",
+    "content": [
+      "# Сортировка массивов",
+      "",
+      "Эта страница содержит визуализации некоторых известных сортирующих алгоритмов.",
+      "В каждый из показанных моментов показано сравнение двух значений.",
+      "Они окрашиваются в зелёный цвет если их места меняются, а иначе они окрашиваются в красный цвет.",
+      "",
+      "Разработано в 2014 году, с несколькими переработками.",
+      "",
+      "Код можно найти [в GitHub](${githubPageUrl})."
+    ]
+  },
+
+  "control.speed.label": {
+    "entryKind": "plain",
+    "content": "Скорость"
+  },
+
+  "control.run.label.unstarted": {
+    "entryKind": "plain",
+    "content": "Пустить"
+  },
+
+  "control.run.label.running": {
+    "entryKind": "plain",
+    "content": "Остановить"
+  },
+
+  "control.run.label.paused": {
+    "entryKind": "plain",
+    "content": "Пустить"
+  },
+
+  "control.run.label.completed": {
+    "entryKind": "plain",
+    "content": "Пустить"
+  },
+
+  "control.reset.label": {
+    "entryKind": "plain",
+    "content": "Сбросить"
+  },
+
+  "card.info.header.stable": {
+    "entryKind": "plain",
+    "content": "Устойчивость"
+  },
+
+  "card.info.header.time": {
+    "entryKind": "plain",
+    "content": "Время"
+  },
+
+  "card.info.header.space": {
+    "entryKind": "plain",
+    "content": "Память"
+  },
+
+  "card.info.stability.true": {
+    "entryKind": "plain",
+    "content": "Да"
+  },
+
+  "card.info.stability.false": {
+    "entryKind": "plain",
+    "content": "Нет"
+  },
+
+  "card.array.ascending.name": {
+    "entryKind": "plain",
+    "content": "Восходящий"
+  },
+
+  "card.array.descending.name": {
+    "entryKind": "plain",
+    "content": "Нисходящий"
+  },
+
+  "card.array.shuffled.name": {
+    "entryKind": "plain",
+    "content": "Перемешанный"
+  },
+
+  "card.array.grouped.name": {
+    "entryKind": "plain",
+    "content": "Группированный"
+  },
+
+  "algorithm.heapsort.name": {
+    "entryKind": "plain",
+    "content": "Метод кучей"
+  },
+
+  "algorithm.heapsort.url": {
+    "entryKind": "plain",
+    "content": "https://ru.wikipedia.org/wiki/Пирамидальная_сортировка"
+  },
+
+  "algorithm.merge.name": {
+    "entryKind": "plain",
+    "content": "Метод слияния"
+  },
+
+  "algorithm.merge.url": {
+    "entryKind": "plain",
+    "content": "https://ru.wikipedia.org/wiki/Сортировка_слиянием"
+  },
+
+  "algorithm.quicksort.name": {
+    "entryKind": "plain",
+    "content": "Метод Хоаре"
+  },
+
+  "algorithm.quicksort.url": {
+    "entryKind": "plain",
+    "content": "https://ru.wikipedia.org/wiki/Быстрая_сортировка"
+  },
+
+  "algorithm.shellsort.name": {
+    "entryKind": "plain",
+    "content": "Метод Шелла"
+  },
+
+  "algorithm.shellsort.url": {
+    "entryKind": "plain",
+    "content": "https://ru.wikipedia.org/wiki/Сортировка_Шелла"
+  },
+
+  "algorithm.insertion.name": {
+    "entryKind": "plain",
+    "content": "Метод вставок"
+  },
+
+  "algorithm.insertion.url": {
+    "entryKind": "plain",
+    "content": "https://ru.wikipedia.org/wiki/Сортировка_вставками"
+  },
+
+  "algorithm.selection.name": {
+    "entryKind": "plain",
+    "content": "Метод выбора"
+  },
+
+  "algorithm.selection.url": {
+    "entryKind": "plain",
+    "content": "https://ru.wikipedia.org/wiki/Сортировка_выбором"
+  },
+
+  "algorithm.gnome.name": {
+    "entryKind": "plain",
+    "content": "Метод гнома"
+  },
+
+  "algorithm.gnome.url": {
+    "entryKind": "plain",
+    "content": "https://ru.wikipedia.org/wiki/Гномья_сортировка"
+  },
+
+  "algorithm.cocktail.name": {
+    "entryKind": "plain",
+    "content": "Метод коктейля"
+  },
+
+  "algorithm.cocktail.url": {
+    "entryKind": "plain",
+    "content": "https://ru.wikipedia.org/wiki/Сортировка_перемешиванием"
+  },
+
+  "algorithm.bubble.name": {
+    "entryKind": "plain",
+    "content": "Метод пузыря"
+  },
+
+  "algorithm.bubble.url": {
+    "entryKind": "plain",
+    "content": "https://ru.wikipedia.org/wiki/Сортировка_пузырьком"
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "title": {
+    "entryKind": "plain",
+    "content": "Breakout"
+  },
+
+  "text": {
+    "entryKind": "rich",
+    "content": [
+      "# Breakout",
+      "",
+      "This is a variation of the classic game [Breakout]($breakoutUrl) where the bricks evolve and form clusters, making the game nearly impossible to win unless the few starting bricks are cleared immediately.",
+      "",
+      "Developed in 2016, with a full rewrite in 2019 and a significant refactoring in 2025.",
+      "",
+      "The code can be found [on GitHub](${githubPageUrl}).",
+      "",
+      "## Controls",
+      "",
+      "* Start/pause by clicking/tapping the game stage or by pressing the `${keyControl}` key.",
+      "* Move left via the ![](icon://core/solid/chevron-left) button, the left arrow key or the `${keyLeftSecondary}` key.",
+      "* Move right via the ![](icon://core/solid/chevron-right) button, the right arrow key or the `${keyRightSecondary}` key.",
+      "* Toggle debug information via the corresponding checkbox or the `${keyDebug}` key.",
+      "* Reset the game via the corresponding button or the `${keyReset}` key.",
+      "",
+      "## Evolution",
+      "",
+      "The brick evolution is simple.",
+      "Every brick can have ${brickMaxPower} \"power\" states, which are reduced by ball hits.",
+      "There are ${startingBrickCount} starting bricks, each of the lowest power.",
+      "Every ${evolutionFrequency} seconds, a random brick is chosen uniformly.",
+      "After that, a neighbor (possibly the brick itself) is chosen uniformly, and it is bumped to a higher power.",
+      "If the position is empty, a new brick appears.",
+      "If the neighbor is of the highest power level already, the process is restarted.",
+      "",
+      "Additionally, there are restrictions to keep bricks from spawning too close to the paddle or to the moving ball.",
+      "",
+      "## Reflection",
+      "",
+      "Another important distinguishing feature is the elliptical paddle.",
+      "It allows great control over reflection, but is also difficult to master.",
+      "",
+      "Reflection can be visualized using the debug mode mentioned above.",
+      "The process is as follows.",
+      "Several rays are emitted from distinct points on the ball, and are intersected with the stage sides, the bricks and the paddle.",
+      "Once the intersection closest to the ball is calculated, we check whether the ball is close enough to pass through it on the next frame.",
+      "If it is, the tangent line at that point is calculated and the ray determining this intersection is reflected off the tangent.",
+      "",
+      "Note that, in the visualization, we can see reflections of ray emitted from the ball's surface, but it is the ball center that will be reflected.",
+      "Thus, the reflected rays only determine the direction, but not the entire ball reflection."
+    ]
+  },
+
+  "control.debug.label": {
+    "entryKind": "plain",
+    "content": "Debug mode"
+  },
+
+  "control.reset.label": {
+    "entryKind": "plain",
+    "content": "Reset"
+  },
+
+  "control.reset.confirmation": {
+    "entryKind": "plain",
+    "content": "Reset game?"
+  },
+
+  "splash.message.unstarted": {
+    "entryKind": "plain",
+    "content": "Ready"
+  },
+
+  "splash.message.paused": {
+    "entryKind": "plain",
+    "content": "Paused"
+  },
+
+  "splash.message.game_over": {
+    "entryKind": "plain",
+    "content": "Game over"
+  },
+
+  "splash.message.completed": {
+    "entryKind": "plain",
+    "content": "Game won"
+  },
+
+  "splash.hint.unstarted": {
+    "entryKind": "plain",
+    "content": "Start?"
+  },
+
+  "splash.hint.paused": {
+    "entryKind": "plain",
+    "content": "Continue?"
+  },
+
+  "splash.hint.game_over": {
+    "entryKind": "plain",
+    "content": "Restart?"
+  },
+
+  "splash.hint.completed": {
+    "entryKind": "plain",
+    "content": "Restart?"
+  },
+
+  "score": {
+    "entryKind": "plain",
+    "content": "Score: ${score}"
+  },
+
+  "fps": {
+    "entryKind": "plain",
+    "content": "FPS: ${fps}"
+  }
+}

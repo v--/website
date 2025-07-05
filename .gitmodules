@@ -1,3 +1,7 @@
 [submodule "fontawesome"]
-	path = fontawesome
+	path = submodules/fontawesome
 	url = https://github.com/FortAwesome/Font-Awesome
+
+[submodule "stixfonts"]
+  path = submodules/stixfonts
+  url = https://github.com/stipub/stixfonts

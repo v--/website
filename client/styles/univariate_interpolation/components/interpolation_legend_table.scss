@@ -1,0 +1,23 @@
+@use "../vars";
+@use "../../mixins";
+
+.interpolation-legend-table {
+  .col-method {
+    --control-size-label-hpadding: 0 1em;
+
+    width: 35%;
+    font-weight: bold;
+  }
+
+  .col-expression {
+    width: 65%;
+  }
+
+  &-control {
+    @each $interpolator in vars.$interpolators {
+      &.interpolator-#{$interpolator} {
+        @include mixins.control-label-colors(var(--interpolation-color-interpolator-#{$interpolator}));
+      }
+    }
+  }
+}

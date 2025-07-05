@@ -1,12 +1,24 @@
-import { initBrowserSync } from './sync'
-import { iterBuildManagers } from './managers'
+import fs from 'node:fs/promises'
 
-// Forgive me, father, for breaking encapsulation
-import { config } from '../server/config'
+import { bulkBindWatcher, bulkBuild, getBuildManagers } from './managers.ts'
+import { initBrowserSync } from './sync.ts'
+import { readConfig } from '../server/config.ts'
 
+await fs.rm('./public', { recursive: true })
+await fs.rm('./private', { recursive: true })
+
+try {
+  await bulkBuild(
+    getBuildManagers({ sourceMaps: true, dev: true, loggerLevel: 'WARN' }),
+  )
+} catch (err) {
+  // eslint-disable-next-line no-console
+  console.error(err)
+}
+
+const config = await readConfig()
 const sync = initBrowserSync(config.server.socket)
 
-for (const manager of iterBuildManagers(sync)) {
-  // manager.buildAll()
-  manager.bindWatcher()
-}
+await bulkBindWatcher(
+  getBuildManagers({ sourceMaps: true, dev: true, loggerLevel: 'INFO', sync }),
+)

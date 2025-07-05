@@ -1,0 +1,26 @@
+{
+  "error.cause.webfinger.no_resource": {
+    "entryKind": "plain",
+    "content": "No resource requested."
+  },
+
+  "error.cause.webfinger.not_found": {
+    "entryKind": "plain",
+    "content": "The requested resource was not found."
+  },
+
+  "error.cause.router.missing_language": {
+    "entryKind": "plain",
+    "content": "Missing language."
+  },
+
+  "error.cause.router.invalid_language": {
+    "entryKind": "plain",
+    "content": "Unexpected language ${lang}."
+  },
+
+  "error.cause.router.invalid_method": {
+    "entryKind": "plain",
+    "content": "Unexpected HTTP method ${method}."
+  }
+}

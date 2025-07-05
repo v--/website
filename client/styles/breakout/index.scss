@@ -1,7 +1,44 @@
-@import "../colors.scss";
+@use "../misc";
+@use "./vars";
+@use "./components/breakout";
+@use "./components/breakout_ball";
+@use "./components/breakout_bricks";
+@use "./components/breakout_fps";
+@use "./components/breakout_rays";
+@use "./components/breakout_paddle";
+@use "./components/breakout_score";
+@use "./components/breakout_splash";
 
-@import "./components/breakout.scss";
+.breakout-page {
+  // The usual ratio with two buttons on the sides
+  --spotlight-page-aspect-ratio: calc(#{misc.$spotlight-page-aspect-ratio} * #{calc(100% / (100% - 2 * vars.$breakout-controller-button-ratio))});
 
-.playground-breakout-page {
-  height: 100%;
+  // Custom variables
+  --breakout-color-background: var(--body-color-ppp);
+  --breakout-color-foreground: var(--body-color-foreground);
+  --breakout-color-brick-p1:   var(--body-color-rainbow-yellow);
+  --breakout-color-brick-p2:   var(--body-color-rainbow-orange);
+  --breakout-color-brick-p3:   var(--body-color-rainbow-red);
+  --breakout-color-paddle:     var(--body-color-mf);
+  --breakout-color-ball:       var(--body-color-mf);
+  --breakout-color-text:       var(--breakout-color-foreground);
+  --breakout-color-stroke:     color-mix(in srgb, var(--breakout-color-background), var(--breakout-color-foreground) 25%);
+  --breakout-size-text-stroke: var(--body-size-ppp);
+  --breakout-size-font-splash-message: 12%;
+  --breakout-size-font-splash-hint: 7%;
+  --breakout-size-font-score: 5%;
+  --breakout-size-font-fps:   5%;
+  --breakout-size-ray-width-normal:   0.2%;
+  --breakout-size-ray-width-dominant: 0.4%;
+  --breakout-opacity-splash: 0.25;
+
+  @for $i from 1 through 5 {
+    --breakout-color-ray-#{$i}: var(--body-color-rainbow-#{$i + 2});
+  }
+}
+
+.breakout-menu {
+  &-debug {
+    padding-block: var(--button-size-vpadding);
+  }
 }

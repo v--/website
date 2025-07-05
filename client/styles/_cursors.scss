@@ -1,0 +1,11 @@
+@mixin common-cursor-variables {
+  --body-cursor-normal: unset;
+  --anchor-cursor-normal: pointer;
+  --anchor-cursor-disabled: not-allowed;
+  --button-cursor-normal: pointer;
+  --button-cursor-disabled: not-allowed;
+  --field-cursor-normal: text;
+  --field-cursor-disabled: not-allowed;
+  --control-cursor-normal: pointer;
+  --control-cursor-disabled: not-allowed;
+}

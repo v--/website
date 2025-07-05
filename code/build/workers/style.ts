@@ -1,80 +1,107 @@
-import { join as joinPath, dirname, relative, basename } from 'path'
-import fs from 'fs/promises'
+import fs from 'node:fs/promises'
+import { basename, dirname, join as joinPath, relative } from 'node:path'
 
 import * as sass from 'sass'
 
-import { BuildWorker, IBuildContext, ICleanContext } from '../build_worker.js'
-import { BuildError } from '../errors'
-import { repr } from '../../common/support/strings.js'
-
-interface ISassBuildWorkerConfig {
-  srcBase: string
-  destBase: string
-}
+import { type IBuildContext, type IBuildWorker } from '../build_worker.ts'
+import { BuildError } from '../errors.ts'
 
 class StyleBuildError extends BuildError {}
 
-export class StyleBuildWorker extends BuildWorker {
-  constructor(public config: ISassBuildWorkerConfig) {
-    super()
+export interface IStyleBuildWorkerConfig {
+  srcBase: string
+  destBase: string
+  sourceMaps: boolean
+}
+
+export class StyleBuildWorker implements IBuildWorker {
+  readonly config: IStyleBuildWorkerConfig
+
+  constructor(config: IStyleBuildWorkerConfig) {
+    this.config = config
   }
 
-  getDestPath(src: string): string {
+  #getFullDestPath(src: string, ext: string): string {
     return joinPath(
       this.config.destBase,
-      relative(this.config.srcBase, dirname(src)),
-      basename(src, '.scss') + '.css'
+      relative(this.config.srcBase, dirname(src)) + ext,
     )
   }
 
-  async getIndexSCSS(path: string): Promise<string> {
-    let currentDir = dirname(path)
-    let candidate: string
+  async* #iterIndexScss(base?: string): AsyncGenerator<string> {
+    if (base === undefined) {
+      base = this.config.srcBase
+    }
 
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-      candidate = joinPath(currentDir, 'index.scss')
+    for (const path of await fs.readdir(base)) {
+      const fullPath = joinPath(base, path)
+      const stat = await fs.stat(fullPath)
 
+      if (stat.isDirectory()) {
+        yield* this.#iterIndexScss(fullPath)
+      } else if (path === 'index.scss') {
+        yield fullPath
+      }
+    }
+  }
+
+  async* #iterMatchingIndexScss(scssPath: string): AsyncGenerator<string> {
+    const currentDir = dirname(scssPath)
+    const indexFiles = await Array.fromAsync(this.#iterIndexScss())
+
+    for (const indexPath of indexFiles) {
+      if (currentDir.startsWith(dirname(indexPath))) {
+        yield indexPath
+        return
+      }
+    }
+
+    yield* indexFiles
+  }
+
+  async* performBuildStep(src: string): AsyncGenerator<{ matchingIndex: string, buildResult: sass.CompileResult }> {
+    for await (const matchingIndex of this.#iterMatchingIndexScss(src)) {
       try {
-        await fs.stat(candidate)
-        return candidate
-      } catch (err) {
-        const newDir = dirname(currentDir)
+        const buildResult = await sass.compileAsync(matchingIndex, {
+          style: 'compressed',
+          sourceMap: this.config.sourceMaps,
+          sourceMapIncludeSources: true,
+        })
 
-        if (newDir === currentDir) {
-          throw new StyleBuildError(`Could not find 'index.scss' corresponding to ${repr(path)}`)
+        yield { buildResult, matchingIndex }
+      } catch (err) {
+        if (err instanceof sass.Exception) {
+          throw new StyleBuildError(String(err))
+        } else {
+          throw err
+        }
+      }
+    }
+  }
+
+  async* performBuild(src: string): AsyncIterable<IBuildContext> {
+    for await (const { buildResult, matchingIndex } of this.performBuildStep(src)) {
+      if (buildResult.sourceMap) {
+        const sourceMappingUrl = basename(dirname(matchingIndex)) + '.css.map'
+
+        yield {
+          src: matchingIndex,
+          dest: this.#getFullDestPath(matchingIndex, '.css'),
+          contents: buildResult.css + `/*# sourceMappingURL=${sourceMappingUrl} */`,
         }
 
-        currentDir = newDir
-      }
-    }
-  }
-
-  async * performBuild(src: string): AsyncIterable<IBuildContext> {
-    let result: sass.CompileResult
-    const actualSrc = await this.getIndexSCSS(src)
-
-    try {
-      result = sass.compile(actualSrc, { style: 'compressed' })
-    } catch (err) {
-      if (err instanceof sass.Exception) {
-        throw new StyleBuildError(String(err))
+        yield {
+          src: matchingIndex,
+          dest: this.#getFullDestPath(matchingIndex, '.css.map'),
+          contents: JSON.stringify(buildResult.sourceMap),
+        }
       } else {
-        throw err
+        yield {
+          src: matchingIndex,
+          dest: this.#getFullDestPath(matchingIndex, '.css'),
+          contents: buildResult.css,
+        }
       }
-    }
-
-    yield {
-      src,
-      dest: this.getDestPath(actualSrc),
-      contents: result.css
-    }
-  }
-
-  async * performClean(src: string): AsyncIterable<ICleanContext> {
-    yield {
-      src,
-      dest: this.getDestPath(src)
     }
   }
 }

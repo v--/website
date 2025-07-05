@@ -1,0 +1,69 @@
+@mixin foreground-color($color) {
+  --icon-color: #{$color};
+
+  color: #{$color};
+}
+
+@mixin background-color($color) {
+  background-color: #{$color};
+}
+
+@mixin anchor-colors($color) {
+  --anchor-color-normal:   #{$color};
+  --anchor-color-accented: color-mix(in srgb, var(--anchor-color-normal), var(--body-color-foreground) 10%);
+  --anchor-color-disabled: var(--body-color-disabled);
+}
+
+@mixin control-label-colors($color) {
+  --control-color-label-normal:   #{$color};
+  --control-color-label-accented: color-mix(in srgb, var(--anchor-color-normal), var(--body-color-foreground) 10%);
+  --control-color-label-active:   var(--control-color-label-normal);
+  --control-color-label-disabled: var(--body-color-disabled);
+}
+
+@mixin button-background-colors($color) {
+  --button-color-background-normal: #{$color};
+  --button-color-background-accented: color-mix(in srgb, var(--button-color-background-normal), var(--body-color-foreground) 10%);
+  --button-color-background-disabled: var(--body-color-disabled);
+}
+
+@mixin button-foreground-colors($color) {
+  --button-color-foreground-accented: var(--button-color-foreground-normal);
+  --button-color-foreground-disabled: color-mix(in srgb, var(--button-color-foreground-normal), var(--body-color-disabled) 25%);
+  --button-color-foreground-normal:   #{$color};
+}
+
+@mixin radio-control-restyle($background, $foreground, $accented) {
+  width: 0.9em;
+  height: 0.9em;
+  border: 0.2em solid $background;
+  border-radius: 50%;
+  background-color: $background;
+  appearance: none;
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: $accented;
+      background-color: $accented;
+    }
+  }
+
+  &:checked {
+    background-color: transparent;
+  }
+
+  &[disabled], fieldset[disabled] & {
+    border-color: var(--control-color-input-disabled);
+    background-color: var(--control-color-input-disabled);
+
+    &:checked {
+      background-color: transparent;
+    }
+  }
+}
+
+@mixin inline-ellipsis {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

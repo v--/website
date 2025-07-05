@@ -1,0 +1,26 @@
+{
+  "entry": [
+    "code/eslint.config.ts",
+    "code/client/browsersync_injection.ts",
+    "code/client/*/index.ts",
+    "code/testing/**/test_*.ts",
+    "code/testing/unit/**/*.ts",
+    "code/build/{builder,watcher}.ts",
+    "code/benchmarks/benchmark.ts",
+    "code/benchmarks/bench_*.ts"
+  ],
+  "project": [
+    "code/**/*.ts"
+  ],
+  "ignore": [
+    "code/**/test*.ts"
+  ],
+  "ignoreDependencies": [
+    "eslint-import-resolver-typescript"
+  ],
+  "mocha": {
+    "entry": [
+      "code/**/test*.ts"
+    ]
+  }
+}

@@ -1,5 +1,0 @@
-export const MOVEMENT_PERIOD = 20
-export const EVOLUTION_PERIOD = 2000
-export const MOVEMENT_DELTA = MOVEMENT_PERIOD / 60
-export const NEW_BRICK_SAFETY_DISTANCE = 3
-export const REFLECTION_ADJUSTMENT = 1.05

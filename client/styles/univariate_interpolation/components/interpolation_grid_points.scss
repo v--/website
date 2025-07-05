@@ -1,0 +1,23 @@
+.interpolation-grid-point {
+  &-rect {
+    opacity: 0;
+    cursor: var(--interpolation-grid-cursor);
+    fill: var(--interpolation-color-point-accented);
+
+    @media (hover: hover) {
+      &:hover {
+        opacity: 0.75;
+      }
+    }
+  }
+
+  &-circle {
+    fill: var(--interpolation-color-point-normal);
+  }
+
+  &[aria-selected='true'] {
+    .interpolation-grid-point-circle {
+      fill: var(--interpolation-color-point-accented);
+    }
+  }
+}

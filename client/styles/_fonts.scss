@@ -1,0 +1,35 @@
+$body-font-family-sans: 'Open Sans', 'Roboto', 'Droid', 'Helvetica', 'Arial', sans-serif;
+$body-font-family-mono: 'Roboto Mono', 'Droid Mono', 'Liberation Mono', 'Courier New', 'Courier', monospace;
+$body-font-family-math: 'STIX Two Math', math;
+
+@mixin common-font-variables {
+  // Body fonts
+  --body-font-family-sans:    #{$body-font-family-sans};
+  --body-font-family-mono:    #{$body-font-family-mono};
+  --body-font-family-math:    #{$body-font-family-math};
+  --heading-text-align:       initial;
+}
+
+@mixin font-faces {
+  @font-face {
+    font-family: 'STIX Two Math';
+    src:
+      local('STIXTwoMath-Regular'),
+      url('/fonts/STIXTwoMath-Regular.woff2');
+  }
+
+  @font-face {
+    font-family: 'STIX Two Text';
+    src:
+      local('STIXTwoText[wght]'),
+      url('/fonts/STIXTwoText[wght].woff2');
+  }
+
+  @font-face {
+    font-style: italic;
+    font-family: 'STIX Two Text';
+    src:
+      local('STIXTwoText-Italic[wght]'),
+      url('/fonts/STIXTwoText-Italic[wght].woff2');
+  }
+}

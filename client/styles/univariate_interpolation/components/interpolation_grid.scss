@@ -1,0 +1,10 @@
+.interpolation-grid {
+  background-color: var(--interpolation-color-background);
+  transform: scaleY(-1);
+
+  &-axis {
+    pointer-events: none;
+    stroke: var(--interpolation-color-axis);
+    stroke-width: var(--interpolation-size-axis-thickness);
+  }
+}

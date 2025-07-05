@@ -1,0 +1,13 @@
+export { DomError, MissingElementError } from './dom/errors.ts'
+export { HttpClient } from './dom/http_client.ts'
+export { loadPlaygroundPage } from './dom/load_playground_page.ts'
+export { DomManipulator } from './dom/manipulator.ts'
+export {
+  aggressiveQuerySelector,
+  getActualColorScheme,
+  getCurrentUrlPath,
+  getPreferredLanguage,
+  isSidebarActuallyCollapsed,
+  pushIntoHistory,
+} from './dom/misc.ts'
+export { DEFAULT_FPS, animationFrameObservable, fromEvent } from './dom/observable.ts'

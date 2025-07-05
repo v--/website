@@ -1,0 +1,105 @@
+@use "../../sizes";
+@use "../../mixins";
+
+.playground-menu {
+  --playground-menu-color-background:      var(--body-color-ppp);
+  --playground-menu-color-drawer:          var(--body-color-pp);
+  --playground-menu-color-drawer-button:   var(--body-color-accented);
+  --playground-menu-size-drawer-hpadding:  var(--body-size-mf);
+  --playground-menu-size-drawer-vpadding:  var(--body-size-p);
+  --playground-menu-size-rest-gap:         var(--body-size-p);
+  --playground-menu-size-collapsed-height: calc(1lh + 2 * var(--button-size-vpadding));
+  --playground-menu-duration-collapse:     var(--body-duration-transition);
+  --control-size-label-hpadding:           var(--body-size-p);
+
+  display: flex;
+  overflow-y: hidden; // This is needed for the drawer transition
+
+  // Menus have default padding and margin set
+  /* stylelint-disable-next-line order/properties-order */
+  margin: 0;
+  padding: 0;
+  background-color: var(--playground-menu-color-background);
+  list-style: none;
+  white-space: nowrap;
+
+  @container page-scroll-container (max-width: #{sizes.$page-size-width-threshold-dense}) {
+    & {
+      flex-direction: column;
+      max-height: 100dvh;
+      /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
+      transition: max-height var(--playground-menu-duration-collapse);
+
+      & &-head {
+        background-color: var(--playground-menu-color-background);
+      }
+
+      & &-toggle {
+        &-label {
+          display: unset;
+        }
+      }
+
+      & &-rest {
+        --control-size-label-vpadding: 0;
+        --control-justify-content: center;
+
+        flex-direction: column;
+        padding-inline: var(--playground-menu-size-drawer-hpadding);
+        padding-block: var(--playground-menu-size-drawer-vpadding);
+        background-color: var(--playground-menu-color-drawer);
+        transition: content-visibility var(--playground-menu-duration-collapse);
+        transition-behavior: allow-discrete;
+        content-visibility: auto;
+      }
+
+      &:not(&-expanded) {
+        max-height: var(--playground-menu-size-collapsed-height);
+
+        .playground-menu-rest {
+          content-visibility: hidden;
+        }
+      }
+    }
+  }
+
+  &-head {
+    display: flex;
+    flex-grow: 2;
+  }
+
+  &-rest {
+    display: flex;
+    gap: var(--playground-menu-size-rest-gap);
+  }
+
+  &-up-anchor-wrapper {
+    @include mixins.button-background-colors(transparent);
+    @include mixins.button-foreground-colors(var(--body-color-accented));
+
+    flex-grow: 2;
+    font-weight: bold;
+  }
+
+  &-toggle {
+    &-label {
+      --control-size-label-hpadding: 0;
+      --control-size-label-vpadding: 0;
+
+      display: none;
+    }
+
+    &-control {
+      display: none;
+    }
+
+    &-button {
+      @include mixins.button-background-colors(var(--playground-menu-color-drawer));
+      @include mixins.button-foreground-colors(var(--playground-menu-color-drawer-button));
+
+      .playground-menu-toggle-label:has(input:not(:checked)) & {
+        --button-color-background-normal: transparent;
+      }
+    }
+  }
+}

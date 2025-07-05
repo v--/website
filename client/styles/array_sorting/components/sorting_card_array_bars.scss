@@ -1,0 +1,15 @@
+.sorting-card-array-bars {
+  transform: scaleY(-1);
+}
+
+.sorting-card-array-bar {
+  fill: var(--sorting-color-array-bar-normal);
+
+  &.sorting-card-array-bar-success {
+    fill: var(--sorting-color-array-bar-success);
+  }
+
+  &.sorting-card-array-bar-danger {
+    fill: var(--sorting-color-array-bar-danger);
+  }
+}

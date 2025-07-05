@@ -1,0 +1,81 @@
+{
+  "title": {
+    "entryKind": "plain",
+    "content": "Univariate interpolation"
+  },
+
+  "text": {
+    "entryKind": "rich",
+    "content": [
+      "# Univariate interpolation",
+      "",
+      "A visual comparison of some elementary interpolation and approximation techniques for univariate real-valued functions.",
+      "The interpolation knots are placed on an integer-valued grid that ranges between ${xMin} and ${xMax} on the abscissa and ${yMin} and ${yMax} on the ordinate axis.",
+      "The knots can be changed by clicking the points on the grid.",
+      "",
+      "Developed while studying for a numerical analysis examination in 2018.",
+      "",
+      "The code can be found [on GitHub](${githubPageUrl})."
+    ]
+  },
+
+  "control.reset.label": {
+    "entryKind": "plain",
+    "content": "Reset knots"
+  },
+
+  "control.reset.confirmation": {
+    "entryKind": "plain",
+    "content": "Reset knots?"
+  },
+
+  "knot_table.section_heading": {
+    "entryKind": "plain",
+    "content": "Interpolation knots"
+  },
+
+  "knot_table.placeholder": {
+    "entryKind": "plain",
+    "content": "No knots to show"
+  },
+
+  "legend_table.section_heading": {
+    "entryKind": "plain",
+    "content": "Legend"
+  },
+
+  "legend_table.heading.method": {
+    "entryKind": "plain",
+    "content": "Method"
+  },
+
+  "legend_table.heading.expression": {
+    "entryKind": "plain",
+    "content": "Expression"
+  },
+
+  "legend_table.interpolator.linear_least_squares.name": {
+    "entryKind": "plain",
+    "content": "Linear least squares"
+  },
+
+  "legend_table.interpolator.newton_polynomial.name": {
+    "entryKind": "plain",
+    "content": "Newton polynomial"
+  },
+
+  "legend_table.interpolator.linear_spline.name": {
+    "entryKind": "plain",
+    "content": "Linear spline"
+  },
+
+  "legend_table.interpolator.quadratic_spline.name": {
+    "entryKind": "plain",
+    "content": "Quadratic spline"
+  },
+
+  "legend_table.interpolator.cubic_spline.name": {
+    "entryKind": "plain",
+    "content": "Cubic spline"
+  }
+}

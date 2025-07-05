@@ -1,0 +1,13 @@
+@use '../vars';
+
+.interpolation-grid-curve {
+  @each $interpolator in vars.$interpolators {
+    &.interpolator-#{$interpolator} {
+      stroke: var(--interpolation-color-interpolator-#{$interpolator});
+    }
+  }
+
+  pointer-events: none;
+  fill: none;
+  stroke-width: var(--interpolation-size-curve-thickness);
+}

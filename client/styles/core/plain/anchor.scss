@@ -1,0 +1,49 @@
+@use "../../colors";
+@use "../../mixins";
+
+a {
+  @include mixins.foreground-color(var(--anchor-color-normal));
+
+  text-decoration: var(--anchor-text-decoration);
+  cursor: var(--anchor-cursor-normal);
+
+  @media (hover: hover) {
+    &[href]:hover {
+      @include mixins.foreground-color(var(--anchor-color-accented));
+    }
+  }
+
+  &::-moz-focus-inner {
+    border: 0;
+  }
+
+  &:not([href]) {
+    @include mixins.foreground-color(var(--anchor-color-disabled));
+
+    cursor: var(--anchor-cursor-disabled);
+  }
+}
+
+.button-styled-anchor {
+  --anchor-color-normal: var(--button-color-foreground-normal);
+  --anchor-color-accented: var(--button-color-foreground-accented);
+  --anchor-color-disabled: var(--button-color-foreground-disabled);
+  --anchor-text-decoration: none;
+
+  @include mixins.background-color(var(--button-color-background-normal));
+
+  display: inline-block;
+  padding-inline: var(--button-size-hpadding);
+  padding-block:  var(--button-size-vpadding);
+  outline-offset: var(--button-size-outline-offset);
+
+  @media (hover: hover) {
+    &[href]:hover {
+      @include mixins.background-color(var(--button-color-background-accented));
+    }
+  }
+
+  &:not([href]) {
+    @include mixins.background-color(var(--button-color-background-disabled));
+  }
+}

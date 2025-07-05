@@ -1,10 +1,138 @@
-$main-base-width: 20rem;
-$main-hpadding-desktop: 3rem;
-$main-hpadding-mobile: 1.75rem;
-$main-vpadding-desktop: 1.5rem;
-$main-vpadding-mobile: 0.5rem;
+/* stylelint-disable custom-property-empty-line-before */
+/* stylelint-disable order/order */
+// Base typography
+$root-size-base-font: 14px;
+$root-size-base-line: 1.7;
 
-$sidebar-width: 14rem;
+// Main container sparse padding
+$main-size-hpadding-sparse: 3rem;
+$main-size-vpadding-sparse: 1.4rem;
 
-$mobile-width: 800px; // See also window.DESKTOP_WIDTH in code/client/preload.ts
-$border-width: 1px;
+// Main container dense padding
+$main-size-hpadding-dense: 1.5rem;
+$main-size-vpadding-dense: 0.8rem;
+
+// Sidebar
+$sidebar-size-width-expanded:  200px;
+$sidebar-size-width-collapsed-dense: 45px;
+$sidebar-size-width-collapsed-loose: 52px;
+$sidebar-size-icon-diameter:   20px;
+$sidebar-size-threshold-collapse: 800px;
+
+// Main container dimensions
+// 312px is the width of the Apple Watch. Despite me not caring about watches,
+// it is close enough to mobile phones to be in my viewport testing list.
+$main-size-min-width:  #{calc(312px - $sidebar-size-width-collapsed-dense)};
+$main-size-min-height: #{$main-size-min-width};
+$main-size-max-width:  800px;
+
+// Thresholds for responsive design
+$page-size-width-threshold-dense:  600px;
+$page-size-height-threshold-dense: 500px;
+
+// Icons
+$icon-size-diameter-huge-loose: 15em;
+$icon-size-diameter-huge-dense: #{calc($icon-size-diameter-huge-loose / 2)};
+$icon-size-padding-huge: 1.5em;
+
+// Misc
+$base-size-outline-offset: -2px;
+$spotlight-page-head-max-width: 900px; // The spotlight content is allowed to exceed the usual page width limitation.
+
+@mixin common-size-variables {
+  // Base sizes
+  --body-size-font:      1rem;
+
+  --body-size-border-thin:   1px;
+  --body-size-border-normal: 2px;
+  --body-size-border-thick:  3px;
+
+  // Sizes based on musical dynamics
+  --body-size-ppp: 0.1em;
+  --body-size-pp:  0.25em;
+  --body-size-p:   0.5em;
+  --body-size-mp:  0.75em;
+  --body-size-mf:  1em;
+  --body-size-f:   1.5em;
+  --body-size-ff:  2.5em;
+  --body-size-fff: 4em;
+
+  // Main
+  --main-size-hpadding: #{$main-size-hpadding-sparse};
+  --main-size-vpadding: #{$main-size-vpadding-sparse};
+  --main-size-min-width: #{$main-size-min-width};
+  --main-size-max-width: #{$main-size-max-width};
+  --main-size-min-height: #{$main-size-min-height};
+
+  // Loading indicator
+  --loading-size-height: 3px;
+
+  // Buttons
+  --button-size-font: var(--body-size-font);
+  --button-size-hpadding: 1.3em;
+  --button-size-vpadding: 0.3em;
+  --button-size-outline-offset: -2px;
+
+  // Controls
+  --control-size-label-hpadding: var(--button-size-hpadding);
+  --control-size-label-vpadding: var(--button-size-vpadding);
+
+  // Fields
+  --field-size-border:  var(--body-size-border-normal);
+  --field-size-hpadding: 0.75em;
+  --field-size-vpadding: 0.5em;
+
+  // Icons
+  --icon-size-diameter: 1.4ex;
+  --icon-size-padding:  0.1em;
+
+  // Lists
+  --list-size-line-width: var(--body-size-border-thick);
+
+  // Tables
+  --table-size-border: var(--body-size-border-thin);
+
+  // Dividers
+  --divider-size: var(--body-size-border-thin);
+
+  // Typography
+  --heading-h1-size-font: 3rem;
+  --heading-h2-size-font: 2.3rem;
+  --heading-h3-size-font: 1.5rem;
+  --heading-h4-size-font: 1.1rem;
+  --heading-h5-size-font: 1rem;
+  --heading-h6-size-font: 0.8rem;
+
+  --heading-h1-size-line: 1.5;
+  --heading-h2-size-line: 1.3;
+  --heading-h3-size-line: 1.3;
+  --heading-h4-size-line: 1.2;
+  --heading-h5-size-line: 1.1;
+  --heading-h6-size-line: 1;
+
+  @for $i from 1 through 6 {
+    --heading-h#{$i}-size-margin-top: 0;
+  }
+
+  --heading-h1-size-margin-bottom: 0.25em;
+  --heading-h2-size-margin-bottom: 0.4em;
+  --heading-h3-size-margin-bottom: 0.5em;
+
+  @for $i from 4 through 6 {
+    --heading-h#{$i}-size-margin-bottom: 1em;
+  }
+
+  // Scroll shadows
+  --scroll-shadow-size: 2rem;
+
+  // Spotlight pages
+  --spotlight-page-head-max-width: #{$spotlight-page-head-max-width};
+}
+
+@mixin dense-size-variables {
+  --main-size-hpadding: #{$main-size-hpadding-dense};
+  --main-size-vpadding: #{$main-size-vpadding-dense};
+  --heading-h1-size-font: 2.5rem;
+  --heading-h2-size-font: 1.8rem;
+  --heading-h3-size-font: 1.3rem;
+}

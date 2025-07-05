@@ -1,10 +1,21 @@
 {
-    "server": {
-        "socket": "3010"
+  "server": {
+    "socket": "3010",
+    "processName": "website"
+  },
+  "services": {
+    "files": {
+      "realRoot": "./mocks/files",
+      "mockRoot": "./mocks/files"
     },
-
-    "store": {
-        "fileRootPath": ".",
-        "pacmanDBPath": "/var/lib/pacman/sync/ivasilev.db"
+    "pacman": {
+      "dbPath": "./mocks/ivasilev.db"
+    },
+    "icons": {
+      "root": "./private/iconref"
+    },
+    "translation": {
+      "root": "./private/translation"
     }
+  }
 }

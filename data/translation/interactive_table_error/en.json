@@ -1,0 +1,22 @@
+{
+  "error.cause.page.invalid": {
+    "entryKind": "rich",
+    "content": "The value of the URL parameter `page` must be a positive integer."
+  },
+  "error.cause.page.out_of_bounds": {
+    "entryKind": "rich",
+    "content": "The value of the URL parameter `page` must not exceed ${pageCount}, the page count."
+  },
+  "error.cause.per_page.invalid": {
+    "entryKind": "rich",
+    "content": "The value of the URL parameter `per_page` must be a positive integer."
+  },
+  "error.cause.sort.conflict": {
+    "entryKind": "rich",
+    "content": "The URL parameters `sort_asc` and `sort_desc` cannot be specified simultaneously."
+  },
+  "error.cause.sort.unknown": {
+    "entryKind": "rich",
+    "content": "The value of the URL parameter `${paramName}` is not a known sorting column."
+  }
+}

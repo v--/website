@@ -1,0 +1,51 @@
+@use "../../sizes";
+@use "../../mixins";
+
+.spotlight-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  width: 100%;
+  max-width: unset;
+  height: 100dvh;
+  padding-inline: 0;
+  overscroll-behavior-y: contain;
+  scrollbar-gutter: stable;
+
+  &-head {
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: var(--spotlight-page-head-max-width);
+    max-height: 100%;
+    padding-inline: var(--main-size-hpadding);
+  }
+
+  &-aspect-ratio-box-wrapper {
+    min-height: 0;
+    aspect-ratio: var(--spotlight-page-aspect-ratio);
+  }
+
+  &-aspect-ratio-box {
+    height: 100%;
+    aspect-ratio: var(--spotlight-page-aspect-ratio);
+    margin: 0 auto;
+  }
+
+  &-bridge {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: var(--spotlight-page-head-max-width);
+    padding-inline: var(--main-size-hpadding);
+  }
+
+  &-body {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: var(--main-size-max-width);
+    padding-inline: var(--main-size-hpadding);
+  }
+}

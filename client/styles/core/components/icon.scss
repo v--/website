@@ -1,7 +1,30 @@
-@import "../../colors.scss";
+@use "../../colors";
+@use "../../sizes";
+
+// The icons themselves seem to have a small padding inside the view box
+$intrinsic-icon-padding-ratio: 0.9;
 
 .icon {
-  width: 0.9em;
-  height: 0.9em;
-  fill: var(--color-foreground);
+  vertical-align: baseline;
+  height: var(--icon-size-diameter);
+  margin-bottom: calc((1ex - #{$intrinsic-icon-padding-ratio} * var(--icon-size-diameter)) / 2);
+  padding-inline: var(--icon-size-padding);
+  fill: var(--icon-color);
+  transition-duration: var(--icon-duration-transition);
+  transition-property: var(--icon-transition-properties);
+  transform: var(--icon-transform);
+
+  &-capital-align {
+    margin-bottom: calc((1cap - #{$intrinsic-icon-padding-ratio} * var(--icon-size-diameter)) / 2);
+  }
+
+  &-huge {
+    --icon-size-diameter: #{sizes.$icon-size-diameter-huge-loose};
+    --icon-size-padding: #{sizes.$icon-size-padding-huge};
+
+    max-width: 50dvw;
+    min-height: #{sizes.$icon-size-diameter-huge-dense};
+    max-height: 50dvh;
+    margin-bottom: 0;
+  }
 }

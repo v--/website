@@ -1,0 +1,80 @@
+{
+  "sidebar.button.collapse": {
+    "entryKind": "plain",
+    "content": "Collapse sidebar"
+  },
+
+  "sidebar.button.color_scheme": {
+    "entryKind": "plain",
+    "content": "Toggle colors"
+  },
+
+  "sidebar.page.home": {
+    "entryKind": "plain",
+    "content": "Home page"
+  },
+
+  "sidebar.page.files": {
+    "entryKind": "plain",
+    "content": "File server"
+  },
+
+  "sidebar.page.pacman": {
+    "entryKind": "plain",
+    "content": "Pacman repo"
+  },
+
+  "sidebar.page.playground": {
+    "entryKind": "plain",
+    "content": "Playground"
+  },
+
+  "error_page.suggestion": {
+    "entryKind": "rich",
+    "content": [
+      "Please try refreshing the browser.",
+      "If the problem persists, you can report an issue [on GitHub](${githubProjectUrl}/issues) or [via email](${emailUrl}).",
+      "Please include the browser log in the report."
+    ]
+  },
+
+  "description.home": {
+    "entryKind": "plain",
+    "content": "Home page of Ianis Vasilev's personal website."
+  },
+
+  "description.files": {
+    "entryKind": "plain",
+    "content": "An explorer for files I want to share publicly."
+  },
+
+  "description.pacman": {
+    "entryKind": "plain",
+    "content": "A personal pacman repository."
+  },
+
+  "description.playground": {
+    "entryKind": "plain",
+    "content": "Interactive browser-based visualizations and simulations."
+  },
+
+  "description.playground.array_sorting": {
+    "entryKind": "plain",
+    "content": "Sorting algorithm visualizations."
+  },
+
+  "description.playground.univariate_interpolation": {
+    "entryKind": "plain",
+    "content": "Interpolation and approximation of univariate real-valued functions."
+  },
+
+  "description.playground.breakout": {
+    "entryKind": "plain",
+    "content": "A Breakout variant with evolving bricks."
+  },
+
+  "description.playground.fleeing_button": {
+    "entryKind": "plain",
+    "content": "A button that flees from the mouse cursor."
+  }
+}

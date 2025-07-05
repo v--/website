@@ -1,0 +1,16 @@
+{
+  "heading.unsupported": {
+    "entryKind": "plain",
+    "content": "Неподдерживаемый браузер"
+  },
+
+  "message.unsupported": {
+    "entryKind": "rich",
+    "content": "`${url}` требует браузера в включенным современным JavaScript интерпретатором."
+  },
+
+  "heading.loading": {
+    "entryKind": "plain",
+    "content": "Идёт загрузка"
+  }
+}

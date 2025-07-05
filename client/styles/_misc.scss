@@ -1,0 +1,18 @@
+$spotlight-page-aspect-ratio: #{calc(3 / 2)};
+
+@mixin common-misc-variables {
+  --body-zindex-null: 0;
+  --body-zindex-ppp: 1;
+  --body-zindex-pp: 2;
+  --body-zindex-p: 3;
+  --body-zindex-mp: 4;
+  --body-zindex-mf: 5;
+  --body-zindex-f: 6;
+  --body-zindex-ff: 7;
+  --body-zindex-fff: 8;
+  --anchor-text-decoration: underline;
+  --control-justify-content: none;
+  --icon-transform: none;
+  --icon-transition-properties: none;
+  --spotlight-page-aspect-ratio: #{$spotlight-page-aspect-ratio};
+}

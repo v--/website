@@ -1,40 +1,140 @@
-$color-palette-chalk: #710c10, #ebb93e, #80b8e9, #e9658f, #98bc76, #7637a0;
+/* stylelint-disable order/order */
+@use "sass:color";
+@use "sass:list";
+@use "sass:map";
+@use "./mixins";
 
 $color-light: #fff;
-$color-medium: #999;
 $color-dark: #222;
-$color-accent: #2a92ea;
+$color-accented: #2a92ea;
+
+// The colors are a combination of the following:
+// [1] https://colorhunt.co/palette/347433ffc107ff6f3cb22222
+// [2] https://colorhunt.co/palette/5cb338ece852ffc145fb4141
+// [3] https://colorhunt.co/palette/4da8da80d8c3ffd66bf5f5f5
+// [4] https://colorhunt.co/palette/4379f2ffeb006ec207117554
+// [5] https://colorhunt.co/palette/3329413b3486864af9f8e559
+// The names are based on the Russian mnemonic "Каждый охотник желает знать где сидит фазан"
+$color-rainbow-palette: (
+  "red":    #B22222, // [1]
+  "orange": #FF6F3C, // [1]
+  "yellow": #FFC107, // [1]
+  "green":  #5CB338, // [2]
+  "cyan":   #4DA8DA, // [3]
+  "blue":   #4379F2, // [4]
+  "violet": #864AF9  // [5]
+);
 
 @mixin light-scheme {
-  --color-foreground: #{$color-dark};
-  --color-foreground-accented: #{lighten($color-dark, 10%)};
-  --color-foreground-saturated: #{lighten($color-dark, 35%)};
-  --color-midground: #{$color-medium};
-  --color-background: #{$color-light};
-  --color-background-accented: #{darken($color-light, 10%)};
-  --color-background-saturated: #{darken($color-light, 35%)};
+  // Base colors
+  --body-color-foreground: #{$color-dark};
+  --body-color-background: #{$color-light};
 
-  --color-accent: #{$color-accent};
-  --color-accent-accented: #{darken($color-accent, 10%)};
+  // Button foregrounds that require small adjustments
+  @include mixins.button-foreground-colors(var(--body-color-background));
 
-  --color-danger: #{nth($color-palette-chalk, 4)};
-  --color-warning: #{nth($color-palette-chalk, 2)};
-  --color-success: #{nth($color-palette-chalk, 5)};
+  // The sidebar which requires large adjustments
+  --sidebar-color-accented-active:    var(--body-color-fff);
+  --sidebar-color-accented:           var(--body-color-pp);
+  --sidebar-color-background-active:  var(--body-color-background);
+  --sidebar-color-background:         var(--body-color-foreground);
+  --sidebar-color-disabled:           var(--body-color-mf);
+  --sidebar-color-divider:            var(--body-color-ff);
+  --sidebar-color-foreground-active:  var(--body-color-foreground);
+  --sidebar-color-foreground:         var(--body-color-background);
 }
 
 @mixin dark-scheme {
-  --color-foreground: #{$color-light};
-  --color-foreground-accented: #{darken($color-light, 10%)};
-  --color-foreground-saturated: #{darken($color-light, 35%)};
-  --color-midground: #{$color-medium};
-  --color-background: #{$color-dark};
-  --color-background-accented: #{lighten($color-dark, 10%)};
-  --color-background-saturated: #{lighten($color-dark, 35%)};
+  // Base colors
+  --body-color-foreground: #{$color-light};
+  --body-color-background: #{$color-dark};
 
-  --color-accent: #{$color-accent};
-  --color-accent-accented: #{lighten($color-accent, 10%)};
+  // Button foregrounds that require small adjustments
+  @include mixins.button-foreground-colors(var(--body-color-foreground));
 
-  --color-danger: #{nth($color-palette-chalk, 4)};
-  --color-warning: #{nth($color-palette-chalk, 2)};
-  --color-success: #{nth($color-palette-chalk, 5)};
+  // The sidebar which requires large adjustments
+  --sidebar-color-accented-active:    var(--body-color-ff);
+  --sidebar-color-accented:           var(--body-color-ff);
+  --sidebar-color-background-active:  var(--body-color-background);
+  --sidebar-color-background:         var(--body-color-ppp);
+  --sidebar-color-disabled:           var(--body-color-mf);
+  --sidebar-color-divider:            var(--body-color-p);
+  --sidebar-color-foreground-active:  var(--body-color-foreground);
+  --sidebar-color-foreground:         var(--body-color-foreground);
+}
+
+@mixin common-color-variables {
+  // Base color pallette based on musical dynamics
+  --body-color-ppp: color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(1 * 100% / 9)});
+  --body-color-pp:  color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(2 * 100% / 9)});
+  --body-color-p:   color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(3 * 100% / 9)});
+  --body-color-mp:  color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(4 * 100% / 9)});
+  --body-color-mf:  color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(5 * 100% / 9)});
+  --body-color-f:   color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(6 * 100% / 9)});
+  --body-color-ff:  color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(7 * 100% / 9)});
+  --body-color-fff: color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(8 * 100% / 9)});
+
+  // Rainbow colors
+  @for $i from 1 through list.length($color-rainbow-palette) {
+    $pair: list.nth($color-rainbow-palette, $i);
+    $name: list.nth($pair, 1);
+    $color: list.nth($pair, 2);
+
+    --body-color-rainbow-#{$name}: #{$color};
+    --body-color-rainbow-#{$i}: var(--body-color-rainbow-#{$name});
+  }
+
+  // Other base colors
+  --body-color-accented: #{$color-accented};
+  --body-color-disabled: var(--body-color-mf);
+  --body-color-danger:   var(--body-color-rainbow-red);
+  --body-color-success:  var(--body-color-rainbow-green);
+  --body-color-warning:  var(--body-color-rainbow-yellow);
+
+  // Anchors
+  @include mixins.anchor-colors(var(--body-color-accented));
+
+  // Buttons backgrounds
+  @include mixins.button-background-colors(var(--body-color-accented));
+
+  // @include mixins.button-background-colors(transparent);
+
+  // Controls
+  --control-color-input-accented: var(--control-color-input-normal);
+  --control-color-input-disabled: var(--body-color-disabled);
+  --control-color-input-normal:   var(--body-color-accented);
+  --control-color-input-active:   var(--control-color-input-normal);
+
+  @include mixins.control-label-colors(var(--body-color-foreground));
+
+  // Dividers
+  --divider-color: var(--body-color-mp);
+
+  // Fields
+  --field-color-background-disabled: var(--body-color-pp);
+  --field-color-background-normal:   var(--body-color-ppp);
+  --field-color-border-normal:       var(--body-color-pp);
+  --field-color-border-disabled:     var(--body-color-pp);
+  --field-color-foreground-disabled: var(--body-color-ff);
+  --field-color-foreground-normal:   var(--body-color-foreground);
+  --field-color-placeholder:         var(--body-color-f);
+
+  // Icons
+  --icon-color: var(--body-color-foreground);
+
+  // Loading indicator
+  --loading-color-primary:   var(--body-color-accented);
+  --loading-color-secondary: #{$color-light};
+
+  // Scroll shadows
+  --scroll-shadow-color-foreground: color-mix(in srgb, var(--body-color-foreground), transparent 75%);
+  --scroll-shadow-color-background: var(--body-color-background);
+
+  // Scrollbars
+  --scrollbar-color-thumb:  var(--body-color-mf);
+  --scrollbar-color-track:  var(--body-color-background);
+
+  // Tables
+  --table-color-border:     var(--body-color-pp);
+  --table-color-foreground: var(--body-color-foreground);
 }

@@ -1,0 +1,8 @@
+@use '../../fonts';
+
+article, section {
+  --heading-text-align: left;
+
+  text-align: justify;
+  hyphens: auto;
+}

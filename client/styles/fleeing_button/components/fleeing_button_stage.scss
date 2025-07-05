@@ -1,0 +1,35 @@
+.fleeing-button-stage {
+  --fleeing-button-color-stage: var(--body-color-ppp);
+  --fleeing-button-color-attractor-normal: var(--body-color-rainbow-yellow);
+  --fleeing-button-color-attractor-active: var(--body-color-rainbow-orange);
+  --fleeing-button-color-mouse-area: var(--body-color-pp);
+  --fleeing-button-size-text: 0.45%;
+
+  width: 100%;
+  height: 100%;
+  background-color: var(--fleeing-button-color-stage);
+}
+
+.fleeing-button-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.fleeing-button {
+  fill: var(--button-color-background-normal);
+
+  @media (hover: hover) {
+    &:hover {
+      fill: var(--button-color-background-accented);
+
+      &-color {
+        --icon-color: var(--button-color-foreground-accented);
+      }
+    }
+  }
+
+  &-icon {
+    fill: var(--button-color-foreground-normal);
+    transform: scale(0.05) translate(-50%, -50%);
+  }
+}

@@ -1,7 +1,7 @@
-@import "../../colors.scss";
+@use "../../colors";
 
-.interactive-table {
-  .pagination-wrapper {
-    padding: 0.5em;
+.interactive-table-wrapper {
+  .paginator {
+    border-block: var(--table-size-border) solid var(--table-color-border);
   }
 }

@@ -1,0 +1,186 @@
+{
+  "title": {
+    "entryKind": "plain",
+    "content": "Array sorting"
+  },
+
+  "text": {
+    "entryKind": "rich",
+    "content": [
+      "# Array sorting",
+      "",
+      "This page features visualizations of some of the famous sorting algorithms.",
+      "At each moment shown, two values are compared, and the corresponding values are highlighted.",
+      "Their color is green if they are swapped and red otherwise.",
+      "",
+      "Developed in 2014, with several refactorings since then.",
+      "",
+      "The code can be found [on GitHub](${githubPageUrl})."
+    ]
+  },
+
+  "control.speed.label": {
+    "entryKind": "plain",
+    "content": "Speed"
+  },
+
+  "control.run.label.unstarted": {
+    "entryKind": "plain",
+    "content": "Run"
+  },
+
+  "control.run.label.running": {
+    "entryKind": "plain",
+    "content": "Pause"
+  },
+
+  "control.run.label.paused": {
+    "entryKind": "plain",
+    "content": "Resume"
+  },
+
+  "control.run.label.completed": {
+    "entryKind": "plain",
+    "content": "Re-run"
+  },
+
+  "control.reset.label": {
+    "entryKind": "plain",
+    "content": "Reset"
+  },
+
+  "card.info.header.stable": {
+    "entryKind": "plain",
+    "content": "Stable"
+  },
+
+  "card.info.header.time": {
+    "entryKind": "plain",
+    "content": "Time"
+  },
+
+  "card.info.header.space": {
+    "entryKind": "plain",
+    "content": "Space"
+  },
+
+  "card.info.stability.true": {
+    "entryKind": "plain",
+    "content": "Yes"
+  },
+
+  "card.info.stability.false": {
+    "entryKind": "plain",
+    "content": "No"
+  },
+
+  "card.array.ascending.name": {
+    "entryKind": "plain",
+    "content": "Ascending"
+  },
+
+  "card.array.descending.name": {
+    "entryKind": "plain",
+    "content": "Descending"
+  },
+
+  "card.array.shuffled.name": {
+    "entryKind": "plain",
+    "content": "Shuffled"
+  },
+
+  "card.array.grouped.name": {
+    "entryKind": "plain",
+    "content": "Grouped"
+  },
+
+  "algorithm.heapsort.name": {
+    "entryKind": "plain",
+    "content": "Heapsort"
+  },
+
+  "algorithm.heapsort.url": {
+    "entryKind": "plain",
+    "content": "https://en.wikipedia.org/wiki/Heapsort"
+  },
+
+  "algorithm.merge.name": {
+    "entryKind": "plain",
+    "content": "Merge sort"
+  },
+
+  "algorithm.merge.url": {
+    "entryKind": "plain",
+    "content": "https://en.wikipedia.org/wiki/Merge_sort"
+  },
+
+  "algorithm.quicksort.name": {
+    "entryKind": "plain",
+    "content": "Quicksort"
+  },
+
+  "algorithm.quicksort.url": {
+    "entryKind": "plain",
+    "content": "https://en.wikipedia.org/wiki/Quicksort"
+  },
+
+  "algorithm.shellsort.name": {
+    "entryKind": "plain",
+    "content": "Shellsort"
+  },
+
+  "algorithm.shellsort.url": {
+    "entryKind": "plain",
+    "content": "https://en.wikipedia.org/wiki/Shellsort"
+  },
+
+  "algorithm.insertion.name": {
+    "entryKind": "plain",
+    "content": "Insertion sort"
+  },
+
+  "algorithm.insertion.url": {
+    "entryKind": "plain",
+    "content": "https://en.wikipedia.org/wiki/Insertion_sort"
+  },
+
+  "algorithm.selection.name": {
+    "entryKind": "plain",
+    "content": "Selection sort"
+  },
+
+  "algorithm.selection.url": {
+    "entryKind": "plain",
+    "content": "https://en.wikipedia.org/wiki/Selection_sort"
+  },
+
+  "algorithm.gnome.name": {
+    "entryKind": "plain",
+    "content": "Gnome sort"
+  },
+
+  "algorithm.gnome.url": {
+    "entryKind": "plain",
+    "content": "https://en.wikipedia.org/wiki/Gnome_sort"
+  },
+
+  "algorithm.cocktail.name": {
+    "entryKind": "plain",
+    "content": "Cocktail sort"
+  },
+
+  "algorithm.cocktail.url": {
+    "entryKind": "plain",
+    "content": "https://en.wikipedia.org/wiki/Cocktail_shaker_sort"
+  },
+
+  "algorithm.bubble.name": {
+    "entryKind": "plain",
+    "content": "Bubble sort"
+  },
+
+  "algorithm.bubble.url": {
+    "entryKind": "plain",
+    "content": "https://en.wikipedia.org/wiki/Bubble_sort"
+  }
+}

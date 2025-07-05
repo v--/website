@@ -1,10 +1,18 @@
 {
-    "server": {
-        "socket": "/run/ivasilev/server.sock"
+  "server": {
+    "socket": "/run/website/server.sock",
+    "processName": "website"
+  },
+  "services": {
+    "files": {
+      "realRoot": "/srv/http/files",
+      "mockRoot": "./mocks/files"
     },
-
-    "store": {
-        "fileRootPath": "/srv/http/files",
-        "pacmanDBPath": "/srv/http/pacman/x86_64/ivasilev.db"
+    "pacman": {
+      "dbPath": "/srv/http/pacman/x86_64/ivasilev.db"
+    },
+    "icons": {
+      "root": "./private/iconref",
     }
+  }
 }

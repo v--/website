@@ -1,0 +1,27 @@
+{
+  "title": {
+    "entryKind": "plain",
+    "content": "Playground"
+  },
+
+  "heading": {
+    "entryKind": "plain",
+    "content": "Playground"
+  },
+
+  "text": {
+    "entryKind": "rich",
+    "content": [
+      "I have published here several simple browser-based visualizations and simulations that I have developed among other things.",
+      "",
+      "The corresponding code can be found [on GitHub](${projectUrl})."
+    ]
+  },
+
+  "footnote": {
+    "entryKind": "rich",
+    "content": [
+      "**Note:** There was previously more content here, but during the last refactoring I removed the majority of what I considered unfinished; it should, however, be easily discoverable in the source code history."
+    ]
+  }
+}

@@ -1,0 +1,61 @@
+@use "../../mixins";
+@use "../../sizes";
+
+button {
+  --anchor-color-normal: var(--button-color-foreground-normal);
+  --anchor-color-accented: var(--button-color-foreground-accented);
+  --anchor-color-disabled: var(--button-color-foreground-disabled);
+  --anchor-duration-transition: var(--button-duration-transition);
+  --anchor-size-icon-spacing: var(--button-size-icon-spacing);
+  --anchor-text-decoration: none;
+
+  @include mixins.foreground-color(var(--button-color-foreground-normal));
+  @include mixins.background-color(var(--button-color-background-normal));
+
+  padding-inline: var(--button-size-hpadding);
+  padding-block: var(--button-size-vpadding);
+  border: none;
+  outline-offset: var(--button-size-outline-offset);
+  line-height: #{sizes.$root-size-base-line};
+  cursor: var(--button-cursor-normal);
+
+  // Buttons override the font by default
+  /* stylelint-disable-next-line order/properties-order */
+  font-size: var(--button-size-font);
+  font-family: var(--body-font-family-sans);
+
+  @media (hover: hover) {
+    &:hover {
+      @include mixins.foreground-color(var(--button-color-foreground-accented));
+      @include mixins.background-color(var(--button-color-background-accented));
+    }
+  }
+
+  &:active {
+    @include mixins.foreground-color(var(--button-color-foreground-accented));
+    @include mixins.background-color(var(--button-color-background-accented));
+  }
+
+  &:disabled, fieldset[disabled] & {
+    @include mixins.foreground-color(var(--button-color-foreground-disabled));
+    @include mixins.background-color(var(--button-color-background-disabled));
+
+    cursor: var(--button-cursor-disabled);
+  }
+
+  &::-moz-focus-inner {
+    border: 0;
+  }
+}
+
+.button-success {
+  @include mixins.button-background-colors(var(--body-color-success));
+}
+
+.button-danger {
+  @include mixins.button-background-colors(var(--body-color-danger));
+}
+
+.button-warning {
+  @include mixins.button-background-colors(var(--body-color-warning));
+}

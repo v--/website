@@ -1,0 +1,7 @@
+.fleeing-button-attractor {
+  fill: var(--fleeing-button-color-attractor-normal);
+
+  &-active {
+    fill: var(--fleeing-button-color-attractor-active);
+  }
+}

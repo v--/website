@@ -1,0 +1,7 @@
+.breakout-bricks {
+  @for $i from 1 through 3 {
+    .breakout-brick-power-#{$i} {
+      fill: var(--breakout-color-brick-p#{$i});
+    }
+  }
+}

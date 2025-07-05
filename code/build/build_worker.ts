@@ -1,15 +1,9 @@
 export interface IBuildContext {
   src: string
   dest: string
-  contents: string | NodeJS.ArrayBufferView
+  contents: string | ArrayBufferView
 }
 
-export interface ICleanContext {
-  src: string
-  dest: string
-}
-
-export abstract class BuildWorker {
-  abstract performBuild(path: string): AsyncIterable<IBuildContext>;
-  abstract performClean(path: string): AsyncIterable<ICleanContext>;
+export interface IBuildWorker {
+  performBuild(src: string): AsyncIterable<IBuildContext>
 }
