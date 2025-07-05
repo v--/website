@@ -4,8 +4,8 @@ import { bulkBindWatcher, bulkBuild, getBuildManagers } from './managers.ts'
 import { initBrowserSync } from './sync.ts'
 import { readConfig } from '../server/config.ts'
 
-await fs.rm('./public', { recursive: true })
-await fs.rm('./private', { recursive: true })
+await fs.rm('./public', { recursive: true, force: true })
+await fs.rm('./private', { recursive: true, force: true })
 
 try {
   await bulkBuild(

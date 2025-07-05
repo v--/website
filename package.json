@@ -4,10 +4,10 @@
   "license": "Unlicense",
   "scripts": {
     "clean": "rm --recursive --force private public",
-    "build": "npm run clean && npm run lint && npm run unittest && node code/build/builder.ts",
+    "build": "npm run clean && npm run lint && npm run test:unit && node code/build/builder.ts",
     "client": "node code/build/watcher.ts",
     "server": "node --watch code/server/index.ts",
-    "lint:styles": "stylelint client/styles",
+    "lint:styles": "stylelint client/styles/**/*.scss",
     "lint:code:ts": "tsc",
     "lint:code:eslint": "eslint --config code/eslint.config.ts code",
     "lint:code": "npm run lint:code:ts && npm run lint:code:eslint",
@@ -30,6 +30,7 @@
   "dependencies": {
     "commonmark": "^0.31.2",
     "lzma-native": "^8.0.6",
+    "node-html-parser": "^7.0.1",
     "tar": "^7.4.3"
   },
   "devDependencies": {
@@ -55,7 +56,6 @@
     "find-process": "^1.4.10",
     "globals": "^16.3.0",
     "knip": "^5.61.3",
-    "node-html-parser": "^7.0.1",
     "sass": "^1.89.2",
     "stylelint": "^16.21.1",
     "stylelint-config-hudochenkov": "^12.0.0",

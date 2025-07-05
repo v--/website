@@ -7,6 +7,7 @@ import { type Action } from '../types/typecons.ts'
 
 interface IIconComponentState {
   name: string
+  class?: string
   refId: IconRefId
   click?: Action<unknown>
 }

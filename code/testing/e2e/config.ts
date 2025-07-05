@@ -1,6 +1,6 @@
 import { chromium, firefox, webkit } from '@playwright/test'
 
-export const BASE_URL = process.env['E2E_ENVIRONMENT'] === 'PRODUCTION' ?
+export const BASE_URL = process.env['E2E_ENVIRONMENT'] === 'production' ?
   'https://ivasilev.net' :
   'http://localhost:3000'
 

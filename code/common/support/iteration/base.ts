@@ -95,4 +95,3 @@ export function getObjectEntries<T extends object>(object: T) {
 export function includes<T>(array: Array<T> | ReadonlyArray<T>, value: unknown): value is T {
   return array.includes(value as T)
 }
-

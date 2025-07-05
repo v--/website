@@ -12,7 +12,10 @@
       "dbPath": "/srv/http/pacman/x86_64/ivasilev.db"
     },
     "icons": {
-      "root": "./private/iconref",
+      "root": "./private/iconref"
+    },
+    "translation": {
+      "root": "./private/translation"
     }
   }
 }
