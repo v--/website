@@ -1,7 +1,6 @@
 {
   "entry": [
     "code/eslint.config.ts",
-    "code/server/index.ts",
     "code/client/browsersync_injection.ts",
     "code/client/*/index.ts",
     "code/build/{builder,watcher}.ts",
@@ -13,10 +12,9 @@
     "code/**/*.ts"
   ],
   "ignore": [
-    "code/common/support/dedent.ts"
+    "code/testing/unit/global_hooks.ts"
   ],
   "ignoreDependencies": [
-    "eslint-import-resolver-typescript",
-    "es-observable-tests"
+    "eslint-import-resolver-typescript"
   ]
 }

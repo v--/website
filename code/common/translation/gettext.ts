@@ -37,6 +37,14 @@ export class GetText extends ExtendableFunction<[IGetTextSpec], Observable<strin
     this.package$ = this.#package$
   }
 
+  getCurrentLanguage() {
+    return this.#language$.value
+  }
+
+  getCurrentPackage() {
+    return this.#package$.value
+  }
+
   updateLanguage(newLanguage: LanguageId) {
     this.#language$.next(newLanguage)
   }

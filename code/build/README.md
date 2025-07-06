@@ -6,7 +6,7 @@ When I developed the website initially, [gulp.js](https://gulpjs.com/) was stron
 
 A build worker accepts a source path and generates "build contexts", each containing a destination file's path and contents. All that a build worker needs is to implement the single-method [IBuildWorker interface](./build_worker.ts).
 
-A build manager is instead an instance of the [BuildManager class](./build_manager.ts). A manager knows which files to watch (and ignore) and when to run BrowserSync (the latter requires some hacks - see the comments in [`./sync.ts`](./sync.ts) and [`../client/browsersync_injection.ts`](../client/browsersync_injection.ts).
+A build manager is instead an instance of the [BuildManager class](./build_manager.ts). A manager knows which files to watch (and ignore) and when to run BrowserSync (the latter requires some hacks - see the comments in [`./sync.ts`](./sync.ts) and [`../client/browsersync_injection.ts`](../client/browsersync_injection.ts)).
 
 The [./managers.ts](./managers.ts) file initializes the various managers. Finally, [`./builder.ts`](./builder.ts) instructs the managers to build everything once, while [`./watcher.ts`](./watcher.ts) additionally runs a daemon to listen for changes.
 
@@ -35,6 +35,10 @@ The [style worker](./workers/styles.ts) uses [Dart Sass](https://sass-lang.com/d
 ### SVG
 
 There are [SVG rendering](./workers/svg_render.ts) and [SVG optimization](./workers/svg_opt.ts) workers for, unsurprisingly, SVG files.
+
+### Previews
+
+There is a [generator](./workers/previews.ts) for [Open Graph protocol](https://ogp.me/) images, which we call here "previews" for simplicity.
 
 ### Icon references
 

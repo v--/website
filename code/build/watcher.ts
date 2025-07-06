@@ -9,7 +9,7 @@ await fs.rm('./private', { recursive: true, force: true })
 
 try {
   await bulkBuild(
-    getBuildManagers({ sourceMaps: true, dev: true, loggerLevel: 'WARN' }),
+    getBuildManagers({ sourceMaps: true, prod: false, loggerLevel: 'WARN' }),
   )
 } catch (err) {
   // eslint-disable-next-line no-console
@@ -20,5 +20,5 @@ const config = await readConfig()
 const sync = initBrowserSync(config.server.socket)
 
 await bulkBindWatcher(
-  getBuildManagers({ sourceMaps: true, dev: true, loggerLevel: 'INFO', sync }),
+  getBuildManagers({ sourceMaps: true, prod: false, loggerLevel: 'INFO', sync }),
 )

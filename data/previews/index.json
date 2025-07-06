@@ -1,0 +1,38 @@
+{
+  "home": {
+    "en": "Home page",
+    "ru": "Домашняя страница"
+  },
+  "files": {
+    "en": "File server",
+    "ru": "Файловый сервер"
+  },
+  "pacman": {
+    "en": "Pacman",
+    "ru": "Pacman"
+  },
+  "playground": {
+    "en": "Playground",
+    "ru": "Мастерская"
+  },
+  "error": {
+    "en": "Error",
+    "ru": "Ошибка"
+  },
+  "array_sorting": {
+    "en": "Array sorting",
+    "ru": "Сортировка массивов"
+  },
+  "univariate_interpolation": {
+    "en": "Univariate interpolation",
+    "ru": "Одномерная интерполяция"
+  },
+  "breakout": {
+    "en": "Breakout",
+    "ru": "Breakout"
+  },
+  "fleeing_button": {
+    "en": "Fleeing button",
+    "ru": "Убегающая кнопка"
+  }
+}

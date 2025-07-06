@@ -6,6 +6,7 @@ import { Component, c } from '../../common/rendering/component.ts'
 import { CANONICAL_LANGUAGE_STRING } from '../../common/translation.ts'
 import { type IWebsitePageState } from '../../common/types/page.ts'
 import { type IRehydrationData } from '../../common/types/rehydration.ts'
+import { iterMetaTags } from '../meta.ts'
 
 const DEFAULT_PREFETCHED: Component[] = []
 
@@ -26,7 +27,10 @@ export function root({ pageState, rehydrationData }: IRootState, env: WebsiteEnv
       c('meta', { charset: 'UTF-8' }),
       c('meta', { name: 'viewport', content: 'width=device-width, initial-scale=1' }),
       c('meta', { name: 'description', content: env.gettext.plain(pageState.descriptionSpec) }),
-      c('meta', { name: 'fediverse:creator', content: '@ianis@pub.ivasilev.net' }),
+      // TODO: Remove Array.from once Iterator.prototype.map() proliferates
+      ...Array.from(iterMetaTags(env.gettext, pageState)).map(
+        tag => c('meta', { name: tag.name, content: tag.content }),
+      ),
       c('link', { rel: 'icon', type: 'image/x-icon', href: '/images/favicon.png' }),
       c('link', { rel: 'stylesheet', href: '/styles/core.css' }),
       c('script', { id: 'rehydrationData', type: 'application/json', text: JSON.stringify(rehydrationData) }),

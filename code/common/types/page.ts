@@ -26,6 +26,7 @@ export interface IWebsitePageState<T = DefaultPageData> {
   iconRefIds?: IconRefId[]
   translationBundleIds?: TranslationBundleId[]
   sidebarId?: SidebarId
+  previewImageName?: string
 
   page: WebsitePage<T>
   pageData: T

@@ -41,7 +41,7 @@ export class TranslationMapBuildWorker implements IBuildWorker {
   }
 
   async* performBuild(src: string): AsyncIterable<IBuildContext> {
-    const translationSource: TranslationMapSource = await readJsonWithSchema(TRANSLATION_MAP_SOURCE_SCHEMA, src)
+    const translationSource = await readJsonWithSchema(TRANSLATION_MAP_SOURCE_SCHEMA, src)
     const parsed: ITranslationMap = Object.fromEntries(
       getObjectEntries(translationSource).map(function ([key, spec]) {
         const content = spec.content instanceof Array ? spec.content.join('\n') : spec.content

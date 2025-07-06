@@ -6,6 +6,7 @@ import { BuildManager } from './build_manager.ts'
 import { AssetIBuildWorker } from './workers/assets.ts'
 import { CodeBuildWorker } from './workers/code.ts'
 import { IconRefBuildWorker } from './workers/icon_refs.ts'
+import { PreviewBuildWorker } from './workers/previews.ts'
 import { StyleBuildWorker } from './workers/style.ts'
 import { SvgOptBuildWorker } from './workers/svg_opt.ts'
 import { SvgRenderBuildWorker } from './workers/svg_render.ts'
@@ -16,18 +17,14 @@ interface GetBuildManagersConfig {
   sourceMaps: boolean
   sync?: BrowserSyncInstance
   loggerLevel: LoggerLevel
-  // The dev flag is needed only to check whether the BrowserSync script is to be ignored.
-  // It cannot be replaced by a check of whether there is a BrowserSync instance
-  // because then the initial build of the watcher will fail. We can pass an instance on initial build,
-  // but that would be more of a hack than this is.
-  dev: boolean
+  prod: boolean
 }
 
 export function getBuildManagers(config: GetBuildManagersConfig) {
   return Array.from(iterBuildManagers(config))
 }
 
-function* iterBuildManagers({ loggerLevel, sourceMaps, sync, dev }: GetBuildManagersConfig) {
+function* iterBuildManagers({ loggerLevel, sourceMaps, sync, prod }: GetBuildManagersConfig) {
   yield new BuildManager({
     builder: new CodeBuildWorker({ sourceMaps, srcBase: 'code', destBase: 'public/code' }),
     paths: ['code/common', 'code/client'],
@@ -36,7 +33,7 @@ function* iterBuildManagers({ loggerLevel, sourceMaps, sync, dev }: GetBuildMana
     ignore(path: ParsedPath) {
       return path.name === 'eslint.config' ||
         path.name.startsWith('test_') ||
-        (!dev && path.name === 'browsersync_injection')
+        (prod && path.name === 'browsersync_injection')
     },
   })
 
@@ -51,17 +48,32 @@ function* iterBuildManagers({ loggerLevel, sourceMaps, sync, dev }: GetBuildMana
   })
 
   yield new BuildManager({
-    builder: new SvgRenderBuildWorker({ srcBase: 'client/svgs', destBase: 'public/images' }),
-    paths: ['client/svgs/favicon.svg'],
+    builder: new SvgRenderBuildWorker({ srcBase: 'client/svg', destBase: 'public/images' }),
+    paths: ['client/svg/favicon.svg'],
+    ext: ['.svg'],
     loggerLevel, sync,
   })
 
   yield new BuildManager({
-    builder: new SvgOptBuildWorker({ srcBase: 'client/svgs', destBase: 'public/images' }),
-    paths: ['client/svgs'],
+    builder: new SvgOptBuildWorker({ srcBase: 'client/svg', destBase: 'public/images' }),
+    paths: ['client/svg'],
     ext: ['.svg'],
     loggerLevel, sync,
   })
+
+  if (prod) {
+    yield new BuildManager({
+      builder: new PreviewBuildWorker({
+        srcBase: 'data/previews',
+        destBase: 'public/images/previews',
+        faviconFilePath: 'client/svg/favicon.svg',
+        backgroundFilePath: 'data/previews/open_graph_background.svg',
+        fontFile: 'data/previews/pt-sans_regular.ttf',
+      }),
+      paths: ['data/previews/index.json'],
+      loggerLevel, sync,
+    })
+  }
 
   yield new BuildManager({
     builder: new AssetIBuildWorker({ srcBase: 'client/assets', destBase: 'public' }),

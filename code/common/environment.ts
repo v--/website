@@ -1,5 +1,5 @@
 import { IconStore } from './icon_store.ts'
-import { ReplaySubject, Subject, first } from './observable.ts'
+import { ReplaySubject, Subject } from './observable.ts'
 import { type IServiceManager } from './services.ts'
 import { type UrlPath } from './support/url_path.ts'
 import { GetText, type LanguageId } from './translation.ts'
@@ -50,7 +50,7 @@ export abstract class WebsiteEnvironment implements IFinalizeable {
   }
 
   async preloadPageData(pageState: IWebsitePageState) {
-    const currentLanguage = await first(this.gettext.language$)
+    const currentLanguage = this.gettext.getCurrentLanguage()
     const bundleIds = new Set(pageState.translationBundleIds)
     bundleIds.add(pageState.titleSpec.bundleId)
     bundleIds.add(pageState.descriptionSpec.bundleId)
@@ -64,7 +64,7 @@ export abstract class WebsiteEnvironment implements IFinalizeable {
   // The routing service would get flooded with errors while already struggling to render the error page
   // in a language it cannot handle.
   async changeLanguage(newLanguage: LanguageId) {
-    const currentPackage = await first(this.gettext.package$)
+    const currentPackage = this.gettext.getCurrentPackage()
     const bundleIds = currentPackage.map(({ bundleId }) => bundleId)
     await this.preloadTranslationPackage(newLanguage, bundleIds)
     this.gettext.updateLanguage(newLanguage)

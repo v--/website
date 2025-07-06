@@ -1,12 +1,11 @@
 import { type ServerWebsiteEnvironment } from './environment.ts'
-import { first } from '../common/observable.ts'
 import { type IWebsitePageState } from '../common/types/page.ts'
 import { type IRehydrationData } from '../common/types/rehydration.ts'
 
 export async function encodeRehydrationData(pageState: IWebsitePageState, env: ServerWebsiteEnvironment): Promise<IRehydrationData> {
   const rehydrationData: IRehydrationData = {
-    iconRefPackage: await first(env.iconStore.package$),
-    translationPackage: await first(env.gettext.package$),
+    iconRefPackage: env.iconStore.getCurrentPackage(),
+    translationPackage: env.gettext.getCurrentPackage(),
   }
 
   if (pageState.pageDataHydrationTag) {

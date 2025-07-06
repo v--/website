@@ -1,5 +1,4 @@
 import { type WebsiteEnvironment } from '../environment.ts'
-import { IntegrityError } from '../errors.ts'
 import { s } from '../rendering/component.ts'
 import { classlist } from '../support/dom_properties.ts'
 import { type IconRefId } from '../types/bundles.ts'

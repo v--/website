@@ -32,7 +32,7 @@ export class IconRefBuildWorker implements IBuildWorker {
   }
 
   async* performBuild(src: string): AsyncIterable<IBuildContext> {
-    const iconSource: IconRefSource = await readJsonWithSchema(ICON_REF_SOURCE_SCHEMA, src)
+    const iconSource = await readJsonWithSchema(ICON_REF_SOURCE_SCHEMA, src)
     const promises = iconSource
       .map(async name => {
         return {

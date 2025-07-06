@@ -13,6 +13,10 @@ export class IconStore implements IFinalizeable {
     this.package$ = this.#package$
   }
 
+  getCurrentPackage() {
+    return this.#package$.value
+  }
+
   updatePackage(newPackage: IIconRefPackage) {
     this.#package$.next(newPackage)
   }

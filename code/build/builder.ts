@@ -6,5 +6,5 @@ await fs.rm('./public', { recursive: true, force: true })
 await fs.rm('./private', { recursive: true, force: true })
 
 await bulkBuild(
-  getBuildManagers({ sourceMaps: false, dev: false, loggerLevel: 'WARN' }),
+  getBuildManagers({ sourceMaps: false, prod: true, loggerLevel: 'WARN' }),
 )

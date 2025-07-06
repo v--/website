@@ -1,3 +1,12 @@
+/*
+ * WebFinger is, quoting https://webfinger.net/
+ * > A way to attach information to an email address, or other online resource.
+ *
+ * It requires serving JSON metainformation at a dedicated API endpoint
+ */
+
+import { type IMetaLink } from './types.ts'
+
 export const WEBFINGER_ALIASES = [
   'acct:ianis@pub.ivasilev.net',
   'mailto:ianis@ivasilev.net',
@@ -5,13 +14,7 @@ export const WEBFINGER_ALIASES = [
   'https://pub.ivasilev.net/users/ianis',
 ]
 
-export interface IWebfingerLink {
-  rel: string
-  type: string
-  href: string
-}
-
-export const WEBFINGER_LINKS: IWebfingerLink[] = [
+export const WEBFINGER_LINKS: IMetaLink[] = [
   {
     rel: 'http://webfinger.net/rel/profile-page',
     type: 'text/html',

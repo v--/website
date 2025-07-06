@@ -1,6 +1,6 @@
 import { ManualCache } from '../../../common/cache.ts'
 import { ICON_REF_SCHEMA, type IIconRef } from '../../../common/icon_store.ts'
-import type { IIconRefService } from '../../../common/services.ts'
+import { type IIconRefService } from '../../../common/services.ts'
 import { Path } from '../../../common/support/path.ts'
 import { UrlPath } from '../../../common/support/url_path.ts'
 import { type IconRefId } from '../../../common/types/bundles.ts'

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import { after, beforeEach, describe, it } from 'node:test'
 
 import { BaseApiClient } from './base.ts'
-import { WEBFINGER_ALIASES, WEBFINGER_LINKS } from '../../server/constants/webfinger.ts'
+import { WEBFINGER_ALIASES, WEBFINGER_LINKS } from '../../server/meta/webfinger.ts'
 
 describe('/.well-known/webfinger', function () {
   let client: BaseApiClient
