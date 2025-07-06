@@ -2,7 +2,7 @@ import { basename, dirname, join as joinPath, relative } from 'node:path'
 
 import { getObjectEntries } from '../../common/support/iteration.ts'
 import { type ITranslationMap } from '../../common/translation.ts'
-import { type Infer, Schema } from '../../common/validation.ts'
+import { Schema } from '../../common/validation.ts'
 import { parseMarkdown } from '../../server/markdown.ts'
 import { readJsonWithSchema } from '../../server/validation.ts'
 import { type IBuildContext, type IBuildWorker } from '../build_worker.ts'
@@ -22,8 +22,6 @@ const TRANSLATION_MAP_SOURCE_SCHEMA = Schema.record(
     ),
   }),
 )
-
-type TranslationMapSource = Infer<typeof TRANSLATION_MAP_SOURCE_SCHEMA>
 
 export class TranslationMapBuildWorker implements IBuildWorker {
   readonly config: ITranslationMapBuildWorkerConfig

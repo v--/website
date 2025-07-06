@@ -6,7 +6,7 @@
  */
 
 import { type IMetaTag } from './types.ts'
-import { CANONICAL_LANGUAGE_STRING, LANGUAGE_IDS, type GetText } from '../../common/translation.ts'
+import { CANONICAL_LANGUAGE_STRING, type GetText, LANGUAGE_IDS } from '../../common/translation.ts'
 import { type IWebsitePageState } from '../../common/types/page.ts'
 
 export function* iterOpenGraphTags(gettext: GetText, pageState: IWebsitePageState): Generator<IMetaTag> {

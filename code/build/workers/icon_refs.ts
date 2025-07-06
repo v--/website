@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises'
 import { basename, dirname, join as joinPath, relative } from 'node:path'
 
-import { type Infer, Schema } from '../../common/validation.ts'
+import { Schema } from '../../common/validation.ts'
 import { readJsonWithSchema } from '../../server/validation.ts'
 import { type IBuildContext, type IBuildWorker } from '../build_worker.ts'
 import { BuildError } from '../errors.ts'
@@ -14,7 +14,6 @@ export interface IIconRefBuildWorkerConfig {
 }
 
 const ICON_REF_SOURCE_SCHEMA = Schema.array(Schema.string)
-type IconRefSource = Infer<typeof ICON_REF_SOURCE_SCHEMA>
 
 export class IconRefBuildWorker implements IBuildWorker {
   readonly config: IIconRefBuildWorkerConfig
