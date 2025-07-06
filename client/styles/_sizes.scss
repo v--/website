@@ -122,9 +122,6 @@ $spotlight-page-head-max-width: 900px; // The spotlight content is allowed to ex
     --heading-h#{$i}-size-margin-bottom: 1em;
   }
 
-  // Scroll shadows
-  --scroll-shadow-size: 2rem;
-
   // Spotlight pages
   --spotlight-page-head-max-width: #{$spotlight-page-head-max-width};
 }

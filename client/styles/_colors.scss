@@ -126,10 +126,6 @@ $color-rainbow-palette: (
   --loading-color-primary:   var(--body-color-accented);
   --loading-color-secondary: #{$color-light};
 
-  // Scroll shadows
-  --scroll-shadow-color-foreground: color-mix(in srgb, var(--body-color-foreground), transparent 75%);
-  --scroll-shadow-color-background: var(--body-color-background);
-
   // Scrollbars
   --scrollbar-color-thumb:  var(--body-color-mf);
   --scrollbar-color-track:  var(--body-color-background);
