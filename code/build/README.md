@@ -40,6 +40,8 @@ There are [SVG rendering](./workers/svg_render.ts) and [SVG optimization](./work
 
 There is a [generator](./workers/previews.ts) for [Open Graph protocol](https://ogp.me/) images, which we call here "previews" for simplicity.
 
+It is quite hacky, but it works well enough. We embed two SVG images, a favicon and a background, into an SVG template string within the code itself, and add internationalized text based on the `index.json` file in [`../data/previews`](../data/previews). The resulting SVG is then rendered to PNG via the [resvg-js](https://github.com/thx/resvg-js) library.
+
 ### Icon references
 
 In order to build [`IIconSpec`](../common/icon_store/types.ts) objects, the [IconRef worker](./workers/icon_refs.ts) relies on a directory of JSON files, [`../../data/iconref`](../../data/iconref). Each of the files is a list of [FontAwesome](https://fontawesome.com/) icon names. The icon builder extracts the viewBox and path specification for each icon and dumps them in the format used by the website.

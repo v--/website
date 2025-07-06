@@ -1,6 +1,6 @@
 # Preview generation
 
-The general build process, see [here](../../code/build#previews).
+This is template data required to generate [Open Graph protocol](https://ogp.me/) images for the different pages. For the build process, see [here](../../code/build#previews).
 
 ## PT Sans
 
