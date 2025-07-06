@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises'
 
-import { type PresentableErrorFactory } from '../../common/presentable_errors.ts'
+import { PresentableError } from '../../common/presentable_errors.ts'
 import { type IDirectory, type IFileService } from '../../common/services/files.ts'
 import { type Path } from '../../common/support/path.ts'
 import { parseHtml } from '../html.ts'
@@ -8,11 +8,9 @@ import { parseMarkdown } from '../markdown.ts'
 
 export class ServerFileService implements IFileService {
   #rootPath: Path
-  #errorFactory: PresentableErrorFactory
 
-  constructor(rootPath: Path, errorFactory: PresentableErrorFactory) {
+  constructor(rootPath: Path) {
     this.#rootPath = rootPath
-    this.#errorFactory = errorFactory
   }
 
   updateRootPath(rootPath: Path) {
@@ -21,7 +19,7 @@ export class ServerFileService implements IFileService {
 
   async readDirectory(path: Path) {
     if (path.segments.some(segment => segment.startsWith('.'))) {
-      throw this.#errorFactory.create({ errorKind: 'http', code: 403 })
+      throw new PresentableError({ errorKind: 'http', code: 403 })
     }
 
     const fullPath = this.#rootPath.pushRight(...path.segments)
@@ -33,7 +31,7 @@ export class ServerFileService implements IFileService {
       files = await fs.readdir(fullPath.toString(), 'utf8')
     } catch (err) {
       if (err instanceof Error && 'code' in err && (err.code === 'ENOENT' || err.code === 'ENOTDIR')) {
-        throw this.#errorFactory.create({ errorKind: 'http', code: 404 })
+        throw new PresentableError({ errorKind: 'http', code: 404 })
       } else {
         throw err
       }

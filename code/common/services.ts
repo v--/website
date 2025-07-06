@@ -5,13 +5,7 @@ export {
   type IDirectory,
   type IFileService,
 } from './services/files.ts'
-export {
-  ICON_MAP_SCHEMA,
-  ICON_SPEC_SCHEMA,
-  type IIconRef as IIconRef,
-  type IIconService,
-  type IIconSpec,
-} from './services/icons.ts'
+export { type IIconRefService } from './services/icon_refs.ts'
 export { type IServiceManager } from './services/manager.ts'
 export {
   type IPacmanPackage,
@@ -21,7 +15,4 @@ export {
   PACMAN_REPOSITORY_SCHEMA,
 } from './services/pacman.ts'
 export { type IWebsitePageService } from './services/pages.ts'
-export {
-  type ITranslationMapLabel,
-  type ITranslationService,
-} from './services/translation.ts'
+export { type ITranslationMapService } from './services/translation_maps.ts'

@@ -4,9 +4,8 @@
     "code/server/index.ts",
     "code/client/browsersync_injection.ts",
     "code/client/*/index.ts",
-    "code/testing/unit/**/*.ts",
-    "code/testing/{api,e2e}/**/test_*.ts",
     "code/build/{builder,watcher}.ts",
+    "code/**/test_*.ts",
     "code/benchmarks/benchmark.ts",
     "code/benchmarks/bench_*.ts"
   ],
@@ -14,7 +13,6 @@
     "code/**/*.ts"
   ],
   "ignore": [
-    "code/**/test*.ts",
     "code/common/support/dedent.ts"
   ],
   "ignoreDependencies": [

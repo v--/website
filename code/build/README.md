@@ -36,13 +36,15 @@ The [style worker](./workers/styles.ts) uses [Dart Sass](https://sass-lang.com/d
 
 There are [SVG rendering](./workers/svg_render.ts) and [SVG optimization](./workers/svg_opt.ts) workers for, unsurprisingly, SVG files.
 
-### Icons
+### Icon references
 
-In order to build IconRef objects (which we discuss [here](../common/services)), the [icon worker](./workers/icons.ts) relies on a directory of JSON files, [`../../data/iconref`](../../data/iconref). Each of the files is a list of [FontAwesome](https://fontawesome.com/) icon names. The icon builder extracts the viewBox and path specification for each icon and dumps them in the format used by the website.
+In order to build [`IIconSpec`](../common/icon_store/types.ts) objects, the [IconRef worker](./workers/icon_refs.ts) relies on a directory of JSON files, [`../../data/iconref`](../../data/iconref). Each of the files is a list of [FontAwesome](https://fontawesome.com/) icon names. The icon builder extracts the viewBox and path specification for each icon and dumps them in the format used by the website.
 
-### Translations
+Icon references are discussed in [`../common/icon_store`](../common/icon_store).
 
-Slightly more intriguing is the [translation worker](./workers/translation.ts). The corresponding source directory, [`../../data/translations`](../../data/translations), consists of subdirectories, each containing per-language files with translations. These translations are either plain strings or Markdown strings (which are rendered by commonmark as explained in [`../common/rich`](../common/rich/)), with multiline strings encoded as arrays.
+### Translation maps
+
+Slightly more intriguing is the [translation map worker](./workers/translation_maps.ts). The corresponding source directory, [`../../data/translations`](../../data/translations), consists of subdirectories, each containing per-language files with translations. These translations are either plain strings or Markdown strings (which are rendered by commonmark as explained in [`../common/rich`](../common/rich/)), with multiline strings encoded as arrays.
 
 Translation is discussed in [`../common/translation`](../common/translation).
 

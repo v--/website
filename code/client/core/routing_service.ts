@@ -84,7 +84,7 @@ export class ClientRoutingService implements IFinalizeable {
     const pageState = createErrorState(urlPath, err)
 
     try {
-      await this.env.processPageState(pageState)
+      await this.env.processPageChange(pageState)
       this.#pageState$.next(pageState)
       const node = await this.renderManager.render(this.bodyComponent)
       this.#isRenderingError = false
@@ -100,7 +100,7 @@ export class ClientRoutingService implements IFinalizeable {
 
     try {
       const pageState = await this.#getInitialRoutingResult(urlPath)
-      await this.env.processPageState(pageState)
+      await this.env.processPageChange(pageState)
       this.#pageState$.next(pageState)
 
       const newBodyElement = await this.#renderBody(urlPath)
@@ -120,7 +120,7 @@ export class ClientRoutingService implements IFinalizeable {
     try {
       this.env.loading$.next(true)
       const pageState = await router(urlPath, this.env)
-      await this.env.processPageState(pageState)
+      await this.env.processPageChange(pageState)
 
       const promise = Promise.all([
         this.renderManager.awaitRendering(this.titleComponent),
@@ -154,7 +154,7 @@ export class ClientRoutingService implements IFinalizeable {
       const pageState = createErrorState(urlPath, err)
 
       try {
-        await this.env.processPageState(pageState)
+        await this.env.processPageChange(pageState)
       } catch (nestedErr) {
         this.logger.error('Error while processing error page state. Trying to continue with rendering.', nestedErr)
       }

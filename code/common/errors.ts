@@ -2,8 +2,8 @@
  * Root class for all custom errors
  */
 export abstract class CoolError extends Error {
-  readonly message: string
-  readonly cause?: unknown
+  declare readonly message: string
+  declare readonly cause?: unknown
 
   constructor(message?: string, cause?: unknown) {
     const options: ErrorOptions = {}

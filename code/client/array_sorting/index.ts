@@ -13,26 +13,25 @@ import { type ClientWebsiteEnvironment } from '../core/environment.ts'
 import { sortingCard } from './components/sorting_card.ts'
 
 export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnvironment) {
-  const _ = env.gettext$
+  const _ = env.gettext.bindToBundle('array_sorting')
   const store = new SortingFrameStore(env.pageUnload$)
 
   return c('main', { class: 'sorting-page' },
     c(rich, {
       rootTag: 'article',
-      doc: _(
+      doc: _.rich$(
         {
-          bundleId: 'array_sorting', key: 'text',
+          key: 'text',
           context: {
             githubPageUrl: `${GITHUB_PROJECT_CODE_URL}/client/array_sorting`,
           },
         },
-        { rich: true },
       ),
     }),
     c(playgroundMenu, { class: 'sorting-page-menu' },
       c(slider, {
         name: 'sorting_speed',
-        content: _({ bundleId: 'array_sorting', key: 'control.speed.label' }),
+        content: _('control.speed.label'),
         inputClass: 'sorting-page-menu-control-speed',
         min: MIN_ACTIONS_PER_SECOND,
         max: MAX_ACTIONS_PER_SECOND,
@@ -44,7 +43,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
       c('button', {
         class: 'sorting-phase-button',
         text: store.globalSortingPhase$.pipe(
-          switchMap(phase => _({ bundleId: 'array_sorting', key: `control.run.label.${phase}` })),
+          switchMap(phase => _(`control.run.label.${phase}`)),
         ),
         click() {
           const phase = store.getGlobalSortingPhase()
@@ -64,7 +63,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
       }),
       c('button', {
         class: 'sorting-phase-button',
-        text: _({ bundleId: 'array_sorting', key: 'control.reset.label' }),
+        text: _('control.reset.label'),
         click() {
           store.resetGlobalSortingState()
         },

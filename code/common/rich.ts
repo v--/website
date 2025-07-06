@@ -23,6 +23,7 @@ export {
   mathml,
 } from './rich/mathml.ts'
 export {
+  SUBSTITUTION_CONTEXT_SCHEMA,
   SubstitutionVisitor,
   substitutePlain,
   substituteRich,

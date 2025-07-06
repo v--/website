@@ -1,7 +1,7 @@
 import { type IPacmanRepository, type IPacmanService, PACMAN_REPOSITORY_SCHEMA } from '../../../common/services.ts'
 import { UrlPath } from '../../../common/support/url_path.ts'
 import { validateSchema } from '../../../common/validation.ts'
-import { HttpClient } from '../dom.ts'
+import { fetchJson } from '../dom.ts'
 
 const PACMAN_URL_PATH = UrlPath.parse('/api/pacman')
 
@@ -11,10 +11,8 @@ const PACMAN_URL_PATH = UrlPath.parse('/api/pacman')
 export class ClientPacmanService implements IPacmanService {
   #rehydratedDataUnused = true
   readonly rehydratedData: IPacmanRepository | undefined
-  readonly httpClient: HttpClient
 
-  constructor(httpClient: HttpClient, rehydratedData: IPacmanRepository | undefined) {
-    this.httpClient = httpClient
+  constructor(rehydratedData: IPacmanRepository | undefined) {
     this.rehydratedData = rehydratedData
   }
 
@@ -24,7 +22,7 @@ export class ClientPacmanService implements IPacmanService {
       return this.rehydratedData
     }
 
-    const response = await this.httpClient.fetchJson(PACMAN_URL_PATH)
+    const response = await fetchJson(PACMAN_URL_PATH)
     return validateSchema(PACMAN_REPOSITORY_SCHEMA, response)
   }
 

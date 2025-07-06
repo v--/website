@@ -37,7 +37,7 @@ function toggleStatus({ state, update }: IEventParams<Event>) {
 }
 
 function tryReset({ env, update }: IEventParams<Event>) {
-  const message = env.gettext({ bundleId: 'breakout', key: 'control.reset.confirmation' })
+  const message = env.gettext.plain({ bundleId: 'breakout', key: 'control.reset.confirmation' })
 
   if (window.confirm(message)) {
     update(DEFAULT_GAME_STATE)

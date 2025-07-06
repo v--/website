@@ -16,7 +16,7 @@ import { INTERPOLATORS } from './interpolation.ts'
 import { type KnotMapping } from '../../common/math/numeric.ts'
 
 export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnvironment) {
-  const _ = env.gettext$
+  const _ = env.gettext.bindToBundle('univariate_interpolation')
   const store = new StateStore<IInterpolationState>(DEFAULT_STATE, env.pageUnload$)
 
   store.keyedObservables.knots.subscribe({
@@ -42,7 +42,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
           class: 'button-danger',
           text: _({ bundleId: 'univariate_interpolation', key: 'control.reset.label' }),
           click(_event: PointerEvent) {
-            const message = env.gettext({ bundleId: 'univariate_interpolation', key: 'control.reset.confirmation' })
+            const message = _.plain('control.reset.confirmation')
 
             if (window.confirm(message)) {
               store.update({ knots: DEFAULT_STATE.knots })
@@ -54,9 +54,9 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
     c(spacer, { dynamics: 'mf' }),
     c(rich, {
       rootTag: 'article',
-      doc: _(
+      doc: _.rich$(
         {
-          bundleId: 'univariate_interpolation', key: 'text',
+          key: 'text',
           context: {
             githubPageUrl: `${GITHUB_PROJECT_CODE_URL}/client/univariate_interpolation`,
             xMin: Math.ceil(STAGE.getLeftPos()),
@@ -65,13 +65,12 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
             yMax: Math.floor(STAGE.getBottomPos()),
           },
         },
-        { rich: true },
       ),
     }),
-    c('h2', { text: _({ bundleId: 'univariate_interpolation', key: 'knot_table.section_heading' }) }),
+    c('h2', { text: _('knot_table.section_heading') }),
     c(interpolationKnotTable, { knots: store.keyedObservables.knots }),
     c(spacer, { dynamics: 'mf' }),
-    c('h2', { text: _({ bundleId: 'univariate_interpolation', key: 'legend_table.section_heading' }) }),
+    c('h2', { text: _('legend_table.section_heading') }),
     c(interpolationLegendTable, {
       interpolated: store.keyedObservables.interpolated,
       visible: store.keyedObservables.visible,

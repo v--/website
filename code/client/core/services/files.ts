@@ -2,7 +2,7 @@ import { DIRECTORY_SCHEMA, type IDirectory, type IFileService } from '../../../c
 import { Path } from '../../../common/support/path.ts'
 import { UrlPath } from '../../../common/support/url_path.ts'
 import { validateSchema } from '../../../common/validation.ts'
-import { type HttpClient } from '../dom.ts'
+import { fetchJson } from '../dom.ts'
 
 /**
  * A wrapper around /api/files that caches the last used path, with a first path
@@ -19,11 +19,8 @@ import { type HttpClient } from '../dom.ts'
  */
 export class ClientFileService implements IFileService {
   #cachedValue?: IDirectory
-  readonly httpClient: HttpClient
 
-  constructor(httpClient: HttpClient, rehydratedData: IDirectory | undefined) {
-    this.httpClient = httpClient
-
+  constructor(rehydratedData: IDirectory | undefined) {
     if (rehydratedData) {
       this.#cachedValue = rehydratedData
     }
@@ -34,7 +31,7 @@ export class ClientFileService implements IFileService {
       return this.#cachedValue
     }
 
-    const response = await this.httpClient.fetchJson(new UrlPath(path.pushLeft('api', 'files')))
+    const response = await fetchJson(new UrlPath(path.pushLeft('api', 'files')))
     this.#cachedValue = validateSchema(DIRECTORY_SCHEMA, response)
     return this.#cachedValue
   }

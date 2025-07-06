@@ -166,8 +166,8 @@ export class BasePage implements IFinalizeable {
 
   async parseError() {
     const errorTitleLocator = this._pwPage.locator('.error-page-title')
-    const errorMessageLocator = this._pwPage.locator('.error-page-message')
-    const errorCauseLocator = this._pwPage.locator('.error-page-cause')
+    const errorSubtitleLocator = this._pwPage.locator('.error-page-subtitle')
+    const errorDetailsLocator = this._pwPage.locator('.error-page-details')
 
     if (!(await errorTitleLocator.isVisible())) {
       throw new AssertionError({
@@ -175,12 +175,12 @@ export class BasePage implements IFinalizeable {
       })
     }
 
-    const hasCause = await errorCauseLocator.isVisible()
+    const hasCause = await errorDetailsLocator.isVisible()
 
     return {
       title: await errorTitleLocator.textContent(),
-      message: await errorMessageLocator.textContent(),
-      cause: hasCause ? await errorCauseLocator.textContent() : undefined,
+      subtitle: await errorSubtitleLocator.textContent(),
+      details: hasCause ? await errorDetailsLocator.textContent() : undefined,
     }
   }
 

@@ -24,7 +24,7 @@
     "content": "Bad gateway"
   },
 
-  "error.message.http": {
+  "error.subtitle.http": {
     "entryKind": "plain",
     "content": "HTTP status ${code}"
   },
@@ -34,7 +34,7 @@
     "content": "Timeout"
   },
 
-  "error.message.timeout": {
+  "error.subtitle.timeout": {
     "entryKind": "plain",
     "content": "Reaching the server took too much time"
   },
@@ -44,8 +44,13 @@
     "content": "Unexpected error"
   },
 
-  "error.message.fallback": {
+  "error.subtitle.fallback": {
     "entryKind": "plain",
     "content": "Something went wrong"
+  },
+
+  "error.details.invalid_http_method": {
+    "entryKind": "plain",
+    "content": "Unexpected HTTP method ${method}."
   }
 }

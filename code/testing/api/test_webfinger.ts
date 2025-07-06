@@ -25,7 +25,7 @@ describe('/.well-known/webfinger', function () {
     assert.equal(response.status(), 400)
     assert.deepEqual(
       await response.json(),
-      { errorKind: 'http', code: 400, cause: 'No resource requested.' },
+      { errorKind: 'http', code: 400, details: 'No resource requested.' },
     )
   })
 
@@ -35,7 +35,7 @@ describe('/.well-known/webfinger', function () {
     assert.equal(response.status(), 404)
     assert.deepEqual(
       await response.json(),
-      { errorKind: 'http', code: 404, cause: 'The requested resource was not found.' },
+      { errorKind: 'http', code: 404, details: 'The requested resource was not found.' },
     )
   })
 

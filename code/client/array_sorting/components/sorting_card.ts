@@ -14,7 +14,7 @@ export interface IArraySortingCardState {
 }
 
 export function sortingCard({ algorithm, store }: IArraySortingCardState, env: ClientWebsiteEnvironment) {
-  const _ = env.gettext$
+  const _ = env.gettext.bindToBundle('array_sorting')
   const algorithmPhase$ = store.getAlgorithmPhase$(algorithm.id)
   const algorithmMoment$ = store.getAlgorithmMoment$(algorithm.id)
   const timelines = TIMELINES[algorithm.id]
@@ -43,8 +43,8 @@ export function sortingCard({ algorithm, store }: IArraySortingCardState, env: C
   return c('div', { class: 'sorting-card' },
     c('h3', { class: 'sorting-card-title' },
       c(anchor, {
-        href: _({ bundleId: 'array_sorting', key: `algorithm.${algorithm.id}.url` }),
-        text: _({ bundleId: 'array_sorting', key: `algorithm.${algorithm.id}.name` }),
+        href: _(`algorithm.${algorithm.id}.url`),
+        text: _(`algorithm.${algorithm.id}.name`),
       }),
     ),
 
@@ -53,7 +53,7 @@ export function sortingCard({ algorithm, store }: IArraySortingCardState, env: C
         return c('div', { class: 'sorting-card-array' },
           c('h4', {
             class: 'sorting-card-array-template-kind',
-            text: _({ bundleId: 'array_sorting', key: `card.array.${templateKind}.name` }),
+            text: _(`card.array.${templateKind}.name`),
           }),
           c(sortingCardArrayBars, {
             snapshot: algorithmMoment$.pipe(
@@ -68,7 +68,7 @@ export function sortingCard({ algorithm, store }: IArraySortingCardState, env: C
       c('button', {
         class: 'sorting-phase-button',
         text: algorithmPhase$.pipe(
-          switchMap(phase => _({ bundleId: 'array_sorting', key: `control.run.label.${phase}` })),
+          switchMap(phase => _(`control.run.label.${phase}`)),
         ),
         click() {
           const phase = store.getAlgorithmPhase(algorithm.id)
@@ -89,7 +89,7 @@ export function sortingCard({ algorithm, store }: IArraySortingCardState, env: C
 
       c('button', {
         class: 'sorting-phase-button',
-        text: _({ bundleId: 'array_sorting', key: 'control.reset.label' }),
+        text: _('control.reset.label'),
         click() {
           store.resetAlgorithmState(algorithm.id)
         },
@@ -99,17 +99,17 @@ export function sortingCard({ algorithm, store }: IArraySortingCardState, env: C
     c('table', { class: 'sorting-card-info-table' },
       c('tr', undefined,
         c('th', {
-          text: _({ bundleId: 'array_sorting', key: 'card.info.header.stable' }),
+          text: _('card.info.header.stable'),
         }),
 
         c('td', {
-          text: _({ bundleId: 'array_sorting', key: `card.info.stability.${algorithm.isStable}` }),
+          text: _(`card.info.stability.${algorithm.isStable}`),
         }),
       ),
 
       c('tr', undefined,
         c('th', {
-          text: _({ bundleId: 'array_sorting', key: 'card.info.header.time' }),
+          text: _('card.info.header.time'),
         }),
 
         c('td', undefined,
@@ -125,7 +125,7 @@ export function sortingCard({ algorithm, store }: IArraySortingCardState, env: C
 
       c('tr', undefined,
         c('th', {
-          text: _({ bundleId: 'array_sorting', key: 'card.info.header.space' }),
+          text: _('card.info.header.space'),
         }),
 
         c('td', undefined,

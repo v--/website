@@ -1,5 +1,5 @@
 import { inverseOrderComparator, orderComparator } from './iteration.ts'
-import { type WebsiteEnvironment } from '../environment.ts'
+import { PresentableError } from '../presentable_errors.ts'
 import { type uint32 } from '../types/numbers.ts'
 import {
   type IInteractiveTableColumnSpec,
@@ -7,37 +7,37 @@ import {
   type ISortStatus,
 } from '../types/table_interaction.ts'
 
-export function parsePerPage(env: WebsiteEnvironment, rawPerPage: string): uint32 {
+export function parsePerPage(rawPerPage: string): uint32 {
   const perPage = Number(rawPerPage)
 
   if (!Number.isInteger(perPage) || perPage < 1) {
-    throw env.createPresentableError({
+    throw new PresentableError({
       errorKind: 'http',
       code: 400,
-      cause: { bundleId: 'interactive_table_error', key: 'error.cause.per_page.invalid' },
+      details: { bundleId: 'interactive_table_error', key: 'error.details.per_page.invalid' },
     })
   }
 
   return perPage
 }
 
-export function parsePage(env: WebsiteEnvironment, rawPage: string, pageCount: uint32): uint32 {
+export function parsePage(rawPage: string, pageCount: uint32): uint32 {
   const currentPage = Number(rawPage) - 1
 
   if (!Number.isInteger(currentPage) || currentPage < 0) {
-    throw env.createPresentableError({
+    throw new PresentableError({
       errorKind: 'http',
       code: 400,
-      cause: { bundleId: 'interactive_table_error', key: 'error.cause.page.invalid' },
+      details: { bundleId: 'interactive_table_error', key: 'error.details.page.invalid' },
     })
   }
 
   if (currentPage >= pageCount) {
-    throw env.createPresentableError({
+    throw new PresentableError({
       errorKind: 'http',
       code: 400,
-      cause: {
-        bundleId: 'interactive_table_error', key: 'error.cause.page.out_of_bounds',
+      details: {
+        bundleId: 'interactive_table_error', key: 'error.details.page.out_of_bounds',
         context: { pageCount },
       },
     })
@@ -47,16 +47,15 @@ export function parsePage(env: WebsiteEnvironment, rawPage: string, pageCount: u
 }
 
 export function parseSortStatus<T>(
-  env: WebsiteEnvironment,
   rawSortAsc: string | undefined,
   rawSortDesc: string | undefined,
   columnSpecs: IInteractiveTableColumnSpec<T>[],
 ): ISortStatus<T> {
   if (rawSortAsc !== undefined && rawSortDesc !== undefined) {
-    throw env.createPresentableError({
+    throw new PresentableError({
       errorKind: 'http',
       code: 400,
-      cause: { bundleId: 'interactive_table_error', key: 'error.cause.sort.conflict' },
+      details: { bundleId: 'interactive_table_error', key: 'error.details.sort.conflict' },
     })
   }
 
@@ -70,11 +69,11 @@ export function parseSortStatus<T>(
   const index = columnSpecs.findIndex(s => rawValue === s.id)
 
   if (index === -1) {
-    throw env.createPresentableError({
+    throw new PresentableError({
       errorKind: 'http',
       code: 400,
-      cause: {
-        bundleId: 'interactive_table_error', key: 'error.cause.sort.unknown',
+      details: {
+        bundleId: 'interactive_table_error', key: 'error.details.sort.unknown',
         context: {
           paramName: rawSortAsc === undefined ? 'sort_desc' : 'sort_asc',
         },

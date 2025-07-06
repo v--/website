@@ -1,7 +1,7 @@
 import { AssertionError } from 'node:assert/strict'
 import { describe, it } from 'node:test'
 
-// @ts-expect-error TS7016
+// @ts-expect-error
 import observableTests from 'es-observable-tests'
 
 import { ObservableError, errors } from './errors.ts'

@@ -1,21 +1,21 @@
 {
-  "error.cause.page.invalid": {
+  "error.details.page.invalid": {
     "entryKind": "rich",
     "content": "Стойность URL параметра `page` должен быть положительным целым числом."
   },
-  "error.cause.page.out_of_bounds": {
+  "error.details.page.out_of_bounds": {
     "entryKind": "rich",
     "content": "Стойность URL параметра `page` не должен превосходить ${pageCount}, количества страниц."
   },
-  "error.cause.per_page.invalid": {
+  "error.details.per_page.invalid": {
     "entryKind": "rich",
     "content": "Стойность URL параметра `per_page` должен быть положительным целым числом."
   },
-  "error.cause.sort.conflict": {
+  "error.details.sort.conflict": {
     "entryKind": "rich",
     "content": "URL параметры `sort_asc` и `sort_desc` не могут быть заданы одновременно."
   },
-  "error.cause.sort.unknown": {
+  "error.details.sort.unknown": {
     "entryKind": "rich",
     "content": "Стойность URL параметра `${paramName}` не является знакомой колонной сортировки."
   }

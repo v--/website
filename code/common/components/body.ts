@@ -16,7 +16,7 @@ export function body(state: IWebsitePageState, env: WebsiteEnvironment) {
   return c('body', { class: bodyClasses$ },
     c(sidebar, {
       sidebarId: state.sidebarId,
-      language: env.language$,
+      language: env.gettext.language$,
       sidebarCollapsed: env.sidebarCollapsed$,
       colorScheme: env.colorScheme$,
     }),

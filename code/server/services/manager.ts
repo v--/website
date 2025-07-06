@@ -2,32 +2,40 @@ import { type IServiceManager } from '../../common/services.ts'
 import { Path } from '../../common/support/path.ts'
 import { type IServiceConfig } from '../config.ts'
 import { ServerFileService } from './files.ts'
-import { ServerIconService } from './icons.ts'
+import { ServerIconRefService } from './icon_refs.ts'
 import { ServerPacmanService } from './pacman.ts'
 import { ServerPageService } from './pages.ts'
-import { ServerTranslationService } from './translation.ts'
+import { ServerTranslationMapService } from './translation_maps.ts'
+
+export interface IServerServiceManager extends IServiceManager {
+  files: ServerFileService
+  pacman: ServerPacmanService
+  page: ServerPageService
+  iconRefs: ServerIconRefService
+  translationMaps: ServerTranslationMapService
+}
 
 export class ServerServiceManagerFactory {
   realFiles: ServerFileService
   mockFiles: ServerFileService
   pacman: ServerPacmanService
-  icons: ServerIconService
+  icons: ServerIconRefService
   page: ServerPageService
-  translation: ServerTranslationService
+  translation: ServerTranslationMapService
 
   constructor(config: IServiceConfig) {
-    this.translation = new ServerTranslationService(Path.parse(config.translation.root))
-    this.realFiles = new ServerFileService(Path.parse(config.files.realRoot), this.translation.errorFactory)
-    this.mockFiles = new ServerFileService(Path.parse(config.files.mockRoot), this.translation.errorFactory)
+    this.translation = new ServerTranslationMapService(Path.parse(config.translation.root))
+    this.realFiles = new ServerFileService(Path.parse(config.files.realRoot))
+    this.mockFiles = new ServerFileService(Path.parse(config.files.mockRoot))
     this.pacman = new ServerPacmanService(Path.parse(config.pacman.dbPath))
-    this.icons = new ServerIconService(Path.parse(config.icons.root))
+    this.icons = new ServerIconRefService(Path.parse(config.icons.root))
     this.page = new ServerPageService()
   }
 
-  async load() {
+  async preload() {
     await this.pacman.load()
-    await this.icons.load()
-    await this.translation.load()
+    await this.icons.preload()
+    await this.translation.preload()
   }
 
   async reload(config: IServiceConfig) {
@@ -38,10 +46,10 @@ export class ServerServiceManagerFactory {
     await this.pacman.load()
 
     this.icons.updateFilePath(Path.parse(config.icons.root))
-    await this.icons.load()
+    await this.icons.preload()
 
     this.translation.updateFilePath(Path.parse(config.translation.root))
-    await this.translation.load()
+    await this.translation.preload()
   }
 
   async finalize() {
@@ -53,13 +61,13 @@ export class ServerServiceManagerFactory {
     await this.translation.finalize()
   }
 
-  getManager(useMockData: boolean): IServiceManager {
+  getManager(useMockData: boolean): IServerServiceManager {
     return {
       files: useMockData ? this.mockFiles : this.realFiles,
       pacman: this.pacman,
-      icons: this.icons,
       page: this.page,
-      translation: this.translation,
+      iconRefs: this.icons,
+      translationMaps: this.translation,
     }
   }
 }

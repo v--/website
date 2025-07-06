@@ -16,25 +16,25 @@ import { c } from '../rendering/component.ts'
 import { type IWebsitePageState } from '../types/page.ts'
 
 export function homePage(pageState: IWebsitePageState, env: WebsiteEnvironment) {
-  const _ = env.gettext$
+  const _ = env.gettext.bindToBundle('home')
 
   return c('main', { class: 'home-page' },
     c('img', {
       class: 'home-page-photo',
-      alt: _({ bundleId: 'home', key: 'photo.alt' }),
+      alt: _('photo.alt'),
       src: '/images/home_page_photo.jpg',
     }),
 
     c('article', { class: 'home-page-about' },
       c('section', { class: 'home-page-about-me' },
-        c('h1', { text: _({ bundleId: 'home', key: 'heading.about_me' }) }),
-        c(rich, { doc: _({ bundleId: 'home', key: 'bio' }, { rich: true }) }),
+        c('h1', { text: _('heading.about_me') }),
+        c(rich, { doc: _.rich$({ key: 'bio' }) }),
       ),
 
       c('section', { class: 'home-page-about-website' },
-        c('h1', { text: _({ bundleId: 'home', key: 'heading.about_website' }) }),
-        c(rich, { doc: _({ bundleId: 'home', key: 'website_description' }, { rich: true }) }),
-        c('p', { text: _({ bundleId: 'home', key: 'page_list_prefix' }) }),
+        c('h1', { text: _('heading.about_website') }),
+        c(rich, { doc: _.rich$({ key: 'website_description' }) }),
+        c('p', { text: _('page_list_prefix') }),
         c('dl', undefined,
           c('dt', undefined,
             c(anchor, {
@@ -61,19 +61,16 @@ export function homePage(pageState: IWebsitePageState, env: WebsiteEnvironment) 
           c('dd', { text: _({ bundleId: 'core', key: 'description.playground' }) }),
         ),
         c(rich, {
-          doc: _(
-            {
-              bundleId: 'home', key: 'website_code',
-              context: { projectUrl: GITHUB_PROJECT_URL },
-            },
-            { rich: true },
-          ),
+          doc: _.rich$({
+            key: 'website_code',
+            context: { projectUrl: GITHUB_PROJECT_URL },
+          }),
         }),
       ),
     ),
 
     c('section', { class: 'home-page-contacts' },
-      c('h1', { text: _({ bundleId: 'home', key: 'heading.contacts' }) }),
+      c('h1', { text: _('heading.contacts') }),
       c('div', undefined,
         c('div', { class: 'home-page-contacts-entry' },
           c(anchor, { href: EMAIL_URL },
@@ -110,14 +107,10 @@ export function homePage(pageState: IWebsitePageState, env: WebsiteEnvironment) 
         c(spacer, { dynamics: 'pp' }),
 
         c(rich, {
-          doc: _(
-            {
-              bundleId: 'home',
-              key: 'openpgp',
-              context: { keyName: OPENPGP_KEY_ID_SHORT, keyUrl: OPENPGP_KEYSERVER_URL },
-            },
-            { rich: true },
-          ),
+          doc: _.rich$({
+            key: 'openpgp',
+            context: { keyName: OPENPGP_KEY_ID_SHORT, keyUrl: OPENPGP_KEYSERVER_URL },
+          }),
         }),
       ),
     ),

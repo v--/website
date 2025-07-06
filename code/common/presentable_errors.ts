@@ -1,5 +1,5 @@
 export { PresentableError } from './presentable_errors/errors.ts'
-export { PresentableErrorFactory } from './presentable_errors/factory.ts'
+export { translateEncoding } from './presentable_errors/translation.ts'
 export {
   ENCODED_ERROR_SCHEMA,
   GENERIC_ENCODED_ERROR_SCHEMA,

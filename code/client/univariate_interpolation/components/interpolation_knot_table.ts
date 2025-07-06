@@ -7,7 +7,7 @@ interface IInterpolationKnotTableState {
 }
 
 export function interpolationKnotTable({ knots }: IInterpolationKnotTableState, env: ClientWebsiteEnvironment) {
-  const _ = env.gettext$
+  const _ = env.gettext.bindToBundle('univariate_interpolation')
 
   return c('div', { class: 'interpolation-knots-table-wrapper' },
     c('table', { class: 'interpolation-knots-table delimited-table' },
@@ -20,7 +20,7 @@ export function interpolationKnotTable({ knots }: IInterpolationKnotTableState, 
         ),
         knots.isEmpty() && c('td', {
           class: 'interpolation-knots-table-placeholder-cell',
-          text: _({ bundleId: 'univariate_interpolation', key: 'knot_table.placeholder' }),
+          text: _('knot_table.placeholder'),
         }),
       ),
       c('tr', { class: 'interpolation-knots-table-y-row' },
@@ -32,7 +32,7 @@ export function interpolationKnotTable({ knots }: IInterpolationKnotTableState, 
         ),
         knots.isEmpty() && c('td', {
           class: 'interpolation-knots-table-placeholder-cell',
-          text: _({ bundleId: 'univariate_interpolation', key: 'knot_table.placeholder' }),
+          text: _('knot_table.placeholder'),
         }),
       ),
     ),

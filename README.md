@@ -12,7 +12,7 @@ To run the code, a little setup is required:
 ```
 nodenv install
 npm install
-ln --symbolic dev.json config/active.json
+ln --symbolic local.json config/active.json
 ```
 
 After that, a development server can be launched via `npm run watcher` and, after the initial build, `npm run server`.
@@ -35,7 +35,7 @@ What I call here "library code" is a bunch of reusable independent modules that 
 
 What I call here "website code" is code specific to my website.
 
-The website is split into logically independent bundles. The "core" bundle can be rendered both on the server and in the browser and its functionality is restricted to what can work in a modern browser without JavaScript. For example, the [`/files`](https://ivasilev.net/files) page must behave identically with and without JavaScript, and this is verified using [end-to-end tests](./code/testing/e2e/test_files.ts).
+The website is split into logically independent bundles (these are not quite bundles in the usual JavaScript sense - see [here](./code/build#typescript)). The "core" bundle can be rendered both on the server and in the browser and its functionality is restricted to what can work in a modern browser without JavaScript. For example, the [`/files`](https://ivasilev.net/files) page must behave identically with and without JavaScript, and this is verified using [end-to-end tests](./code/testing/e2e/test_files.ts).
 
 The server-side aspect is explained in [`./code/server`](./code/server), while the client-side aspect is explained in [`./code/client/core`](./code/client/core).
 

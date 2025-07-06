@@ -37,11 +37,11 @@ export function interactiveTable<T = unknown>(
   const queryDefaults: IInteractiveTableQuerySchema = { per_page: String(DEFAULT_PER_PAGE), page: '1' }
   const config: InteractiveTableQueryConfig = new QueryConfig(urlPath, queryDefaults)
 
-  const perPage = parsePerPage(env, config.get('per_page'))
+  const perPage = parsePerPage(config.get('per_page'))
   const pageCount = Math.max(1, Math.ceil(data.length / perPage))
-  const currentPage = parsePage(env, config.get('page'), pageCount)
+  const currentPage = parsePage(config.get('page'), pageCount)
 
-  const sortStatus = parseSortStatus(env, config.get('sort_asc'), config.get('sort_desc'), columnSpecs)
+  const sortStatus = parseSortStatus(config.get('sort_asc'), config.get('sort_desc'), columnSpecs)
 
   const sliced = sliceData(sortStatus, data, perPage, currentPage)
   const mappedColumns = columnSpecs.map(function (spec) {
@@ -97,7 +97,6 @@ function mapColumnSpec<T>(
   config: InteractiveTableQueryConfig,
   env: WebsiteEnvironment,
 ): IVerticalTableColumnSpec<T> {
-  const _ = env.gettext$
   const { columnSpec, direction } = sortStatus
   const nextSortParams = getNextSortParams(sortStatus)
 
@@ -115,7 +114,7 @@ function mapColumnSpec<T>(
       },
       c(icon, { refId: 'interactive_table', name: getSvgIconFromDirection(direction) }),
       c(spacer, { direction: 'horizontal', dynamics: 'pp' }),
-      columnSpec.label && c('span', { text: _(columnSpec.label) }),
+      columnSpec.label && c('span', { text: env.gettext.plain$(columnSpec.label) }),
     ),
   }
 }

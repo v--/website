@@ -7,12 +7,13 @@ import { parseMarkdown } from '../../server/markdown.ts'
 import { readJsonWithSchema } from '../../server/validation.ts'
 import { type IBuildContext, type IBuildWorker } from '../build_worker.ts'
 
-export interface ITranslationIBuildWorkerConfig {
+export interface ITranslationMapBuildWorkerConfig {
   srcBase: string
   destBase: string
 }
 
-const TRANSLATION_SOURCE_SCHEMA = Schema.record(
+const TRANSLATION_MAP_SOURCE_SCHEMA = Schema.record(
+  Schema.string,
   Schema.object({
     entryKind: Schema.literal('plain', 'rich'),
     content: Schema.union(
@@ -22,12 +23,12 @@ const TRANSLATION_SOURCE_SCHEMA = Schema.record(
   }),
 )
 
-type TranslationSource = Infer<typeof TRANSLATION_SOURCE_SCHEMA>
+type TranslationMapSource = Infer<typeof TRANSLATION_MAP_SOURCE_SCHEMA>
 
-export class TranslationIBuildWorker implements IBuildWorker {
-  readonly config: ITranslationIBuildWorkerConfig
+export class TranslationMapBuildWorker implements IBuildWorker {
+  readonly config: ITranslationMapBuildWorkerConfig
 
-  constructor(config: ITranslationIBuildWorkerConfig) {
+  constructor(config: ITranslationMapBuildWorkerConfig) {
     this.config = config
   }
 
@@ -40,7 +41,7 @@ export class TranslationIBuildWorker implements IBuildWorker {
   }
 
   async* performBuild(src: string): AsyncIterable<IBuildContext> {
-    const translationSource: TranslationSource = await readJsonWithSchema(TRANSLATION_SOURCE_SCHEMA, src)
+    const translationSource: TranslationMapSource = await readJsonWithSchema(TRANSLATION_MAP_SOURCE_SCHEMA, src)
     const parsed: ITranslationMap = Object.fromEntries(
       getObjectEntries(translationSource).map(function ([key, spec]) {
         const content = spec.content instanceof Array ? spec.content.join('\n') : spec.content

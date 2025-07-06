@@ -1,17 +1,21 @@
-import { type IEncodedError, PresentableError } from '../common/presentable_errors.ts'
+import { type IEncodedError, PresentableError, translateEncoding } from '../common/presentable_errors.ts'
 import { router } from '../common/router.ts'
 import { WEBFINGER_ALIASES, WEBFINGER_LINKS } from './constants/webfinger.ts'
 import { type ServerWebsiteEnvironment } from './environment.ts'
 import { ServerResponse } from './http/response.ts'
+import { EncodedErrorDecoder } from '../common/presentable_errors/decoder.ts'
 import { includes } from '../common/support/iteration.ts'
 import { quoteString } from '../common/support/strings.ts'
 import { type UrlPath } from '../common/support/url_path.ts'
-import { type ITranslationSpec, LANGUAGE_IDS } from '../common/translation.ts'
+import { API_LANGUAGE, type ITranslationSpec, LANGUAGE_IDS } from '../common/translation.ts'
 import { ICON_REF_IDS, TRANSLATION_BUNDLE_IDS } from '../common/types/bundles.ts'
 
 async function errorJsonResponse(env: ServerWebsiteEnvironment, encoded: IEncodedError) {
+  const decoder = new EncodedErrorDecoder(encoded)
+  await env.preloadTranslationPackage(API_LANGUAGE, decoder.getBundleIds())
+
   return ServerResponse.json(
-    env.services.translation.errorFactory.translateEncoding(encoded),
+    translateEncoding(env.gettext, encoded),
     encoded.errorKind === 'http' ? encoded.code : 500,
   )
 }
@@ -28,7 +32,7 @@ export async function serverRouter(urlPath: UrlPath, env: ServerWebsiteEnvironme
       return ServerResponse.json(dir)
     } catch (err) {
       if (err instanceof PresentableError) {
-        return await errorJsonResponse(env, err.encoded)
+        return await errorJsonResponse(env, err.cause)
       } else {
         throw err
       }
@@ -39,7 +43,7 @@ export async function serverRouter(urlPath: UrlPath, env: ServerWebsiteEnvironme
     const refId = urlPath.path.getBaseName()
 
     if (includes(ICON_REF_IDS, refId)) {
-      const iconMap = await env.services.icons.getIconRef(refId)
+      const iconMap = await env.services.iconRefs.getIconRef(refId)
       return ServerResponse.json(iconMap)
     }
   }
@@ -52,7 +56,7 @@ export async function serverRouter(urlPath: UrlPath, env: ServerWebsiteEnvironme
       return errorJsonResponse(env, {
         errorKind: 'http',
         code: 400,
-        cause: { bundleId: 'server', key: 'error.cause.router.missing_language' },
+        details: { bundleId: 'api', key: 'error.details.language_string.missing' },
       })
     }
 
@@ -60,8 +64,8 @@ export async function serverRouter(urlPath: UrlPath, env: ServerWebsiteEnvironme
       return errorJsonResponse(env, {
         errorKind: 'http',
         code: 400,
-        cause: {
-          bundleId: 'server', key: 'error.cause.router.invalid_language',
+        details: {
+          bundleId: 'api', key: 'error.details.language_string.invalid',
           context: { lang: quoteString(languageId, 'ticks') },
         },
       })
@@ -72,8 +76,8 @@ export async function serverRouter(urlPath: UrlPath, env: ServerWebsiteEnvironme
     }
 
     if (includes(TRANSLATION_BUNDLE_IDS, bundleId)) {
-      const translationMap = await env.services.translation.getTranslationMap(bundleId, languageId)
-      return ServerResponse.json(translationMap)
+      const translationMaps = await env.services.translationMaps.getTranslationMap(languageId, bundleId)
+      return ServerResponse.json(translationMaps)
     }
   }
 
@@ -85,13 +89,13 @@ export async function serverRouter(urlPath: UrlPath, env: ServerWebsiteEnvironme
     const resource = urlPath.query.get('resource')
 
     if (resource === undefined) {
-      const cause: ITranslationSpec = { bundleId: 'server', key: 'error.cause.webfinger.no_resource' }
-      return errorJsonResponse(env, { errorKind: 'http', code: 400, cause })
+      const details: ITranslationSpec = { bundleId: 'api', key: 'error.details.webfinger.no_resource' }
+      return errorJsonResponse(env, { errorKind: 'http', code: 400, details })
     }
 
     if (!WEBFINGER_ALIASES.includes(resource)) {
-      const cause: ITranslationSpec = { bundleId: 'server', key: 'error.cause.webfinger.not_found' }
-      return errorJsonResponse(env, { errorKind: 'http', code: 404, cause })
+      const details: ITranslationSpec = { bundleId: 'api', key: 'error.details.webfinger.not_found' }
+      return errorJsonResponse(env, { errorKind: 'http', code: 404, details })
     }
 
     return ServerResponse.json({
@@ -102,5 +106,6 @@ export async function serverRouter(urlPath: UrlPath, env: ServerWebsiteEnvironme
   }
 
   const routingResult = await router(urlPath, env)
+  await env.preloadPageData(routingResult)
   return ServerResponse.page(routingResult, 200, env)
 }

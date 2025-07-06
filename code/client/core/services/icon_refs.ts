@@ -1,25 +1,19 @@
 import { ManualCache } from '../../../common/cache.ts'
-import { ICON_MAP_SCHEMA, type IIconRef, type IIconService } from '../../../common/services.ts'
+import { ICON_REF_SCHEMA, type IIconRef } from '../../../common/icon_store.ts'
+import type { IIconRefService } from '../../../common/services.ts'
 import { Path } from '../../../common/support/path.ts'
 import { UrlPath } from '../../../common/support/url_path.ts'
 import { type IconRefId } from '../../../common/types/bundles.ts'
 import { type IRehydrationData } from '../../../common/types/rehydration.ts'
 import { validateSchema } from '../../../common/validation.ts'
-import { type HttpClient } from '../dom.ts'
+import { fetchJson } from '../dom.ts'
 
 const BASE_ICONS_PATH = Path.parse('/api/icons')
 
 export class ClientIconRefCache extends ManualCache<IconRefId, IIconRef> {
-  readonly httpClient: HttpClient
-
-  constructor(httpClient: HttpClient) {
-    super()
-    this.httpClient = httpClient
-  }
-
   override async _resolveValue(refId: IconRefId) {
-    const json = await this.httpClient.fetchJson(new UrlPath(BASE_ICONS_PATH.pushRight(refId)))
-    return validateSchema(ICON_MAP_SCHEMA, json)
+    const json = await fetchJson(new UrlPath(BASE_ICONS_PATH.pushRight(refId)))
+    return validateSchema(ICON_REF_SCHEMA, json)
   }
 }
 
@@ -29,29 +23,32 @@ export class ClientIconRefCache extends ManualCache<IconRefId, IIconRef> {
  * Either we start with rehydrated data and make no network requests,
  * or we only make one and cache it.
  */
-export class ClientIconService implements IIconService {
+export class ClientIconService implements IIconRefService {
   #cache: ClientIconRefCache
 
-  constructor(httpClient: HttpClient, rehydratedData: IRehydrationData['iconMaps'] | undefined) {
-    this.#cache = new ClientIconRefCache(httpClient)
+  constructor(rehydratedData: IRehydrationData['iconRefPackage'] | undefined) {
+    this.#cache = new ClientIconRefCache()
 
     if (rehydratedData) {
-      for (const { refId, map } of rehydratedData) {
-        this.#cache.putIntoCache(refId, map)
+      for (const { id, ref } of rehydratedData) {
+        this.#cache.putIntoCache(id, ref)
       }
     }
-  }
-
-  async preloadIconRef(refId: IconRefId) {
-    await this.#cache.fetchAndCache(refId)
   }
 
   getIconRef(refId: IconRefId) {
     return this.#cache.getValue(refId)
   }
 
-  getPreloadedIconRef(refId: IconRefId) {
-    return this.#cache.getCachedValue(refId)
+  getIconRefPackage(refIds: IconRefId[]) {
+    return Promise.all(
+      refIds.map(async refId => {
+        return {
+          id: refId,
+          ref: await this.getIconRef(refId),
+        }
+      }),
+    )
   }
 
   async finalize() {

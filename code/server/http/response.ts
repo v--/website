@@ -1,9 +1,9 @@
-import { type WebsiteEnvironment } from '../../common/environment.ts'
 import { c } from '../../common/rendering/component.ts'
 import { renderToString } from '../../common/rendering/static_render.ts'
 import { type uint32 } from '../../common/types/numbers.ts'
 import { type IWebsitePageState } from '../../common/types/page.ts'
 import { root } from '../components/root.ts'
+import { type ServerWebsiteEnvironment } from '../environment.ts'
 import { encodeRehydrationData } from '../rehydration.ts'
 
 export class ServerResponse {
@@ -15,7 +15,7 @@ export class ServerResponse {
     return new this(JSON.stringify(contents), 'application/json', code)
   }
 
-  static async page(pageState: IWebsitePageState, code: uint32 = 200, env: WebsiteEnvironment) {
+  static async page(pageState: IWebsitePageState, code: uint32 = 200, env: ServerWebsiteEnvironment) {
     const rehydrationData = await encodeRehydrationData(pageState, env)
     const component = c(root, { pageState, rehydrationData })
     const rendered = await renderToString(component, env)

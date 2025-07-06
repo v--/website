@@ -2,9 +2,14 @@ import { SubstitutionError } from './errors.ts'
 import { type IRichTextDocument, type IRichTextEntry } from './types.ts'
 import { RichTextVisitor } from './visitor.ts'
 import { getObjectEntries } from '../support/iteration.ts'
-import { type int32 } from '../types/numbers.ts'
+import { type Infer, Schema } from '../validation.ts'
 
-export type SubstitutionContext = Record<string, string | int32>
+export const SUBSTITUTION_CONTEXT_SCHEMA = Schema.record(
+  Schema.string,
+  Schema.union(Schema.string, Schema.int32),
+)
+
+export type SubstitutionContext = Infer<typeof SUBSTITUTION_CONTEXT_SCHEMA>
 
 /**
  * A straightforward substitution function replacing keys with values literally.

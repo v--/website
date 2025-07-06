@@ -13,13 +13,7 @@ interface IIconComponentState {
 }
 
 export function icon(state: IIconComponentState, env: WebsiteEnvironment) {
-  const iconMap = env.services.icons.getPreloadedIconRef(state.refId)
-
-  if (!(state.name in iconMap)) {
-    throw new IntegrityError(`Invalid icon ${state.name}`)
-  }
-
-  const spec = iconMap[state.name]
+  const spec = env.iconStore.getIconSpec(state.refId, state.name)
 
   const rootState = {
     viewBox: spec.viewBox,

@@ -8,18 +8,18 @@ import { BuildError } from '../errors.ts'
 
 export class IconBuildError extends BuildError {}
 
-export interface IIconBuildWorkerConfig {
+export interface IIconRefBuildWorkerConfig {
   srcBase: string
   destBase: string
 }
 
-const ICON_SOURCE_SCHEMA = Schema.array(Schema.string)
-type IconSource = Infer<typeof ICON_SOURCE_SCHEMA>
+const ICON_REF_SOURCE_SCHEMA = Schema.array(Schema.string)
+type IconRefSource = Infer<typeof ICON_REF_SOURCE_SCHEMA>
 
-export class IconBuildWorker implements IBuildWorker {
-  readonly config: IIconBuildWorkerConfig
+export class IconRefBuildWorker implements IBuildWorker {
+  readonly config: IIconRefBuildWorkerConfig
 
-  constructor(config: IIconBuildWorkerConfig) {
+  constructor(config: IIconRefBuildWorkerConfig) {
     this.config = config
   }
 
@@ -32,7 +32,7 @@ export class IconBuildWorker implements IBuildWorker {
   }
 
   async* performBuild(src: string): AsyncIterable<IBuildContext> {
-    const iconSource: IconSource = await readJsonWithSchema(ICON_SOURCE_SCHEMA, src)
+    const iconSource: IconRefSource = await readJsonWithSchema(ICON_REF_SOURCE_SCHEMA, src)
     const promises = iconSource
       .map(async name => {
         return {

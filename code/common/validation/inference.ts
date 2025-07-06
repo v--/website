@@ -73,7 +73,7 @@ export type Infer<T extends TypeSchema> =
   T extends UnionTypeSchema<infer SubSchemas> ? UnpackUnionSubSchemas<SubSchemas> :
   T extends OptionalTypeSchema<infer SubSchema> ? Infer<SubSchema> | undefined :
   T extends ArrayTypeSchema<infer SubSchema> ? Array<Infer<SubSchema>> :
-  T extends RecordTypeSchema<infer SubSchema> ? Record<string, Infer<SubSchema>> :
+  T extends RecordTypeSchema<infer KeySchema, infer ValueSchema> ? Record<Infer<KeySchema>, Infer<ValueSchema>> :
   T extends ObjectTypeSchema<infer Properties> ? UnpackObjectProperties<Properties> :
   T extends RecursiveTypeSchema<infer UnresolvedSchema> ? Infer<ResolveSelfReference<T, UnresolvedSchema>> :
   never

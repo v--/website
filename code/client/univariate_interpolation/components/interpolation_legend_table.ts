@@ -14,7 +14,7 @@ interface IInterpolationLegendState {
 }
 
 export function interpolationLegendTable({ interpolated, visible, toggleVisibility }: IInterpolationLegendState, env: ClientWebsiteEnvironment) {
-  const _ = env.gettext$
+  const _ = env.gettext.bindToBundle('univariate_interpolation')
 
   return c('div', { class: 'interpolation-legend-table-wrapper' },
     c(verticalTable<IInterpolatedFunction>, {
@@ -31,7 +31,7 @@ export function interpolationLegendTable({ interpolated, visible, toggleVisibili
               name: `interpolation-legend-${kebabCase}`,
               value: visible[interpolator.id],
               labelClass: `interpolation-legend-table-control interpolator-${kebabCase}`,
-              content: _({ bundleId: 'univariate_interpolation', key: `legend_table.interpolator.${interpolator.id}.name` }),
+              content: _(`legend_table.interpolator.${interpolator.id}.name`),
               update(newValue: boolean) {
                 toggleVisibility(interpolator, newValue)
               },

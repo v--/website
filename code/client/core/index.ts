@@ -94,7 +94,7 @@ subscribeAsync(
 )
 
 subscribeAsync(
-  env.language$,
+  env.gettext.language$,
   {
     async next(language: LanguageId) {
       document.documentElement.setAttribute('lang', CANONICAL_LANGUAGE_STRING[language])

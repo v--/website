@@ -23,14 +23,12 @@ export function verticalTable<T = unknown>({ tableClass, columnSpecs, data, styl
 }
 
 function* iterHeaderColumns<T>(columnSpecs: IVerticalTableColumnSpec<T>[], env: WebsiteEnvironment) {
-  const _ = env.gettext$
-
   for (let i = 0; i < columnSpecs.length; i++) {
     const column = columnSpecs[i]
     const headerState: Record<string, string | Observable<string>> = { id: column.id, scope: 'col' }
 
     if (column.label) {
-      headerState.label = _(column.label)
+      headerState.label = env.gettext.plain$(column.label)
     }
 
     if (column.class) {
@@ -47,7 +45,7 @@ function* iterHeaderColumns<T>(columnSpecs: IVerticalTableColumnSpec<T>[], env: 
       yield c('th', headerState, column.header)
     } else {
       if (column.label) {
-        headerState.text = _(column.label)
+        headerState.text = env.gettext.plain$(column.label)
       }
 
       yield c('th', headerState)

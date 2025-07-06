@@ -9,13 +9,13 @@ import { type IWebsitePageState } from '../types/page.ts'
 
 export function pacmanPage({ pageData }: IWebsitePageState<IPacmanRepository>, env: WebsiteEnvironment) {
   const byArch = groupBy(pageData.packages, pkg => pkg.arch)
-  const _ = env.gettext$
+  const _ = env.gettext.bindToBundle('pacman')
 
   return c('main', { class: 'pacman-page' },
     c('article', undefined,
-      c('h1', { text: _({ bundleId: 'pacman', key: 'heading.main' }) }),
+      c('h1', { text: _('heading.main') }),
       c(rich, {
-        doc: _({ bundleId: 'pacman', key: 'main' }, { rich: true }),
+        doc: _.rich$({ key: 'main' }),
       }),
       c('pre', undefined,
         c('code', {
@@ -23,18 +23,17 @@ export function pacmanPage({ pageData }: IWebsitePageState<IPacmanRepository>, e
         }),
       ),
       c(rich, {
-        doc: _(
+        doc: _.rich$(
           {
-            bundleId: 'pacman', key: 'openpgp',
+            key: 'openpgp',
             context: { keyName: OPENPGP_KEY_ID_SHORT, keyUrl: OPENPGP_KEYSERVER_URL },
           },
-          { rich: true },
         ),
       }),
     ),
 
     c('section', undefined,
-      c('h1', { text: _({ bundleId: 'pacman', key: 'heading.packages' }) }),
+      c('h1', { text: _('heading.packages') }),
       // TODO: Remove Array.from once Iterator.prototype.map() proliferates
       ...Array.from(byArch.entries()).map(([arch, pkgs]) => c(packages, { arch, pkgs })),
     ),
@@ -42,10 +41,10 @@ export function pacmanPage({ pageData }: IWebsitePageState<IPacmanRepository>, e
 }
 
 function* iterPackagesComponents(pkgs: IPacmanPackage[], env: WebsiteEnvironment) {
-  const _ = env.gettext$
+  const _ = env.gettext.bindToBundle('pacman')
 
   for (const pkg of pkgs) {
-    yield c('dt', { text: _({ bundleId: 'pacman', key: 'version', context: pkg }) })
+    yield c('dt', { text: _({ key: 'version', context: pkg }) })
     yield c('dd', { text: pkg.description })
   }
 }

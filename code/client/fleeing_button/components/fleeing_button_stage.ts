@@ -25,6 +25,8 @@ interface IFleeingButtonStageState {
 const SVG_VIEW_BOX = [STAGE.getLeftPos(), STAGE.getTopPos(), STAGE.width, STAGE.height].join(' ')
 
 export function fleeingButtonStage({ store }: IFleeingButtonStageState, env: ClientWebsiteEnvironment) {
+  const _ = env.gettext.bindToBundle('fleeing_button')
+
   store.keyedObservables.mousePosition.pipe(
     withLatestFrom(store.combinedState$),
   ).subscribe({
@@ -69,8 +71,7 @@ export function fleeingButtonStage({ store }: IFleeingButtonStageState, env: Cli
     switchMap(debug => debug ? store.combinedState$ : Observable.of(store.getCombinedState())),
   )
 
-  const iconMap = env.services.icons.getPreloadedIconRef('fleeing_button')
-  const iconSpec = iconMap['solid/person-running']
+  const iconSpec = env.iconStore.getIconSpec('fleeing_button', 'solid/person-running')
 
   return s('svg',
     {
@@ -119,19 +120,19 @@ export function fleeingButtonStage({ store }: IFleeingButtonStageState, env: Cli
           click(event: PointerEvent) {
             switch (event.pointerType) {
               case 'touch': {
-                const message = env.gettext({ bundleId: 'fleeing_button', key: 'message.click.touch' })
+                const message = _.plain('message.click.touch')
                 window.alert(message)
                 break
               }
 
               case 'pen': {
-                const message = env.gettext({ bundleId: 'fleeing_button', key: 'message.click.pen' })
+                const message = _.plain('message.click.pen')
                 window.alert(message)
                 break
               }
 
               case 'mouse': {
-                const message = env.gettext({ bundleId: 'fleeing_button', key: 'message.click.mouse' })
+                const message = _.plain('message.click.mouse')
                 window.alert(message)
                 break
               }

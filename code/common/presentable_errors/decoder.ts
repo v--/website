@@ -25,37 +25,37 @@ export class EncodedErrorDecoder {
     }
   }
 
-  getMessageSpec(): ITranslationSpec {
+  getSubtitleSpec(): ITranslationSpec {
     switch (this.encoded.errorKind) {
       case 'generic':
         return {
           bundleId: this.encoded.bundleId,
-          key: this.encoded.messageKey,
+          key: this.encoded.subtitleKey,
         }
 
       case 'http':
         return {
           bundleId: 'core_error',
-          key: 'error.message.http',
+          key: 'error.subtitle.http',
           context: { code: this.encoded.code },
         }
     }
   }
 
-  getCauseSpec(): ITranslationSpec | undefined {
+  getDetailsSpec(): ITranslationSpec | undefined {
     switch (this.encoded.errorKind) {
       case 'generic':
-        if (this.encoded.causeKey) {
+        if (this.encoded.detailsKey) {
           return {
             bundleId: this.encoded.bundleId,
-            key: this.encoded.causeKey,
+            key: this.encoded.detailsKey,
           }
         }
 
         return undefined
 
       case 'http':
-        return this.encoded.cause
+        return this.encoded.details
     }
   }
 
@@ -65,8 +65,8 @@ export class EncodedErrorDecoder {
         return [this.encoded.bundleId]
 
       case 'http':
-        if (this.encoded.cause && this.encoded.cause.bundleId !== 'core_error') {
-          return ['core_error', this.encoded.cause.bundleId]
+        if (this.encoded.details && this.encoded.details.bundleId !== 'core_error') {
+          return ['core_error', this.encoded.details.bundleId]
         }
 
         return ['core_error']

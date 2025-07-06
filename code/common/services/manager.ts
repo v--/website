@@ -1,13 +1,13 @@
 import { type IFileService } from './files.ts'
-import { type IIconService } from './icons.ts'
+import { type IIconRefService } from './icon_refs.ts'
 import { type IPacmanService } from './pacman.ts'
 import { type IWebsitePageService } from './pages.ts'
-import { type ITranslationService } from './translation.ts'
+import { type ITranslationMapService } from './translation_maps.ts'
 
 export interface IServiceManager {
   files: IFileService
   pacman: IPacmanService
-  icons: IIconService
+  iconRefs: IIconRefService
   page: IWebsitePageService
-  translation: ITranslationService
+  translationMaps: ITranslationMapService
 }

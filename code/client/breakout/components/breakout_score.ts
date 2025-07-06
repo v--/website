@@ -8,14 +8,11 @@ interface IBreakoutScoreState {
 }
 
 export function breakoutScore({ score }: IBreakoutScoreState, env: ClientWebsiteEnvironment) {
-  const _ = env.gettext$
+  const _ = env.gettext.bindToBundle('breakout')
 
   return s('text', {
     class: 'breakout-text breakout-score',
-    text: _({
-      bundleId: 'breakout', key: 'score',
-      context: { score },
-    }),
+    text: _({ key: 'score', context: { score } }),
     x: String(STAGE.getLeftPos() + 0.5),
     y: String(STAGE.getTopPos() + 1),
   })

@@ -8,13 +8,14 @@ import { RenderingManager } from './manager.ts'
 import { ServerLogger } from '../../server/logger.ts'
 import { assertEmpty, assertEqualRepr, assertFalse, assertTrue } from '../../testing/assertion.ts'
 import { MirrorDomError, MirrorDomManipulator } from '../../testing/unit/mirror_dom.ts'
-import { MockEnvironment } from '../../testing/unit/mock_environment.ts'
 import { assertNoLivingObservableSubscriptions } from '../../testing/unit/observable.ts'
 import { type Action } from '../types/typecons.ts'
 
 interface ITextOnlyState {
   text?: string
 }
+
+const TEST_COMPONENT_ENV = {}
 
 describe('RenderingManager class with MirrorDomManipulator', function () {
   let manager: RenderingManager<HtmlComponent>
@@ -23,7 +24,7 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
     manager = new RenderingManager(
       new ServerLogger('RENDERING_TEST', 'DEBUG'),
       new MirrorDomManipulator(),
-      new MockEnvironment(),
+      TEST_COMPONENT_ENV,
     )
   })
 

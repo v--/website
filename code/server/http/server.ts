@@ -91,34 +91,38 @@ export class HttpServer implements IFinalizeable {
 
     try {
       if (httpRequest.method !== 'GET' && httpRequest.method !== 'HEAD') {
-        throw env.createPresentableError({
-          errorKind: 'http',
-          code: 400,
-          cause: {
-            bundleId: 'server',
-            key: 'error.cause.router.invalid_method',
-            context: { method: httpRequest.method! },
+        throw new PresentableError(
+          {
+            errorKind: 'http',
+            code: 400,
+            details: {
+              bundleId: 'core_error',
+              key: 'error.details.invalid_http_method',
+              context: { method: httpRequest.method! },
+            },
           },
-        })
+          `Unexpected HTTP method ${httpRequest.method}`,
+        )
       }
 
       this.logger.info(`${httpRequest.method} on ${urlPath}`)
       const response = await serverRouter(urlPath, env)
       await this.writeResponse(httpResponse, response)
     } catch (err) {
-      if (err instanceof PresentableError && err.encoded.errorKind === 'http') {
-        this.logger.warn(`HTTP Error ${err.encoded.code} on ${httpRequest.method} ${urlPath}`)
+      if (err instanceof PresentableError && err.cause.errorKind === 'http') {
+        this.logger.warn(`HTTP Error ${err.cause.code} on ${httpRequest.method} ${urlPath}`)
       } else {
         this.logger.error(`Unexpected error while processing ${httpRequest.method} ${urlPath}`, err)
       }
 
       const routingResult = createErrorState(urlPath, err)
+      await env.preloadPageData(routingResult)
 
       await this.writeResponse(
         httpResponse,
         await ServerResponse.page(
           routingResult,
-          err instanceof PresentableError && err.encoded.errorKind === 'http' ? err.encoded.code : 500,
+          err instanceof PresentableError && err.cause.errorKind === 'http' ? err.cause.code : 500,
           env,
         ),
       )
@@ -141,7 +145,7 @@ export class HttpServer implements IFinalizeable {
     }
 
     process.title = this.#config.server.processName
-    await this.serviceFactory.load()
+    await this.serviceFactory.preload()
 
     this.#state = 'starting'
     this.#server = http.createServer((httpRequest, httpResponse) => {

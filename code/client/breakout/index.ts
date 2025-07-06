@@ -24,7 +24,7 @@ import { DEFAULT_FPS } from '../core/dom.ts'
 import { type ClientWebsiteEnvironment } from '../core/environment.ts'
 
 export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnvironment) {
-  const _ = env.gettext$
+  const _ = env.gettext.bindToBundle('breakout')
   const store = new StateStore<IGameState>(
     { ...DEFAULT_GAME_STATE, fps: DEFAULT_FPS, debug: false },
     env.pageUnload$,
@@ -38,14 +38,14 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
         c(checkbox, {
           name: 'debug-mode',
           value: store.keyedObservables.debug,
-          content: _({ bundleId: 'breakout', key: 'control.debug.label' }),
+          content: _('control.debug.label'),
           update(newValue: boolean) {
             store.update({ debug: newValue })
           },
         }),
         c('button', {
           class: 'button-danger',
-          text: _({ bundleId: 'breakout', key: 'control.reset.label' }),
+          text: _('control.reset.label'),
           click(event: PointerEvent) {
             handleResetButton(getEventParams(store, env, event))
           },
@@ -55,24 +55,21 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
     c(spacer, { dynamics: 'mf' }),
     c(rich, {
       rootTag: 'article',
-      doc: _(
-        {
-          bundleId: 'breakout', key: 'text',
-          context: {
-            breakoutUrl: 'https://en.wikipedia.org/wiki/Breakout_(video_game)',
-            keyControl: KEY_CONTROL,
-            keyReset: KEY_RESET,
-            keyDebug: KEY_DEBUG,
-            keyLeftSecondary: KEY_LEFT_SECONDARY,
-            keyRightSecondary: KEY_RIGHT_SECONDARY,
-            evolutionFrequency: EVOLUTION_FREQUENCY,
-            startingBrickCount: DEFAULT_GAME_STATE.bricks.length,
-            brickMaxPower: BRICK_MAX_POWER,
-            githubPageUrl: `${GITHUB_PROJECT_CODE_URL}/client/breakout`,
-          },
+      doc: _.rich$({
+        key: 'text',
+        context: {
+          breakoutUrl: 'https://en.wikipedia.org/wiki/Breakout_(video_game)',
+          keyControl: KEY_CONTROL,
+          keyReset: KEY_RESET,
+          keyDebug: KEY_DEBUG,
+          keyLeftSecondary: KEY_LEFT_SECONDARY,
+          keyRightSecondary: KEY_RIGHT_SECONDARY,
+          evolutionFrequency: EVOLUTION_FREQUENCY,
+          startingBrickCount: DEFAULT_GAME_STATE.bricks.length,
+          brickMaxPower: BRICK_MAX_POWER,
+          githubPageUrl: `${GITHUB_PROJECT_CODE_URL}/client/breakout`,
         },
-        { rich: true },
-      ),
+      }),
     }),
   )
 }

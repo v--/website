@@ -1,6 +1,4 @@
-import { CacheMissError } from './errors.ts'
 import { AsyncLock } from '../support/async_lock.ts'
-import { repr } from '../support/strings.ts'
 import { type IFinalizeable } from '../types/finalizable.ts'
 
 export interface ICachePayload<V> {
@@ -19,10 +17,6 @@ export abstract class Cache<K, V, PayloadT extends ICachePayload<V> = ICachePayl
     return JSON.stringify(key)
   }
 
-  invalidateAll() {
-    this.#payloads = new Map()
-  }
-
   invalidate(key: K) {
     const skey = this._stringifyKey(key)
     this.#payloads.delete(skey)
@@ -32,17 +26,6 @@ export abstract class Cache<K, V, PayloadT extends ICachePayload<V> = ICachePayl
     const skey = this._stringifyKey(key)
     const payload = this._addMetadata(value)
     this.#payloads.set(skey, payload)
-  }
-
-  getCachedValue(key: K) {
-    const skey = this._stringifyKey(key)
-    const payload = this.#payloads.get(skey)
-
-    if (payload && this._isCacheValid(payload)) {
-      return payload.value
-    }
-
-    throw new CacheMissError(`Cache miss for key ${repr(key)}`)
   }
 
   async getValue(key: K) {

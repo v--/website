@@ -5,12 +5,12 @@ import { type BrowserSyncInstance } from 'browser-sync'
 import { BuildManager } from './build_manager.ts'
 import { AssetIBuildWorker } from './workers/assets.ts'
 import { CodeBuildWorker } from './workers/code.ts'
-import { IconBuildWorker } from './workers/icons.ts'
+import { IconRefBuildWorker } from './workers/icon_refs.ts'
 import { StyleBuildWorker } from './workers/style.ts'
 import { SvgOptBuildWorker } from './workers/svg_opt.ts'
 import { SvgRenderBuildWorker } from './workers/svg_render.ts'
 import { type LoggerLevel } from '../common/logger.ts'
-import { TranslationIBuildWorker } from './workers/translation.ts'
+import { TranslationMapBuildWorker } from './workers/translation_maps.ts'
 
 interface GetBuildManagersConfig {
   sourceMaps: boolean
@@ -70,14 +70,14 @@ function* iterBuildManagers({ loggerLevel, sourceMaps, sync, dev }: GetBuildMana
   })
 
   yield new BuildManager({
-    builder: new IconBuildWorker({ srcBase: 'data/iconref', destBase: 'private/iconref' }),
+    builder: new IconRefBuildWorker({ srcBase: 'data/iconref', destBase: 'private/iconref' }),
     paths: ['data/iconref'],
     ext: ['.json'],
     loggerLevel, sync,
   })
 
   yield new BuildManager({
-    builder: new TranslationIBuildWorker({ srcBase: 'data/translation', destBase: 'private/translation' }),
+    builder: new TranslationMapBuildWorker({ srcBase: 'data/translation', destBase: 'private/translation' }),
     paths: ['data/translation'],
     ext: ['.json'],
     loggerLevel, sync,

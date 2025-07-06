@@ -99,16 +99,16 @@ I did not want to reuse overloaded terms like "state", "context", "store" and th
 
 For this website, we use instances of the [WebsiteEnvironment](../environment.ts) class, with their useful shared data that allows us to do things like (see the README in [`../translation`](../translation) for more details):
 ```
-const _ = env.gettext$
+const _ = env.gettext.bindToBundle('core')
 
 c('button',
   ...
-  title: _({ bundleId: 'core', key: 'sidebar.button.collapse' })
+  title: _('sidebar.button.collapse')
   ...
 )
 ```
 
-Whenever the environment's language is updated (i.e. whenever `env.language$.next` is called), all components bound to `gettext$` observables get updated without any intermediate components getting rerendered.
+Whenever the environment's language is updated (i.e. whenever `env.changeLanguage` completes), all components bound to `_` observables get updated without any intermediate components getting rerendered.
 
 ## Static rendering
 

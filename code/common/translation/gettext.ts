@@ -1,70 +1,193 @@
-import { type SubstitutionContext, substitutePlain, substituteRich } from '../rich/substitution.ts'
-import { type IRichTextDocument, convertPlainToRich, convertRichToPlain } from '../rich.ts'
 import { TranslationError } from './errors.ts'
-import { type ITranslationMap, type ITranslationSpec } from './types.ts'
-import { type Observable } from '../observable.ts'
-import { repr } from '../support/strings.ts'
+import { type ITranslationPackage, type ITranslationSpec, type LanguageId } from './types.ts'
+import { BehaviorSubject, Observable, map } from '../observable.ts'
+import { type SubstitutionContext } from '../rich/substitution.ts'
+import { convertPlainToRich, convertRichToPlain, substitutePlain, substituteRich } from '../rich.ts'
+import { ExtendableFunction } from '../support/extendable_function.ts'
+import { type TranslationBundleId } from '../types/bundles.ts'
+import { type IFinalizeable } from '../types/finalizable.ts'
 
-export interface IGettextOptions {
-  rich?: boolean
+export interface IBoundGetTextSpec {
+  bundleId?: TranslationBundleId
+  key: string
+  context?: SubstitutionContext
   coerce?: boolean
 }
 
-export interface IGettextParams {
-  translationMap: ITranslationMap
-  key: string
-  context?: SubstitutionContext
-  options?: IGettextOptions
+export interface IGetTextSpec extends ITranslationSpec, IBoundGetTextSpec {
+  bundleId: TranslationBundleId
 }
 
-export function gettext(params: IGettextParams & { options?: undefined }): string
-export function gettext(params: IGettextParams & { options: { coerce?: boolean, rich?: false } }): string
-export function gettext(params: IGettextParams & { options: { coerce?: boolean, rich: true } }): IRichTextDocument
-export function gettext(params: IGettextParams): string | IRichTextDocument
-export function gettext(params: IGettextParams): string | IRichTextDocument {
-  const rawValue = params.translationMap[params.key]
+export class GetText extends ExtendableFunction<[IGetTextSpec], Observable<string>> implements IFinalizeable {
+  #language$: BehaviorSubject<LanguageId>
+  #package$: BehaviorSubject<ITranslationPackage>
 
-  if (rawValue === undefined) {
-    throw new TranslationError(`Missing value for translation key ${repr(params.key)}`)
+  readonly language$: Observable<LanguageId>
+  readonly package$: Observable<ITranslationPackage>
+
+  constructor(language: LanguageId, pkg: ITranslationPackage = []) {
+    super(
+      (spec: IGetTextSpec) => this.plain$(spec),
+    )
+
+    this.#language$ = new BehaviorSubject(language)
+    this.language$ = this.#language$
+
+    this.#package$ = new BehaviorSubject(pkg)
+    this.package$ = this.#package$
   }
 
-  if (typeof rawValue === 'string') {
-    const value = params.context ? substitutePlain(rawValue, params.context) : rawValue
+  updateLanguage(newLanguage: LanguageId) {
+    this.#language$.next(newLanguage)
+  }
 
-    if (params.options?.rich) {
-      if (params.options?.coerce) {
-        return convertPlainToRich(value)
-      }
+  updatePackage(newPackage: ITranslationPackage) {
+    this.#package$.next(newPackage)
+  }
 
-      throw new TranslationError(`Expecting rich text for key ${repr(params.key)}, but got a plain string`)
+  #getTranslationMap(pkg: ITranslationPackage, languageId: LanguageId, bundleId: TranslationBundleId) {
+    const entry = pkg.find(e => e.languageId === languageId && e.bundleId === bundleId)
+
+    if (entry === undefined) {
+      throw new TranslationError(
+        'Translation map has not been loaded',
+        { languageId, bundleId },
+      )
     }
 
-    return value
-  } else {
-    const value = params.context ? substituteRich(rawValue, params.context) : rawValue
+    return entry.map
+  }
 
-    if (!params.options?.rich) {
-      if (params.options?.coerce) {
-        return convertRichToPlain(value)
-      }
+  #getTranslationValue(pkg: ITranslationPackage, languageId: LanguageId, bundleId: TranslationBundleId, key: string) {
+    const map = this.#getTranslationMap(pkg, languageId, bundleId)
+    const rawValue = map[key]
 
-      throw new TranslationError(`Expecting a plain string for key ${repr(params.key)}, but got rich text`)
+    if (rawValue === undefined) {
+      throw new TranslationError(
+        'Missing translation',
+        { languageId, bundleId, key },
+      )
     }
 
-    return value
+    return rawValue
+  }
+
+  #plain(pkg: ITranslationPackage, languageId: LanguageId, spec: IGetTextSpec) {
+    const rawValue = this.#getTranslationValue(pkg, languageId, spec.bundleId, spec.key)
+
+    if (typeof rawValue !== 'string') {
+      if (spec.coerce) {
+        const converted = convertRichToPlain(rawValue)
+        return spec.context ? substitutePlain(converted, spec.context) : converted
+      }
+
+      throw new TranslationError(
+        'Expecting a plain string translation, but got rich text',
+        { languageId, bundleId: spec.bundleId, key: spec.key },
+      )
+    }
+
+    return spec.context ? substitutePlain(rawValue, spec.context) : rawValue
+  }
+
+  #rich(pkg: ITranslationPackage, languageId: LanguageId, spec: IGetTextSpec) {
+    const rawValue = this.#getTranslationValue(pkg, languageId, spec.bundleId, spec.key)
+
+    if (typeof rawValue === 'string') {
+      if (spec.coerce) {
+        const converted = convertPlainToRich(rawValue)
+        return spec.context ? substituteRich(converted, spec.context) : converted
+      }
+
+      throw new TranslationError(
+        'Expecting a rich string translation, but got plain text',
+        { languageId, bundleId: spec.bundleId, key: spec.key },
+      )
+    }
+
+    return spec.context ? substituteRich(rawValue, spec.context) : rawValue
+  }
+
+  plain(spec: IGetTextSpec) {
+    return this.#plain(
+      this.#package$.value,
+      this.#language$.value,
+      spec,
+    )
+  }
+
+  plain$(spec: IGetTextSpec) {
+    return this.language$.pipe(
+      map(lang => this.#plain(this.#package$.value, lang, spec)),
+    )
+  }
+
+  rich(spec: IGetTextSpec) {
+    return this.#rich(
+      this.#package$.value,
+      this.#language$.value,
+      spec,
+    )
+  }
+
+  rich$(spec: IGetTextSpec) {
+    return this.language$.pipe(
+      map(lang => this.#rich(this.#package$.value, lang, spec)),
+    )
+  }
+
+  async finalize() {
+    this.#language$.complete()
+    this.#package$.complete()
+  }
+
+  bindToBundle(bundleId: TranslationBundleId) {
+    return new BoundGetText(this, bundleId)
   }
 }
 
-export interface ITranslator {
-  (spec: ITranslationSpec): string
-  (spec: ITranslationSpec, options: IGettextOptions & { rich: false | undefined }): string
-  (spec: ITranslationSpec, options: IGettextOptions & { rich: true }): IRichTextDocument
-  (spec: ITranslationSpec, options?: IGettextOptions): string | IRichTextDocument
-}
+export class BoundGetText extends ExtendableFunction<[string | IBoundGetTextSpec], Observable<string>> {
+  readonly gettext: GetText
+  readonly defaultBundleId: TranslationBundleId
 
-export interface IContinuousTranslator {
-  (spec: ITranslationSpec): Observable<string>
-  (spec: ITranslationSpec, options: IGettextOptions & { rich: false | undefined }): Observable<string>
-  (spec: ITranslationSpec, options: IGettextOptions & { rich: true }): Observable<IRichTextDocument>
-  (spec: ITranslationSpec, options?: IGettextOptions): Observable<string | IRichTextDocument>
+  constructor(gettext: GetText, defaultBundleId: TranslationBundleId) {
+    super(
+      (spec: string | IBoundGetTextSpec) => this.plain$(spec),
+    )
+
+    this.gettext = gettext
+    this.defaultBundleId = defaultBundleId
+  }
+
+  #liftPartialSpec(pspec: string | IBoundGetTextSpec): IGetTextSpec {
+    if (typeof pspec === 'string') {
+      return {
+        bundleId: this.defaultBundleId,
+        key: pspec,
+      }
+    }
+
+    return {
+      ...pspec,
+      bundleId: pspec.bundleId ?? this.defaultBundleId,
+    }
+  }
+
+  plain(pspec: string | IBoundGetTextSpec) {
+    return this.gettext.plain(this.#liftPartialSpec(pspec))
+  }
+
+  plain$(pspec: string | IBoundGetTextSpec) {
+    return this.gettext.plain$(this.#liftPartialSpec(pspec))
+  }
+
+  rich(pspec: string | IBoundGetTextSpec) {
+    return this.gettext.rich(this.#liftPartialSpec(pspec))
+  }
+
+  rich$(pspec: string | IBoundGetTextSpec) {
+    return this.gettext.rich$(this.#liftPartialSpec(pspec))
+  }
+
+  async finalize() {}
 }

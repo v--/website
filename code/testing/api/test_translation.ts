@@ -55,7 +55,7 @@ describe('/api/translation', function () {
     assert.equal(response.status(), 400)
     assert.deepEqual(
       await response.json(),
-      { errorKind: 'http', code: 400, cause: 'Missing language.' },
+      { errorKind: 'http', code: 400, details: 'Missing language.' },
     )
   })
 
@@ -65,7 +65,7 @@ describe('/api/translation', function () {
     assert.equal(response.status(), 400)
     assert.deepEqual(
       await response.json(),
-      { errorKind: 'http', code: 400, cause: 'Unexpected language `invalid`.' },
+      { errorKind: 'http', code: 400, details: 'Unexpected language `invalid`.' },
     )
   })
 

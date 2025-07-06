@@ -9,17 +9,11 @@ interface IBreakoutFpsState {
 }
 
 export function breakoutFps({ fps, show }: IBreakoutFpsState, env: ClientWebsiteEnvironment) {
-  const _ = env.gettext$
+  const _ = env.gettext.bindToBundle('breakout')
 
   return s('text', {
     class: 'breakout-text breakout-fps',
-    text: !show ?
-      '' :
-        _({
-          bundleId: 'breakout', key: 'fps',
-          context: { fps },
-        }),
-
+    text: show ? _({ key: 'fps', context: { fps } }) : '',
     x: String(STAGE.width / 2 - 0.5),
     y: String(STAGE.getTopPos() + 1),
   })

@@ -13,7 +13,7 @@ import { spotlightPage } from '../core/components/spotlight_page.ts'
 import { type ClientWebsiteEnvironment } from '../core/environment.ts'
 
 export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnvironment) {
-  const _ = env.gettext$
+  const _ = env.gettext.bindToBundle('fleeing_button')
   const store = new StateStore<IFleeingButtonState>({
     ...DEFAULT_STATE,
     mousePosition: undefined,
@@ -29,7 +29,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
         c(checkbox, {
           name: 'debug-mode',
           value: store.keyedObservables.debug,
-          content: _({ bundleId: 'fleeing_button', key: 'control.debug' }),
+          content: _('control.debug'),
           update(newValue: boolean) {
             store.update({ debug: newValue })
           },
@@ -39,15 +39,12 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
     c(spacer),
     c(rich, {
       rootTag: 'article',
-      doc: _(
-        {
-          bundleId: 'fleeing_button', key: 'text',
-          context: {
-            githubPageUrl: `${GITHUB_PROJECT_CODE_URL}/client/fleeing_button`,
-          },
+      doc: _.rich$({
+        key: 'text',
+        context: {
+          githubPageUrl: `${GITHUB_PROJECT_CODE_URL}/client/fleeing_button`,
         },
-        { rich: true },
-      ),
+      }),
     }),
   )
 }

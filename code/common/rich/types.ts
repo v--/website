@@ -111,7 +111,7 @@ export const RICH_TEXT_ENTRY_SCHEMA = Schema.recursive(
     Schema.object({
       kind: Schema.literal('mathml'),
       tag: Schema.string,
-      attributes: Schema.optional(Schema.record(Schema.string)),
+      attributes: Schema.optional(Schema.record(Schema.string, Schema.string)),
       ...CONTENTFUL_ENTRY_SCHEMA_MIXIN,
     }),
   ),

@@ -7,11 +7,10 @@ import { c } from '../rendering/component.ts'
 import { type IWebsitePageState } from '../types/page.ts'
 
 export function errorPage(pageState: IWebsitePageState<IEncodedError>, env: WebsiteEnvironment) {
-  const _ = env.gettext$
   const decoder = new EncodedErrorDecoder(pageState.pageData)
   const titleSpec = decoder.getTitleSpec()
-  const messageSpec = decoder.getMessageSpec()
-  const causeSpec = decoder.getCauseSpec()
+  const subtitleSpec = decoder.getSubtitleSpec()
+  const detailsSpec = decoder.getDetailsSpec()
 
   return c('main', { class: 'error-page' },
     c(icon, {
@@ -23,23 +22,23 @@ export function errorPage(pageState: IWebsitePageState<IEncodedError>, env: Webs
       rootCssClass: 'error-page-title',
       rootTag: 'h1',
       mode: 'paragraph',
-      doc: _(titleSpec, { rich: true, coerce: true }),
+      doc: env.gettext.rich$({ ...titleSpec, coerce: true }),
     }),
     c(rich, {
-      rootCssClass: 'error-page-message',
+      rootCssClass: 'error-page-subtitle',
       rootTag: 'h2',
       mode: 'paragraph',
-      doc: _(messageSpec, { rich: true, coerce: true }),
+      doc: env.gettext.rich$({ ...subtitleSpec, coerce: true }),
     }),
-    causeSpec && c(rich, {
-      rootCssClass: 'error-page-cause',
+    detailsSpec && c(rich, {
+      rootCssClass: 'error-page-details',
       rootTag: 'h3',
       mode: 'paragraph',
-      doc: _(causeSpec, { rich: true, coerce: true }),
+      doc: env.gettext.rich$({ ...detailsSpec, coerce: true }),
     }),
     c(rich, {
       mode: 'paragraph',
-      doc: _({ bundleId: 'core', key: 'error_page.suggestion' }, { rich: true, coerce: true }),
+      doc: env.gettext.rich$({ bundleId: 'core', key: 'error_page.suggestion' }),
     }),
   )
 }

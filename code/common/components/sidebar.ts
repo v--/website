@@ -16,7 +16,7 @@ interface ISidebarState {
 }
 
 export function sidebar({ sidebarId, language, sidebarCollapsed, colorScheme }: ISidebarState, env: WebsiteEnvironment) {
-  const _ = env.gettext$
+  const _ = env.gettext.bindToBundle('core')
   const rootClasses = classlist(
     'sidebar',
     sidebarCollapsed === undefined ? undefined : (sidebarCollapsed ? 'sidebar-collapsed' : 'sidebar-expanded'),
@@ -27,7 +27,7 @@ export function sidebar({ sidebarId, language, sidebarCollapsed, colorScheme }: 
       {
         class: 'sidebar-collapse-button sidebar-entry',
         disabled: !env.isContentDynamic(),
-        title: _({ bundleId: 'core', key: 'sidebar.button.collapse' }),
+        title: _('sidebar.button.collapse'),
         click() {
           const current = sidebarCollapsed ?? env.isSidebarActuallyCollapsed()
           env.sidebarCollapsed$.next(!current)
@@ -39,7 +39,7 @@ export function sidebar({ sidebarId, language, sidebarCollapsed, colorScheme }: 
         class: 'sidebar-entry-icon icon-capital-align',
       }),
       c(spacer, { direction: 'horizontal', dynamics: 'pp' }),
-      c('span', { class: 'sidebar-entry-collapsible-content', text: _({ bundleId: 'core', key: 'sidebar.button.collapse' }) }),
+      c('span', { class: 'sidebar-entry-collapsible-content', text: _('sidebar.button.collapse') }),
     ),
 
     c('hr'),
@@ -47,28 +47,28 @@ export function sidebar({ sidebarId, language, sidebarCollapsed, colorScheme }: 
     c('nav', { class: 'sidebar-navigation' },
       c(sidebarNavigationEntry, {
         active: sidebarId === 'home',
-        text: _({ bundleId: 'core', key: 'sidebar.page.home' }),
+        text: _('sidebar.page.home'),
         icon: 'solid/house',
         href: '/',
       }),
 
       c(sidebarNavigationEntry, {
         active: sidebarId === 'files',
-        text: _({ bundleId: 'core', key: 'sidebar.page.files' }),
+        text: _('sidebar.page.files'),
         icon: 'solid/folder',
         href: '/files',
       }),
 
       c(sidebarNavigationEntry, {
         active: sidebarId === 'pacman',
-        text: _({ bundleId: 'core', key: 'sidebar.page.pacman' }),
+        text: _('sidebar.page.pacman'),
         icon: 'solid/download',
         href: '/pacman',
       }),
 
       c(sidebarNavigationEntry, {
         active: sidebarId === 'playground',
-        text: _({ bundleId: 'core', key: 'sidebar.page.playground' }),
+        text: _('sidebar.page.playground'),
         icon: 'solid/code',
         href: '/playground',
       }),
@@ -118,7 +118,7 @@ export function sidebar({ sidebarId, language, sidebarCollapsed, colorScheme }: 
       {
         class: 'sidebar-scheme-toggle-button sidebar-entry',
         disabled: !env.isContentDynamic(),
-        title: _({ bundleId: 'core', key: 'sidebar.button.color_scheme' }),
+        title: _('sidebar.button.color_scheme'),
         click() {
           const realScheme = colorScheme ?? env.getActualColorScheme()
           env.colorScheme$.next(realScheme === 'light' ? 'dark' : 'light')
@@ -130,7 +130,7 @@ export function sidebar({ sidebarId, language, sidebarCollapsed, colorScheme }: 
         class: 'sidebar-entry-icon icon-capital-align',
       }),
       c(spacer, { direction: 'horizontal', dynamics: 'pp' }),
-      c('span', { class: 'sidebar-entry-collapsible-content', text: _({ bundleId: 'core', key: 'sidebar.button.color_scheme' }) }),
+      c('span', { class: 'sidebar-entry-collapsible-content', text: _('sidebar.button.color_scheme') }),
     ),
   )
 }

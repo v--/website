@@ -24,7 +24,7 @@
     "content": "Ошибочный шлюз"
   },
 
-  "error.message.http": {
+  "error.subtitle.http": {
     "entryKind": "plain",
     "content": "HTTP код ${code}"
   },
@@ -34,7 +34,7 @@
     "content": "Время ожидания истекло"
   },
 
-  "error.message.timeout": {
+  "error.subtitle.timeout": {
     "entryKind": "plain",
     "content": "На связь с сервером понадобилось слишком много времени"
   },
@@ -44,8 +44,13 @@
     "content": "Неожиданная ошибка"
   },
 
-  "error.message.fallback": {
+  "error.subtitle.fallback": {
     "entryKind": "plain",
     "content": "Что-то пошло не так"
+  },
+
+  "error.details.invalid_http_method": {
+    "entryKind": "plain",
+    "content": "Неожиданный HTTP метод ${method}."
   }
 }

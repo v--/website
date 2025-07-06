@@ -3,7 +3,7 @@ import { dirname } from 'node:path'
 import jsPlugin from '@eslint/js'
 import stylisticPlugin from '@stylistic/eslint-plugin'
 import importPlugin from 'eslint-plugin-import'
-// @ts-expect-error TS7016
+// @ts-expect-error
 import reExportSortPlugin from 'eslint-plugin-re-export-sort'
 import unusedImports from 'eslint-plugin-unused-imports'
 import globals from 'globals'

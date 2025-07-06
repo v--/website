@@ -8,7 +8,7 @@ interface IBreakoutSplashState {
 }
 
 export function breakoutSplash({ phase }: IBreakoutSplashState, env: ClientWebsiteEnvironment) {
-  const _ = env.gettext$
+  const _ = env.gettext.bindToBundle('breakout')
 
   return s('g', { class: 'breakout-splash' },
     phase !== 'running' && s('rect', {
@@ -20,12 +20,12 @@ export function breakoutSplash({ phase }: IBreakoutSplashState, env: ClientWebsi
     }),
     phase !== 'running' && s('text', {
       class: 'breakout-text breakout-splash-message',
-      text: _({ bundleId: 'breakout', key: `splash.message.${phase}` }),
+      text: _(`splash.message.${phase}`),
       y: STAGE.getTopPos() + STAGE.height / 2 - 0.25,
     }),
     phase !== 'running' && s('text', {
       class: 'breakout-text breakout-splash-hint',
-      text: _({ bundleId: 'breakout', key: `splash.hint.${phase}` }),
+      text: _(`splash.hint.${phase}`),
       y: STAGE.getTopPos() + STAGE.height / 2 + 1.25,
     }),
   )

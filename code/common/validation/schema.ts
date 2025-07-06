@@ -166,28 +166,47 @@ export class ArrayTypeSchema<SubSchema extends TypeSchema> extends TypeSchema {
   }
 }
 
-export class RecordTypeSchema<SubSchema extends TypeSchema> extends TypeSchema {
-  readonly isRecord = true
-  readonly subSchema: SubSchema
+// We want to capture StringTypeSchema | LiteralTypeSchema
+// We cannot use LiteralTypeSchema here because that would require an additional generic parameter
+// Fortunately, we have isLiteral and isString already available
+type BaseRecordKeySchema = TypeSchema & ({ isString: true } | { isLiteral: true })
 
-  constructor(subSchema: SubSchema) {
+export class RecordTypeSchema<KeySchema extends BaseRecordKeySchema, ValueSchema extends TypeSchema> extends TypeSchema {
+  readonly isRecord = true
+  readonly keySchema: KeySchema
+  readonly valueSchema: ValueSchema
+
+  constructor(keySchema: KeySchema, valueSchema: ValueSchema) {
     super()
-    this.subSchema = subSchema
+    this.keySchema = keySchema
+    this.valueSchema = valueSchema
   }
 
   override matches(record: unknown, recursiveRootSchema?: TypeSchema) {
-    return record instanceof Object && Object.values(record).every(v => this.subSchema.matches(v, recursiveRootSchema))
+    if (!(record instanceof Object)) {
+      return false
+    }
+
+    for (const [k, v] of Object.entries(record)) {
+      if (!this.keySchema.matches(k) || !this.valueSchema.matches(v, recursiveRootSchema)) {
+        return false
+      }
+    }
+
+    return true
   }
 
   override toString(indentation: uint32 = 0) {
-    const subSchema = this.subSchema
+    const keySchema = this.keySchema
+    const valueSchema = this.valueSchema
 
     return recursivelyStringify({
       prefix: 'Schema.record(',
       suffix: ')',
       indentation,
       * iterChildren(largeIndentation?: uint32) {
-        yield subSchema.toString(largeIndentation)
+        yield keySchema.toString()
+        yield valueSchema.toString(largeIndentation)
       },
     })
   }
@@ -294,8 +313,8 @@ export const Schema = {
   array<SubSchema extends TypeSchema>(subSchema: SubSchema) {
     return new ArrayTypeSchema<SubSchema>(subSchema)
   },
-  record<SubSchema extends TypeSchema>(subSchema: SubSchema) {
-    return new RecordTypeSchema<SubSchema>(subSchema)
+  record<KeySchema extends BaseRecordKeySchema, ValueSchema extends TypeSchema>(keySchema: KeySchema, valueSchema: ValueSchema) {
+    return new RecordTypeSchema<KeySchema, ValueSchema>(keySchema, valueSchema)
   },
   object<Properties extends Record<string, TypeSchema>>(properties: Properties) {
     return new ObjectTypeSchema<Properties>(properties)

@@ -7,19 +7,16 @@ import { PLAYGROUND_PAGE_IDS } from '../types/bundles.ts'
 import { type IWebsitePageState } from '../types/page.ts'
 
 export function playgroundPage(pageState: IWebsitePageState, env: WebsiteEnvironment) {
-  const _ = env.gettext$
+  const _ = env.gettext.bindToBundle('playground')
 
   return c('main', { class: 'playground-page' },
     c('section', undefined,
-      c('h1', { text: _({ bundleId: 'playground', key: 'heading' }) }),
+      c('h1', { text: _('heading') }),
       c(rich, {
-        doc: _(
-          {
-            bundleId: 'playground', key: 'text',
-            context: { projectUrl: GITHUB_PROJECT_URL },
-          },
-          { rich: true },
-        ),
+        doc: _.rich$({
+          key: 'text',
+          context: { projectUrl: GITHUB_PROJECT_URL },
+        }),
       }),
       c('dl', undefined,
         ...PLAYGROUND_PAGE_IDS.flatMap(playgroundId => {
@@ -40,7 +37,7 @@ export function playgroundPage(pageState: IWebsitePageState, env: WebsiteEnviron
         }),
       ),
       c(rich, {
-        doc: _({ bundleId: 'playground', key: 'footnote' }, { rich: true }),
+        doc: _.rich$('footnote'),
       }),
     ),
   )

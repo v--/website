@@ -25,7 +25,6 @@ export interface IWebsitePageState<T = DefaultPageData> {
   bundleId: BundleId
   iconRefIds?: IconRefId[]
   translationBundleIds?: TranslationBundleId[]
-  errorTranslationBundleIds?: TranslationBundleId[]
   sidebarId?: SidebarId
 
   page: WebsitePage<T>

@@ -12,12 +12,12 @@ import { type IWebsitePageState } from '../types/page.ts'
 import { type IInteractiveTableColumnSpec } from '../types/table_interaction.ts'
 
 export function filesPage({ urlPath, pageData }: IWebsitePageState<IDirectory>, env: WebsiteEnvironment) {
-  const _ = env.gettext$
+  const _ = env.gettext.bindToBundle('files')
   const columnSpecs = getColumnSpecs(urlPath)
   const { entries, readme } = pageData
 
   return c('main', { class: 'files-page' },
-    c('h1', { text: _({ bundleId: 'files', key: 'heading' }) }),
+    c('h1', { text: _('heading') }),
     c(breadcrumbNavigation, { urlPath }),
     c('div', { class: 'files-page-content' },
       entries.length > 0 && c(interactiveTable<IDirEntry>, { class: 'files-page-table delimited-table', data: entries, columnSpecs, urlPath }),
@@ -25,13 +25,10 @@ export function filesPage({ urlPath, pageData }: IWebsitePageState<IDirectory>, 
       readme && c(rich, { rootTag: 'article', doc: readme }),
     ),
     c(rich, {
-      doc: _(
-        {
-          bundleId: 'files', key: 'cc_notice',
-          context: { ccUrl: CC0_URL },
-        },
-        { rich: true },
-      ),
+      doc: _.rich$({
+        key: 'cc_notice',
+        context: { ccUrl: CC0_URL },
+      }),
     }),
   )
 }

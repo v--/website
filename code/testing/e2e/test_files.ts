@@ -47,7 +47,7 @@ describe('Files page', function () {
           const errContent = await page.parseError()
 
           assert.equal(errContent.title, 'Page not found')
-          assertUndefined(errContent.cause)
+          assertUndefined(errContent.details)
         })
 
         it('errors out with 403 on an existing hidden subpath', async function () {
@@ -55,7 +55,7 @@ describe('Files page', function () {
           const errContent = await page.parseError()
 
           assert.equal(errContent.title, 'Access forbidden')
-          assertUndefined(errContent.cause)
+          assertUndefined(errContent.details)
         })
 
         it('errors out with 403 on a non-existing hidden subpath', async function () {
@@ -63,7 +63,7 @@ describe('Files page', function () {
           const errContent = await page.parseError()
 
           assert.equal(errContent.title, 'Access forbidden')
-          assertUndefined(errContent.cause)
+          assertUndefined(errContent.details)
         })
       })
 
@@ -270,7 +270,7 @@ describe('Files page', function () {
             const errContent = await page.parseError()
 
             assert.equal(errContent.title, 'Bad request')
-            assert.equal(errContent.cause, 'The value of the URL parameter page must be a positive integer.')
+            assert.equal(errContent.details, 'The value of the URL parameter page must be a positive integer.')
           })
 
           it('errors out with 400 when the "page" query param is set to "-1"', async function () {
@@ -278,7 +278,7 @@ describe('Files page', function () {
             const errContent = await page.parseError()
 
             assert.equal(errContent.title, 'Bad request')
-            assert.equal(errContent.cause, 'The value of the URL parameter page must be a positive integer.')
+            assert.equal(errContent.details, 'The value of the URL parameter page must be a positive integer.')
           })
 
           it('errors out with 400 when the "per_page" query param is zero', async function () {
@@ -286,7 +286,7 @@ describe('Files page', function () {
             const errContent = await page.parseError()
 
             assert.equal(errContent.title, 'Bad request')
-            assert.equal(errContent.cause, 'The value of the URL parameter per_page must be a positive integer.')
+            assert.equal(errContent.details, 'The value of the URL parameter per_page must be a positive integer.')
           })
 
           it('errors out with 400 when the "page" query param exceeds the number of pages', async function () {
@@ -294,7 +294,7 @@ describe('Files page', function () {
             const errContent = await page.parseError()
 
             assert.equal(errContent.title, 'Bad request')
-            assert.equal(errContent.cause, 'The value of the URL parameter page must not exceed 2, the page count.')
+            assert.equal(errContent.details, 'The value of the URL parameter page must not exceed 2, the page count.')
           })
         })
 
@@ -388,7 +388,7 @@ describe('Files page', function () {
             const errContent = await page.parseError()
 
             assert.equal(errContent.title, 'Bad request')
-            assert.equal(errContent.cause, 'The URL parameters sort_asc and sort_desc cannot be specified simultaneously.')
+            assert.equal(errContent.details, 'The URL parameters sort_asc and sort_desc cannot be specified simultaneously.')
           })
 
           it('errors out with 400 when setting "sort_asc" to "invalid"', async function () {
@@ -396,7 +396,7 @@ describe('Files page', function () {
             const errContent = await page.parseError()
 
             assert.equal(errContent.title, 'Bad request')
-            assert.equal(errContent.cause, 'The value of the URL parameter sort_asc is not a known sorting column.')
+            assert.equal(errContent.details, 'The value of the URL parameter sort_asc is not a known sorting column.')
           })
 
           it('errors out with 400 when setting "sort_desc" to "invalid"', async function () {
@@ -404,7 +404,7 @@ describe('Files page', function () {
             const errContent = await page.parseError()
 
             assert.equal(errContent.title, 'Bad request')
-            assert.equal(errContent.cause, 'The value of the URL parameter sort_desc is not a known sorting column.')
+            assert.equal(errContent.details, 'The value of the URL parameter sort_desc is not a known sorting column.')
           })
 
           it('arranges the entry names in alphabetical order when sorting by name', async function () {

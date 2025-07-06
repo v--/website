@@ -30,7 +30,7 @@ export type IconRefId = typeof ICON_REF_IDS[uint32]
 export const TRANSLATION_BUNDLE_IDS = [
   'core',
   'core_error',
-  'server',
+  'api',
   'interactive_table_error',
   'placeholder',
   'home',
