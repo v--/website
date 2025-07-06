@@ -6,7 +6,7 @@
  */
 
 import { type IMetaTag } from './types.ts'
-import { type GetText } from '../../common/translation.ts'
+import { CANONICAL_LANGUAGE_STRING, LANGUAGE_IDS, type GetText } from '../../common/translation.ts'
 import { type IWebsitePageState } from '../../common/types/page.ts'
 
 export function* iterOpenGraphTags(gettext: GetText, pageState: IWebsitePageState): Generator<IMetaTag> {
@@ -25,10 +25,17 @@ export function* iterOpenGraphTags(gettext: GetText, pageState: IWebsitePageStat
     content: pageState.urlPath.trimQueryString().toString(),
   }
 
-  const lang = gettext.getCurrentLanguage()
+  const currentLang = gettext.getCurrentLanguage()
 
   yield {
     name: 'og:image',
-    content: `/images/previews/${lang}/${pageState.previewImageName}.png`,
+    content: `/images/previews/${currentLang}/${pageState.previewImageName}.png`,
+  }
+
+  for (const lang of LANGUAGE_IDS) {
+    yield {
+      name: lang === currentLang ? 'og:locale' : 'og:locale:alternate',
+      content: CANONICAL_LANGUAGE_STRING[lang],
+    }
   }
 }
