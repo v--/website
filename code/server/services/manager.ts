@@ -18,7 +18,8 @@ export interface IServerServiceManager extends IServiceManager {
 export class ServerServiceManagerFactory {
   realFiles: ServerFileService
   mockFiles: ServerFileService
-  pacman: ServerPacmanService
+  realPacman: ServerPacmanService
+  mockPacman: ServerPacmanService
   icons: ServerIconRefService
   page: ServerPageService
   translation: ServerTranslationMapService
@@ -27,13 +28,15 @@ export class ServerServiceManagerFactory {
     this.translation = new ServerTranslationMapService(Path.parse(config.translation.root))
     this.realFiles = new ServerFileService(Path.parse(config.files.realRoot))
     this.mockFiles = new ServerFileService(Path.parse(config.files.mockRoot))
-    this.pacman = new ServerPacmanService(Path.parse(config.pacman.dbPath))
+    this.realPacman = new ServerPacmanService(Path.parse(config.pacman.realDBPath))
+    this.mockPacman = new ServerPacmanService(Path.parse(config.pacman.mockDBPath))
     this.icons = new ServerIconRefService(Path.parse(config.icons.root))
     this.page = new ServerPageService()
   }
 
   async preload() {
-    await this.pacman.load()
+    await this.realPacman.preload()
+    await this.mockPacman.preload()
     await this.icons.preload()
     await this.translation.preload()
   }
@@ -42,8 +45,11 @@ export class ServerServiceManagerFactory {
     this.realFiles.updateRootPath(Path.parse(config.files.realRoot))
     this.mockFiles.updateRootPath(Path.parse(config.files.mockRoot))
 
-    this.pacman.updateDbPath(Path.parse(config.pacman.dbPath))
-    await this.pacman.load()
+    this.realPacman.updateDbPath(Path.parse(config.pacman.realDBPath))
+    await this.realPacman.preload()
+
+    this.mockPacman.updateDbPath(Path.parse(config.pacman.mockDBPath))
+    await this.mockPacman.preload()
 
     this.icons.updateFilePath(Path.parse(config.icons.root))
     await this.icons.preload()
@@ -55,7 +61,8 @@ export class ServerServiceManagerFactory {
   async finalize() {
     await this.realFiles.finalize()
     await this.mockFiles.finalize()
-    await this.pacman.finalize()
+    await this.realPacman.finalize()
+    await this.mockPacman.finalize()
     await this.icons.finalize()
     await this.page.finalize()
     await this.translation.finalize()
@@ -64,7 +71,7 @@ export class ServerServiceManagerFactory {
   getManager(useMockData: boolean): IServerServiceManager {
     return {
       files: useMockData ? this.mockFiles : this.realFiles,
-      pacman: this.pacman,
+      pacman: useMockData ? this.mockPacman : this.realPacman,
       page: this.page,
       iconRefs: this.icons,
       translationMaps: this.translation,

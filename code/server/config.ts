@@ -14,7 +14,8 @@ export const SERVICE_CONFIG_SCHEMA = Schema.object({
     mockRoot: Schema.string,
   }),
   pacman: Schema.object({
-    dbPath: Schema.string,
+    mockDBPath: Schema.string,
+    realDBPath: Schema.string,
   }),
   icons: Schema.object({
     root: Schema.string,

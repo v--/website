@@ -5,11 +5,12 @@
   },
   "services": {
     "files": {
-      "realRoot": "./mocks/files",
-      "mockRoot": "./mocks/files"
+      "mockRoot": "./mocks/files",
+      "realRoot": "./mocks/files"
     },
     "pacman": {
-      "dbPath": "./mocks/ivasilev.db"
+      "mockDBPath": "./mocks/ivasilev.db",
+      "realDBPath": "./mocks/ivasilev.db"
     },
     "icons": {
       "root": "./private/icon_ref"

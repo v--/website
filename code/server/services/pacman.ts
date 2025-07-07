@@ -22,7 +22,7 @@ export class ServerPacmanService implements IPacmanService {
     this.#dbPath = dbPath
   }
 
-  async load() {
+  async preload() {
     await this.#cache.fetchAndCache(this.#dbPath)
   }
 
