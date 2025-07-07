@@ -29,6 +29,61 @@
     "content": "Playground"
   },
 
+  "error.title.http.400": {
+    "entryKind": "plain",
+    "content": "Bad request"
+  },
+
+  "error.title.http.403": {
+    "entryKind": "plain",
+    "content": "Access forbidden"
+  },
+
+  "error.title.http.404": {
+    "entryKind": "plain",
+    "content": "Page not found"
+  },
+
+  "error.title.http.500": {
+    "entryKind": "plain",
+    "content": "Internal server error"
+  },
+
+  "error.title.http.502": {
+    "entryKind": "plain",
+    "content": "Bad gateway"
+  },
+
+  "error.subtitle.http": {
+    "entryKind": "plain",
+    "content": "HTTP status ${code}"
+  },
+
+  "error.title.timeout": {
+    "entryKind": "plain",
+    "content": "Timeout"
+  },
+
+  "error.subtitle.timeout": {
+    "entryKind": "plain",
+    "content": "Reaching the server took too much time"
+  },
+
+  "error.title.fallback": {
+    "entryKind": "plain",
+    "content": "Unexpected error"
+  },
+
+  "error.subtitle.fallback": {
+    "entryKind": "plain",
+    "content": "Something went wrong"
+  },
+
+  "error.details.invalid_http_method": {
+    "entryKind": "plain",
+    "content": "Unexpected HTTP method ${method}."
+  },
+
   "error_page.suggestion": {
     "entryKind": "rich",
     "content": [

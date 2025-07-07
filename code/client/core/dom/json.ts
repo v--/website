@@ -11,7 +11,7 @@ export async function fetchJson(urlPath: UrlPath) {
       throw new PresentableError(
         {
           errorKind: 'generic',
-          bundleId: 'core_error',
+          bundleId: 'core',
           titleKey: 'error.title.timeout',
           subtitleKey: 'error.subtitle.timeout',
         },

@@ -29,6 +29,61 @@
     "content": "Мастерская"
   },
 
+  "error.title.http.400": {
+    "entryKind": "plain",
+    "content": "Неправильный запрос"
+  },
+
+  "error.title.http.403": {
+    "entryKind": "plain",
+    "content": "Доступ запрещён"
+  },
+
+  "error.title.http.404": {
+    "entryKind": "plain",
+    "content": "Страница не найдена"
+  },
+
+  "error.title.http.500": {
+    "entryKind": "plain",
+    "content": "Внутренняя ошибка сервера"
+  },
+
+  "error.title.http.502": {
+    "entryKind": "plain",
+    "content": "Ошибочный шлюз"
+  },
+
+  "error.subtitle.http": {
+    "entryKind": "plain",
+    "content": "HTTP код ${code}"
+  },
+
+  "error.title.timeout": {
+    "entryKind": "plain",
+    "content": "Время ожидания истекло"
+  },
+
+  "error.subtitle.timeout": {
+    "entryKind": "plain",
+    "content": "На связь с сервером понадобилось слишком много времени"
+  },
+
+  "error.title.fallback": {
+    "entryKind": "plain",
+    "content": "Неожиданная ошибка"
+  },
+
+  "error.subtitle.fallback": {
+    "entryKind": "plain",
+    "content": "Что-то пошло не так"
+  },
+
+  "error.details.invalid_http_method": {
+    "entryKind": "plain",
+    "content": "Неожиданный HTTP метод ${method}."
+  },
+
   "error_page.suggestion": {
     "entryKind": "rich",
     "content": [

@@ -19,7 +19,7 @@ export class EncodedErrorDecoder {
 
       case 'http':
         return {
-          bundleId: 'core_error',
+          bundleId: 'core',
           key: `error.title.http.${this.encoded.code}`,
         }
     }
@@ -35,7 +35,7 @@ export class EncodedErrorDecoder {
 
       case 'http':
         return {
-          bundleId: 'core_error',
+          bundleId: 'core',
           key: 'error.subtitle.http',
           context: { code: this.encoded.code },
         }
@@ -65,11 +65,11 @@ export class EncodedErrorDecoder {
         return [this.encoded.bundleId]
 
       case 'http':
-        if (this.encoded.details && this.encoded.details.bundleId !== 'core_error') {
-          return ['core_error', this.encoded.details.bundleId]
+        if (this.encoded.details && this.encoded.details.bundleId !== 'core') {
+          return ['core', this.encoded.details.bundleId]
         }
 
-        return ['core_error']
+        return ['core']
     }
   }
 }

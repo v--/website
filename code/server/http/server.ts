@@ -96,7 +96,7 @@ export class HttpServer implements IFinalizeable {
             errorKind: 'http',
             code: 400,
             details: {
-              bundleId: 'core_error',
+              bundleId: 'core',
               key: 'error.details.invalid_http_method',
               context: { method: httpRequest.method! },
             },

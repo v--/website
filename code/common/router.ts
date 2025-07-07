@@ -134,7 +134,7 @@ export function createErrorState(urlPath: UrlPath, err: unknown): IWebsitePageSt
 
   return createEncodedErrorState(urlPath, {
     errorKind: 'generic',
-    bundleId: 'core_error',
+    bundleId: 'core',
     titleKey: 'error.title.fallback',
     subtitleKey: 'error.subtitle.fallback',
   })
