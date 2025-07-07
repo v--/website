@@ -108,7 +108,7 @@ describe('General website behavior', function () {
 
     it('has its language buttons disabled', async function () {
       await page.goto('/')
-      const buttons = page.getSidebarLanguageButtonsLocators()
+      const buttons = page.getSidebarLanguageButtons()
 
       assertTrue(await buttons.en.isDisabled())
       assertTrue(await buttons.ru.isDisabled())
@@ -312,7 +312,7 @@ describe('General website behavior', function () {
     describe('languages', function () {
       it('sidebar has its language buttons enabled', async function () {
         await page.goto('/')
-        const buttons = page.getSidebarLanguageButtonsLocators()
+        const buttons = page.getSidebarLanguageButtons()
 
         assertTrue(await buttons.en.isEnabled())
         assertTrue(await buttons.ru.isEnabled())
@@ -320,20 +320,19 @@ describe('General website behavior', function () {
 
       it('switches to Russian after clicking РУС', async function () {
         await page.goto('/')
-        const buttons = page.getSidebarLanguageButtonsLocators()
+        const buttons = page.getSidebarLanguageButtons()
         await buttons.ru.click()
-        await waitForStableState(page.getBodyLocator())
+        await page.waitWhileLoading()
         const lang = await page.getLanguage()
         assert.equal(lang, 'ru')
       })
 
       it('switches to English after clicking РУС and then ENG', async function () {
         await page.goto('/')
-        const buttons = page.getSidebarLanguageButtonsLocators()
+        const buttons = page.getSidebarLanguageButtons()
         await buttons.ru.click()
-        await waitForStableState(page.getBodyLocator())
+        await page.waitWhileLoading()
         await buttons.en.click()
-        await waitForStableState(page.getBodyLocator())
         const lang = await page.getLanguage()
         assert.equal(lang, 'en')
       })

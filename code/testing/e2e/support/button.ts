@@ -1,8 +1,9 @@
 import { type Locator } from '@playwright/test'
 
+import { waitForStableState } from './locator.ts'
 import { type BasePage } from '../base.ts'
 
-export class Anchor {
+export class Button {
   page: BasePage
   locator: Locator
 
@@ -13,17 +14,11 @@ export class Anchor {
 
   async click() {
     await this.locator.click()
-
-    if (await this.page.isContentDynamic()) {
-      await this.page.waitWhileLoading()
-    } else {
-      await this.locator.page().waitForLoadState()
-    }
+    await waitForStableState(this.locator)
   }
 
   async isDisabled() {
-    const href = await this.locator.getAttribute('href')
-    return href === null
+    return await this.locator.isDisabled()
   }
 
   async isEnabled() {

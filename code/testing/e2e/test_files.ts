@@ -70,7 +70,7 @@ describe('Files page', function () {
       describe('breadcrumbs', function () {
         it('has only one breadcrumb disabled at the root', async function () {
           await page.goto('/files')
-          const breadcrumbs = await page.getBreadcrumbLocators()
+          const breadcrumbs = await page.getBreadcrumbAnchors()
           const count = Object.keys(breadcrumbs).length
           assert.equal(count, 1)
           assertTrue('files' in breadcrumbs)
@@ -79,7 +79,7 @@ describe('Files page', function () {
 
         it('has one disabled and two enabled breadcrumb in /sub/subsub', async function () {
           await page.goto('/files/sub/subsub')
-          const breadcrumbs = await page.getBreadcrumbLocators()
+          const breadcrumbs = await page.getBreadcrumbAnchors()
           const count = Object.keys(breadcrumbs).length
           assert.equal(count, 3)
 
@@ -95,7 +95,7 @@ describe('Files page', function () {
 
         it('can nagivate to the root by clicking the /files locator in /sub', async function () {
           await page.goto('/files/sub')
-          const breadcrumbs = await page.getBreadcrumbLocators()
+          const breadcrumbs = await page.getBreadcrumbAnchors()
           await breadcrumbs.files.click()
 
           assert.equal(await page.getDirPath(), '/')
@@ -103,7 +103,7 @@ describe('Files page', function () {
 
         it('can nagivate to /sub by clicking the arrow locator in /sub/subsub', async function () {
           await page.goto('/files/sub/subsub')
-          const breadcrumbs = await page.getBreadcrumbLocators()
+          const breadcrumbs = await page.getBreadcrumbAnchors()
           await breadcrumbs.sub.click()
 
           assert.equal(await page.getDirPath(), '/sub')

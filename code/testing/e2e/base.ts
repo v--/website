@@ -4,6 +4,7 @@ import { type Browser, type BrowserContext, type Page as PlayWrightPage } from '
 
 import { BASE_URL, BROWSER } from './config.ts'
 import { Anchor } from './support/anchor.ts'
+import { Button } from './support/button.ts'
 import { type ViewportSizeName, transposeViewport, viewportNameMap } from './support/viewport.ts'
 import { UrlPath } from '../../common/support/url_path.ts'
 import { type LanguageId } from '../../common/translation.ts'
@@ -48,11 +49,15 @@ export class BasePage implements IFinalizeable {
     this._pwPage = pw_page
   }
 
+  async isContentDynamic() {
+    return this._pwPage.locator('.require-javascript').first().isVisible()
+  }
+
   async goto(path: string) {
     await this._pwPage.goto(path)
     await this._pwPage.waitForLoadState('load')
 
-    if (await this._pwPage.locator('.require-javascript').first().isVisible()) {
+    if (await this.isContentDynamic()) {
       await this._pwPage.waitForSelector('.dynamic-content')
     }
   }
@@ -72,6 +77,19 @@ export class BasePage implements IFinalizeable {
   async scaleViewport(name: ViewportSizeName, { vertical }: { vertical?: boolean } = {}) {
     const size = vertical ? transposeViewport(viewportNameMap[name]) : viewportNameMap[name]
     await this._pwPage.setViewportSize(size)
+  }
+
+  getLoadingIndicatorLocator() {
+    return this._pwPage.locator('.loading-indicator')
+  }
+
+  isLoading() {
+    return this.getLoadingIndicatorLocator().isVisible()
+  }
+
+  async waitWhileLoading() {
+    await this.getLoadingIndicatorLocator().waitFor({ state: 'visible' })
+    await this.getLoadingIndicatorLocator().waitFor({ state: 'hidden' })
   }
 
   getSidebarLocator() {
@@ -148,10 +166,10 @@ export class BasePage implements IFinalizeable {
     return this.getSidebarLocator().locator('.sidebar-collapse-button').first()
   }
 
-  getSidebarLanguageButtonsLocators() {
+  getSidebarLanguageButtons() {
     return {
-      en: this.getSidebarLocator().getByRole('radio', { name: 'ENG', exact: true }).first(),
-      ru: this.getSidebarLocator().getByRole('radio', { name: 'РУС', exact: true }).first(),
+      en: new Button(this, this.getSidebarLocator().getByRole('radio', { name: 'ENG', exact: true }).first()),
+      ru: new Button(this, this.getSidebarLocator().getByRole('radio', { name: 'РУС', exact: true }).first()),
     }
   }
 
@@ -161,7 +179,7 @@ export class BasePage implements IFinalizeable {
 
   async getSidebarAnchors() {
     const locators = await this.getSidebarLocator().getByRole('link').all()
-    return locators.map(l => new Anchor(l))
+    return locators.map(l => new Anchor(this, l))
   }
 
   async parseError() {

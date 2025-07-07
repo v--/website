@@ -28,12 +28,12 @@ export class FilesPage extends BasePage {
     return match.groups['dir'] || '/' // Replace the empty string with '/'
   }
 
-  async getBreadcrumbLocators() {
+  async getBreadcrumbAnchors() {
     const navigation = this._pwPage.locator('.breadcrumb-navigation').first()
     const locators = await navigation.getByRole('link').all()
     return Object.fromEntries(
       await Promise.all(
-        locators.map(async l => [await l.innerText(), new Anchor(l)] as [string, Anchor]),
+        locators.map(async l => [await l.innerText(), new Anchor(this, l)] as [string, Anchor]),
       ),
     )
   }
@@ -56,7 +56,7 @@ export class FilesPage extends BasePage {
 
   async getTableHeaderAnchor(id: string) {
     const locator = this.#getTableHeader(id).getByRole('link').first()
-    return new Anchor(locator)
+    return new Anchor(this, locator)
   }
 
   async getTableHeaderSortDirection(id: string) {
@@ -70,7 +70,7 @@ export class FilesPage extends BasePage {
 
   getDirEntryAnchor(name: string) {
     const locator = this.#getShownDirLocator().getByText(name).first()
-    return new Anchor(locator)
+    return new Anchor(this, locator)
   }
 
   async getShownDirEntries(): Promise<IDirEntryRow[]> {
@@ -102,15 +102,15 @@ export class FilesPage extends BasePage {
   }
 
   getPaginatorPrevAnchor() {
-    return new Anchor(this.getPaginatorLocator().locator('.paginator-anchor-prev').first())
+    return new Anchor(this, this.getPaginatorLocator().locator('.paginator-anchor-prev').first())
   }
 
   getPaginatorNextAnchor() {
-    return new Anchor(this.getPaginatorLocator().locator('.paginator-anchor-next').first())
+    return new Anchor(this, this.getPaginatorLocator().locator('.paginator-anchor-next').first())
   }
 
   async getPaginatorNumberAnchors() {
     const locators = await this.getPaginatorLocator().locator('.paginator-anchor-direct').all()
-    return locators.map(l => new Anchor(l))
+    return locators.map(l => new Anchor(this, l))
   }
 }
