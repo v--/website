@@ -64,7 +64,7 @@ export function anchor(state: IAnchorState, env: WebsiteEnvironment, children: C
   if (state.disabled) {
     childState.role = state.role ?? 'link'
   } else {
-    childState.href = state.href.toString()
+    childState.href = encodeURI(state.href.toString())
 
     if (state.isInternal) {
       childState.click = function click(event: MouseEvent) {
