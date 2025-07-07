@@ -3,6 +3,7 @@ import { rich } from '../components/rich.ts'
 import { GITHUB_PROJECT_URL } from '../constants/url.ts'
 import { WebsiteEnvironment } from '../environment.ts'
 import { c } from '../rendering/component.ts'
+import { snakeToKebabCase } from '../support/strings.ts'
 import { PLAYGROUND_PAGE_IDS } from '../types/bundles.ts'
 import { type IWebsitePageState } from '../types/page.ts'
 
@@ -23,7 +24,7 @@ export function playgroundPage(pageState: IWebsitePageState, env: WebsiteEnviron
           return [
             c('dt', undefined,
               c(anchor, {
-                href: `/playground/${playgroundId}`,
+                href: `/playground/${snakeToKebabCase(playgroundId)}`,
                 isInternal: true,
               }),
             ),

@@ -1,6 +1,6 @@
 # Array sorting bundle
 
-This is the code for the array sorting visualization at https://ivasilev.net/playground/array_sorting
+This is the code for the array sorting visualization at https://ivasilev.net/playground/array-sorting
 
 The [root directory](../../../) contains references to important bits of documentation that may aid in understanding the code.
 

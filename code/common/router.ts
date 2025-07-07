@@ -11,6 +11,7 @@ import { includes } from './support/iteration.ts'
 import { type UrlPath } from './support/url_path.ts'
 import { ICON_REF_IDS, PLAYGROUND_PAGE_IDS } from './types/bundles.ts'
 import { type IWebsitePageState } from './types/page.ts'
+import { snakeToKebabCase } from './support/strings.ts'
 
 export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise<IWebsitePageState> {
   if (urlPath.path.isEmpty()) {
@@ -76,7 +77,7 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
   }
 
   for (const playgroundId of PLAYGROUND_PAGE_IDS) {
-    if (urlPath.path.matchFull('playground', playgroundId)) {
+    if (urlPath.path.matchFull('playground', snakeToKebabCase(playgroundId))) {
       if (env.isContentDynamic()) {
         return {
           titleSpec: { bundleId: playgroundId, key: 'title' },
