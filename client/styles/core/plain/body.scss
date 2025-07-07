@@ -56,7 +56,7 @@ body {
   position: relative;
   display: flex;
   flex-grow: 1;
-  justify-content: center;
+  justify-content: space-around;
   overflow-y: auto;
   container: page-scroll-container / size;
   overscroll-behavior-x: contain;
