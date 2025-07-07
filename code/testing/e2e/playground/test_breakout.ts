@@ -17,7 +17,7 @@ describe('Breakout page', function () {
 
     await page.finalize()
 
-    assert.equal(title, 'Breakout ⋅ Playground ⋅ Ianis Vasilev')
+    assert.equal(title, "Breakout ⋅ Playground ⋅ Ianis Vasilev's website")
     assertTrue(isAtPlaceholder)
     assertTrue(showsUnsupportedMessage)
   })
