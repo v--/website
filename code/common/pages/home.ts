@@ -25,48 +25,45 @@ export function homePage(pageState: IWebsitePageState, env: WebsiteEnvironment) 
       src: '/images/home_page_photo.jpg',
     }),
 
-    c('article', { class: 'home-page-about' },
-      c('section', { class: 'home-page-about-me' },
-        c('h1', { text: _('heading.about_me') }),
-        c(rich, { doc: _.rich$({ key: 'bio' }) }),
-      ),
+    c('section', { class: 'home-page-about' },
+      c('h1', { text: _('heading.about_me') }),
+      c(rich, { doc: _.rich$({ key: 'bio' }) }),
 
-      c('section', { class: 'home-page-about-website' },
-        c('h1', { text: _('heading.about_website') }),
-        c(rich, { doc: _.rich$({ key: 'website_description' }) }),
-        c('p', { text: _('page_list_prefix') }),
-        c('dl', undefined,
-          c('dt', undefined,
-            c(anchor, {
-              href: '/files',
-              isInternal: true,
-            }),
-          ),
-          c('dd', { text: _({ bundleId: 'core', key: 'description.files' }) }),
+      c('h1', { text: _('heading.about_website') }),
+      c(rich, { doc: _.rich$({ key: 'website_description' }) }),
 
-          c('dt', undefined,
-            c(anchor, {
-              href: '/pacman',
-              isInternal: true,
-            }),
-          ),
-          c('dd', { text: _({ bundleId: 'core', key: 'description.pacman' }) }),
-
-          c('dt', undefined,
-            c(anchor, {
-              href: '/playground',
-              isInternal: true,
-            }),
-          ),
-          c('dd', { text: _({ bundleId: 'core', key: 'description.playground' }) }),
-        ),
-        c(rich, {
-          doc: _.rich$({
-            key: 'website_code',
-            context: { projectUrl: GITHUB_PROJECT_URL },
+      c('p', { text: _('page_list_prefix') }),
+      c('dl', undefined,
+        c('dt', undefined,
+          c(anchor, {
+            href: '/files',
+            isInternal: true,
           }),
-        }),
+        ),
+        c('dd', { text: _({ bundleId: 'core', key: 'description.files' }) }),
+
+        c('dt', undefined,
+          c(anchor, {
+            href: '/pacman',
+            isInternal: true,
+          }),
+        ),
+        c('dd', { text: _({ bundleId: 'core', key: 'description.pacman' }) }),
+
+        c('dt', undefined,
+          c(anchor, {
+            href: '/playground',
+            isInternal: true,
+          }),
+        ),
+        c('dd', { text: _({ bundleId: 'core', key: 'description.playground' }) }),
       ),
+      c(rich, {
+        doc: _.rich$({
+          key: 'website_code',
+          context: { projectUrl: GITHUB_PROJECT_URL },
+        }),
+      }),
     ),
 
     c('section', { class: 'home-page-contacts' },

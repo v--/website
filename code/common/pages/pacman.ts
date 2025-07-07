@@ -12,7 +12,7 @@ export function pacmanPage({ pageData }: IWebsitePageState<IPacmanRepository>, e
   const _ = env.gettext.bindToBundle('pacman')
 
   return c('main', { class: 'pacman-page' },
-    c('article', undefined,
+    c('section', undefined,
       c('h1', { text: _('heading.main') }),
       c(rich, {
         doc: _.rich$({ key: 'main' }),

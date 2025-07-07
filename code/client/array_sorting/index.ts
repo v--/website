@@ -18,7 +18,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
 
   return c('main', { class: 'sorting-page' },
     c(rich, {
-      rootTag: 'article',
+      rootTag: 'section',
       doc: _.rich$(
         {
           key: 'text',

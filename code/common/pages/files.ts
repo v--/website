@@ -22,7 +22,7 @@ export function filesPage({ urlPath, pageData }: IWebsitePageState<IDirectory>, 
     c('div', { class: 'files-page-content' },
       entries.length > 0 && c(interactiveTable<IDirEntry>, { class: 'files-page-table delimited-table', data: entries, columnSpecs, urlPath }),
       readme && c(spacer, { dynamics: 'mp' }), // The spacer fits well even if there is no table
-      readme && c(rich, { rootTag: 'article', doc: readme }),
+      readme && c(rich, { rootTag: 'section', rootCssClass: 'files-page-content-readme', doc: readme }),
     ),
     c(rich, {
       doc: _.rich$({

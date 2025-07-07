@@ -54,7 +54,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
     },
     c(spacer, { dynamics: 'mf' }),
     c(rich, {
-      rootTag: 'article',
+      rootTag: 'section',
       doc: _.rich$({
         key: 'text',
         context: {

@@ -39,7 +39,7 @@ export class FilesPage extends BasePage {
   }
 
   getReadmeLocator() {
-    return this._pwPage.getByRole('article').first()
+    return this._pwPage.locator('.files-page-content-readme').first()
   }
 
   getTableLocator() {
