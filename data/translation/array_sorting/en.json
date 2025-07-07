@@ -15,7 +15,7 @@
       "",
       "Developed in 2014, with several refactorings since then.",
       "",
-      "The code can be found [on GitHub](${githubPageUrl})."
+      "The code can be found [on GitHub](${githubPageUrl}). The individual cards have links to their corresponding implementations."
     ]
   },
 
@@ -99,19 +99,9 @@
     "content": "Heapsort"
   },
 
-  "algorithm.heapsort.url": {
-    "entryKind": "plain",
-    "content": "https://en.wikipedia.org/wiki/Heapsort"
-  },
-
   "algorithm.merge.name": {
     "entryKind": "plain",
     "content": "Merge sort"
-  },
-
-  "algorithm.merge.url": {
-    "entryKind": "plain",
-    "content": "https://en.wikipedia.org/wiki/Merge_sort"
   },
 
   "algorithm.quicksort.name": {
@@ -119,19 +109,9 @@
     "content": "Quicksort"
   },
 
-  "algorithm.quicksort.url": {
-    "entryKind": "plain",
-    "content": "https://en.wikipedia.org/wiki/Quicksort"
-  },
-
   "algorithm.shellsort.name": {
     "entryKind": "plain",
     "content": "Shellsort"
-  },
-
-  "algorithm.shellsort.url": {
-    "entryKind": "plain",
-    "content": "https://en.wikipedia.org/wiki/Shellsort"
   },
 
   "algorithm.insertion.name": {
@@ -139,19 +119,9 @@
     "content": "Insertion sort"
   },
 
-  "algorithm.insertion.url": {
-    "entryKind": "plain",
-    "content": "https://en.wikipedia.org/wiki/Insertion_sort"
-  },
-
   "algorithm.selection.name": {
     "entryKind": "plain",
     "content": "Selection sort"
-  },
-
-  "algorithm.selection.url": {
-    "entryKind": "plain",
-    "content": "https://en.wikipedia.org/wiki/Selection_sort"
   },
 
   "algorithm.gnome.name": {
@@ -159,28 +129,13 @@
     "content": "Gnome sort"
   },
 
-  "algorithm.gnome.url": {
-    "entryKind": "plain",
-    "content": "https://en.wikipedia.org/wiki/Gnome_sort"
-  },
-
   "algorithm.cocktail.name": {
     "entryKind": "plain",
     "content": "Cocktail sort"
   },
 
-  "algorithm.cocktail.url": {
-    "entryKind": "plain",
-    "content": "https://en.wikipedia.org/wiki/Cocktail_shaker_sort"
-  },
-
   "algorithm.bubble.name": {
     "entryKind": "plain",
     "content": "Bubble sort"
-  },
-
-  "algorithm.bubble.url": {
-    "entryKind": "plain",
-    "content": "https://en.wikipedia.org/wiki/Bubble_sort"
   }
 }

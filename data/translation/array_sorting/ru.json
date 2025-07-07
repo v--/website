@@ -15,7 +15,7 @@
       "",
       "Разработано в 2014 году, с несколькими переработками.",
       "",
-      "Код можно найти [в GitHub](${githubPageUrl})."
+      "Код можно найти [в GitHub](${githubPageUrl}). Индивидуальные карты имеют ссылки на соответствующие реализации."
     ]
   },
 
@@ -99,19 +99,9 @@
     "content": "Метод кучей"
   },
 
-  "algorithm.heapsort.url": {
-    "entryKind": "plain",
-    "content": "https://ru.wikipedia.org/wiki/Пирамидальная_сортировка"
-  },
-
   "algorithm.merge.name": {
     "entryKind": "plain",
     "content": "Метод слияния"
-  },
-
-  "algorithm.merge.url": {
-    "entryKind": "plain",
-    "content": "https://ru.wikipedia.org/wiki/Сортировка_слиянием"
   },
 
   "algorithm.quicksort.name": {
@@ -119,19 +109,9 @@
     "content": "Метод Хоаре"
   },
 
-  "algorithm.quicksort.url": {
-    "entryKind": "plain",
-    "content": "https://ru.wikipedia.org/wiki/Быстрая_сортировка"
-  },
-
   "algorithm.shellsort.name": {
     "entryKind": "plain",
     "content": "Метод Шелла"
-  },
-
-  "algorithm.shellsort.url": {
-    "entryKind": "plain",
-    "content": "https://ru.wikipedia.org/wiki/Сортировка_Шелла"
   },
 
   "algorithm.insertion.name": {
@@ -139,19 +119,9 @@
     "content": "Метод вставок"
   },
 
-  "algorithm.insertion.url": {
-    "entryKind": "plain",
-    "content": "https://ru.wikipedia.org/wiki/Сортировка_вставками"
-  },
-
   "algorithm.selection.name": {
     "entryKind": "plain",
     "content": "Метод выбора"
-  },
-
-  "algorithm.selection.url": {
-    "entryKind": "plain",
-    "content": "https://ru.wikipedia.org/wiki/Сортировка_выбором"
   },
 
   "algorithm.gnome.name": {
@@ -159,28 +129,13 @@
     "content": "Метод гнома"
   },
 
-  "algorithm.gnome.url": {
-    "entryKind": "plain",
-    "content": "https://ru.wikipedia.org/wiki/Гномья_сортировка"
-  },
-
   "algorithm.cocktail.name": {
     "entryKind": "plain",
     "content": "Метод коктейля"
   },
 
-  "algorithm.cocktail.url": {
-    "entryKind": "plain",
-    "content": "https://ru.wikipedia.org/wiki/Сортировка_перемешиванием"
-  },
-
   "algorithm.bubble.name": {
     "entryKind": "plain",
     "content": "Метод пузыря"
-  },
-
-  "algorithm.bubble.url": {
-    "entryKind": "plain",
-    "content": "https://ru.wikipedia.org/wiki/Сортировка_пузырьком"
   }
 }

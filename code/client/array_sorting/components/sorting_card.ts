@@ -1,5 +1,6 @@
 import { anchor } from '../../../common/components/anchor.ts'
 import { rich } from '../../../common/components/rich.ts'
+import { GITHUB_PROJECT_CODE_URL } from '../../../common/constants/url.ts'
 import { EMPTY, map, switchMap, timeInterval } from '../../../common/observable.ts'
 import { createComponent as c } from '../../../common/rendering/component.ts'
 import { type ClientWebsiteEnvironment } from '../../core/environment.ts'
@@ -43,7 +44,7 @@ export function sortingCard({ algorithm, store }: IArraySortingCardState, env: C
   return c.html('div', { class: 'sorting-card' },
     c.html('h3', { class: 'sorting-card-title' },
       c.factory(anchor, {
-        href: _(`algorithm.${algorithm.id}.url`),
+        href: `${GITHUB_PROJECT_CODE_URL}/client/array_sorting/algorithms/${algorithm.id}.ts`,
         text: _(`algorithm.${algorithm.id}.name`),
       }),
     ),
