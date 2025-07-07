@@ -3,7 +3,6 @@ import { after, beforeEach, describe, it } from 'node:test'
 
 import { assertFalse, assertTrue } from '../assertion.ts'
 import { BasePage } from './base.ts'
-import { waitForStableState } from './support/locator.ts'
 
 describe('General website behavior', function () {
   describe('with only static settings', function () {
@@ -321,8 +320,7 @@ describe('General website behavior', function () {
       it('switches to Russian after clicking РУС', async function () {
         await page.goto('/')
         const buttons = page.getSidebarLanguageButtons()
-        await buttons.ru.click()
-        await page.waitWhileLoading()
+        await buttons.ru.click({ expectLoadingIndicator: true })
         const lang = await page.getLanguage()
         assert.equal(lang, 'ru')
       })
@@ -330,8 +328,7 @@ describe('General website behavior', function () {
       it('switches to English after clicking РУС and then ENG', async function () {
         await page.goto('/')
         const buttons = page.getSidebarLanguageButtons()
-        await buttons.ru.click()
-        await page.waitWhileLoading()
+        await buttons.ru.click({ expectLoadingIndicator: true })
         await buttons.en.click()
         const lang = await page.getLanguage()
         assert.equal(lang, 'en')

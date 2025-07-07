@@ -12,8 +12,13 @@ export class Button {
     this.locator = locator
   }
 
-  async click() {
+  async click({ expectLoadingIndicator }: { expectLoadingIndicator?: boolean } = {}) {
     await this.locator.click()
+
+    if (expectLoadingIndicator) {
+      await this.page.waitWhileLoading()
+    }
+
     await waitForStableState(this.locator)
   }
 

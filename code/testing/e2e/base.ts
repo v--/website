@@ -19,6 +19,8 @@ interface IBasePageOptions {
   reducedMotion?: 'reduce' | 'no-preference'
 }
 
+const LOADING_INDICATOR_WAIT_TIMEOUT = 1000
+
 export class BasePage implements IFinalizeable {
   static async initialize<PageT extends BasePage>(options?: IBasePageOptions): Promise<PageT> {
     const browser = await BROWSER.launch()
@@ -88,7 +90,12 @@ export class BasePage implements IFinalizeable {
   }
 
   async waitWhileLoading() {
-    await this.getLoadingIndicatorLocator().waitFor({ state: 'visible' })
+    try {
+      await this.getLoadingIndicatorLocator().waitFor({ state: 'visible', timeout: LOADING_INDICATOR_WAIT_TIMEOUT })
+    } catch (err) {
+      // Ignore timeout error
+    }
+
     await this.getLoadingIndicatorLocator().waitFor({ state: 'hidden' })
   }
 
