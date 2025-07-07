@@ -68,7 +68,7 @@ function* iterBuildManagers({ loggerLevel, sourceMaps, sync, prod }: GetBuildMan
         destBase: 'public/images/previews',
         faviconFilePath: 'client/svg/favicon.svg',
         backgroundFilePath: 'data/previews/open_graph_background.svg',
-        fontFile: 'data/previews/pt-root-ui_regular.otf',
+        fontFile: 'data/previews/pt-sans_regular.ttf',
       }),
       paths: ['data/previews/index.json'],
       loggerLevel, sync,

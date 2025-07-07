@@ -75,7 +75,7 @@ export class PreviewBuildWorker implements IBuildWorker {
 
         const resvg = new Resvg(svgString, {
           font: {
-            defaultFontFamily: 'PT Root UI',
+            defaultFontFamily: 'PT Sans',
             fontFiles: [this.config.fontFile],
             loadSystemFonts: false,
           },
