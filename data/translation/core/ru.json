@@ -1,4 +1,14 @@
 {
+  "global_title_suffix": {
+    "entryKind": "plain",
+    "content": "Янис Василев"
+  },
+
+  "playground_title_suffix": {
+    "entryKind": "plain",
+    "content": "Мастерская"
+  },
+
   "sidebar.button.collapse": {
     "entryKind": "plain",
     "content": "Уменьшить меню"
@@ -95,17 +105,17 @@
 
   "description.home": {
     "entryKind": "plain",
-    "content": "Домашняя страница личного сайта Яниса Василева."
+    "content": "Домашняя страница личного сайта."
   },
 
   "description.files": {
     "entryKind": "plain",
-    "content": "Навигатор для файлов, которыми я делюсь публично."
+    "content": "Навигатор для публично доступных файлов."
   },
 
   "description.pacman": {
     "entryKind": "plain",
-    "content": "Личное хранилище для pacman."
+    "content": "Личное хранилище для системы pacman из Arch Linux."
   },
 
   "description.playground": {

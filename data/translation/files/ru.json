@@ -1,10 +1,15 @@
 {
-  "title": {
+  "page_title": {
     "entryKind": "plain",
     "content": "Индекс ${path}"
   },
 
-  "heading": {
+  "page_title_suffix": {
+    "entryKind": "plain",
+    "content": "Файловый сервер"
+  },
+
+  "heading.main": {
     "entryKind": "plain",
     "content": "Файловый навигатор"
   },

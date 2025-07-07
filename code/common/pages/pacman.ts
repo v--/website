@@ -15,7 +15,7 @@ export function pacmanPage({ pageData }: IWebsitePageState<IPacmanRepository>, e
     c.html('section', undefined,
       c.html('h1', { text: _('heading.main') }),
       c.factory(rich, {
-        doc: _.rich$({ key: 'main' }),
+        doc: _.rich$('text'),
       }),
       c.html('pre', undefined,
         c.html('code', {

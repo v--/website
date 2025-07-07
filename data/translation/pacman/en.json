@@ -1,24 +1,34 @@
 {
-  "title": {
+  "page_title": {
     "entryKind": "plain",
     "content": "Pacman repository"
   },
+
   "heading.main": {
     "entryKind": "plain",
     "content": "Pacman repository"
   },
+
   "heading.packages": {
     "entryKind": "plain",
     "content": "Packages"
   },
-  "main": {
+
+  "text": {
     "entryKind": "rich",
-    "content": "The repository contains a variety of packages; mostly my own software and AUR builds. You can leave the variable `$arch` as-is, or you can replace it with a supported architecture - `any` or `x86_64`."
+    "content": [
+      "This is a repository for Arch Linux' [pacman](https://wiki.archlinux.org/title/Pacman) package manager.",
+      "It contains a variety of packages; mostly my own software and AUR builds.",
+      "",
+      "You can leave the variable `$arch` as-is, or you can replace it with a supported architecture - `any` or `x86_64`."
+    ]
   },
+
   "openpgp": {
     "entryKind": "rich",
     "content": "All packages are signed and can be verified using my OpenPGP public key [`${keyName}`](${keyUrl})."
   },
+
   "version": {
     "entryKind": "plain",
     "content": "${name} (version ${version})"

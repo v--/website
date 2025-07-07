@@ -1,10 +1,15 @@
 {
-  "title": {
+  "page_title": {
     "entryKind": "plain",
     "content": "Index of ${path}"
   },
 
-  "heading": {
+  "page_title_suffix": {
+    "entryKind": "plain",
+    "content": "File server"
+  },
+
+  "heading.main": {
     "entryKind": "plain",
     "content": "File explorer"
   },

@@ -1,14 +1,4 @@
 {
-  "title": {
-    "entryKind": "plain",
-    "content": "Home page"
-  },
-
-  "description": {
-    "entryKind": "plain",
-    "content": "Home page of Ianis Vasilev's personal website."
-  },
-
   "heading.about_me": {
     "entryKind": "plain",
     "content": "About me"

@@ -1,4 +1,14 @@
 {
+  "global_title_suffix": {
+    "entryKind": "plain",
+    "content": "Ianis Vasilev"
+  },
+
+  "playground_title_suffix": {
+    "entryKind": "plain",
+    "content": "Playground"
+  },
+
   "sidebar.button.collapse": {
     "entryKind": "plain",
     "content": "Collapse sidebar"
@@ -95,17 +105,17 @@
 
   "description.home": {
     "entryKind": "plain",
-    "content": "Home page of Ianis Vasilev's personal website."
+    "content": "A personal website's home page."
   },
 
   "description.files": {
     "entryKind": "plain",
-    "content": "An explorer for files I want to share publicly."
+    "content": "An explorer for publicly shared files."
   },
 
   "description.pacman": {
     "entryKind": "plain",
-    "content": "A personal pacman repository."
+    "content": "A personal repository for Arch Linux' pacman."
   },
 
   "description.playground": {

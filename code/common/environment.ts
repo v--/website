@@ -52,7 +52,11 @@ export abstract class WebsiteEnvironment implements IFinalizeable {
   async preloadPageData(pageState: IWebsitePageState) {
     const currentLanguage = this.gettext.getCurrentLanguage()
     const bundleIds = new Set(pageState.translationBundleIds)
-    bundleIds.add(pageState.titleSpec.bundleId)
+
+    for (const spec of pageState.titleSegmentSpecs) {
+      bundleIds.add(spec.bundleId)
+    }
+
     bundleIds.add(pageState.descriptionSpec.bundleId)
 
     await this.preloadTranslationPackage(currentLanguage, Array.from(bundleIds))

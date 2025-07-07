@@ -16,7 +16,7 @@ import { type IWebsitePageState } from './types/page.ts'
 export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise<IWebsitePageState> {
   if (urlPath.path.isEmpty()) {
     return {
-      titleSpec: { bundleId: 'home', key: 'title' },
+      titleSegmentSpecs: [{ bundleId: 'core', key: 'global_title_suffix' }],
       descriptionSpec: { bundleId: 'core', key: 'description.home' },
       bundleId: 'core',
       sidebarId: 'home',
@@ -34,7 +34,11 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
     const path = urlPath.path.popLeft(1)
 
     return {
-      titleSpec: { bundleId: 'files', key: 'title', context: { path: urlPath.path.toString() } },
+      titleSegmentSpecs: [
+        { bundleId: 'files', key: 'page_title', context: { path: urlPath.path.toString() } },
+        { bundleId: 'files', key: 'page_title_suffix' },
+        { bundleId: 'core', key: 'global_title_suffix' },
+      ],
       descriptionSpec: { bundleId: 'core', key: 'description.files' },
       bundleId: 'core',
       sidebarId: 'files',
@@ -50,7 +54,10 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
 
   if (urlPath.path.matchFull('pacman')) {
     return {
-      titleSpec: { bundleId: 'pacman', key: 'title' },
+      titleSegmentSpecs: [
+        { bundleId: 'pacman', key: 'page_title' },
+        { bundleId: 'core', key: 'global_title_suffix' },
+      ],
       descriptionSpec: { bundleId: 'core', key: 'description.pacman' },
       bundleId: 'core',
       sidebarId: 'pacman',
@@ -65,7 +72,10 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
 
   if (urlPath.path.matchFull('playground')) {
     return {
-      titleSpec: { bundleId: 'playground', key: 'title' },
+      titleSegmentSpecs: [
+        { bundleId: 'core', key: 'playground_title_suffix' },
+        { bundleId: 'core', key: 'global_title_suffix' },
+      ],
       descriptionSpec: { bundleId: 'core', key: 'description.playground' },
       bundleId: 'core',
       translationBundleIds: ['playground'],
@@ -78,32 +88,34 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
 
   for (const playgroundId of PLAYGROUND_PAGE_IDS) {
     if (urlPath.path.matchFull('playground', snakeToKebabCase(playgroundId))) {
+      const baseState: Omit<IWebsitePageState, 'translationBundleIds' | 'iconRefIds' | 'page'> = {
+        titleSegmentSpecs: [
+          { bundleId: playgroundId, key: 'page_title' },
+          { bundleId: 'core', key: 'playground_title_suffix' },
+          { bundleId: 'core', key: 'global_title_suffix' },
+        ],
+        descriptionSpec: { bundleId: 'core', key: `description.playground.${playgroundId}` },
+        bundleId: playgroundId,
+        sidebarId: 'playground',
+        previewImageName: playgroundId,
+        pageData: undefined,
+        urlPath,
+      }
+
       if (env.isContentDynamic()) {
         return {
-          titleSpec: { bundleId: playgroundId, key: 'title' },
-          descriptionSpec: { bundleId: 'core', key: `description.playground.${playgroundId}` },
-          bundleId: playgroundId,
-          sidebarId: 'playground',
+          ...baseState,
           translationBundleIds: [playgroundId],
           iconRefIds: includes(ICON_REF_IDS, playgroundId) ? ['playground_menu', playgroundId] : ['playground_menu'],
-          previewImageName: playgroundId,
           page: await env.services.page.retrievePlaygroundPage(playgroundId),
-          pageData: undefined,
-          urlPath,
         }
       }
 
       return {
-        titleSpec: { bundleId: playgroundId, key: 'title' },
-        descriptionSpec: { bundleId: 'core', key: `description.playground.${playgroundId}` },
-        bundleId: playgroundId,
-        sidebarId: 'playground',
+        ...baseState,
         translationBundleIds: ['placeholder'],
         iconRefIds: ['placeholder'],
-        previewImageName: playgroundId,
         page: placeholder,
-        pageData: undefined,
-        urlPath,
       }
     }
   }
@@ -117,7 +129,8 @@ export function createEncodedErrorState(urlPath: UrlPath, encoded: IEncodedError
   return {
     bundleId: 'core',
     translationBundleIds: decoder.getBundleIds(),
-    titleSpec: decoder.getTitleSpec(),
+    // We do not put the global title suffix here on purpose
+    titleSegmentSpecs: [decoder.getTitleSpec()],
     descriptionSpec: decoder.getSubtitleSpec(),
     previewImageName: 'error',
     page: errorPage,

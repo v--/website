@@ -1,24 +1,34 @@
 {
-  "title": {
+  "page_title": {
     "entryKind": "plain",
-    "content": "Хралинище для pacman"
+    "content": "Pacman хралинище"
   },
+
   "heading.main": {
     "entryKind": "plain",
-    "content": "Хралинище для pacman"
+    "content": "Pacman хралинище"
   },
+
   "heading.packages": {
     "entryKind": "plain",
     "content": "Пакеты"
   },
-  "main": {
+
+  "text": {
     "entryKind": "rich",
-    "content": "Данное хранилище содержит множество пакетов; в основном мои собственные программы и построенные пакеты из AUR. Переменную `$arch` можно оставить как есть, а можно заменить на поддерживаемую архитектуру - `any` или `x86_64`."
+    "content": [
+      "Это хранилище для системы [pacman](https://wiki.archlinux.org/title/Pacman_(Русский)) из Arch Linux.",
+      "Оно содержит множество пакетов; в основном мои собственные программы и построенные пакеты из AUR.",
+      "",
+      "Переменную `$arch` можно оставить как есть, а можно заменить на поддерживаемую архитектуру - `any` или `x86_64`."
+    ]
   },
+
   "openpgp": {
     "entryKind": "rich",
     "content": "Все пакеты подписаны и могут быть верифицированы с помощью моего публичного OpenPGP ключа [`${keyName}`](${keyUrl})."
   },
+
   "version": {
     "entryKind": "plain",
     "content": "${name} (версия ${version})"

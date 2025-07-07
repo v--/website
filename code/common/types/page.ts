@@ -19,7 +19,7 @@ export interface IPreloadSpec {
 export type DefaultPageData = any
 
 export interface IWebsitePageState<T = DefaultPageData> {
-  titleSpec: ITranslationSpec
+  titleSegmentSpecs: ITranslationSpec[]
   descriptionSpec: ITranslationSpec
 
   bundleId: BundleId

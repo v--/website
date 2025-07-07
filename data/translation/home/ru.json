@@ -1,14 +1,4 @@
 {
-  "title": {
-    "entryKind": "plain",
-    "content": "Домашняя страница"
-  },
-
-  "description": {
-    "entryKind": "plain",
-    "content": "Домашняя страница личного сайта Яниса Василева."
-  },
-
   "heading.about_me": {
     "entryKind": "plain",
     "content": "Обо мне"

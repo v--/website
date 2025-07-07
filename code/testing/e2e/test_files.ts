@@ -26,20 +26,20 @@ describe('Files page', function () {
       it('renders the title correctly', async function () {
         await page.goto('/files')
         const title = await page.getTitle()
-        assert.equal(title, 'Index of /files | ivasilev.net')
+        assert.equal(title, 'Index of /files ⋅ File server ⋅ Ianis Vasilev')
       })
 
       it('setting the "page" query parameter does not change the title', async function () {
         await page.goto('/files?page=2')
         const title = await page.getTitle()
-        assert.equal(title, 'Index of /files | ivasilev.net')
+        assert.equal(title, 'Index of /files ⋅ File server ⋅ Ianis Vasilev')
       })
 
       describe('title', function () {
         it('updates the title when navigating to /sub/subsub', async function () {
           await page.goto('/files/sub/subsub')
           const title = await page.getTitle()
-          assert.equal(title, 'Index of /files/sub/subsub | ivasilev.net')
+          assert.equal(title, 'Index of /files/sub/subsub ⋅ File server ⋅ Ianis Vasilev')
         })
 
         it('errors out with 404 on an invalid subpath', async function () {

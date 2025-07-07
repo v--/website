@@ -17,7 +17,7 @@ export function filesPage({ urlPath, pageData }: IWebsitePageState<IDirectory>, 
   const { entries, readme } = pageData
 
   return c.html('main', { class: 'files-page' },
-    c.html('h1', { text: _('heading') }),
+    c.html('h1', { text: _('heading.main') }),
     c.factory(breadcrumbNavigation, { urlPath }),
     c.html('div', { class: 'files-page-content' },
       entries.length > 0 && c.factory(interactiveTable<IDirEntry>, { class: 'files-page-table delimited-table', data: entries, columnSpecs, urlPath }),
