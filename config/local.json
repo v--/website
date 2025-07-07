@@ -12,7 +12,7 @@
       "dbPath": "./mocks/ivasilev.db"
     },
     "icons": {
-      "root": "./private/iconref"
+      "root": "./private/icon_ref"
     },
     "translation": {
       "root": "./private/translation"

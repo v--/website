@@ -44,7 +44,7 @@ It is quite hacky, but it works well enough. We embed two SVG images, a favicon 
 
 ### Icon references
 
-In order to build [`IIconSpec`](../common/icon_store/types.ts) objects, the [IconRef worker](./workers/icon_refs.ts) relies on a directory of JSON files, [`../../data/iconref`](../../data/iconref). Each of the files is a list of [FontAwesome](https://fontawesome.com/) icon names. The icon builder extracts the viewBox and path specification for each icon and dumps them in the format used by the website.
+In order to build [`IIconSpec`](../common/icon_store/types.ts) objects, the [IconRef worker](./workers/icon_refs.ts) relies on a directory of JSON files, [`../../data/icon_ref`](../../data/icon_ref). Each of the files is a list of [FontAwesome](https://fontawesome.com/) icon names. The icon builder extracts the viewBox and path specification for each icon and dumps them in the format used by the website.
 
 Icon references are discussed in [`../common/icon_store`](../common/icon_store).
 

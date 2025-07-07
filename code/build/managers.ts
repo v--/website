@@ -82,8 +82,8 @@ function* iterBuildManagers({ loggerLevel, sourceMaps, sync, prod }: GetBuildMan
   })
 
   yield new BuildManager({
-    builder: new IconRefBuildWorker({ srcBase: 'data/iconref', destBase: 'private/iconref' }),
-    paths: ['data/iconref'],
+    builder: new IconRefBuildWorker({ srcBase: 'data/icon_ref', destBase: 'private/icon_ref' }),
+    paths: ['data/icon_ref'],
     ext: ['.json'],
     loggerLevel, sync,
   })
