@@ -17,7 +17,7 @@ export function* iterOpenGraphTags(gettext: GetText, pageState: IWebsitePageStat
 
   yield {
     name: 'og:title',
-    content: gettext.plain(pageState.titleSpec),
+    content: pageState.titleSegmentSpecs.map(spec => gettext.plain(spec)).join(' ⋅ '),
   }
 
   yield {
@@ -29,7 +29,7 @@ export function* iterOpenGraphTags(gettext: GetText, pageState: IWebsitePageStat
 
   yield {
     name: 'og:image',
-    content: `/images/previews/${currentLang}/${pageState.previewImageName}.png`,
+    content: `/images/open_graph/${currentLang}/${pageState.ogImageName}.png`,
   }
 
   for (const lang of LANGUAGE_IDS) {

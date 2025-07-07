@@ -6,7 +6,7 @@ import { BuildManager } from './build_manager.ts'
 import { AssetIBuildWorker } from './workers/assets.ts'
 import { CodeBuildWorker } from './workers/code.ts'
 import { IconRefBuildWorker } from './workers/icon_refs.ts'
-import { PreviewBuildWorker } from './workers/previews.ts'
+import { OGImageBuildWorker } from './workers/og_image.ts'
 import { StyleBuildWorker } from './workers/style.ts'
 import { SvgOptBuildWorker } from './workers/svg_opt.ts'
 import { SvgRenderBuildWorker } from './workers/svg_render.ts'
@@ -63,14 +63,14 @@ function* iterBuildManagers({ loggerLevel, sourceMaps, sync, prod }: GetBuildMan
 
   if (prod) {
     yield new BuildManager({
-      builder: new PreviewBuildWorker({
-        srcBase: 'data/previews',
-        destBase: 'public/images/previews',
+      builder: new OGImageBuildWorker({
+        srcBase: 'data/og_images',
+        destBase: 'public/images/open_graph',
         faviconFilePath: 'client/svg/favicon.svg',
-        backgroundFilePath: 'data/previews/open_graph_background.svg',
-        fontFile: 'data/previews/pt-sans_regular.ttf',
+        backgroundFilePath: 'data/og_images/open_graph_background.svg',
+        fontFile: 'data/og_images/pt-sans_regular.ttf',
       }),
-      paths: ['data/previews/index.json'],
+      paths: ['data/og_images/index.json'],
       loggerLevel, sync,
     })
   }

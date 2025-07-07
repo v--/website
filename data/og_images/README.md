@@ -1,6 +1,6 @@
-# Preview generation
+# Open graph image generation
 
-This is template data required to generate [Open Graph protocol](https://ogp.me/) images for the different pages. For the build process, see [here](../../code/build#previews).
+This is template data required to generate [Open Graph protocol](https://ogp.me/) images for the different pages. For the build process, see [here](../../code/build#og-images).
 
 ## PT Sans
 

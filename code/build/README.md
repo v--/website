@@ -36,11 +36,11 @@ The [style worker](./workers/styles.ts) uses [Dart Sass](https://sass-lang.com/d
 
 There are [SVG rendering](./workers/svg_render.ts) and [SVG optimization](./workers/svg_opt.ts) workers for, unsurprisingly, SVG files.
 
-### Previews
+### Open graph images
 
-There is a [generator](./workers/previews.ts) for [Open Graph protocol](https://ogp.me/) images, which we call here "previews" for simplicity.
+There is a [generator](./workers/og_images.ts) for [Open Graph protocol](https://ogp.me/) images.
 
-It is quite hacky, but it works well enough. We embed two SVG images, a favicon and a background, into an SVG template string within the code itself, and add internationalized text based on the `index.json` file in [`../data/previews`](../data/previews). The resulting SVG is then rendered to PNG via the [resvg-js](https://github.com/thx/resvg-js) library.
+It is quite hacky, but it works well enough. We embed two SVG images, a favicon and a background, into an SVG template string within the code itself, and add internationalized text based on the `index.json` file in [`../data/og_images`](../data/og_images). The resulting SVG is then rendered to PNG via the [resvg-js](https://github.com/thx/resvg-js) library.
 
 ### Icon references
 

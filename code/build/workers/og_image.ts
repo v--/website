@@ -6,14 +6,15 @@ import { Resvg } from '@resvg/resvg-js'
 import { dedent } from '../../common/support/dedent.ts'
 import { getObjectEntries } from '../../common/support/iteration.ts'
 import { LANGUAGE_IDS, type LanguageId } from '../../common/translation.ts'
+import { OPEN_GRAPH_IMAGE_IDS } from '../../common/types/bundles.ts'
 import { Schema } from '../../common/validation.ts'
 import { readJsonWithSchema } from '../../server/validation.ts'
 import { type IBuildContext, type IBuildWorker } from '../build_worker.ts'
 import { BuildError } from '../errors.ts'
 
-export class PreviewBuildError extends BuildError {}
+export class OGImageBuildError extends BuildError {}
 
-export interface IPreviewBuildWorkerConfig {
+export interface IOGImageBuildWorkerConfig {
   srcBase: string
   destBase: string
   backgroundFilePath: string
@@ -22,7 +23,7 @@ export interface IPreviewBuildWorkerConfig {
 }
 
 const PREVIEW_GENERATION_SOURCE_SCHEMA = Schema.record(
-  Schema.string,
+  Schema.literal(...OPEN_GRAPH_IMAGE_IDS),
   Schema.record(
     Schema.literal(...LANGUAGE_IDS),
     Schema.string,
@@ -37,10 +38,10 @@ const FAVICON_SOURCE_DIAMETER = 96
 const FAVICON_SCALE = 2.2
 const FONT_SIZE = 90
 
-export class PreviewBuildWorker implements IBuildWorker {
-  readonly config: IPreviewBuildWorkerConfig
+export class OGImageBuildWorker implements IBuildWorker {
+  readonly config: IOGImageBuildWorkerConfig
 
-  constructor(config: IPreviewBuildWorkerConfig) {
+  constructor(config: IOGImageBuildWorkerConfig) {
     this.config = config
   }
 
@@ -59,11 +60,11 @@ export class PreviewBuildWorker implements IBuildWorker {
   }
 
   async* performBuild(src: string): AsyncIterable<IBuildContext> {
-    const previewSource = await readJsonWithSchema(PREVIEW_GENERATION_SOURCE_SCHEMA, src)
+    const og_imageSource = await readJsonWithSchema(PREVIEW_GENERATION_SOURCE_SCHEMA, src)
     const backgroundTag = await this.extractFileSvgTag(this.config.backgroundFilePath)
     const faviconTag = await this.extractFileSvgTag(this.config.faviconFilePath)
 
-    for (const [name, texts] of getObjectEntries(previewSource)) {
+    for (const [name, texts] of getObjectEntries(og_imageSource)) {
       for (const [lang, text] of getObjectEntries(texts)) {
         const svgString = dedent(`\
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${IMAGE_WIDTH} ${IMAGE_HEIGHT}">
@@ -97,7 +98,7 @@ function extractSvgTag(svgString: string) {
   const match = svgString.match(/(?<tag><svg.*<\/svg>)/ms)
 
   if (match === null || match.groups === undefined) {
-    throw new PreviewBuildError('Could not extract the SVG tag from an SVG file')
+    throw new OGImageBuildError('Could not extract the SVG tag from an SVG file')
   }
 
   return match.groups.tag

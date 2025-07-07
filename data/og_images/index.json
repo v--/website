@@ -1,0 +1,22 @@
+{
+  "error": {
+    "en": "Error",
+    "ru": "Ошибка"
+  },
+  "home": {
+    "en": "Ianis Vasilev",
+    "ru": "Янис Василев"
+  },
+  "files": {
+    "en": "File server",
+    "ru": "Файловый сервер"
+  },
+  "pacman": {
+    "en": "Pacman repository",
+    "ru": "Pacman хранилище"
+  },
+  "playground": {
+    "en": "Playground",
+    "ru": "Мастерская"
+  }
+}

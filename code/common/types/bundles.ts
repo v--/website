@@ -40,3 +40,13 @@ export const TRANSLATION_BUNDLE_IDS = [
 ] as const
 
 export type TranslationBundleId = typeof TRANSLATION_BUNDLE_IDS[uint32]
+
+export const OPEN_GRAPH_IMAGE_IDS = [
+  'error',
+  'home',
+  'files',
+  'pacman',
+  'playground',
+] as const
+
+export type OpenGraphImageId = typeof OPEN_GRAPH_IMAGE_IDS[uint32]
