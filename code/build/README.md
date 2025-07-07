@@ -40,7 +40,7 @@ There are [SVG rendering](./workers/svg_render.ts) and [SVG optimization](./work
 
 There is a [generator](./workers/og_images.ts) for [Open Graph protocol](https://ogp.me/) images.
 
-It is quite hacky, but it works well enough. We embed two SVG images, a favicon and a background, into an SVG template string within the code itself, and add internationalized text based on the `index.json` file in [`../data/og_images`](../data/og_images). The resulting SVG is then rendered to PNG via the [resvg-js](https://github.com/thx/resvg-js) library.
+We take an SVG image with a `${title}` string and replace that string with internationalized text based on the `config.json` file in [`../data/og_images`](../data/og_images). The resulting SVG is then rendered to PNG via the [resvg-js](https://github.com/thx/resvg-js) library.
 
 ### Icon references
 

@@ -63,14 +63,8 @@ function* iterBuildManagers({ loggerLevel, sourceMaps, sync, prod }: GetBuildMan
 
   if (prod) {
     yield new BuildManager({
-      builder: new OGImageBuildWorker({
-        srcBase: 'data/og_images',
-        destBase: 'public/images/open_graph',
-        faviconFilePath: 'client/svg/favicon.svg',
-        backgroundFilePath: 'data/og_images/open_graph_background.svg',
-        fontFile: 'data/og_images/pt-sans_regular.ttf',
-      }),
-      paths: ['data/og_images/index.json'],
+      builder: new OGImageBuildWorker({ srcBase: 'data/og_images', destBase: 'public/images/open_graph' }),
+      paths: ['data/og_images/config.json'],
       loggerLevel, sync,
     })
   }

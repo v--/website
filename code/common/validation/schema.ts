@@ -88,7 +88,7 @@ export class LiteralTypeSchema<Values extends Array<float64 | string>> extends T
   }
 
   override toString(_indentation?: uint32) {
-    return `Schema.lit(${this.values.map(v => repr(v)).join(', ')})`
+    return `Schema.literal(${this.values.map(v => repr(v)).join(', ')})`
   }
 }
 

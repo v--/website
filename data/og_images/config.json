@@ -1,0 +1,29 @@
+{
+  "fontPath": "pt-sans_regular.ttf",
+  "templatePaths": {
+    "en": "./template_en.svg",
+    "ru": "./template_ru.svg"
+  },
+  "titles": {
+    "error": {
+      "en": "Error",
+      "ru": "Ошибка"
+    },
+    "home": {
+      "en": "Home page",
+      "ru": "Домашняя страница"
+    },
+    "files": {
+      "en": "File server",
+      "ru": "Файловый сервер"
+    },
+    "pacman": {
+      "en": "Pacman repository",
+      "ru": "Pacman хранилище"
+    },
+    "playground": {
+      "en": "Playground",
+      "ru": "Мастерская"
+    }
+  }
+}
