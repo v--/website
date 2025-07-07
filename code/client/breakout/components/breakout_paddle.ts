@@ -1,4 +1,4 @@
-import { s } from '../../../common/rendering/component.ts'
+import { createComponent as c } from '../../../common/rendering/component.ts'
 import { type float64 } from '../../../common/types/numbers.ts'
 import { PADDLE_HEIGHT, PADDLE_WIDTH, STAGE } from '../constants.ts'
 
@@ -7,7 +7,7 @@ interface IBreakoutPaddleState {
 }
 
 export function breakoutPaddle({ center }: IBreakoutPaddleState) {
-  return s('ellipse', {
+  return c.svg('ellipse', {
     class: 'breakout-paddle',
     cx: String(center),
     cy: String(STAGE.getBottomPos()),

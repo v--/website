@@ -1,7 +1,7 @@
 import { checkbox } from '../../../common/components/checkbox.ts'
 import { rich } from '../../../common/components/rich.ts'
 import { verticalTable } from '../../../common/components/vertical_table.ts'
-import { c } from '../../../common/rendering/component.ts'
+import { createComponent as c } from '../../../common/rendering/component.ts'
 import { mathml } from '../../../common/rich.ts'
 import { snakeToKebabCase } from '../../../common/support/strings.ts'
 import { type ClientWebsiteEnvironment } from '../../core/environment.ts'
@@ -16,8 +16,8 @@ interface IInterpolationLegendState {
 export function interpolationLegendTable({ interpolated, visible, toggleVisibility }: IInterpolationLegendState, env: ClientWebsiteEnvironment) {
   const _ = env.gettext.bindToBundle('univariate_interpolation')
 
-  return c('div', { class: 'interpolation-legend-table-wrapper' },
-    c(verticalTable<IInterpolatedFunction>, {
+  return c.html('div', { class: 'interpolation-legend-table-wrapper' },
+    c.factory(verticalTable<IInterpolatedFunction>, {
       tableClass: 'interpolation-legend-table',
       columnSpecs: [
         {
@@ -27,7 +27,7 @@ export function interpolationLegendTable({ interpolated, visible, toggleVisibili
           value({ interpolator }: IInterpolatedFunction) {
             const kebabCase = snakeToKebabCase(interpolator.id)
 
-            return c(checkbox, {
+            return c.factory(checkbox, {
               name: `interpolation-legend-${kebabCase}`,
               value: visible[interpolator.id],
               labelClass: `interpolation-legend-table-control interpolator-${kebabCase}`,
@@ -43,7 +43,7 @@ export function interpolationLegendTable({ interpolated, visible, toggleVisibili
           label: { bundleId: 'univariate_interpolation', key: 'legend_table.heading.expression' },
           class: 'col-expression',
           value({ fun }: IInterpolatedFunction) {
-            return c(rich, {
+            return c.factory(rich, {
               mode: 'mathml',
               doc: {
                 kind: 'document',

@@ -1,6 +1,7 @@
 import { Component, type IComponentEnvironment, type IComponentState } from './component.ts'
 import { InvalidComponentError } from './errors.ts'
 import { repr } from '../../support/strings.ts'
+import { type uint32 } from '../../types/numbers.ts'
 
 export type IFactoryComponentState = NonNullable<IComponentState>
 
@@ -11,8 +12,11 @@ export interface FactoryComponentType<
   (state: StateT, env: EnvT, children: Component[]): Component | Promise<Component>
 }
 
-export class FactoryComponent<StateT extends IFactoryComponentState = IFactoryComponentState> extends Component<FactoryComponentType<StateT>> {
-  async evaluate(state: StateT, env: IComponentEnvironment): Promise<Component> {
+export class FactoryComponent<
+  StateT extends IFactoryComponentState = IFactoryComponentState,
+  EnvT extends IComponentEnvironment = IComponentEnvironment,
+> extends Component<FactoryComponentType<StateT, EnvT>> {
+  async evaluate(state: StateT, env: EnvT): Promise<Component> {
     const component = await this.type(state, env, Array.from(this.iterChildren()))
 
     if (!(component instanceof Component)) {
@@ -20,5 +24,9 @@ export class FactoryComponent<StateT extends IFactoryComponentState = IFactoryCo
     }
 
     return component
+  }
+
+  override toString(indentation?: uint32) {
+    return super.toString(indentation, 'c.factory')
   }
 }

@@ -4,7 +4,7 @@ import { type ClientLogger } from './logger.ts'
 import { body } from '../../common/components/body.ts'
 import { title } from '../../common/components/title.ts'
 import { Observable, ReplaySubject, Subject, SubscriptionObserver } from '../../common/observable.ts'
-import { type FactoryComponent, c } from '../../common/rendering/component.ts'
+import { type FactoryComponent, createComponent as c } from '../../common/rendering/component.ts'
 import { RenderingManager } from '../../common/rendering/manager.ts'
 import { createEncodedErrorState, createErrorState, router } from '../../common/router.ts'
 import { AsyncLock } from '../../common/support/async_lock.ts'
@@ -17,8 +17,8 @@ export class ClientRoutingService implements IFinalizeable {
   readonly logger: ClientLogger
   readonly manipulator: DomManipulator
   readonly renderManager: RenderingManager<Element>
-  readonly bodyComponent: FactoryComponent<IWebsitePageState>
-  readonly titleComponent: FactoryComponent<IWebsitePageState>
+  readonly bodyComponent: FactoryComponent<IWebsitePageState, ClientWebsiteEnvironment>
+  readonly titleComponent: FactoryComponent<IWebsitePageState, ClientWebsiteEnvironment>
   readonly unload$: Observable<void>
 
   #pageState$ = new ReplaySubject<IWebsitePageState>()
@@ -32,8 +32,8 @@ export class ClientRoutingService implements IFinalizeable {
     this.manipulator = new DomManipulator(logger)
     this.renderManager = new RenderingManager(logger, this.manipulator, env)
 
-    this.titleComponent = c(title, this.#pageState$)
-    this.bodyComponent = c(body, this.#pageState$)
+    this.titleComponent = c.factory(title, this.#pageState$)
+    this.bodyComponent = c.factory(body, this.#pageState$)
 
     this.unload$ = this.#unload$
   }

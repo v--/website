@@ -1,6 +1,6 @@
 import { type WebsiteEnvironment } from '../environment.ts'
 import { type Observable } from '../observable.ts'
-import { Component, c } from '../rendering/component.ts'
+import { Component, createComponent as c } from '../rendering/component.ts'
 import { classlist } from '../support/dom_properties.ts'
 import { getObjectEntries } from '../support/iteration.ts'
 import { type IVerticalTableColumnSpec } from '../types/vertical_table.ts'
@@ -13,12 +13,12 @@ interface IVerticalTableState<T> {
 }
 
 export function verticalTable<T = unknown>({ tableClass, columnSpecs, data, style }: IVerticalTableState<T>, env: WebsiteEnvironment) {
-  return c('table', { class: classlist('vertical-table', 'delimited-table', tableClass), style },
-    c('thead', undefined,
-      c('tr', undefined, ...iterHeaderColumns(columnSpecs, env)),
+  return c.html('table', { class: classlist('vertical-table', 'delimited-table', tableClass), style },
+    c.html('thead', undefined,
+      c.html('tr', undefined, ...iterHeaderColumns(columnSpecs, env)),
     ),
 
-    c('tbody', undefined, ...iterRows(columnSpecs, data)),
+    c.html('tbody', undefined, ...iterRows(columnSpecs, data)),
   )
 }
 
@@ -42,13 +42,13 @@ function* iterHeaderColumns<T>(columnSpecs: IVerticalTableColumnSpec<T>[], env: 
     }
 
     if (column.header instanceof Component) {
-      yield c('th', headerState, column.header)
+      yield c.html('th', headerState, column.header)
     } else {
       if (column.label) {
         headerState.text = env.gettext.plain$(column.label)
       }
 
-      yield c('th', headerState)
+      yield c.html('th', headerState)
     }
   }
 }
@@ -59,9 +59,9 @@ function* iterBodyColumns<T>(columnSpecs: IVerticalTableColumnSpec<T>[], datum: 
     const viewValue = valueSource instanceof Function ? valueSource(datum) : valueSource
 
     if (viewValue instanceof Component) {
-      yield c('td', { headers: column.id, class: column.class }, viewValue)
+      yield c.html('td', { headers: column.id, class: column.class }, viewValue)
     } else {
-      yield c('td', {
+      yield c.html('td', {
         headers: column.id,
         class: column.class,
         text: viewValue,
@@ -72,6 +72,6 @@ function* iterBodyColumns<T>(columnSpecs: IVerticalTableColumnSpec<T>[], datum: 
 
 function* iterRows<T>(columnSpecs: IVerticalTableColumnSpec<T>[], data: T[]) {
   for (const datum of data) {
-    yield c('tr', undefined, ...iterBodyColumns(columnSpecs, datum))
+    yield c.html('tr', undefined, ...iterBodyColumns(columnSpecs, datum))
   }
 }

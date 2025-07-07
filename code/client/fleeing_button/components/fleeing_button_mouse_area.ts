@@ -1,5 +1,5 @@
 import { Vec2D } from '../../../common/math/geom2d.ts'
-import { s } from '../../../common/rendering/component.ts'
+import { createComponent as c } from '../../../common/rendering/component.ts'
 import { MOUSE_DISTANCE_THRESHOLD } from '../constants.ts'
 
 interface FleeingButtonRepellersState {
@@ -9,8 +9,8 @@ interface FleeingButtonRepellersState {
 }
 
 export function fleeingButtonMouseArea({ mousePosition, debug }: FleeingButtonRepellersState) {
-  return s('g', { class: 'fleeing-button-mouse-area-wrapper' },
-    debug && mousePosition && s('circle', {
+  return c.svg('g', { class: 'fleeing-button-mouse-area-wrapper' },
+    debug && mousePosition && c.svg('circle', {
       class: 'fleeing-button-mouse-area',
       cx: mousePosition.x,
       cy: mousePosition.y,

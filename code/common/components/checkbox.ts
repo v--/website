@@ -1,5 +1,5 @@
 import { spacer } from './spacer.ts'
-import { Component, c } from '../rendering/component.ts'
+import { Component, createComponent as c } from '../rendering/component.ts'
 import { waitForNextTask } from '../support/async.ts'
 import { type Action } from '../types/typecons.ts'
 
@@ -22,7 +22,7 @@ interface ICheckboxState {
  * is both as a properties and as an attribute, while the indeterminate state --- only as a property.
  */
 export function checkbox(state: ICheckboxState) {
-  return c('label',
+  return c.html('label',
     {
       class: state.labelClass,
       async click(event: PointerEvent) {
@@ -32,7 +32,7 @@ export function checkbox(state: ICheckboxState) {
         state.update(!state.value)
       },
     },
-    c('input', {
+    c.html('input', {
       type: 'checkbox',
       // Firefox preserves values across refreshes unless autocompletion is turned off
       // See https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input#autocomplete
@@ -41,9 +41,9 @@ export function checkbox(state: ICheckboxState) {
       name: state.name,
       checked: state.value,
     }),
-    state.content && c(spacer, { direction: 'horizontal' }),
+    state.content && c.factory(spacer, { direction: 'horizontal' }),
     state.content && (
-      state.content instanceof Component ? state.content : c('span', { text: state.content })
+      state.content instanceof Component ? state.content : c.html('span', { text: state.content })
     ),
   )
 }

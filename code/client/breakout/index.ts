@@ -15,7 +15,7 @@ import { checkbox } from '../../common/components/checkbox.ts'
 import { rich } from '../../common/components/rich.ts'
 import { spacer } from '../../common/components/spacer.ts'
 import { GITHUB_PROJECT_CODE_URL } from '../../common/constants/url.ts'
-import { c } from '../../common/rendering/component.ts'
+import { createComponent as c } from '../../common/rendering/component.ts'
 import { StateStore } from '../../common/support/state_store.ts'
 import { type IWebsitePageState } from '../../common/types/page.ts'
 import { playgroundMenu } from '../core/components/playground_menu.ts'
@@ -30,12 +30,12 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
     env.pageUnload$,
   )
 
-  return c(spotlightPage,
+  return c.factory(spotlightPage,
     {
       class: 'breakout-page',
-      stage: c(breakout, { store }),
-      menu: c(playgroundMenu, undefined,
-        c(checkbox, {
+      stage: c.factory(breakout, { store }),
+      menu: c.factory(playgroundMenu, undefined,
+        c.factory(checkbox, {
           name: 'debug-mode',
           value: store.keyedObservables.debug,
           content: _('control.debug.label'),
@@ -43,7 +43,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
             store.update({ debug: newValue })
           },
         }),
-        c('button', {
+        c.html('button', {
           class: 'button-danger',
           text: _('control.reset.label'),
           click(event: PointerEvent) {
@@ -52,8 +52,8 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
         }),
       ),
     },
-    c(spacer, { dynamics: 'mf' }),
-    c(rich, {
+    c.factory(spacer, { dynamics: 'mf' }),
+    c.factory(rich, {
       rootTag: 'section',
       doc: _.rich$({
         key: 'text',

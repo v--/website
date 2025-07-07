@@ -1,5 +1,5 @@
 import { spacer } from './spacer.ts'
-import { Component, c } from '../rendering/component.ts'
+import { Component, createComponent as c } from '../rendering/component.ts'
 import { type float64 } from '../types/numbers.ts'
 import { type Action } from '../types/typecons.ts'
 
@@ -23,7 +23,7 @@ interface ISliderState<T extends float64 = float64> {
  * Setting it via an unrelated event seems to work reliably, however.
  */
 export function slider<T extends float64 = float64>(state: ISliderState<T>) {
-  return c('label',
+  return c.html('label',
     {
       class: state.labelClass,
       // Compared to checkboxes, it is worse here because preventDefault does nothing
@@ -35,7 +35,7 @@ export function slider<T extends float64 = float64>(state: ISliderState<T>) {
         state.update(value)
       },
     },
-    c('input', {
+    c.html('input', {
       type: 'range',
       class: state.inputClass,
       name: state.name,
@@ -43,9 +43,9 @@ export function slider<T extends float64 = float64>(state: ISliderState<T>) {
       min: state.min,
       max: state.max,
     }),
-    state.content && c(spacer, { direction: 'horizontal' }),
+    state.content && c.factory(spacer, { direction: 'horizontal' }),
     state.content && (
-      state.content instanceof Component ? state.content : c('span', { text: state.content })
+      state.content instanceof Component ? state.content : c.html('span', { text: state.content })
     ),
   )
 }

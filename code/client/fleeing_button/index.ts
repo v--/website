@@ -5,7 +5,7 @@ import { checkbox } from '../../common/components/checkbox.ts'
 import { rich } from '../../common/components/rich.ts'
 import { spacer } from '../../common/components/spacer.ts'
 import { GITHUB_PROJECT_CODE_URL } from '../../common/constants/url.ts'
-import { c } from '../../common/rendering/component.ts'
+import { createComponent as c } from '../../common/rendering/component.ts'
 import { StateStore } from '../../common/support/state_store.ts'
 import { type IWebsitePageState } from '../../common/types/page.ts'
 import { playgroundMenu } from '../core/components/playground_menu.ts'
@@ -21,12 +21,12 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
     debug: false,
   }, env.pageUnload$)
 
-  return c(spotlightPage,
+  return c.factory(spotlightPage,
     {
       class: 'fleeing-button-page',
-      stage: c(fleeingButtonStage, { store }),
-      menu: c(playgroundMenu, undefined,
-        c(checkbox, {
+      stage: c.factory(fleeingButtonStage, { store }),
+      menu: c.factory(playgroundMenu, undefined,
+        c.factory(checkbox, {
           name: 'debug-mode',
           value: store.keyedObservables.debug,
           content: _('control.debug'),
@@ -36,8 +36,8 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
         }),
       ),
     },
-    c(spacer),
-    c(rich, {
+    c.factory(spacer),
+    c.factory(rich, {
       rootTag: 'section',
       doc: _.rich$({
         key: 'text',

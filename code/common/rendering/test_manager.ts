@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import { afterEach, beforeEach, describe, it } from 'node:test'
 
 import { BehaviorSubject, Subject, SubscriptionObserver, map } from '../observable.ts'
-import { Component, ComponentSanityError, HtmlComponent, type IComponentEnvironment, c } from './component.ts'
+import { Component, ComponentSanityError, HtmlComponent, type IComponentEnvironment, createComponent as c } from './component.ts'
 import { RenderError } from './errors.ts'
 import { RenderingManager } from './manager.ts'
 import { ServerLogger } from '../../server/logger.ts'
@@ -41,25 +41,25 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
   describe('for XML components', function () {
     describe('render method', function () {
       it('renders simple components', async function () {
-        const src = c('div')
+        const src = c.html('div')
         const dest = await manager.render(src)
         assertEqualRepr(src, dest)
       })
 
       it('renders components with state', async function () {
-        const src = c('div', { a: 0 })
+        const src = c.html('div', { a: 0 })
         const dest = await manager.render(src)
         assertEqualRepr(src, dest)
       })
 
       it('renders components with text children', async function () {
-        const src = c('div', { text: 'text' })
+        const src = c.html('div', { text: 'text' })
         const dest = await manager.render(src)
         assertEqualRepr(src, dest)
       })
 
       it('renders components with HTML children', async function () {
-        const src = c('div', undefined, c('span'), c('span', { text: 'text' }))
+        const src = c.html('div', undefined, c.html('span'), c.html('span', { text: 'text' }))
         const dest = await manager.render(src)
         assertEqualRepr(src, dest)
       })
@@ -68,7 +68,7 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
     describe('triggered rerender', function () {
       it('adds new properties', async function () {
         const subject$ = new BehaviorSubject<ITextOnlyState>({})
-        const src = c('div', subject$)
+        const src = c.html('div', subject$)
         const dest = await manager.render(src)
         await updateAndWait(subject$, { text: 'text' }, src)
 
@@ -80,7 +80,7 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
 
       it('updates existing properties', async function () {
         const subject$ = new BehaviorSubject<ITextOnlyState>({ text: 'text' })
-        const src = c('div', subject$)
+        const src = c.html('div', subject$)
         const dest = await manager.render(src)
         await updateAndWait(subject$, { text: 'updated text' }, src)
 
@@ -92,7 +92,7 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
 
       it('removes old properties', async function () {
         const subject$ = new BehaviorSubject<ITextOnlyState>({ text: 'text' })
-        const src = c('div', subject$)
+        const src = c.html('div', subject$)
         const dest = await manager.render(src)
         await updateAndWait(subject$, {}, src)
 
@@ -103,7 +103,7 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
 
       it('errors out when adding text to an HTML component with children', async function () {
         const subject$ = new BehaviorSubject<ITextOnlyState>({})
-        const src = c('div', subject$, c('span'))
+        const src = c.html('div', subject$, c.html('span'))
         await manager.render(src)
 
         await assert.rejects(
@@ -117,7 +117,7 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
       it('can rerender multiple times', async function () {
         const subject$ = new BehaviorSubject<ITextOnlyState>({ text: 'basic' })
 
-        const src = c('div', subject$)
+        const src = c.html('div', subject$)
         const dest = await manager.render(src)
 
         await updateAndWait(subject$, { text: 'extended' }, src)
@@ -138,7 +138,7 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
         const subjectA$ = new BehaviorSubject<string>('basic')
         const subjectB$ = new BehaviorSubject<string>('basic')
 
-        const src = c('div', { a: subjectA$, b: subjectB$ })
+        const src = c.html('div', { a: subjectA$, b: subjectB$ })
         const dest = await manager.render(src)
 
         let state = await dest.getState() as IState
@@ -164,15 +164,15 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
   describe('for factory components', function () {
     describe('render method', function () {
       it('renders constants', async function () {
-        const constant = await manager.render(c('div'))
-        const src = c(() => constant, {})
+        const constant = await manager.render(c.html('div'))
+        const src = c.factory(() => constant, {})
         const dest = await manager.render(src)
 
         assertEqualRepr(dest, constant)
       })
 
       it('renders simple text', async function () {
-        const src = c(({ text }: ITextOnlyState) => c('span', { text }), { text: 'text' })
+        const src = c.factory(({ text }: ITextOnlyState) => c.html('span', { text }), { text: 'text' })
         const dest = await manager.render(src)
 
         const state = await dest.getState() as ITextOnlyState
@@ -180,14 +180,14 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
       })
 
       it('errors out when attempting to render the same child component twice', async function () {
-        const component = c('span')
+        const component = c.html('span')
 
         function factory() {
-          return c('div', undefined, component, component)
+          return c.html('div', undefined, component, component)
         }
 
         await assert.rejects(
-          manager.render(c(factory, {})),
+          manager.render(c.factory(factory, {})),
           RenderError,
         )
       })
@@ -198,7 +198,7 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
       // If a parent exists, we support replacing the factory's root type (see the test labeled BF7).
       it('disallows replacing the root element\'s type', async function () {
         const subject$ = new BehaviorSubject({ type: 'div' })
-        const src = c(({ type }) => c(type), subject$)
+        const src = c.factory(({ type }) => c.html(type), subject$)
         await manager.render(src)
 
         await assert.rejects(
@@ -215,7 +215,7 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
         }
 
         const subject$ = new BehaviorSubject<IState>({ type: 'div' })
-        const src = c(({ type }) => c('div', undefined, c(type)), subject$)
+        const src = c.factory(({ type }) => c.html('div', undefined, c.html(type)), subject$)
         const dest = await manager.render(src)
 
         await updateAndWait(subject$, { type: 'span' }, src)
@@ -226,7 +226,7 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
 
       it('adds root children', async function () {
         const subject$ = new BehaviorSubject({ add: false })
-        const src = c(({ add }) => c('div', undefined, add && c('span')), subject$)
+        const src = c.factory(({ add }) => c.html('div', undefined, add && c.html('span')), subject$)
         const dest = await manager.render(src)
 
         await updateAndWait(subject$, { add: true }, src)
@@ -237,7 +237,7 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
 
       it('updates root element\'s properties', async function () {
         const subject$ = new BehaviorSubject<ITextOnlyState>({ text: 'text' })
-        const src = c(({ text }) => c('div', { text }), subject$)
+        const src = c.factory(({ text }) => c.html('div', { text }), subject$)
         const dest = await manager.render(src)
 
         await updateAndWait(subject$, { text: 'updated text' }, src)
@@ -249,7 +249,7 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
 
       it('replaces root children', async function () {
         const subject$ = new BehaviorSubject({ type: 'div' })
-        const src = c(({ type }) => c('div', undefined, c(type)), subject$)
+        const src = c.factory(({ type }) => c.html('div', undefined, c.html(type)), subject$)
         const dest = await manager.render(src)
 
         subject$.next({ type: 'span' })
@@ -261,7 +261,7 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
 
       it('removes root children', async function () {
         const subject$ = new BehaviorSubject({ add: true })
-        const src = c(({ add }) => c('div', undefined, add && c('span')), subject$)
+        const src = c.factory(({ add }) => c.html('div', undefined, add && c.html('span')), subject$)
         const dest = await manager.render(src)
 
         await updateAndWait(subject$, { add: false }, src)
@@ -278,10 +278,10 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
         const subject$ = new BehaviorSubject<IThreeComponentState>({ components: ['h1', 'h2', 'h3'] })
 
         function factory({ components }: IThreeComponentState) {
-          return c('div', undefined, c(components[0]), c(components[1]), c(components[2]))
+          return c.html('div', undefined, c.html(components[0]), c.html(components[1]), c.html(components[2]))
         }
 
-        const src = c(factory, subject$)
+        const src = c.factory(factory, subject$)
         const dest = await manager.render(src)
 
         await updateAndWait(subject$, { components: ['h3', 'h2', 'h1'] }, src)
@@ -299,17 +299,17 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
           components: [Component, Component, Component]
         }
 
-        const h1 = c('h1')
-        const h2 = c('h2')
-        const h3 = c('h3')
+        const h1 = c.html('h1')
+        const h2 = c.html('h2')
+        const h3 = c.html('h3')
 
         const subject$ = new BehaviorSubject<IThreeComponentState>({ components: [h1, h2, h3] })
 
         function factory({ components }: IThreeComponentState) {
-          return c('div', undefined, ...components)
+          return c.html('div', undefined, ...components)
         }
 
-        const src = c(factory, subject$)
+        const src = c.factory(factory, subject$)
         await manager.render(src)
 
         await assert.rejects(
@@ -328,12 +328,12 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
         const subject$ = new BehaviorSubject<IThreeComponentState>({ components: ['h1', 'h2', 'h3'] })
 
         function factory({ components }: IThreeComponentState) {
-          return c('main', undefined,
-            c('div', undefined, c(components[0]), c(components[1]), c(components[2])),
+          return c.html('main', undefined,
+            c.html('div', undefined, c.html(components[0]), c.html(components[1]), c.html(components[2])),
           )
         }
 
-        const src = c(factory, subject$)
+        const src = c.factory(factory, subject$)
         const dest = await manager.render(src)
 
         await updateAndWait(subject$, { components: ['h3', 'h2', 'h1'] }, src)
@@ -350,10 +350,10 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
         const subject$ = new BehaviorSubject<ITextOnlyState>({ text: 'basic' })
 
         function factory({ text }: ITextOnlyState) {
-          return c('span', { text })
+          return c.html('span', { text })
         }
 
-        const src = c(factory, subject$)
+        const src = c.factory(factory, subject$)
         const dest = await manager.render(src)
 
         await updateAndWait(subject$, { text: 'extended' }, src)
@@ -370,23 +370,23 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
         const subject$ = new BehaviorSubject<ITextOnlyState>({ text: 'text' })
 
         function factory1({ text }: ITextOnlyState) {
-          return c('p', { text })
+          return c.html('p', { text })
         }
 
         function factory2({ text }: ITextOnlyState) {
-          return c('p', { text })
+          return c.html('p', { text })
         }
 
         function outerFactory() {
-          return c(
+          return c.html(
             'div',
             {},
-            c(factory1, subject$),
-            c(factory2, subject$),
+            c.factory(factory1, subject$),
+            c.factory(factory2, subject$),
           )
         }
 
-        const src = c(outerFactory, outerSubject$)
+        const src = c.factory(outerFactory, outerSubject$)
         const dest = await manager.render(src)
 
         subject$.next({ text: 'updated text' })
@@ -414,10 +414,10 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
         const subject$ = new BehaviorSubject({ type: 'div' })
 
         function factory({ type }: IState) {
-          return c('div', undefined, c(type))
+          return c.html('div', undefined, c.html(type))
         }
 
-        const src = c(factory, subject$)
+        const src = c.factory(factory, subject$)
         const dest = await manager.render(src)
 
         subject$.next({ type: 'span' })
@@ -448,10 +448,10 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
         })
 
         function factory() {
-          return c('div', subject$)
+          return c.html('div', subject$)
         }
 
-        const src = c(factory)
+        const src = c.factory(factory)
         const dest = await manager.render(src)
 
         let state: IInnerState = await dest.getState() as IInnerState
@@ -486,10 +486,10 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
         }
 
         function factory() {
-          return c('div', subject$)
+          return c.html('div', subject$)
         }
 
-        const src = c(factory, outerSubject$)
+        const src = c.factory(factory, outerSubject$)
         const dest = await manager.render(src)
 
         outerSubject$.next()
@@ -512,22 +512,22 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
         const outerSubject$ = new BehaviorSubject<ITextOnlyState>({ text: 'text' })
 
         function transcluded(_context: unknown, env: IComponentEnvironment, children: Component[]) {
-          return c('main', undefined, ...children)
+          return c.html('main', undefined, ...children)
         }
 
         function factory({ text }: ITextOnlyState) {
-          return c('div', { text })
+          return c.html('div', { text })
         }
 
         function outerFactory({ text }: ITextOnlyState) {
-          return c('body', undefined,
-            c(transcluded, undefined,
-              c(factory, { text }),
+          return c.html('body', undefined,
+            c.factory(transcluded, undefined,
+              c.factory(factory, { text }),
             ),
           )
         }
 
-        const src = c(outerFactory, outerSubject$)
+        const src = c.factory(outerFactory, outerSubject$)
         const dest = await manager.render(src)
 
         await updateAndWait(outerSubject$, { text: 'updated text' }, src)
@@ -544,22 +544,22 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
         const outerSubject$ = new BehaviorSubject<ITextOnlyState>({ text: 'text' })
 
         function transcluded(_context: unknown, env: IComponentEnvironment, children: Component[]) {
-          return c('main', undefined, ...children)
+          return c.html('main', undefined, ...children)
         }
 
         function factory({ text }: ITextOnlyState) {
-          return c('div', { text })
+          return c.html('div', { text })
         }
 
         function outerFactory({ text }: ITextOnlyState) {
-          return c('body', undefined,
-            c(transcluded, {},
-              text && c(factory, { text }),
+          return c.html('body', undefined,
+            c.factory(transcluded, {},
+              text && c.factory(factory, { text }),
             ),
           )
         }
 
-        const src = c(outerFactory, outerSubject$)
+        const src = c.factory(outerFactory, outerSubject$)
         const dest = await manager.render(src)
 
         outerSubject$.next({ text: 'text' })
@@ -587,18 +587,18 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
         const subject$ = new BehaviorSubject<IOuterState>({ removeMiddleChild: false })
 
         function innerFactory({ id }: IInnerState, env: IComponentEnvironment, children: Component[]) {
-          return c('p', { id }, ...children)
+          return c.html('p', { id }, ...children)
         }
 
         function factory({ removeMiddleChild }: IOuterState) {
-          return c('div', undefined,
-            c(innerFactory, { id: '1' }, c('b', { text: '1' })),
-            !removeMiddleChild && c(innerFactory, { id: '2' }, c('em', { text: '2' })),
-            c(innerFactory, { id: '3' }, c('span', { text: '3' })),
+          return c.html('div', undefined,
+            c.factory(innerFactory, { id: '1' }, c.html('b', { text: '1' })),
+            !removeMiddleChild && c.factory(innerFactory, { id: '2' }, c.html('em', { text: '2' })),
+            c.factory(innerFactory, { id: '3' }, c.html('span', { text: '3' })),
           )
         }
 
-        const src = c(factory, subject$)
+        const src = c.factory(factory, subject$)
         const dest = await manager.render(src)
 
         await updateAndWait(subject$, { removeMiddleChild: true }, src)
@@ -631,17 +631,17 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
         const subject$ = new BehaviorSubject<IOuterState>({ removeChild: false })
 
         function innerFactory({ tag }: IInnerState) {
-          return c(tag)
+          return c.html(tag)
         }
 
         function factory({ removeChild }: IOuterState) {
-          return c('div', undefined,
-            !removeChild && c(innerFactory, { tag: 'em' }),
-            c(innerFactory, { tag: 'strong' }),
+          return c.html('div', undefined,
+            !removeChild && c.factory(innerFactory, { tag: 'em' }),
+            c.factory(innerFactory, { tag: 'strong' }),
           )
         }
 
-        const src = c(factory, subject$)
+        const src = c.factory(factory, subject$)
         await manager.render(src)
 
         await assert.doesNotReject(
@@ -658,7 +658,7 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
     describe('#finalizeRenderer()', function () {
       it('cleans up a simple root subscription', async function () {
         const subject$ = new BehaviorSubject<ITextOnlyState>({ text: 'test' })
-        const src = c('p', subject$)
+        const src = c.html('p', subject$)
         await manager.render(src)
         await manager.finalizeRenderer(await manager.getRenderer(src))
         subject$.complete()
@@ -709,12 +709,12 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
         const subject$ = new BehaviorSubject('test')
 
         function factory() {
-          return c('div', undefined,
-            c('p', { text: subject$ }),
+          return c.html('div', undefined,
+            c.html('p', { text: subject$ }),
           )
         }
 
-        const src = c(factory)
+        const src = c.factory(factory)
         await manager.render(src)
         await manager.finalizeRenderer(await manager.getRenderer(src))
         subject$.complete()
@@ -726,14 +726,14 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
         const subject$ = new BehaviorSubject('test')
 
         function innerFactory({ text }: ITextOnlyState) {
-          return c('p', { text })
+          return c.html('p', { text })
         }
 
         function outerFactory() {
-          return c(innerFactory, { text: subject$ })
+          return c.factory(innerFactory, { text: subject$ })
         }
 
-        const src = c(outerFactory)
+        const src = c.factory(outerFactory)
         await manager.render(src)
         await manager.finalizeRenderer(await manager.getRenderer(src))
         subject$.complete()
@@ -747,14 +747,14 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
         const subject$ = new BehaviorSubject('test')
 
         function innerFactory({ text }: ITextOnlyState) {
-          return c('p', { text })
+          return c.html('p', { text })
         }
 
         function outerFactory() {
-          return c(innerFactory, { text: subject$ })
+          return c.factory(innerFactory, { text: subject$ })
         }
 
-        const src = c(outerFactory)
+        const src = c.factory(outerFactory)
         await manager.render(src)
 
         const livingCount = SubscriptionObserver.getLivingObserverCount()
@@ -774,10 +774,10 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
             map(({ text: innerText }) => outerText + ' ' + innerText),
           )
 
-          return c('p', { text: text$ })
+          return c.html('p', { text: text$ })
         }
 
-        const src = c(outerFactory, outerSubject$)
+        const src = c.factory(outerFactory, outerSubject$)
         await manager.render(src)
 
         const livingCount = SubscriptionObserver.getLivingObserverCount()

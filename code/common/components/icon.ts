@@ -1,5 +1,5 @@
 import { type WebsiteEnvironment } from '../environment.ts'
-import { s } from '../rendering/component.ts'
+import { createComponent as c } from '../rendering/component.ts'
 import { classlist } from '../support/dom_properties.ts'
 import { type IconRefId } from '../types/bundles.ts'
 import { type Action } from '../types/typecons.ts'
@@ -20,7 +20,7 @@ export function icon(state: IIconComponentState, env: WebsiteEnvironment) {
     click: state.click,
   }
 
-  return s('svg', rootState,
-    s('path', { d: spec.path }),
+  return c.svg('svg', rootState,
+    c.svg('path', { d: spec.path }),
   )
 }

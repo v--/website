@@ -1,5 +1,5 @@
 import { type IPlainVec2D } from '../../../common/math/geom2d.ts'
-import { s } from '../../../common/rendering/component.ts'
+import { createComponent as c } from '../../../common/rendering/component.ts'
 import { type Action } from '../../../common/types/typecons.ts'
 import { STAGE } from '../constants.ts'
 
@@ -10,26 +10,26 @@ interface IInterpolationGridPointsState {
 const GRID_POINT_RADIUS = 0.1
 
 export function interpolationGridPoints({ toggleNode }: IInterpolationGridPointsState) {
-  return s('g', { class: 'interpolation-grid-points' },
+  return c.svg('g', { class: 'interpolation-grid-points' },
     // TODO: Remove Array.from once Iterator.prototype.map() proliferates
     ...Array.from(iterPoints()).map(
-      point => s('g',
+      point => c.svg('g',
         {
           class: 'interpolation-grid-point',
           transform: `translate(${point.x}, ${point.y})`,
         },
-        s('circle', {
+        c.svg('circle', {
           r: GRID_POINT_RADIUS,
           class: 'interpolation-grid-point-circle',
         }),
-        s('rect', {
+        c.svg('rect', {
           class: 'interpolation-grid-point-rect',
           x: -0.5, y: -0.5, width: 1, height: 1,
           click(_event: PointerEvent) {
             toggleNode(point)
           },
         }),
-        s('title', {
+        c.svg('title', {
           class: 'interpolation-grid-point-tooltip',
           text: `(${point.x}, ${point.y})`,
         }),

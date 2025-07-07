@@ -12,53 +12,53 @@ import {
   TELEGRAM_URL,
 } from '../constants/url.ts'
 import { type WebsiteEnvironment } from '../environment.ts'
-import { c } from '../rendering/component.ts'
+import { createComponent as c } from '../rendering/component.ts'
 import { type IWebsitePageState } from '../types/page.ts'
 
 export function homePage(pageState: IWebsitePageState, env: WebsiteEnvironment) {
   const _ = env.gettext.bindToBundle('home')
 
-  return c('main', { class: 'home-page' },
-    c('img', {
+  return c.html('main', { class: 'home-page' },
+    c.html('img', {
       class: 'home-page-photo',
       alt: _('photo.alt'),
       src: '/images/home_page_photo.jpg',
     }),
 
-    c('section', { class: 'home-page-about' },
-      c('h1', { text: _('heading.about_me') }),
-      c(rich, { doc: _.rich$({ key: 'bio' }) }),
+    c.html('section', { class: 'home-page-about' },
+      c.html('h1', { text: _('heading.about_me') }),
+      c.factory(rich, { doc: _.rich$({ key: 'bio' }) }),
 
-      c('h1', { text: _('heading.about_website') }),
-      c(rich, { doc: _.rich$({ key: 'website_description' }) }),
+      c.html('h1', { text: _('heading.about_website') }),
+      c.factory(rich, { doc: _.rich$({ key: 'website_description' }) }),
 
-      c('p', { text: _('page_list_prefix') }),
-      c('dl', undefined,
-        c('dt', undefined,
-          c(anchor, {
+      c.html('p', { text: _('page_list_prefix') }),
+      c.html('dl', undefined,
+        c.html('dt', undefined,
+          c.factory(anchor, {
             href: '/files',
             isInternal: true,
           }),
         ),
-        c('dd', { text: _({ bundleId: 'core', key: 'description.files' }) }),
+        c.html('dd', { text: _({ bundleId: 'core', key: 'description.files' }) }),
 
-        c('dt', undefined,
-          c(anchor, {
+        c.html('dt', undefined,
+          c.factory(anchor, {
             href: '/pacman',
             isInternal: true,
           }),
         ),
-        c('dd', { text: _({ bundleId: 'core', key: 'description.pacman' }) }),
+        c.html('dd', { text: _({ bundleId: 'core', key: 'description.pacman' }) }),
 
-        c('dt', undefined,
-          c(anchor, {
+        c.html('dt', undefined,
+          c.factory(anchor, {
             href: '/playground',
             isInternal: true,
           }),
         ),
-        c('dd', { text: _({ bundleId: 'core', key: 'description.playground' }) }),
+        c.html('dd', { text: _({ bundleId: 'core', key: 'description.playground' }) }),
       ),
-      c(rich, {
+      c.factory(rich, {
         doc: _.rich$({
           key: 'website_code',
           context: { projectUrl: GITHUB_PROJECT_URL },
@@ -66,44 +66,44 @@ export function homePage(pageState: IWebsitePageState, env: WebsiteEnvironment) 
       }),
     ),
 
-    c('section', { class: 'home-page-contacts' },
-      c('h1', { text: _('heading.contacts') }),
-      c('div', undefined,
-        c('div', { class: 'home-page-contacts-entry' },
-          c(anchor, { href: EMAIL_URL },
-            c(icon, { refId: 'contacts', name: 'solid/envelope' }),
-            c(spacer, { direction: 'horizontal', dynamics: 'p' }),
-            c('span', { text: 'Email' }),
+    c.html('section', { class: 'home-page-contacts' },
+      c.html('h1', { text: _('heading.contacts') }),
+      c.html('div', undefined,
+        c.html('div', { class: 'home-page-contacts-entry' },
+          c.factory(anchor, { href: EMAIL_URL },
+            c.factory(icon, { refId: 'contacts', name: 'solid/envelope' }),
+            c.factory(spacer, { direction: 'horizontal', dynamics: 'p' }),
+            c.html('span', { text: 'Email' }),
           ),
         ),
 
-        c('div', { class: 'home-page-contacts-entry' },
-          c(anchor, { href: TELEGRAM_URL },
-            c(icon, { refId: 'contacts', name: 'brands/telegram' }),
-            c(spacer, { direction: 'horizontal', dynamics: 'p' }),
-            c('span', { text: 'Telegram' }),
+        c.html('div', { class: 'home-page-contacts-entry' },
+          c.factory(anchor, { href: TELEGRAM_URL },
+            c.factory(icon, { refId: 'contacts', name: 'brands/telegram' }),
+            c.factory(spacer, { direction: 'horizontal', dynamics: 'p' }),
+            c.html('span', { text: 'Telegram' }),
           ),
         ),
 
-        c('div', { class: 'home-page-contacts-entry' },
-          c(anchor, { href: MASTODON_URL, rel: 'me' },
-            c(icon, { refId: 'contacts', name: 'brands/mastodon' }),
-            c(spacer, { direction: 'horizontal', dynamics: 'p' }),
-            c('span', { text: 'Mastodon' }),
+        c.html('div', { class: 'home-page-contacts-entry' },
+          c.factory(anchor, { href: MASTODON_URL, rel: 'me' },
+            c.factory(icon, { refId: 'contacts', name: 'brands/mastodon' }),
+            c.factory(spacer, { direction: 'horizontal', dynamics: 'p' }),
+            c.html('span', { text: 'Mastodon' }),
           ),
         ),
 
-        c('div', { class: 'home-page-contacts-entry' },
-          c(anchor, { href: GITHUB_USER_URL },
-            c(icon, { refId: 'contacts', name: 'brands/github' }),
-            c(spacer, { direction: 'horizontal', dynamics: 'p' }),
-            c('span', { text: 'GitHub' }),
+        c.html('div', { class: 'home-page-contacts-entry' },
+          c.factory(anchor, { href: GITHUB_USER_URL },
+            c.factory(icon, { refId: 'contacts', name: 'brands/github' }),
+            c.factory(spacer, { direction: 'horizontal', dynamics: 'p' }),
+            c.html('span', { text: 'GitHub' }),
           ),
         ),
 
-        c(spacer, { dynamics: 'pp' }),
+        c.factory(spacer, { dynamics: 'pp' }),
 
-        c(rich, {
+        c.factory(rich, {
           doc: _.rich$({
             key: 'openpgp',
             context: { keyName: OPENPGP_KEY_ID_SHORT, keyUrl: OPENPGP_KEYSERVER_URL },

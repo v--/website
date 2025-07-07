@@ -1,5 +1,5 @@
 import { Vec2D } from '../../../common/math/geom2d.ts'
-import { s } from '../../../common/rendering/component.ts'
+import { createComponent as c } from '../../../common/rendering/component.ts'
 import { classlist } from '../../../common/support/dom_properties.ts'
 import { iterateAttractors } from '../attractors.ts'
 
@@ -12,13 +12,13 @@ const ATTRACTOR_VISIBLE_RADIUS = 0.025
 
 export function fleeingButtonAttractors({ activeAttractor, debug }: FleeingButtonAttractorsState) {
   if (!debug) {
-    return s('g', { class: 'fleeing-button-attractors' })
+    return c.svg('g', { class: 'fleeing-button-attractors' })
   }
 
-  return s('g', { class: 'fleeing-button-attractors' },
+  return c.svg('g', { class: 'fleeing-button-attractors' },
     // TODO: Remove Array.from once Iterator.prototype.map() proliferates
     ...Array.from(iterateAttractors()).map(
-      attractor => s('circle', {
+      attractor => c.svg('circle', {
         class: classlist(
           'fleeing-button-attractor',
           activeAttractor && activeAttractor.coincidesWith(attractor) && 'fleeing-button-attractor-active',

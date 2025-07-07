@@ -2,7 +2,7 @@ import { anchor } from './anchor.ts'
 import { icon } from './icon.ts'
 import { type WebsiteEnvironment } from '../environment.ts'
 import { radio } from './radio.ts'
-import { c } from '../rendering/component.ts'
+import { createComponent as c } from '../rendering/component.ts'
 import { classlist } from '../support/dom_properties.ts'
 import { type LanguageId } from '../translation.ts'
 import { spacer } from './spacer.ts'
@@ -22,8 +22,8 @@ export function sidebar({ sidebarId, language, sidebarCollapsed, colorScheme }: 
     sidebarCollapsed === undefined ? undefined : (sidebarCollapsed ? 'sidebar-collapsed' : 'sidebar-expanded'),
   )
 
-  return c('aside', { class: rootClasses },
-    c('button',
+  return c.html('aside', { class: rootClasses },
+    c.html('button',
       {
         class: 'sidebar-collapse-button sidebar-entry',
         disabled: !env.isContentDynamic(),
@@ -33,40 +33,40 @@ export function sidebar({ sidebarId, language, sidebarCollapsed, colorScheme }: 
           env.sidebarCollapsed$.next(!current)
         },
       },
-      c(icon, {
+      c.factory(icon, {
         refId: 'core',
         name: 'solid/chevron-right',
         class: 'sidebar-entry-icon icon-capital-align',
       }),
-      c(spacer, { direction: 'horizontal', dynamics: 'pp' }),
-      c('span', { class: 'sidebar-entry-collapsible-content', text: _('sidebar.button.collapse') }),
+      c.factory(spacer, { direction: 'horizontal', dynamics: 'pp' }),
+      c.html('span', { class: 'sidebar-entry-collapsible-content', text: _('sidebar.button.collapse') }),
     ),
 
-    c('hr'),
+    c.html('hr'),
 
-    c('nav', { class: 'sidebar-navigation' },
-      c(sidebarNavigationEntry, {
+    c.html('nav', { class: 'sidebar-navigation' },
+      c.factory(sidebarNavigationEntry, {
         active: sidebarId === 'home',
         text: _('sidebar.page.home'),
         icon: 'solid/house',
         href: '/',
       }),
 
-      c(sidebarNavigationEntry, {
+      c.factory(sidebarNavigationEntry, {
         active: sidebarId === 'files',
         text: _('sidebar.page.files'),
         icon: 'solid/folder',
         href: '/files',
       }),
 
-      c(sidebarNavigationEntry, {
+      c.factory(sidebarNavigationEntry, {
         active: sidebarId === 'pacman',
         text: _('sidebar.page.pacman'),
         icon: 'solid/download',
         href: '/pacman',
       }),
 
-      c(sidebarNavigationEntry, {
+      c.factory(sidebarNavigationEntry, {
         active: sidebarId === 'playground',
         text: _('sidebar.page.playground'),
         icon: 'solid/code',
@@ -74,24 +74,24 @@ export function sidebar({ sidebarId, language, sidebarCollapsed, colorScheme }: 
       }),
     ),
 
-    c('hr'),
+    c.html('hr'),
 
-    c('fieldset',
+    c.html('fieldset',
       {
         class: 'sidebar-entry sidebar-langchange',
         role: 'radiogroup',
         disabled: !env.isContentDynamic(),
       },
-      c('div', { class: 'sidebar-langchange-icon-wrapper' },
-        c(icon, {
+      c.html('div', { class: 'sidebar-langchange-icon-wrapper' },
+        c.factory(icon, {
           class: 'sidebar-entry-icon icon-capital-align sidebar-langchange-info-icon',
           refId: 'core',
           name: 'solid/language',
         }),
       ),
-      c('div', { class: 'sidebar-langchange-radio-group sidebar-entry-collapsible-content' },
+      c.html('div', { class: 'sidebar-langchange-radio-group sidebar-entry-collapsible-content' },
         ...LANGUAGE_CHOICES.flatMap(langChoice => {
-          return c(radio, {
+          return c.factory(radio<LanguageId>, {
             labelClass: 'sidebar-langchange-radio-label',
             inputClass: 'sidebar-langchange-radio-control',
             content: langChoice.label,
@@ -112,9 +112,9 @@ export function sidebar({ sidebarId, language, sidebarCollapsed, colorScheme }: 
       ),
     ),
 
-    c('hr'),
+    c.html('hr'),
 
-    c('button',
+    c.html('button',
       {
         class: 'sidebar-scheme-toggle-button sidebar-entry',
         disabled: !env.isContentDynamic(),
@@ -124,13 +124,13 @@ export function sidebar({ sidebarId, language, sidebarCollapsed, colorScheme }: 
           env.colorScheme$.next(realScheme === 'light' ? 'dark' : 'light')
         },
       },
-      c(icon, {
+      c.factory(icon, {
         refId: 'core',
         name: 'solid/lightbulb',
         class: 'sidebar-entry-icon icon-capital-align',
       }),
-      c(spacer, { direction: 'horizontal', dynamics: 'pp' }),
-      c('span', { class: 'sidebar-entry-collapsible-content', text: _('sidebar.button.color_scheme') }),
+      c.factory(spacer, { direction: 'horizontal', dynamics: 'pp' }),
+      c.html('span', { class: 'sidebar-entry-collapsible-content', text: _('sidebar.button.color_scheme') }),
     ),
   )
 }
@@ -153,7 +153,7 @@ interface IEntryState {
 }
 
 function sidebarNavigationEntry({ active, text, icon: iconName, href }: IEntryState) {
-  return c(
+  return c.factory(
     anchor,
     {
       href,
@@ -162,8 +162,8 @@ function sidebarNavigationEntry({ active, text, icon: iconName, href }: IEntrySt
       ariaCurrent: active ? 'page' : 'false',
       title: text,
     },
-    c(icon, { refId: 'core', name: iconName, class: 'sidebar-entry-icon icon-capital-align' }),
-    c(spacer, { direction: 'horizontal', dynamics: 'pp' }),
-    c('span', { class: 'sidebar-entry-collapsible-content', text }),
+    c.factory(icon, { refId: 'core', name: iconName, class: 'sidebar-entry-icon icon-capital-align' }),
+    c.factory(spacer, { direction: 'horizontal', dynamics: 'pp' }),
+    c.html('span', { class: 'sidebar-entry-collapsible-content', text }),
   )
 }

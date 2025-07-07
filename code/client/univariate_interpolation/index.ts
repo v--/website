@@ -5,7 +5,7 @@ import { type IInterpolationState, type IInterpolator } from './types.ts'
 import { rich } from '../../common/components/rich.ts'
 import { spacer } from '../../common/components/spacer.ts'
 import { GITHUB_PROJECT_CODE_URL } from '../../common/constants/url.ts'
-import { c } from '../../common/rendering/component.ts'
+import { createComponent as c } from '../../common/rendering/component.ts'
 import { StateStore } from '../../common/support/state_store.ts'
 import { type IWebsitePageState } from '../../common/types/page.ts'
 import { playgroundMenu } from '../core/components/playground_menu.ts'
@@ -32,13 +32,13 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
     },
   })
 
-  return c(spotlightPage,
+  return c.factory(spotlightPage,
     {
       class: 'univariate-interpolation-page',
-      stage: c(interpolationGrid, { store }),
-      menu: c(
+      stage: c.factory(interpolationGrid, { store }),
+      menu: c.factory(
         playgroundMenu, undefined,
-        c('button', {
+        c.html('button', {
           class: 'button-danger',
           text: _({ bundleId: 'univariate_interpolation', key: 'control.reset.label' }),
           click(_event: PointerEvent) {
@@ -51,8 +51,8 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
         }),
       ),
     },
-    c(spacer, { dynamics: 'mf' }),
-    c(rich, {
+    c.factory(spacer, { dynamics: 'mf' }),
+    c.factory(rich, {
       rootTag: 'section',
       doc: _.rich$(
         {
@@ -67,11 +67,11 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
         },
       ),
     }),
-    c('h2', { text: _('knot_table.section_heading') }),
-    c(interpolationKnotTable, { knots: store.keyedObservables.knots }),
-    c(spacer, { dynamics: 'mf' }),
-    c('h2', { text: _('legend_table.section_heading') }),
-    c(interpolationLegendTable, {
+    c.html('h2', { text: _('knot_table.section_heading') }),
+    c.factory(interpolationKnotTable, { knots: store.keyedObservables.knots }),
+    c.factory(spacer, { dynamics: 'mf' }),
+    c.html('h2', { text: _('legend_table.section_heading') }),
+    c.factory(interpolationLegendTable, {
       interpolated: store.keyedObservables.interpolated,
       visible: store.keyedObservables.visible,
       toggleVisibility(interpolator: IInterpolator, newValue: boolean) {

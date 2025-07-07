@@ -1,5 +1,5 @@
 import { type Vec2D } from '../../../common/math/geom2d.ts'
-import { s } from '../../../common/rendering/component.ts'
+import { createComponent as c } from '../../../common/rendering/component.ts'
 import { classlist } from '../../../common/support/dom_properties.ts'
 import { isClose } from '../../../common/support/floating.ts'
 import { schwartzMin } from '../../../common/support/iteration.ts'
@@ -49,9 +49,9 @@ export function breakoutRays({ ballCenter, ballDirection, bricks, paddleCenter, 
       ) :
     undefined
 
-  return s('g', { class: 'breakout-rays' },
+  return c.svg('g', { class: 'breakout-rays' },
     ...rayTrajectories.map(function (trajectory, i) {
-      return s('polyline', {
+      return c.svg('polyline', {
         class: classlist('breakout-ray', `breakout-ray-${i + 1}`, trajectory === dominantTrajectory && 'breakout-ray-dominant'),
         points: trajectory.map(({ x, y }) => `${x},${y}`).join(' '),
       })

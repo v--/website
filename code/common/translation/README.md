@@ -10,7 +10,7 @@ Here is a simple example from [`../components/sidebar.ts`](../components/sidebar
 ```
 const _ = env.gettext.bindToBundle('core')
 
-c('button',
+h('button',
   ...
   title: _('sidebar.button.collapse')
   ...

@@ -1,4 +1,4 @@
-import { s } from '../../../common/rendering/component.ts'
+import { createComponent as c } from '../../../common/rendering/component.ts'
 import { type BreakoutBrick } from '../brick.ts'
 
 interface IBreakoutBricksState {
@@ -9,9 +9,9 @@ const BRICK_VISUAL_PADDING = 0.01
 const BRICK_VISUAL_SIZE = 1 - 2 * BRICK_VISUAL_PADDING
 
 export function breakoutBricks({ bricks }: IBreakoutBricksState) {
-  return s('g', { class: 'breakout-bricks' },
+  return c.svg('g', { class: 'breakout-bricks' },
     ...bricks.map(function (brick) {
-      return s('rect', {
+      return c.svg('rect', {
         class: `breakout-brick breakout-brick-power-${brick.power}`,
         width: BRICK_VISUAL_SIZE,
         height: BRICK_VISUAL_SIZE,

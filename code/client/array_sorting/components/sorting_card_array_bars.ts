@@ -1,4 +1,4 @@
-import { s } from '../../../common/rendering/component.ts'
+import { createComponent as c } from '../../../common/rendering/component.ts'
 import { classlist } from '../../../common/support/dom_properties.ts'
 import { ARRAY_SIZE } from '../constants.ts'
 import { type ISortingTimelineSnapshot } from '../types.ts'
@@ -15,9 +15,9 @@ const SVG_VIEW_BOX = [0, 0, ARRAY_SIZE, ARRAY_SIZE / BAR_ASPECT_RATIO].join(' ')
 export function sortingCardArrayBars({ snapshot }: ISortingCardArrayGridState) {
   const { action, array } = snapshot
 
-  return s('svg', { class: 'sorting-card-array-bars', viewBox: SVG_VIEW_BOX },
+  return c.svg('svg', { class: 'sorting-card-array-bars', viewBox: SVG_VIEW_BOX },
     ...array.map(function (value, k) {
-      return s('rect', {
+      return c.svg('rect', {
         class: classlist(
           'sorting-card-array-bar',
           action && (action.i === k || action.j === k) &&

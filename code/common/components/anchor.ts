@@ -1,5 +1,5 @@
 import { type WebsiteEnvironment } from '../environment.ts'
-import { Component, c } from '../rendering/component.ts'
+import { Component, createComponent as c } from '../rendering/component.ts'
 import { classlist } from '../support/dom_properties.ts'
 import { UrlPath } from '../support/url_path.ts'
 import { type AriaCurrentValue } from '../types/aria.ts'
@@ -82,5 +82,5 @@ export function anchor(state: IAnchorState, env: WebsiteEnvironment, children: C
     childState.target = '_blank'
   }
 
-  return c('a', childState, ...children)
+  return c.html('a', childState, ...children)
 }

@@ -1,5 +1,5 @@
 import { type Vec2D } from '../../../common/math/geom2d.ts'
-import { s } from '../../../common/rendering/component.ts'
+import { createComponent as c } from '../../../common/rendering/component.ts'
 import { BALL_RADIUS } from '../constants.ts'
 
 interface IBreakoutBallState {
@@ -7,7 +7,7 @@ interface IBreakoutBallState {
 }
 
 export function breakoutBall({ ballCenter }: IBreakoutBallState) {
-  return s('circle', {
+  return c.svg('circle', {
     class: 'breakout-ball',
     cx: String(ballCenter.x),
     cy: String(ballCenter.y),

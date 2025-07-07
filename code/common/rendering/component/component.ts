@@ -162,7 +162,7 @@ export abstract class Component<TypeT = ComponentType, StateT extends IComponent
     this.#state$.complete()
   }
 
-  #getStringPrefix(builderName: string = 'c'): string {
+  #getStringPrefix(builderName: string): string {
     const builderString = `${builderName}(${repr(this.type)}`
 
     if (this.#stateSource === undefined) {
@@ -182,7 +182,7 @@ export abstract class Component<TypeT = ComponentType, StateT extends IComponent
     return builderString + ', ' + repr(this.#stateSource)
   }
 
-  toString(indentation: uint32 = 0, builderName: string = 'c'): string {
+  toString(indentation: uint32 = 0, builderName: string = '?'): string {
     const prefix = this.#getStringPrefix(builderName)
     const childIter = this.iterChildren()
 

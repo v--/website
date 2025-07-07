@@ -4,7 +4,7 @@ import { paginator } from './paginator.ts'
 import { spacer } from './spacer.ts'
 import { verticalTable } from './vertical_table.ts'
 import { type WebsiteEnvironment } from '../environment.ts'
-import { c } from '../rendering/component.ts'
+import { createComponent as c } from '../rendering/component.ts'
 import { classlist } from '../support/dom_properties.ts'
 import { QueryConfig } from '../support/query_config.ts'
 import { getNextSortParams, parsePage, parsePerPage, parseSortStatus, sliceData } from '../support/table_interaction.ts'
@@ -49,8 +49,8 @@ export function interactiveTable<T = unknown>(
     return mapColumnSpec({ columnSpec: spec, direction: columnDirection }, config, env)
   })
 
-  return c('div', { class: 'interactive-table-wrapper' },
-    c(verticalTable<T>,
+  return c.html('div', { class: 'interactive-table-wrapper' },
+    c.factory(verticalTable<T>,
       {
         tableClass: classlist('interactive-table', cssClass),
         data: sliced,
@@ -58,7 +58,7 @@ export function interactiveTable<T = unknown>(
       },
     ),
 
-    pageCount > 1 && c(paginator, {
+    pageCount > 1 && c.factory(paginator, {
       pageCount,
       currentPage,
       getUpdatedPath(page: uint32) {
@@ -106,15 +106,15 @@ function mapColumnSpec<T>(
     class: columnSpec.class,
     id: columnSpec.id,
     headerAria: getHeaderAria(sortStatus),
-    header: c(
+    header: c.factory(
       anchor,
       {
         isInternal: true,
         href: config.getUpdatedPath(nextSortParams),
       },
-      c(icon, { refId: 'interactive_table', name: getSvgIconFromDirection(direction) }),
-      c(spacer, { direction: 'horizontal', dynamics: 'pp' }),
-      columnSpec.label && c('span', { text: env.gettext.plain$(columnSpec.label) }),
+      c.factory(icon, { refId: 'interactive_table', name: getSvgIconFromDirection(direction) }),
+      c.factory(spacer, { direction: 'horizontal', dynamics: 'pp' }),
+      columnSpec.label && c.html('span', { text: env.gettext.plain$(columnSpec.label) }),
     ),
   }
 }

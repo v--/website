@@ -1,4 +1,4 @@
-import { c } from '../rendering/component.ts'
+import { createComponent as c } from '../rendering/component.ts'
 
 export type SpacerOrientation = 'horizontal' | 'vertical'
 export type SpacerDynamics = 'ppp' | 'pp' | 'p' | 'mp' | 'mf' | 'f' | 'ff' | 'fff'
@@ -13,5 +13,5 @@ export function spacer({ direction, dynamics }: ISpacerState = {}) {
     dynamics = direction === 'horizontal' ? 'mp' : 'f'
   }
 
-  return c('div', { class: `spacer spacer-${direction ?? 'vertical'} spacer-dynamics-${dynamics}` })
+  return c.html('div', { class: `spacer spacer-${direction ?? 'vertical'} spacer-dynamics-${dynamics}` })
 }

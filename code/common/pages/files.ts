@@ -5,7 +5,7 @@ import { rich } from '../components/rich.ts'
 import { spacer } from '../components/spacer.ts'
 import { CC0_URL } from '../constants/url.ts'
 import { type WebsiteEnvironment } from '../environment.ts'
-import { c } from '../rendering/component.ts'
+import { createComponent as c } from '../rendering/component.ts'
 import { type IDirEntry, type IDirectory } from '../services.ts'
 import { UrlPath } from '../support/url_path.ts'
 import { type IWebsitePageState } from '../types/page.ts'
@@ -16,15 +16,15 @@ export function filesPage({ urlPath, pageData }: IWebsitePageState<IDirectory>, 
   const columnSpecs = getColumnSpecs(urlPath)
   const { entries, readme } = pageData
 
-  return c('main', { class: 'files-page' },
-    c('h1', { text: _('heading') }),
-    c(breadcrumbNavigation, { urlPath }),
-    c('div', { class: 'files-page-content' },
-      entries.length > 0 && c(interactiveTable<IDirEntry>, { class: 'files-page-table delimited-table', data: entries, columnSpecs, urlPath }),
-      readme && c(spacer, { dynamics: 'mp' }), // The spacer fits well even if there is no table
-      readme && c(rich, { rootTag: 'section', rootCssClass: 'files-page-content-readme', doc: readme }),
+  return c.html('main', { class: 'files-page' },
+    c.html('h1', { text: _('heading') }),
+    c.factory(breadcrumbNavigation, { urlPath }),
+    c.html('div', { class: 'files-page-content' },
+      entries.length > 0 && c.factory(interactiveTable<IDirEntry>, { class: 'files-page-table delimited-table', data: entries, columnSpecs, urlPath }),
+      readme && c.factory(spacer, { dynamics: 'mp' }), // The spacer fits well even if there is no table
+      readme && c.factory(rich, { rootTag: 'section', rootCssClass: 'files-page-content-readme', doc: readme }),
     ),
-    c(rich, {
+    c.factory(rich, {
       doc: _.rich$({
         key: 'cc_notice',
         context: { ccUrl: CC0_URL },
@@ -59,7 +59,7 @@ function getColumnSpecs(urlPath: UrlPath): Array<IInteractiveTableColumnSpec<IDi
       label: { bundleId: 'files', key: 'table.heading.name' },
       class: 'col-name',
       value(entry: IDirEntry) {
-        return c(anchor, {
+        return c.factory(anchor, {
           text: entry.name,
           title: entry.name,
           href: new UrlPath(urlPath.path.pushRight(entry.name)),

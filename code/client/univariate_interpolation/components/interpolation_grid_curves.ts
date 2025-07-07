@@ -1,5 +1,5 @@
 import { type ISymbolicFunction } from '../../../common/math/numeric.ts'
-import { s } from '../../../common/rendering/component.ts'
+import { createComponent as c } from '../../../common/rendering/component.ts'
 import { range } from '../../../common/support/iteration.ts'
 import { join, snakeToKebabCase } from '../../../common/support/strings.ts'
 import { type float64 } from '../../../common/types/numbers.ts'
@@ -12,9 +12,9 @@ interface IInterpolationGridCurveState {
 }
 
 export function interpolationGridCurves({ interpolated, visible }: IInterpolationGridCurveState) {
-  return s('g', { class: 'interpolation-grid-curves' },
+  return c.svg('g', { class: 'interpolation-grid-curves' },
     ...interpolated.map(
-      ({ fun, interpolator }) => visible[interpolator.id] && s('polyline', {
+      ({ fun, interpolator }) => visible[interpolator.id] && c.svg('polyline', {
         class: `interpolation-grid-curve interpolator-${snakeToKebabCase(interpolator.id)}`,
         points: join(iterPolylinePoints(fun), ' '),
       }),

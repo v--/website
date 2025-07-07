@@ -5,7 +5,7 @@ import { rich } from '../../common/components/rich.ts'
 import { slider } from '../../common/components/slider.ts'
 import { GITHUB_PROJECT_CODE_URL } from '../../common/constants/url.ts'
 import { switchMap } from '../../common/observable.ts'
-import { c } from '../../common/rendering/component.ts'
+import { createComponent as c } from '../../common/rendering/component.ts'
 import { type uint32 } from '../../common/types/numbers.ts'
 import { type IWebsitePageState } from '../../common/types/page.ts'
 import { playgroundMenu } from '../core/components/playground_menu.ts'
@@ -16,8 +16,8 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
   const _ = env.gettext.bindToBundle('array_sorting')
   const store = new SortingFrameStore(env.pageUnload$)
 
-  return c('main', { class: 'sorting-page' },
-    c(rich, {
+  return c.html('main', { class: 'sorting-page' },
+    c.factory(rich, {
       rootTag: 'section',
       doc: _.rich$(
         {
@@ -28,8 +28,8 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
         },
       ),
     }),
-    c(playgroundMenu, { class: 'sorting-page-menu' },
-      c(slider, {
+    c.factory(playgroundMenu, { class: 'sorting-page-menu' },
+      c.factory(slider<uint32>, {
         name: 'sorting_speed',
         content: _('control.speed.label'),
         inputClass: 'sorting-page-menu-control-speed',
@@ -40,7 +40,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
           store.updateSpeed(newValue)
         },
       }),
-      c('button', {
+      c.html('button', {
         class: 'sorting-phase-button',
         text: store.globalSortingPhase$.pipe(
           switchMap(phase => _(`control.run.label.${phase}`)),
@@ -61,7 +61,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
           }
         },
       }),
-      c('button', {
+      c.html('button', {
         class: 'sorting-phase-button',
         text: _('control.reset.label'),
         click() {
@@ -69,8 +69,8 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
         },
       }),
     ),
-    c('div', { class: 'sorting-cards' },
-      ...ALGORITHMS.map(algorithm => c(sortingCard, { algorithm, store })),
+    c.html('div', { class: 'sorting-cards' },
+      ...ALGORITHMS.map(algorithm => c.factory(sortingCard, { algorithm, store })),
     ),
   )
 }

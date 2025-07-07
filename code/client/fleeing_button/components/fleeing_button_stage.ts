@@ -3,7 +3,7 @@ import { fleeingButtonMouseArea } from './fleeing_button_mouse_area.ts'
 import { Vec2D } from '../../../common/math/geom2d.ts'
 import { withLatestFrom } from '../../../common/observable/operators/with_latest_from.ts'
 import { Observable, combineLatest, map, switchMap } from '../../../common/observable.ts'
-import { c, s } from '../../../common/rendering/component.ts'
+import { createComponent as c } from '../../../common/rendering/component.ts'
 import { clamp } from '../../../common/support/floating.ts'
 import { type StateStore } from '../../../common/support/state_store.ts'
 import { type ClientWebsiteEnvironment } from '../../core/environment.ts'
@@ -73,7 +73,7 @@ export function fleeingButtonStage({ store }: IFleeingButtonStageState, env: Cli
 
   const iconSpec = env.iconStore.getIconSpec('fleeing_button', 'solid/person-running')
 
-  return s('svg',
+  return c.svg('svg',
     {
       class: 'fleeing-button-stage',
       viewBox: SVG_VIEW_BOX,
@@ -98,11 +98,11 @@ export function fleeingButtonStage({ store }: IFleeingButtonStageState, env: Cli
         })
       },
     },
-    c(fleeingButtonMouseArea, mouseAreaState$),
-    c(fleeingButtonAttractors, attractorState$),
+    c.factory(fleeingButtonMouseArea, mouseAreaState$),
+    c.factory(fleeingButtonAttractors, attractorState$),
     // The "button" itself ideally belongs in its own component, but we keep it here for more efficient redrawing
     // We keep it as an SVG to allow rescaling
-    s('g',
+    c.svg('g',
       {
         transform: store.keyedObservables.buttonPosition.pipe(
           map(({ x, y }) => {
@@ -110,7 +110,7 @@ export function fleeingButtonStage({ store }: IFleeingButtonStageState, env: Cli
           }),
         ),
       },
-      s('rect',
+      c.svg('rect',
         {
           class: 'fleeing-button',
           x: -BUTTON_SIZE.x / 2,
@@ -141,12 +141,12 @@ export function fleeingButtonStage({ store }: IFleeingButtonStageState, env: Cli
         },
       ),
       // We could use the icon component here instead, but WebKit refuses to apply scaling transforms to nested SVG elements
-      s('defs', undefined,
-        s('symbol', { id: 'icon', viewBox: iconSpec.viewBox },
-          s('path', { d: iconSpec.path }),
+      c.svg('defs', undefined,
+        c.svg('symbol', { id: 'icon', viewBox: iconSpec.viewBox },
+          c.svg('path', { d: iconSpec.path }),
         ),
       ),
-      s('use', { class: 'fleeing-button-icon', href: '#icon' }),
+      c.svg('use', { class: 'fleeing-button-icon', href: '#icon' }),
     ),
   )
 }

@@ -3,7 +3,7 @@ import { rich } from '../components/rich.ts'
 import { type WebsiteEnvironment } from '../environment.ts'
 import { EncodedErrorDecoder } from '../presentable_errors/decoder.ts'
 import { type IEncodedError } from '../presentable_errors.ts'
-import { c } from '../rendering/component.ts'
+import { createComponent as c } from '../rendering/component.ts'
 import { type IWebsitePageState } from '../types/page.ts'
 
 export function errorPage(pageState: IWebsitePageState<IEncodedError>, env: WebsiteEnvironment) {
@@ -12,31 +12,31 @@ export function errorPage(pageState: IWebsitePageState<IEncodedError>, env: Webs
   const subtitleSpec = decoder.getSubtitleSpec()
   const detailsSpec = decoder.getDetailsSpec()
 
-  return c('main', { class: 'error-page' },
-    c(icon, {
+  return c.html('main', { class: 'error-page' },
+    c.factory(icon, {
       refId: 'core',
       name: 'solid/triangle-exclamation',
       class: 'icon-huge error-page-icon',
     }),
-    c(rich, {
+    c.factory(rich, {
       rootCssClass: 'error-page-title',
       rootTag: 'h1',
       mode: 'paragraph',
       doc: env.gettext.rich$({ ...titleSpec, coerce: true }),
     }),
-    c(rich, {
+    c.factory(rich, {
       rootCssClass: 'error-page-subtitle',
       rootTag: 'h2',
       mode: 'paragraph',
       doc: env.gettext.rich$({ ...subtitleSpec, coerce: true }),
     }),
-    detailsSpec && c(rich, {
+    detailsSpec && c.factory(rich, {
       rootCssClass: 'error-page-details',
       rootTag: 'h3',
       mode: 'paragraph',
       doc: env.gettext.rich$({ ...detailsSpec, coerce: true }),
     }),
-    c(rich, {
+    c.factory(rich, {
       mode: 'paragraph',
       doc: env.gettext.rich$({ bundleId: 'core', key: 'error_page.suggestion' }),
     }),

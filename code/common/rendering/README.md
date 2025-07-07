@@ -4,7 +4,7 @@ This is the bread and butter of my website. It was [first committed](https://git
 
 1. There are HTML components:
     ```
-    c('button', {
+    c.html('button', {
       text: 'Click me',
       update(event: PointerEvent) {
         console.log('He clicked me!')
@@ -15,13 +15,13 @@ This is the bread and butter of my website. It was [first committed](https://git
 2. There are factory functions which produce HTML components:
     ```
     function exampleFactory({ text }: IExampleFactoryState) {
-      return c('p', { text })
+      return c.html('p', { text })
     }
     ```
 
 3. These can be wrapped into factory components as follows:
     ```
-    c(exampleFactory, { text: 'example' })
+    c.factory(exampleFactory, { text: 'example' })
     ```
 
 4. Reactivity is achieved by using observables instead of state objects: given
@@ -30,7 +30,7 @@ This is the bread and butter of my website. It was [first committed](https://git
     ```
     we can pass
     ```
-    c('p', stateObservable$)
+    c.html('p', stateObservable$)
     ```
     to the rendering system, and it will redraw the component every time `stateObservable$` emits.
 
@@ -57,39 +57,45 @@ The [`Component`](./component/component.ts) class is a building block for our vi
 2. A state source. We support several kinds of sources:
     1. Undefined (i.e. the component needs no state)
         ```
-        c('button', undefined)
+        c.html('button', undefined)
         ```
         or simply
         ```
-        c('button')
+        c.html('button')
         ```
 
     2. A plain object:
         ```
-        c('button', { text: 'text', title: 'title' })
+        c.html('button', { text: 'text', title: 'title' })
         ```
 
     3. An observable:
         ```
-        c('button', buttonState$)
+        c.html('button', buttonState$)
         ```
 
     4. A dictionary of observables (transformed into a single observable using [`combineLatest`](../observable/operators/combine_latest.ts)):
         ```
-        c('button', { text: text$, title: title$ })
+        c.html('button', { text: text$, title: title$ })
         ```
 
         We deviate from RxJS in that `combineLatest` supports some of the properties to be plain non-observable values and even promises or arrays that would not get transformed into observables. For example, we can use a mixture of observable and non-observable properties:
         ```
-        c('button', { text: text$, title: 'title' })
+        c.html('button', { text: text$, title: 'title' })
         ```
 
 3. Finally, a component requires a list of children, other components. We can thus write
     ```
-    c('a', { href: 'http://example.com' },
-      c('b', { text: 'Bold text in a link' }),
+    c.html('a', { href: 'http://example.com' },
+      c.html('b', { text: 'Bold text in a link' }),
     )
     ```
+
+## Validation
+
+We do some basic validation in the `prevalidateNewState` method of the components, as well as when updating the state sources themselves.
+
+In general, proper component creation validation requires a lot of mundane code, as well as "synthetic events" that wrap those from the DOM. We see no benefit to this validation here, but if we were to release this as a standalone library, such validation would be required.
 
 ## Environments
 
@@ -101,7 +107,7 @@ For this website, we use instances of the [WebsiteEnvironment](../environment.ts
 ```
 const _ = env.gettext.bindToBundle('core')
 
-c('button',
+c.html('button',
   ...
   title: _('sidebar.button.collapse')
   ...

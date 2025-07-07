@@ -3,6 +3,7 @@ import { ComponentSanityError } from './errors.ts'
 import { type IXmlComponentState, XmlComponent } from './xml.ts'
 import { type Observable } from '../../observable.ts'
 import { repr } from '../../support/strings.ts'
+import { type uint32 } from '../../types/numbers.ts'
 
 // Taken from https://developer.mozilla.org/en-US/docs/Glossary/Void_element
 const HTML_VOID_TAGS = new Set([
@@ -52,5 +53,9 @@ export class HtmlComponent extends XmlComponent<HtmlComponentType, IHtmlComponen
         throw new ComponentSanityError('Void HTML component cannot have children', { component: repr(this) })
       }
     }
+  }
+
+  override toString(indentation?: uint32) {
+    return super.toString(indentation, 'c.html')
   }
 }

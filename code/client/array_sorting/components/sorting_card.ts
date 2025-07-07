@@ -1,7 +1,7 @@
 import { anchor } from '../../../common/components/anchor.ts'
 import { rich } from '../../../common/components/rich.ts'
 import { EMPTY, map, switchMap, timeInterval } from '../../../common/observable.ts'
-import { c } from '../../../common/rendering/component.ts'
+import { createComponent as c } from '../../../common/rendering/component.ts'
 import { type ClientWebsiteEnvironment } from '../../core/environment.ts'
 import { TIMELINES } from '../constants.ts'
 import { type SortingFrameStore } from '../store.ts'
@@ -40,22 +40,22 @@ export function sortingCard({ algorithm, store }: IArraySortingCardState, env: C
     }
   })
 
-  return c('div', { class: 'sorting-card' },
-    c('h3', { class: 'sorting-card-title' },
-      c(anchor, {
+  return c.html('div', { class: 'sorting-card' },
+    c.html('h3', { class: 'sorting-card-title' },
+      c.factory(anchor, {
         href: _(`algorithm.${algorithm.id}.url`),
         text: _(`algorithm.${algorithm.id}.name`),
       }),
     ),
 
-    c('div', { class: 'sorting-card-array-grid' },
+    c.html('div', { class: 'sorting-card-array-grid' },
       ...ARRAY_TEMPLATE_KINDS.map(function (templateKind) {
-        return c('div', { class: 'sorting-card-array' },
-          c('h4', {
+        return c.html('div', { class: 'sorting-card-array' },
+          c.html('h4', {
             class: 'sorting-card-array-template-kind',
             text: _(`card.array.${templateKind}.name`),
           }),
-          c(sortingCardArrayBars, {
+          c.factory(sortingCardArrayBars, {
             snapshot: algorithmMoment$.pipe(
               map(moment => timelines[templateKind].getSnapshot(moment)),
             ),
@@ -64,8 +64,8 @@ export function sortingCard({ algorithm, store }: IArraySortingCardState, env: C
       }),
     ),
 
-    c('div', { class: 'sorting-card-buttons' },
-      c('button', {
+    c.html('div', { class: 'sorting-card-buttons' },
+      c.html('button', {
         class: 'sorting-phase-button',
         text: algorithmPhase$.pipe(
           switchMap(phase => _(`control.run.label.${phase}`)),
@@ -87,7 +87,7 @@ export function sortingCard({ algorithm, store }: IArraySortingCardState, env: C
         },
       }),
 
-      c('button', {
+      c.html('button', {
         class: 'sorting-phase-button',
         text: _('control.reset.label'),
         click() {
@@ -96,24 +96,24 @@ export function sortingCard({ algorithm, store }: IArraySortingCardState, env: C
       }),
     ),
 
-    c('table', { class: 'sorting-card-info-table' },
-      c('tr', undefined,
-        c('th', {
+    c.html('table', { class: 'sorting-card-info-table' },
+      c.html('tr', undefined,
+        c.html('th', {
           text: _('card.info.header.stable'),
         }),
 
-        c('td', {
+        c.html('td', {
           text: _(`card.info.stability.${algorithm.isStable}`),
         }),
       ),
 
-      c('tr', undefined,
-        c('th', {
+      c.html('tr', undefined,
+        c.html('th', {
           text: _('card.info.header.time'),
         }),
 
-        c('td', undefined,
-          c(rich, {
+        c.html('td', undefined,
+          c.factory(rich, {
             mode: 'mathml',
             doc: {
               kind: 'document',
@@ -123,13 +123,13 @@ export function sortingCard({ algorithm, store }: IArraySortingCardState, env: C
         ),
       ),
 
-      c('tr', undefined,
-        c('th', {
+      c.html('tr', undefined,
+        c.html('th', {
           text: _('card.info.header.space'),
         }),
 
-        c('td', undefined,
-          c(rich, {
+        c.html('td', undefined,
+          c.factory(rich, {
             mode: 'mathml',
             doc: {
               kind: 'document',

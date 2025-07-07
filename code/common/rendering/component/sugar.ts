@@ -1,43 +1,56 @@
-import { Component, type IComponentEnvironment, type IComponentState, type IComponentStateSource } from './component.ts'
+import { Component, type IComponentEnvironment, type IComponentStateSource } from './component.ts'
 import { InvalidComponentError } from './errors.ts'
 import { FactoryComponent, type FactoryComponentType, type IFactoryComponentState } from './factory.ts'
 import { HtmlComponent, type HtmlComponentType, type IHtmlComponentState } from './html.ts'
-import { repr } from '../../support/strings.ts'
+import { MathMLComponent } from './mathml.ts'
+import { type ISvgComponentState, SvgComponent, type SvgComponentType } from './svg.ts'
 import { type ExtendedNullable } from '../../types/typecons.ts'
 
-export function* filterChildren(children: Array<ExtendedNullable<Component>>): Generator<Component> {
-  for (const child of children) {
-    if (child instanceof Component) {
-      yield child
-    } else if (child) {
-      throw new InvalidComponentError(`Expected either a component or falsy value as a child, but got ${repr(child)}`)
+export class ComponentCreationHelper {
+  * #filterChildren(children: Array<ExtendedNullable<Component>>): Generator<Component> {
+    for (const child of children) {
+      if (child instanceof Component) {
+        yield child
+      } else if (child) {
+        throw new InvalidComponentError('Expected either a component or falsy value as a child', { child })
+      }
     }
   }
-}
 
-export function c<
-  StateT extends NonNullable<IFactoryComponentState>,
-  EnvT extends IComponentEnvironment = IComponentEnvironment,
->(
-  type: FactoryComponentType<StateT, EnvT>,
-  stateSource?: IComponentStateSource<StateT>,
-  ...children: ExtendedNullable<Component>[]
-): FactoryComponent<StateT>
-export function c(
-  type: HtmlComponentType,
-  stateSource?: IComponentStateSource<IHtmlComponentState>,
-  ...children: ExtendedNullable<Component>[]
-): HtmlComponent
-export function c(
-  type: HtmlComponentType | FactoryComponentType,
-  stateSource: IComponentStateSource<IComponentState> = undefined,
-  ...children: ExtendedNullable<Component>[]
-): HtmlComponent | FactoryComponent<NonNullable<IFactoryComponentState>> {
-  switch (typeof type) {
-    case 'string':
-      return new HtmlComponent(type, stateSource, filterChildren(children))
+  factory<
+    StateT extends NonNullable<IFactoryComponentState>,
+    EnvT extends IComponentEnvironment = IComponentEnvironment,
+  >(
+    type: FactoryComponentType<StateT, EnvT>,
+    stateSource?: IComponentStateSource<StateT>,
+    ...children: ExtendedNullable<Component>[]
+  ): FactoryComponent<StateT, EnvT> {
+    return new FactoryComponent(type, stateSource, this.#filterChildren(children))
+  }
 
-    case 'function':
-      return new FactoryComponent(type, stateSource, filterChildren(children))
+  html(
+    type: HtmlComponentType,
+    stateSource?: IComponentStateSource<IHtmlComponentState>,
+    ...children: ExtendedNullable<Component>[]
+  ): HtmlComponent {
+    return new HtmlComponent(type, stateSource, this.#filterChildren(children))
+  }
+
+  svg(
+    type: SvgComponentType,
+    stateSource?: IComponentStateSource<ISvgComponentState>,
+    ...children: ExtendedNullable<Component>[]
+  ): SvgComponent {
+    return new SvgComponent(type, stateSource, this.#filterChildren(children))
+  }
+
+  mathml(
+    type: SvgComponentType,
+    stateSource?: IComponentStateSource<ISvgComponentState>,
+    ...children: ExtendedNullable<Component>[]
+  ): MathMLComponent {
+    return new MathMLComponent(type, stateSource, this.#filterChildren(children))
   }
 }
+
+export const createComponent = new ComponentCreationHelper()

@@ -1,7 +1,7 @@
 import { rich } from '../components/rich.ts'
 import { OPENPGP_KEYSERVER_URL, OPENPGP_KEY_ID_SHORT } from '../constants/url.ts'
 import { WebsiteEnvironment } from '../environment.ts'
-import { c } from '../rendering/component.ts'
+import { createComponent as c } from '../rendering/component.ts'
 import { type IPacmanRepository, type PacmanPackageArch } from '../services/pacman.ts'
 import { type IPacmanPackage } from '../services.ts'
 import { groupBy } from '../support/iteration.ts'
@@ -11,18 +11,18 @@ export function pacmanPage({ pageData }: IWebsitePageState<IPacmanRepository>, e
   const byArch = groupBy(pageData.packages, pkg => pkg.arch)
   const _ = env.gettext.bindToBundle('pacman')
 
-  return c('main', { class: 'pacman-page' },
-    c('section', undefined,
-      c('h1', { text: _('heading.main') }),
-      c(rich, {
+  return c.html('main', { class: 'pacman-page' },
+    c.html('section', undefined,
+      c.html('h1', { text: _('heading.main') }),
+      c.factory(rich, {
         doc: _.rich$({ key: 'main' }),
       }),
-      c('pre', undefined,
-        c('code', {
+      c.html('pre', undefined,
+        c.html('code', {
           text: '[ivasilev]\nServer = https://ivasilev.net/pacman/$arch',
         }),
       ),
-      c(rich, {
+      c.factory(rich, {
         doc: _.rich$(
           {
             key: 'openpgp',
@@ -32,10 +32,10 @@ export function pacmanPage({ pageData }: IWebsitePageState<IPacmanRepository>, e
       }),
     ),
 
-    c('section', undefined,
-      c('h1', { text: _('heading.packages') }),
+    c.html('section', undefined,
+      c.html('h1', { text: _('heading.packages') }),
       // TODO: Remove Array.from once Iterator.prototype.map() proliferates
-      ...Array.from(byArch.entries()).map(([arch, pkgs]) => c(packages, { arch, pkgs })),
+      ...Array.from(byArch.entries()).map(([arch, pkgs]) => c.factory(packages, { arch, pkgs })),
     ),
   )
 }
@@ -44,8 +44,8 @@ function* iterPackagesComponents(pkgs: IPacmanPackage[], env: WebsiteEnvironment
   const _ = env.gettext.bindToBundle('pacman')
 
   for (const pkg of pkgs) {
-    yield c('dt', { text: _({ key: 'version', context: pkg }) })
-    yield c('dd', { text: pkg.description })
+    yield c.html('dt', { text: _({ key: 'version', context: pkg }) })
+    yield c.html('dd', { text: pkg.description })
   }
 }
 
@@ -55,8 +55,8 @@ interface IPackagesState {
 }
 
 function packages({ arch, pkgs }: IPackagesState, env: WebsiteEnvironment) {
-  return c('div', { class: 'packages' },
-    c('h2', { text: arch }),
-    c('dl', undefined, ...iterPackagesComponents(pkgs, env)),
+  return c.html('div', { class: 'packages' },
+    c.html('h2', { text: arch }),
+    c.html('dl', undefined, ...iterPackagesComponents(pkgs, env)),
   )
 }
