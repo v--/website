@@ -14,7 +14,7 @@ export function parsePerPage(rawPerPage: string): uint32 {
     throw new PresentableError({
       errorKind: 'http',
       code: 400,
-      details: { bundleId: 'interactive_table_error', key: 'error.details.per_page.invalid' },
+      details: { bundleId: 'interactive_table_error', key: 'error.details.per-page.invalid' },
     })
   }
 
@@ -75,7 +75,7 @@ export function parseSortStatus<T>(
       details: {
         bundleId: 'interactive_table_error', key: 'error.details.sort.unknown',
         context: {
-          paramName: rawSortAsc === undefined ? 'sort_desc' : 'sort_asc',
+          paramName: rawSortAsc === undefined ? 'sort-desc' : 'sort-asc',
         },
       },
     })
@@ -107,24 +107,24 @@ export function sliceData<T>(
   return data.toSorted(comparator).slice(pageStart, pageStart + perPage)
 }
 
-export function getNextSortParams<T>(sortStatus: ISortStatus<T>): Pick<IInteractiveTableQuerySchema, 'sort_asc' | 'sort_desc'> {
+export function getNextSortParams<T>(sortStatus: ISortStatus<T>): Pick<IInteractiveTableQuerySchema, 'sort-asc' | 'sort-desc'> {
   switch (sortStatus.direction) {
     case 'neutral':
       return {
-        sort_asc: sortStatus.columnSpec.id,
-        sort_desc: undefined,
+        ['sort-asc']: sortStatus.columnSpec.id,
+        ['sort-desc']: undefined,
       }
 
     case 'asc':
       return {
-        sort_asc: undefined,
-        sort_desc: sortStatus.columnSpec.id,
+        ['sort-asc']: undefined,
+        ['sort-desc']: sortStatus.columnSpec.id,
       }
 
     case 'desc':
       return {
-        sort_asc: undefined,
-        sort_desc: undefined,
+        ['sort-asc']: undefined,
+        ['sort-desc']: undefined,
       }
   }
 }

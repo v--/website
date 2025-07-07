@@ -7,13 +7,13 @@
     "entryKind": "rich",
     "content": "The value of the URL parameter `page` must not exceed ${pageCount}, the page count."
   },
-  "error.details.per_page.invalid": {
+  "error.details.per-page.invalid": {
     "entryKind": "rich",
-    "content": "The value of the URL parameter `per_page` must be a positive integer."
+    "content": "The value of the URL parameter `per-page` must be a positive integer."
   },
   "error.details.sort.conflict": {
     "entryKind": "rich",
-    "content": "The URL parameters `sort_asc` and `sort_desc` cannot be specified simultaneously."
+    "content": "The URL parameters `sort-asc` and `sort-desc` cannot be specified simultaneously."
   },
   "error.details.sort.unknown": {
     "entryKind": "rich",

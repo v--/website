@@ -34,14 +34,14 @@ export function interactiveTable<T = unknown>(
   { class: cssClass, columnSpecs, data, urlPath }: IInteractiveTableState<T>,
   env: WebsiteEnvironment,
 ) {
-  const queryDefaults: IInteractiveTableQuerySchema = { per_page: String(DEFAULT_PER_PAGE), page: '1' }
+  const queryDefaults: IInteractiveTableQuerySchema = { ['per-page']: String(DEFAULT_PER_PAGE), page: '1' }
   const config: InteractiveTableQueryConfig = new QueryConfig(urlPath, queryDefaults)
 
-  const perPage = parsePerPage(config.get('per_page'))
+  const perPage = parsePerPage(config.get('per-page'))
   const pageCount = Math.max(1, Math.ceil(data.length / perPage))
   const currentPage = parsePage(config.get('page'), pageCount)
 
-  const sortStatus = parseSortStatus(config.get('sort_asc'), config.get('sort_desc'), columnSpecs)
+  const sortStatus = parseSortStatus(config.get('sort-asc'), config.get('sort-desc'), columnSpecs)
 
   const sliced = sliceData(sortStatus, data, perPage, currentPage)
   const mappedColumns = columnSpecs.map(function (spec) {

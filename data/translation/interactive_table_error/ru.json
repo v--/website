@@ -7,13 +7,13 @@
     "entryKind": "rich",
     "content": "Стойность URL параметра `page` не должен превосходить ${pageCount}, количества страниц."
   },
-  "error.details.per_page.invalid": {
+  "error.details.per-page.invalid": {
     "entryKind": "rich",
-    "content": "Стойность URL параметра `per_page` должен быть положительным целым числом."
+    "content": "Стойность URL параметра `per-page` должен быть положительным целым числом."
   },
   "error.details.sort.conflict": {
     "entryKind": "rich",
-    "content": "URL параметры `sort_asc` и `sort_desc` не могут быть заданы одновременно."
+    "content": "URL параметры `sort-asc` и `sort-desc` не могут быть заданы одновременно."
   },
   "error.details.sort.unknown": {
     "entryKind": "rich",

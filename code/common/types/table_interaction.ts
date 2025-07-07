@@ -8,9 +8,9 @@ export interface IInteractiveTableColumnSpec<T, R = unknown> extends Omit<IVerti
 }
 
 export type IInteractiveTableQuerySchema = {
-  sort_asc?: string
-  sort_desc?: string
-  per_page: string
+  ['sort-asc']?: string
+  ['sort-desc']?: string
+  ['per-page']: string
   page: string
 }
 

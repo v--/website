@@ -158,8 +158,8 @@ describe('Files page', function () {
             assert.equal(anchors.length, 2)
           })
 
-          it('has 1-9 as anchors with the "per_page" query param set to "1"', async function () {
-            await page.goto('/files?per_page=1')
+          it('has 1-9 as anchors with the "per-page" query param set to "1"', async function () {
+            await page.goto('/files?per-page=1')
             const anchors = await page.getPaginatorNumberAnchors()
             assert.equal(anchors.length, 9)
 
@@ -168,11 +168,11 @@ describe('Files page', function () {
             }
           })
 
-          it('has the first nine default files listed when navigating the pages 1-9 with the "per_page" query param set to "1"', async function () {
+          it('has the first nine default files listed when navigating the pages 1-9 with the "per-page" query param set to "1"', async function () {
             await page.goto('/files')
             const defaultRows = await page.getShownDirEntries()
 
-            await page.goto('/files?per_page=1')
+            await page.goto('/files?per-page=1')
 
             for (let i = 0; i < defaultRows.length; i++) {
               const rows = await page.getShownDirEntries()
@@ -185,7 +185,7 @@ describe('Files page', function () {
           })
 
           it('has 2-10 as anchors after clicking the 6th anchor', async function () {
-            await page.goto('/files?per_page=1')
+            await page.goto('/files?per-page=1')
             const firstPageAnchors = await page.getPaginatorNumberAnchors()
             assert.equal(firstPageAnchors.length, 9)
             await firstPageAnchors[5].click()
@@ -281,12 +281,12 @@ describe('Files page', function () {
             assert.equal(errContent.details, 'The value of the URL parameter page must be a positive integer.')
           })
 
-          it('errors out with 400 when the "per_page" query param is zero', async function () {
-            await page.goto('/files?per_page=0')
+          it('errors out with 400 when the "per-page" query param is zero', async function () {
+            await page.goto('/files?per-page=0')
             const errContent = await page.parseError()
 
             assert.equal(errContent.title, 'Bad request')
-            assert.equal(errContent.details, 'The value of the URL parameter per_page must be a positive integer.')
+            assert.equal(errContent.details, 'The value of the URL parameter per-page must be a positive integer.')
           })
 
           it('errors out with 400 when the "page" query param exceeds the number of pages', async function () {
@@ -339,98 +339,98 @@ describe('Files page', function () {
             assert.equal(sortDirection, 'neutral')
           })
 
-          it('clicking the name heading once sets the "sort_asc" parameter to "name" without setting "sort_desc"', async function () {
+          it('clicking the name heading once sets the "sort-asc" parameter to "name" without setting "sort-desc"', async function () {
             await page.goto('/files')
             const nameHeader = await page.getTableHeaderAnchor('name')
             await nameHeader.click()
 
-            assert.equal(page.getUrlPath().query.get('sort_asc'), 'name')
-            assertUndefined(page.getUrlPath().query.get('sort_desc'))
+            assert.equal(page.getUrlPath().query.get('sort-asc'), 'name')
+            assertUndefined(page.getUrlPath().query.get('sort-desc'))
           })
 
-          it('clicking the name heading twice sets the "sort_desc" parameter to "name" and unsets "sort_asc"', async function () {
+          it('clicking the name heading twice sets the "sort-desc" parameter to "name" and unsets "sort-asc"', async function () {
             await page.goto('/files')
             const nameHeader = await page.getTableHeaderAnchor('name')
             await nameHeader.click()
             await nameHeader.click()
 
-            assert.equal(page.getUrlPath().query.get('sort_desc'), 'name')
-            assertUndefined(page.getUrlPath().query.get('sort_asc'))
+            assert.equal(page.getUrlPath().query.get('sort-desc'), 'name')
+            assertUndefined(page.getUrlPath().query.get('sort-asc'))
           })
 
-          it('clicking the name heading thrice unsets both "sort_desc" and "sort_asc"', async function () {
+          it('clicking the name heading thrice unsets both "sort-desc" and "sort-asc"', async function () {
             await page.goto('/files')
             const nameHeader = await page.getTableHeaderAnchor('name')
             await nameHeader.click()
             await nameHeader.click()
             await nameHeader.click()
 
-            assertUndefined(page.getUrlPath().query.get('sort_desc'))
-            assertUndefined(page.getUrlPath().query.get('sort_asc'))
+            assertUndefined(page.getUrlPath().query.get('sort-desc'))
+            assertUndefined(page.getUrlPath().query.get('sort-asc'))
           })
 
-          it('setting "sort_asc" to "name" changes the column sort status', async function () {
-            await page.goto('/files?sort_asc=name')
+          it('setting "sort-asc" to "name" changes the column sort status', async function () {
+            await page.goto('/files?sort-asc=name')
 
             const sortDirection = await page.getTableHeaderSortDirection('name')
             assert.equal(sortDirection, 'asc')
           })
 
-          it('setting "sort_desc" to "name" changes the column sort status', async function () {
-            await page.goto('/files?sort_desc=name')
+          it('setting "sort-desc" to "name" changes the column sort status', async function () {
+            await page.goto('/files?sort-desc=name')
 
             const sortDirection = await page.getTableHeaderSortDirection('name')
             assert.equal(sortDirection, 'desc')
           })
 
-          it('errors out with 400 when setting both "sort_asc" and "sort_desc" to "name"', async function () {
-            await page.goto('/files?sort_asc=name&sort_desc=name')
+          it('errors out with 400 when setting both "sort-asc" and "sort-desc" to "name"', async function () {
+            await page.goto('/files?sort-asc=name&sort-desc=name')
             const errContent = await page.parseError()
 
             assert.equal(errContent.title, 'Bad request')
-            assert.equal(errContent.details, 'The URL parameters sort_asc and sort_desc cannot be specified simultaneously.')
+            assert.equal(errContent.details, 'The URL parameters sort-asc and sort-desc cannot be specified simultaneously.')
           })
 
-          it('errors out with 400 when setting "sort_asc" to "invalid"', async function () {
-            await page.goto('/files?sort_asc=invalid')
+          it('errors out with 400 when setting "sort-asc" to "invalid"', async function () {
+            await page.goto('/files?sort-asc=invalid')
             const errContent = await page.parseError()
 
             assert.equal(errContent.title, 'Bad request')
-            assert.equal(errContent.details, 'The value of the URL parameter sort_asc is not a known sorting column.')
+            assert.equal(errContent.details, 'The value of the URL parameter sort-asc is not a known sorting column.')
           })
 
-          it('errors out with 400 when setting "sort_desc" to "invalid"', async function () {
-            await page.goto('/files?sort_desc=invalid')
+          it('errors out with 400 when setting "sort-desc" to "invalid"', async function () {
+            await page.goto('/files?sort-desc=invalid')
             const errContent = await page.parseError()
 
             assert.equal(errContent.title, 'Bad request')
-            assert.equal(errContent.details, 'The value of the URL parameter sort_desc is not a known sorting column.')
+            assert.equal(errContent.details, 'The value of the URL parameter sort-desc is not a known sorting column.')
           })
 
           it('arranges the entry names in alphabetical order when sorting by name', async function () {
-            await page.goto('/files?per_page=20')
+            await page.goto('/files?per-page=20')
             const defaultRows = await page.getShownDirEntries()
             const manuallySortedRows = schwartzSort(row => row.name, defaultRows)
 
-            await page.goto('/files?per_page=20&sort_asc=name')
+            await page.goto('/files?per-page=20&sort-asc=name')
             const sortedRows = await page.getShownDirEntries()
 
             assert.deepEqual(sortedRows, manuallySortedRows)
           })
 
           it('arranges the entry names in reverse alphabetical order when sorting descending by name', async function () {
-            await page.goto('/files?per_page=20')
+            await page.goto('/files?per-page=20')
             const defaultRows = await page.getShownDirEntries()
             const manuallySortedRows = schwartzSort(row => row.name, defaultRows).reverse()
 
-            await page.goto('/files?per_page=20&sort_desc=name')
+            await page.goto('/files?per-page=20&sort-desc=name')
             const sortedRows = await page.getShownDirEntries()
 
             assert.deepEqual(sortedRows, manuallySortedRows)
           })
 
           it('arranges the entry names by numeric file size when sorting by size', async function () {
-            await page.goto('/files?sort_asc=size')
+            await page.goto('/files?sort-asc=size')
             const sortedRows = await page.getShownDirEntries()
             const sizesAndNames = sortedRows.map(({ name, size }) => ({ name, size }))
 
@@ -449,7 +449,7 @@ describe('Files page', function () {
           })
 
           it('arranges the entry names by reverse numeric file size when sorting descending by size', async function () {
-            await page.goto('/files?sort_desc=size')
+            await page.goto('/files?sort-desc=size')
             const sortedRows = await page.getShownDirEntries()
 
             assert.equal(sortedRows[0].name, 'lipsum.pdf')
