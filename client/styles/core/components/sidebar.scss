@@ -3,14 +3,14 @@
 @use "../../mixins";
 
 @mixin sidebar-collapsed() {
-  --sidebar-size-width: var(--sidebar-size-width-collapsed);
+  --sidebar-size-max-width: var(--sidebar-size-max-width-collapsed);
   --sidebar-transform-toggle-button: none;
   --sidebar-color-language-icon: var(--sidebar-color-disabled);
   --sidebar-content-visibility-collapsible: hidden;
 }
 
 @mixin sidebar-expanded() {
-  --sidebar-size-width: var(--sidebar-size-width-expanded);
+  --sidebar-size-max-width: var(--sidebar-size-max-width-expanded);
   --sidebar-transform-toggle-button: scaleX(-1);
   --sidebar-color-language-icon: var(--sidebar-color-foreground);
   --sidebar-content-visibility-collapsible: visible;
@@ -29,24 +29,24 @@
   --control-color-label-active: var(--sidebar-color-foreground);
   --control-color-label-accented: var(--sidebar-color-accented);
   --divider-color: var(--sidebar-color-divider);
-  --sidebar-size-width-collapsed: #{sizes.$sidebar-size-width-collapsed-loose};
-  --sidebar-size-width-expanded:  #{sizes.$sidebar-size-width-expanded};
+  --sidebar-size-max-width-collapsed: #{sizes.$sidebar-size-max-width-collapsed-loose};
+  --sidebar-size-max-width-expanded:  #{sizes.$sidebar-size-max-width-expanded};
 
   display: flex;
   flex-direction: column;
   overflow: hidden auto;
-  width: var(--sidebar-size-width);
+  max-width: var(--sidebar-size-max-width);
   height: 100%;
   background-color: var(--sidebar-color-background);
   font-size: 0.9rem;
   /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
-  transition: width var(--sidebar-duration-collapse);
+  transition: max-width var(--sidebar-duration-collapse);
   scrollbar-gutter: auto;
   overscroll-behavior-y: contain;
 
   // The two width queries interlap at the threshold. I tried subtracting 1px from this one, but then neither matched at #{threshold - 1px}.
   @media (max-width: #{sizes.$sidebar-size-threshold-collapse}) {
-    --sidebar-size-width-collapsed: #{sizes.$sidebar-size-width-collapsed-dense};
+    --sidebar-size-max-width-collapsed: #{sizes.$sidebar-size-max-width-collapsed-dense};
 
     &:not(.sidebar-expanded) {
       @include sidebar-collapsed;
@@ -68,15 +68,15 @@
   }
 
   &-entry {
-    --button-size-vpadding: 0;
-    --button-size-hpadding: 0;
     --icon-size-diameter: #{sizes.$sidebar-size-icon-diameter};
-    --icon-size-padding: calc((var(--sidebar-size-width-collapsed) - var(--icon-size-diameter)) / 2 - 1px);
+    --icon-size-padding:  calc((var(--sidebar-size-max-width-collapsed) - var(--icon-size-diameter)) / 2 - 1px);
+    --button-size-hpadding: 0 calc(var(--icon-size-padding) / 2);
+    --button-size-vpadding: 0;
 
     width: 100%;
     outline-offset: var(--button-size-outline-offset);
     font-weight: bold;
-    line-height: var(--sidebar-size-width-collapsed);
+    line-height: var(--sidebar-size-max-width-collapsed);
     text-align: left;
     text-transform: uppercase;
     white-space: pre; // Don't try to wrap the text while collapsed or transitioning
@@ -116,7 +116,8 @@
     // Field sets have padding, margins and min-width by default
     min-width: 0;
     margin: 0;
-    padding: 0;
+    padding-inline: var(--button-size-hpadding);
+    padding-block: 0;
 
     &-info-icon {
       flex-shrink: 0;
