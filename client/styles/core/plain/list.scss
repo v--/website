@@ -20,15 +20,37 @@ dl {
     font-size: 1.1em;
     text-align: left;
 
-    &:not(:last-of-type) {
-      margin-bottom: 0.25em;
+    &:not(:last-child) {
+      margin-bottom: var(--body-size-pp);
     }
   }
 
   dd {
-    margin-bottom: 0.75em;
-    margin-left: 1em;
-    padding-left: 0.5em;
+    margin-left: var(--body-size-mf);
+    padding-left: var(--body-size-p);
     border-left: var(--list-size-line-width) solid var(--body-color-pp);
+
+    &:not(:last-child) {
+      margin-bottom: var(--body-size-mp)
+    }
+  }
+}
+
+dl.alert-list {
+  margin-top: var(--body-size-f);
+  margin-bottom: var(--body-size-p);
+
+  dd {
+    &.alert-success {
+      border-color: var(--body-color-success)
+    }
+
+    &.alert-warning {
+      border-color: var(--body-color-warning)
+    }
+
+    &.alert-danger {
+      border-color: var(--body-color-danger)
+    }
   }
 }

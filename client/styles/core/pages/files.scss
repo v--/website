@@ -3,10 +3,6 @@
   flex-direction: column;
   min-height: 100%;
 
-  &-content {
-    flex-grow: 1;
-  }
-
   &-table {
     .col-name {
       width: 60%;
@@ -18,8 +14,9 @@
     }
   }
 
-  &-readme-notice {
-    margin-top: 0.5em;
-    margin-bottom: 0.25em;
+  &-notices {
+    &:empty {
+      margin-top: 0; // Only leave a little padding from the bottom margin
+    }
   }
 }

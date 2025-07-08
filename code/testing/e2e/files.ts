@@ -2,7 +2,7 @@ import { AssertionError } from 'node:assert/strict'
 
 import { BasePage } from './base.ts'
 import { Anchor } from './support/anchor.ts'
-import { getSortingDirection } from './support/locator.ts'
+import { getLocatorClasses, getSortingDirection } from './support/locator.ts'
 import { repr } from '../../common/support/strings.ts'
 import { type Infer, Schema, validateSchema } from '../../common/validation.ts'
 
@@ -42,8 +42,12 @@ export class FilesPage extends BasePage {
     return this._pwPage.locator('.files-page-readme').first()
   }
 
-  getReadmeNoticeLocator() {
-    return this._pwPage.locator('.files-page-readme-notice').first()
+  getNoticesLocator() {
+    return this._pwPage.locator('.files-page-notices').first()
+  }
+
+  getLanguageNotice() {
+    return this.getNoticesLocator().getByText("This directory's description")
   }
 
   getTableLocator() {

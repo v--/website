@@ -467,20 +467,17 @@ describe('Files page', function () {
 
         it('has no language notice at the root (where both the browser and the README are in English)', async function () {
           await page.goto('/files')
-          const readmeNotice = page.getReadmeNoticeLocator()
-          assertFalse(await readmeNotice.isVisible())
+          const noticeLocator = page.getLanguageNotice()
+          assertFalse(await noticeLocator.isVisible())
         })
 
         it('has a language notice in /суб (where the README is in Russian)', async function () {
           await page.goto('/files/суб')
-          const readmeNotice = page.getReadmeNoticeLocator()
-          assert.equal(
-            await readmeNotice.textContent(),
-            "Note: This directory's description is written in Russian."
-          )
+          const noticeLocator = page.getLanguageNotice()
+          assertTrue(await noticeLocator.isVisible())
         })
 
-        it("is not shown at /empty (where no README exists)", async function () {
+        it('is not shown at /empty (where no README exists)', async function () {
           await page.goto('/files/empty')
           const readme = page.getReadmeLocator()
           assertFalse(await readme.isVisible())

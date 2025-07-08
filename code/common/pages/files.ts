@@ -2,13 +2,11 @@ import { anchor } from '../components/anchor.ts'
 import { breadcrumbNavigation } from '../components/breadcrumb_navigation.ts'
 import { interactiveTable } from '../components/interactive_table.ts'
 import { rich } from '../components/rich.ts'
-import { spacer } from '../components/spacer.ts'
 import { CC0_URL } from '../constants/url.ts'
 import { type WebsiteEnvironment } from '../environment.ts'
 import { type LanguageId, bcp47Encode } from '../languages.ts'
 import { map } from '../observable.ts'
 import { createComponent as c } from '../rendering/component.ts'
-import { type IDirectoryReadme } from '../services/files.ts'
 import { type IDirEntry, type IDirectory } from '../services.ts'
 import { UrlPath } from '../support/url_path.ts'
 import { type BoundGetText, type IBoundGetTextSpec } from '../translation.ts'
@@ -23,39 +21,41 @@ export function filesPage({ urlPath, pageData }: IWebsitePageState<IDirectory>, 
   return c.html('main', { class: 'files-page' },
     c.html('h1', { text: _('heading.main') }),
     c.factory(breadcrumbNavigation, { urlPath }),
-    c.html('div', { class: 'files-page-content' },
-      entries.length > 0 && c.factory(interactiveTable<IDirEntry>, { class: 'files-page-table delimited-table', data: entries, columnSpecs, urlPath }),
-      readme && c.factory(spacer, { dynamics: 'mp' }), // The spacer fits well even if there is no table
-      readme && c.factory(filesPageReadme, { readme, currentLanguage: env.gettext.language$ }),
-    ),
-    c.factory(rich, {
+    entries.length > 0 && c.factory(interactiveTable<IDirEntry>, { class: 'files-page-table delimited-table', data: entries, columnSpecs, urlPath }),
+    c.factory(filesPageNotices, { directory: pageData, currentLanguage: env.gettext.language$ }),
+    readme && c.factory(rich, {
+      rootTag: 'section',
+      rootAttributes: { lang: bcp47Encode(readme.languageId) },
+      rootCssClass: 'files-page-readme',
+      doc: readme.doc,
+    }),
+  )
+}
+
+interface IFilesPageNoticesState {
+  directory: IDirectory
+  currentLanguage: LanguageId
+}
+
+export function filesPageNotices({ directory, currentLanguage }: IFilesPageNoticesState, env: WebsiteEnvironment) {
+  const _ = env.gettext.bindToBundle('files')
+  const { entries, readme } = directory
+
+  return c.html('dl', { class: 'alert-list files-page-notices' },
+    entries.length > 0 && c.factory(rich, {
+      mode: 'paragraph',
+      rootTag: 'dd',
+      rootCssClass: 'alert-success',
       doc: _.rich$({
         key: 'notice.cc',
         context: { ccUrl: CC0_URL },
       }),
     }),
-  )
-}
-
-interface IFilesPageReadmeState {
-  readme: IDirectoryReadme
-  currentLanguage: LanguageId
-}
-
-export function filesPageReadme({ readme, currentLanguage }: IFilesPageReadmeState, env: WebsiteEnvironment) {
-  const _ = env.gettext.bindToBundle('files')
-
-  return c.html('div', { class: 'files-page-readme-wrapper' },
-    currentLanguage !== readme.languageId && c.factory(rich, {
-      rootCssClass: 'files-page-readme-notice',
+    readme && currentLanguage !== readme.languageId && c.factory(rich, {
+      rootCssClass: 'alert-warning',
       mode: 'paragraph',
+      rootTag: 'dd',
       doc: _.rich(`notice.language.${readme.languageId}`),
-    }),
-    c.factory(rich, {
-      rootTag: 'section',
-      rootAttributes: { lang: bcp47Encode(readme.languageId) },
-      rootCssClass: 'files-page-readme',
-      doc: readme.doc,
     }),
   )
 }
