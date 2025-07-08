@@ -2,17 +2,17 @@
 
 ul {
   li {
-    line-height: 1.75em;
+    line-height: 1.75;
 
     &:not(:last-of-type) {
-      margin-bottom: 0.25em;
+      margin-bottom: var(--body-size-pp);
     }
   }
 }
 
 dl {
   dt, dd {
-    line-height: 1.75em;
+    line-height: 1.75;
   }
 
   dt {
