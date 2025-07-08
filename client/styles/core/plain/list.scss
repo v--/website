@@ -41,6 +41,8 @@ dl.alert-list {
   margin-bottom: var(--body-size-p);
 
   dd {
+    margin-left: 0;
+
     &.alert-success {
       border-color: var(--body-color-success)
     }
