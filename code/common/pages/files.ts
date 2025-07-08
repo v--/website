@@ -67,6 +67,14 @@ function getFileSizeSpec(entry: IDirEntry): IBoundGetTextSpec | string {
     return 'table.data.size.directory'
   }
 
+  if (entry.size === 0) {
+    return 'table.data.size.empty'
+  }
+
+  if (entry.size === 1) {
+    return 'table.data.size.byte'
+  }
+
   if (entry.size < 1024) {
     return {
       key: 'table.data.size.bytes',

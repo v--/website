@@ -44,6 +44,16 @@
     "content": "File"
   },
 
+  "table.data.size.empty": {
+    "entryKind": "plain",
+    "content": "Empty"
+  },
+
+  "table.data.size.byte": {
+    "entryKind": "plain",
+    "content": "1 byte"
+  },
+
   "table.data.size.bytes": {
     "entryKind": "plain",
     "content": "${size} bytes"
