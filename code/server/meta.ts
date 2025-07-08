@@ -1,5 +1,5 @@
 export { FEDIVERSE_CREATOR_TAG } from './meta/fediverse.ts'
 export { iterMetaTags } from './meta/index.ts'
-export { iterOpenGraphTags } from './meta/open_graph.ts'
+export { ROOT_TAG_PREFIX, iterOpenGraphTags } from './meta/open_graph.ts'
 export { type IMetaLink, type IMetaTag } from './meta/types.ts'
 export { WEBFINGER_ALIASES, WEBFINGER_LINKS } from './meta/webfinger.ts'

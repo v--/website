@@ -6,7 +6,7 @@ import { Component, createComponent as c } from '../../common/rendering/componen
 import { CANONICAL_LANGUAGE_STRING } from '../../common/translation.ts'
 import { type IWebsitePageState } from '../../common/types/page.ts'
 import { type IRehydrationData } from '../../common/types/rehydration.ts'
-import { iterMetaTags } from '../meta.ts'
+import { ROOT_TAG_PREFIX, iterMetaTags } from '../meta.ts'
 
 const DEFAULT_PREFETCHED: Component[] = []
 
@@ -21,7 +21,7 @@ export function root({ pageState, rehydrationData }: IRootState, env: WebsiteEnv
     map(lang => CANONICAL_LANGUAGE_STRING[lang]),
   )
 
-  return c.html('html', { lang: canonicalLanguage$ },
+  return c.html('html', { prefix: ROOT_TAG_PREFIX, lang: canonicalLanguage$ },
     c.html('head', undefined,
       c.factory(title, pageState),
       c.html('meta', { charset: 'UTF-8' }),

@@ -9,6 +9,8 @@ import { type IMetaTag } from './types.ts'
 import { CANONICAL_LANGUAGE_STRING, type GetText, LANGUAGE_IDS } from '../../common/translation.ts'
 import { type IWebsitePageState } from '../../common/types/page.ts'
 
+export const ROOT_TAG_PREFIX = 'og: http://ogp.me/ns#'
+
 export function* iterOpenGraphTags(gettext: GetText, pageState: IWebsitePageState): Generator<IMetaTag> {
   yield {
     name: 'og:type',
