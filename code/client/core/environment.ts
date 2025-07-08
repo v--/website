@@ -7,16 +7,15 @@ import { type IWebsitePageState } from '../../common/types/page.ts'
 
 export interface IClientEnvironmentConfig extends IEnvironmentConfig {
   services: ClientServiceManager
+  logger: ClientLogger
 }
 
 export class ClientWebsiteEnvironment extends WebsiteEnvironment {
   declare readonly services: ClientServiceManager
-  readonly logger: ClientLogger
   readonly pageUnload$ = new Subject<void>()
 
-  constructor(logger: ClientLogger, config: IClientEnvironmentConfig) {
+  constructor(config: IClientEnvironmentConfig) {
     super(config)
-    this.logger = logger
   }
 
   override isSidebarActuallyCollapsed = isSidebarActuallyCollapsed

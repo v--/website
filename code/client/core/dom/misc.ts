@@ -1,7 +1,7 @@
 import { MissingElementError } from './errors.ts'
+import { DEFAULT_LANGUAGE, type WebsiteLanguageId } from '../../../common/languages.ts'
 import { repr } from '../../../common/support/strings.ts'
 import { UrlPath } from '../../../common/support/url_path.ts'
-import { DEFAULT_LANGUAGE, type LanguageId } from '../../../common/translation.ts'
 
 export function aggressiveQuerySelector(element: Element, query: string) {
   const result = element.querySelector(query)
@@ -13,7 +13,7 @@ export function aggressiveQuerySelector(element: Element, query: string) {
   return result
 }
 
-export function getPreferredLanguage(): LanguageId {
+export function getPreferredLanguage(): WebsiteLanguageId {
   for (const langId of navigator.languages) {
     const locale = new Intl.Locale(langId)
 

@@ -1,15 +1,16 @@
 import { IconStore } from './icon_store.ts'
+import { type WebsiteLanguageId } from './languages.ts'
 import { ReplaySubject, Subject } from './observable.ts'
 import { type IServiceManager } from './services.ts'
 import { type UrlPath } from './support/url_path.ts'
-import { GetText, type LanguageId } from './translation.ts'
+import { GetText } from './translation.ts'
 import { type IconRefId, type TranslationBundleId } from './types/bundles.ts'
 import { type IFinalizeable } from './types/finalizable.ts'
 import { type ColorScheme, type IWebsitePageState } from './types/page.ts'
 
 export interface IEnvironmentConfig {
   services: IServiceManager
-  language: LanguageId
+  language: WebsiteLanguageId
   colorScheme?: ColorScheme
   sidebarCollapsed?: boolean
   loading?: boolean
@@ -37,7 +38,7 @@ export abstract class WebsiteEnvironment implements IFinalizeable {
   abstract isSidebarActuallyCollapsed(): boolean
   abstract isContentDynamic(): boolean
 
-  async preloadTranslationPackage(lang: LanguageId, bundleIds: TranslationBundleId[]) {
+  async preloadTranslationPackage(lang: WebsiteLanguageId, bundleIds: TranslationBundleId[]) {
     const extended = bundleIds.includes('core') ? bundleIds : ['core' as const, ...bundleIds]
     const pkg = await this.services.translationMaps.getTranslationPackage(lang, extended)
     this.gettext.updatePackage(pkg)
@@ -67,7 +68,7 @@ export abstract class WebsiteEnvironment implements IFinalizeable {
   // If dozens of observables depend on the new language's translations, each one will throw an error.
   // The routing service would get flooded with errors while already struggling to render the error page
   // in a language it cannot handle.
-  async changeLanguage(newLanguage: LanguageId) {
+  async changeLanguage(newLanguage: WebsiteLanguageId) {
     const currentPackage = this.gettext.getCurrentPackage()
     const bundleIds = currentPackage.map(({ bundleId }) => bundleId)
     await this.preloadTranslationPackage(newLanguage, bundleIds)

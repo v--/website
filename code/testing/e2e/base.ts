@@ -6,8 +6,8 @@ import { BASE_URL, BROWSER } from './config.ts'
 import { Anchor } from './support/anchor.ts'
 import { Button } from './support/button.ts'
 import { type ViewportSizeName, transposeViewport, viewportNameMap } from './support/viewport.ts'
+import { type WebsiteLanguageId } from '../../common/languages.ts'
 import { UrlPath } from '../../common/support/url_path.ts'
-import { type LanguageId } from '../../common/translation.ts'
 import { type IFinalizeable } from '../../common/types/finalizable.ts'
 import { type ColorScheme } from '../../common/types/page.ts'
 
@@ -119,7 +119,7 @@ export class BasePage implements IFinalizeable {
     return this._pwPage.locator('main').first()
   }
 
-  async getLanguage(): Promise<LanguageId | undefined> {
+  async getLanguage(): Promise<WebsiteLanguageId | undefined> {
     const lang = await this._pwPage.locator('html').first().getAttribute('lang')
 
     switch (lang) {

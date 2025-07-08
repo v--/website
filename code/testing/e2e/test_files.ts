@@ -262,7 +262,7 @@ describe('Files page', function () {
 
             await page.goto('/files?page=2')
             const secondPageRows = await page.getShownDirEntries()
-            assert.equal(secondPageRows.length, 2)
+            assert.equal(secondPageRows.length, 3)
           })
 
           it('errors out with 400 when the "page" query param is set to "invalid"', async function () {
@@ -438,13 +438,13 @@ describe('Files page', function () {
             assert.deepEqual(sizesAndNames[0], { name: 'empty',         size: '-' })
             assert.deepEqual(sizesAndNames[1], { name: 'sub',           size: '-' })
             assert.deepEqual(sizesAndNames[2], { name: 'tex2ht',        size: '-' })
-            assert.deepEqual(sizesAndNames[3], { name: 'empty.txt',     size: 'Empty' })
-            assert.deepEqual(sizesAndNames[4], { name: 'one byte',      size: '1 byte' })
-            assert.deepEqual(sizesAndNames[5], { name: 'sin.py',        size: '21 bytes' })
-            assert.deepEqual(sizesAndNames[6], { name: 'dropsort.js',   size: '53 bytes' })
-            assert.deepEqual(sizesAndNames[7], { name: 'lipsum.tex',    size: '125 bytes' })
-            assert.deepEqual(sizesAndNames[8], { name: 'unlicense.txt', size: '1.18 KiB' })
-            assert.deepEqual(sizesAndNames[9], { name: 'lipsum.txt',    size: '4.42 KiB' })
+            assert.deepEqual(sizesAndNames[3], { name: 'суб',           size: '-' })
+            assert.deepEqual(sizesAndNames[4], { name: 'empty.txt',     size: 'Empty' })
+            assert.deepEqual(sizesAndNames[5], { name: 'one byte',      size: '1 byte' })
+            assert.deepEqual(sizesAndNames[6], { name: 'sin.py',        size: '21 bytes' })
+            assert.deepEqual(sizesAndNames[7], { name: 'dropsort.js',   size: '53 bytes' })
+            assert.deepEqual(sizesAndNames[8], { name: 'lipsum.tex',    size: '125 bytes' })
+            assert.deepEqual(sizesAndNames[9], { name: 'unlicense.txt', size: '1.18 KiB' })
             /* eslint-enable @stylistic/no-multi-spaces */
           })
 
@@ -476,7 +476,7 @@ describe('Files page', function () {
           const readmeNotice = page.getReadmeNoticeLocator()
           assert.equal(
             await readmeNotice.textContent(),
-            "Note: This directory's description is in Russian."
+            "Note: This directory's description is written in Russian."
           )
         })
 

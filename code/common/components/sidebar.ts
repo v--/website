@@ -2,15 +2,15 @@ import { anchor } from './anchor.ts'
 import { icon } from './icon.ts'
 import { type WebsiteEnvironment } from '../environment.ts'
 import { radio } from './radio.ts'
+import { type WebsiteLanguageId } from '../languages.ts'
+import { spacer } from './spacer.ts'
 import { createComponent as c } from '../rendering/component.ts'
 import { classlist } from '../support/dom_properties.ts'
-import { type LanguageId } from '../translation.ts'
-import { spacer } from './spacer.ts'
 import { type ColorScheme, type SidebarId } from '../types/page.ts'
 
 interface ISidebarState {
   sidebarId?: SidebarId
-  language: LanguageId
+  language: WebsiteLanguageId
   sidebarCollapsed: boolean
   colorScheme: ColorScheme
 }
@@ -91,14 +91,14 @@ export function sidebar({ sidebarId, language, sidebarCollapsed, colorScheme }: 
       ),
       c.html('div', { class: 'sidebar-langchange-radio-group sidebar-entry-collapsible-content' },
         ...LANGUAGE_CHOICES.flatMap(langChoice => {
-          return c.factory(radio<LanguageId>, {
+          return c.factory(radio<WebsiteLanguageId>, {
             labelClass: 'sidebar-langchange-radio-label',
             inputClass: 'sidebar-langchange-radio-control',
             content: langChoice.label,
             name: 'sidebar-langchange',
             controlValue: langChoice.language,
             selectedValue: language,
-            async update(newValue: LanguageId) {
+            async update(newValue: WebsiteLanguageId) {
               env.loading$.next(true)
 
               try {
@@ -136,7 +136,7 @@ export function sidebar({ sidebarId, language, sidebarCollapsed, colorScheme }: 
 }
 
 interface LanguageChoice {
-  language: LanguageId
+  language: WebsiteLanguageId
   label: string
 }
 

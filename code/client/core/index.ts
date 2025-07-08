@@ -4,11 +4,10 @@ import { ClientWebsiteEnvironment } from './environment.ts'
 import { ClientLogger } from './logger.ts'
 import { ClientRoutingService } from './routing_service.ts'
 import { ClientServiceManager } from './services.ts'
+import { CANONICAL_LANGUAGE_STRING, type LanguageId } from '../../common/languages.ts'
 import { filter, first, map, startWith, subscribeAsync, takeUntil } from '../../common/observable.ts'
 import { type IRenderEvent } from '../../common/rendering/manager.ts'
 import { type UrlPath } from '../../common/support/url_path.ts'
-import { CANONICAL_LANGUAGE_STRING } from '../../common/translation.ts'
-import { type LanguageId } from '../../common/translation.ts'
 
 const readyState$ = fromEvent(document, 'readystatechange').pipe(
   map(event => (event.target as Document).readyState),
@@ -31,7 +30,7 @@ if (rawRehydrationData === undefined) {
 }
 
 const services = ClientServiceManager.initializeWithRawRehydrationData(rawRehydrationData)
-const env = new ClientWebsiteEnvironment(logger, { services, language: getPreferredLanguage() })
+const env = new ClientWebsiteEnvironment({ logger, services, language: getPreferredLanguage() })
 const routingService = new ClientRoutingService(logger, env)
 await routingService.initialRender(getCurrentUrlPath())
 

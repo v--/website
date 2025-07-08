@@ -76,7 +76,12 @@
 
   "notice.language.ru": {
     "entryKind": "rich",
-    "content": "**Note**: This directory's description is in Russian."
+    "content": "**Note**: This directory's description is written in Russian."
+  },
+
+  "notice.language.bg": {
+    "entryKind": "rich",
+    "content": "**Note**: This directory's description is written in Bulgarian."
   },
 
   "notice.cc": {

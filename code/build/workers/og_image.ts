@@ -3,9 +3,9 @@ import { dirname, join as joinPath, relative } from 'node:path'
 
 import { Resvg } from '@resvg/resvg-js'
 
+import { WEBSITE_LANGUAGE_IDS, type WebsiteLanguageId } from '../../common/languages.ts'
 import { substitutePlain } from '../../common/rich.ts'
 import { getObjectEntries } from '../../common/support/iteration.ts'
-import { LANGUAGE_IDS, type LanguageId } from '../../common/translation.ts'
 import { OPEN_GRAPH_IMAGE_IDS } from '../../common/types/bundles.ts'
 import { Schema } from '../../common/validation.ts'
 import { readJsonWithSchema } from '../../server/validation.ts'
@@ -22,13 +22,13 @@ export interface IOGImageBuildWorkerConfig {
 const PREVIEW_GENERATION_SOURCE_SCHEMA = Schema.object({
   fontPath: Schema.string,
   templatePaths: Schema.record(
-    Schema.literal(...LANGUAGE_IDS),
+    Schema.literal(...WEBSITE_LANGUAGE_IDS),
     Schema.string,
   ),
   titles: Schema.record(
     Schema.literal(...OPEN_GRAPH_IMAGE_IDS),
     Schema.record(
-      Schema.literal(...LANGUAGE_IDS),
+      Schema.literal(...WEBSITE_LANGUAGE_IDS),
       Schema.string,
     ),
   ),
@@ -41,7 +41,7 @@ export class OGImageBuildWorker implements IBuildWorker {
     this.config = config
   }
 
-  #getFullDestPath(src: string, lang: LanguageId, name: string): string {
+  #getFullDestPath(src: string, lang: WebsiteLanguageId, name: string): string {
     return joinPath(
       this.config.destBase,
       relative(this.config.srcBase, dirname(src)),
@@ -53,7 +53,7 @@ export class OGImageBuildWorker implements IBuildWorker {
   async* performBuild(src: string): AsyncIterable<IBuildContext> {
     const config = await readJsonWithSchema(PREVIEW_GENERATION_SOURCE_SCHEMA, src)
 
-    for (const lang of LANGUAGE_IDS) {
+    for (const lang of WEBSITE_LANGUAGE_IDS) {
       const template = await readFile(
         joinPath(this.config.srcBase, config.templatePaths[lang]),
         'utf-8',

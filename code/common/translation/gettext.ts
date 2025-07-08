@@ -1,5 +1,6 @@
 import { TranslationError } from './errors.ts'
-import { type ITranslationPackage, type ITranslationSpec, type LanguageId } from './types.ts'
+import { type ITranslationPackage, type ITranslationSpec } from './types.ts'
+import { type WebsiteLanguageId } from '../languages.ts'
 import { BehaviorSubject, Observable, map } from '../observable.ts'
 import { type SubstitutionContext } from '../rich/substitution.ts'
 import { convertPlainToRich, convertRichToPlain, substitutePlain, substituteRich } from '../rich.ts'
@@ -19,13 +20,13 @@ export interface IGetTextSpec extends ITranslationSpec, IBoundGetTextSpec {
 }
 
 export class GetText extends ExtendableFunction<[IGetTextSpec], Observable<string>> implements IFinalizeable {
-  #language$: BehaviorSubject<LanguageId>
+  #language$: BehaviorSubject<WebsiteLanguageId>
   #package$: BehaviorSubject<ITranslationPackage>
 
-  readonly language$: Observable<LanguageId>
+  readonly language$: Observable<WebsiteLanguageId>
   readonly package$: Observable<ITranslationPackage>
 
-  constructor(language: LanguageId, pkg: ITranslationPackage = []) {
+  constructor(language: WebsiteLanguageId, pkg: ITranslationPackage = []) {
     super(
       (spec: IGetTextSpec) => this.plain$(spec),
     )
@@ -45,7 +46,7 @@ export class GetText extends ExtendableFunction<[IGetTextSpec], Observable<strin
     return this.#package$.value
   }
 
-  updateLanguage(newLanguage: LanguageId) {
+  updateLanguage(newLanguage: WebsiteLanguageId) {
     this.#language$.next(newLanguage)
   }
 
@@ -53,7 +54,7 @@ export class GetText extends ExtendableFunction<[IGetTextSpec], Observable<strin
     this.#package$.next(newPackage)
   }
 
-  #getTranslationMap(pkg: ITranslationPackage, languageId: LanguageId, bundleId: TranslationBundleId) {
+  #getTranslationMap(pkg: ITranslationPackage, languageId: WebsiteLanguageId, bundleId: TranslationBundleId) {
     const entry = pkg.find(e => e.languageId === languageId && e.bundleId === bundleId)
 
     if (entry === undefined) {
@@ -66,7 +67,7 @@ export class GetText extends ExtendableFunction<[IGetTextSpec], Observable<strin
     return entry.map
   }
 
-  #getTranslationValue(pkg: ITranslationPackage, languageId: LanguageId, bundleId: TranslationBundleId, key: string) {
+  #getTranslationValue(pkg: ITranslationPackage, languageId: WebsiteLanguageId, bundleId: TranslationBundleId, key: string) {
     const map = this.#getTranslationMap(pkg, languageId, bundleId)
     const rawValue = map[key]
 
@@ -80,7 +81,7 @@ export class GetText extends ExtendableFunction<[IGetTextSpec], Observable<strin
     return rawValue
   }
 
-  #plain(pkg: ITranslationPackage, languageId: LanguageId, spec: IGetTextSpec) {
+  #plain(pkg: ITranslationPackage, languageId: WebsiteLanguageId, spec: IGetTextSpec) {
     const rawValue = this.#getTranslationValue(pkg, languageId, spec.bundleId, spec.key)
 
     if (typeof rawValue !== 'string') {
@@ -98,7 +99,7 @@ export class GetText extends ExtendableFunction<[IGetTextSpec], Observable<strin
     return spec.context ? substitutePlain(rawValue, spec.context) : rawValue
   }
 
-  #rich(pkg: ITranslationPackage, languageId: LanguageId, spec: IGetTextSpec) {
+  #rich(pkg: ITranslationPackage, languageId: WebsiteLanguageId, spec: IGetTextSpec) {
     const rawValue = this.#getTranslationValue(pkg, languageId, spec.bundleId, spec.key)
 
     if (typeof rawValue === 'string') {

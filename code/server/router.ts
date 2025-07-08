@@ -4,10 +4,11 @@ import { type IEncodedError, PresentableError, translateEncoding } from '../comm
 import { router } from '../common/router.ts'
 import { ServerResponse } from './http/response.ts'
 import { WEBFINGER_ALIASES, WEBFINGER_LINKS } from './meta.ts'
+import { API_LANGUAGE, WEBSITE_LANGUAGE_IDS } from '../common/languages.ts'
 import { includes } from '../common/support/iteration.ts'
 import { quoteString } from '../common/support/strings.ts'
 import { type UrlPath } from '../common/support/url_path.ts'
-import { API_LANGUAGE, type ITranslationSpec, LANGUAGE_IDS } from '../common/translation.ts'
+import { type ITranslationSpec } from '../common/translation.ts'
 import { ICON_REF_IDS, TRANSLATION_BUNDLE_IDS } from '../common/types/bundles.ts'
 
 async function errorJsonResponse(env: ServerWebsiteEnvironment, encoded: IEncodedError) {
@@ -60,7 +61,7 @@ export async function serverRouter(urlPath: UrlPath, env: ServerWebsiteEnvironme
       })
     }
 
-    if (!includes(LANGUAGE_IDS, languageId)) {
+    if (!includes(WEBSITE_LANGUAGE_IDS, languageId)) {
       return errorJsonResponse(env, {
         errorKind: 'http',
         code: 400,

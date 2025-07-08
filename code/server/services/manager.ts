@@ -1,6 +1,7 @@
 import { type IServiceManager } from '../../common/services.ts'
 import { Path } from '../../common/support/path.ts'
 import { type IServiceConfig } from '../config.ts'
+import { type ServerLogger } from '../logger.ts'
 import { ServerFileService } from './files.ts'
 import { ServerIconRefService } from './icon_refs.ts'
 import { ServerPacmanService } from './pacman.ts'
@@ -24,10 +25,10 @@ export class ServerServiceManagerFactory {
   page: ServerPageService
   translation: ServerTranslationMapService
 
-  constructor(config: IServiceConfig) {
+  constructor(config: IServiceConfig, logger: ServerLogger) {
     this.translation = new ServerTranslationMapService(Path.parse(config.translation.root))
-    this.realFiles = new ServerFileService(Path.parse(config.files.realRoot))
-    this.mockFiles = new ServerFileService(Path.parse(config.files.mockRoot))
+    this.realFiles = new ServerFileService(Path.parse(config.files.realRoot), logger)
+    this.mockFiles = new ServerFileService(Path.parse(config.files.mockRoot), logger)
     this.realPacman = new ServerPacmanService(Path.parse(config.pacman.realDBPath))
     this.mockPacman = new ServerPacmanService(Path.parse(config.pacman.mockDBPath))
     this.icons = new ServerIconRefService(Path.parse(config.icons.root))

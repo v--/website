@@ -2,11 +2,11 @@ import http from 'node:http'
 
 import { ServerError } from './errors.ts'
 import { getPreferredLanguage } from './languages.ts'
+import { type LanguageId } from '../../common/languages.ts'
 import { SubscriptionObserver } from '../../common/observable.ts'
 import { PresentableError } from '../../common/presentable_errors.ts'
 import { createErrorState } from '../../common/router.ts'
 import { UrlPath } from '../../common/support/url_path.ts'
-import { type LanguageId } from '../../common/translation.ts'
 import { type IFinalizeable } from '../../common/types/finalizable.ts'
 import { type Action } from '../../common/types/typecons.ts'
 import { type IWebsiteConfig } from '../config.ts'
@@ -37,7 +37,7 @@ export class HttpServer implements IFinalizeable {
   constructor(config: IWebsiteConfig) {
     this.#config = config
     this.logger = new ServerLogger('HTTP', 'DEBUG')
-    this.serviceFactory = new ServerServiceManagerFactory(config.services)
+    this.serviceFactory = new ServerServiceManagerFactory(config.services, this.logger)
 
     this.#server = undefined
     this.#state = 'inactive'

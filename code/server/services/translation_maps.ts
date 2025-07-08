@@ -1,12 +1,7 @@
+import { API_LANGUAGE, WEBSITE_LANGUAGE_IDS, type WebsiteLanguageId } from '../../common/languages.ts'
 import { type ITranslationMapService } from '../../common/services.ts'
 import { type Path } from '../../common/support/path.ts'
-import {
-  API_LANGUAGE,
-  type ITranslationPackage,
-  LANGUAGE_IDS,
-  type LanguageId,
-  TRANSLATION_MAP_SCHEMA,
-} from '../../common/translation.ts'
+import { type ITranslationPackage, TRANSLATION_MAP_SCHEMA } from '../../common/translation.ts'
 import { TRANSLATION_BUNDLE_IDS, type TranslationBundleId } from '../../common/types/bundles.ts'
 import { readJsonWithSchema } from '../validation.ts'
 
@@ -21,7 +16,7 @@ export class ServerTranslationMapService implements ITranslationMapService {
 
   async* #iterPackageEntries() {
     for (const bundleId of TRANSLATION_BUNDLE_IDS) {
-      for (const languageId of LANGUAGE_IDS) {
+      for (const languageId of WEBSITE_LANGUAGE_IDS) {
         if (bundleId === 'api' && languageId !== API_LANGUAGE) {
           continue
         }
@@ -44,11 +39,11 @@ export class ServerTranslationMapService implements ITranslationMapService {
     this.#basePath = basePath
   }
 
-  async getTranslationMap(languageId: LanguageId, bundleId: TranslationBundleId) {
+  async getTranslationMap(languageId: WebsiteLanguageId, bundleId: TranslationBundleId) {
     return this.#package.find(entry => entry.languageId === languageId && entry.bundleId === bundleId)!.map
   }
 
-  async getTranslationPackage(languageId: LanguageId, bundleIds: TranslationBundleId[]) {
+  async getTranslationPackage(languageId: WebsiteLanguageId, bundleIds: TranslationBundleId[]) {
     return this.#package.filter(entry => entry.languageId === languageId && bundleIds.includes(entry.bundleId))
   }
 

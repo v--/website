@@ -1,18 +1,22 @@
 import fs from 'node:fs/promises'
 
+import { LANGUAGE_IDS } from '../../common/languages.ts'
 import { PresentableError } from '../../common/presentable_errors.ts'
 import { type IDirectory, type IFileService } from '../../common/services/files.ts'
-import { type Path } from '../../common/support/path.ts'
-import { parseHtml } from '../html.ts'
-import { parseMarkdown } from '../markdown.ts'
-import { LANGUAGE_IDS } from '../../common/translation.ts'
 import { includes } from '../../common/support/iteration.ts'
+import { type Path } from '../../common/support/path.ts'
+import { repr } from '../../common/support/strings.ts'
+import { parseHtml } from '../html.ts'
+import { type ServerLogger } from '../logger.ts'
+import { parseMarkdown } from '../markdown.ts'
 
 export class ServerFileService implements IFileService {
+  readonly logger: ServerLogger
   #rootPath: Path
 
-  constructor(rootPath: Path) {
+  constructor(rootPath: Path, logger: ServerLogger) {
     this.#rootPath = rootPath
+    this.logger = logger
   }
 
   updateRootPath(rootPath: Path) {
@@ -44,9 +48,19 @@ export class ServerFileService implements IFileService {
       const childStat = await fs.stat(filePath.toString())
 
       if (name.startsWith('.')) {
-        const match = name.match(/^.README_(?<lang>[a-z]+)\.(?<ext>(md)|(html))$/)
+        const match = name.match(/^.README_(?<lang>[a-z]+)\.(?<ext>[a-z]+)$/)
 
-        if (match === null || match.groups === undefined || !includes(LANGUAGE_IDS, match.groups.lang)) {
+        if (match === null || match.groups === undefined) {
+          continue
+        }
+
+        if (!includes(LANGUAGE_IDS, match.groups.lang)) {
+          this.logger.warn(`Unrecognized README file language ${repr(match.groups.lang)}.`)
+          continue
+        }
+
+        if (result.readme) {
+          this.logger.warn('Multiple README files detected in directory.', { fullPath })
           continue
         }
 
@@ -70,6 +84,9 @@ export class ServerFileService implements IFileService {
 
             break
           }
+
+          default:
+            this.logger.warn(`Don't know how to handle README file with extension ${repr(match.groups.ext)}.`)
         }
 
         continue

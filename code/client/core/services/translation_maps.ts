@@ -1,8 +1,9 @@
 import { ManualCache } from '../../../common/cache.ts'
+import { type WebsiteLanguageId } from '../../../common/languages.ts'
 import { type ITranslationMapService } from '../../../common/services.ts'
 import { Path } from '../../../common/support/path.ts'
 import { UrlPath } from '../../../common/support/url_path.ts'
-import { type ITranslationMap, type LanguageId, TRANSLATION_MAP_SCHEMA } from '../../../common/translation.ts'
+import { type ITranslationMap, TRANSLATION_MAP_SCHEMA } from '../../../common/translation.ts'
 import { type TranslationBundleId } from '../../../common/types/bundles.ts'
 import { type IRehydrationData } from '../../../common/types/rehydration.ts'
 import { validateSchema } from '../../../common/validation.ts'
@@ -15,7 +16,7 @@ const BASE_TRANSLATION_PATH = Path.parse('/api/translation')
  */
 export interface ITranslationMapLabel {
   bundleId: TranslationBundleId
-  languageId: LanguageId
+  languageId: WebsiteLanguageId
 }
 
 export class ClientTranslationMapCache extends ManualCache<ITranslationMapLabel, ITranslationMap> {
@@ -45,11 +46,11 @@ export class ClientTranslationMapService implements ITranslationMapService {
     }
   }
 
-  async getTranslationMap(languageId: LanguageId, bundleId: TranslationBundleId) {
+  async getTranslationMap(languageId: WebsiteLanguageId, bundleId: TranslationBundleId) {
     return await this.#cache.getValue({ bundleId, languageId })
   }
 
-  async getTranslationPackage(languageId: LanguageId, bundleIds: TranslationBundleId[]) {
+  async getTranslationPackage(languageId: WebsiteLanguageId, bundleIds: TranslationBundleId[]) {
     return await Promise.all(
       bundleIds.map(async bundleId => {
         return {

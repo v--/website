@@ -2,7 +2,7 @@ import { type SubstitutionContext } from '../rich/substitution.ts'
 import { RICH_TEXT_DOCUMENT_SCHEMA } from '../rich.ts'
 import { TRANSLATION_BUNDLE_IDS, type TranslationBundleId } from '../types/bundles.ts'
 import { type Infer, Schema } from '../validation.ts'
-import { LANGUAGE_IDS } from './languages.ts'
+import { WEBSITE_LANGUAGE_IDS } from '../languages.ts'
 
 export const TRANSLATION_MAP_ENTRY_SCHEMA = Schema.union(
   Schema.string,
@@ -18,7 +18,7 @@ export type ITranslationMap = Infer<typeof TRANSLATION_MAP_SCHEMA>
 export const TRANSLATION_PACKAGE_SCHEMA = Schema.array(
   Schema.object({
     bundleId: Schema.literal(...TRANSLATION_BUNDLE_IDS),
-    languageId: Schema.literal(...LANGUAGE_IDS),
+    languageId: Schema.literal(...WEBSITE_LANGUAGE_IDS),
     map: TRANSLATION_MAP_SCHEMA,
   }),
 )

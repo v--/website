@@ -6,7 +6,8 @@
  */
 
 import { type IMetaTag } from './types.ts'
-import { CANONICAL_LANGUAGE_STRING, type GetText, LANGUAGE_IDS } from '../../common/translation.ts'
+import { CANONICAL_LANGUAGE_STRING, WEBSITE_LANGUAGE_IDS } from '../../common/languages.ts'
+import { type GetText } from '../../common/translation.ts'
 import { type IWebsitePageState } from '../../common/types/page.ts'
 
 export const ROOT_TAG_PREFIX = 'og: http://ogp.me/ns#'
@@ -34,7 +35,7 @@ export function* iterOpenGraphTags(gettext: GetText, pageState: IWebsitePageStat
     content: `/images/open_graph/${currentLang}/${pageState.ogImageName}.png`,
   }
 
-  for (const lang of LANGUAGE_IDS) {
+  for (const lang of WEBSITE_LANGUAGE_IDS) {
     yield {
       name: lang === currentLang ? 'og:locale' : 'og:locale:alternate',
       content: CANONICAL_LANGUAGE_STRING[lang],
