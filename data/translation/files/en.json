@@ -86,6 +86,6 @@
 
   "notice.cc": {
     "entryKind": "rich",
-    "content": "Unless stated or implied otherwise, the content on this page is licensed under [CC0](${ccUrl}); i.e. it has no restrictions on its modification and redistribution."
+    "content": "Unless stated or implied otherwise, the content in this directory is licensed under [CC0](${ccUrl}); i.e. it has no restrictions on its modification and redistribution."
   }
 }

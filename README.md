@@ -6,7 +6,7 @@ For learning purposes, I have made it my goal to only rely on external dependenc
 
 Naturally, the code is licensed under the [Unlicense](https://unlicense.org/), and whatever other content I have here is licensed under [CC0](https://creativecommons.org/public-domain/cc0/) (except, obviously, for [Font Awesome](https://fontawesome.com/) and the [STIX fonts](https://www.stixfonts.org/) referenced as submodules and the [PT Sans](https://www.paratype.com/fonts/pt/pt-sans) font downloaded in [`./data/og_images`](./data/og_images)).
 
-After running the website for 12 years (with occasional development bursts), in 2025 I did a large refactoring and have decided to publish the code on GitHub. On that occasion I wrote module overviews in the README files of some directories (perhaps a single "docs" folder would have been better?). For example, [`./code`](./code) and [`./styles`](./client/styles) contain an overview of some tools used, while the directories listed in the next section feature code that may be of interest elsewhere.
+After running the website for 12 years (with occasional bursts of development), in 2025 I did a large refactoring and have decided to publish the code on GitHub. On that occasion I wrote module overviews in the README files of some directories (perhaps a single "docs" directory would have been better?). For example, [`./code`](./code) and [`./styles`](./client/styles) contain an overview of some tools used, while the directories listed in the next section feature code that may be of interest elsewhere.
 
 To run the code, a little setup is required:
 ```
