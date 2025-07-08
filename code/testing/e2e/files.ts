@@ -2,7 +2,7 @@ import { AssertionError } from 'node:assert/strict'
 
 import { BasePage } from './base.ts'
 import { Anchor } from './support/anchor.ts'
-import { getLocatorClasses, getSortingDirection } from './support/locator.ts'
+import { getSortingDirection } from './support/locator.ts'
 import { repr } from '../../common/support/strings.ts'
 import { type Infer, Schema, validateSchema } from '../../common/validation.ts'
 
