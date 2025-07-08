@@ -6,8 +6,8 @@ export {
   aggressiveQuerySelector,
   getActualColorScheme,
   getCurrentUrlPath,
-  getPreferredLanguage,
   isSidebarActuallyCollapsed,
+  parsePreferredLanguage,
   pushIntoHistory,
 } from './dom/misc.ts'
 export { DEFAULT_FPS, animationFrameObservable, fromEvent } from './dom/observable.ts'

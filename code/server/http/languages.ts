@@ -1,57 +1,44 @@
-import { CoolError } from '../../common/errors.ts'
+import { type WebsiteLanguageId, parseSupportedLanguageString } from '../../common/languages.ts'
 import { schwartzMax } from '../../common/support/iteration.ts'
-import { repr } from '../../common/support/strings.ts'
 import { type UnitRatio } from '../../common/types/numbers.ts'
 
 export interface IAcceptedLanguage {
-  lang: string
-  variant?: string
+  languageId: WebsiteLanguageId
   weight?: UnitRatio
 }
 
-const LANGUAGE_SPEC_REGEX = /^\s*(?<lang>[a-z]+)(-(?<variant>[a-zA-Z0-9]+))?\s*(;\s*q=(?<weight>(1(.0+)?|0.\d+)))?\s*$/
+const LANGUAGE_SPEC_REGEX = /^\s*(?<lang>[a-zA-Z0-9-]+)?\s*(;\s*q=(?<weight>(1(.0+)?|0.\d+)))?\s*$/
 
-export class LanguageHeaderError extends CoolError {}
-
-export function parseAcceptLanguageHeader(header: string): IAcceptedLanguage[] {
-  return header.split(',').map(function (spec) {
-    if (spec === '*') {
-      return { lang: '*' }
-    }
-
+export function* iterParseAcceptLanguageHeader(header: string): Generator<IAcceptedLanguage> {
+  for (const spec of header.split(',')) {
     const match = spec.match(LANGUAGE_SPEC_REGEX)
 
-    if (match === null) {
-      throw new LanguageHeaderError(`Could not parse language header ${repr(header)}`)
+    if (match === null || match.groups === undefined) {
+      continue
     }
 
-    const { lang, variant, weight } = match.groups!
-    const result: IAcceptedLanguage = { lang }
+    const languageId = parseSupportedLanguageString(match.groups.lang)
 
-    if (variant) {
-      result.variant = variant
+    if (languageId === undefined) {
+      continue
     }
 
-    if (weight) {
-      result.weight = Number.parseFloat(weight)
+    const result: IAcceptedLanguage = { languageId }
+
+    if (match.groups.weight) {
+      result.weight = Number.parseFloat(match.groups.weight)
     }
 
-    return result
-  })
+    yield result
+  }
 }
 
-export function getPreferredLanguage(header: string): IAcceptedLanguage | undefined {
-  let languages: IAcceptedLanguage[]
+export function parsePreferredLanguage(header: string): WebsiteLanguageId | undefined {
+  const max = schwartzMax(({ weight }) => weight ?? 1, iterParseAcceptLanguageHeader(header))
 
-  try {
-    languages = parseAcceptLanguageHeader(header).filter(({ lang }) => lang !== '*')
-  } catch (err) {
+  if (max === undefined) {
     return undefined
   }
 
-  if (languages.length === 0) {
-    return undefined
-  }
-
-  return schwartzMax(({ weight }) => weight ?? 1, languages)
+  return max.languageId
 }

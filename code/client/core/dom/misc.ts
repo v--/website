@@ -1,5 +1,5 @@
 import { MissingElementError } from './errors.ts'
-import { DEFAULT_LANGUAGE, type WebsiteLanguageId } from '../../../common/languages.ts'
+import { type WebsiteLanguageId, parseSupportedLanguageString } from '../../../common/languages.ts'
 import { repr } from '../../../common/support/strings.ts'
 import { UrlPath } from '../../../common/support/url_path.ts'
 
@@ -13,21 +13,16 @@ export function aggressiveQuerySelector(element: Element, query: string) {
   return result
 }
 
-export function getPreferredLanguage(): WebsiteLanguageId {
-  for (const langId of navigator.languages) {
-    const locale = new Intl.Locale(langId)
+export function parsePreferredLanguage(): WebsiteLanguageId | undefined {
+  for (const lang of navigator.languages) {
+    const languageId = parseSupportedLanguageString(lang)
 
-    switch (locale.language) {
-      case 'en':
-        return 'en'
-      case 'ru':
-        return 'ru'
-      default:
-        continue
+    if (languageId !== undefined) {
+      return languageId
     }
   }
 
-  return DEFAULT_LANGUAGE
+  return undefined
 }
 
 export function isSidebarActuallyCollapsed() {

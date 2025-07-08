@@ -24,7 +24,7 @@ The entry point is [`./index.ts`](./index.ts), which does the following:
 
 3. Upon receiving a `NodeServerMessage` representing an HTTP request, we run the code logic:
     1. We parse the URL and create a [`UrlPath`](../common/support/url_path.ts) object.
-    2. We parse some HTTP headers via the [`getPreferredLanguage`](./http/languages.ts) and [`parsePreferenceHeader`](./http/preferences.ts) functions.
+    2. We parse some HTTP headers via the [`parsePreferredLanguage`](./http/languages.ts) and [`parsePreferenceHeader`](./http/preferences.ts) functions.
     3. We use the manager factory to create a `ServerServiceManager` instance based on whether the headers require mock data (see [`../testing`](../testing)).
     4. We create a [`ServerWebsiteEnvironment`](./environment.ts) instance that is to be injected into factory components.
     5. We use the [`serverRouter`](./router.ts) function to create a [`ServerResponse`](./http/response.ts) object.

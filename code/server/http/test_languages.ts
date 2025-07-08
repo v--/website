@@ -1,58 +1,49 @@
 import assert from 'node:assert/strict'
 import { describe, it } from 'node:test'
 
-import { LanguageHeaderError, parseAcceptLanguageHeader } from './languages.ts'
+import { parsePreferredLanguage } from './languages.ts'
+import { assertUndefined } from '../../testing/assertion.ts'
 
-describe('parseAcceptLanguageHeader function', function () {
-  it('correctly parses wildcard', function () {
+describe('parsePreferredLanguage function', function () {
+  it('does not identify a wildcard language', function () {
     const header = '*'
-    const result = parseAcceptLanguageHeader(header)
-
-    assert.equal(result.length, 1)
-    assert.deepEqual(result[0], { lang: '*' })
+    const lang = parsePreferredLanguage(header)
+    assertUndefined(lang)
   })
 
-  it('correctly parses english without variants', function () {
+  it('correctly parses ISO 639-1 English (en)', function () {
     const header = 'en'
-    const result = parseAcceptLanguageHeader(header)
-
-    assert.equal(result.length, 1)
-    assert.deepEqual(result[0], { lang: 'en' })
+    const lang = parsePreferredLanguage(header)
+    assert.equal(lang, 'en')
   })
 
-  it('correctly parses english with US variant', function () {
+  it('correctly parses BCP-47 US English', function () {
     const header = 'en-US'
-    const result = parseAcceptLanguageHeader(header)
-
-    assert.equal(result.length, 1)
-    assert.deepEqual(result[0], { lang: 'en', variant: 'US' })
+    const lang = parsePreferredLanguage(header)
+    assert.equal(lang, 'en')
   })
 
-  it('correctly parses english with US variant and unit weight', function () {
+  it('correctly parses BCP-47 US English with unit weight', function () {
     const header = 'en-US; q=1'
-    const result = parseAcceptLanguageHeader(header)
-
-    assert.equal(result.length, 1)
-    assert.deepEqual(result[0], { lang: 'en', variant: 'US', weight: 1 })
+    const lang = parsePreferredLanguage(header)
+    assert.equal(lang, 'en')
   })
 
-  it('correctly parses multiple languages with variants and weights', function () {
-    const header = 'en-US; q=1, ru-RU; q=0.6'
-    const result = parseAcceptLanguageHeader(header)
-
-    assert.equal(result.length, 2)
-    assert.deepEqual(result[0], { lang: 'en', variant: 'US', weight: 1 })
-    assert.deepEqual(result[1], { lang: 'ru', variant: 'RU', weight: 0.6 })
+  it('correctly prefers higher-priority English', function () {
+    const header = 'en; q=1, ru; q=0.6'
+    const lang = parsePreferredLanguage(header)
+    assert.equal(lang, 'en')
   })
 
-  it('fails to parse invalid string', function () {
-    const header = 'en-US; q=1, ru-RU; q=0.'
+  it('correctly prefers higher-priority Russian', function () {
+    const header = 'en; q=0.6, ru; q=1'
+    const lang = parsePreferredLanguage(header)
+    assert.equal(lang, 'ru')
+  })
 
-    assert.throws(
-      function () {
-        parseAcceptLanguageHeader(header)
-      },
-      LanguageHeaderError,
-    )
+  it('ignores highest-priority French', function () {
+    const header = 'fr; q=1, ru; q=0.6'
+    const lang = parsePreferredLanguage(header)
+    assert.equal(lang, 'ru')
   })
 })

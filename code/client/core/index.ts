@@ -1,10 +1,10 @@
 import { fromEvent } from './dom/observable.ts'
-import { getCurrentUrlPath, getPreferredLanguage, pushIntoHistory } from './dom.ts'
+import { getCurrentUrlPath, parsePreferredLanguage, pushIntoHistory } from './dom.ts'
 import { ClientWebsiteEnvironment } from './environment.ts'
 import { ClientLogger } from './logger.ts'
 import { ClientRoutingService } from './routing_service.ts'
 import { ClientServiceManager } from './services.ts'
-import { CANONICAL_LANGUAGE_STRING, type LanguageId } from '../../common/languages.ts'
+import { CANONICAL_LANGUAGE_STRING, DEFAULT_LANGUAGE, type WebsiteLanguageId, parseSupportedQueryParamLanguage } from '../../common/languages.ts'
 import { filter, first, map, startWith, subscribeAsync, takeUntil } from '../../common/observable.ts'
 import { type IRenderEvent } from '../../common/rendering/manager.ts'
 import { type UrlPath } from '../../common/support/url_path.ts'
@@ -30,9 +30,12 @@ if (rawRehydrationData === undefined) {
 }
 
 const services = ClientServiceManager.initializeWithRawRehydrationData(rawRehydrationData)
-const env = new ClientWebsiteEnvironment({ logger, services, language: getPreferredLanguage() })
+const initialUrlPath = getCurrentUrlPath()
+const language = parseSupportedQueryParamLanguage(initialUrlPath) ?? parsePreferredLanguage() ?? DEFAULT_LANGUAGE
+
+const env = new ClientWebsiteEnvironment({ logger, services, language })
 const routingService = new ClientRoutingService(logger, env)
-await routingService.initialRender(getCurrentUrlPath())
+await routingService.initialRender(initialUrlPath)
 
 // Re-rendering has been initialized at this point; it remains to add some handlers of varying importance
 
@@ -95,7 +98,7 @@ subscribeAsync(
 subscribeAsync(
   env.gettext.language$,
   {
-    async next(language: LanguageId) {
+    async next(language: WebsiteLanguageId) {
       document.documentElement.setAttribute('lang', CANONICAL_LANGUAGE_STRING[language])
     },
 

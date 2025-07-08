@@ -1,8 +1,8 @@
 import http from 'node:http'
 
 import { ServerError } from './errors.ts'
-import { getPreferredLanguage } from './languages.ts'
-import { type LanguageId } from '../../common/languages.ts'
+import { parsePreferredLanguage } from './languages.ts'
+import { DEFAULT_LANGUAGE, WEBSITE_LANGUAGE_IDS, parseSupportedQueryParamLanguage } from '../../common/languages.ts'
 import { SubscriptionObserver } from '../../common/observable.ts'
 import { PresentableError } from '../../common/presentable_errors.ts'
 import { createErrorState } from '../../common/router.ts'
@@ -80,8 +80,10 @@ export class HttpServer implements IFinalizeable {
 
   async #handleRequest(httpRequest: NodeServerMessage, httpResponse: http.ServerResponse): Promise<void> {
     const urlPath = UrlPath.parse(httpRequest.url)
-    const preferredLanguage = getPreferredLanguage(httpRequest.headers['accept-language'] ?? '')
-    const language: LanguageId = (preferredLanguage?.lang === 'ru') ? 'ru' : 'en'
+    const language = parseSupportedQueryParamLanguage(urlPath) ??
+      parsePreferredLanguage(httpRequest.headers['accept-language'] ?? '') ??
+      DEFAULT_LANGUAGE
+
     const preferences = parsePreferenceHeader(httpRequest.headers['prefer'])
     const useMockData = preferences.get('data-source') === 'mocked'
     const env = new ServerWebsiteEnvironment({

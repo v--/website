@@ -15,6 +15,15 @@ describe('General website behavior', function () {
       assert.equal(lang, 'ru')
     })
 
+    it('supports specifying a locale via a "override-language" query parameter', async function () {
+      const page: BasePage = await BasePage.initialize({ javaScriptEnabled: false })
+      await page.goto('/?override-language=ru')
+      const lang = await page.getLanguage()
+      await page.finalize()
+
+      assert.equal(lang, 'ru')
+    })
+
     it('falls back to English on unrecognized locales specified client-side', async function () {
       const page: BasePage = await BasePage.initialize({ javaScriptEnabled: false, locale: 'bg-BG' })
       await page.goto('/')
@@ -309,6 +318,13 @@ describe('General website behavior', function () {
     })
 
     describe('languages', function () {
+      it('supports specifying a locale via a "override-language" query parameter', async function () {
+        await page.goto('/?override-language=ru')
+        const lang = await page.getLanguage()
+
+        assert.equal(lang, 'ru')
+      })
+
       it('sidebar has its language buttons enabled', async function () {
         await page.goto('/')
         const buttons = page.getSidebarLanguageButtons()
