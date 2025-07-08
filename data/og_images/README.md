@@ -10,4 +10,4 @@ It is licensed under the SIL Open Font License, Version 1.1, available with a FA
 
 ## Background
 
-The background is generated via [asymptote](https://github.com/vectorgraphics/asymptote) based on the title page from my [Notebook](https://github.com/v--/notebook).
+The background is generated via [asymptote](https://github.com/vectorgraphics/asymptote) based on [`title_page.asy`](https://github.com/v--/notebook/blob/master/figures/title_page.asy) from my [Notebook](https://github.com/v--/notebook).
