@@ -29,6 +29,41 @@
     "content": "Размер"
   },
 
+  "table.data.type.dir": {
+    "entryKind": "plain",
+    "content": "Директория"
+  },
+
+  "table.data.type.file_ext": {
+    "entryKind": "plain",
+    "content": "Файл: ${ext}"
+  },
+
+  "table.data.type.file_noext": {
+    "entryKind": "plain",
+    "content": "Файл"
+  },
+
+  "table.data.size.bytes": {
+    "entryKind": "plain",
+    "content": "${size} байтов"
+  },
+
+  "table.data.size.rounded": {
+    "entryKind": "plain",
+    "content": "${roundedSize} ${unit}"
+  },
+
+  "table.data.size.invalid": {
+    "entryKind": "plain",
+    "content": "Невалидный размер"
+  },
+
+  "table.data.size.directory": {
+    "entryKind": "plain",
+    "content": "-"
+  },
+
   "cc_notice": {
     "entryKind": "rich",
     "content": "**Примечание**: Если не указано и не подразумевается иначе, содержание этой страницы лицензировано под  [CC0](${ccUrl}); то есть нет ограничений на его изменение и распространение."

@@ -5,15 +5,17 @@ import { rich } from '../components/rich.ts'
 import { spacer } from '../components/spacer.ts'
 import { CC0_URL } from '../constants/url.ts'
 import { type WebsiteEnvironment } from '../environment.ts'
+import { map } from '../observable.ts'
 import { createComponent as c } from '../rendering/component.ts'
 import { type IDirEntry, type IDirectory } from '../services.ts'
 import { UrlPath } from '../support/url_path.ts'
+import { type BoundGetText, type IBoundGetTextSpec } from '../translation.ts'
 import { type IWebsitePageState } from '../types/page.ts'
 import { type IInteractiveTableColumnSpec } from '../types/table_interaction.ts'
 
 export function filesPage({ urlPath, pageData }: IWebsitePageState<IDirectory>, env: WebsiteEnvironment) {
   const _ = env.gettext.bindToBundle('files')
-  const columnSpecs = getColumnSpecs(urlPath)
+  const columnSpecs = getColumnSpecs(_, urlPath)
   const { entries, readme } = pageData
 
   return c.html('main', { class: 'files-page' },
@@ -43,16 +45,55 @@ function getFileExtension(fileName: string): string | undefined {
   return undefined
 }
 
-function getFileTypeString(entry: IDirEntry) {
+function getFileTypeSpec(entry: IDirEntry): IBoundGetTextSpec | string {
   if (entry.isDir) {
-    return 'Directory'
+    return 'table.data.type.dir'
   }
 
   const ext = getFileExtension(entry.name)
-  return ext === undefined ? 'File' : `File: ${ext}`
+
+  if (ext === undefined) {
+    return 'table.data.type.file_noext'
+  }
+
+  return {
+    key: 'table.data.type.file_ext',
+    context: { ext },
+  }
 }
 
-function getColumnSpecs(urlPath: UrlPath): Array<IInteractiveTableColumnSpec<IDirEntry>> {
+function getFileSizeSpec(entry: IDirEntry): IBoundGetTextSpec | string {
+  if (entry.isDir) {
+    return 'table.data.size.directory'
+  }
+
+  if (entry.size < 1024) {
+    return {
+      key: 'table.data.size.bytes',
+      context: { size: entry.size },
+    }
+  }
+
+  let ratio = entry.size / 1024
+
+  for (const unitPrefix of 'KMGTP') {
+    if (ratio < 512) {
+      return {
+        key: 'table.data.size.rounded',
+        context: {
+          roundedSize: ratio.toFixed(2),
+          unit: `${unitPrefix}iB`,
+        },
+      }
+    }
+
+    ratio /= 1024
+  }
+
+  return 'table.data.size.invalid'
+}
+
+function getColumnSpecs(gettext: BoundGetText, urlPath: UrlPath): Array<IInteractiveTableColumnSpec<IDirEntry>> {
   return [
     {
       id: 'name',
@@ -77,11 +118,12 @@ function getColumnSpecs(urlPath: UrlPath): Array<IInteractiveTableColumnSpec<IDi
       label: { bundleId: 'files', key: 'table.heading.type' },
       class: 'col-type',
       value(entry: IDirEntry) {
-        return getFileTypeString(entry)
+        return gettext(getFileTypeSpec(entry))
       },
-
       sortingValue(entry: IDirEntry) {
-        return getFileTypeString(entry) + entry.name
+        return gettext(getFileTypeSpec(entry)).pipe(
+          map(text => text + entry.name),
+        )
       },
     },
 
@@ -90,25 +132,7 @@ function getColumnSpecs(urlPath: UrlPath): Array<IInteractiveTableColumnSpec<IDi
       label: { bundleId: 'files', key: 'table.heading.size' },
       class: 'col-size',
       value(entry: IDirEntry) {
-        if (entry.isDir) {
-          return '-'
-        }
-
-        if (entry.size < 1024) {
-          return `${entry.size} Bytes`
-        }
-
-        let ratio = entry.size / 1024
-
-        for (const size of 'KMGTP') {
-          if (ratio < 512) {
-            return `${ratio.toFixed(2)} ${size}iB`
-          }
-
-          ratio /= 1024
-        }
-
-        return 'Invalid size'
+        return gettext(getFileSizeSpec(entry))
       },
 
       sortingValue(entry: IDirEntry) {
