@@ -2,11 +2,11 @@ import { type WebsiteLanguageId } from '../languages.ts'
 import { type UrlPath } from '../support/url_path.ts'
 
 /**
- * We support ISO 639 (i.e. en, eng) and BCP 47 (i.e. en-US, en_US) strings.
+ * We support ISO 639 (i.e. en, eng) and IETF BCP 47 (i.e. en-US, en_US) strings.
  *
  * All those formats without the last (en_US) is supported by Intl.Locale, and we use it to do the parsing.
  *
- * Although [1] recommends dashes, underscores are commonly used, and used by e.g. fb_locale.
+ * Although [1] recommends dashes, underscores are commonly used (e.g. Facebook's Open Graph Protocol and fb_locale).
  *
  * [1] https://datatracker.ietf.org/doc/html/rfc5646
  */

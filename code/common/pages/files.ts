@@ -5,7 +5,7 @@ import { rich } from '../components/rich.ts'
 import { spacer } from '../components/spacer.ts'
 import { CC0_URL } from '../constants/url.ts'
 import { type WebsiteEnvironment } from '../environment.ts'
-import { CANONICAL_LANGUAGE_STRING, type LanguageId } from '../languages.ts'
+import { type LanguageId, bcp47Encode } from '../languages.ts'
 import { map } from '../observable.ts'
 import { createComponent as c } from '../rendering/component.ts'
 import { type IDirectoryReadme } from '../services/files.ts'
@@ -53,7 +53,7 @@ export function filesPageReadme({ readme, currentLanguage }: IFilesPageReadmeSta
     }),
     c.factory(rich, {
       rootTag: 'section',
-      rootAttributes: { lang: CANONICAL_LANGUAGE_STRING[readme.languageId] },
+      rootAttributes: { lang: bcp47Encode(readme.languageId) },
       rootCssClass: 'files-page-readme',
       doc: readme.doc,
     }),

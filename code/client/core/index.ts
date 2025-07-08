@@ -4,7 +4,8 @@ import { ClientWebsiteEnvironment } from './environment.ts'
 import { ClientLogger } from './logger.ts'
 import { ClientRoutingService } from './routing_service.ts'
 import { ClientServiceManager } from './services.ts'
-import { CANONICAL_LANGUAGE_STRING, DEFAULT_LANGUAGE, type WebsiteLanguageId, parseSupportedQueryParamLanguage } from '../../common/languages.ts'
+import { bcp47Encode } from '../../common/languages/encode.ts'
+import { DEFAULT_LANGUAGE, type WebsiteLanguageId, parseSupportedQueryParamLanguage } from '../../common/languages.ts'
 import { filter, first, map, startWith, subscribeAsync, takeUntil } from '../../common/observable.ts'
 import { type IRenderEvent } from '../../common/rendering/manager.ts'
 import { type UrlPath } from '../../common/support/url_path.ts'
@@ -99,7 +100,7 @@ subscribeAsync(
   env.gettext.language$,
   {
     async next(language: WebsiteLanguageId) {
-      document.documentElement.setAttribute('lang', CANONICAL_LANGUAGE_STRING[language])
+      document.documentElement.setAttribute('lang', bcp47Encode(language))
     },
 
     error: handleError,

@@ -1,7 +1,7 @@
 import { body } from '../../common/components/body.ts'
 import { title } from '../../common/components/title.ts'
 import { type WebsiteEnvironment } from '../../common/environment.ts'
-import { CANONICAL_LANGUAGE_STRING } from '../../common/languages.ts'
+import { bcp47Encode } from '../../common/languages.ts'
 import { map } from '../../common/observable.ts'
 import { Component, createComponent as c } from '../../common/rendering/component.ts'
 import { type IWebsitePageState } from '../../common/types/page.ts'
@@ -18,7 +18,7 @@ interface IRootState {
 export function root({ pageState, rehydrationData }: IRootState, env: WebsiteEnvironment) {
   const preloaded = pageState.preload?.map(({ href, contentType }) => c.html('link', { rel: 'preload', as: contentType, href })) ?? DEFAULT_PREFETCHED
   const canonicalLanguage$ = env.gettext.language$.pipe(
-    map(lang => CANONICAL_LANGUAGE_STRING[lang]),
+    map(lang => bcp47Encode(lang)),
   )
 
   return c.html('html', { prefix: ROOT_TAG_PREFIX, lang: canonicalLanguage$ },
