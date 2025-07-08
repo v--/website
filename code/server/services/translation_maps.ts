@@ -1,7 +1,12 @@
 import { type ITranslationMapService } from '../../common/services.ts'
 import { type Path } from '../../common/support/path.ts'
-import { API_LANGUAGE } from '../../common/translation/types.ts'
-import { type ITranslationPackage, LANGUAGE_IDS, type LanguageId, TRANSLATION_MAP_SCHEMA } from '../../common/translation.ts'
+import {
+  API_LANGUAGE,
+  type ITranslationPackage,
+  LANGUAGE_IDS,
+  type LanguageId,
+  TRANSLATION_MAP_SCHEMA,
+} from '../../common/translation.ts'
 import { TRANSLATION_BUNDLE_IDS, type TranslationBundleId } from '../../common/types/bundles.ts'
 import { readJsonWithSchema } from '../validation.ts'
 

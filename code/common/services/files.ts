@@ -1,5 +1,6 @@
 import { RICH_TEXT_DOCUMENT_SCHEMA } from '../rich.ts'
 import { type Path } from '../support/path.ts'
+import { LANGUAGE_IDS } from '../translation.ts'
 import { type Infer, Schema } from '../validation.ts'
 
 export const DIR_ENTRY_SCHEMA = Schema.object({
@@ -10,14 +11,22 @@ export const DIR_ENTRY_SCHEMA = Schema.object({
 
 export type IDirEntry = Infer<typeof DIR_ENTRY_SCHEMA>
 
+export const DIRECTORY_README_SCHEMA = Schema.object({
+  languageId: Schema.literal(...LANGUAGE_IDS),
+  doc: RICH_TEXT_DOCUMENT_SCHEMA,
+})
+
+export type IDirectoryReadme = Infer<typeof DIRECTORY_README_SCHEMA>
+
 export const DIRECTORY_SCHEMA = Schema.object({
   entries: Schema.array(DIR_ENTRY_SCHEMA),
   path: Schema.string,
-  readme: Schema.optional(RICH_TEXT_DOCUMENT_SCHEMA),
+  readme: Schema.optional(DIRECTORY_README_SCHEMA),
 })
 
 export interface IDirectory extends Infer<typeof DIRECTORY_SCHEMA> {
   entries: IDirEntry[]
+  readme: IDirectoryReadme
 }
 
 export interface IFileService {

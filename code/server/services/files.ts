@@ -5,6 +5,8 @@ import { type IDirectory, type IFileService } from '../../common/services/files.
 import { type Path } from '../../common/support/path.ts'
 import { parseHtml } from '../html.ts'
 import { parseMarkdown } from '../markdown.ts'
+import { LANGUAGE_IDS } from '../../common/translation.ts'
+import { includes } from '../../common/support/iteration.ts'
 
 export class ServerFileService implements IFileService {
   #rootPath: Path
@@ -42,14 +44,32 @@ export class ServerFileService implements IFileService {
       const childStat = await fs.stat(filePath.toString())
 
       if (name.startsWith('.')) {
-        if (name === '.README.md') {
-          const fileContents = await fs.readFile(filePath.toString(), 'utf-8')
-          result.readme = parseMarkdown(fileContents)
+        const match = name.match(/^.README_(?<lang>[a-z]+)\.(?<ext>(md)|(html))$/)
+
+        if (match === null || match.groups === undefined || !includes(LANGUAGE_IDS, match.groups.lang)) {
+          continue
         }
 
-        if (name === '.README.html') {
-          const fileContents = await fs.readFile(filePath.toString(), 'utf-8')
-          result.readme = parseHtml(fileContents)
+        switch (match.groups.ext) {
+          case 'md': {
+            const fileContents = await fs.readFile(filePath.toString(), 'utf-8')
+            result.readme = {
+              languageId: match.groups.lang,
+              doc: parseMarkdown(fileContents),
+            }
+
+            break
+          }
+
+          case 'html': {
+            const fileContents = await fs.readFile(filePath.toString(), 'utf-8')
+            result.readme = {
+              languageId: match.groups.lang,
+              doc: parseHtml(fileContents),
+            }
+
+            break
+          }
         }
 
         continue

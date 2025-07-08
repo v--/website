@@ -7,9 +7,10 @@ import { CC0_URL } from '../constants/url.ts'
 import { type WebsiteEnvironment } from '../environment.ts'
 import { map } from '../observable.ts'
 import { createComponent as c } from '../rendering/component.ts'
+import { type IDirectoryReadme } from '../services/files.ts'
 import { type IDirEntry, type IDirectory } from '../services.ts'
 import { UrlPath } from '../support/url_path.ts'
-import { type BoundGetText, type IBoundGetTextSpec } from '../translation.ts'
+import { type BoundGetText, CANONICAL_LANGUAGE_STRING, type IBoundGetTextSpec } from '../translation.ts'
 import { type IWebsitePageState } from '../types/page.ts'
 import { type IInteractiveTableColumnSpec } from '../types/table_interaction.ts'
 
@@ -24,13 +25,36 @@ export function filesPage({ urlPath, pageData }: IWebsitePageState<IDirectory>, 
     c.html('div', { class: 'files-page-content' },
       entries.length > 0 && c.factory(interactiveTable<IDirEntry>, { class: 'files-page-table delimited-table', data: entries, columnSpecs, urlPath }),
       readme && c.factory(spacer, { dynamics: 'mp' }), // The spacer fits well even if there is no table
-      readme && c.factory(rich, { rootTag: 'section', rootCssClass: 'files-page-content-readme', doc: readme }),
+      readme && c.factory(filesPageReadme, { readme, currentLanguage: env.gettext.language$ }),
     ),
     c.factory(rich, {
       doc: _.rich$({
-        key: 'cc_notice',
+        key: 'notice.cc',
         context: { ccUrl: CC0_URL },
       }),
+    }),
+  )
+}
+
+interface IFilesPageReadmeState {
+  readme: IDirectoryReadme
+  currentLanguage: LanguageId
+}
+
+export function filesPageReadme({ readme, currentLanguage }: IFilesPageReadmeState, env: WebsiteEnvironment) {
+  const _ = env.gettext.bindToBundle('files')
+
+  return c.html('div', { class: 'files-page-readme-wrapper' },
+    currentLanguage !== readme.languageId && c.factory(rich, {
+      rootCssClass: 'files-page-readme-notice',
+      mode: 'paragraph',
+      doc: _.rich(`notice.language.${readme.languageId}`),
+    }),
+    c.factory(rich, {
+      rootTag: 'section',
+      rootAttributes: { lang: CANONICAL_LANGUAGE_STRING[readme.languageId] },
+      rootCssClass: 'files-page-readme',
+      doc: readme.doc,
     }),
   )
 }

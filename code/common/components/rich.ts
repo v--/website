@@ -11,16 +11,17 @@ export class RichTextComponentError extends CoolError {}
 
 interface IComponentCreationVisitorConfig {
   mode?: 'normal' | 'paragraph' | 'mathml'
-  rootCssClass?: string
   rootTag?: string
+  rootAttributes?: Record<string, string>
+  rootCssClass?: string
 }
 
 interface IRichTextDocumentState extends IComponentCreationVisitorConfig {
   doc: IRichTextDocument
 }
 
-export function rich({ doc, mode, rootCssClass, rootTag }: IRichTextDocumentState) {
-  const visitor = new ComponentCreationVisitor({ rootCssClass, rootTag, mode })
+export function rich({ doc, mode, rootTag, rootAttributes, rootCssClass }: IRichTextDocumentState) {
+  const visitor = new ComponentCreationVisitor({ rootTag, rootAttributes, rootCssClass, mode })
   return visitor.visitDocument(doc)
 }
 
@@ -180,7 +181,11 @@ class ComponentCreationVisitor extends RichTextVisitor<Component> {
   }
 
   override visitDocument(doc: IRichTextDocument): Component {
-    const state = this.config.rootCssClass === undefined ? undefined : { class: this.config.rootCssClass }
+    const state = { ...this.config.rootAttributes }
+
+    if (this.config.rootCssClass) {
+      state.class = this.config.rootCssClass
+    }
 
     switch (this.config.mode) {
       case undefined:
