@@ -1,3 +1,3 @@
-export const BASE_URL = process.env['API_TEST_ENVIRONMENT'] === 'production' ?
-  'https://ivasilev.net' :
-  'http://localhost:3000'
+import { getBaseEnvironmentUrl, getTestEnvironment } from '../cli/env.ts'
+
+export const BASE_URL = getBaseEnvironmentUrl(getTestEnvironment(process.argv))

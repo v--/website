@@ -8,23 +8,25 @@ The unit tests, runnable via `npm run test:unit`, are scattered through the sour
 
 The [`./unit`](./unit) directory only contains helpers.
 
-Additionally, to aim in proper resource deallocation, we have a [global hook](./unit/global_hooks.ts) that ensures that no test leaves living observables.
+Additionally, to aim in proper resource deallocation, we have a [global hook](./unit/setup.ts) that ensures that no test leaves living observables.
 
 ## API tests
 
-The API tests, runnable via `npm run test:api:local` or `npm run test:api:prod`, do some basic validation of our (very simple) APIs. These tests rely on [PlayWright](https://playwright.dev/)'s `APIRequestContext`. They reside in [`./api`](./api).
+The API tests, runnable via `npm run test:api -- --env=<...>`, do some basic validation of our (very simple) APIs. These tests rely on [PlayWright](https://playwright.dev/)'s `APIRequestContext`. They reside in [`./api`](./api).
 
-The testing environment is configured via the `API_TEST_ENVIRONMENT` environment variable. Unless it equals `production`, we run tests locally.
+The tests require an `env` command-line option, of which the CLI command will inform us thanks to the API test [setup code](./api/setup.ts).
+
+The CLI option parser is primitive, but it is what I wrote after trying five popular node CLI creation libraries and getting disappointed by the lack of an equivalent to Python's [click](https://click.palletsprojects.com/en/stable/).
 
 Note that the API tests use mock data. See the [Mock data](#mock-data) section for details.
 
 ## End-to-end tests
 
-The end-to-end tests, runnable via the many `npm run test:e2e:*` commands, use PlayWright to ensure that the essential functionality of the website like the [`/files` page](https://ivasilev.net/files) works. These tests reside in [`./e2e`](./e2e).
+The end-to-end tests, runnable via `npm run test:e2e -- --env=<...> --browser=<...>`, use PlayWright to ensure that the essential functionality of the website like the [`/files` page](https://ivasilev.net/files) works. These tests reside in [`./e2e`](./e2e).
 
 Note that [PlayWright](https://playwright.dev/) relies on its custom [Babel](https://babeljs.io/)-based TypeScript compiler, which refuses to load our uncompiled helper code. So we use node's builtin test runner rather than PlayWright's. Fortunately, this makes the API and E2E tests consistent, stylistically, with the unit tests.
 
-The testing environment is configured via the `E2E_ENVIRONMENT` environment variable and the browser is configured via the `E2E_BROWSER` variable.
+The tests require `env` and `browser` command-line options, of which the CLI command will inform us thanks to the E2E test [setup code](./e2e/setup.ts).
 
 ### Mock data
 
