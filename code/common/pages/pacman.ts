@@ -14,22 +14,37 @@ export function pacmanPage({ pageData }: IWebsitePageState<IPacmanRepository>, e
   return c.html('main', { class: 'pacman-page' },
     c.html('section', undefined,
       c.html('h1', { text: _('heading.main') }),
+
       c.factory(rich, {
+        mode: 'paragraph',
         doc: _.rich$('text'),
       }),
+
       c.html('pre', undefined,
         c.html('code', {
           text: '[ivasilev]\nServer = https://ivasilev.net/pacman/$arch',
         }),
       ),
-      c.factory(rich, {
-        doc: _.rich$(
-          {
-            key: 'openpgp',
-            context: { keyName: OPENPGP_KEY_ID_SHORT, keyUrl: OPENPGP_KEYSERVER_URL },
-          },
-        ),
-      }),
+
+      c.html('dl', { class: 'notice-list' },
+        c.factory(rich, {
+          mode: 'paragraph',
+          rootTag: 'dd',
+          rootCssClass: 'notice-info',
+          doc: _.rich$('notice.variables'),
+        }),
+        c.factory(rich, {
+          mode: 'paragraph',
+          rootTag: 'dd',
+          rootCssClass: 'notice-success',
+          doc: _.rich$(
+            {
+              key: 'notice.openpgp',
+              context: { keyName: OPENPGP_KEY_ID_SHORT, keyUrl: OPENPGP_KEYSERVER_URL },
+            },
+          ),
+        }),
+      ),
     ),
 
     c.html('section', undefined,
