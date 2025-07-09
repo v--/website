@@ -45,7 +45,7 @@ interface IDisabledAnchorElementState {
  * [1] https://w3c.github.io/html-aria/#el-a
  * [2] https://stackoverflow.com/a/10510353/2756776
  */
-export function anchor(state: IAnchorState, env: WebsiteEnvironment, children: Component[]) {
+export function anchor(state: IAnchorState, env: WebsiteEnvironment, children: Readonly<Component[]>) {
   const childState: IDisabledAnchorElementState = {
     class: classlist(state.class, state.disabled && 'disabled-anchor'),
     title: state.title,

@@ -38,23 +38,25 @@ export class MirrorDomManipulator implements INodeManipulator<HtmlComponent, Htm
   }
 
   async appendChild(node: HtmlComponent, child: HtmlComponent) {
-    node.appendChild(child)
+    node.updateChildren([...node.getChildren(), child])
     this.#childToParentMap.set(child, node)
   }
 
   async replaceChild(node: HtmlComponent, oldChild: HtmlComponent, newChild: HtmlComponent) {
-    const index = Array.from(node.iterChildren()).indexOf(oldChild)
+    const children = Array.from(node.getChildren())
+    const index = children.indexOf(oldChild)
+    children.splice(index, 1, newChild)
+    node.updateChildren(children)
     this.#childToParentMap.delete(oldChild)
     this.#childToParentMap.set(newChild, node)
-    node.setNthChild(index, newChild)
   }
 
   async removeChild(node: HtmlComponent, child: HtmlComponent) {
-    const children = Array.from(node.iterChildren())
-    this.#childToParentMap.delete(child)
+    const children = Array.from(node.getChildren())
     const index = children.indexOf(child)
     children.splice(index, 1)
     node.updateChildren(children)
+    this.#childToParentMap.delete(child)
   }
 
   async replaceSelf(oldNode: HtmlComponent, newNode: HtmlComponent) {

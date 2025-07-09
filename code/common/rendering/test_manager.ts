@@ -219,7 +219,7 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
         const dest = await manager.render(src)
 
         await updateAndWait(subject$, { type: 'span' }, src)
-        assert.equal(dest.getNthChild(0).type, 'span')
+        assert.equal(dest.getChildren()[0].type, 'span')
 
         subject$.complete()
       })
@@ -254,7 +254,7 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
 
         subject$.next({ type: 'span' })
         await updateAndWait(subject$, { type: 'span' }, src)
-        assert.equal(dest.getNthChild(0).type, 'span')
+        assert.equal(dest.getChildren()[0].type, 'span')
 
         subject$.complete()
       })
@@ -287,7 +287,7 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
         await updateAndWait(subject$, { components: ['h3', 'h2', 'h1'] }, src)
 
         assert.deepEqual(
-          Array.from(dest.iterChildren()).map(child => child.type),
+          Array.from(dest.getChildren()).map(child => child.type),
           ['h3', 'h2', 'h1'],
         )
 
@@ -339,7 +339,7 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
         await updateAndWait(subject$, { components: ['h3', 'h2', 'h1'] }, src)
 
         assert.deepEqual(
-          Array.from(dest.getNthChild(0).iterChildren()).map(child => child.type),
+          Array.from(dest.getChildren()[0].getChildren()).map(child => child.type),
           ['h3', 'h2', 'h1'],
         )
 
@@ -392,8 +392,8 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
         subject$.next({ text: 'updated text' })
         await manager.awaitRendering()
 
-        const firstChildState = await dest.getNthChild(0).getState() as ITextOnlyState
-        const secondChildState = await dest.getNthChild(1).getState() as ITextOnlyState
+        const firstChildState = await dest.getChildren()[0].getState() as ITextOnlyState
+        const secondChildState = await dest.getChildren()[1].getState() as ITextOnlyState
 
         assert.equal(firstChildState.text, 'updated text')
         assert.equal(secondChildState.text, 'updated text')
@@ -425,7 +425,7 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
 
         await manager.awaitPendingRerenders()
 
-        assert.equal(dest.getNthChild(0).type, 'div')
+        assert.equal(dest.getChildren()[0].type, 'div')
         subject$.complete()
       })
 
@@ -511,7 +511,7 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
       it('can rerender on observable change in transcluded components nested in XML components', async function () {
         const outerSubject$ = new BehaviorSubject<ITextOnlyState>({ text: 'text' })
 
-        function transcluded(_context: unknown, env: IComponentEnvironment, children: Component[]) {
+        function transcluded(_context: unknown, env: IComponentEnvironment, children: Readonly<Component[]>) {
           return c.html('main', undefined, ...children)
         }
 
@@ -532,7 +532,7 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
 
         await updateAndWait(outerSubject$, { text: 'updated text' }, src)
 
-        const innerState = await dest.getNthChild(0).getNthChild(0).getState() as ITextOnlyState
+        const innerState = await dest.getChildren()[0].getChildren()[0].getState() as ITextOnlyState
         assert.equal(innerState.text, 'updated text')
 
         outerSubject$.complete()
@@ -543,7 +543,7 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
       it('can add new children to transcluded components nested in XML components', async function () {
         const outerSubject$ = new BehaviorSubject<ITextOnlyState>({ text: 'text' })
 
-        function transcluded(_context: unknown, env: IComponentEnvironment, children: Component[]) {
+        function transcluded(_context: unknown, env: IComponentEnvironment, children: Readonly<Component[]>) {
           return c.html('main', undefined, ...children)
         }
 
@@ -565,7 +565,7 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
         outerSubject$.next({ text: 'text' })
         await manager.awaitPendingRerenders()
 
-        const innerState = await dest.getNthChild(0).getNthChild(0).getState() as ITextOnlyState
+        const innerState = await dest.getChildren()[0].getChildren()[0].getState() as ITextOnlyState
         assert.equal(innerState.text, 'text')
 
         outerSubject$.complete()
@@ -586,7 +586,7 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
 
         const subject$ = new BehaviorSubject<IOuterState>({ removeMiddleChild: false })
 
-        function innerFactory({ id }: IInnerState, env: IComponentEnvironment, children: Component[]) {
+        function innerFactory({ id }: IInnerState, env: IComponentEnvironment, children: Readonly<Component[]>) {
           return c.html('p', { id }, ...children)
         }
 
@@ -602,12 +602,12 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
         const dest = await manager.render(src)
 
         await updateAndWait(subject$, { removeMiddleChild: true }, src)
-        const children = Array.from(dest.iterChildren())
+        const children = Array.from(dest.getChildren())
 
-        assert.equal(children.length, 2)
-
-        const firstState = await children[0].getNthChild(0).getState() as ITextOnlyState
-        const secondState = await children[1].getNthChild(0).getState() as ITextOnlyState
+        const [firstNestedChild] = children[0].getChildren()
+        const [secondNestedChild] = children[1].getChildren()
+        const firstState = await firstNestedChild.getState() as ITextOnlyState
+        const secondState = await secondNestedChild.getState() as ITextOnlyState
 
         assert.equal(firstState.text, '1')
         assert.equal(secondState.text, '3')

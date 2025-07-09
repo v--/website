@@ -44,7 +44,7 @@ async function* iterStaticRenderXmlComponent(component: XmlComponent, env: IComp
     yield state.text as string
   }
 
-  for (const child of component.iterChildren()) {
+  for (const child of component.getChildren()) {
     yield await renderToString(child, env)
   }
 

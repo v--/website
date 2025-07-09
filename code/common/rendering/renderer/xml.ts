@@ -29,7 +29,7 @@ export class XmlRenderer<NodeT = unknown> extends Renderer<NodeT> {
       }
     }
 
-    for (const child of this.component.iterChildren()) {
+    for (const child of this.component.getChildren()) {
       const childRenderer = await this.manager.render(child, this)
       await this.manager.manipulator.appendChild(this.node, childRenderer)
     }

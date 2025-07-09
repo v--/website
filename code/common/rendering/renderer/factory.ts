@@ -1,26 +1,26 @@
 import { type IRendererContext, Renderer } from './renderer.ts'
 import { XmlRenderer } from './xml.ts'
 import { type uint32 } from '../../types/numbers.ts'
-import { Component, FactoryComponent, type IComponentEnvironment, type IFactoryComponentState } from '../component.ts'
+import { Component, ComponentSanityError, FactoryComponent, type IComponentEnvironment, type IFactoryComponentState } from '../component.ts'
 import { type RenderingManager } from '../manager.ts'
 
 export interface IFactoryRendererContext extends IRendererContext {
   lastRoot: Component
 }
 
-/*
- * We keep a queue of renderers for later destruction. A renderer that was already marked for deletion
- * may be visited again at a later stage. In that case we ignore it, unless it is the root renderer
- * of a component that has itself triggered the rerender. We do not want to ignore renderers
- * that have been destroyed in parallel elsewhere, because that would be a bug.
- * So rather than ignoring all renderers that could not be found, we ignore those that have been marked.
- *
- * For example, during transclusion, when processing the factory component, it children will be synchronized,
- * and then those same children will get synchronized again after getting transcluded.
- *
- * This can be quite subtle; it is covered in both unit and e2e tests.
- */
 interface GarbageTruck {
+  /*
+   * We keep a queue of renderers for later destruction. A renderer that was already marked for deletion
+   * may be visited again at a later stage. In that case we ignore it, unless it is the root renderer
+   * of a component that has itself triggered the rerender. We do not want to ignore renderers
+   * that have been destroyed in parallel elsewhere, because that would be a bug.
+   * So rather than ignoring all renderers that could not be found, we ignore those that have been marked.
+   *
+   * For example, during transclusion, when processing the factory component, it children will be synchronized,
+   * and then those same children will get synchronized again after getting transcluded.
+   *
+   * This can be quite subtle; it is covered in both unit and e2e tests.
+   */
   renderers: Set<Renderer>
 }
 
@@ -46,13 +46,14 @@ export class FactoryRenderer<NodeT = unknown> extends Renderer<NodeT> {
 
   async #updateChild(
     gcTruck: GarbageTruck,
+    updatedChildren: Component[],
     rootRenderer: Renderer<NodeT>,
     oldRoot: Component,
     newRoot: Component,
     i: uint32,
   ) {
-    const oldChild = oldRoot.getNthChild(i)
-    const newChild = newRoot.getNthChild(i)
+    const oldChild = oldRoot.getChildren()[i]
+    const newChild = newRoot.getChildren()[i]
 
     if (oldChild === newChild) {
       return
@@ -64,13 +65,14 @@ export class FactoryRenderer<NodeT = unknown> extends Renderer<NodeT> {
 
   async #replaceChild(
     gcTruck: GarbageTruck,
+    updatedChildren: Component[],
     rootRenderer: Renderer<NodeT>,
     oldRoot: Component,
     newRoot: Component,
     i: uint32,
   ) {
-    const oldChild = oldRoot.getNthChild(i)
-    const newChild = newRoot.getNthChild(i)
+    const oldChild = oldRoot.getChildren()[i]
+    const newChild = newRoot.getChildren()[i]
     const oldRenderer = await this.manager.getRenderer(oldChild)
 
     // This pair has already been processed; perhaps as part of a transclusion process.
@@ -91,12 +93,13 @@ export class FactoryRenderer<NodeT = unknown> extends Renderer<NodeT> {
       await this.manager.manipulator.destroyNode(oldRenderer.node)
     }
 
-    oldRoot.setNthChild(i, newChild)
+    updatedChildren[i] = newChild
     gcTruck.renderers.add(oldRenderer)
   }
 
   async #appendChild(
     gcTruck: GarbageTruck,
+    updatedChildren: Component[],
     rootRenderer: Renderer<NodeT>,
     oldRoot: Component,
     newChild: Component,
@@ -111,15 +114,20 @@ export class FactoryRenderer<NodeT = unknown> extends Renderer<NodeT> {
       )
     }
 
-    oldRoot.appendChild(newChild)
+    updatedChildren.push(newChild)
   }
 
   async #popChild(
     gcTruck: GarbageTruck,
+    updatedChildren: Component[],
     rootRenderer: Renderer<NodeT>,
-    oldRoot: Component,
   ) {
-    const oldChild = oldRoot.popChild()
+    const oldChild = updatedChildren.pop()
+
+    if (oldChild === undefined) {
+      throw new ComponentSanityError('Attempting to pop empty child list.')
+    }
+
     const oldRenderer = await this.manager.getRenderer(oldChild)
 
     // This pair has already been processed; perhaps as part of a transclusion process.
@@ -141,8 +149,9 @@ export class FactoryRenderer<NodeT = unknown> extends Renderer<NodeT> {
 
   async #syncChildren(gcTruck: GarbageTruck, oldRoot: Component, newRoot: Component) {
     const rootRenderer = await this.manager.getRenderer(oldRoot)
-    const oldChildren = Array.from(oldRoot.iterChildren())
-    const newChildren = Array.from(newRoot.iterChildren())
+    const oldChildren = oldRoot.getChildren()
+    const newChildren = newRoot.getChildren()
+    const updatedChildren = Array.from(oldChildren)
 
     // The order of operations may be important here (e.g. we must not do appending before updating).
     for (let i = 0; i < Math.min(oldChildren.length, newChildren.length); i++) {
@@ -150,20 +159,21 @@ export class FactoryRenderer<NodeT = unknown> extends Renderer<NodeT> {
       const newChild = newChildren[i]
 
       if (oldChild.constructor === newChild.constructor && oldChild.type === newChild.type) {
-        await this.#updateChild(gcTruck, rootRenderer, oldRoot, newRoot, i)
+        await this.#updateChild(gcTruck, updatedChildren, rootRenderer, oldRoot, newRoot, i)
       } else {
-        await this.#replaceChild(gcTruck, rootRenderer, oldRoot, newRoot, i)
+        await this.#replaceChild(gcTruck, updatedChildren, rootRenderer, oldRoot, newRoot, i)
       }
     }
 
     for (let i = oldChildren.length; i < newChildren.length; i++) {
-      await this.#appendChild(gcTruck, rootRenderer, oldRoot, newChildren[i])
+      await this.#appendChild(gcTruck, updatedChildren, rootRenderer, oldRoot, newChildren[i])
     }
 
     for (let i = newChildren.length; i < oldChildren.length; i++) {
-      await this.#popChild(gcTruck, rootRenderer, oldRoot)
+      await this.#popChild(gcTruck, updatedChildren, rootRenderer)
     }
 
+    oldRoot.updateChildren(updatedChildren)
     await newRoot.finalize()
   }
 

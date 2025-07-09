@@ -13,7 +13,7 @@ interface IFocusedPageState {
 export function playgroundMenu(
   { class: cssClass }: IFocusedPageState = {},
   env: ClientWebsiteEnvironment,
-  children: Component[],
+  children: Readonly<Component[]>,
 ) {
   const expanded$ = new BehaviorSubject(false)
 

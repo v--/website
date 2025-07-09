@@ -24,7 +24,7 @@ describe('c function', function () {
     const child = c.html('span')
     const component = c.html('div', undefined, undefined, undefined, undefined, 0, false, '', child)
 
-    const children = Array.from(component.iterChildren())
+    const children = component.getChildren()
     assert.equal(children.length, 1)
     assert.equal(children[0], child)
   })

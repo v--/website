@@ -9,7 +9,7 @@ export interface FactoryComponentType<
   StateT extends IFactoryComponentState = IFactoryComponentState,
   EnvT extends IComponentEnvironment = IComponentEnvironment,
 > {
-  (state: StateT, env: EnvT, children: Component[]): Component | Promise<Component>
+  (state: StateT, env: EnvT, children: Readonly<Component[]>): Component | Promise<Component>
 }
 
 export class FactoryComponent<
@@ -17,7 +17,7 @@ export class FactoryComponent<
   EnvT extends IComponentEnvironment = IComponentEnvironment,
 > extends Component<FactoryComponentType<StateT, EnvT>> {
   async evaluate(state: StateT, env: EnvT): Promise<Component> {
-    const component = await this.type(state, env, Array.from(this.iterChildren()))
+    const component = await this.type(state, env, this.getChildren())
 
     if (!(component instanceof Component)) {
       throw new InvalidComponentError('Expected factory to return a component', { factory: this, result: repr(component) })

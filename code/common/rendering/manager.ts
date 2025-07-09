@@ -38,7 +38,7 @@ export class RenderingManager<NodeT> implements IFinalizeable {
   markComponentAsManaged(component: Component) {
     this.#managedComponents.add(component)
 
-    for (const child of component.iterChildren()) {
+    for (const child of component.getChildren()) {
       this.markComponentAsManaged(child)
     }
   }

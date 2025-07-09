@@ -68,7 +68,7 @@ describe('renderToString function', function () {
   })
 
   it('properly transcludes components', async function () {
-    const factory = function (_state: unknown, env: IComponentEnvironment, children: Component[]) {
+    const factory = function (_state: unknown, env: IComponentEnvironment, children: Readonly<Component[]>) {
       return c.html('div', undefined, ...children)
     }
 

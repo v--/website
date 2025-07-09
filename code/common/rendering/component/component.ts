@@ -54,42 +54,16 @@ export abstract class Component<TypeT = ComponentType, StateT extends IComponent
     return this.#stateSource
   }
 
-  updateChildren(children: Iterable<Component>) {
-    this.#children = Array.from(children)
-  }
-
-  getNthChild(n: uint32): Component {
-    if (n > this.#children.length) {
-      throw new ComponentSanityError(`Child with index ${n} requested, but the component has only ${this.#children.length} children.`)
-    }
-
-    return this.#children[n]
-  }
-
-  setNthChild(n: uint32, child: Component) {
-    this.#children[n] = child
-  }
-
-  popChild() {
-    const result = this.#children.pop()
-
-    if (result === undefined) {
-      throw new ComponentSanityError('Attempting to pop empty child list.')
-    }
-
-    return result
-  }
-
-  appendChild(child: Component) {
-    this.#children.push(child)
-  }
-
-  iterChildren(): Iterable<Component> {
+  getChildren(): Readonly<Component[]> {
     return this.#children
   }
 
   hasChildren() {
     return this.#children.length > 0
+  }
+
+  updateChildren(children: Iterable<Component>) {
+    this.#children = Array.from(children)
   }
 
   unsubscribeFromStateSource() {
@@ -184,7 +158,7 @@ export abstract class Component<TypeT = ComponentType, StateT extends IComponent
 
   toString(indentation: uint32 = 0, builderName: string = '?'): string {
     const prefix = this.#getStringPrefix(builderName)
-    const childIter = this.iterChildren()
+    const childIter = this.getChildren()
 
     return recursivelyStringify({
       prefix: this.hasChildren() ? prefix + ',' : prefix,

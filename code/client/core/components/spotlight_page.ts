@@ -11,7 +11,7 @@ interface ISpotlightPageState {
 export function spotlightPage(
   { class: cssClass, stage, menu }: ISpotlightPageState,
   env: WebsiteEnvironment,
-  children: Component[],
+  children: Readonly<Component[]>,
 ) {
   return c.html('main', { class: classlist('spotlight-page', cssClass) },
     c.html('div', { class: 'spotlight-page-head' },
