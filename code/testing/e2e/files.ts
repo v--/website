@@ -42,12 +42,8 @@ export class FilesPage extends BasePage {
     return this._pwPage.locator('.files-page-readme').first()
   }
 
-  getNoticesLocator() {
-    return this._pwPage.locator('.files-page-notices').first()
-  }
-
   getLanguageNotice() {
-    return this.getNoticesLocator().getByText("This directory's description")
+    return this._pwPage.locator('.notice-warning').getByText("This directory's description")
   }
 
   getTableLocator() {
