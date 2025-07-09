@@ -41,7 +41,7 @@ export function filesPageNotices({ directory, currentLanguage }: IFilesPageNotic
   const _ = env.gettext.bindToBundle('files')
   const { entries, readme } = directory
 
-  return c.html('div', { class: 'files-page-notices' },
+  return c.html('section', { class: 'files-page-notices' },
     entries.length > 0 && c.factory(rich, {
       mode: 'paragraph',
       rootCssClass: 'notice',
