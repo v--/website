@@ -73,6 +73,7 @@
     --button-size-hpadding: 0 calc(var(--icon-size-padding) / 2);
     --button-size-vpadding: 0;
 
+    box-sizing: border-box;
     width: 100%;
     outline-offset: var(--button-size-outline-offset);
     font-weight: bold;

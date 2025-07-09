@@ -5,8 +5,9 @@
 @use "./mixins";
 
 $color-light: #fff;
-$color-dark: #222;
+$color-dark: #202020;
 $color-accented: #2a92ea;
+$color-fff-foreground-percent: 75%;
 
 // The colors are a combination of the following:
 // [1] https://colorhunt.co/palette/347433ffc107ff6f3cb22222
@@ -39,7 +40,7 @@ $color-rainbow-palette: (
   --sidebar-color-background-active:  var(--body-color-background);
   --sidebar-color-background:         var(--body-color-foreground);
   --sidebar-color-disabled:           var(--body-color-mf);
-  --sidebar-color-divider:            var(--body-color-ff);
+  --sidebar-color-divider:            var(--body-color-fff);
   --sidebar-color-foreground-active:  var(--body-color-foreground);
   --sidebar-color-foreground:         var(--body-color-background);
 }
@@ -53,8 +54,8 @@ $color-rainbow-palette: (
   @include mixins.button-foreground-colors(var(--body-color-foreground));
 
   // The sidebar which requires large adjustments
-  --sidebar-color-accented-active:    var(--body-color-ff);
-  --sidebar-color-accented:           var(--body-color-ff);
+  --sidebar-color-accented-active:    var(--body-color-fff);
+  --sidebar-color-accented:           var(--body-color-fff);
   --sidebar-color-background-active:  var(--body-color-background);
   --sidebar-color-background:         var(--body-color-ppp);
   --sidebar-color-disabled:           var(--body-color-mf);
@@ -65,14 +66,14 @@ $color-rainbow-palette: (
 
 @mixin common-color-variables {
   // Base color pallette based on musical dynamics
-  --body-color-ppp: color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(1 * 100% / 9)});
-  --body-color-pp:  color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(2 * 100% / 9)});
-  --body-color-p:   color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(3 * 100% / 9)});
-  --body-color-mp:  color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(4 * 100% / 9)});
-  --body-color-mf:  color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(5 * 100% / 9)});
-  --body-color-f:   color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(6 * 100% / 9)});
-  --body-color-ff:  color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(7 * 100% / 9)});
-  --body-color-fff: color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(8 * 100% / 9)});
+  --body-color-ppp: color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(1 / 8 * $color-fff-foreground-percent)});
+  --body-color-pp:  color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(2 / 8 * $color-fff-foreground-percent)});
+  --body-color-p:   color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(3 / 8 * $color-fff-foreground-percent)});
+  --body-color-mp:  color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(4 / 8 * $color-fff-foreground-percent)});
+  --body-color-mf:  color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(5 / 8 * $color-fff-foreground-percent)});
+  --body-color-f:   color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(6 / 8 * $color-fff-foreground-percent)});
+  --body-color-ff:  color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(7 / 8 * $color-fff-foreground-percent)});
+  --body-color-fff: color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(8 / 8 * $color-fff-foreground-percent)});
 
   // Rainbow colors
   @for $i from 1 through list.length($color-rainbow-palette) {
@@ -121,7 +122,7 @@ $color-rainbow-palette: (
   --icon-color: var(--body-color-foreground);
 
   // Lists
-  --dlist-color-indicator: var(--body-color-p);
+  --dlist-color-indicator: var(--body-color-pp);
 
   // Notices
   @include mixins.notice-colors(var(--body-color-accented));
