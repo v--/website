@@ -36,22 +36,26 @@ dl {
   }
 }
 
-dl.alert-list {
+dl.notice-list {
   margin-top: var(--body-size-f);
   margin-bottom: var(--body-size-p);
 
   dd {
     margin-left: 0;
 
-    &.alert-success {
+    &.notice-info {
+      border-color: var(--body-color-f)
+    }
+
+    &.notice-success {
       border-color: var(--body-color-success)
     }
 
-    &.alert-warning {
+    &.notice-warning {
       border-color: var(--body-color-warning)
     }
 
-    &.alert-danger {
+    &.notice-danger {
       border-color: var(--body-color-danger)
     }
   }

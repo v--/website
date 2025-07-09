@@ -41,18 +41,18 @@ export function filesPageNotices({ directory, currentLanguage }: IFilesPageNotic
   const _ = env.gettext.bindToBundle('files')
   const { entries, readme } = directory
 
-  return c.html('dl', { class: 'alert-list files-page-notices' },
+  return c.html('dl', { class: 'notice-list files-page-notices' },
     entries.length > 0 && c.factory(rich, {
       mode: 'paragraph',
       rootTag: 'dd',
-      rootCssClass: 'alert-success',
+      rootCssClass: 'notice-success',
       doc: _.rich$({
         key: 'notice.cc',
         context: { ccUrl: CC0_URL },
       }),
     }),
     readme && currentLanguage !== readme.languageId && c.factory(rich, {
-      rootCssClass: 'alert-warning',
+      rootCssClass: 'notice-warning',
       mode: 'paragraph',
       rootTag: 'dd',
       doc: _.rich(`notice.language.${readme.languageId}`),
