@@ -53,7 +53,7 @@ $spotlight-page-head-max-width: 900px; // The spotlight content is allowed to ex
   --body-size-p:   0.5em;
   --body-size-mp:  0.75em;
   --body-size-mf:  1em;
-  --body-size-f:   1.25em;
+  --body-size-f:   1.5em;
   --body-size-ff:  2.5em;
   --body-size-fff: 4em;
 
@@ -87,7 +87,17 @@ $spotlight-page-head-max-width: 900px; // The spotlight content is allowed to ex
   --icon-size-padding:  0.1em;
 
   // Lists
-  --list-size-line-width: var(--body-size-border-thick);
+  --dlist-size-indicator-width:   var(--body-size-border-thick);
+  --dlist-size-font-heading:      var(--heading-h4-size-font);
+  --dlist-size-item-margin-left:  var(--body-size-mf);
+  --dlist-size-item-padding-left: var(--body-size-mp);
+  --dlist-size-item-gap-large:    var(--body-size-mp);
+  --dlist-size-item-gap-small:    var(--body-size-pp);
+
+  // Notices
+  --notice-size-vpadding:        var(--body-size-p);
+  --notice-size-hpadding:        var(--dlist-size-item-padding-left);
+  --notice-size-indicator-width: var(--body-size-border-thick);
 
   // Tables
   --table-size-border: var(--body-size-border-thin);

@@ -1,62 +1,19 @@
 @use '../../fonts';
 
-ul {
-  li {
-    line-height: 1.75;
-
-    &:not(:last-of-type) {
-      margin-bottom: var(--body-size-pp);
-    }
-  }
-}
-
 dl {
-  dt, dd {
-    line-height: 1.75;
-  }
+  margin-block: 0; // We rely in the item's individual margins
 
   dt {
+    margin-bottom: var(--dlist-size-item-gap-small);
     font-weight: bold;
-    font-size: 1.1em;
+    font-size: var(--dlist-size-font-heading);
     text-align: left;
-
-    &:not(:last-child) {
-      margin-bottom: var(--body-size-pp);
-    }
   }
 
   dd {
-    margin-left: var(--body-size-mf);
-    padding-left: var(--body-size-p);
-    border-left: var(--list-size-line-width) solid var(--body-color-pp);
-
-    &:not(:last-child) {
-      margin-bottom: var(--body-size-mp)
-    }
-  }
-}
-
-dl.notice-list {
-  margin-top: var(--body-size-f);
-  margin-bottom: var(--body-size-p);
-
-  dd {
-    margin-left: 0;
-
-    &.notice-info {
-      border-color: var(--body-color-f)
-    }
-
-    &.notice-success {
-      border-color: var(--body-color-success)
-    }
-
-    &.notice-warning {
-      border-color: var(--body-color-warning)
-    }
-
-    &.notice-danger {
-      border-color: var(--body-color-danger)
-    }
+    margin-bottom: var(--dlist-size-item-gap-large);
+    margin-left: var(--dlist-size-item-margin-left);
+    padding-left: var(--dlist-size-item-padding-left);
+    border-left: var(--dlist-size-indicator-width) solid var(--dlist-color-indicator);
   }
 }

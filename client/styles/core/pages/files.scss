@@ -13,10 +13,4 @@
       width: 20%;
     }
   }
-
-  &-notices {
-    &:empty {
-      margin-top: 0; // Only leave a little padding from the bottom margin
-    }
-  }
 }

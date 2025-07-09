@@ -97,8 +97,6 @@ $color-rainbow-palette: (
   // Buttons backgrounds
   @include mixins.button-background-colors(var(--body-color-accented));
 
-  // @include mixins.button-background-colors(transparent);
-
   // Controls
   --control-color-input-accented: var(--control-color-input-normal);
   --control-color-input-disabled: var(--body-color-disabled);
@@ -121,6 +119,12 @@ $color-rainbow-palette: (
 
   // Icons
   --icon-color: var(--body-color-foreground);
+
+  // Lists
+  --dlist-color-indicator: var(--body-color-p);
+
+  // Notices
+  @include mixins.notice-colors(var(--body-color-accented));
 
   // Loading indicator
   --loading-color-primary:   var(--body-color-accented);

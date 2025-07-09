@@ -1,0 +1,20 @@
+@use "../../mixins";
+
+.notice {
+  padding-inline: var(--notice-size-hpadding);
+  padding-block: var(--notice-size-vpadding);
+  border-left: var(--notice-size-indicator-width) solid var(--notice-color-indicator);
+  background-color: var(--notice-color-background);
+
+  &.notice-success {
+    @include mixins.notice-colors(var(--body-color-success));
+  }
+
+  &.notice-warning {
+    @include mixins.notice-colors(var(--body-color-warning));
+  }
+
+  &.notice-danger {
+    @include mixins.notice-colors(var(--body-color-danger));
+  }
+}

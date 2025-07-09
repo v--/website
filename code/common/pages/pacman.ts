@@ -26,25 +26,21 @@ export function pacmanPage({ pageData }: IWebsitePageState<IPacmanRepository>, e
         }),
       ),
 
-      c.html('dl', { class: 'notice-list' },
-        c.factory(rich, {
-          mode: 'paragraph',
-          rootTag: 'dd',
-          rootCssClass: 'notice-info',
-          doc: _.rich$('notice.variables'),
-        }),
-        c.factory(rich, {
-          mode: 'paragraph',
-          rootTag: 'dd',
-          rootCssClass: 'notice-success',
-          doc: _.rich$(
-            {
-              key: 'notice.openpgp',
-              context: { keyName: OPENPGP_KEY_ID_SHORT, keyUrl: OPENPGP_KEYSERVER_URL },
-            },
-          ),
-        }),
-      ),
+      c.factory(rich, {
+        mode: 'paragraph',
+        rootCssClass: 'notice notice-info',
+        doc: _.rich$('notice.variables'),
+      }),
+      c.factory(rich, {
+        mode: 'paragraph',
+        rootCssClass: 'notice notice-success',
+        doc: _.rich$(
+          {
+            key: 'notice.openpgp',
+            context: { keyName: OPENPGP_KEY_ID_SHORT, keyUrl: OPENPGP_KEYSERVER_URL },
+          },
+        ),
+      }),
     ),
 
     c.html('section', undefined,

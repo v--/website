@@ -33,6 +33,11 @@
   --button-color-foreground-normal:   #{$color};
 }
 
+@mixin notice-colors($color) {
+  --notice-color-indicator: #{$color};
+  --notice-color-background: color-mix(in srgb, var(--body-color-background), var(--notice-color-indicator) 10%);
+}
+
 @mixin radio-control-restyle($background, $foreground, $accented) {
   width: 0.9em;
   height: 0.9em;
