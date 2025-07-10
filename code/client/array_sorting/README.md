@@ -2,7 +2,9 @@
 
 This is the code for the array sorting visualization at https://ivasilev.net/playground/array-sorting
 
-The [root directory](../../../) contains references to important bits of documentation that may aid in understanding the code.
+The README in the [root directory](../../../) contains references to important bits of documentation that may aid in understanding the code.
+
+__Note:__ "Code bundle" here has a specific meaning as an isolated module, see [here](./build/#typescript).
 
 ## Overview
 
@@ -22,4 +24,4 @@ Here is a brief overview of the sorting itself:
 
 ### Visualization
 
-Having timelines for all possible arrays on the page, we can easily run and pause the arrays features on individual sorting cards Each card corresponds to an algorithm and contains several arrays that the algorithm should sort. This is run-of-the-mill reactive component manipulation, which is explained in [`../../common/rendering`](../../common/rendering).
+With timelines for all possible arrays on the page, we can easily run and pause the arrays features on individual sorting cards Each card corresponds to an algorithm and contains several arrays that the algorithm should sort. This is run-of-the-mill reactive component manipulation, which is explained in [`../../common/rendering`](../../common/rendering).

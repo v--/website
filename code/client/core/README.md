@@ -4,6 +4,8 @@ This directory contains code required for the interactivity of the base website 
 
 Understanding the component system in [`../../common/rendering`](../../common/rendering) is important for understanding how it is used, so reading the documentation there should be a priority over this one. Familiarity with [RxJS](https://rxjs.dev/) or with the observable system in [`../../common/observable`](../../common/observable) is also important.
 
+__Note:__ "Code bundle" here has a specific meaning as an isolated module, see [here](./build/#typescript).
+
 ## Overview
 
 The entry point of the client-side is [`./index.ts`](./index.ts). We do the following:
