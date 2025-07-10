@@ -1,29 +1,53 @@
 {
   "fontPath": "pt-sans_regular.ttf",
-  "templatePaths": {
-    "en": "./template_en.svg",
-    "ru": "./template_ru.svg"
-  },
-  "titles": {
-    "error": {
-      "en": "Error",
-      "ru": "Ошибка"
-    },
+  "images": {
     "home": {
-      "en": "Home page",
-      "ru": "Домашняя страница"
+      "en": {
+        "templatePath": "./template_home_en.svg"
+      },
+      "ru": {
+        "templatePath": "./template_home_ru.svg"
+      }
+    },
+    "error": {
+      "en": {
+        "templatePath": "./template_common_en.svg",
+        "context": {"title": "Error"}
+      },
+      "ru": {
+        "templatePath": "./template_common_ru.svg",
+        "context": {"title": "Ошибка"}
+      }
     },
     "files": {
-      "en": "File server",
-      "ru": "Файловый сервер"
+      "en": {
+        "templatePath": "./template_common_en.svg",
+        "context": {"title": "File server"}
+      },
+      "ru": {
+        "templatePath": "./template_common_ru.svg",
+        "context": {"title": "Файловый сервер"}
+      }
     },
     "pacman": {
-      "en": "Pacman repository",
-      "ru": "Pacman хранилище"
+      "en": {
+        "templatePath": "./template_common_en.svg",
+        "context": {"title": "Pacman repository"}
+      },
+      "ru": {
+        "templatePath": "./template_common_ru.svg",
+        "context": {"title": "Pacman хранилище"}
+      }
     },
     "playground": {
-      "en": "Playground",
-      "ru": "Мастерская"
+      "en": {
+        "templatePath": "./template_common_en.svg",
+        "context": {"title": "Playground"}
+      },
+      "ru": {
+        "templatePath": "./template_common_ru.svg",
+        "context": {"title": "Мастерская"}
+      }
     }
   }
 }

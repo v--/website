@@ -4,7 +4,7 @@ import { dirname, join as joinPath, relative } from 'node:path'
 import { Resvg } from '@resvg/resvg-js'
 
 import { WEBSITE_LANGUAGE_IDS, type WebsiteLanguageId } from '../../common/languages.ts'
-import { substitutePlain } from '../../common/rich.ts'
+import { SUBSTITUTION_CONTEXT_SCHEMA, substitutePlain } from '../../common/rich.ts'
 import { getObjectEntries } from '../../common/support/iteration.ts'
 import { OPEN_GRAPH_IMAGE_IDS } from '../../common/types/bundles.ts'
 import { Schema } from '../../common/validation.ts'
@@ -21,15 +21,14 @@ export interface IOGImageBuildWorkerConfig {
 
 const PREVIEW_GENERATION_SOURCE_SCHEMA = Schema.object({
   fontPath: Schema.string,
-  templatePaths: Schema.record(
-    Schema.literal(...WEBSITE_LANGUAGE_IDS),
-    Schema.string,
-  ),
-  titles: Schema.record(
+  images: Schema.record(
     Schema.literal(...OPEN_GRAPH_IMAGE_IDS),
     Schema.record(
       Schema.literal(...WEBSITE_LANGUAGE_IDS),
-      Schema.string,
+      Schema.object({
+        templatePath: Schema.string,
+        context: Schema.optional(SUBSTITUTION_CONTEXT_SCHEMA),
+      }),
     ),
   ),
 })
@@ -53,14 +52,14 @@ export class OGImageBuildWorker implements IBuildWorker {
   async* performBuild(src: string): AsyncIterable<IBuildContext> {
     const config = await readJsonWithSchema(PREVIEW_GENERATION_SOURCE_SCHEMA, src)
 
-    for (const lang of WEBSITE_LANGUAGE_IDS) {
-      const template = await readFile(
-        joinPath(this.config.srcBase, config.templatePaths[lang]),
-        'utf-8',
-      )
+    for (const [name, images] of getObjectEntries(config.images)) {
+      for (const [lang, { templatePath, context }] of getObjectEntries(images)) {
+        const template = await readFile(
+          joinPath(this.config.srcBase, templatePath),
+          'utf-8',
+        )
 
-      for (const [name, titles] of getObjectEntries(config.titles)) {
-        const svgString = substitutePlain(template, { title: titles[lang] })
+        const svgString = context ? substitutePlain(template, context) : template
 
         const resvg = new Resvg(svgString, {
           font: {
