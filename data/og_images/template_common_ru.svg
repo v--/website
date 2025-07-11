@@ -20,15 +20,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="0.38719419"
-     inkscape:cx="116.22075"
-     inkscape:cy="-173.03979"
+     inkscape:zoom="0.77313519"
+     inkscape:cx="626.02247"
+     inkscape:cy="186.25462"
      inkscape:window-width="1920"
      inkscape:window-height="1054"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
-     inkscape:current-layer="g8197" />
+     inkscape:current-layer="g1" />
   <defs
      id="defs1">
     <clipPath
@@ -38,9 +38,16 @@
          id="path1" />
     </clipPath>
   </defs>
+  <rect
+     style="fill:#ffffff;fill-opacity:1;stroke-width:5.18916"
+     id="rect5"
+     width="1200"
+     height="630"
+     x="56.409"
+     y="53.858002" />
   <g
      id="g8195"
-     transform="matrix(4.0230019,0,0,4.0230019,-2788.7786,-661.48104)">
+     transform="matrix(3.8615989,1.128095,-1.128095,3.8615989,-2361.6387,-1586.2131)">
     <g
        id="g8196">
       <path
@@ -1230,46 +1237,54 @@
     </g>
   </g>
   <g
-     id="g8197"
-     transform="translate(0,3.0006164)">
+     id="g1"
+     transform="translate(0.00102002,-1.4998825)">
     <g
-       id="g8198"
-       transform="translate(4.551046)">
+       id="g8197"
+       transform="translate(0,-14.999384)">
       <g
-         transform="matrix(0.83333,0,0,0.83333,-281.14,394.726)"
-         id="g8194">
-        <circle
-           cx="830.409"
-           cy="121.358"
-           r="36"
-           style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:14.4;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-           id="circle8193" />
-        <path
-           d="m 830.41,91.358 a 7.5,7.5 0 0 0 -7.5,7.5 7.5,7.5 0 0 0 7.5,7.5 7.5,7.5 0 0 0 7.5,-7.5 7.5,7.5 0 0 0 -7.5,-7.5 m -7.5,15 v 37.5 a 7.5,7.5 0 0 0 7.5,7.5 7.5,7.5 0 0 0 7.5,-7.5 v -37.5 h -0.039 a 7.5,7.5 0 0 1 -7.462,6.75 7.503,7.503 0 0 1 -7.454,-6.75 z"
-           style="fill:#2a92ea;fill-opacity:1;stroke:none;stroke-width:7.5;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-           id="path8194" />
-      </g>
-      <text
-         xml:space="preserve"
-         x="472.20099"
-         y="386.258"
-         style="font-size:50px;font-family:'Roboto Serif';-inkscape-font-specification:'Roboto Serif, Normal';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#f9f9f9;stroke-width:0.75"
-         transform="translate(-6,127)"
-         id="text8194"><tspan
+         id="g3"
+         transform="translate(4.5500259)">
+        <g
+           transform="matrix(0.83333,0,0,0.83333,-281.14,394.726)"
+           id="g8194">
+          <circle
+             cx="830.409"
+             cy="121.358"
+             r="36"
+             style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:14.4;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+             id="circle8193" />
+          <path
+             d="m 830.41,91.358 a 7.5,7.5 0 0 0 -7.5,7.5 7.5,7.5 0 0 0 7.5,7.5 7.5,7.5 0 0 0 7.5,-7.5 7.5,7.5 0 0 0 -7.5,-7.5 m -7.5,15 v 37.5 a 7.5,7.5 0 0 0 7.5,7.5 7.5,7.5 0 0 0 7.5,-7.5 v -37.5 h -0.039 a 7.5,7.5 0 0 1 -7.462,6.75 7.503,7.503 0 0 1 -7.454,-6.75 z"
+             style="fill:#2a92ea;fill-opacity:1;stroke:none;stroke-width:7.5;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+             id="path8194" />
+        </g>
+        <text
+           xml:space="preserve"
            x="472.20099"
            y="386.258"
-           style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:50px;font-family:'PT Sans';-inkscape-font-specification:'PT Sans';stroke-width:0.75"
-           id="tspan8194">Сайт Яниса Василева</tspan></text>
+           style="font-size:50px;font-family:'Roboto Serif';-inkscape-font-specification:'Roboto Serif, Normal';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#f9f9f9;stroke-width:0.75"
+           id="text8194"
+           transform="translate(-6,127)"><tspan
+             sodipodi:role="line"
+             id="tspan2"
+             x="472.20099"
+             y="386.258"><tspan
+               x="472.20099"
+               y="386.258"
+               style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:50px;font-family:'PT Sans';-inkscape-font-specification:'PT Sans';stroke-width:0.75"
+               id="tspan8194">Сайт Яниса Василева</tspan></tspan></text>
+      </g>
     </g>
+    <text
+       xml:space="preserve"
+       x="653.59546"
+       y="329.85791"
+       style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:125px;font-family:'PT Sans';-inkscape-font-specification:'PT Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#f9f9f9"
+       id="text8195"><tspan
+         x="653.59546"
+         y="329.85791"
+         style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:125px;font-family:'PT Sans';-inkscape-font-specification:'PT Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle"
+         id="tspan8195">${title}</tspan></text>
   </g>
-  <text
-     xml:space="preserve"
-     x="653.59698"
-     y="311.85791"
-     style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:125px;font-family:'PT Sans';-inkscape-font-specification:'PT Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#f9f9f9"
-     id="text8195"><tspan
-       x="653.59698"
-       y="311.85791"
-       style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:125px;font-family:'PT Sans';-inkscape-font-specification:'PT Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle"
-       id="tspan8195">${title}</tspan></text>
 </svg>

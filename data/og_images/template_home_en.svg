@@ -21,9 +21,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
-     inkscape:zoom="0.67683648"
-     inkscape:cx="-81.260396"
-     inkscape:cy="255.60088"
+     inkscape:zoom="0.48923865"
+     inkscape:cx="572.31782"
+     inkscape:cy="374.05058"
      inkscape:window-width="1920"
      inkscape:window-height="1054"
      inkscape:window-x="0"
@@ -39,9 +39,16 @@
          id="path1" />
     </clipPath>
   </defs>
+  <rect
+     style="fill:#ffffff;fill-opacity:1;stroke-width:5.18916"
+     id="rect5"
+     width="1200"
+     height="630"
+     x="56.409"
+     y="53.858002" />
   <g
      id="g8195"
-     transform="matrix(4.0230019,0,0,4.0230019,-2788.7784,-661.48104)"
+     transform="matrix(3.8615989,1.128095,-1.128095,3.8615989,-2361.6387,-1586.2131)"
      style="opacity:1">
     <g
        id="g8196">
