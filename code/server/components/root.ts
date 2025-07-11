@@ -24,9 +24,6 @@ export function root({ pageState, rehydrationData }: IRootState, env: WebsiteEnv
   return c.html('html', { prefix: ROOT_TAG_PREFIX, lang: canonicalLanguage$ },
     c.html('head', undefined,
       c.factory(title, pageState),
-      c.html('meta', { charset: 'UTF-8' }),
-      c.html('meta', { name: 'viewport', content: 'width=device-width, initial-scale=1' }),
-      c.html('meta', { name: 'description', content: env.gettext.plain(pageState.descriptionSpec) }),
       // TODO: Remove Array.from once Iterator.prototype.map() proliferates
       ...Array.from(iterMetaTags(env.gettext, pageState)).map(
         tag => c.html('meta', { name: tag.name, content: tag.content }),

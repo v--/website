@@ -1,4 +1,5 @@
 export { FEDIVERSE_CREATOR_TAG } from './meta/fediverse.ts'
+export { VIEWPORT_TAG } from './meta/generic.ts'
 export { iterMetaTags } from './meta/index.ts'
 export { ROOT_TAG_PREFIX, iterOpenGraphTags } from './meta/open_graph.ts'
 export { type IMetaLink, type IMetaTag } from './meta/types.ts'
