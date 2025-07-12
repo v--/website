@@ -16,9 +16,10 @@ table {
   }
 
   th, td {
-    @include mixins.inline-ellipsis;
-
+    // Break, but ellipsize as a fallback
+    overflow-x: hidden;
     padding: 0.75em 0.25em;
+    text-overflow: ellipsis;
   }
 
   &.delimited-table {
