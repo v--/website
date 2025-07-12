@@ -95,6 +95,10 @@ export class ClientRoutingService implements IFinalizeable {
     }
   }
 
+  #resetPageScroll() {
+    aggressiveQuerySelector(document.body, '.page-scroll-container').scroll(0, 0)
+  }
+
   async initialRender(urlPath: UrlPath) {
     await this.#acquireLock()
 
@@ -122,6 +126,7 @@ export class ClientRoutingService implements IFinalizeable {
       const pageState = await router(urlPath, this.env)
       await this.env.processPageChange(pageState)
 
+      this.#resetPageScroll()
       const promise = Promise.all([
         this.renderManager.awaitRendering(this.titleComponent),
         this.renderManager.awaitRendering(this.bodyComponent),
@@ -159,6 +164,7 @@ export class ClientRoutingService implements IFinalizeable {
         this.logger.error('Error while processing error page state. Trying to continue with rendering.', nestedErr)
       }
 
+      this.#resetPageScroll()
       const promise = Promise.all([
         this.renderManager.awaitRendering(this.titleComponent),
         this.renderManager.awaitRendering(this.bodyComponent),
