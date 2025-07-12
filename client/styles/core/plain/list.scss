@@ -1,5 +1,9 @@
 @use '../../fonts';
 
+ul, ol {
+  padding-left: var(--list-item-padding-left);
+}
+
 dl {
   margin-block: 0; // We rely in the item's individual margins
 
