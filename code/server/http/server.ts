@@ -54,12 +54,12 @@ export class HttpServer implements IFinalizeable {
 
   writeResponse(httpResponse: http.ServerResponse, response: ServerResponse): Promise<void> {
     httpResponse.writeHead(response.code, {
-      'Content-Type': response.mimeType,
-      'Content-Length': Buffer.byteLength(response.content, 'utf8'),
+      'Content-Type': `${response.mimeType}; charset=utf-8`,
+      'Content-Length': Buffer.byteLength(response.content, 'utf-8'),
     })
 
     return new Promise(function (resolve: Action<void>) {
-      httpResponse.write(response.content, 'utf8', function () {
+      httpResponse.write(response.content, 'utf-8', function () {
         httpResponse.end()
         resolve()
       })
