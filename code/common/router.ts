@@ -121,7 +121,7 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
     }
   }
 
-  return createEncodedErrorState(urlPath, { errorKind: 'http', code: 404 })
+  throw new PresentableError({ errorKind: 'http', code: 404 })
 }
 
 export function createEncodedErrorState(urlPath: UrlPath, encoded: IEncodedError): IWebsitePageState<IEncodedError> {
