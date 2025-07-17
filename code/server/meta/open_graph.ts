@@ -25,7 +25,7 @@ export function* iterOpenGraphTags(gettext: GetText, pageState: IWebsitePageStat
 
   yield {
     name: 'og:url',
-    content: pageState.urlPath.trimQueryString().toString(),
+    content: pageState.urlPath.toString(),
   }
 
   const currentLang = gettext.getCurrentLanguage()
