@@ -1,5 +1,3 @@
-import { type IncomingMessage, type ServerResponse } from 'node:http'
-
 import BrowserSync from 'browser-sync'
 import findProcess from 'find-process'
 
