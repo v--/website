@@ -5,14 +5,13 @@
     "code/client/*/index.ts",
     "code/build/{builder,watcher}.ts",
     "code/**/test_*.ts",
+    "code/testing/*/setup.ts",
+    "code/testing/cli.ts",
     "code/benchmarks/benchmark.ts",
     "code/benchmarks/bench_*.ts"
   ],
   "project": [
     "code/**/*.ts"
-  ],
-  "ignore": [
-    "code/testing/unit/setup.ts"
   ],
   "ignoreDependencies": [
     "eslint-import-resolver-typescript"
