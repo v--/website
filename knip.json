@@ -12,7 +12,7 @@
     "code/**/*.ts"
   ],
   "ignore": [
-    "code/testing/unit/global_hooks.ts"
+    "code/testing/unit/setup.ts"
   ],
   "ignoreDependencies": [
     "eslint-import-resolver-typescript"

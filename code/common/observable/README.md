@@ -14,7 +14,7 @@ __Note:__ Just to be clear, I find observables to be an awkward abstraction. The
 
 Most of the heavy lifting is done in [`SubscriptionObserver`](./subscription_observer.ts), which wraps observers into a standardized object with proper error handling and recovery.
 
-The class also features a static list of living observers, which we use to verify proper unsubscribing. For example, there is a [global unit test hook](../../testing/unit/global_hooks.ts) which verifies that there are no living observers after running a test and its teardown code.
+The class also features a static list of living observers, which we use to verify proper unsubscribing. For example, there is a [global unit test hook](../../testing/unit/setup.ts) which verifies that there are no living observers after running a test and its teardown code.
 
 ## State store
 
@@ -43,4 +43,4 @@ Running `store.update({ time: 4 })` will trigger both subscriptions, but running
 
 Once we are done, running `unload$.next()` will complete the exposed observables, ensuring automatic cleanup.
 
-The state store is actively used on the playground pages, where [`ClientWebsiteEnvironment`](../../client/core/environment.ts)'s `pageUnload$` observable allows us to destroy active subscriptions upon page reload.
+The state store is actively used on the playground pages, where [`ClientWebsiteEnvironment`](../../client/core/environment.ts)'s `pageUnload$` observable allows us to destroy active subscriptions upon navigation.
