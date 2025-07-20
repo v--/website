@@ -1,5 +1,6 @@
 import { icon } from '../components/icon.ts'
 import { rich } from '../components/rich.ts'
+import { EMAIL_URL, GITHUB_PROJECT_URL } from '../constants/url.ts'
 import { type WebsiteEnvironment } from '../environment.ts'
 import { EncodedErrorDecoder } from '../presentable_errors/decoder.ts'
 import { type IEncodedError } from '../presentable_errors.ts'
@@ -38,7 +39,10 @@ export function errorPage(pageState: IWebsitePageState<IEncodedError>, env: Webs
     }),
     c.factory(rich, {
       mode: 'paragraph',
-      doc: env.gettext.rich$({ bundleId: 'core', key: 'error_page.suggestion' }),
+      doc: env.gettext.rich$({
+        bundleId: 'core', key: 'error_page.suggestion',
+        context: { githubProjectUrl: GITHUB_PROJECT_URL, emailUrl: EMAIL_URL },
+      }),
     }),
   )
 }
