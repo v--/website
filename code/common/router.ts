@@ -49,6 +49,7 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
       pageDataHydrationTag: 'files',
       pageData: await env.services.files.readDirectory(path),
       urlPath,
+      canonicalUrlPath: urlPath.pickQueryString('page', 'per-page', 'sort-asc', 'sort-desc'),
     }
   }
 
@@ -67,6 +68,7 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
       pageDataHydrationTag: 'pacman',
       pageData: await env.services.pacman.fetchRepository(),
       urlPath,
+      canonicalUrlPath: urlPath.pickQueryString(),
     }
   }
 
@@ -84,6 +86,7 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
       page: playgroundPage,
       pageData: undefined,
       urlPath,
+      canonicalUrlPath: urlPath.pickQueryString(),
     }
   }
 
@@ -101,6 +104,7 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
         ogImageName: 'playground',
         pageData: undefined,
         urlPath,
+        canonicalUrlPath: urlPath.pickQueryString(),
       }
 
       if (env.isContentDynamic()) {

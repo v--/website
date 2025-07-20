@@ -34,6 +34,7 @@ export interface IWebsitePageState<T = DefaultPageData> {
 
   preload?: IPreloadSpec[]
   urlPath: UrlPath
+  canonicalUrlPath?: UrlPath
 }
 
 export type IWebsitePageContext = object

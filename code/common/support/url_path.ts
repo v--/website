@@ -42,6 +42,16 @@ export class UrlPath {
     this.query = query
   }
 
+  pickQueryString(...properties: string[]) {
+    return new UrlPath(
+      this.path,
+      // TODO: Remove Array.from once Iterator.prototype.filter() proliferates
+      new Map(
+        Array.from(this.query.entries()).filter(([k, _v]) => properties.includes(k)),
+      ),
+    )
+  }
+
   getQueryString() {
     return Array.from(this.query.entries())
       .map(([key, value]) => `${key}=${value.replace('&', '%24')}`)

@@ -23,9 +23,11 @@ export function* iterOpenGraphTags(gettext: GetText, pageState: IWebsitePageStat
     content: pageState.titleSegmentSpecs.map(spec => gettext.plain(spec)).join(' ⋅ '),
   }
 
-  yield {
-    name: 'og:url',
-    content: pageState.urlPath.toString(),
+  if (pageState.canonicalUrlPath) {
+    yield {
+      name: 'og:url',
+      content: pageState.canonicalUrlPath.toString(),
+    }
   }
 
   const currentLang = gettext.getCurrentLanguage()
