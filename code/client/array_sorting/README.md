@@ -20,8 +20,10 @@ Here is a brief overview of the sorting itself:
 
 3. Once the sorting algorithm completes, we have a list of comparison that is used to instantiate the [`SortingTimeline`](./support/timeline.ts) class. The timeline is able to extract snapshots at discrete moments; each snapshot contains an array and the latest action applied to it.
 
-4. All requires sorting timelines are initialized statically in [`./constants.ts`](./constants.ts).
+4. All required sorting timelines are initialized statically in [`./constants.ts`](./constants.ts).
 
 ### Visualization
 
-With timelines for all possible arrays on the page, we can easily run and pause the arrays features on individual sorting cards Each card corresponds to an algorithm and contains several arrays that the algorithm should sort. This is run-of-the-mill reactive component manipulation, which is explained in [`../../common/rendering`](../../common/rendering).
+With timelines for all possible arrays on the page, we can easily run and pause the arrays featured on individual sorting cards. Each card corresponds to an algorithm and contains several arrays that the algorithm should sort.
+
+This part of the code is run-of-the-mill reactive component manipulation, which is explained in the README file in [`../../common/rendering`](../../common/rendering).

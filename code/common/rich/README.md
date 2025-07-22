@@ -10,19 +10,19 @@ The MathML subsystem is flexible, but the type schema is quite loose. This is be
 
 Long story short, the code at [`../../server/markdown`](../../server/markdown) parses markdown via [CommonMark](https://commonmark.org/) and later converts the obtained AST into our rich text AST format.
 
-The website previously used a custom Markdown parser. You can find a working one [here](https://github.com/v--/website/tree/7e244705189a213bc7e29d9ba4dfa34973a4e4f4/code/common/support/markdown/parser.js) and a much better but unfinished one [here](https://github.com/v--/website/tree/83183121a130960bf9f0b06c2b9f0f08471b1d09/code/common/markdown/parser.ts).
+The website previously used a custom Markdown parser. You can find a working one [here](https://github.com/v--/website/tree/7e244705189a213bc7e29d9ba4dfa34973a4e4f4/code/common/support/markdown/parser.js) and an improved but unfinished one [here](https://github.com/v--/website/tree/83183121a130960bf9f0b06c2b9f0f08471b1d09/code/common/markdown/parser.ts).
 
 There are two reasons why I decided to abandon that.
 
-1. Markdown has a surprising amount subtleties, as can be seen in the [CommonMark Spec](https://spec.commonmark.org/). These make every parser incompatible, and sometimes I found myself wondering whether to parse indented text as a code block or as nested list. The custom parser was more of a burden than a good learning experience.
+1. Markdown has a surprising amount nuances, as can be seen in the [CommonMark Spec](https://spec.commonmark.org/). These make all parsers incompatible with each other, and necessarily leads to choices. For example, indented text may be a code block, but may just as well be a nested list. The custom parser was more of a burden than a good learning experience.
 
-2. At some point I started thinking about setting up a blog, and being able to write mathematical expressions was a necessity. Thus, I was forced either to introduce another custom flavor of Markdown, or to abandon it altogether in favor of another approach.
+2. At some point I started thinking about setting up a blog, and being able to write mathematical expressions was a necessity. Thus, I was forced either to introduce my own Markdown extensions, or to abandon my parser altogether in favor of another approach.
 
-I made the decision to develop on AST-based system that is flexible enough to handle both Markdown and HTML with MathML.
+I made the decision to develop on AST-based system that is flexible enough to handle both Markdown and HTML+MathML.
 
 ## Other formats
 
-Another format that is partially supported is [LaTeX](https://www.latex-project.org/) via [TeX4ht](https://tug.org/tex4ht), which can be parsed by the code at [`../../server/html`](../../server/html). The latter acts as a general HTML parser (used for parsing `.README.html` files in the [server's file service](../../server/services/files.ts)), but only supports a Markdown-like limited subset of HTML, extended with MathML.
+Another format that is partially supported is [LaTeX](https://www.latex-project.org/) via [TeX4ht](https://tug.org/tex4ht), which can be parsed by the code at [`../../server/html`](../../server/html). The latter acts as a general HTML parser (used for parsing `.README_{lang}.html` files in the [server's file service](../../server/services/files.ts)), but only supports a Markdown-like limited subset of HTML, extended with MathML.
 
 If that turns out easy enough, I may also experiment at some point with [plasTeX](https://github.com/plastex/plastex) or even possibly [typst](https://typst.app).
 

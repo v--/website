@@ -1,6 +1,6 @@
 # Server code
 
-This directory features a simple web server based on node's builtin libraries. It was written in 2017 to replace the [vibe.d](https://vibed.org/) server I was running at the time. My intention was for the website to be able to perform both server-side and client-side rendering of the same virtual components. Understanding the component system in [`../common/rendering`](../common/rendering) is important for understanding how it is used, so reading the documentation there should be a priority over this one.
+This directory features a simple web server based on node's builtin libraries. It was written in 2017 to replace the [vibe.d](https://vibed.org/) server I was running at the time. My intention was for the website to be able to perform both server-side and client-side rendering of the same virtual components. Understanding the component system in [`../common/rendering`](../common/rendering) is important, so reading the documentation there should ideally be done before reading this one.
 
 ## Overview
 
@@ -22,7 +22,7 @@ The entry point is [`./index.ts`](./index.ts), which does the following:
     2. It performs initialization of the aforementioned factory.
     3. Finally, it binds node's server to our custom request handlers.
 
-3. Upon receiving a `NodeServerMessage` representing an HTTP request, we run the code logic:
+3. Upon receiving a `NodeServerMessage` representing an HTTP request, we run perform the following:
     1. We parse the URL and create a [`UrlPath`](../common/support/url_path.ts) object.
     2. We parse some HTTP headers via the [`parsePreferredLanguage`](./http/languages.ts) and [`parsePreferenceHeader`](./http/preferences.ts) functions.
     3. We use the manager factory to create a `ServerServiceManager` instance based on whether the headers require mock data (see [`../testing`](../testing)).
@@ -42,7 +42,7 @@ The website does not allow user input, nor does it need big batches of structure
 
 ## Rich text
 
-The [file service](./services/files.ts) lists the contents of a directory, and, if the directory contains either `.README.md` or `.README.html`, it parses them and serves an AST that can be rendered. Consult the rich text module in [`../common/rich`](../common/rich) regarding the general approach, as well as the server-specific code that adapts Markdown and HTML syntax trees.
+The [file service](./services/files.ts) lists the contents of a directory, and, if the directory contains either `.README_{lang}.md` or `.README_{lang}.html`, it parses them and serves an AST that can be rendered. Consult the rich text module in [`../common/rich`](../common/rich) regarding the general approach, as well as the server-specific code that adapts Markdown and HTML syntax trees.
 
 ## Rehydration data
 

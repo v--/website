@@ -6,7 +6,7 @@ For learning purposes, I have made it my goal to only rely on external dependenc
 
 Naturally, the code is licensed under the [Unlicense](https://unlicense.org/), and whatever other content I have here is licensed under [CC0](https://creativecommons.org/public-domain/cc0/) (except, obviously, for [Font Awesome](https://fontawesome.com/) and the [STIX fonts](https://www.stixfonts.org/) referenced as submodules and the [PT Sans](https://www.paratype.com/fonts/pt/pt-sans) font downloaded in [`./data/og_images`](./data/og_images)).
 
-After running the website for 12 years (with occasional bursts of development), in 2025 I did a large refactoring and have decided to publish the code on GitHub. On that occasion I wrote module overviews in the README files of some directories (perhaps a single "docs" directory would have been better?). For example, [`./code`](./code) and [`./styles`](./client/styles) contain an overview of some tools used, while the directories listed in the next section feature code that may be of interest elsewhere.
+After running the website for 12 years, with occasional bursts of development) in 2025 I decided to do a large refactoring and afterwards publish the code on GitHub. On that occasion I wrote module overviews in the README files of some directories (perhaps a single "docs" directory would have been better?). For example, [`./code`](./code) and [`./styles`](./client/styles) contain an overview of some tools used, while the directories listed in the next section feature code that may be of interest elsewhere.
 
 To run the code, a little setup is required:
 ```
@@ -20,7 +20,7 @@ After that, a development server can be launched via `npm run watcher` and, afte
 
 ## Library code
 
-What I call here "library code" is a bunch of reusable independent modules that would be external dependencies if it was not my goal to implement them. Roughly, I have implemented from scratch analogues of some of the tools that I have relied on when building web applications. The following may be of interest:
+What I call here "library code" is a bunch of reusable independent modules that would be external dependencies if it was not my goal to implement them myself. Roughly, I have implemented from scratch analogues of some of the tools that I have relied on when building web applications. The following may be of interest:
 
 * [Proposal-compliant](https://github.com/tc39/proposal-observable) observables with extensions based on [RxJS](https://rxjs.dev/) in [`./code/common/observable`](./code/common/observable).
 

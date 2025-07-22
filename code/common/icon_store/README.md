@@ -21,4 +21,4 @@ Embedding SVG icons in such a way allows us to both customize any SVG/CSS proper
 
 The [`IconStore`](./store.ts) class simply stores and retrieves icon references.
 
-Similarly to how translation packages work (see [here](../translation#translation-packages)), the `IconStore` class stores an `IIconRefPackage` - a list of icon reference maps indexed by ids, and the [`WebsiteEnvironment`](../environment.ts) class provides tools to maintain it between page reloads.
+Similarly to how translation packages work (see [here](../translation#translation-packages)), the `IconStore` class stores an `IIconRefPackage` - a list of icon reference maps indexed by ids, and the [`WebsiteEnvironment`](../environment.ts) class provides tools to maintain upon page navigation.

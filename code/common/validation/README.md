@@ -4,7 +4,7 @@ I have implemented here a straightforward schema-based data validator based, ide
 
 The implementation is fairly straightforward - refer, for example, to the schema-to-type code in [`./inference.ts`](./inference.ts).
 
-__Warning__: Validation error reporting is very primitive - it simply says that the (root) value mismatches the schema. The reason for this is that there is no clear answer as to how to show which value mismatches which sub-schema. Consider the confusing interface mismatches reported by TypeScript. There are possible approaches to make validation errors clearer, but truly any data validation is already an overkill for my website, so I did not bother with detailed errors.
+__Warning__: Validation error reporting is very primitive - it simply says that the (root) value mismatches the schema. The reason for this is that there is no clear answer as to how to show which value mismatches which sub-schema. Think of the confusing interface mismatches reported by TypeScript. There are possible approaches to make validation errors clearer, but truly any data validation is already an overkill for my website, so I did not bother with detailed errors.
 
 ## Usage example
 
@@ -47,9 +47,9 @@ type IRichTextEntry = {
 }
 ```
 
-The `content` field is resolved to a reference to the (anonymous to the `Infer` type constructor) type assigned to `IRichTextEntry`; that is, it resolves the self-reference that we have marked via `Schema.self`. Such resolution is only possible in the presence of a wrapping `Schema.rec` schema somewhere in the hierarchy, which signals where `Schema.self` should point.
+The `content` field is resolved to a reference to the (anonymous to the `Infer` type constructor) type assigned to `IRichTextEntry`; that is, it resolves the self-reference that we have marked via `Schema.self`. Such resolution is only possible in the presence of a wrapping `Schema.recursive` schema somewhere in the hierarchy, which signals where `Schema.self` should point.
 
-The `uint32` type above is defined by [flavoring](https://spin.atomicobject.com/2018/01/15/typescript-flexible-nominal-typing/) the builtin type `number`. Our schemas are able to validate unsigned integers, but there is no way to prevent anybody from assigning an arbitrary floating point number to a `uint32`-typed variable.
+The `uint32` type above is defined by [flavoring](https://spin.atomicobject.com/2018/01/15/typescript-flexible-nominal-typing/) the builtin type `number`. Our schemas are able to validate unsigned integers, but there is no way to prevent anybody from assigning an arbitrary floating point number to a variable annotated with `uint32`.
 
 If `rawEntry` contains an object that is possibly a rich text entry, we can validate it as follows:
 ```

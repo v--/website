@@ -2,11 +2,11 @@
 
 I started using an observable-based approach to rendering in 2017, with a home-baked Observable class (see [here](https://github.com/v--/website/tree/5df50822d5b35a86a5ac8d89c5ecb5ee813f8bdd/code/common/support/observable.mjs)) based on some obsolete (for that time) ideas. These observables later turned out to loosely resemble [RxJS](https://rxjs.dev/)'s Subjects.
 
-After two years, after having worked with RxJS for some time, I decided to reimplement observables based on the corresponding [TC39 proposal](https://github.com/tc39/proposal-observable). Most of the code still used subjects for some time.
+Two years later, after having worked with RxJS for some time, I decided to reimplement observables based on the corresponding [TC39 proposal](https://github.com/tc39/proposal-observable). At that time most of the code still used subjects.
 
-Several years later, this module features [`Observable`](./observable.ts), [`Subject`](./subject.ts), [`ReplaySubject`](./replay_subject.ts) and [`BehaviorSubject`](./behavior_subject.ts) classes mostly compatible with RxJS, with a lot of operators that can be found in [`./operators`](./operators). Furthermore, the TC39 proposal's test suite is run in [`./test_observable.ts`](./test_observable.ts), which ensures additional compatiblity.
+Now, several years later, this module features [`Observable`](./observable.ts), [`Subject`](./subject.ts), [`ReplaySubject`](./replay_subject.ts) and [`BehaviorSubject`](./behavior_subject.ts) classes mostly compatible with RxJS, with a lot of operators that can be found in [`./operators`](./operators). Furthermore, the TC39 proposal's test suite is run in [`./test_observable.ts`](./test_observable.ts), which ensures additional compatibility.
 
-Incompatibilities are specifically commented. For example, [`./operators/combine_latest.ts`](./operators/combine_latest.ts) explains how our implementation of `combineLatest` breaks compatibility RxJS's on purpose, since that enables us to use a pattern we fundamentally rely on in the component system in [`../rendering`](../rendering).
+Incompatibilities are specifically noted in code comments. For example, [`./operators/combine_latest.ts`](./operators/combine_latest.ts) explains how our implementation of `combineLatest` breaks compatibility RxJS's on purpose, since that enables us to use a pattern we fundamentally rely on in the component system in [`../rendering`](../rendering).
 
 __Note:__ Just to be clear, I find observables to be an awkward abstraction. They leave a lot of questions unanswered (what should `takeUntil` do when its argument completes? how about `debounce`?) and often introduce unnecessary cognitive load (will `shareReplay` leak here?). Until a more elegant abstraction arises, however, observables may be the most powerful way to perform reactive updates.
 

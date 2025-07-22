@@ -1,6 +1,6 @@
 # Component rendering
 
-This is the bread and butter of my website. It was [first committed](https://github.com/v--/website/tree/c6e425f026bf17e6aa71a2e5f9ca550a1bcf2ebf) on 2017-04-09, but, except for the following very basic ideas, had nearly nothing to do with that it is currently.
+This is the bread and butter of my website. I have [introduced](https://github.com/v--/website/tree/c6e425f026bf17e6aa71a2e5f9ca550a1bcf2ebf) the component system on 2017-04-09, but, except for the following very basic ideas, had nearly nothing to do with that it is currently.
 
 1. There are HTML components:
     ```
@@ -24,27 +24,24 @@ This is the bread and butter of my website. It was [first committed](https://git
     c.factory(exampleFactory, { text: 'example' })
     ```
 
-4. Reactivity is achieved by using observables instead of state objects: given
+4. Reactivity is achieved by using observables instead of state objects. For example, the following component will render its contents into `node` and rerender every time `state$` emits:
     ```
-    const stateObservable$ = new BehaviorSubject({ text: 'initial' })
+    const state$ = new BehaviorSubject({ text: 'initial' })
+    const component = c.html('p', state$)
+    const node = await manager.render(component)
     ```
-    we can pass
-    ```
-    c.html('p', stateObservable$)
-    ```
-    to the rendering system, and it will redraw the component every time `stateObservable$` emits.
 
 ## Inspiration
 
-Syntax-wise, the code above much resembles [React](https://react.dev/) without [JSX](https://facebook.github.io/jsx/). I never understood the appeal of JSX, but liked the base idea of React's virtual DOM.
+Syntax-wise, the code above resembles [React](https://react.dev/) without [JSX](https://facebook.github.io/jsx/). I never understood the appeal of JSX, but liked the base idea of React's virtual DOM.
 
-In 2015-2016, smaller frameworks like [Vue](https://vuejs.org/) had already managed to find their place under the sun, with different solutions to reactivity (like Vue's proxied model objects).
+In 2015-2016, smaller frameworks (e.g. [Vue](https://vuejs.org/)) had already managed to find their place under the sun, with different solutions to reactivity (e.g. Vue's proxied model objects).
 
 On the other hand, custom elements started making their way into the DOM standard, proliferated by [Polymer](https://polymer-library.polymer-project.org/) and related projects. APIs like [mutation observers](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver) started appearing, making it possible to write custom elements while staying close, conceptually, to the DOM.
 
-There were many solutions to reactivity, and none of them scratched the itch as satisfyingly as the observables that started becoming popular in the early days of [Angular](https://angular.dev/) (not [angular.js](https://angularjs.org/)), when [RxJS](https://rxjs.dev/) started showing its power to the masses.
+There were many solutions to reactivity, and none of them scratched the itch as satisfyingly as the observables that started becoming popular in the early days of [Angular](https://angular.dev/) (not [angular.js](https://angularjs.org/)). That was when [RxJS](https://rxjs.dev/) started showing its power to the masses.
 
-I had the sudden realization that the virtual DOM fits perfectly with the idea of observables. I tried to implement this, and soon found out that I could achieve a lot by following only this simple approach.
+I had the sudden realization that the virtual DOM fits nicely with the idea of observables. I tried to implement this, and soon found out that I could achieve a lot by following only this simple approach.
 
 __Note:__ As explained in the README in [`../observable`](../observable), my understanding of observables at the time was not based on RxJS itself but rather on some obsolete (at the time) ideas. I only later realized the benefits of the cold-observable-pipe approach of RxJS.
 
@@ -84,7 +81,7 @@ The [`Component`](./component/component.ts) class is a building block for our vi
         c.html('button', { text: text$, title: 'title' })
         ```
 
-3. Finally, a component requires a list of children, other components. We can thus write
+3. Finally, a component may have a list of other components as children. We can thus write
     ```
     c.html('a', { href: 'http://example.com' },
       c.html('b', { text: 'Bold text in a link' }),
@@ -114,7 +111,7 @@ c.html('button',
 )
 ```
 
-Whenever the environment's language is updated (i.e. whenever `env.changeLanguage` completes), all components bound to `_` observables get updated without any intermediate components getting rerendered.
+Whenever the environment's language is updated (i.e. whenever `env.changeLanguage(...)` resolves), all components bound to `_` observables get updated without any intermediate components getting rerendered.
 
 ## Static rendering
 
@@ -124,7 +121,7 @@ The [`renderToString`](./static_render.ts) function allows us to take a componen
 
 Once we have a component, it has its `state$` property, and we can use it to extract the state and perform some action. This is how reactivity works:
 
-1. An abstract `Node` type must be chosen, which will be the rendering target. A [`INodeManipulator`](./types.ts) interface must be implemented for it.
+1. An abstract `Node` type must be chosen, which will be the rendering target. An [`INodeManipulator`](./types.ts) interface must be implemented for it.
 
     The manipulator takes care of the low-level primitive operations of rendering - creating a node, updating some property of a node, adding a child node and so forth.
 
@@ -132,7 +129,7 @@ Once we have a component, it has its `state$` property, and we can use it to ext
 
 2. Once we have a manipulator, we can instantiate a [`RenderingManager`](./manager.ts). This manager outsources some operations to the [`Renderer`](./renderer/renderer.ts) subclasses [`XmlRenderer`](./renderer/xml.ts) and [`FactoryRenderer`](./renderer/factory.ts).
 
-    The aforementioned files have a lot of comments (see e.g. `RenderingManager`'s `#initializeRenderer` method or `FactoryRenderer`'s `rerender` method) since there are a lot of subtleties. Some of the subtleties have dedicated tests in [`./test_manager.ts`](./test_manager.ts) numbered as `BF7` ("bugfix test 7").
+    The aforementioned files have a lot of comments (see e.g. `RenderingManager`'s `#initializeRenderer` method or `FactoryRenderer`'s `rerender` method) since there are a lot of minutiae. Some subtleties even have dedicated tests in [`./test_manager.ts`](./test_manager.ts) numbered as `BF7` ("bugfix test 7").
 
     What matters here is that once we have a manager instance, we can use
     ```
