@@ -19,6 +19,11 @@ export function playgroundPage(pageState: IWebsitePageState, env: WebsiteEnviron
           context: { projectUrl: GITHUB_PROJECT_URL },
         }),
       }),
+      c.factory(rich, {
+        mode: 'paragraph',
+        rootCssClass: 'notice notice-info',
+        doc: _.rich$('text.more_content'),
+      }),
       c.html('dl', undefined,
         ...PLAYGROUND_PAGE_IDS.flatMap(playgroundId => {
           return [
@@ -37,9 +42,6 @@ export function playgroundPage(pageState: IWebsitePageState, env: WebsiteEnviron
           ]
         }),
       ),
-      c.factory(rich, {
-        doc: _.rich$('footnote'),
-      }),
     ),
   )
 }

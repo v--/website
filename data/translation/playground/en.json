@@ -13,10 +13,10 @@
     ]
   },
 
-  "footnote": {
+  "text.more_content": {
     "entryKind": "rich",
     "content": [
-      "**Note:** There was previously more content here, but during the last refactoring I removed the majority of what I considered unfinished; it should, however, be easily discoverable in the source code history."
+      "There was previously more content here, but during the last refactoring I removed the majority of what I considered unfinished; it should, however, be easily discoverable in the source code history."
     ]
   }
 }
