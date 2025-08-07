@@ -27,6 +27,7 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
       pageData: undefined,
       preload: [{ contentType: 'image', href: '/images/home_page_photo.jpg' }],
       urlPath,
+      canonicalUrlPath: urlPath.clearQueryString(),
     }
   }
 
@@ -68,7 +69,7 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
       pageDataHydrationTag: 'pacman',
       pageData: await env.services.pacman.fetchRepository(),
       urlPath,
-      canonicalUrlPath: urlPath.pickQueryString(),
+      canonicalUrlPath: urlPath.clearQueryString(),
     }
   }
 
@@ -86,7 +87,7 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
       page: playgroundPage,
       pageData: undefined,
       urlPath,
-      canonicalUrlPath: urlPath.pickQueryString(),
+      canonicalUrlPath: urlPath.clearQueryString(),
     }
   }
 
@@ -104,7 +105,7 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
         ogImageName: 'playground',
         pageData: undefined,
         urlPath,
-        canonicalUrlPath: urlPath.pickQueryString(),
+        canonicalUrlPath: urlPath.clearQueryString(),
       }
 
       if (env.isContentDynamic()) {

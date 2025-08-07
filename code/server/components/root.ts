@@ -1,5 +1,6 @@
 import { body } from '../../common/components/body.ts'
 import { title } from '../../common/components/title.ts'
+import { WEBSITE_CANONICAL_URL } from '../../common/constants/url.ts'
 import { type WebsiteEnvironment } from '../../common/environment.ts'
 import { bcp47Encode } from '../../common/languages.ts'
 import { map } from '../../common/observable.ts'
@@ -30,7 +31,7 @@ export function root({ pageState, rehydrationData }: IRootState, env: WebsiteEnv
       ),
       c.html('link', { rel: 'icon', type: 'image/x-icon', href: '/images/favicon.png' }),
       c.html('link', { rel: 'stylesheet', href: '/styles/core.css' }),
-      pageState.canonicalUrlPath && c.html('link', { rel: 'canonical', href: pageState.canonicalUrlPath.toString() }),
+      pageState.canonicalUrlPath && c.html('link', { rel: 'canonical', href: WEBSITE_CANONICAL_URL + pageState.canonicalUrlPath.toString() }),
       c.html('script', { id: 'rehydrationData', type: 'application/json', text: JSON.stringify(rehydrationData) }),
       c.html('script', { type: 'module', src: '/code/client/core/index.js', defer: true }),
       // This "JavaScript-only" hack is based on https://stackoverflow.com/a/431554/2756776

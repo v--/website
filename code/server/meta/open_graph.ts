@@ -6,6 +6,7 @@
  */
 
 import { type IMetaTag } from './types.ts'
+import { WEBSITE_CANONICAL_URL } from '../../common/constants/url.ts'
 import { WEBSITE_LANGUAGE_IDS, bcp47Encode } from '../../common/languages.ts'
 import { type GetText } from '../../common/translation.ts'
 import { type IWebsitePageState } from '../../common/types/page.ts'
@@ -26,7 +27,7 @@ export function* iterOpenGraphTags(gettext: GetText, pageState: IWebsitePageStat
   if (pageState.canonicalUrlPath) {
     yield {
       name: 'og:url',
-      content: pageState.canonicalUrlPath.toString(),
+      content: WEBSITE_CANONICAL_URL + pageState.canonicalUrlPath.toString(),
     }
   }
 

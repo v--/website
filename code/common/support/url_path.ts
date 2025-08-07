@@ -52,6 +52,10 @@ export class UrlPath {
     )
   }
 
+  clearQueryString() {
+    return this.pickQueryString()
+  }
+
   getQueryString() {
     return Array.from(this.query.entries())
       .map(([key, value]) => `${key}=${value.replace('&', '%24')}`)
