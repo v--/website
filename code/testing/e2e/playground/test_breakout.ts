@@ -6,6 +6,8 @@ import { BreakoutPage } from '../playground/breakout.ts'
 import { getBoundingBox, waitForStableState } from '../support/locator.ts'
 import { VIEWPORT_SIZE_NAMES } from '../support/viewport.ts'
 
+const EXPECTED_RAY_COUNT = 5
+
 describe('Breakout page', function () {
   it('without JavaScript shows a fallback page with an unsupported message', async function () {
     const page: BreakoutPage = await BreakoutPage.initialize({ javaScriptEnabled: false })
@@ -88,6 +90,36 @@ describe('Breakout page', function () {
         await waitForStableState(rest)
         const reset = page.getResetButtonLocator()
         assertFalse(await reset.isVisible())
+      })
+    })
+
+    describe('debug rays', function () {
+      it('are hidden by default', async function () {
+        await page.goto('/playground/breakout')
+        const rays = await page.getRayLocators()
+        assert.equal(rays.length, 0)
+      })
+
+      it('are shown when debug mode is toggled', async function () {
+        await page.goto('/playground/breakout')
+        const stage = page.getStageLocator()
+        const debugToggle = page.getDebugToggleLocator()
+        await debugToggle.click()
+        await waitForStableState(stage)
+        const rays = await page.getRayLocators()
+        assert.equal(rays.length, EXPECTED_RAY_COUNT)
+      })
+
+      it('are hidden when debug mode is toggled twice', async function () {
+        await page.goto('/playground/breakout')
+        const stage = page.getStageLocator()
+        const debugToggle = page.getDebugToggleLocator()
+        await debugToggle.click()
+        await waitForStableState(stage)
+        await debugToggle.click()
+        await waitForStableState(stage)
+        const rays = await page.getRayLocators()
+        assert.equal(rays.length, 0)
       })
     })
   })

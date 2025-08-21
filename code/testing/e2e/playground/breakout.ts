@@ -17,7 +17,19 @@ export class BreakoutPage extends PlaygroundPage {
     return await this.getMenuToggleLocator().isVisible()
   }
 
+  getDebugToggleLocator() {
+    return this._pwPage.getByText('Debug mode', { exact: true })
+  }
+
   getResetButtonLocator() {
     return this._pwPage.getByText('Reset', { exact: true })
+  }
+
+  getRayLocators() {
+    return this._pwPage.locator('.breakout-ray').all()
+  }
+
+  getStageLocator() {
+    return this._pwPage.locator('.breakout').first()
   }
 }

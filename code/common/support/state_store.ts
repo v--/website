@@ -30,11 +30,11 @@ export class StateStore<T extends object> {
   }
 
   #update(payload: Partial<T>) {
+    this.#combinedSubject$.next({ ...this.#combinedSubject$.value, ...payload })
+
     for (const [key, value] of getObjectEntries(payload)) {
       this.#subjects[key].next(value as T[keyof T])
     }
-
-    this.#combinedSubject$.next({ ...this.#combinedSubject$.value, ...payload })
   }
 
   getState<K extends keyof T>(key: K): T[K] {
