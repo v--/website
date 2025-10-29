@@ -23,7 +23,7 @@ export class ServerPacmanService implements IPacmanService {
   }
 
   async preload() {
-    await this.#cache.fetchAndCache(this.#dbPath)
+    await this.#cache.refetch(this.#dbPath)
   }
 
   updateDbPath(dbPath: Path) {

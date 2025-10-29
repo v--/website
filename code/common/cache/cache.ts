@@ -47,7 +47,8 @@ export abstract class Cache<K, V, PayloadT extends ICachePayload<V> = ICachePayl
     }
   }
 
-  async fetchAndCache(key: K) {
+  async refetch(key: K) {
+    this.invalidate(key)
     await this.getValue(key)
   }
 
