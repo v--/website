@@ -11,7 +11,7 @@
       "",
       "This is a variation of the classic game [Breakout]($breakoutUrl) where the bricks evolve and form clusters, making the game nearly impossible to win unless the few starting bricks are cleared immediately.",
       "",
-      "Developed in 2016, with a full rewrite in 2019 and a significant refactoring in 2025.",
+      "Developed in 2016 while examining React.js, and later reimplemented for my own [component system](${githubRenderingSystemUrl}).",
       "",
       "The code can be found [on GitHub](${githubPageUrl}).",
       "",

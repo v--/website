@@ -13,7 +13,7 @@
       "At each moment shown, two values are compared, and the corresponding values are highlighted.",
       "Their color is green if they are swapped and red otherwise.",
       "",
-      "Developed in 2014, with several refactorings since then.",
+      "Developed while trying out the then-new [generator functions](${generatorDocUrl}) in 2014 (ironically, I have later removed the reliance on generators).",
       "",
       "The code can be found [on GitHub](${githubPageUrl}). The individual cards have links to their corresponding implementations."
     ]

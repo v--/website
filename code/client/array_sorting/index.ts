@@ -23,6 +23,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
         {
           key: 'text',
           context: {
+            generatorDocUrl: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator',
             githubPageUrl: `${GITHUB_PROJECT_CODE_URL}/client/array_sorting`,
           },
         },

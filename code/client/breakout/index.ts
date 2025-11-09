@@ -68,6 +68,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
           startingBrickCount: DEFAULT_GAME_STATE.bricks.length,
           brickMaxPower: BRICK_MAX_POWER,
           githubPageUrl: `${GITHUB_PROJECT_CODE_URL}/client/breakout`,
+          githubRenderingSystemUrl: `${GITHUB_PROJECT_CODE_URL}/common/rendering`,
         },
       }),
     }),
