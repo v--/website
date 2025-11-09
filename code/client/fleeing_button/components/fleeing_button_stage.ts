@@ -2,7 +2,7 @@ import { fleeingButtonAttractors } from './fleeing_button_attractors.ts'
 import { fleeingButtonMouseArea } from './fleeing_button_mouse_area.ts'
 import { Vec2D } from '../../../common/math/geom2d.ts'
 import { withLatestFrom } from '../../../common/observable/operators/with_latest_from.ts'
-import { Observable, combineLatest, map, switchMap } from '../../../common/observable.ts'
+import { Observable, combineLatest, map, pairwise, switchMap } from '../../../common/observable.ts'
 import { createComponent as c } from '../../../common/rendering/component.ts'
 import { clamp } from '../../../common/support/floating.ts'
 import { type StateStore } from '../../../common/support/state_store.ts'
@@ -28,9 +28,10 @@ export function fleeingButtonStage({ store }: IFleeingButtonStageState, env: Cli
   const _ = env.gettext.bindToBundle('fleeing_button')
 
   store.keyedObservables.mousePosition.pipe(
+    pairwise(),
     withLatestFrom(store.combinedState$),
   ).subscribe({
-    next([mousePosition, { mousePosition: oldMousePosition, buttonPosition, activeAttractor }]) {
+    next([[oldMousePosition, mousePosition], { buttonPosition, activeAttractor }]) {
       if (mousePosition === undefined || mousePosition.distanceTo(buttonPosition) > MOUSE_DISTANCE_THRESHOLD) {
         return
       }
