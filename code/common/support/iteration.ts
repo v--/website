@@ -3,6 +3,7 @@ export {
   cumulative,
   enumerate,
   getObjectEntries,
+  getObjectKeys,
   includes,
   intersperse,
   padLeft,

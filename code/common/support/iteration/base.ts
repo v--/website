@@ -83,6 +83,13 @@ export function* intersperse<T>(iterable: Iterable<T>, conjunction: T, lastConju
 }
 
 /**
+ * A better-typed wrapper around Object#keys
+ */
+export function getObjectKeys<T extends object>(object: T) {
+  return Object.keys(object) as Array<keyof T>
+}
+
+/**
  * A better-typed wrapper around Object#entries
  */
 export function getObjectEntries<T extends object>(object: T) {
