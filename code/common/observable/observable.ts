@@ -113,6 +113,12 @@ export class Observable<T, V = void> {
     transformationB: (observable: Observable<A, V>) => Observable<B, V>,
     transformationC: (observable: Observable<B, V>) => Observable<C, V>
   ): Observable<C, V>
+  pipe<A, B, C, D>(
+    transformationA: (observable: Observable<T, V>) => Observable<A, V>,
+    transformationB: (observable: Observable<A, V>) => Observable<B, V>,
+    transformationC: (observable: Observable<B, V>) => Observable<C, V>,
+    transformationD: (observable: Observable<C, V>) => Observable<D, V>
+  ): Observable<D, V>
   pipe(...transformations: Array<(observable: Observable<unknown, V>) => Observable<unknown, V>>): Observable<unknown, V>
   pipe(...transformations: Array<(observable: Observable<unknown, V>) => Observable<unknown, V>>): Observable<unknown, V> {
     let result = this as Observable<unknown, V>

@@ -32,6 +32,7 @@ export class StateStore<T extends object> {
     this.keyedObservables = Object.fromEntries(
       getObjectKeys(initial).map(key => {
         const observable = this.#combinedSubject$.pipe(
+          takeUntil(unload$),
           filter(payload => payload.lastPatchedKeys.includes(key)),
           map(payload => payload.state[key]),
           startWithFactory(() => this.getState(key)),
