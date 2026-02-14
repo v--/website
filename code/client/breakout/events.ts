@@ -44,12 +44,12 @@ function tryReset({ env, update }: IEventParams<Event>) {
   }
 }
 
-export function handleKeyDown({ event, update }: IEventParams<KeyboardEvent>) {
+export function handleKeyDown({ state, event, update }: IEventParams<KeyboardEvent>) {
   switch (event.key) {
     case KEY_LEFT_SECONDARY:
     case 'ArrowLeft':
       if (!event.repeat) {
-        update({ paddleDirection: -1 })
+        update({ paddle: state.paddle.update({ direction: -1 }) })
       }
 
       break
@@ -57,7 +57,7 @@ export function handleKeyDown({ event, update }: IEventParams<KeyboardEvent>) {
     case KEY_RIGHT_SECONDARY:
     case 'ArrowRight':
       if (!event.repeat) {
-        update({ paddleDirection: 1 })
+        update({ paddle: state.paddle.update({ direction: 1 }) })
       }
 
       break
@@ -86,16 +86,16 @@ export function handleKeyUp(params: IEventParams<KeyboardEvent>) {
 
     case KEY_LEFT_SECONDARY:
     case 'ArrowLeft':
-      if (state.paddleDirection === -1) {
-        update({ paddleDirection: 0 })
+      if (state.paddle.direction === -1) {
+        update({ paddle: state.paddle.update({ direction: 0 }) })
       }
 
       break
 
     case KEY_RIGHT_SECONDARY:
     case 'ArrowRight':
-      if (state.paddleDirection === 1) {
-        update({ paddleDirection: 0 })
+      if (state.paddle.direction === 1) {
+        update({ paddle: state.paddle.update({ direction: 0 }) })
       }
 
       break
@@ -112,24 +112,24 @@ export function handleStageClick(params: IEventParams<MouseEvent>) {
 
 export function handleLeftButtonDown({ state, update }: IEventParams<MouseEvent>) {
   if (state.phase === 'running') {
-    update({ paddleDirection: -1 })
+    update({ paddle: state.paddle.update({ direction: -1 }) })
   }
 }
 
 export function handleLeftButtonUp({ state, update }: IEventParams<MouseEvent>) {
-  if (state.paddleDirection === -1) {
-    update({ paddleDirection: 0 })
+  if (state.paddle.direction === -1) {
+    update({ paddle: state.paddle.update({ direction: 0 }) })
   }
 }
 
 export function handleRightButtonDown({ state, update }: IEventParams<MouseEvent>) {
   if (state.phase === 'running') {
-    update({ paddleDirection: 1 })
+    update({ paddle: state.paddle.update({ direction: 1 }) })
   }
 }
 
 export function handleRightButtonUp({ state, update }: IEventParams<MouseEvent>) {
-  if (state.paddleDirection === 1) {
-    update({ paddleDirection: 0 })
+  if (state.paddle.direction === 1) {
+    update({ paddle: state.paddle.update({ direction: 0 }) })
   }
 }

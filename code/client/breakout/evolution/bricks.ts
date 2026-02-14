@@ -6,7 +6,7 @@ import { type IGameState } from '../types.ts'
 
 const MAX_EVOLUTION_ATTEMPTS = 3
 
-export function evolveBricks({ bricks, ballCenter }: IGameState): Partial<IGameState> | undefined {
+export function evolveBricks({ bricks, ball }: IGameState): Partial<IGameState> | undefined {
   for (let i = 0; i < MAX_EVOLUTION_ATTEMPTS; i++) {
     const centerIndex = randInt(0, bricks.length)
     const xOffset = randInt(-1, 2)
@@ -15,7 +15,7 @@ export function evolveBricks({ bricks, ballCenter }: IGameState): Partial<IGameS
     let brickIndex = centerIndex
 
     // We avoid bricks too close to the ball position.
-    if (isLeq(ballCenter.distanceTo(center), BRICK_EVOLUTION_BALL_MIN_DISTANCE)) {
+    if (isLeq(ball.center.distanceTo(center), BRICK_EVOLUTION_BALL_MIN_DISTANCE)) {
       continue
     }
 

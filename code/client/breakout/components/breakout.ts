@@ -2,7 +2,7 @@ import { breakoutBall } from './breakout_ball.ts'
 import { breakoutBricks } from './breakout_bricks.ts'
 import { breakoutFps } from './breakout_fps.ts'
 import { breakoutPaddle } from './breakout_paddle.ts'
-import { breakoutRays } from './breakout_rays.ts'
+import { breakoutRay } from './breakout_ray.ts'
 import { breakoutScore } from './breakout_score.ts'
 import { breakoutSplash } from './breakout_splash.ts'
 import { icon } from '../../../common/components/icon.ts'
@@ -141,10 +141,10 @@ export function breakout({ store }: IBreakoutState, env: ClientWebsiteEnvironmen
         },
       },
 
-      c.factory(breakoutRays, raysComponentState$),
+      c.factory(breakoutRay, raysComponentState$),
       c.factory(breakoutBricks, { bricks: store.keyedObservables.bricks }),
-      c.factory(breakoutPaddle, { center: store.keyedObservables.paddleCenter }),
-      c.factory(breakoutBall, { ballCenter: store.keyedObservables.ballCenter }),
+      c.factory(breakoutPaddle, { paddle: store.keyedObservables.paddle }),
+      c.factory(breakoutBall, { ball: store.keyedObservables.ball }),
       c.factory(breakoutSplash, { phase: store.keyedObservables.phase }),
       c.factory(breakoutScore, { score: store.keyedObservables.score }),
       c.factory(breakoutFps, { fps: shownFps$, show: store.keyedObservables.debug }),

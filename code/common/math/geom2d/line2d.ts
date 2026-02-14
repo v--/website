@@ -1,3 +1,4 @@
+import { ReflectionError } from './errors.ts'
 import { type IIntersectible, type IIntersection } from './types.ts'
 import { Vec2D } from './vec2d.ts'
 import { isClose, isLeq, isZero } from '../../support/floating.ts'
@@ -83,20 +84,6 @@ export class Line2D implements ILine2DConfig, IIntersectible {
     return (-this.a * origin.x - this.b * origin.y - this.c) / divisor
   }
 
-  intersectWithRay(origin: Vec2D, direction: Vec2D, tolerance?: float64): IIntersection | undefined {
-    const t = this.#getIntersectionParameter(origin, direction)
-
-    if (t === undefined || isLeq(t, 0, tolerance)) {
-      return undefined
-    }
-
-    return {
-      point: origin.translate(direction, t),
-      tangent: this,
-      figure: this,
-    }
-  }
-
   /**
    * Reflect the ray with origin P and direction d through the line l.
    *
@@ -150,7 +137,24 @@ export class Line2D implements ILine2DConfig, IIntersectible {
     return reflected.sub(intersection).scaleToNormed()
   }
 
-  orientedDistanceToPoint(point: Vec2D): float64 {
-    return this.a * point.x + this.b * point.y + this.c
+  intersectWithRay(origin: Vec2D, direction: Vec2D, tolerance?: float64): IIntersection | undefined {
+    const t = this.#getIntersectionParameter(origin, direction)
+
+    if (t === undefined || isLeq(t, 0, tolerance)) {
+      return undefined
+    }
+
+    return {
+      point: origin.translate(direction, t),
+      calculateReflection: () => {
+        const refl = this.reflectRayDirection(origin, direction, tolerance)
+
+        if (refl === undefined) {
+          throw new ReflectionError('Could not calculate reflection')
+        }
+
+        return refl
+      },
+    }
   }
 }

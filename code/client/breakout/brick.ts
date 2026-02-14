@@ -1,7 +1,8 @@
-import { BRICK_MAX_POWER } from './constants.ts'
+import { BALL_RADIUS, BRICK_MAX_POWER } from './constants.ts'
 import { BreakoutBrickError } from './errors.ts'
-import { type GameBrickPower } from './types.ts'
-import { AARect, type IIntersectible, type IIntersection, Vec2D } from '../../common/math/geom2d.ts'
+import { BreakoutBall, intersectBall } from './geom/ball.ts'
+import { type GameBrickPower, type IBreakoutIntersection } from './types.ts'
+import { AARect } from '../../common/math/geom2d.ts'
 import { type uint32 } from '../../common/types/numbers.ts'
 
 export interface IBreakoutBrickConfig {
@@ -10,31 +11,26 @@ export interface IBreakoutBrickConfig {
   power: GameBrickPower
 }
 
-export class BreakoutBrick implements IBreakoutBrickConfig, IIntersectible {
+export class BreakoutBrick implements IBreakoutBrickConfig {
   readonly x: uint32
   readonly y: uint32
   readonly power: GameBrickPower
-  #rect: AARect
+  readonly bounds: AARect
 
   constructor({ x, y, power }: IBreakoutBrickConfig) {
     this.x = x
     this.y = y
     this.power = power
-    this.#rect = new AARect({ x, y, width: 1, height: 1 })
+    this.bounds = new AARect({
+      x: x - BALL_RADIUS,
+      y: y - BALL_RADIUS,
+      width: 1 + 2 * BALL_RADIUS,
+      height: 1 + 2 * BALL_RADIUS,
+    })
   }
 
-  intersectWithRay(origin: Vec2D, direction: Vec2D): IIntersection | undefined {
-    const int = this.#rect.intersectWithRay(origin, direction)
-
-    if (int === undefined) {
-      return undefined
-    }
-
-    return {
-      point: int.point,
-      tangent: int.tangent,
-      figure: this,
-    }
+  intersectWithBall(ball: BreakoutBall): IBreakoutIntersection | undefined {
+    return intersectBall(this, this.bounds, ball)
   }
 
   evolve() {

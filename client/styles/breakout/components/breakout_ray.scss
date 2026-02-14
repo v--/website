@@ -1,0 +1,17 @@
+.breakout-rays {
+  .breakout-ray {
+    opacity: var(--breakout-opacity-ray);
+    fill: none;
+    stroke: var(--breakout-color-ray);
+    stroke-width: var(--breakout-size-ray-width);
+    stroke-linecap: round;
+  }
+
+  .breakout-rays-ball-ghost {
+    fill: var(--breakout-color-ray);
+
+    &-fatal {
+      fill: var(--breakout-color-ray-fatal);
+    }
+  }
+}

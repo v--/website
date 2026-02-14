@@ -48,7 +48,7 @@ export async function waitForServer(sync: BrowserSync.BrowserSyncInstance, conte
   // A simple wait seems to do the trick. With less than 200ms, however, BrowserSync still hangs, and sometimes even with 200ms.
 
   if (contexts.some(ctx => ctx.src.startsWith('code/common'))) {
-    await waitForTime(500)
+    await waitForTime(750)
   }
 }
 
