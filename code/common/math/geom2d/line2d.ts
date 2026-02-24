@@ -19,19 +19,6 @@ export class Line2D implements ILine2DConfig, IIntersectible {
   b: float64
   c: float64
 
-  static fromTwoPoints(pointA: Vec2D, pointB: Vec2D): Line2D {
-    return this.fromPointAndVector(pointA, pointB.sub(pointA))
-  }
-
-  static fromPointAndVector(point: Vec2D, vector: Vec2D): Line2D {
-    const norm = vector.getNorm()
-    return new this({
-      a: vector.y / norm,
-      b: -vector.x / norm,
-      c: (vector.x * point.y - vector.y * point.x) / norm,
-    })
-  }
-
   constructor({ a, b, c }: ILine2DConfig) {
     this.a = a
     this.b = b
@@ -42,27 +29,12 @@ export class Line2D implements ILine2DConfig, IIntersectible {
     return isClose(this.a * other.b, this.b * other.a)
   }
 
-  coincidesWith(other: Line2D) {
-    return this.isParallelWith(other) && isClose(this.b * other.c, this.c * other.b)
-  }
-
   getParallelThrough(point: Vec2D): Line2D {
     return new Line2D({
       a: this.a,
       b: this.b,
       c: -this.a * point.x - this.b * point.y,
     })
-  }
-
-  getNormalLineThrough(point: Vec2D): Line2D {
-    return Line2D.fromPointAndVector(
-      point,
-      new Vec2D({ x: this.a, y: this.b }),
-    )
-  }
-
-  getDirection(): Vec2D {
-    return new Vec2D({ x: this.b, y: -this.a }).scaleToNormed()
   }
 
   /**

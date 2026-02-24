@@ -1,7 +1,7 @@
 import { Line2D } from './line2d.ts'
 import { type IIntersectible, type IIntersection } from './types.ts'
 import { type IPlainVec2D, Vec2D } from './vec2d.ts'
-import { clamp, isGeq, isLeq } from '../../support/floating.ts'
+import { isGeq, isLeq } from '../../support/floating.ts'
 import { EmptyIterError, schwartzMin } from '../../support/iteration.ts'
 import { type float64 } from '../../types/numbers.ts'
 
@@ -26,14 +26,6 @@ export class AARect implements IAARectConfig, IIntersectible {
     this.height = height
     this.x = x
     this.y = y
-  }
-
-  getArea() {
-    return this.width * this.height
-  }
-
-  getBoundingBox() {
-    return this
   }
 
   getLeftPos() {
@@ -104,33 +96,4 @@ export class AARect implements IAARectConfig, IIntersectible {
       throw err
     }
   }
-
-  clampToRect(point: Vec2D) {
-    return new Vec2D({
-      x: clamp(point.x, this.getLeftPos(), this.getRightPos()),
-      y: clamp(point.y, this.getTopPos(), this.getBottomPos()),
-    })
-  }
-}
-
-export function grandBoundingBox(figures: Iterable<AARect>) {
-  let xMin = 0
-  let xMax = 0
-  let yMin = 0
-  let yMax = 0
-
-  for (const figure of figures) {
-    const box = figure.getBoundingBox()
-    xMin = Math.min(xMin, box.getLeftPos())
-    xMax = Math.max(xMax, box.getRightPos())
-    yMin = Math.min(yMin, box.getTopPos())
-    yMax = Math.max(yMax, box.getBottomPos())
-  }
-
-  return new AARect({
-    width: xMax - xMin,
-    height: yMax - yMin,
-    x: xMin,
-    y: yMin,
-  })
 }

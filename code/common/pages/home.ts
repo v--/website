@@ -4,8 +4,8 @@ import { rich } from '../components/rich.ts'
 import { spacer } from '../components/spacer.ts'
 import {
   EMAIL_URL,
-  GITHUB_PROJECT_URL,
   GITHUB_PROJECT_CODE_URL,
+  GITHUB_PROJECT_URL,
   GITHUB_USER_URL,
   MASTODON_URL,
   OPENPGP_KEYSERVER_URL,

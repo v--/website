@@ -48,7 +48,8 @@ describe('Breakout page', function () {
             const pcBox = await getBoundingBox(page.getPageContainerLocator())
             const arBox = await getBoundingBox(page.getAspectRatioBoxLocator())
 
-            assertTrue(arBox.getArea() > 0)
+            assertTrue(arBox.width > 0)
+            assertTrue(arBox.height > 0)
             assertTrue(pcBox.fits(arBox))
           })
         }
