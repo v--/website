@@ -3,8 +3,8 @@
   "exclude": ["./node_modules", "./public"],
   "compilerOptions": {
     "noEmit": true,
-    "module": "esnext",
-    "moduleResolution": "node",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "lib": ["DOM", "ESNext"],
     "target": "esnext",
     "verbatimModuleSyntax": true,
