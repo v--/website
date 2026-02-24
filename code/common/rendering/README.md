@@ -1,4 +1,4 @@
-# Component rendering
+# Reactive component rendering
 
 This is the bread and butter of my website. I have [introduced](https://github.com/v--/website/tree/c6e425f026bf17e6aa71a2e5f9ca550a1bcf2ebf) the component system on 2017-04-09, but, except for the following very basic ideas, had nearly nothing to do with that it is currently.
 

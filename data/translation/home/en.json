@@ -36,7 +36,10 @@
 
   "website_code": {
     "entryKind": "rich",
-    "content": "Additionally, for me this website was a massive learning opportunity for many low-level details of web development. I have implemented much from scratch; enough to feel contented and share the code in a [GitHub repository](${projectUrl})."
+    "content": [
+      "Additionally, for me this website was an opportunity to implement from scratch some essentials of modern web development like [reactive rendering](${reactiveRenderingUrl}).",
+      "At some point I decided to share the code in a [GitHub repository](${projectUrl})."
+    ]
   },
 
   "openpgp": {

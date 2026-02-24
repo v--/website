@@ -5,6 +5,7 @@ import { spacer } from '../components/spacer.ts'
 import {
   EMAIL_URL,
   GITHUB_PROJECT_URL,
+  GITHUB_PROJECT_CODE_URL,
   GITHUB_USER_URL,
   MASTODON_URL,
   OPENPGP_KEYSERVER_URL,
@@ -61,7 +62,10 @@ export function homePage(pageState: IWebsitePageState, env: WebsiteEnvironment) 
       c.factory(rich, {
         doc: _.rich$({
           key: 'website_code',
-          context: { projectUrl: GITHUB_PROJECT_URL },
+          context: {
+            projectUrl: GITHUB_PROJECT_URL,
+            reactiveRenderingUrl: `${GITHUB_PROJECT_CODE_URL}/common/rendering`,
+          },
         }),
       }),
     ),
