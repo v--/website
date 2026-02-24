@@ -41,7 +41,7 @@ export const DEFAULT_GAME_STATE: Omit<IGameState, 'fps' | 'debug'> = {
   score: 0,
   ball: new BreakoutBall({
     center: new Vec2D({ x: 0.0, y: 3.5 }),
-    direction: new Vec2D({ x: 0.1, y: 0.0 }),
+    direction: new Vec2D({ x: 0.0, y: 1.0 }),
   }),
   bricks: [
     new BreakoutBrick({ power: 1, x: -7, y: 2 }),
