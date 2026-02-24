@@ -1,12 +1,12 @@
 import { spacer } from './spacer.ts'
 import { Component, createComponent as c } from '../rendering/component.ts'
 import { waitForNextTask } from '../support/async.ts'
-import { type Action } from '../types/typecons.ts'
+import { type Action, type AsyncAction } from '../types/typecons.ts'
 
 interface IRadioState<T extends string> {
   controlValue: T
   selectedValue?: T
-  update: Action<T>
+  update: Action<T> | AsyncAction<T>
   name: string
   content: string | Component
   labelClass?: string
@@ -27,7 +27,7 @@ export function radio<T extends string>(state: IRadioState<T>) {
       async click(event: PointerEvent) {
         event.preventDefault()
         await waitForNextTask()
-        state.update(state.controlValue)
+        await state.update(state.controlValue)
       },
     },
     c.html('input', {

@@ -95,5 +95,5 @@ export async function bulkBuild(managers: BuildManager[]) {
 }
 
 export async function bulkBindWatcher(managers: BuildManager[]) {
-  return Promise.all(managers.map(manager => manager.bindWatcher()))
+  return Promise.all(managers.map(manager => Promise.resolve(manager.bindWatcher())))
 }

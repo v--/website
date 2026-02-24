@@ -1,11 +1,11 @@
 import { spacer } from './spacer.ts'
 import { Component, createComponent as c } from '../rendering/component.ts'
 import { waitForNextTask } from '../support/async.ts'
-import { type Action } from '../types/typecons.ts'
+import { type Action, type AsyncAction } from '../types/typecons.ts'
 
 interface ICheckboxState {
   value: boolean
-  update: Action<boolean>
+  update: Action<boolean> | AsyncAction<boolean>
   name: string
   content?: string | Component
   labelClass?: string
@@ -29,7 +29,7 @@ export function checkbox(state: ICheckboxState) {
         event.preventDefault()
         // Some browsers (e.g. Chrome on Android) sometimes misbehave when the default is prevented and the checked attribute is set immediately afterwards.
         await waitForNextTask()
-        state.update(!state.value)
+        await state.update(!state.value)
       },
     },
     c.html('input', {

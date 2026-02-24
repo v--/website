@@ -1,13 +1,13 @@
 import { spacer } from './spacer.ts'
 import { Component, createComponent as c } from '../rendering/component.ts'
 import { type float64 } from '../types/numbers.ts'
-import { type Action } from '../types/typecons.ts'
+import { type Action, type AsyncAction } from '../types/typecons.ts'
 
 interface ISliderState<T extends float64 = float64> {
   min: T
   max: T
   value: T
-  update: Action<T>
+  update: Action<T> | AsyncAction<T>
   name: string
   content?: string | Component
   labelClass?: string
@@ -29,10 +29,10 @@ export function slider<T extends float64 = float64>(state: ISliderState<T>) {
       // Compared to checkboxes, it is worse here because preventDefault does nothing
       // and, on mobile browsers, even label's click event may not.
       // So we resort to using the input event.
-      input(event: PointerEvent) {
+      async input(event: PointerEvent) {
         const target = event.target as HTMLInputElement
         const value = parseFloat(target.value) as T
-        state.update(value)
+        await state.update(value)
       },
     },
     c.html('input', {
