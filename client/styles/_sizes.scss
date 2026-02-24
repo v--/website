@@ -1,7 +1,7 @@
 /* stylelint-disable custom-property-empty-line-before */
 /* stylelint-disable order/order */
 // Base typography
-$root-size-base-font: 14px;
+$root-size-base-font: 15px;
 $root-size-base-line: 1.7;
 
 // Main container sparse padding
@@ -16,7 +16,7 @@ $main-size-vpadding-dense: 0.8rem;
 $sidebar-size-max-width-expanded: 300px;
 $sidebar-size-max-width-collapsed-dense: 45px;
 $sidebar-size-max-width-collapsed-loose: 50px;
-$sidebar-size-icon-diameter:   20px;
+$sidebar-size-icon-diameter:      20px;
 $sidebar-size-threshold-collapse: 800px;
 
 // Main container dimensions
@@ -24,7 +24,7 @@ $sidebar-size-threshold-collapse: 800px;
 // it is close enough to mobile phones to be in my viewport testing list.
 $main-size-min-width:  #{calc(312px - $sidebar-size-max-width-collapsed-dense)};
 $main-size-min-height: #{$main-size-min-width};
-$main-size-max-width:  800px;
+$main-size-max-width:  900px;
 
 // Thresholds for responsive design
 $page-size-width-threshold-dense:  600px;
@@ -37,7 +37,7 @@ $icon-size-padding-huge: 1.5em;
 
 // Misc
 $base-size-outline-offset: -2px;
-$spotlight-page-head-max-width: 900px; // The spotlight content is allowed to exceed the usual page width limitation.
+$spotlight-page-head-max-width: 850px; // Because of proportional scaling, the spotlight content is different from the usual page width limitation.
 
 @mixin common-size-variables {
   // Base sizes
