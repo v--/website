@@ -6,10 +6,10 @@ import { type IBreakoutIntersection, type IGameState } from '../types.ts'
 
 const MAX_GHOST_BALLS = 4
 
-export function breakoutRay({ ball, paddle, bricks, debug }: IGameState) {
+export function breakoutRay({ ball, paddle, bricks, debug, phase }: IGameState) {
   const trajectory: IBreakoutIntersection[] = []
 
-  if (debug) {
+  if (debug && phase !== 'game_over') {
     let int = tryFindClosestIntersection(ball, paddle, bricks)
 
     for (let i = 0; i < MAX_GHOST_BALLS && int; i++) {
