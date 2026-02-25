@@ -39,6 +39,7 @@
       "",
       "Another important distinguishing feature is the elliptical paddle.",
       "It allows great control over reflection, but is also difficult to master.",
+      "For example, at some unfortunate angles, the reflection near the ends of the paddle may move towards the bottom.",
       "",
       "Reflection can be visualized using the debug mode mentioned above.",
       "At each frame, we intersect the paddle, bricks and stage edges with the motion ray of the ball.",
