@@ -27,6 +27,13 @@ export class AAEllipse implements IAAEllipseConfig, IIntersectible {
     this.b = b
   }
 
+  pointAtAngle(phi: float64) {
+    return new Vec2D({
+      x: this.x0 + this.a * Math.cos(phi),
+      y: this.y0 + this.b * Math.sin(phi),
+    })
+  }
+
   /**
    * Intersect the ellipse
    *   ((x - x₀) / a)² + ((y - y₀) / b)² = 1

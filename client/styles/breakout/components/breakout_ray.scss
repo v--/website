@@ -1,6 +1,5 @@
 .breakout-rays {
   &-edges {
-    opacity: var(--breakout-opacity-ray);
     fill: none;
     stroke: var(--breakout-color-ray);
     stroke-width: var(--breakout-size-ray-width);
@@ -13,5 +12,9 @@
     &-fatal {
       fill: var(--breakout-color-ray-fatal);
     }
+  }
+
+  &-paddle, &-brick {
+    fill: var(--breakout-color-ray-ext);
   }
 }

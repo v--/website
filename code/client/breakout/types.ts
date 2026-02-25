@@ -29,7 +29,6 @@ export interface IGameState {
 export interface IBreakoutIntersection {
   newCenter: Vec2D
   figure: unknown
-  dist: float64
   calculateBallReflection(): BreakoutBall
 }
 

@@ -1,4 +1,4 @@
-import { BRICK_MAX_POWER } from './constants.ts'
+import { BALL_RADIUS, BRICK_MAX_POWER } from './constants.ts'
 import { BreakoutBrickError } from './errors.ts'
 import { BreakoutBall } from './geom/ball.ts'
 import { type GameBrickPower, type IBreakoutIntersection } from './types.ts'
@@ -22,10 +22,10 @@ export class BreakoutBrick implements IBreakoutBrickConfig {
     this.y = y
     this.power = power
     this.bounds = new AARect({
-      x: x,
-      y: y,
-      width: 1,
-      height: 1,
+      x: x - BALL_RADIUS,
+      y: y - BALL_RADIUS,
+      width: 1 + 2 * BALL_RADIUS,
+      height: 1 + 2 * BALL_RADIUS,
     })
   }
 

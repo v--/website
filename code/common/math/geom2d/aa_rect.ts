@@ -2,7 +2,7 @@ import { Line2D } from './line2d.ts'
 import { type IIntersectible, type IIntersection } from './types.ts'
 import { type IPlainVec2D, Vec2D } from './vec2d.ts'
 import { isGeq, isLeq } from '../../support/floating.ts'
-import { EmptyIterError, schwartzMin } from '../../support/iteration.ts'
+import { schwartzMin } from '../../support/iteration.ts'
 import { type float64 } from '../../types/numbers.ts'
 
 export interface IAARectConfig {
@@ -72,28 +72,20 @@ export class AARect implements IAARectConfig, IIntersectible {
       isLeq(point.y, this.y + this.height, tolerance)
   }
 
-  * #iterEdgeIntersections(origin: Vec2D, direction: Vec2D): Iterable<IIntersection> {
+  * #iterEdgeIntersections(origin: Vec2D, direction: Vec2D, tolerance?: float64): Iterable<IIntersection> {
     for (const edge of this.iterEdges()) {
-      const int = edge.intersectWithRay(origin, direction)
+      const int = edge.intersectWithRay(origin, direction, tolerance)
 
-      if (int && this.containsPoint(int.point)) {
+      if (int && this.containsPoint(int.point, tolerance)) {
         yield int
       }
     }
   }
 
-  intersectWithRay(origin: Vec2D, direction: Vec2D): IIntersection | undefined {
-    try {
-      return schwartzMin(
-        ({ point }) => origin.distanceTo(point),
-        this.#iterEdgeIntersections(origin, direction),
-      )
-    } catch (err) {
-      if (err instanceof EmptyIterError) {
-        return undefined
-      }
-
-      throw err
-    }
+  intersectWithRay(origin: Vec2D, direction: Vec2D, tolerance?: float64): IIntersection | undefined {
+    return schwartzMin(
+      ({ point }) => origin.distanceTo(point),
+      this.#iterEdgeIntersections(origin, direction, tolerance),
+    )
   }
 }

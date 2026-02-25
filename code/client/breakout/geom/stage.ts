@@ -9,13 +9,20 @@ export interface IBreakoutStageConfig extends IAARectConfig {
 
 export class BreakoutStage extends AARect implements IBreakoutIntersectible, IAARectConfig {
   readonly offset: float64
+  readonly bounds: AARect
 
   constructor(config: IBreakoutStageConfig) {
     super(config)
     this.offset = config.offset
+    this.bounds = new AARect({
+      x: config.x + config.offset,
+      y: config.y + config.offset,
+      width: config.width - 2 * config.offset,
+      height: config.height - config.offset,
+    })
   }
 
   intersectWithBall(ball: BreakoutBall): IBreakoutIntersection | undefined {
-    return ball.computeIntersectionWithFigure(this, this)
+    return ball.computeIntersectionWithFigure(this, this.bounds)
   }
 }

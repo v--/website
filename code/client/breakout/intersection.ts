@@ -1,5 +1,5 @@
 import { type BreakoutBrick } from './brick.ts'
-import { BALL_RADIUS, STAGE } from './constants.ts'
+import { STAGE } from './constants.ts'
 import { type BreakoutBall } from './geom/ball.ts'
 import { BreakoutPaddle } from './geom/paddle.ts'
 import { BreakoutStage } from './geom/stage.ts'
@@ -31,5 +31,5 @@ export function findClosestIntersection(ball: BreakoutBall, paddle: BreakoutPadd
 }
 
 export function isIntersectionFatal(int: IBreakoutIntersection): boolean {
-  return int.figure instanceof BreakoutStage && isGeq(int.newCenter.y + BALL_RADIUS, STAGE.getBottomPos())
+  return int.figure instanceof BreakoutStage && isGeq(int.newCenter.y, STAGE.getBottomPos())
 }

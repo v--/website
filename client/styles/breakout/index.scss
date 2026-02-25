@@ -23,14 +23,15 @@
   --breakout-color-ball:       var(--body-color-ff);
   --breakout-color-text:       var(--breakout-color-foreground);
   --breakout-color-stroke:     color-mix(in srgb, var(--breakout-color-background), var(--breakout-color-foreground) 25%);
-  --breakout-color-ray:        var(--body-color-rainbow-green);
+  --breakout-color-ray:        var(--body-color-p);
+  --breakout-color-ray-ext:    var(--body-color-pp);
   --breakout-color-ray-fatal:  var(--body-color-rainbow-red);
   --breakout-size-text-stroke: var(--body-size-ppp);
   --breakout-size-font-splash-message: 12%;
   --breakout-size-font-splash-hint: 7%;
   --breakout-size-font-score: 5%;
   --breakout-size-font-fps:   5%;
-  --breakout-size-ray-width:  1%;
+  --breakout-size-ray-width:  0.5%;
   --breakout-opacity-splash:  0.25;
   --breakout-opacity-ray:     0.5;
 }
