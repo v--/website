@@ -61,13 +61,13 @@ describe('Breakout page', function () {
         assertFalse(await page.isMenuExpanded())
       })
 
-      it('is collapsed on a small screen', async function () {
+      it('is collapsed on a medium screen', async function () {
         await page.scaleViewport('VGA')
         await page.goto('/playground/breakout')
         assertTrue(await page.isMenuExpanded())
       })
 
-      it('can expand on a small screen by clicking the menu toggle', async function () {
+      it('can expand on a medium screen by clicking the menu toggle', async function () {
         await page.scaleViewport('VGA')
         await page.goto('/playground/breakout')
         const rest = page.getMenuRest()

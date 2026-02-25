@@ -2,6 +2,7 @@ import { loadingIndicator } from './loading_indicator.ts'
 import { sidebar } from './sidebar.ts'
 import { WebsiteEnvironment } from '../environment.ts'
 import { map } from '../observable.ts'
+import { sidebarToggle } from './sidebar_toggle.ts'
 import { createComponent as c } from '../rendering/component.ts'
 import { classlist } from '../support/dom_properties.ts'
 import { type IWebsitePageState } from '../types/page.ts'
@@ -14,6 +15,7 @@ export function body(state: IWebsitePageState, env: WebsiteEnvironment) {
   )
 
   return c.html('body', { class: bodyClasses$ },
+    c.factory(sidebarToggle, { sidebarCollapsed: env.sidebarCollapsed$ }),
     c.factory(sidebar, {
       sidebarId: state.sidebarId,
       language: env.gettext.language$,

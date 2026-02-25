@@ -152,7 +152,32 @@ describe('General website behavior', function () {
       assertFalse(isSidebarActuallyCollapsed)
     })
 
-    it('collapses on small screens', async function () {
+    it('is hidden on small screens', async function () {
+      await page.goto('/')
+      await page.scaleViewport('Apple Watch')
+
+      const isSidebarHidden = await page.isSidebarHidden()
+      assertTrue(isSidebarHidden)
+    })
+
+    it('has a visible toggle on small screens', async function () {
+      await page.goto('/')
+      await page.scaleViewport('Apple Watch')
+
+      const toggle = page.getSidebarToggleLocator()
+      const isToggleVisible = await toggle.isVisible()
+      assertTrue(isToggleVisible)
+    })
+
+    it('has no visible toggle on large screens', async function () {
+      await page.goto('/')
+
+      const toggle = page.getSidebarToggleLocator()
+      const isToggleVisible = await toggle.isVisible()
+      assertFalse(isToggleVisible)
+    })
+
+    it('collapses on medium screens', async function () {
       await page.goto('/')
       await page.scaleViewport('VGA')
 
@@ -160,7 +185,7 @@ describe('General website behavior', function () {
       assertTrue(isSidebarActuallyCollapsed)
     })
 
-    it('expands when enlarging a small screen', async function () {
+    it('expands when enlarging a medium screen', async function () {
       await page.goto('/')
       await page.scaleViewport('VGA')
       await page.scaleViewport('Full HD')
@@ -212,7 +237,68 @@ describe('General website behavior', function () {
         assertFalse(isSidebarActuallyCollapsed)
       })
 
-      it('collapses on small screens', async function () {
+      it('is hidden on small screens', async function () {
+        await page.goto('/')
+        await page.scaleViewport('Apple Watch')
+
+        const isSidebarHidden = await page.isSidebarHidden()
+        assertTrue(isSidebarHidden)
+      })
+
+      it('has a visible toggle on small screens', async function () {
+        await page.goto('/')
+        await page.scaleViewport('Apple Watch')
+
+        const toggle = page.getSidebarToggleLocator()
+        const isToggleVisible = await toggle.isVisible()
+        assertTrue(isToggleVisible)
+      })
+
+      it('has no visible toggle on large screens', async function () {
+        await page.goto('/')
+
+        const toggle = page.getSidebarToggleLocator()
+        const isToggleVisible = await toggle.isVisible()
+        assertFalse(isToggleVisible)
+      })
+
+      it('expands after clicking the toggle on small screens', async function () {
+        await page.goto('/')
+        await page.scaleViewport('Apple Watch')
+
+        const toggle = page.getSidebarToggleLocator()
+        await toggle.click()
+
+        const isSidebarActuallyCollapsed = await page.isSidebarActuallyCollapsed()
+        assertFalse(isSidebarActuallyCollapsed)
+      })
+
+      it('is collapsed after clicking the toggle on small screens', async function () {
+        await page.goto('/')
+        await page.scaleViewport('Apple Watch')
+
+        const toggle = page.getSidebarToggleLocator()
+        await toggle.click()
+
+        const isSidebarActuallyCollapsed = await page.isSidebarActuallyCollapsed()
+        assertFalse(isSidebarActuallyCollapsed)
+      })
+
+      it('is collapsed after clicking the toggle and then the collapse button on a small screen', async function () {
+        await page.goto('/')
+        await page.scaleViewport('Apple Watch')
+
+        const toggle = page.getSidebarToggleLocator()
+        await toggle.click()
+
+        const button = page.getSidebarCollapseLocator()
+        await button.click()
+
+        const isSidebarActuallyCollapsed = await page.isSidebarActuallyCollapsed()
+        assertTrue(isSidebarActuallyCollapsed)
+      })
+
+      it('collapses on medium screens', async function () {
         await page.goto('/')
         await page.scaleViewport('VGA')
 
@@ -220,7 +306,7 @@ describe('General website behavior', function () {
         assertTrue(isSidebarActuallyCollapsed)
       })
 
-      it('collapses on large screens when the collapse button is clicked', async function () {
+      it('is collapsed after clicking the collapse button on large screens', async function () {
         await page.goto('/')
         await page.scaleViewport('Full HD')
 
@@ -245,7 +331,7 @@ describe('General website behavior', function () {
         assertFalse(isSidebarActuallyCollapsed)
       })
 
-      it('expands on small screens when the collapse button is clicked', async function () {
+      it('expands on medium screens when the collapse button is clicked', async function () {
         await page.goto('/')
         await page.scaleViewport('VGA')
 
@@ -270,7 +356,7 @@ describe('General website behavior', function () {
         assertFalse(isSidebarActuallyCollapsed)
       })
 
-      it('expands when enlarging a small screen', async function () {
+      it('expands when enlarging a medium screen', async function () {
         await page.goto('/')
         await page.scaleViewport('VGA')
         await page.scaleViewport('Full HD')
@@ -279,7 +365,7 @@ describe('General website behavior', function () {
         assertFalse(isSidebarActuallyCollapsed)
       })
 
-      it('is collapsed when enlarging a small screen after clicking the collapse button twice', async function () {
+      it('is collapsed when enlarging a medium screen after clicking the collapse button twice', async function () {
         await page.goto('/')
         await page.scaleViewport('VGA')
 

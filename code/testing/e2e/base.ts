@@ -160,8 +160,21 @@ export class BasePage implements IFinalizeable {
     return collapsibleContentWidth >= sidebarWidth
   }
 
+  async isSidebarHidden(): Promise<boolean> {
+    const sidebarWidth = await this.getSidebarLocator()
+      .evaluate(
+        element => window.getComputedStyle(element).getPropertyValue('margin-left'),
+      )
+
+    return parseInt(sidebarWidth) < 0
+  }
+
+  getSidebarToggleLocator() {
+    return new Button(this, this._pwPage.locator('.sidebar-toggle').first())
+  }
+
   getSidebarCollapseLocator() {
-    return this.getSidebarLocator().locator('.sidebar-collapse-button').first()
+    return new Button(this, this.getSidebarLocator().locator('.sidebar-collapse-button').first())
   }
 
   getSidebarLanguageButtons() {

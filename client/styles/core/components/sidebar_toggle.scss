@@ -1,0 +1,19 @@
+@use "../../sizes";
+@use "../../fonts";
+@use "../../mixins";
+
+.sidebar-toggle {
+  --icon-size-diameter: 1.2em;
+
+  position: absolute;
+  bottom: 1em;
+  left: 1em;
+  z-index: var(--body-zindex-f);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  opacity: 0.85;
+
+  @media (min-width: #{sizes.$sidebar-size-threshold-hide}) {
+    display: none;
+  }
+}

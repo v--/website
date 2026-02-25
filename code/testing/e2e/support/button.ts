@@ -30,6 +30,10 @@ export class Button {
     return !(await this.isDisabled())
   }
 
+  async isVisible() {
+    return await this.locator.isVisible()
+  }
+
   async textContent() {
     return this.locator.textContent()
   }

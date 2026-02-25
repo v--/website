@@ -9,6 +9,11 @@
     "content": "Мастерская"
   },
 
+  "sidebar.button.expand": {
+    "entryKind": "plain",
+    "content": "Увеличить меню"
+  },
+
   "sidebar.button.collapse": {
     "entryKind": "plain",
     "content": "Уменьшить меню"

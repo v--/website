@@ -9,6 +9,11 @@
     "content": "Playground"
   },
 
+  "sidebar.button.expand": {
+    "entryKind": "plain",
+    "content": "Expand sidebar"
+  },
+
   "sidebar.button.collapse": {
     "entryKind": "plain",
     "content": "Collapse sidebar"

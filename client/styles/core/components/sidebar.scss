@@ -7,6 +7,10 @@
   --sidebar-transform-toggle-button: none;
   --sidebar-color-language-icon: var(--sidebar-color-disabled);
   --sidebar-content-visibility-collapsible: hidden;
+
+  @media (max-width: #{sizes.$sidebar-size-threshold-hide}) {
+    margin-left: calc(-1 * var(--sidebar-size-max-width));
+  }
 }
 
 @mixin sidebar-expanded() {
@@ -29,9 +33,10 @@
   --control-color-label-active: var(--sidebar-color-foreground);
   --control-color-label-accented: var(--sidebar-color-accented);
   --divider-color: var(--sidebar-color-divider);
-  --sidebar-size-max-width-collapsed: #{sizes.$sidebar-size-max-width-collapsed-loose};
+  --sidebar-size-max-width-collapsed: #{sizes.$sidebar-size-max-width-collapsed};
   --sidebar-size-max-width-expanded:  #{sizes.$sidebar-size-max-width-expanded};
 
+  z-index: var(--body-zindex-ff);
   display: flex;
   flex-direction: column;
   overflow: hidden auto;
@@ -46,8 +51,6 @@
 
   // The two width queries interlap at the threshold. I tried subtracting 1px from this one, but then neither matched at #{threshold - 1px}.
   @media (max-width: #{sizes.$sidebar-size-threshold-collapse}) {
-    --sidebar-size-max-width-collapsed: #{sizes.$sidebar-size-max-width-collapsed-dense};
-
     &:not(.sidebar-expanded) {
       @include sidebar-collapsed;
     }
