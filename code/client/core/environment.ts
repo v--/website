@@ -13,9 +13,11 @@ export interface IClientEnvironmentConfig extends IEnvironmentConfig {
 export class ClientWebsiteEnvironment extends WebsiteEnvironment {
   declare readonly services: ClientServiceManager
   readonly pageUnload$ = new Subject<void>()
+  #sidebarInitiallyCollapsed: boolean
 
   constructor(config: IClientEnvironmentConfig) {
     super(config)
+    this.#sidebarInitiallyCollapsed = isSidebarActuallyCollapsed()
   }
 
   override isSidebarActuallyCollapsed = isSidebarActuallyCollapsed
@@ -28,6 +30,11 @@ export class ClientWebsiteEnvironment extends WebsiteEnvironment {
   async processPageChange(pageState: IWebsitePageState) {
     this.pageUnload$.next()
     await super.preloadPageData(pageState)
+
+    // Collapse sidebar on navigation on small and medium screens
+    if (this.#sidebarInitiallyCollapsed) {
+      this.sidebarCollapsed$.next(true)
+    }
   }
 
   override async finalize() {
