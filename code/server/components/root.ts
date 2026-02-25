@@ -35,7 +35,7 @@ export function root({ pageState, rehydrationData }: IRootState, env: WebsiteEnv
       c.html('script', { type: 'module', src: '/code/client/core/index.js', defer: true }),
       // This "JavaScript-only" hack is based on https://stackoverflow.com/a/431554/2756776
       c.html('noscript', undefined,
-        c.html('style', { text: '.require-javascript { display: none }' }),
+        c.html('style', { text: '.require-javascript { display: none; } body { --noscript-multiplier: 1; }' }),
       ),
       ...preloaded,
     ),

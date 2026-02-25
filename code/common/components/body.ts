@@ -15,7 +15,7 @@ export function body(state: IWebsitePageState, env: WebsiteEnvironment) {
   )
 
   return c.html('body', { class: bodyClasses$ },
-    c.factory(sidebarToggle, { sidebarCollapsed: env.sidebarCollapsed$ }),
+    c.factory(sidebarToggle),
     c.factory(sidebar, {
       sidebarId: state.sidebarId,
       language: env.gettext.language$,

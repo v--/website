@@ -9,7 +9,7 @@
   --sidebar-content-visibility-collapsible: hidden;
 
   @media (max-width: #{sizes.$sidebar-size-threshold-hide}) {
-    margin-left: calc(-1 * var(--sidebar-size-max-width));
+    margin-left: calc((var(--noscript-multiplier) - 1) * var(--sidebar-size-max-width));
   }
 }
 
@@ -25,6 +25,7 @@
   --button-color-background-accented: var(--sidebar-color-background);
   --button-color-background-disabled: var(--button-color-background-normal);
   --button-color-background-normal:   var(--sidebar-color-background);
+  --button-color-foreground-disabled: var(--sidebar-color-disabled);
   --button-color-foreground-accented: var(--sidebar-color-accented);
   --button-color-foreground-normal:   var(--sidebar-color-foreground);
   --button-size-border: 0;
@@ -44,9 +45,8 @@
   height: 100%;
   background-color: var(--sidebar-color-background);
   font-size: 0.9rem;
-  transition-duration: var(--sidebar-duration-collapse);
   /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
-  transition-property: max-width margin-left;
+  transition: var(--sidebar-duration-collapse) max-width, var(--sidebar-duration-collapse) margin-left;
   scrollbar-gutter: auto;
   overscroll-behavior-y: contain;
 

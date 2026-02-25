@@ -152,21 +152,21 @@ describe('General website behavior', function () {
       assertFalse(isSidebarActuallyCollapsed)
     })
 
-    it('is hidden on small screens', async function () {
+    it('is shown on small screens', async function () {
       await page.goto('/')
       await page.scaleViewport('Apple Watch')
 
       const isSidebarHidden = await page.isSidebarHidden()
-      assertTrue(isSidebarHidden)
+      assertFalse(isSidebarHidden)
     })
 
-    it('has a visible toggle on small screens', async function () {
+    it('has no visible toggle on small screens', async function () {
       await page.goto('/')
       await page.scaleViewport('Apple Watch')
 
       const toggle = page.getSidebarToggleLocator()
       const isToggleVisible = await toggle.isVisible()
-      assertTrue(isToggleVisible)
+      assertFalse(isToggleVisible)
     })
 
     it('has no visible toggle on large screens', async function () {
