@@ -26,7 +26,7 @@ export function breakoutRay({ ball, paddle, bricks, debug, phase }: IGameState) 
 
   return c.svg('g', { class: 'breakout-rays' },
     c.svg('polyline', {
-      class: 'breakout-ray',
+      class: 'breakout-rays-edges',
       points: `${ball.center.x},${ball.center.y} ` + trajectory.map(({ point }) => `${point.x},${point.y}`).join(' '),
     }),
     ...trajectory.map(breakoutBallGhost),
@@ -35,7 +35,7 @@ export function breakoutRay({ ball, paddle, bricks, debug, phase }: IGameState) 
 
 function breakoutBallGhost(int: IBreakoutIntersection) {
   return c.svg('circle', {
-    class: classlist('breakout-rays-ball-ghost', isIntersectionFatal(int) && 'breakout-rays-ball-ghost-fatal'),
+    class: classlist('breakout-rays-ghost', isIntersectionFatal(int) && 'breakout-rays-ghost-fatal'),
     cx: String(int.point.x),
     cy: String(int.point.y),
     r: BALL_RADIUS,

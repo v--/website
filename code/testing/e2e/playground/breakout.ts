@@ -25,8 +25,8 @@ export class BreakoutPage extends PlaygroundPage {
     return this._pwPage.getByText('Reset', { exact: true })
   }
 
-  getRayLocators() {
-    return this._pwPage.locator('.breakout-ray').all()
+  getGhostBallLocators() {
+    return this._pwPage.locator('.breakout-rays-ghost').all()
   }
 
   getStageLocator() {

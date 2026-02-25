@@ -1,5 +1,5 @@
 .breakout-rays {
-  .breakout-ray {
+  &-edges {
     opacity: var(--breakout-opacity-ray);
     fill: none;
     stroke: var(--breakout-color-ray);
@@ -7,7 +7,7 @@
     stroke-linecap: round;
   }
 
-  .breakout-rays-ball-ghost {
+  &-ghost {
     fill: var(--breakout-color-ray);
 
     &-fatal {

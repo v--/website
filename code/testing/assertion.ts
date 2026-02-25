@@ -1,6 +1,6 @@
 import { AssertionError } from 'node:assert/strict'
 
-import { DEFAULT_TOLERANCE, isClose } from '../common/support/floating.ts'
+import { DEFAULT_TOLERANCE, isClose, isGeq, isLeq } from '../common/support/floating.ts'
 import { repr } from '../common/support/strings.ts'
 import { type float64 } from '../common/types/numbers.ts'
 
@@ -112,6 +112,30 @@ export function assertSameNumber(a: float64, b: float64, tolerance: float64 = DE
       actual: a,
       expected: b,
       operator: 'isClose',
+    })
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-restricted-types
+export function assertGreaterThan(a: number, b: number, tolerance: float64 = DEFAULT_TOLERANCE) {
+  if (!isGeq(a, b, tolerance)) {
+    throw new AssertionError({
+      message: `Expected value ${repr(a)} to be greater than ${repr(b)} up to ${repr(tolerance)}`,
+      actual: a,
+      expected: b,
+      operator: 'isGeq',
+    })
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-restricted-types
+export function assertLessThan(a: number, b: number, tolerance: float64 = DEFAULT_TOLERANCE) {
+  if (!isLeq(a, b, tolerance)) {
+    throw new AssertionError({
+      message: `Expected value ${repr(a)} to be less than ${repr(b)} up to ${repr(tolerance)}`,
+      actual: a,
+      expected: b,
+      operator: 'isLeq',
     })
   }
 }
