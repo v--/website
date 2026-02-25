@@ -1,3 +1,4 @@
+// TODO: Replace with Iterator.zip when the latter proliferates
 export function zip<T, S>(iter1: Iterable<T>, iter2: Iterable<S>): Generator<[T, S]>
 export function zip(...iterables: Array<Iterable<unknown>>): Generator<unknown[]>
 export function* zip(...iterables: Array<Iterable<unknown>>): Generator<unknown[]> {
