@@ -19,8 +19,7 @@ export class Spline implements ISplineConfig, ISymbolicFunction<float64> {
   }
 
   eval(x: float64) {
-    // TODO: Remove Array.from once Iterator.prototype.reduce() proliferates
-    return Array.from(zip(this.coeff, this.basis)).reduce(
+    return zip(this.coeff, this.basis).reduce(
       (accum, [coeff, fun]) => accum + coeff * fun.eval(x),
       0,
     )

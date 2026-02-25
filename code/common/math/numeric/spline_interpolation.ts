@@ -27,8 +27,7 @@ export function splineFromKnots(degree: uint32, knots: KnotMapping) {
 function* iterExtendedDomain(degree: uint32, knots: KnotMapping) {
   const n = knots.getNodeCount()
   const x = Array.from(knots.iterX())
-  // TODO: Remove Array.from once Iterator.prototype.map() proliferates
-  const differences = Array.from(zip(x.slice(1), x.slice(0, n - 1))).map(([a, b]) => a - b)
+  const differences = zip(x.slice(1), x.slice(0, n - 1)).map(([a, b]) => a - b)
   const diameter = Math.max(1, Math.max(...differences))
 
   yield x[0] - diameter

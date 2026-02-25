@@ -16,8 +16,7 @@ export function fleeingButtonAttractors({ activeAttractor, debug }: FleeingButto
   }
 
   return c.svg('g', { class: 'fleeing-button-attractors' },
-    // TODO: Remove Array.from once Iterator.prototype.map() proliferates
-    ...Array.from(iterateAttractors()).map(
+    ...iterateAttractors().map(
       attractor => c.svg('circle', {
         class: classlist(
           'fleeing-button-attractor',

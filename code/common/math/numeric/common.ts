@@ -11,6 +11,5 @@ export function dotprod(x: float64[], y: float64[]): float64 {
     throw new DimensionMismatchError('The dot product is only defined for vectors of the same dimension')
   }
 
-  // TODO: Remove Array.from once Iterator.prototype.reduce() proliferates
-  return Array.from(zip(x, y)).reduce((accum, [a, b]) => accum + a * b, 0)
+  return zip(x, y).reduce((accum, [a, b]) => accum + a * b, 0)
 }

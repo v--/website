@@ -11,8 +11,7 @@ const GRID_POINT_RADIUS = 0.1
 
 export function interpolationGridPoints({ toggleNode }: IInterpolationGridPointsState) {
   return c.svg('g', { class: 'interpolation-grid-points' },
-    // TODO: Remove Array.from once Iterator.prototype.map() proliferates
-    ...Array.from(iterPoints()).map(
+    ...iterPoints().map(
       point => c.svg('g',
         {
           class: 'interpolation-grid-point',
@@ -34,7 +33,6 @@ export function interpolationGridPoints({ toggleNode }: IInterpolationGridPoints
           text: `(${point.x}, ${point.y})`,
         }),
       ),
-      iterPoints(),
     ),
   )
 }

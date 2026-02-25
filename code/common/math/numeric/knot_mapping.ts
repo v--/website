@@ -19,9 +19,8 @@ export class KnotMapping {
   }
 
   set(x: float64, y: float64) {
-    // TODO: Remove Array.from once Iterator.prototype.filter() proliferates
     return new KnotMapping([
-      ...Array.from(this.iterEntries()).filter(v => v.x !== x),
+      ...this.iterEntries().filter(v => v.x !== x),
       { x, y },
     ])
   }
@@ -37,9 +36,8 @@ export class KnotMapping {
   }
 
   delete(x: float64) {
-    // TODO: Remove Array.from once Iterator.prototype.filter() proliferates
     return new KnotMapping(
-      Array.from(this.iterEntries()).filter(v => v.x !== x),
+      this.iterEntries().filter(v => v.x !== x),
     )
   }
 
@@ -47,17 +45,17 @@ export class KnotMapping {
     return this.#entries.length
   }
 
-  iterEntries(): Iterable<IPlainVec2D> {
-    return this.#entries
+  iterEntries(): IteratorObject<IPlainVec2D> {
+    return this.#entries[Symbol.iterator]()
   }
 
-  * iterX(): Iterable<float64> {
+  * iterX(): Generator<float64> {
     for (const { x } of this.#entries) {
       yield x
     }
   }
 
-  * iterY(): Iterable<float64> {
+  * iterY(): Generator<float64> {
     for (const { y } of this.#entries) {
       yield y
     }

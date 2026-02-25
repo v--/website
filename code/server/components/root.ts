@@ -25,8 +25,7 @@ export function root({ pageState, rehydrationData }: IRootState, env: WebsiteEnv
   return c.html('html', { prefix: ROOT_TAG_PREFIX, lang: canonicalLanguage$ },
     c.html('head', undefined,
       c.factory(title, pageState),
-      // TODO: Remove Array.from once Iterator.prototype.map() proliferates
-      ...Array.from(iterMetaTags(env.gettext, pageState)).map(
+      ...iterMetaTags(env.gettext, pageState).map(
         tag => c.html('meta', { name: tag.name, content: tag.content }),
       ),
       c.html('link', { rel: 'icon', type: 'image/x-icon', href: '/images/favicon.png' }),

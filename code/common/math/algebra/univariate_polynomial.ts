@@ -49,12 +49,9 @@ export class UnivariatePolynomial implements IUnivariatePolynomialConfig, ISymbo
 
     const maxOrder = Math.max(aOrder, bOrder)
     return UnivariatePolynomial.safeCreate(
-      // TODO: Remove Array.from once Iterator.prototype.map() proliferates
-      Array.from(
-        zip(
-          padRight(this.coeff, maxOrder + 1, 0),
-          padRight(other.coeff, maxOrder + 1, 0),
-        ),
+      zip(
+        padRight(this.coeff, maxOrder + 1, 0),
+        padRight(other.coeff, maxOrder + 1, 0),
       ).map(
         ([a, b]) => a + b,
       ),

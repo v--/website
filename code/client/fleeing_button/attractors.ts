@@ -22,7 +22,6 @@ export function adjustActiveAttractor(buttonPosition: Vec2D, mousePosition: Vec2
 
   return schwartzMin(
     att => buttonPosition.distanceTo(att),
-    // TODO: Remove Array.from once Iterator.prototype.filter() proliferates
-    Array.from(iterateAttractors()).filter(attractor => mousePosition.distanceTo(attractor) > MOUSE_DISTANCE_THRESHOLD),
+    iterateAttractors().filter(attractor => mousePosition.distanceTo(attractor) > MOUSE_DISTANCE_THRESHOLD),
   )
 }

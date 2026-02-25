@@ -45,9 +45,8 @@ export class UrlPath {
   pickQueryString(...properties: string[]) {
     return new UrlPath(
       this.path,
-      // TODO: Remove Array.from once Iterator.prototype.filter() proliferates
       new Map(
-        Array.from(this.query.entries()).filter(([k, _v]) => properties.includes(k)),
+        this.query.entries().filter(([k, _v]) => properties.includes(k)),
       ),
     )
   }

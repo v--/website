@@ -5,11 +5,8 @@ import { type uint32 } from '../types/numbers.ts'
 export const BASE_INDENTATION = 2
 
 export function join(iterable: Iterable<string>, delimiter: string, lastDelimiter: string = delimiter): string {
-  // TODO: Remove Array.from once Iterator.prototype.reduce() proliferates
-  return Array.from(intersperse(iterable, delimiter, lastDelimiter)).reduce(
-    (accum, value) => accum + value,
-    '',
-  )
+  return intersperse(iterable, delimiter, lastDelimiter)
+    .reduce((accum, value) => accum + value, '')
 }
 
 export function snakeToPascalCase(string: string): string {

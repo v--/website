@@ -45,8 +45,7 @@ export function pacmanPage({ pageData }: IWebsitePageState<IPacmanRepository>, e
 
     c.html('section', undefined,
       c.html('h1', { text: _('heading.packages') }),
-      // TODO: Remove Array.from once Iterator.prototype.map() proliferates
-      ...Array.from(byArch.entries()).map(([arch, pkgs]) => c.factory(packages, { arch, pkgs })),
+      ...byArch.entries().map(([arch, pkgs]) => c.factory(packages, { arch, pkgs })),
     ),
   )
 }
