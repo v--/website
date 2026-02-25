@@ -10,7 +10,7 @@
       "# Array sorting",
       "",
       "This page features visualizations of some of the famous sorting algorithms.",
-      "At each moment shown, two values are compared, and the corresponding values are highlighted.",
+      "Each algorithm is demonstrated as a discrete-time sequence, where, at each moment, two values are compared, and the corresponding values are highlighted.",
       "Their color is green if they are swapped and red otherwise.",
       "",
       "Developed while trying out the then-new [generator functions](${generatorDocUrl}) in 2014 (ironically, I have later removed the reliance on generators).",

@@ -9,7 +9,7 @@
     "content": [
       "# Breakout",
       "",
-      "This is a variation of the classic game [Breakout]($breakoutUrl) where the bricks evolve and form clusters, making the game nearly impossible to win unless the few starting bricks are cleared immediately.",
+      "This is a variation of the classic game [Breakout]($breakoutUrl) in which the bricks evolve and form clusters, making the game nearly impossible to win unless the few starting bricks are cleared immediately.",
       "",
       "Developed in 2016 while examining the capabilities of React.js, and later reimplemented for my own [component system](${githubRenderingSystemUrl}).",
       "",
@@ -44,7 +44,7 @@
       "At each frame, we intersect the paddle, bricks and stage edges with the motion ray of the ball.",
       "If the intersection is close enough to the ball, the tangent line at that point is calculated and the ray determining this intersection is reflected off the tangent.",
       "",
-      "We have also added a correction to the paddle reflection because, for some odd angles, the elliptical reflection near the ends of the paddle may send the ball towards the bottom."
+      "I have also added a correction to the paddle reflection because, for some odd angles, the elliptical reflection near the ends of the paddle may send the ball towards the bottom."
     ]
   },
 
