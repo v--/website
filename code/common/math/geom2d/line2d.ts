@@ -46,10 +46,10 @@ export class Line2D implements ILine2DConfig, IIntersectible {
    * This amounts to solving the linear equation
    *   (A x₂ + B y₂) t = -A x₁ - B y₁ - C
    */
-  #getIntersectionParameter(origin: Vec2D, direction: Vec2D): float64 | undefined {
+  #getIntersectionParameter(origin: Vec2D, direction: Vec2D, tolerance?: float64): float64 | undefined {
     const divisor = this.a * direction.x + this.b * direction.y
 
-    if (isZero(divisor)) {
+    if (isZero(divisor, tolerance)) {
       return undefined
     }
 
@@ -71,7 +71,7 @@ export class Line2D implements ILine2DConfig, IIntersectible {
    */
   reflectRayDirection(origin: Vec2D, direction: Vec2D, tolerance?: float64): Vec2D | undefined {
     // This intersection point is Q in the figure
-    const tIntersection = this.#getIntersectionParameter(origin, direction)
+    const tIntersection = this.#getIntersectionParameter(origin, direction, tolerance)
 
     if (tIntersection === undefined || isLeq(tIntersection, 0, tolerance)) {
       return undefined
@@ -81,7 +81,7 @@ export class Line2D implements ILine2DConfig, IIntersectible {
     const normalDirection = new Vec2D({ x: this.a, y: this.b })
 
     // This projection point is P' in the figure
-    const tProjection = this.#getIntersectionParameter(origin, normalDirection)
+    const tProjection = this.#getIntersectionParameter(origin, normalDirection, tolerance)
 
     if (tProjection === undefined) {
       return undefined
@@ -94,13 +94,13 @@ export class Line2D implements ILine2DConfig, IIntersectible {
     const parallelLine = this.getParallelThrough(origin)
 
     // This reflected point is R in the figure
-    const tReflected = parallelLine.#getIntersectionParameter(reflectedProjection, normalDirection)
+    const tReflected = parallelLine.#getIntersectionParameter(reflectedProjection, normalDirection, tolerance)
 
     if (tReflected === undefined) {
       return undefined
     }
 
-    const reflected = reflectedProjection.translate(normalDirection, tReflected)
+    const reflected = reflectedProjection.translate(normalDirection, tReflected, tolerance)
 
     if (reflected.equals(intersection)) {
       return undefined
@@ -110,7 +110,7 @@ export class Line2D implements ILine2DConfig, IIntersectible {
   }
 
   intersectWithRay(origin: Vec2D, direction: Vec2D, tolerance?: float64): IIntersection | undefined {
-    const t = this.#getIntersectionParameter(origin, direction)
+    const t = this.#getIntersectionParameter(origin, direction, tolerance)
 
     if (t === undefined || isLeq(t, 0, tolerance)) {
       return undefined

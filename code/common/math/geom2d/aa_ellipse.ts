@@ -79,10 +79,10 @@ export class AAEllipse implements IAAEllipseConfig, IIntersectible {
    * Finally, we simply extract a general line equation from the interpolation
    *   x ↦ y(x₁) + y'(x₁) (x - x₁)
    */
-  tangentAtPoint(point: Vec2D) {
+  tangentAtPoint(point: Vec2D, tolerance?: float64) {
     const left = point.y - this.y0
     const right = Math.sqrt(1 - ((point.x - this.x0) / this.a) ** 2) * this.b
-    const e = isClose(left, right) ? 1 : -1
+    const e = isClose(left, right, tolerance) ? 1 : -1
     const deriv = e * this.b * (point.x - this.x0) / ((point.x - this.x0) ** 2 - this.a ** 2)
 
     return new Line2D({
@@ -92,14 +92,14 @@ export class AAEllipse implements IAAEllipseConfig, IIntersectible {
     })
   }
 
-  intersectWithRay(origin: Vec2D, direction: Vec2D): IIntersection | undefined {
-    const nearest = this.calculateIntersectionPointWithRay(origin, direction)
+  intersectWithRay(origin: Vec2D, direction: Vec2D, tolerance?: float64): IIntersection | undefined {
+    const intPoint = this.calculateIntersectionPointWithRay(origin, direction, tolerance)
 
-    if (nearest === undefined) {
+    if (intPoint === undefined) {
       return undefined
     }
 
-    const tangent = this.tangentAtPoint(nearest)
-    return tangent.intersectWithRay(origin, direction)
+    const tangent = this.tangentAtPoint(intPoint, tolerance)
+    return tangent.intersectWithRay(origin, direction, tolerance)
   }
 }

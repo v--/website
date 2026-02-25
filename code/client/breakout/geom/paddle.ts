@@ -1,5 +1,5 @@
-import { BreakoutBall, intersectBall } from './ball.ts'
-import { AAEllipse } from '../../../common/math/geom2d.ts'
+import { BreakoutBall } from './ball.ts'
+import { AAEllipse, Vec2D } from '../../../common/math/geom2d.ts'
 import { type float64 } from '../../../common/types/numbers.ts'
 import { BALL_RADIUS, PADDLE_HEIGHT, PADDLE_WIDTH, STAGE } from '../constants.ts'
 import { type IBreakoutIntersectible, type IBreakoutIntersection, type PaddleDirection } from '../types.ts'
@@ -22,14 +22,31 @@ export class BreakoutPaddle implements IBreakoutPaddleConfig, IBreakoutIntersect
     this.direction = direction
     this.ellipse = new AAEllipse({
       x0: center,
-      y0: STAGE.height,
+      y0: STAGE.getBottomPos(),
       a: PADDLE_WIDTH + BALL_RADIUS,
       b: PADDLE_HEIGHT + BALL_RADIUS,
     })
   }
 
   intersectWithBall(ball: BreakoutBall): IBreakoutIntersection | undefined {
-    return intersectBall(this, this.ellipse, ball)
+    const int = this.ellipse.intersectWithRay(ball.center, ball.direction)
+
+    if (int) {
+      // We make sure the reflected direction always points away from the bottom.
+      // This deviates from correct elliptic reflection, but without this correction the game is perceived to misbehave.
+      const refl = int.calculateReflection()
+      const correctedRefl = new Vec2D({ x: refl.x, y: -Math.abs(refl.y) })
+
+      return {
+        point: int.point.translate(correctedRefl, 0.1),
+        figure: this,
+        calculateBallReflection() {
+          return new BreakoutBall({ center: int.point.translate(correctedRefl, 0.1), direction: correctedRefl })
+        },
+      }
+    }
+
+    return undefined
   }
 
   update(config: Partial<IBreakoutPaddleConfig>) {

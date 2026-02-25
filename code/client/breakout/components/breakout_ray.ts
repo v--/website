@@ -1,7 +1,7 @@
 import { createComponent as c } from '../../../common/rendering/component.ts'
 import { classlist } from '../../../common/support/dom_properties.ts'
 import { BALL_RADIUS } from '../constants.ts'
-import { isIntersectionFatal, tryFindClosestIntersection } from '../intersection.ts'
+import { findClosestIntersection, isIntersectionFatal } from '../intersection.ts'
 import { type IBreakoutIntersection, type IGameState } from '../types.ts'
 
 const MAX_GHOST_BALLS = 4
@@ -10,7 +10,7 @@ export function breakoutRay({ ball, paddle, bricks, debug, phase }: IGameState) 
   const trajectory: IBreakoutIntersection[] = []
 
   if (debug && phase !== 'game_over') {
-    let int = tryFindClosestIntersection(ball, paddle, bricks)
+    let int = findClosestIntersection(ball, paddle, bricks)
 
     for (let i = 0; i < MAX_GHOST_BALLS && int; i++) {
       trajectory.push(int)
@@ -20,7 +20,7 @@ export function breakoutRay({ ball, paddle, bricks, debug, phase }: IGameState) 
       }
 
       const newBall = int.calculateBallReflection()
-      int = tryFindClosestIntersection(newBall, paddle, bricks)
+      int = findClosestIntersection(newBall, paddle, bricks)
     }
   }
 

@@ -1,4 +1,4 @@
-import { isLeq } from '../../../common/support/floating.ts'
+import { isGeq, isLeq } from '../../../common/support/floating.ts'
 import { BreakoutBrick } from '../brick.ts'
 import { BALL_MOVEMENT_PER_SECOND } from '../constants.ts'
 import { findClosestIntersection, isIntersectionFatal } from '../intersection.ts'
@@ -15,6 +15,12 @@ export function evolveBall(state: IGameState): Partial<IGameState> {
 
   while (true) {
     const int = findClosestIntersection(newBall, paddle, bricks)
+
+    // This shouldn't happen, so we either need to trigger a "game over" event or let the code crash.
+    if (int === undefined) {
+      return { phase: 'game_over' }
+    }
+
     const intDist = newBall.center.distanceTo(int.point)
 
     if (isLeq(movementRemaining, intDist)) {
