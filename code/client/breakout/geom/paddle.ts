@@ -3,7 +3,6 @@ import { AAEllipse, Vec2D } from '../../../common/math/geom2d.ts'
 import { type float64 } from '../../../common/types/numbers.ts'
 import { BALL_RADIUS, PADDLE_HEIGHT, PADDLE_WIDTH, STAGE } from '../constants.ts'
 import { type IBreakoutIntersectible, type IBreakoutIntersection, type PaddleDirection } from '../types.ts'
-import { BADFAMILY } from 'node:dns'
 
 export interface IBreakoutPaddleConfig {
   center: float64
