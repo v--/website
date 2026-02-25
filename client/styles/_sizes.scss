@@ -22,7 +22,7 @@ $sidebar-size-threshold-hide:      450px;
 // Main container dimensions
 // 312px is the width of the Apple Watch. Despite me not caring about watches,
 // it is close enough to mobile phones to be in my viewport testing list.
-$main-size-min-width:  #{calc(312px - $sidebar-size-max-width-collapsed)};
+$main-size-min-width:  312px;
 $main-size-min-height: #{$main-size-min-width};
 $main-size-max-width:  900px;
 

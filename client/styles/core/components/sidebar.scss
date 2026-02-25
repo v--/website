@@ -9,7 +9,7 @@
   --sidebar-content-visibility-collapsible: hidden;
 
   @media (max-width: #{sizes.$sidebar-size-threshold-hide}) {
-    margin-left: calc((var(--noscript-multiplier) - 1) * var(--sidebar-size-max-width));
+    margin-left: calc((var(--noscript-multiplier) - 1) * var(--sidebar-size-max-width-collapsed));
   }
 }
 
