@@ -37,8 +37,8 @@ export class BreakoutPaddle implements IBreakoutPaddleConfig, IBreakoutIntersect
         calculateBallReflection() {
           // We make sure the reflected direction always points away from the bottom.
           // This deviates from correct elliptic reflection, but without this correction the game is perceived to misbehave.
-          const reflBall = int.calculateBallReflection()
-          const correctedDir = new Vec2D({ x: reflBall.direction.x, y: -Math.abs(reflBall.direction.y) })
+          const reflDir = int.calculateBallReflection().direction
+          const correctedDir = new Vec2D({ x: reflDir.x, y: -Math.abs(reflDir.y) })
           return new BreakoutBall({ center: int.newCenter, direction: correctedDir })
         },
       }

@@ -15,7 +15,7 @@ export function evolveBricks({ bricks, ball }: IGameState): Partial<IGameState> 
     let brickIndex = centerIndex
 
     // We avoid bricks too close to the ball position.
-    if (isLeq(ball.center.distanceTo(center), BRICK_EVOLUTION_BALL_MIN_DISTANCE)) {
+    if (ball.center.distanceTo(center) < BRICK_EVOLUTION_BALL_MIN_DISTANCE) {
       continue
     }
 
@@ -25,7 +25,7 @@ export function evolveBricks({ bricks, ball }: IGameState): Partial<IGameState> 
     }
 
     // We avoid bricks too close to the paddle.
-    if (isLeq(STAGE.getBottomPos() - point.y, BRICK_EVOLUTION_BOTTOM_MIN_DISTANCE)) {
+    if (STAGE.getBottomPos() - point.y < BRICK_EVOLUTION_BOTTOM_MIN_DISTANCE) {
       continue
     }
 

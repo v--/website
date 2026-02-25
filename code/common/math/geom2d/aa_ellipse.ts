@@ -1,7 +1,7 @@
 import { Line2D } from './line2d.ts'
 import { type IIntersectible, type IIntersection } from './types.ts'
 import { Vec2D } from './vec2d.ts'
-import { isClose, isLeq } from '../../support/floating.ts'
+import { isClose, isLess } from '../../support/floating.ts'
 import { type float64 } from '../../types/numbers.ts'
 
 export interface IAAEllipseConfig {
@@ -44,18 +44,18 @@ export class AAEllipse implements IAAEllipseConfig, IIntersectible {
 
     const d = b ** 2 - 4 * a * c
 
-    if (d < 0) {
-      return
+    if (isLess(d, 0, tolerance)) {
+      return undefined
     }
 
     const t1 = (-b - Math.sqrt(d)) / (2 * a)
     const t2 = (-b + Math.sqrt(d)) / (2 * a)
 
-    if (isLeq(t1, 0, tolerance) && isLeq(t2, 0, tolerance)) {
+    if (isLess(t1, 0, tolerance) && isLess(t2, 0, tolerance)) {
       return
     }
 
-    const t = isLeq(t1, 0, tolerance) ? t2 : (isLeq(t2, 0, tolerance) ? t1 : Math.min(t1, t2))
+    const t = isLess(t1, 0, tolerance) ? t2 : (isLess(t2, 0, tolerance) ? t1 : Math.min(t1, t2))
     return origin.translate(direction, t)
   }
 

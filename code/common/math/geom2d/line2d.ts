@@ -40,7 +40,7 @@ export class Line2D implements ILine2DConfig, IIntersectible {
   /**
    * Intersect the line
    *   l: Ax + By + C = 0
-   * with another line though the origin O(x₁, y₁) with direction d(x₂, y₂) by finding a scalar t such that
+   * with a line though the origin O(x₁, y₁) with direction d(x₂, y₂) by finding a scalar t such that
    *   A(x₁ + t x₂) + B(y₁ + t y₂) + C = 0.
    *
    * This amounts to solving the linear equation
@@ -83,7 +83,7 @@ export class Line2D implements ILine2DConfig, IIntersectible {
     // This projection point is P' in the figure
     const tProjection = this.#getIntersectionParameter(origin, normalDirection, tolerance)
 
-    if (tProjection === undefined) {
+    if (tProjection === undefined || isZero(tIntersection, tolerance)) {
       return undefined
     }
 
@@ -96,11 +96,11 @@ export class Line2D implements ILine2DConfig, IIntersectible {
     // This reflected point is R in the figure
     const tReflected = parallelLine.#getIntersectionParameter(reflectedProjection, normalDirection, tolerance)
 
-    if (tReflected === undefined) {
+    if (tReflected === undefined || isZero(tIntersection, tolerance)) {
       return undefined
     }
 
-    const reflected = reflectedProjection.translate(normalDirection, tReflected, tolerance)
+    const reflected = reflectedProjection.translate(normalDirection, tReflected)
 
     if (reflected.equals(intersection)) {
       return undefined

@@ -26,7 +26,7 @@ import { type ClientWebsiteEnvironment } from '../core/environment.ts'
 export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnvironment) {
   const _ = env.gettext.bindToBundle('breakout')
   const store = new StateStore<IGameState>(
-    { ...DEFAULT_GAME_STATE, fps: DEFAULT_FPS, debug: true },
+    { ...DEFAULT_GAME_STATE, fps: DEFAULT_FPS, debug: false },
     env.pageUnload$,
   )
 

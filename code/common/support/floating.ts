@@ -14,8 +14,16 @@ export function isLeq(a: float64, b: float64, tolerance = DEFAULT_TOLERANCE) {
   return a <= b + tolerance
 }
 
+export function isLess(a: float64, b: float64, tolerance = DEFAULT_TOLERANCE) {
+  return isLeq(a, b, tolerance) && !isClose(a, b)
+}
+
 export function isGeq(a: float64, b: float64, tolerance = DEFAULT_TOLERANCE) {
   return a >= b - tolerance
+}
+
+export function isGreater(a: float64, b: float64, tolerance = DEFAULT_TOLERANCE) {
+  return isGeq(a, b, tolerance) && !isClose(a, b)
 }
 
 export function mod(x: uint32, m: uint32): uint32
