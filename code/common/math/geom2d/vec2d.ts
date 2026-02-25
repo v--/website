@@ -18,10 +18,17 @@ export class Vec2D implements IPlainVec2D {
     this.y = y
   }
 
-  translate(direction: IPlainVec2D, distance: float64) {
+  translate(direction: IPlainVec2D, distance: float64 = 1.0) {
     return new Vec2D({
       x: this.x + distance * direction.x,
       y: this.y + distance * direction.y,
+    })
+  }
+
+  rotate(angle: float64) {
+    return new Vec2D({
+      x: Math.cos(angle) * this.x - Math.sin(angle) * this.y,
+      y: Math.sin(angle) * this.x + Math.cos(angle) * this.y,
     })
   }
 

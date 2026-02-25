@@ -11,6 +11,14 @@ export const KEY_DEBUG = 'e'
 export const KEY_LEFT_SECONDARY = 'a'
 export const KEY_RIGHT_SECONDARY = 'd'
 
+export const BALL_CONTROL_POINT_ANGLES = [
+  -Math.PI / 2,
+  -Math.PI / 6,
+  0,
+  Math.PI / 6,
+  Math.PI / 2,
+]
+
 export const FPS_INDICATOR_REFRESHES_PER_SECOND = 2 // This is only for the visual indicator
 // The movement speed is determined by the FPS and the intended amount traversed per second
 export const BALL_MOVEMENT_PER_SECOND = 15

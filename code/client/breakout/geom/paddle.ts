@@ -1,7 +1,7 @@
 import { BreakoutBall } from './ball.ts'
 import { AAEllipse, Vec2D } from '../../../common/math/geom2d.ts'
 import { type float64 } from '../../../common/types/numbers.ts'
-import { BALL_RADIUS, PADDLE_HEIGHT, PADDLE_WIDTH, STAGE } from '../constants.ts'
+import { PADDLE_HEIGHT, PADDLE_WIDTH, STAGE } from '../constants.ts'
 import { type IBreakoutIntersectible, type IBreakoutIntersection, type PaddleDirection } from '../types.ts'
 
 export interface IBreakoutPaddleConfig {
@@ -23,25 +23,23 @@ export class BreakoutPaddle implements IBreakoutPaddleConfig, IBreakoutIntersect
     this.ellipse = new AAEllipse({
       x0: center,
       y0: STAGE.getBottomPos(),
-      a: PADDLE_WIDTH + BALL_RADIUS,
-      b: PADDLE_HEIGHT + BALL_RADIUS,
+      a: PADDLE_WIDTH,
+      b: PADDLE_HEIGHT,
     })
   }
 
   intersectWithBall(ball: BreakoutBall): IBreakoutIntersection | undefined {
-    const int = this.ellipse.intersectWithRay(ball.center, ball.direction)
+    const int = ball.computeIntersectionWithFigure(this, this.ellipse)
 
     if (int) {
-      // We make sure the reflected direction always points away from the bottom.
-      // This deviates from correct elliptic reflection, but without this correction the game is perceived to misbehave.
-      const refl = int.calculateReflection()
-      const correctedRefl = new Vec2D({ x: refl.x, y: -Math.abs(refl.y) })
-
       return {
-        point: int.point.translate(correctedRefl, 0.1),
-        figure: this,
+        ...int,
         calculateBallReflection() {
-          return new BreakoutBall({ center: int.point.translate(correctedRefl, 0.1), direction: correctedRefl })
+          // We make sure the reflected direction always points away from the bottom.
+          // This deviates from correct elliptic reflection, but without this correction the game is perceived to misbehave.
+          const reflBall = int.calculateBallReflection()
+          const correctedDir = new Vec2D({ x: reflBall.direction.x, y: -Math.abs(reflBall.direction.y) })
+          return new BreakoutBall({ center: int.newCenter, direction: correctedDir })
         },
       }
     }

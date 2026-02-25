@@ -4,7 +4,7 @@ import { type BreakoutBall } from './geom/ball.ts'
 import { BreakoutPaddle } from './geom/paddle.ts'
 import { BreakoutStage } from './geom/stage.ts'
 import { type IBreakoutIntersection } from './types.ts'
-import { isClose } from '../../common/support/floating.ts'
+import { isGeq } from '../../common/support/floating.ts'
 import { schwartzMin } from '../../common/support/iteration.ts'
 
 export function* iterIntersections(ball: BreakoutBall, paddle: BreakoutPaddle, bricks: BreakoutBrick[]): Generator<IBreakoutIntersection> {
@@ -25,11 +25,11 @@ export function findClosestIntersection(ball: BreakoutBall, paddle: BreakoutPadd
   }
 
   return schwartzMin(
-    ({ point }) => ball.center.distanceTo(point),
+    ({ newCenter }) => ball.center.distanceTo(newCenter),
     iterIntersections(ball, paddle, bricks),
   )
 }
 
 export function isIntersectionFatal(int: IBreakoutIntersection): boolean {
-  return int.figure instanceof BreakoutStage && isClose(int.point.y + BALL_RADIUS, STAGE.getBottomPos())
+  return int.figure instanceof BreakoutStage && isGeq(int.newCenter.y + BALL_RADIUS, STAGE.getBottomPos())
 }

@@ -2,7 +2,7 @@ import { type BreakoutBrick } from './brick.ts'
 import { type BreakoutBall } from './geom/ball.ts'
 import { type BreakoutPaddle } from './geom/paddle.ts'
 import { Vec2D } from '../../common/math/geom2d.ts'
-import { type uint32 } from '../../common/types/numbers.ts'
+import { type float64, type uint32 } from '../../common/types/numbers.ts'
 import { type Action } from '../../common/types/typecons.ts'
 
 export type PaddleDirection = -1 | 0 | 1
@@ -27,8 +27,9 @@ export interface IGameState {
 }
 
 export interface IBreakoutIntersection {
-  point: Vec2D
+  newCenter: Vec2D
   figure: unknown
+  dist: float64
   calculateBallReflection(): BreakoutBall
 }
 

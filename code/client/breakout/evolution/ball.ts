@@ -1,4 +1,4 @@
-import { isGeq, isLeq } from '../../../common/support/floating.ts'
+import { isLeq } from '../../../common/support/floating.ts'
 import { BreakoutBrick } from '../brick.ts'
 import { BALL_MOVEMENT_PER_SECOND } from '../constants.ts'
 import { findClosestIntersection, isIntersectionFatal } from '../intersection.ts'
@@ -21,7 +21,7 @@ export function evolveBall(state: IGameState): Partial<IGameState> {
       return { phase: 'game_over' }
     }
 
-    const intDist = newBall.center.distanceTo(int.point)
+    const intDist = newBall.center.distanceTo(int.newCenter)
 
     if (isLeq(movementRemaining, intDist)) {
       newBall = newBall.move(movementRemaining)
