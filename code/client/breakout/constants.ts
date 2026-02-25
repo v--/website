@@ -13,9 +13,11 @@ export const KEY_RIGHT_SECONDARY = 'd'
 
 export const BALL_CONTROL_POINT_ANGLES = [
   -Math.PI / 2,
+  -Math.PI / 3,
   -Math.PI / 6,
   0,
   Math.PI / 6,
+  Math.PI / 3,
   Math.PI / 2,
 ]
 
