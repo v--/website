@@ -77,4 +77,13 @@ main {
       @include sizes.dense-size-variables;
     }
   }
+
+  @media (max-width: #{calc(sizes.$sidebar-size-threshold-collapse + 1px)}) {
+    flex-shrink: 0;
+    width: calc(100dvw - #{sizes.$sidebar-size-max-width-collapsed});
+  }
+
+  @media (max-width: #{sizes.$sidebar-size-threshold-hide}) {
+    width: 100dvw;
+  }
 }

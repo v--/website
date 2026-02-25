@@ -50,14 +50,13 @@
   scrollbar-gutter: auto;
   overscroll-behavior-y: contain;
 
-  // The two width queries interlap at the threshold. I tried subtracting 1px from this one, but then neither matched at #{threshold - 1px}.
-  @media (max-width: #{sizes.$sidebar-size-threshold-collapse}) {
+  @media (max-width: #{calc(sizes.$sidebar-size-threshold-collapse + 1px)}) {
     &:not(.sidebar-expanded) {
       @include sidebar-collapsed;
     }
   }
 
-  @media (min-width: #{sizes.$sidebar-size-threshold-collapse}) {
+  @media (min-width: #{calc(sizes.$sidebar-size-threshold-collapse + 1px)}) {
     &:not(.sidebar-collapsed) {
       @include sidebar-expanded;
     }

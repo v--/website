@@ -6,12 +6,15 @@
   flex-direction: column;
   align-items: center;
   overflow-y: auto;
-  width: 100%;
   max-width: unset;
   height: 100dvh;
   padding-inline: 0;
   overscroll-behavior-y: contain;
   scrollbar-gutter: stable;
+
+  @media (min-width: #{calc(sizes.$sidebar-size-threshold-collapse + 1px)}) {
+    width: 100%;
+  }
 
   &-head {
     display: flex;

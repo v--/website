@@ -13,7 +13,7 @@
   border-radius: 50%;
   opacity: 0.85;
 
-  @media (min-width: #{sizes.$sidebar-size-threshold-hide}) {
+  @media (min-width: #{calc(sizes.$sidebar-size-threshold-hide + 1px)}) {
     display: none;
   }
 }
