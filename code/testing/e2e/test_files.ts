@@ -101,7 +101,7 @@ describe('Files page', function () {
           assert.equal(await page.getDirPath(), '/')
         })
 
-        it('can nagivate to /sub by clicking the arrow locator in /sub/subsub', async function () {
+        it('can nagivate to /sub by clicking the /sub locator in /sub/subsub', async function () {
           await page.goto('/files/sub/subsub')
           const breadcrumbs = await page.getBreadcrumbAnchors()
           await breadcrumbs.sub.click()

@@ -10,6 +10,7 @@ import { type WebsiteLanguageId, parseSupportedLanguageString } from '../../comm
 import { UrlPath } from '../../common/support/url_path.ts'
 import { type IFinalizeable } from '../../common/types/finalizable.ts'
 import { type ColorScheme } from '../../common/types/page.ts'
+import { waitForStableState } from './support/locator.ts'
 
 interface IBasePageOptions {
   javaScriptEnabled?: boolean
@@ -69,7 +70,10 @@ export class BasePage implements IFinalizeable {
   }
 
   async getTitle() {
-    return await this._pwPage.title()
+    // This turns out to be less flaky than _pwPage.title()
+    const locator = this._pwPage.locator('title')
+    await waitForStableState(locator)
+    return locator.innerText()
   }
 
   getUrlPath() {

@@ -16,7 +16,7 @@ export type IDirEntryRow = Infer<typeof DIR_ENTRY_ROW_SCHEMA>
 
 export class FilesPage extends BasePage {
   async getDirPath() {
-    const title = await this._pwPage.title()
+    const title = await this.getTitle()
     const match = title.match(/Index of \/files(?<dir>.*) ⋅ File server ⋅ Ianis Vasilev's website/)
 
     if (match === null || match.groups === undefined) {
