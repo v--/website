@@ -1,8 +1,7 @@
-import { BreakoutBrick } from './brick.ts'
-import { BreakoutBall } from './geom/ball.ts'
+import { BreakoutBrick } from './geom/brick.ts'
 import { BreakoutPaddle } from './geom/paddle.ts'
 import { BreakoutStage } from './geom/stage.ts'
-import { type IGameState } from './types.ts'
+import { type IIncompleteGameState } from './types.ts'
 import { Vec2D } from '../../common/math/geom2d.ts'
 
 export const KEY_CONTROL = 's'
@@ -36,14 +35,16 @@ export const STAGE = new BreakoutStage({
   offset: BALL_RADIUS,
 })
 
-export const DEFAULT_GAME_STATE: Omit<IGameState, 'fps' | 'debug'> = {
+const DEFAULT_BALL_SOURCE = new Vec2D({ x: 0.0, y: 3.5 })
+const DEFAULT_PADDLE = new BreakoutPaddle({ center: 0.0, direction: 0 })
+
+export const DEFAULT_GAME_STATE: IIncompleteGameState = {
   phase: 'unstarted',
-  paddle: new BreakoutPaddle({ center: 0.0, direction: 0 }),
+  paddle: DEFAULT_PADDLE,
   score: 0,
-  ball: new BreakoutBall({
-    center: new Vec2D({ x: 0.0, y: 3.5 }),
-    direction: new Vec2D({ x: 0.0, y: 1.0 }),
-  }),
+  ballPosition: 0.0,
+  ballSource: DEFAULT_BALL_SOURCE,
+  ballTarget: DEFAULT_PADDLE.intersectWithBall(DEFAULT_BALL_SOURCE, { x: 0.0, y: 1.0 })!,
   bricks: [
     new BreakoutBrick({ power: 1, x: -7, y: 2 }),
     new BreakoutBrick({ power: 1, x: 6, y: 2 }),

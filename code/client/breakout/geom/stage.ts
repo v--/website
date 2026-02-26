@@ -1,5 +1,5 @@
-import { BreakoutBall } from './ball.ts'
-import { AARect, type IAARectConfig } from '../../../common/math/geom2d.ts'
+import { computeBallIntersectionWithFigure } from './intersection.ts'
+import { AARect, type IAARectConfig, type IPlainVec2D, Vec2D } from '../../../common/math/geom2d.ts'
 import { type float64 } from '../../../common/types/numbers.ts'
 import { type IBreakoutIntersectible, type IBreakoutIntersection } from '../types.ts'
 
@@ -22,7 +22,7 @@ export class BreakoutStage extends AARect implements IBreakoutIntersectible, IAA
     })
   }
 
-  intersectWithBall(ball: BreakoutBall): IBreakoutIntersection | undefined {
-    return ball.computeIntersectionWithFigure(this, this.bounds)
+  intersectWithBall(ballSource: Vec2D, ballDirection: IPlainVec2D): IBreakoutIntersection | undefined {
+    return computeBallIntersectionWithFigure(ballSource, ballDirection, this, this.bounds)
   }
 }

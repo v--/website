@@ -1,12 +1,16 @@
 import { randInt } from '../../../common/math/prob.ts'
 import { isGeq, isLeq } from '../../../common/support/floating.ts'
-import { BreakoutBrick } from '../brick.ts'
+import { getComputedState } from '../computed.ts'
 import { BRICK_EVOLUTION_BALL_MIN_DISTANCE, BRICK_EVOLUTION_BOTTOM_MIN_DISTANCE, BRICK_MAX_POWER, STAGE } from '../constants.ts'
+import { BreakoutBrick } from '../geom/brick.ts'
 import { type IGameState } from '../types.ts'
 
 const MAX_EVOLUTION_ATTEMPTS = 3
 
-export function evolveBricks({ bricks, ball }: IGameState): Partial<IGameState> | undefined {
+export function evolveBricks(state: IGameState): Partial<IGameState> | undefined {
+  const { bricks } = state
+  const { ballCenter } = getComputedState(state)
+
   for (let i = 0; i < MAX_EVOLUTION_ATTEMPTS; i++) {
     const centerIndex = randInt(0, bricks.length)
     const xOffset = randInt(-1, 2)
@@ -15,7 +19,7 @@ export function evolveBricks({ bricks, ball }: IGameState): Partial<IGameState> 
     let brickIndex = centerIndex
 
     // We avoid bricks too close to the ball position.
-    if (ball.center.distanceTo(center) < BRICK_EVOLUTION_BALL_MIN_DISTANCE) {
+    if (ballCenter.distanceTo(center) < BRICK_EVOLUTION_BALL_MIN_DISTANCE) {
       continue
     }
 

@@ -14,7 +14,7 @@ An overview of how the game works is given on the web page. The code is structur
 
 The game logic is based on discrete-time state evolutions. The current state is stored a [`StateStore`](../../common/support/state_store.ts) instance, the working of which is explained [here](../../common/observable#state-store). All non-dynamic state is extracted as `SCREAMING_SNAKE_CASE` constants in [`./constants.ts`](./constants.ts).
 
-1. The ball evolves in accordance to the [`evolveBall`](./evolution/ball.ts) function, which gets invoked on intervals maintained by a [`animationFrameObservable`](../core/dom/observable.ts) observable. The `evolveBall` function contains the majority of game logic, modulo the ray intersection logic in [`./intersection.ts`](./intersection.ts) based on the geometric code from [`../../common/math/geom2d`](../../common/math/geom2d).
+1. The ball evolves in accordance to the [`evolveBall`](./evolution/ball.ts) function, which gets invoked on intervals maintained by a [`animationFrameObservable`](../core/dom/observable.ts) observable. The `evolveBall` function contains the majority of game logic, modulo the ray intersection logic in [`./geom/intersection.ts`](./geom/intersection.ts) based on the geometric code from [`../../common/math/geom2d`](../../common/math/geom2d).
 
     The movement speed is fixed and adjusted based on the FPS, so that the speed does not double on 120Hz vs 60Hz, and does not halve during JavaScript's garbage collection.
 

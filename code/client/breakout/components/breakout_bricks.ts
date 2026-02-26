@@ -1,5 +1,5 @@
 import { createComponent as c } from '../../../common/rendering/component.ts'
-import { type BreakoutBrick } from '../brick.ts'
+import { type BreakoutBrick } from '../geom/brick.ts'
 
 interface IBreakoutBricksState {
   bricks: BreakoutBrick[]

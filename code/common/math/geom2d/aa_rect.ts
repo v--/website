@@ -72,7 +72,7 @@ export class AARect implements IAARectConfig, IIntersectible {
       isLeq(point.y, this.y + this.height, tolerance)
   }
 
-  * #iterEdgeIntersections(origin: Vec2D, direction: Vec2D, tolerance?: float64): Iterable<IIntersection> {
+  * #iterEdgeIntersections(origin: Vec2D, direction: IPlainVec2D, tolerance?: float64): Iterable<IIntersection> {
     for (const edge of this.iterEdges()) {
       const int = edge.intersectWithRay(origin, direction, tolerance)
 
@@ -82,7 +82,7 @@ export class AARect implements IAARectConfig, IIntersectible {
     }
   }
 
-  intersectWithRay(origin: Vec2D, direction: Vec2D, tolerance?: float64): IIntersection | undefined {
+  intersectWithRay(origin: Vec2D, direction: IPlainVec2D, tolerance?: float64): IIntersection | undefined {
     return schwartzMin(
       ({ point }) => origin.distanceTo(point),
       this.#iterEdgeIntersections(origin, direction, tolerance),

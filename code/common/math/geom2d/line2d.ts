@@ -118,7 +118,7 @@ export class Line2D implements ILine2DConfig, IIntersectible {
 
     return {
       point: origin.translate(direction, t),
-      calculateReflection: () => {
+      calculateReflectedDirection: () => {
         const refl = this.reflectRayDirection(origin, direction, tolerance)
 
         if (refl === undefined) {
