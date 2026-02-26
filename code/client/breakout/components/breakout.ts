@@ -2,11 +2,11 @@ import { breakoutBall } from './breakout_ball.ts'
 import { breakoutBricks } from './breakout_bricks.ts'
 import { breakoutFps } from './breakout_fps.ts'
 import { breakoutPaddle } from './breakout_paddle.ts'
-import { breakoutRays } from './breakout_ray.ts'
+import { breakoutRays } from './breakout_rays.ts'
 import { breakoutScore } from './breakout_score.ts'
 import { breakoutSplash } from './breakout_splash.ts'
 import { icon } from '../../../common/components/icon.ts'
-import { EMPTY, Observable, bufferLatest, combineLatest, map, switchMap, takeUntil, timeInterval } from '../../../common/observable.ts'
+import { EMPTY, Observable, bufferLatest, combineLatest, first, map, switchMap, takeUntil, timeInterval } from '../../../common/observable.ts'
 import { createComponent as c } from '../../../common/rendering/component.ts'
 import { classlist } from '../../../common/support/dom_properties.ts'
 import { StateStore } from '../../../common/support/state_store.ts'
@@ -26,6 +26,7 @@ import {
   handleStageClick,
 } from '../events.ts'
 import { evolveBall, evolveBricks, evolvePaddle } from '../evolution.ts'
+import { computeBreakoutTrajectory } from '../geom/trajectory.ts'
 import { type IGameState } from '../types.ts'
 
 const SVG_VIEW_BOX = [STAGE.getLeftPos(), STAGE.getTopPos(), STAGE.width, STAGE.height].join(' ')
@@ -61,10 +62,11 @@ export function breakout({ store }: IBreakoutState, env: ClientWebsiteEnvironmen
       return EMPTY as Observable<uint32>
     }),
   ).subscribe(function (fps) {
-    const newState = { ...store.getCombinedState(), fps }
-    Object.assign(newState, evolvePaddle(newState))
-    Object.assign(newState, evolveBall(newState))
-    Object.assign(newState, processCollisions(newState))
+    const state = store.getCombinedState()
+    const newState: Partial<IGameState> = { fps }
+    Object.assign(newState, evolvePaddle({ ...state, ...newState }))
+    Object.assign(newState, evolveBall({ ...state, ...newState }))
+    Object.assign(newState, processCollisions({ ...state, ...newState }))
     store.update(newState)
   })
 
@@ -77,19 +79,43 @@ export function breakout({ store }: IBreakoutState, env: ClientWebsiteEnvironmen
       return EMPTY
     }),
   ).subscribe(function () {
-    const newState = { ...store.getCombinedState() }
-    Object.assign(newState, evolveBricks(newState))
-    Object.assign(newState, refreshTarget(newState))
+    const state = store.getCombinedState()
+    const newState: Partial<IGameState> = {}
+    Object.assign(newState, evolveBricks({ ...state, ...newState }))
+    Object.assign(newState, refreshTarget({ ...state, ...newState }))
     store.update(newState)
   })
 
-  const raysComponentState$ = store.keyedObservables.debug.pipe(
+  const ballCenter$ = store.combinedState$.pipe(
+    map(state => getComputedState(state).ballCenter),
+  )
+
+  const trajectory$ = combineLatest({
+    paddle: store.keyedObservables.paddle,
+    bricks: store.keyedObservables.bricks,
+    ballTarget: store.keyedObservables.ballTarget,
+  }).pipe(
+    map(function ({ paddle, ballTarget, bricks }) {
+      const ballSource = store.getState('ballSource')
+      return computeBreakoutTrajectory(ballSource, ballTarget, paddle, bricks)
+    }),
+  )
+
+  const breakoutRayState$ = store.keyedObservables.debug.pipe(
     switchMap(function (debug) {
+      const result = combineLatest({
+        debug,
+        trajectory: trajectory$,
+        ballCenter: ballCenter$,
+        paddle: store.keyedObservables.paddle,
+        bricks: store.keyedObservables.bricks,
+      })
+
       if (debug) {
-        return store.combinedState$
+        return result
       }
 
-      return Observable.of(store.getCombinedState())
+      return first(result)
     }),
   )
 
@@ -137,14 +163,10 @@ export function breakout({ store }: IBreakoutState, env: ClientWebsiteEnvironmen
         },
       },
 
-      c.factory(breakoutRays, raysComponentState$),
+      c.factory(breakoutRays, breakoutRayState$),
       c.factory(breakoutBricks, { bricks: store.keyedObservables.bricks }),
       c.factory(breakoutPaddle, { paddle: store.keyedObservables.paddle }),
-      c.factory(breakoutBall, {
-        ballCenter: store.combinedState$.pipe(
-          map(state => getComputedState(state).ballCenter),
-        ),
-      }),
+      c.factory(breakoutBall, { ballCenter: ballCenter$ }),
       c.factory(breakoutSplash, { phase: store.keyedObservables.phase }),
       c.factory(breakoutScore, { score: store.keyedObservables.score }),
       c.factory(breakoutFps, { fps: shownFps$, show: store.keyedObservables.debug }),

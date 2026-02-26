@@ -1,30 +1,23 @@
+import { type Vec2D } from '../../../common/math/geom2d.ts'
 import { createComponent as c } from '../../../common/rendering/component.ts'
 import { classlist } from '../../../common/support/dom_properties.ts'
-import { getComputedState } from '../computed.ts'
 import { BALL_RADIUS, PADDLE_HEIGHT, PADDLE_WIDTH, STAGE } from '../constants.ts'
-import { findClosestIntersection, isIntersectionFatal } from '../geom/intersection.ts'
-import { type IBreakoutIntersection, type IGameState } from '../types.ts'
+import { type BreakoutBrick } from '../geom/brick.ts'
+import { isIntersectionFatal } from '../geom/intersection.ts'
+import { type BreakoutPaddle } from '../geom/paddle.ts'
+import { type IBreakoutTrajectory } from '../geom/trajectory.ts'
 
-const MAX_GHOST_BALLS = 4
+export interface IBreakoutRaysState {
+  debug: boolean
+  paddle: BreakoutPaddle
+  ballCenter: Vec2D
+  bricks: BreakoutBrick[]
+  trajectory: IBreakoutTrajectory
+}
 
-export function breakoutRay(state: IGameState) {
-  if (!state.debug) {
+export function breakoutRays({ debug, ballCenter, trajectory, paddle, bricks }: IBreakoutRaysState) {
+  if (!debug) {
     return c.svg('g', { class: 'breakout-rays' })
-  }
-
-  const { ballTarget, paddle, bricks } = state
-  const { ballCenter } = getComputedState(state)
-  const trajectory: IBreakoutIntersection[] = []
-
-  for (let i = 0, int: IBreakoutIntersection | undefined = ballTarget; i < MAX_GHOST_BALLS && int; i++) {
-    trajectory.push(int)
-
-    if (isIntersectionFatal(int)) {
-      break
-    }
-
-    const refl = int.calculateReflectedDirection()
-    int = findClosestIntersection(int.newCenter, refl, paddle, bricks)
   }
 
   return c.svg('g', { class: 'breakout-rays' },
@@ -46,9 +39,9 @@ export function breakoutRay(state: IGameState) {
     }),
     c.svg('polyline', {
       class: 'breakout-rays-edges',
-      points: `${ballCenter.x},${ballCenter.y} ` + trajectory.map(({ newCenter }) => `${newCenter.x},${newCenter.y}`).join(' '),
+      points: `${ballCenter.x},${ballCenter.y} ` + trajectory.tail.map(({ newCenter }) => `${newCenter.x},${newCenter.y}`).join(' '),
     }),
-    ...trajectory.map(int => {
+    ...trajectory.tail.map(int => {
       return c.svg('circle', {
         class: classlist('breakout-rays-ghost', isIntersectionFatal(int) && 'breakout-rays-ghost-fatal'),
         cx: String(int.newCenter.x),
