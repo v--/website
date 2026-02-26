@@ -1,10 +1,8 @@
 import { isLeq } from '../../../common/support/floating.ts'
 import { BreakoutBrick } from '../brick.ts'
-import { BALL_MOVEMENT_PER_SECOND } from '../constants.ts'
+import { BALL_MOVEMENT_PER_SECOND, MINIMAL_MOVEMENT_DISTANCE } from '../constants.ts'
 import { findClosestIntersection, isIntersectionFatal } from '../intersection.ts'
 import { type IGameState } from '../types.ts'
-
-const MINIMAL_MOVEMENT_DISTANCE = 1e-3
 
 export function evolveBall(state: IGameState): Partial<IGameState> {
   const { paddle, ball, bricks, score, fps } = state

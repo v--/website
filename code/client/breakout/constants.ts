@@ -15,6 +15,7 @@ export const FPS_INDICATOR_REFRESHES_PER_SECOND = 2 // This is only for the visu
 // The movement speed is determined by the FPS and the intended amount traversed per second
 export const BALL_MOVEMENT_PER_SECOND = 15
 export const PADDLE_MOVEMENT_PER_SECOND = 20
+export const MINIMAL_MOVEMENT_DISTANCE = 1e-3
 
 export const EVOLUTION_FREQUENCY = 2
 export const BRICK_EVOLUTION_BALL_MIN_DISTANCE = 4

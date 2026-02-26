@@ -28,6 +28,10 @@ export class BreakoutPaddle implements IBreakoutPaddleConfig, IBreakoutIntersect
     })
   }
 
+  containsBall(ball: BreakoutBall) {
+    return this.ellipse.containsPoint(ball.center)
+  }
+
   intersectWithBall(ball: BreakoutBall): IBreakoutIntersection | undefined {
     const int = this.ellipse.intersectWithRay(ball.center, ball.direction)
 

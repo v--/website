@@ -1,7 +1,7 @@
 import { Line2D } from './line2d.ts'
 import { type IIntersectible, type IIntersection } from './types.ts'
 import { Vec2D } from './vec2d.ts'
-import { isClose, isLess } from '../../support/floating.ts'
+import { isClose, isLeq, isLess } from '../../support/floating.ts'
 import { type float64 } from '../../types/numbers.ts'
 
 export interface IAAEllipseConfig {
@@ -32,6 +32,10 @@ export class AAEllipse implements IAAEllipseConfig, IIntersectible {
       x: this.x0 + this.a * Math.cos(phi),
       y: this.y0 + this.b * Math.sin(phi),
     })
+  }
+
+  containsPoint(point: Vec2D, tolerance?: float64) {
+    return isLeq(((this.x0 - point.x) / this.a) ** 2 + ((this.y0 - point.y) / this.b) ** 2, 1, tolerance)
   }
 
   /**
