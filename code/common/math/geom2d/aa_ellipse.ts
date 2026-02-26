@@ -1,6 +1,6 @@
 import { Line2D } from './line2d.ts'
 import { type IIntersectible, type IIntersection } from './types.ts'
-import { Vec2D } from './vec2d.ts'
+import { type IPlainVec2D, Vec2D } from './vec2d.ts'
 import { isClose, isLeq, isLess } from '../../support/floating.ts'
 import { type float64 } from '../../types/numbers.ts'
 
@@ -34,7 +34,7 @@ export class AAEllipse implements IAAEllipseConfig, IIntersectible {
     })
   }
 
-  containsPoint(point: Vec2D, tolerance?: float64) {
+  containsPoint(point: IPlainVec2D, tolerance?: float64) {
     return isLeq(((this.x0 - point.x) / this.a) ** 2 + ((this.y0 - point.y) / this.b) ** 2, 1, tolerance)
   }
 
@@ -47,7 +47,7 @@ export class AAEllipse implements IAAEllipseConfig, IIntersectible {
    * This amounts to solving the quadratic equation
    *   ((x₂ / a)² + …) t² + (2 x₂ (x₁ - x₀) / a² + …) t + (((x₁ - x₀) / a)² + … - 1) = 0
    */
-  calculateIntersectionPointWithRay(origin: Vec2D, direction: Vec2D, tolerance?: float64): Vec2D | undefined {
+  calculateIntersectionPointWithRay(origin: Vec2D, direction: IPlainVec2D, tolerance?: float64): Vec2D | undefined {
     // The variables a, b and c here are the coefficients of the quadratic equation
     const a = (direction.x / this.a) ** 2 + (direction.y / this.b) ** 2
     const b = (2 * direction.x * (origin.x - this.x0)) / this.a ** 2 + (2 * direction.y * (origin.y - this.y0)) / this.b ** 2
@@ -103,7 +103,7 @@ export class AAEllipse implements IAAEllipseConfig, IIntersectible {
     })
   }
 
-  intersectWithRay(origin: Vec2D, direction: Vec2D, tolerance?: float64): IIntersection | undefined {
+  intersectWithRay(origin: Vec2D, direction: IPlainVec2D, tolerance?: float64): IIntersection | undefined {
     const intPoint = this.calculateIntersectionPointWithRay(origin, direction, tolerance)
 
     if (intPoint === undefined) {

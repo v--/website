@@ -1,6 +1,6 @@
 import { ReflectionError } from './errors.ts'
 import { type IIntersectible, type IIntersection } from './types.ts'
-import { Vec2D } from './vec2d.ts'
+import { type IPlainVec2D, Vec2D } from './vec2d.ts'
 import { isClose, isLeq, isZero } from '../../support/floating.ts'
 import { type float64 } from '../../types/numbers.ts'
 
@@ -29,7 +29,7 @@ export class Line2D implements ILine2DConfig, IIntersectible {
     return isClose(this.a * other.b, this.b * other.a)
   }
 
-  getParallelThrough(point: Vec2D): Line2D {
+  getParallelThrough(point: IPlainVec2D): Line2D {
     return new Line2D({
       a: this.a,
       b: this.b,
@@ -46,7 +46,7 @@ export class Line2D implements ILine2DConfig, IIntersectible {
    * This amounts to solving the linear equation
    *   (A x₂ + B y₂) t = -A x₁ - B y₁ - C
    */
-  #getIntersectionParameter(origin: Vec2D, direction: Vec2D, tolerance?: float64): float64 | undefined {
+  #getIntersectionParameter(origin: Vec2D, direction: IPlainVec2D, tolerance?: float64): float64 | undefined {
     const divisor = this.a * direction.x + this.b * direction.y
 
     if (isZero(divisor, tolerance)) {
@@ -69,7 +69,7 @@ export class Line2D implements ILine2DConfig, IIntersectible {
    *
    * We find the points Q, P', P" and finally R. Our desired reflected direction vector is then QR.
    */
-  reflectRayDirection(origin: Vec2D, direction: Vec2D, tolerance?: float64): Vec2D | undefined {
+  reflectRayDirection(origin: Vec2D, direction: IPlainVec2D, tolerance?: float64): Vec2D | undefined {
     // This intersection point is Q in the figure
     const tIntersection = this.#getIntersectionParameter(origin, direction, tolerance)
 
@@ -109,7 +109,7 @@ export class Line2D implements ILine2DConfig, IIntersectible {
     return reflected.sub(intersection).scaleToNormed()
   }
 
-  intersectWithRay(origin: Vec2D, direction: Vec2D, tolerance?: float64): IIntersection | undefined {
+  intersectWithRay(origin: Vec2D, direction: IPlainVec2D, tolerance?: float64): IIntersection | undefined {
     const t = this.#getIntersectionParameter(origin, direction, tolerance)
 
     if (t === undefined || isLeq(t, 0, tolerance)) {
