@@ -5,12 +5,12 @@ import { type Browser, type BrowserContext, type Page as PlayWrightPage } from '
 import { BASE_URL, BROWSER } from './config.ts'
 import { Anchor } from './support/anchor.ts'
 import { Button } from './support/button.ts'
+import { waitForStableState } from './support/locator.ts'
 import { type ViewportSizeName, transposeViewport, viewportNameMap } from './support/viewport.ts'
 import { type WebsiteLanguageId, parseSupportedLanguageString } from '../../common/languages.ts'
 import { UrlPath } from '../../common/support/url_path.ts'
 import { type IFinalizeable } from '../../common/types/finalizable.ts'
 import { type ColorScheme } from '../../common/types/page.ts'
-import { waitForStableState } from './support/locator.ts'
 
 interface IBasePageOptions {
   javaScriptEnabled?: boolean

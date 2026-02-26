@@ -1,28 +1,30 @@
 import { PlaygroundPage } from '../playground.ts'
+import { Button } from '../support/button.ts'
+import { Checkbox } from '../support/checkbox.ts'
 
 export class BreakoutPage extends PlaygroundPage {
   getAspectRatioBoxLocator() {
     return this._pwPage.locator('.spotlight-page-aspect-ratio-box')
   }
 
-  getMenuToggleLocator() {
-    return this._pwPage.locator('.playground-menu-toggle-button')
+  getMenuToggleButton() {
+    return new Checkbox(this, this._pwPage.locator('.playground-menu-toggle-button'))
   }
 
-  getMenuRest() {
+  getMenuRestLocator() {
     return this._pwPage.locator('.playground-menu-rest')
   }
 
+  getDebugToggle() {
+    return new Checkbox(this, this._pwPage.getByText('Debug mode', { exact: true }))
+  }
+
+  getResetButton() {
+    return new Button(this, this._pwPage.getByText('Reset', { exact: true }))
+  }
+
   async isMenuExpanded() {
-    return await this.getMenuToggleLocator().isVisible()
-  }
-
-  getDebugToggleLocator() {
-    return this._pwPage.getByText('Debug mode', { exact: true })
-  }
-
-  getResetButtonLocator() {
-    return this._pwPage.getByText('Reset', { exact: true })
+    return await this.getResetButton().isVisible()
   }
 
   getGhostBallLocators() {

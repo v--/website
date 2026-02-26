@@ -58,37 +58,35 @@ describe('Breakout page', function () {
       it('is expanded on a large screen', async function () {
         await page.scaleViewport('Full HD')
         await page.goto('/playground/breakout')
-        assertFalse(await page.isMenuExpanded())
+        await waitForStableState(page.getMenuRestLocator())
+        assertTrue(await page.isMenuExpanded())
       })
 
       it('is collapsed on a medium screen', async function () {
         await page.scaleViewport('VGA')
         await page.goto('/playground/breakout')
-        assertTrue(await page.isMenuExpanded())
+        await waitForStableState(page.getMenuRestLocator())
+        assertFalse(await page.isMenuExpanded())
       })
 
       it('can expand on a medium screen by clicking the menu toggle', async function () {
         await page.scaleViewport('VGA')
         await page.goto('/playground/breakout')
-        const rest = page.getMenuRest()
-        const toggle = page.getMenuToggleLocator()
+        const toggle = page.getMenuToggleButton()
         await toggle.click()
-        await waitForStableState(rest)
-        const reset = page.getResetButtonLocator()
-        assertTrue(await reset.isVisible())
+        await waitForStableState(page.getMenuRestLocator())
+        assertTrue(await page.isMenuExpanded())
       })
 
       it('can collapse by clicking the menu toggle twice', async function () {
         await page.scaleViewport('VGA')
         await page.goto('/playground/breakout')
-        const rest = page.getMenuRest()
-        const toggle = page.getMenuToggleLocator()
+        const toggle = page.getMenuToggleButton()
         await toggle.click()
-        await waitForStableState(rest)
+        await waitForStableState(page.getMenuRestLocator())
         await toggle.click()
-        await waitForStableState(rest)
-        const reset = page.getResetButtonLocator()
-        assertFalse(await reset.isVisible())
+        await waitForStableState(page.getMenuRestLocator())
+        assertFalse(await page.isMenuExpanded())
       })
     })
 
@@ -102,7 +100,7 @@ describe('Breakout page', function () {
       it('are shown when debug mode is toggled', async function () {
         await page.goto('/playground/breakout')
         const stage = page.getStageLocator()
-        const debugToggle = page.getDebugToggleLocator()
+        const debugToggle = page.getDebugToggle()
         await debugToggle.click()
         await waitForStableState(stage)
         const rays = await page.getGhostBallLocators()
@@ -112,7 +110,7 @@ describe('Breakout page', function () {
       it('are hidden when debug mode is toggled twice', async function () {
         await page.goto('/playground/breakout')
         const stage = page.getStageLocator()
-        const debugToggle = page.getDebugToggleLocator()
+        const debugToggle = page.getDebugToggle()
         await debugToggle.click()
         await waitForStableState(stage)
         await debugToggle.click()
