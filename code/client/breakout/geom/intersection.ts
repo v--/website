@@ -35,7 +35,7 @@ export function isIntersectionFatal(int: IBreakoutIntersection): boolean {
 }
 
 export function isIntersectionWinning(int: IBreakoutIntersection, bricks: BreakoutBrick[]): boolean {
-  return bricks.length === 1 && int.figure instanceof BreakoutBrick
+  return bricks.length === 1 && bricks[0].power === 1 && int.figure === bricks[0]
 }
 
 export function computeBallIntersectionWithFigure(ballSource: Vec2D, ballDirection: IPlainVec2D, figure: IBreakoutIntersectible, geomFigure: IIntersectible): IBreakoutIntersection | undefined {
