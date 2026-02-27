@@ -21,7 +21,7 @@ export function computeBreakoutTrajectory(
 ): IBreakoutTrajectory {
   const tail: IBreakoutIntersection[] = []
 
-  for (let i = 0, int: IBreakoutIntersection | undefined = first; i < maxLength && int; i++) {
+  for (let i = 0, int: IBreakoutIntersection | undefined = first; i < maxLength && int && bricks.length > 0; i++) {
     tail.push(int)
 
     if (isIntersectionFatal(int)) {
