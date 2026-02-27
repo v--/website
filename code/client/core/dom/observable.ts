@@ -10,6 +10,7 @@ export function fromEvent(target: EventTarget, eventName: 'keyup' | 'keydown'): 
 export function fromEvent(target: EventTarget, eventName: 'popstate'): Observable<PopStateEvent>
 export function fromEvent(target: EventTarget, eventName: 'error'): Observable<ErrorEvent>
 export function fromEvent(target: EventTarget, eventName: 'unhandledrejection'): Observable<PromiseRejectionEvent>
+export function fromEvent(target: EventTarget, eventName: 'focus' | 'blur'): Observable<FocusEvent>
 export function fromEvent(target: EventTarget, eventName: string): Observable<Event>
 export function fromEvent(target: EventTarget, eventName: string): Observable<Event> {
   return new Observable(function (observer: IObserver<Event>) {
