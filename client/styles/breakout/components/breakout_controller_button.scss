@@ -8,6 +8,7 @@
   @include mixins.button-floating;
 
   bottom: 1em;
+  z-index: var(--body-zindex-ff);
 
   @container page-scroll-container (max-width: #{sizes.$main-size-min-width}) {
     &-compact {

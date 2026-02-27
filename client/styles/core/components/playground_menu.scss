@@ -42,7 +42,7 @@
 
       & &-rest {
         --control-size-label-vpadding: 0;
-        --control-justify-content: center;
+        --control-justify-content: left;
 
         flex-direction: column;
         padding-inline: var(--playground-menu-size-drawer-hpadding);
