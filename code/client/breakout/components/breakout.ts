@@ -2,9 +2,9 @@ import { breakoutBall } from './breakout_ball.ts'
 import { breakoutBricks } from './breakout_bricks.ts'
 import { breakoutFps } from './breakout_fps.ts'
 import { breakoutPaddle } from './breakout_paddle.ts'
-import { breakoutRays } from './breakout_rays.ts'
 import { breakoutScore } from './breakout_score.ts'
 import { breakoutSplash } from './breakout_splash.ts'
+import { breakoutTrace } from './breakout_trace.ts'
 import { icon } from '../../../common/components/icon.ts'
 import { EMPTY, Observable, bufferLatest, combineLatest, first, map, switchMap, takeUntil, timeInterval } from '../../../common/observable.ts'
 import { createComponent as c } from '../../../common/rendering/component.ts'
@@ -163,7 +163,7 @@ export function breakout({ store }: IBreakoutState, env: ClientWebsiteEnvironmen
         },
       },
 
-      c.factory(breakoutRays, breakoutRayState$),
+      c.factory(breakoutTrace, breakoutRayState$),
       c.factory(breakoutBricks, { bricks: store.keyedObservables.bricks }),
       c.factory(breakoutPaddle, { paddle: store.keyedObservables.paddle }),
       c.factory(breakoutBall, { ballCenter: ballCenter$ }),

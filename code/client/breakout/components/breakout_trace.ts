@@ -7,7 +7,7 @@ import { isIntersectionFatal } from '../geom/intersection.ts'
 import { type BreakoutPaddle } from '../geom/paddle.ts'
 import { type IBreakoutTrajectory } from '../geom/trajectory.ts'
 
-export interface IBreakoutRaysState {
+export interface IBreakoutTraceState {
   debug: boolean
   paddle: BreakoutPaddle
   ballCenter: Vec2D
@@ -15,14 +15,14 @@ export interface IBreakoutRaysState {
   trajectory: IBreakoutTrajectory
 }
 
-export function breakoutRays({ debug, ballCenter, trajectory, paddle, bricks }: IBreakoutRaysState) {
+export function breakoutTrace({ debug, ballCenter, trajectory, paddle, bricks }: IBreakoutTraceState) {
   if (!debug) {
-    return c.svg('g', { class: 'breakout-rays' })
+    return c.svg('g', { class: 'breakout-trace' })
   }
 
-  return c.svg('g', { class: 'breakout-rays' },
+  return c.svg('g', { class: 'breakout-trace' },
     c.svg('ellipse', {
-      class: 'breakout-rays-paddle',
+      class: 'breakout-trace-paddle',
       cx: String(paddle.center),
       cy: String(STAGE.getBottomPos()),
       rx: String(PADDLE_WIDTH + BALL_RADIUS),
@@ -30,7 +30,7 @@ export function breakoutRays({ debug, ballCenter, trajectory, paddle, bricks }: 
     }),
     ...bricks.map(brick => {
       return c.svg('rect', {
-        class: 'breakout-rays-brick',
+        class: 'breakout-trace-brick',
         width: brick.bounds.width,
         height: brick.bounds.height,
         x: brick.bounds.getLeftPos(),
@@ -38,12 +38,12 @@ export function breakoutRays({ debug, ballCenter, trajectory, paddle, bricks }: 
       })
     }),
     c.svg('polyline', {
-      class: 'breakout-rays-edges',
+      class: 'breakout-trace-edges',
       points: `${ballCenter.x},${ballCenter.y} ` + trajectory.tail.map(({ newCenter }) => `${newCenter.x},${newCenter.y}`).join(' '),
     }),
     ...trajectory.tail.map(int => {
       return c.svg('circle', {
-        class: classlist('breakout-rays-ghost', isIntersectionFatal(int) && 'breakout-rays-ghost-fatal'),
+        class: classlist('breakout-trace-ghost', isIntersectionFatal(int) && 'breakout-trace-ghost-fatal'),
         cx: String(int.newCenter.x),
         cy: String(int.newCenter.y),
         r: BALL_RADIUS,

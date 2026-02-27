@@ -4,10 +4,10 @@
 @use "./components/breakout_ball";
 @use "./components/breakout_bricks";
 @use "./components/breakout_fps";
-@use "./components/breakout_ray";
 @use "./components/breakout_paddle";
 @use "./components/breakout_score";
 @use "./components/breakout_splash";
+@use "./components/breakout_trace";
 
 .breakout-page {
   // The usual ratio with two buttons on the sides

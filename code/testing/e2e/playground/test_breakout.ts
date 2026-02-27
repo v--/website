@@ -90,11 +90,11 @@ describe('Breakout page', function () {
       })
     })
 
-    describe('debug rays', function () {
+    describe('debug trace', function () {
       it('are hidden by default', async function () {
         await page.goto('/playground/breakout')
-        const rays = await page.getGhostBallLocators()
-        assert.equal(rays.length, 0)
+        const balls = await page.getGhostBallLocators()
+        assert.equal(balls.length, 0)
       })
 
       it('are shown when debug mode is toggled', async function () {
@@ -103,8 +103,8 @@ describe('Breakout page', function () {
         const debugToggle = page.getDebugToggle()
         await debugToggle.click()
         await waitForStableState(stage)
-        const rays = await page.getGhostBallLocators()
-        assertGreaterThan(rays.length, 0)
+        const balls = await page.getGhostBallLocators()
+        assertGreaterThan(balls.length, 0)
       })
 
       it('are hidden when debug mode is toggled twice', async function () {
@@ -115,8 +115,8 @@ describe('Breakout page', function () {
         await waitForStableState(stage)
         await debugToggle.click()
         await waitForStableState(stage)
-        const rays = await page.getGhostBallLocators()
-        assert.equal(rays.length, 0)
+        const balls = await page.getGhostBallLocators()
+        assert.equal(balls.length, 0)
       })
     })
   })
