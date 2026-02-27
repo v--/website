@@ -2,11 +2,11 @@
 @use "../sizes";
 
 // The sizes are carefully adjusted so that a single card fits the minimal width
-$sorting-size-card-gap: 0.8rem;
+$sorting-size-card-gap: 1rem;
 $sorting-size-card-vpadding: 0.75rem;
 $sorting-size-card-hpadding: 0.75rem;
 $sorting-size-card-array-gap: 0.5rem;
-$sorting-size-card-width: #{calc(sizes.$main-size-min-width - 2 * sizes.$main-size-hpadding-dense)};
+$sorting-size-card-width: 250px;
 
 @function sorting-size-card-item-width($count) {
   @return #{

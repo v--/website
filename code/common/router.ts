@@ -102,7 +102,7 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
         descriptionSpec: { bundleId: 'core', key: `description.playground.${playgroundId}` },
         bundleId: playgroundId,
         sidebarId: 'playground',
-        ogImageName: 'playground',
+        ogImageName: playgroundId,
         pageData: undefined,
         urlPath,
         canonicalUrlPath: urlPath.clearQueryString(),

@@ -4,15 +4,15 @@
    height="630"
    viewBox="56.409 53.858 1200 630"
    version="1.1"
-   id="svg8195"
-   sodipodi:docname="template_common_ru.svg"
-   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   id="svg8194"
+   sodipodi:docname="error_ru.svg"
+   inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <sodipodi:namedview
-     id="namedview8195"
+     id="namedview8194"
      pagecolor="#ffffff"
      bordercolor="#000000"
      borderopacity="0.25"
@@ -20,15 +20,16 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="0.77313519"
-     inkscape:cx="626.02247"
-     inkscape:cy="186.25462"
-     inkscape:window-width="1599"
-     inkscape:window-height="873"
+     showgrid="false"
+     inkscape:zoom="0.43199451"
+     inkscape:cx="1141.2182"
+     inkscape:cy="317.13366"
+     inkscape:window-width="772"
+     inkscape:window-height="1048"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
-     inkscape:current-layer="g1" />
+     inkscape:current-layer="svg8194" />
   <defs
      id="defs1">
     <clipPath
@@ -37,10 +38,23 @@
          d="M56.41 53.858h340.157v178.583H56.409Z"
          id="path1" />
     </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath1">
+      <rect
+         style="fill:#ffffff;stroke-width:4.1841"
+         id="rect2"
+         width="209.0014"
+         height="109.72574"
+         x="-854.69861"
+         y="-540.83606"
+         transform="rotate(163.71525)" />
+    </clipPath>
   </defs>
   <g
      id="g8195"
-     transform="matrix(5.5112353,1.6100059,-1.6100059,5.5112353,-3650.9185,-2421.3999)">
+     transform="matrix(5.5112353,1.6100059,-1.6100059,5.5112353,-3650.9183,-2421.3999)"
+     clip-path="url(#clipPath1)">
     <g
        id="g8196">
       <path
@@ -1231,53 +1245,34 @@
   </g>
   <g
      id="g1"
-     transform="translate(0.00102002,-1.4998825)">
-    <g
-       id="g8197"
-       transform="translate(0,-14.999384)">
-      <g
-         id="g3"
-         transform="translate(4.5500259)">
-        <g
-           transform="matrix(0.83333,0,0,0.83333,-281.14,394.726)"
-           id="g8194">
-          <circle
-             cx="830.409"
-             cy="121.358"
-             r="36"
-             style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:14.4;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-             id="circle8193" />
-          <path
-             d="m 830.41,91.358 a 7.5,7.5 0 0 0 -7.5,7.5 7.5,7.5 0 0 0 7.5,7.5 7.5,7.5 0 0 0 7.5,-7.5 7.5,7.5 0 0 0 -7.5,-7.5 m -7.5,15 v 37.5 a 7.5,7.5 0 0 0 7.5,7.5 7.5,7.5 0 0 0 7.5,-7.5 v -37.5 h -0.039 a 7.5,7.5 0 0 1 -7.462,6.75 7.503,7.503 0 0 1 -7.454,-6.75 z"
-             style="fill:#2a92ea;fill-opacity:1;stroke:none;stroke-width:7.5;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-             id="path8194" />
-        </g>
-        <text
-           xml:space="preserve"
-           x="472.20099"
-           y="386.258"
-           style="font-size:50px;font-family:'Roboto Serif';-inkscape-font-specification:'Roboto Serif, Normal';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#f9f9f9;stroke-width:0.75"
-           id="text8194"
-           transform="translate(-6,127)"><tspan
-             sodipodi:role="line"
-             id="tspan2"
-             x="472.20099"
-             y="386.258"><tspan
-               x="472.20099"
-               y="386.258"
-               style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:50px;font-family:'PT Sans';-inkscape-font-specification:'PT Sans';stroke-width:0.75"
-               id="tspan8194">Сайт Яниса Василева</tspan></tspan></text>
-      </g>
-    </g>
+     transform="translate(0,29.480577)">
+    <path
+       d="m 656.39811,139.13897 c 8.32091,0 15.99724,4.39485 20.21629,11.60239 l 126.57155,215.64043 c 4.27766,7.26615 4.27766,16.23163 0.11721,23.49778 -4.16046,7.26614 -11.95399,11.77818 -20.33349,11.77818 H 529.82655 c -8.37951,0 -16.17303,-4.51204 -20.33349,-11.77818 -4.16045,-7.26615 -4.10186,-16.29023 0.11719,-23.49778 L 636.18182,150.74136 c 4.21905,-7.20754 11.89538,-11.60239 20.21629,-11.60239 z m 0,75.00537 c -7.79353,0 -14.06351,6.26998 -14.06351,14.0635 v 65.6297 c 0,7.79353 6.26998,14.0635 14.06351,14.0635 7.79353,0 14.06351,-6.26997 14.06351,-14.0635 v -65.6297 c 0,-7.79352 -6.26998,-14.0635 -14.06351,-14.0635 z m 18.75134,131.25939 a 18.751342,18.751342 0 1 0 -37.50268,0 18.751342,18.751342 0 1 0 37.50268,0 z"
+       id="path1-6"
+       style="fill:#ffc107;stroke-width:0.58598;fill-opacity:1" />
     <text
        xml:space="preserve"
-       x="653.59546"
-       y="329.85791"
-       style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:125px;font-family:'PT Sans';-inkscape-font-specification:'PT Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;fill:#f9f9f9"
-       id="text8195"><tspan
-         x="653.59546"
-         y="329.85791"
-         style="font-style:normal;font-variant:normal;font-weight:400;font-stretch:normal;font-size:125px;font-family:'PT Sans';-inkscape-font-specification:'PT Sans, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:center;text-anchor:middle"
-         id="tspan8195">${title}</tspan></text>
+       style="font-size:80px;font-family:'PT Sans';-inkscape-font-specification:'PT Sans';text-align:center;writing-mode:lr-tb;direction:ltr;text-anchor:middle;fill:#ffffff;stroke-width:6.66667"
+       x="658.76898"
+       y="538.65594"
+       id="text1"><tspan
+         sodipodi:role="line"
+         id="tspan1"
+         x="658.76898"
+         y="538.65594">Произошла ошибка</tspan></text>
+  </g>
+  <g
+     transform="matrix(0.66666667,0,0,0.66666667,648.803,548.95267)"
+     id="g8194-7">
+    <circle
+       cx="830.409"
+       cy="121.358"
+       r="36"
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:14.4;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="circle8193-9" />
+    <path
+       d="m 830.41,91.358 a 7.5,7.5 0 0 0 -7.5,7.5 7.5,7.5 0 0 0 7.5,7.5 7.5,7.5 0 0 0 7.5,-7.5 7.5,7.5 0 0 0 -7.5,-7.5 m -7.5,15 v 37.5 a 7.5,7.5 0 0 0 7.5,7.5 7.5,7.5 0 0 0 7.5,-7.5 v -37.5 h -0.039 a 7.5,7.5 0 0 1 -7.462,6.75 7.503,7.503 0 0 1 -7.454,-6.75 z"
+       style="fill:#2a92ea;fill-opacity:1;stroke:none;stroke-width:7.5;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path8194-2" />
   </g>
 </svg>

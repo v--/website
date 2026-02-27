@@ -5,8 +5,8 @@
    viewBox="56.409 53.858 1200 630"
    version="1.1"
    id="svg8195"
-   sodipodi:docname="template_common_en.svg"
-   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   sodipodi:docname="title_en.svg"
+   inkscape:version="1.4.3 (0d15f75042, 2025-12-25)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -20,15 +20,16 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="0.77313519"
-     inkscape:cx="626.02247"
-     inkscape:cy="186.25462"
+     inkscape:zoom="0.63484478"
+     inkscape:cx="559.9794"
+     inkscape:cy="320.5508"
      inkscape:window-width="1599"
      inkscape:window-height="873"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
-     inkscape:current-layer="g1" />
+     inkscape:current-layer="svg8195"
+     showgrid="false" />
   <defs
      id="defs1">
     <clipPath
@@ -37,10 +38,23 @@
          d="M56.41 53.858h340.157v178.583H56.409Z"
          id="path1" />
     </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath1">
+      <rect
+         style="fill:#ffffff;stroke-width:4.1841"
+         id="rect2"
+         width="209.0014"
+         height="109.72574"
+         x="-854.69861"
+         y="-540.83606"
+         transform="rotate(163.71525)" />
+    </clipPath>
   </defs>
   <g
      id="g8195"
-     transform="matrix(5.5112353,1.6100059,-1.6100059,5.5112353,-3650.9185,-2421.3999)">
+     transform="matrix(5.5112353,1.6100059,-1.6100059,5.5112353,-3650.9185,-2421.3999)"
+     clip-path="url(#clipPath1)">
     <g
        id="g8196">
       <path

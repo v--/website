@@ -66,6 +66,9 @@ export class OGImageBuildWorker implements IBuildWorker {
             fontFiles: [joinPath(this.config.srcBase, config.fontPath)],
             loadSystemFonts: false,
           },
+          imageRendering: 0, // optimizeQuality
+          textRendering: 2, // optimizeLegibility
+          shapeRendering: 2, // geometricPrecision
         })
 
         const pngBuffer = resvg.render().asPng()

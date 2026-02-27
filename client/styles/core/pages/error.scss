@@ -2,4 +2,8 @@
 
 .error-page {
   text-align: center;
+
+  &-icon {
+    --icon-color: var(--body-color-warning);
+  }
 }

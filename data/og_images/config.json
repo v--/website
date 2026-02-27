@@ -3,50 +3,88 @@
   "images": {
     "home": {
       "en": {
-        "templatePath": "./template_home_en.svg"
+        "templatePath": "./templates/home_en.svg"
       },
       "ru": {
-        "templatePath": "./template_home_ru.svg"
+        "templatePath": "./templates/home_ru.svg"
       }
     },
     "error": {
       "en": {
-        "templatePath": "./template_common_en.svg",
-        "context": {"title": "Error"}
+        "templatePath": "./templates/error_en.svg"
       },
       "ru": {
-        "templatePath": "./template_common_ru.svg",
-        "context": {"title": "Ошибка"}
+        "templatePath": "./templates/error_ru.svg"
       }
     },
     "files": {
       "en": {
-        "templatePath": "./template_common_en.svg",
+        "templatePath": "./templates/title_en.svg",
         "context": {"title": "File server"}
       },
       "ru": {
-        "templatePath": "./template_common_ru.svg",
+        "templatePath": "./templates/title_ru.svg",
         "context": {"title": "Файловый сервер"}
       }
     },
     "pacman": {
       "en": {
-        "templatePath": "./template_common_en.svg",
+        "templatePath": "./templates/title_en.svg",
         "context": {"title": "Pacman repository"}
       },
       "ru": {
-        "templatePath": "./template_common_ru.svg",
+        "templatePath": "./templates/title_ru.svg",
         "context": {"title": "Pacman хранилище"}
       }
     },
     "playground": {
       "en": {
-        "templatePath": "./template_common_en.svg",
+        "templatePath": "./templates/title_en.svg",
         "context": {"title": "Playground"}
       },
       "ru": {
-        "templatePath": "./template_common_ru.svg",
+        "templatePath": "./templates/title_ru.svg",
         "context": {"title": "Мастерская"}
+      }
+    },
+    "array_sorting": {
+      "en": {
+        "templatePath": "./templates/image.svg",
+        "context": {"title": "Array sorting", "image": "data/og_images/images/array_sorting.png"}
+      },
+      "ru": {
+        "templatePath": "./templates/image.svg",
+        "context": {"title": "Сортировка массивов", "image": "data/og_images/images/array_sorting.png"}
+      }
+    },
+    "univariate_interpolation": {
+      "en": {
+        "templatePath": "./templates/image.svg",
+        "context": {"title": "Univariate interpolation", "image": "data/og_images/images/univariate_interpolation.png"}
+      },
+      "ru": {
+        "templatePath": "./templates/image.svg",
+        "context": {"title": "Одномерная интерполяция", "image": "data/og_images/images/univariate_interpolation.png"}
+      }
+    },
+    "breakout": {
+      "en": {
+        "templatePath": "./templates/image.svg",
+        "context": {"title": "Breakout", "image": "data/og_images/images/breakout.png"}
+      },
+      "ru": {
+        "templatePath": "./templates/image.svg",
+        "context": {"title": "Breakout", "image": "data/og_images/images/breakout.png"}
+      }
+    },
+    "fleeing_button": {
+      "en": {
+        "templatePath": "./templates/image.svg",
+        "context": {"title": "Fleeing button", "image": "data/og_images/images/fleeing_button.png"}
+      },
+      "ru": {
+        "templatePath": "./templates/image.svg",
+        "context": {"title": "Убегающая кнопка", "image": "data/og_images/images/fleeing_button.png"}
       }
     }
   }

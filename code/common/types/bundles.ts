@@ -47,6 +47,7 @@ export const OPEN_GRAPH_IMAGE_IDS = [
   'files',
   'pacman',
   'playground',
+  ...PLAYGROUND_PAGE_IDS,
 ] as const
 
 export type OpenGraphImageId = typeof OPEN_GRAPH_IMAGE_IDS[uint32]
