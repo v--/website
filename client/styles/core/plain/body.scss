@@ -10,7 +10,6 @@ body {
   @include colors.common-color-variables;
   @include cursors.common-cursor-variables;
   @include duration.common-duration-variables;
-  @include duration.normal-motion-durations;
   @include fonts.common-font-variables;
   @include misc.common-misc-variables;
   @include sizes.common-size-variables;

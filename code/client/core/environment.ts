@@ -2,7 +2,7 @@ import { getActualColorScheme, isSidebarActuallyCollapsed } from './dom.ts'
 import { ClientLogger } from './logger.ts'
 import { ClientServiceManager } from './services.ts'
 import { type IEnvironmentConfig, WebsiteEnvironment } from '../../common/environment.ts'
-import { Subject } from '../../common/observable.ts'
+import { Subject, first } from '../../common/observable.ts'
 import { type IWebsitePageState } from '../../common/types/page.ts'
 
 export interface IClientEnvironmentConfig extends IEnvironmentConfig {
@@ -32,9 +32,11 @@ export class ClientWebsiteEnvironment extends WebsiteEnvironment {
     await super.preloadPageData(pageState)
 
     // Collapse sidebar on navigation on small and medium screens
-    if (this.#sidebarInitiallyCollapsed) {
+    if (this.#sidebarInitiallyCollapsed && await first(this.sidebarCollapsed$) !== undefined) {
       this.sidebarCollapsed$.next(true)
     }
+
+    this.sidebarTogglePosition$.next(undefined)
   }
 
   override async finalize() {

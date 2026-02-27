@@ -35,7 +35,7 @@ export function playgroundMenu(
         inputClass: 'playground-menu-toggle-control',
         value: expanded$.pipe(takeUntil(env.pageUnload$)),
         content: c.html('button', { class: 'playground-menu-toggle-button' },
-          c.factory(icon, { refId: 'playground_menu', name: 'solid/ellipsis-vertical' }),
+          c.factory(icon, { refId: 'core', name: 'solid/bars' }),
         ),
         update(newValue: boolean) {
           expanded$.next(newValue)

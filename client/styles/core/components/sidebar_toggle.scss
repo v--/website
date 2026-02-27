@@ -1,19 +1,26 @@
 @use "../../sizes";
-@use "../../fonts";
 @use "../../mixins";
 
 .sidebar-toggle {
-  --icon-size-diameter: 1.2em;
+  @include mixins.button-floating;
 
-  position: absolute;
   bottom: 1em;
   left: 1em;
   z-index: var(--body-zindex-f);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  opacity: 0.85;
+  transition-duration: var(--sidebar-toggle-duration);
+  /* stylelint-disable-next-line plugin/no-low-performance-animation-properties */
+  transition-property: left, transform;
 
   @media (min-width: #{calc(sizes.$sidebar-size-threshold-hide + 1px)}) {
+    display: none;
+  }
+
+  &-center {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &-expanded {
     display: none;
   }
 }

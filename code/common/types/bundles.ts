@@ -21,7 +21,6 @@ export const ICON_REF_IDS = [
   'contacts',
   'interactive_table',
   'placeholder',
-  'playground_menu',
   'fleeing_button',
 ] as const
 

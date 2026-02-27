@@ -33,6 +33,15 @@
   --button-color-foreground-normal:   #{$color};
 }
 
+@mixin button-floating() {
+  --icon-size-diameter: 1.2em;
+
+  position: absolute;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  opacity: 0.85;
+}
+
 @mixin notice-colors($color) {
   --notice-color-indicator: #{$color};
   --notice-color-background: color-mix(in srgb, var(--body-color-background), var(--notice-color-indicator) 10%);

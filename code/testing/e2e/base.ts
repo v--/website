@@ -173,11 +173,11 @@ export class BasePage implements IFinalizeable {
     return parseInt(sidebarWidth) < 0
   }
 
-  getSidebarToggleLocator() {
+  getSidebarToggle() {
     return new Button(this, this._pwPage.locator('.sidebar-toggle').first())
   }
 
-  getSidebarCollapseLocator() {
+  getSidebarCollapse() {
     return new Button(this, this.getSidebarLocator().locator('.sidebar-collapse-button').first())
   }
 

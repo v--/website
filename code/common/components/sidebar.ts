@@ -4,32 +4,34 @@ import { type WebsiteEnvironment } from '../environment.ts'
 import { radio } from './radio.ts'
 import { type WebsiteLanguageId } from '../languages.ts'
 import { spacer } from './spacer.ts'
+import { first, map } from '../observable.ts'
 import { createComponent as c } from '../rendering/component.ts'
 import { classlist } from '../support/dom_properties.ts'
-import { type ColorScheme, type SidebarId } from '../types/page.ts'
+import { type SidebarId } from '../types/sidebar.ts'
 
 interface ISidebarState {
   sidebarId?: SidebarId
-  language: WebsiteLanguageId
-  sidebarCollapsed: boolean
-  colorScheme: ColorScheme
 }
 
-export function sidebar({ sidebarId, language, sidebarCollapsed, colorScheme }: ISidebarState, env: WebsiteEnvironment) {
+export function sidebar({ sidebarId }: ISidebarState, env: WebsiteEnvironment) {
   const _ = env.gettext.bindToBundle('core')
-  const rootClasses = classlist(
-    'sidebar',
-    sidebarCollapsed === undefined ? undefined : (sidebarCollapsed ? 'sidebar-collapsed' : 'sidebar-expanded'),
+  const rootClasses$ = env.sidebarCollapsed$.pipe(
+    map(function (sidebarCollapsed) {
+      return classlist(
+        'sidebar',
+        sidebarCollapsed === undefined ? undefined : (sidebarCollapsed ? 'sidebar-collapsed' : 'sidebar-expanded'),
+      )
+    }),
   )
 
-  return c.html('aside', { class: rootClasses },
+  return c.html('aside', { class: rootClasses$ },
     c.html('button',
       {
         class: 'sidebar-collapse-button sidebar-entry',
         disabled: !env.isContentDynamic(),
         title: _('sidebar.button.collapse'),
-        click() {
-          const current = sidebarCollapsed ?? env.isSidebarActuallyCollapsed()
+        async click() {
+          const current = await first(env.sidebarCollapsed$) ?? env.isSidebarActuallyCollapsed()
           env.sidebarCollapsed$.next(!current)
         },
       },
@@ -97,7 +99,7 @@ export function sidebar({ sidebarId, language, sidebarCollapsed, colorScheme }: 
             content: langChoice.label,
             name: 'sidebar-langchange',
             controlValue: langChoice.language,
-            selectedValue: language,
+            selectedValue: env.gettext.language$,
             async update(newValue: WebsiteLanguageId) {
               env.loading$.next(true)
 
@@ -119,9 +121,9 @@ export function sidebar({ sidebarId, language, sidebarCollapsed, colorScheme }: 
         class: 'sidebar-scheme-toggle-button sidebar-entry',
         disabled: !env.isContentDynamic(),
         title: _('sidebar.button.color_scheme'),
-        click() {
-          const realScheme = colorScheme ?? env.getActualColorScheme()
-          env.colorScheme$.next(realScheme === 'light' ? 'dark' : 'light')
+        async click() {
+          const current = await first(env.colorScheme$) ?? env.getActualColorScheme()
+          env.colorScheme$.next(current === 'light' ? 'dark' : 'light')
         },
       },
       c.factory(icon, {

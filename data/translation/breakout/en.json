@@ -18,8 +18,8 @@
       "## Controls",
       "",
       "* Start/pause by clicking/tapping the game stage or by pressing the `${keyControl}` key.",
-      "* Move left via the ![](icon://core/solid/chevron-left) button, the left arrow key or the `${keyLeftSecondary}` key.",
-      "* Move right via the ![](icon://core/solid/chevron-right) button, the right arrow key or the `${keyRightSecondary}` key.",
+      "* Move left via the ![](icon://core/solid/chevron-left) virtual control, the left arrow key or the `${keyLeftSecondary}` key.",
+      "* Move right via the ![](icon://core/solid/chevron-right) virtual control, the right arrow key or the `${keyRightSecondary}` key.",
       "* Toggle debug information via the corresponding checkbox or the `${keyDebug}` key.",
       "* Reset the game via the corresponding button or the `${keyReset}` key.",
       "",
@@ -46,6 +46,11 @@
       "",
       "I have also added a correction to the paddle reflection because, for some odd angles, the elliptical reflection near the ends of the paddle may send the ball towards the bottom."
     ]
+  },
+
+  "control.virtual_controls.label": {
+    "entryKind": "plain",
+    "content": "Virtual controls"
   },
 
   "control.debug.label": {

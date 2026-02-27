@@ -39,6 +39,7 @@ export interface IIncompleteGameState extends IBallState {
 }
 
 export interface IGameState extends IIncompleteGameState {
+  virtualControls: boolean
   debug: boolean
   fps: uint32
 }

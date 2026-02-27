@@ -5,7 +5,6 @@ import { breakoutPaddle } from './breakout_paddle.ts'
 import { breakoutScore } from './breakout_score.ts'
 import { breakoutSplash } from './breakout_splash.ts'
 import { breakoutTrace } from './breakout_trace.ts'
-import { icon } from '../../../common/components/icon.ts'
 import { EMPTY, Observable, bufferLatest, combineLatest, first, map, switchMap, takeUntil, timeInterval } from '../../../common/observable.ts'
 import { createComponent as c } from '../../../common/rendering/component.ts'
 import { classlist } from '../../../common/support/dom_properties.ts'
@@ -28,6 +27,7 @@ import {
 import { evolveBall, evolveBricks, evolvePaddle } from '../evolution.ts'
 import { computeBreakoutTrajectory } from '../geom/trajectory.ts'
 import { type IGameState } from '../types.ts'
+import { breakoutControllerButton } from './breakout_controller_button.ts'
 
 const SVG_VIEW_BOX = [STAGE.getLeftPos(), STAGE.getTopPos(), STAGE.width, STAGE.height].join(' ')
 
@@ -50,6 +50,16 @@ export function breakout({ store }: IBreakoutState, env: ClientWebsiteEnvironmen
     next: function (event) {
       handleKeyUp(getEventParams(store, env, event))
     },
+  })
+
+  store.keyedObservables.virtualControls.subscribe(function (virtualControls) {
+    env.sidebarTogglePosition$.next(virtualControls ? 'center' : 'left')
+  })
+
+  env.sidebarCollapsed$.subscribe(function (_sidebarCollapsed) {
+    if (store.getState('phase') == 'running') {
+      store.setState('phase', 'paused')
+    }
   })
 
   store.keyedObservables.phase.pipe(
@@ -134,24 +144,6 @@ export function breakout({ store }: IBreakoutState, env: ClientWebsiteEnvironmen
   )
 
   return c.html('div', { class: 'breakout-controller' },
-    c.html('button',
-      {
-        class: 'breakout-controller-button',
-        pointerdown(event: MouseEvent) {
-          handleLeftButtonDown(getEventParams(store, env, event))
-        },
-
-        pointerup(event: MouseEvent) {
-          handleLeftButtonUp(getEventParams(store, env, event))
-        },
-      },
-      c.factory(icon, {
-        class: 'breakout-controller-button-icon',
-        refId: 'core',
-        name: 'solid/chevron-left',
-      }),
-    ),
-
     c.svg('svg',
       {
         class: store.keyedObservables.phase.pipe(
@@ -172,9 +164,30 @@ export function breakout({ store }: IBreakoutState, env: ClientWebsiteEnvironmen
       c.factory(breakoutFps, { fps: shownFps$, show: store.keyedObservables.debug }),
     ),
 
-    c.html('button',
+    c.factory(breakoutControllerButton,
       {
-        class: 'breakout-controller-button',
+        store,
+        class: 'breakout-controller-button-left',
+        iconRefId: 'core',
+        iconName: 'solid/chevron-left',
+
+        pointerdown(event: MouseEvent) {
+          handleLeftButtonDown(getEventParams(store, env, event))
+        },
+
+        pointerup(event: MouseEvent) {
+          handleLeftButtonUp(getEventParams(store, env, event))
+        },
+      },
+    ),
+
+    c.factory(breakoutControllerButton,
+      {
+        store,
+        class: 'breakout-controller-button-right',
+        iconRefId: 'core',
+        iconName: 'solid/chevron-right',
+
         pointerdown(event: MouseEvent) {
           handleRightButtonDown(getEventParams(store, env, event))
         },
@@ -183,11 +196,6 @@ export function breakout({ store }: IBreakoutState, env: ClientWebsiteEnvironmen
           handleRightButtonUp(getEventParams(store, env, event))
         },
       },
-      c.factory(icon, {
-        class: 'breakout-controller-button-icon',
-        refId: 'core',
-        name: 'solid/chevron-right',
-      }),
     ),
   )
 }

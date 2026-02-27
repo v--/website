@@ -1,8 +1,8 @@
 @use "../misc";
-@use "./vars";
 @use "./components/breakout";
 @use "./components/breakout_ball";
 @use "./components/breakout_bricks";
+@use "./components/breakout_controller_button";
 @use "./components/breakout_fps";
 @use "./components/breakout_paddle";
 @use "./components/breakout_score";
@@ -10,9 +10,6 @@
 @use "./components/breakout_trace";
 
 .breakout-page {
-  // The usual ratio with two buttons on the sides
-  --spotlight-page-aspect-ratio: calc(#{misc.$spotlight-page-aspect-ratio} * #{calc(100% / (100% - 2 * vars.$breakout-controller-button-ratio))});
-
   // Custom variables
   --breakout-color-background:      var(--body-color-ppp);
   --breakout-color-foreground:      var(--body-color-foreground);

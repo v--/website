@@ -4,8 +4,8 @@ import { type FactoryComponentType } from '../rendering/component.ts'
 import { type UrlPath } from '../support/url_path.ts'
 import { type ITranslationSpec } from '../translation.ts'
 import { type BundleId, type IconRefId, type OpenGraphImageId, type TranslationBundleId } from './bundles.ts'
+import { type SidebarId } from './sidebar.ts'
 
-export type SidebarId = 'home' | 'files' | 'pacman' | 'playground'
 export type ColorScheme = 'light' | 'dark'
 
 export interface IPreloadSpec {

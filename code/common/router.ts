@@ -112,7 +112,7 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
         return {
           ...baseState,
           translationBundleIds: [playgroundId],
-          iconRefIds: includes(ICON_REF_IDS, playgroundId) ? ['playground_menu', playgroundId] : ['playground_menu'],
+          iconRefIds: includes(ICON_REF_IDS, playgroundId) ? [playgroundId] : [],
           page: await env.services.page.retrievePlaygroundPage(playgroundId),
         }
       }

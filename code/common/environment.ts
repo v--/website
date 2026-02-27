@@ -7,12 +7,14 @@ import { GetText } from './translation.ts'
 import { type IconRefId, type TranslationBundleId } from './types/bundles.ts'
 import { type IFinalizeable } from './types/finalizable.ts'
 import { type ColorScheme, type IWebsitePageState } from './types/page.ts'
+import { type SidebarTogglePosition } from './types/sidebar.ts'
 
 export interface IEnvironmentConfig {
   services: IServiceManager
   language: WebsiteLanguageId
   colorScheme?: ColorScheme
   sidebarCollapsed?: boolean
+  sidebarTogglePosition?: SidebarTogglePosition
   loading?: boolean
 }
 
@@ -22,6 +24,7 @@ export abstract class WebsiteEnvironment implements IFinalizeable {
   readonly iconStore: IconStore
   readonly urlPath$ = new Subject<UrlPath>()
   readonly sidebarCollapsed$ = new ReplaySubject<boolean | undefined>()
+  readonly sidebarTogglePosition$ = new ReplaySubject<SidebarTogglePosition | undefined>()
   readonly colorScheme$ = new ReplaySubject<ColorScheme | undefined>()
   readonly loading$ = new ReplaySubject<boolean>()
 
@@ -31,6 +34,7 @@ export abstract class WebsiteEnvironment implements IFinalizeable {
     this.iconStore = new IconStore()
     this.colorScheme$.next(config.colorScheme)
     this.sidebarCollapsed$.next(config.sidebarCollapsed)
+    this.sidebarTogglePosition$.next(config.sidebarTogglePosition)
     this.loading$.next(config.loading ?? false)
   }
 

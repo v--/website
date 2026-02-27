@@ -48,14 +48,16 @@ button {
   }
 }
 
-.button-success {
-  @include mixins.button-background-colors(var(--body-color-success));
-}
+.button {
+  &-success {
+    @include mixins.button-background-colors(var(--body-color-success));
+  }
 
-.button-danger {
-  @include mixins.button-background-colors(var(--body-color-danger));
-}
+  &-danger {
+    @include mixins.button-background-colors(var(--body-color-danger));
+  }
 
-.button-warning {
-  @include mixins.button-background-colors(var(--body-color-warning));
+  &-warning {
+    @include mixins.button-background-colors(var(--body-color-warning));
+  }
 }

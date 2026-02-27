@@ -20,13 +20,13 @@ $sidebar-size-threshold-collapse:  800px;
 $sidebar-size-threshold-hide:      450px;
 
 // Main container dimensions
-// 312px is the width of the Apple Watch. Despite me not caring about watches,
-// it is close enough to mobile phones to be in my viewport testing list.
-$main-size-min-width:  312px;
+// The minimal width and height are set as 312px - 50px.
+// 312px is the width of the Apple Watch, which is possibly the smallest "standard" width.
+// 50px are additionally reserved for padding and scrollbars.
+// Furthermore, 262px magically coincides with my phone's viewport (with toolbars) in landscape mode.
+$main-size-min-width:  262px;
 $main-size-max-width:  900px;
-
-// On the other hand, the minimal width magically differs by 50px from the height of my phone's horizontal Firefox
-$main-size-min-height: 262px;
+$main-size-min-height: #{$main-size-min-width};
 
 // Thresholds for responsive design
 $page-size-width-threshold-dense:  600px;

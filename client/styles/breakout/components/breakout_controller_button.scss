@@ -1,0 +1,29 @@
+@use "../../fonts";
+@use "../../mixins";
+@use "../../sizes";
+
+.breakout-controller-button {
+  --button-size-font: 1.5em;
+
+  @include mixins.button-floating;
+
+  bottom: 1em;
+
+  @container page-scroll-container (max-width: #{sizes.$main-size-min-width}) {
+    &-compact {
+      display: none;
+    }
+  }
+
+  &-left {
+    left: 1em;
+  }
+
+  &-right {
+    right: 1em;
+  }
+
+  &:not(&-enabled) {
+    display: none;
+  }
+}

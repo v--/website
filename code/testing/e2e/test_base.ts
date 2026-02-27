@@ -110,7 +110,7 @@ describe('General website behavior', function () {
 
     it('has its collapse button disabled', async function () {
       await page.goto('/')
-      const button = page.getSidebarCollapseLocator()
+      const button = page.getSidebarCollapse()
       assertTrue(await button.isDisabled())
     })
 
@@ -164,7 +164,7 @@ describe('General website behavior', function () {
       await page.goto('/')
       await page.scaleViewport('Apple Watch')
 
-      const toggle = page.getSidebarToggleLocator()
+      const toggle = page.getSidebarToggle()
       const isToggleVisible = await toggle.isVisible()
       assertFalse(isToggleVisible)
     })
@@ -172,7 +172,7 @@ describe('General website behavior', function () {
     it('has no visible toggle on large screens', async function () {
       await page.goto('/')
 
-      const toggle = page.getSidebarToggleLocator()
+      const toggle = page.getSidebarToggle()
       const isToggleVisible = await toggle.isVisible()
       assertFalse(isToggleVisible)
     })
@@ -227,7 +227,7 @@ describe('General website behavior', function () {
 
       it('has its collapse button enabled', async function () {
         await page.goto('/')
-        const button = page.getSidebarCollapseLocator()
+        const button = page.getSidebarCollapse()
         assertTrue(await button.isEnabled())
       })
 
@@ -249,7 +249,7 @@ describe('General website behavior', function () {
         await page.goto('/')
         await page.scaleViewport('Apple Watch')
 
-        const toggle = page.getSidebarToggleLocator()
+        const toggle = page.getSidebarToggle()
         const isToggleVisible = await toggle.isVisible()
         assertTrue(isToggleVisible)
       })
@@ -257,7 +257,7 @@ describe('General website behavior', function () {
       it('has no visible toggle on large screens', async function () {
         await page.goto('/')
 
-        const toggle = page.getSidebarToggleLocator()
+        const toggle = page.getSidebarToggle()
         const isToggleVisible = await toggle.isVisible()
         assertFalse(isToggleVisible)
       })
@@ -266,7 +266,7 @@ describe('General website behavior', function () {
         await page.goto('/')
         await page.scaleViewport('Apple Watch')
 
-        const toggle = page.getSidebarToggleLocator()
+        const toggle = page.getSidebarToggle()
         await toggle.click()
 
         const isSidebarActuallyCollapsed = await page.isSidebarActuallyCollapsed()
@@ -277,7 +277,7 @@ describe('General website behavior', function () {
         await page.goto('/')
         await page.scaleViewport('Apple Watch')
 
-        const toggle = page.getSidebarToggleLocator()
+        const toggle = page.getSidebarToggle()
         await toggle.click()
 
         const isSidebarActuallyCollapsed = await page.isSidebarActuallyCollapsed()
@@ -288,10 +288,10 @@ describe('General website behavior', function () {
         await page.goto('/')
         await page.scaleViewport('Apple Watch')
 
-        const toggle = page.getSidebarToggleLocator()
+        const toggle = page.getSidebarToggle()
         await toggle.click()
 
-        const button = page.getSidebarCollapseLocator()
+        const button = page.getSidebarCollapse()
         await button.click()
 
         const isSidebarActuallyCollapsed = await page.isSidebarActuallyCollapsed()
@@ -310,7 +310,7 @@ describe('General website behavior', function () {
         await page.goto('/')
         await page.scaleViewport('Full HD')
 
-        const button = page.getSidebarCollapseLocator()
+        const button = page.getSidebarCollapse()
         await button.click()
 
         const isSidebarActuallyCollapsed = await page.isSidebarActuallyCollapsed()
@@ -321,7 +321,7 @@ describe('General website behavior', function () {
         await page.goto('/')
         await page.scaleViewport('Full HD')
 
-        const button = page.getSidebarCollapseLocator()
+        const button = page.getSidebarCollapse()
         await button.click()
         await button.click()
 
@@ -335,7 +335,7 @@ describe('General website behavior', function () {
         await page.goto('/')
         await page.scaleViewport('VGA')
 
-        const button = page.getSidebarCollapseLocator()
+        const button = page.getSidebarCollapse()
         await button.click()
 
         const isSidebarActuallyCollapsed = await page.isSidebarActuallyCollapsed()
@@ -346,11 +346,9 @@ describe('General website behavior', function () {
         await page.goto('/')
         await page.scaleViewport('Full HD')
 
-        const button = page.getSidebarCollapseLocator()
+        const button = page.getSidebarCollapse()
         await button.click()
         await button.click()
-
-        await page.scaleViewport('Full HD')
 
         const isSidebarActuallyCollapsed = await page.isSidebarActuallyCollapsed()
         assertFalse(isSidebarActuallyCollapsed)
@@ -369,7 +367,7 @@ describe('General website behavior', function () {
         await page.goto('/')
         await page.scaleViewport('VGA')
 
-        const button = page.getSidebarCollapseLocator()
+        const button = page.getSidebarCollapse()
         await button.click()
         await button.click()
 
@@ -392,7 +390,7 @@ describe('General website behavior', function () {
         await page.goto('/')
         await page.scaleViewport('Full HD')
 
-        const button = page.getSidebarCollapseLocator()
+        const button = page.getSidebarCollapse()
         await button.click()
         await button.click()
 
