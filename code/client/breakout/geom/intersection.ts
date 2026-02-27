@@ -1,4 +1,4 @@
-import { type BreakoutBrick } from './brick.ts'
+import { BreakoutBrick } from './brick.ts'
 import { STAGE } from '../constants.ts'
 import { BreakoutPaddle } from './paddle.ts'
 import { BreakoutStage } from './stage.ts'
@@ -32,6 +32,10 @@ export function findClosestIntersection(ballSource: Vec2D, ballDirection: IPlain
 
 export function isIntersectionFatal(int: IBreakoutIntersection): boolean {
   return int.figure instanceof BreakoutStage && isGeq(int.newCenter.y, STAGE.getBottomPos())
+}
+
+export function isIntersectionWinning(int: IBreakoutIntersection, bricks: BreakoutBrick[]): boolean {
+  return bricks.length === 1 && int.figure instanceof BreakoutBrick
 }
 
 export function computeBallIntersectionWithFigure(ballSource: Vec2D, ballDirection: IPlainVec2D, figure: IBreakoutIntersectible, geomFigure: IIntersectible): IBreakoutIntersection | undefined {

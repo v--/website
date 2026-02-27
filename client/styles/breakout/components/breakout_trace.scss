@@ -1,20 +1,24 @@
 .breakout-trace {
   &-edges {
     fill: none;
-    stroke: var(--breakout-color-ray);
+    stroke: var(--breakout-color-trace);
     stroke-width: var(--breakout-size-ray-width);
     stroke-linecap: round;
   }
 
   &-ghost {
-    fill: var(--breakout-color-ray);
+    fill: var(--breakout-color-trace);
+
+    &-winning {
+      fill: var(--breakout-color-trace-winning);
+    }
 
     &-fatal {
-      fill: var(--breakout-color-ray-fatal);
+      fill: var(--breakout-color-trace-fatal);
     }
   }
 
   &-paddle, &-brick {
-    fill: var(--breakout-color-ray-ext);
+    fill: var(--breakout-color-trace-extension);
   }
 }

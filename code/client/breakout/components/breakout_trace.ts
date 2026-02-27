@@ -2,8 +2,8 @@ import { type Vec2D } from '../../../common/math/geom2d.ts'
 import { createComponent as c } from '../../../common/rendering/component.ts'
 import { classlist } from '../../../common/support/dom_properties.ts'
 import { BALL_RADIUS, PADDLE_HEIGHT, PADDLE_WIDTH, STAGE } from '../constants.ts'
-import { type BreakoutBrick } from '../geom/brick.ts'
-import { isIntersectionFatal } from '../geom/intersection.ts'
+import { BreakoutBrick } from '../geom/brick.ts'
+import { isIntersectionFatal, isIntersectionWinning } from '../geom/intersection.ts'
 import { type BreakoutPaddle } from '../geom/paddle.ts'
 import { type IBreakoutTrajectory } from '../geom/trajectory.ts'
 
@@ -43,7 +43,11 @@ export function breakoutTrace({ debug, ballCenter, trajectory, paddle, bricks }:
     }),
     ...trajectory.tail.map(int => {
       return c.svg('circle', {
-        class: classlist('breakout-trace-ghost', isIntersectionFatal(int) && 'breakout-trace-ghost-fatal'),
+        class: classlist(
+          'breakout-trace-ghost',
+          isIntersectionFatal(int) && 'breakout-trace-ghost-fatal',
+          isIntersectionWinning(int, bricks) && 'breakout-trace-ghost-winning',
+        ),
         cx: String(int.newCenter.x),
         cy: String(int.newCenter.y),
         r: BALL_RADIUS,

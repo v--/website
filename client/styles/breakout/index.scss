@@ -14,21 +14,22 @@
   --spotlight-page-aspect-ratio: calc(#{misc.$spotlight-page-aspect-ratio} * #{calc(100% / (100% - 2 * vars.$breakout-controller-button-ratio))});
 
   // Custom variables
-  --breakout-color-background: var(--body-color-ppp);
-  --breakout-color-foreground: var(--body-color-foreground);
-  --breakout-color-brick-p1:   var(--body-color-rainbow-yellow);
-  --breakout-color-brick-p2:   var(--body-color-rainbow-orange);
-  --breakout-color-brick-p3:   var(--body-color-rainbow-red);
-  --breakout-color-paddle:     var(--body-color-mf);
-  --breakout-color-ball:       var(--body-color-ff);
-  --breakout-color-text:       var(--breakout-color-foreground);
-  --breakout-color-stroke:     color-mix(in srgb, var(--breakout-color-background), var(--breakout-color-foreground) 25%);
-  --breakout-color-ray:        var(--body-color-p);
-  --breakout-color-ray-ext:    var(--body-color-pp);
-  --breakout-color-ray-fatal:  var(--body-color-rainbow-red);
-  --breakout-size-text-stroke: var(--body-size-ppp);
+  --breakout-color-background:      var(--body-color-ppp);
+  --breakout-color-foreground:      var(--body-color-foreground);
+  --breakout-color-brick-p1:        var(--body-color-rainbow-yellow);
+  --breakout-color-brick-p2:        var(--body-color-rainbow-orange);
+  --breakout-color-brick-p3:        var(--body-color-rainbow-red);
+  --breakout-color-paddle:          var(--body-color-mf);
+  --breakout-color-ball:            var(--body-color-ff);
+  --breakout-color-text:            var(--breakout-color-foreground);
+  --breakout-color-stroke:          color-mix(in srgb, var(--breakout-color-background), var(--breakout-color-foreground) 25%);
+  --breakout-color-trace:           var(--body-color-p);
+  --breakout-color-trace-extension: var(--body-color-pp);
+  --breakout-color-trace-winning:   var(--body-color-success);
+  --breakout-color-trace-fatal:     var(--body-color-danger);
+  --breakout-size-text-stroke:      var(--body-size-ppp);
   --breakout-size-font-splash-message: 12%;
-  --breakout-size-font-splash-hint: 7%;
+  --breakout-size-font-splash-hint:    7%;
   --breakout-size-font-score: 5%;
   --breakout-size-font-fps:   5%;
   --breakout-size-ray-width:  0.5%;
