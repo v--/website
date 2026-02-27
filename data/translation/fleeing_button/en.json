@@ -11,7 +11,7 @@
       "",
       "A button that tries to flee from the mouse cursor. Only mouse input is supported, obviously.",
       "",
-      "Developed in 2020 as a joke in the style of [bad UIs](${badUiUrl}).",
+      "Developed in 2020 as a joke in the style of [bad user interfaces](${badUiUrl}).",
       "",
       "The code can be found [on GitHub](${githubPageUrl}).",
       "",
