@@ -3,6 +3,9 @@ import { HttpServer } from './http/server.ts'
 
 const server = new HttpServer(await readConfig())
 
+// node started generating diagnostic reports on SIGUSR2 at some point.
+// The website already used SIGUSR2 for several years at that point.
+process.report.reportOnSignal = false
 process.on('SIGUSR2', function () {
   server.logger.info('Received signal SIGUSR2. Reloading server.')
 
