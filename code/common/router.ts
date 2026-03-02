@@ -7,10 +7,9 @@ import { placeholder } from './pages/placeholder.ts'
 import { playgroundPage } from './pages/playground.ts'
 import { EncodedErrorDecoder } from './presentable_errors/decoder.ts'
 import { type IEncodedError, PresentableError } from './presentable_errors.ts'
-import { includes } from './support/iteration.ts'
 import { snakeToKebabCase } from './support/strings.ts'
 import { type UrlPath } from './support/url_path.ts'
-import { ICON_REF_IDS, PLAYGROUND_PAGE_IDS } from './types/bundles.ts'
+import { PLAYGROUND_PAGE_IDS } from './types/bundles.ts'
 import { type IWebsitePageState } from './types/page.ts'
 
 export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise<IWebsitePageState> {
@@ -20,7 +19,6 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
       descriptionSpec: { bundleId: 'core', key: 'description.home' },
       bundleId: 'core',
       sidebarId: 'home',
-      iconRefIds: ['contacts'],
       translationBundleIds: ['home'],
       ogImageName: 'home',
       page: homePage,
@@ -42,7 +40,6 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
       descriptionSpec: { bundleId: 'core', key: 'description.files' },
       bundleId: 'core',
       sidebarId: 'files',
-      iconRefIds: ['interactive_table'],
       translationBundleIds: ['files'],
       ogImageName: 'files',
       page: filesPage,
@@ -92,7 +89,7 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
 
   for (const playgroundId of PLAYGROUND_PAGE_IDS) {
     if (urlPath.path.matchFull('playground', snakeToKebabCase(playgroundId))) {
-      const baseState: Omit<IWebsitePageState, 'translationBundleIds' | 'iconRefIds' | 'page'> = {
+      const baseState: Omit<IWebsitePageState, 'translationBundleIds' | 'page'> = {
         titleSegmentSpecs: [
           { bundleId: playgroundId, key: 'page_title' },
           { bundleId: 'core', key: 'playground_title_suffix' },
@@ -111,7 +108,6 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
         return {
           ...baseState,
           translationBundleIds: [playgroundId],
-          iconRefIds: includes(ICON_REF_IDS, playgroundId) ? [playgroundId] : [],
           page: await env.services.page.retrievePlaygroundPage(playgroundId),
         }
       }
@@ -119,7 +115,6 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
       return {
         ...baseState,
         translationBundleIds: ['placeholder'],
-        iconRefIds: ['placeholder'],
         page: placeholder,
       }
     }

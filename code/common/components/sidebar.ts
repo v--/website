@@ -36,7 +36,7 @@ export function sidebar({ sidebarId }: ISidebarState, env: WebsiteEnvironment) {
         },
       },
       c.factory(icon, {
-        refId: 'core',
+        libId: 'core',
         name: 'solid/chevron-right',
         class: 'sidebar-entry-icon icon-capital-align',
       }),
@@ -87,7 +87,7 @@ export function sidebar({ sidebarId }: ISidebarState, env: WebsiteEnvironment) {
       c.html('div', { class: 'sidebar-langchange-icon-wrapper' },
         c.factory(icon, {
           class: 'sidebar-entry-icon icon-capital-align sidebar-langchange-info-icon',
-          refId: 'core',
+          libId: 'core',
           name: 'solid/language',
         }),
       ),
@@ -127,7 +127,7 @@ export function sidebar({ sidebarId }: ISidebarState, env: WebsiteEnvironment) {
         },
       },
       c.factory(icon, {
-        refId: 'core',
+        libId: 'core',
         name: 'solid/lightbulb',
         class: 'sidebar-entry-icon icon-capital-align',
       }),
@@ -164,7 +164,7 @@ function sidebarNavigationEntry({ active, text, icon: iconName, href }: IEntrySt
       ariaCurrent: active ? 'page' : 'false',
       title: text,
     },
-    c.factory(icon, { refId: 'core', name: iconName, class: 'sidebar-entry-icon icon-capital-align' }),
+    c.factory(icon, { libId: 'core', name: iconName, class: 'sidebar-entry-icon icon-capital-align' }),
     c.factory(spacer, { direction: 'horizontal', dynamics: 'pp' }),
     c.html('span', { class: 'sidebar-entry-collapsible-content', text }),
   )

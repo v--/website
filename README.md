@@ -4,7 +4,7 @@ This is the code for my personal website, https://ivasilev.net
 
 For learning purposes, I have made it my goal to only rely on external dependencies for development (and not for the runtime), so I have implemented a lot from scratch. I hope some of it may be useful as a simple yet working reference unburdened by the feature creep of large libraries and frameworks. Some highlights are listed in the following sections. Think of the kind of code you see in "build your own X" tutorials.
 
-The code is licensed under the [Unlicense](https://unlicense.org/), and whatever other content I have here is licensed under [CC0](https://creativecommons.org/public-domain/cc0/) (except for [Font Awesome](https://fontawesome.com/) and the [STIX fonts](https://www.stixfonts.org/) referenced as submodules and the [PT Sans](https://www.paratype.com/fonts/pt/pt-sans) font downloaded in [`./data/og_images`](./data/og_images)).
+The code is licensed under the [Unlicense](https://unlicense.org/), and whatever other content I have here is licensed under [CC0](https://creativecommons.org/public-domain/cc0/) (except for [Font Awesome](https://fontawesome.com/) and the [STIX fonts](https://www.stixfonts.org/) referenced as submodules).
 
 After running the website for 12 years, with occasional bursts of development, in 2025 I decided to do a large refactoring and publish the code on GitHub. On that occasion I wrote module overviews in the README files of some directories (perhaps a single "docs" directory would have been better?). For example, [`./code`](./code) and [`./styles`](./client/styles) contain an overview of some tools used, while the directories listed in the next section feature code that may be of interest elsewhere.
 

@@ -34,19 +34,17 @@ The [style worker](./workers/styles.ts) uses [Dart Sass](https://sass-lang.com/d
 
 ### SVG
 
-There are [SVG rendering](./workers/svg_render.ts) and [SVG optimization](./workers/svg_opt.ts) workers for, unsurprisingly, SVG files.
+There is an [SVG rendering](./workers/svg_render.ts) worker.
+
+### Icon libraries
+
+In order to build SVG libraries with reusable `<symbol>` tags for icons, the [IconLibrary worker](./workers/svg_libraries.ts) relies on a directory of JSON files, [`../../data/icon_library`](../../data/icon_library). Each of the files is a list of [FontAwesome](https://fontawesome.com/) icon names.
 
 ### Open graph images
 
 There is a [generator](./workers/og_images.ts) for [Open Graph protocol](https://ogp.me/) images.
 
 We take an SVG image with a `${title}` string and replace that string with internationalized text based on the `config.json` file in [`../../data/og_images`](../../data/og_images) (consult the README file there for some details). The resulting SVG is then rendered to PNG via the [resvg-js](https://github.com/thx/resvg-js) library.
-
-### Icon references
-
-In order to build [`IIconSpec`](../common/icon_store/types.ts) objects, the [IconRef worker](./workers/icon_refs.ts) relies on a directory of JSON files, [`../../data/icon_ref`](../../data/icon_ref). Each of the files is a list of [FontAwesome](https://fontawesome.com/) icon names. The icon builder extracts the `viewBox` and `path` specification for each icon and dumps them in the format used by the website.
-
-Icon references are discussed in [`../common/icon_store`](../common/icon_store).
 
 ### Translation maps
 

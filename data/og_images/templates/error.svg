@@ -3,8 +3,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
   <use href="../svg_libraries/background.svg#background" />
   <use href="../../../client/assets/svg_libraries/logo.svg#logo-in-circle" x="1120" y="550" width="50" height="50" />
-  <image href="${image}" x="225" y="30" width="750" height="500" />
-  <text x="600" y="575" text-anchor="middle" dominant-baseline="mathematical" font-size="50" fill="#fff" font-family="PT Sans">
-    ${title}
+  <use href="../../../public/svg_libraries/core.svg#solid/triangle-exclamation" x="450" y="115" width="300" height="262.5" fill="#ffc107" />
+  <text x="600" y="480" text-anchor="middle" font-size="80" fill="#fff" font-family="PT Sans">
+    ${text}
   </text>
 </svg>

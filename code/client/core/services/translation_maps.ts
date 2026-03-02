@@ -30,7 +30,7 @@ export class ClientTranslationMapCache extends ManualCache<ITranslationMapLabel,
 }
 
 /**
- * A wrapper around /api/icons with manual caching.
+ * A wrapper around /api/translation with manual caching.
  *
  * Either we start with rehydrated data and make no network requests,
  * or we only make one and cache it.

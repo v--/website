@@ -17,9 +17,6 @@ export const SERVICE_CONFIG_SCHEMA = Schema.object({
     mockDBPath: Schema.string,
     realDBPath: Schema.string,
   }),
-  icons: Schema.object({
-    root: Schema.string,
-  }),
   translation: Schema.object({
     root: Schema.string,
   }),

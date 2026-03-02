@@ -5,7 +5,7 @@ import { anchor } from './anchor.ts'
 import { icon } from './icon.ts'
 import { includes } from '../support/iteration.ts'
 import { repr } from '../support/strings.ts'
-import { ICON_REF_IDS } from '../types/bundles.ts'
+import { ICON_LIBRARY_IDS } from '../types/bundles.ts'
 
 export class RichTextComponentError extends CoolError {}
 
@@ -139,7 +139,7 @@ class ComponentCreationVisitor extends RichTextVisitor<Component> {
   }
 
   override visitImageEntry(entry: IRichTextEntry & { kind: 'image' }) {
-    const match = entry.href === undefined ? null : entry.href.match('icon://(?<refId>\\w+)/(?<name>[\\w/-]+)')
+    const match = entry.href === undefined ? null : entry.href.match('icon://(?<libId>\\w+)/(?<name>[\\w/-]+)')
 
     if (match === null || !match.groups) {
       return c.html(
@@ -149,11 +149,11 @@ class ComponentCreationVisitor extends RichTextVisitor<Component> {
       )
     }
 
-    if (!includes(ICON_REF_IDS, match.groups.refId)) {
-      throw new IntegrityError(`Invalid icon ref id ${match.groups.refId}`)
+    if (!includes(ICON_LIBRARY_IDS, match.groups.libId)) {
+      throw new IntegrityError(`Invalid icon ref id ${match.groups.libId}`)
     }
 
-    return c.factory(icon, { refId: match.groups.refId, name: match.groups.name })
+    return c.factory(icon, { libId: match.groups.libId, name: match.groups.name })
   }
 
   override visitTableEntry(entry: IRichTextEntry & { kind: 'table' }) {

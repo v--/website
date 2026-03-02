@@ -9,7 +9,7 @@ import { includes } from '../common/support/iteration.ts'
 import { quoteString } from '../common/support/strings.ts'
 import { type UrlPath } from '../common/support/url_path.ts'
 import { type ITranslationSpec } from '../common/translation.ts'
-import { ICON_REF_IDS, TRANSLATION_BUNDLE_IDS } from '../common/types/bundles.ts'
+import { TRANSLATION_BUNDLE_IDS } from '../common/types/bundles.ts'
 
 async function errorJsonResponse(env: ServerWebsiteEnvironment, encoded: IEncodedError) {
   const decoder = new EncodedErrorDecoder(encoded)
@@ -37,15 +37,6 @@ export async function serverRouter(urlPath: UrlPath, env: ServerWebsiteEnvironme
       } else {
         throw err
       }
-    }
-  }
-
-  if (urlPath.path.matchPrefix('api', 'icons') && urlPath.path.segments.length === 3) {
-    const refId = urlPath.path.getBaseName()
-
-    if (includes(ICON_REF_IDS, refId)) {
-      const iconMap = await env.services.iconRefs.getIconRef(refId)
-      return ServerResponse.json(iconMap)
     }
   }
 

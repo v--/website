@@ -75,7 +75,7 @@ export function homePage(pageState: IWebsitePageState, env: WebsiteEnvironment) 
       c.html('div', undefined,
         c.html('div', { class: 'home-page-contacts-entry' },
           c.factory(anchor, { href: EMAIL_URL },
-            c.factory(icon, { refId: 'contacts', name: 'solid/envelope' }),
+            c.factory(icon, { libId: 'contacts', name: 'solid/envelope' }),
             c.factory(spacer, { direction: 'horizontal', dynamics: 'p' }),
             c.html('span', { text: 'Email' }),
           ),
@@ -83,7 +83,7 @@ export function homePage(pageState: IWebsitePageState, env: WebsiteEnvironment) 
 
         c.html('div', { class: 'home-page-contacts-entry' },
           c.factory(anchor, { href: TELEGRAM_URL },
-            c.factory(icon, { refId: 'contacts', name: 'brands/telegram' }),
+            c.factory(icon, { libId: 'contacts', name: 'brands/telegram' }),
             c.factory(spacer, { direction: 'horizontal', dynamics: 'p' }),
             c.html('span', { text: 'Telegram' }),
           ),
@@ -91,7 +91,7 @@ export function homePage(pageState: IWebsitePageState, env: WebsiteEnvironment) 
 
         c.html('div', { class: 'home-page-contacts-entry' },
           c.factory(anchor, { href: MASTODON_URL, rel: 'me' },
-            c.factory(icon, { refId: 'contacts', name: 'brands/mastodon' }),
+            c.factory(icon, { libId: 'contacts', name: 'brands/mastodon' }),
             c.factory(spacer, { direction: 'horizontal', dynamics: 'p' }),
             c.html('span', { text: 'Mastodon' }),
           ),
@@ -99,7 +99,7 @@ export function homePage(pageState: IWebsitePageState, env: WebsiteEnvironment) 
 
         c.html('div', { class: 'home-page-contacts-entry' },
           c.factory(anchor, { href: GITHUB_USER_URL },
-            c.factory(icon, { refId: 'contacts', name: 'brands/github' }),
+            c.factory(icon, { libId: 'contacts', name: 'brands/github' }),
             c.factory(spacer, { direction: 'horizontal', dynamics: 'p' }),
             c.html('span', { text: 'GitHub' }),
           ),

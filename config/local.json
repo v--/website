@@ -12,9 +12,6 @@
       "mockDBPath": "./mocks/ivasilev.db",
       "realDBPath": "./mocks/ivasilev.db"
     },
-    "icons": {
-      "root": "./private/icon_ref"
-    },
     "translation": {
       "root": "./private/translation"
     }

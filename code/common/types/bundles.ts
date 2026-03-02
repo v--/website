@@ -16,7 +16,8 @@ export const BUNDLE_IDS = [
 
 export type BundleId = typeof BUNDLE_IDS[uint32]
 
-export const ICON_REF_IDS = [
+export const ICON_LIBRARY_IDS = [
+  'logo',
   'core',
   'contacts',
   'interactive_table',
@@ -24,7 +25,7 @@ export const ICON_REF_IDS = [
   'fleeing_button',
 ] as const
 
-export type IconRefId = typeof ICON_REF_IDS[uint32]
+export type IconLibraryId = typeof ICON_LIBRARY_IDS[uint32]
 
 export const TRANSLATION_BUNDLE_IDS = [
   'core',

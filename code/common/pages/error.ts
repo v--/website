@@ -15,7 +15,7 @@ export function errorPage(pageState: IWebsitePageState<IEncodedError>, env: Webs
 
   return c.html('main', { class: 'error-page' },
     c.factory(icon, {
-      refId: 'core',
+      libId: 'core',
       name: 'solid/triangle-exclamation',
       class: 'icon-huge error-page-icon',
     }),

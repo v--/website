@@ -112,7 +112,7 @@ function mapColumnSpec<T>(
         isInternal: true,
         href: config.getUpdatedPath(nextSortParams),
       },
-      c.factory(icon, { refId: 'interactive_table', name: getSvgIconFromDirection(direction) }),
+      c.factory(icon, { libId: 'interactive_table', name: getSvgIconFromDirection(direction) }),
       c.factory(spacer, { direction: 'horizontal', dynamics: 'pp' }),
       columnSpec.label && c.html('span', { text: env.gettext.plain$(columnSpec.label) }),
     ),

@@ -1,5 +1,4 @@
 {
-  "fontPath": "pt-sans_regular.ttf",
   "images": {
     "home": {
       "en": {
@@ -11,10 +10,12 @@
     },
     "error": {
       "en": {
-        "templatePath": "./templates/error_en.svg"
+        "templatePath": "./templates/error.svg",
+        "context": {"text": "An error occurred"}
       },
       "ru": {
-        "templatePath": "./templates/error_ru.svg"
+        "templatePath": "./templates/error.svg",
+        "context": {"text": "Произошла ошибка"}
       }
     },
     "files": {
@@ -50,41 +51,41 @@
     "array_sorting": {
       "en": {
         "templatePath": "./templates/image.svg",
-        "context": {"title": "Array sorting", "image": "data/og_images/images/array_sorting.png"}
+        "context": {"title": "Array sorting", "image": "../images/array_sorting.png"}
       },
       "ru": {
         "templatePath": "./templates/image.svg",
-        "context": {"title": "Сортировка массивов", "image": "data/og_images/images/array_sorting.png"}
+        "context": {"title": "Сортировка массивов", "image": "../images/array_sorting.png"}
       }
     },
     "univariate_interpolation": {
       "en": {
         "templatePath": "./templates/image.svg",
-        "context": {"title": "Univariate interpolation", "image": "data/og_images/images/univariate_interpolation.png"}
+        "context": {"title": "Univariate interpolation", "image": "../images/univariate_interpolation.png"}
       },
       "ru": {
         "templatePath": "./templates/image.svg",
-        "context": {"title": "Одномерная интерполяция", "image": "data/og_images/images/univariate_interpolation.png"}
+        "context": {"title": "Одномерная интерполяция", "image": "../images/univariate_interpolation.png"}
       }
     },
     "breakout": {
       "en": {
         "templatePath": "./templates/image.svg",
-        "context": {"title": "Breakout", "image": "data/og_images/images/breakout.png"}
+        "context": {"title": "Breakout", "image": "../images/breakout.png"}
       },
       "ru": {
         "templatePath": "./templates/image.svg",
-        "context": {"title": "Breakout", "image": "data/og_images/images/breakout.png"}
+        "context": {"title": "Breakout", "image": "../images/breakout.png"}
       }
     },
     "fleeing_button": {
       "en": {
         "templatePath": "./templates/image.svg",
-        "context": {"title": "Fleeing button", "image": "data/og_images/images/fleeing_button.png"}
+        "context": {"title": "Fleeing button", "image": "../images/fleeing_button.png"}
       },
       "ru": {
         "templatePath": "./templates/image.svg",
-        "context": {"title": "Убегающая кнопка", "image": "data/og_images/images/fleeing_button.png"}
+        "context": {"title": "Убегающая кнопка", "image": "../images/fleeing_button.png"}
       }
     }
   }

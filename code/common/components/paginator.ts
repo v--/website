@@ -28,7 +28,7 @@ function* iterPaginators(pageCount: uint32, currentPage: uint32, getUpdatedPath:
       isInternal: true,
     },
     c.factory(icon, {
-      refId: 'core',
+      libId: 'core',
       name: 'solid/chevron-left',
     }),
   )
@@ -58,7 +58,7 @@ function* iterPaginators(pageCount: uint32, currentPage: uint32, getUpdatedPath:
       isInternal: true,
     },
     c.factory(icon, {
-      refId: 'core',
+      libId: 'core',
       name: 'solid/chevron-right',
     }),
   )

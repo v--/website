@@ -5,7 +5,6 @@ export {
   type IDirectory,
   type IFileService,
 } from './services/files.ts'
-export { type IIconRefService } from './services/icon_refs.ts'
 export { type IServiceManager } from './services/manager.ts'
 export {
   type IPacmanPackage,

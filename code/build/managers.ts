@@ -3,12 +3,11 @@ import { type ParsedPath } from 'node:path'
 import { type BrowserSyncInstance } from 'browser-sync'
 
 import { BuildManager } from './build_manager.ts'
-import { AssetIBuildWorker } from './workers/assets.ts'
+import { AssetBuildWorker } from './workers/assets.ts'
 import { CodeBuildWorker } from './workers/code.ts'
-import { IconRefBuildWorker } from './workers/icon_refs.ts'
+import { IconLibraryBuildWorker } from './workers/icon_libraries.ts'
 import { OGImageBuildWorker } from './workers/og_image.ts'
 import { StyleBuildWorker } from './workers/style.ts'
-import { SvgOptBuildWorker } from './workers/svg_opt.ts'
 import { SvgRenderBuildWorker } from './workers/svg_render.ts'
 import { type LoggerLevel } from '../common/logger.ts'
 import { TranslationMapBuildWorker } from './workers/translation_maps.ts'
@@ -48,16 +47,16 @@ function* iterBuildManagers({ loggerLevel, sourceMaps, sync, prod }: GetBuildMan
   })
 
   yield new BuildManager({
-    builder: new SvgRenderBuildWorker({ srcBase: 'client/svg', destBase: 'public/images' }),
-    paths: ['client/svg/favicon.svg'],
+    builder: new SvgRenderBuildWorker({ srcBase: 'client/assets/images', destBase: 'public/images' }),
+    paths: ['client/assets/images/favicon.svg'],
     ext: ['.svg'],
     loggerLevel, sync,
   })
 
   yield new BuildManager({
-    builder: new SvgOptBuildWorker({ srcBase: 'client/svg', destBase: 'public/images' }),
-    paths: ['client/svg'],
-    ext: ['.svg'],
+    builder: new IconLibraryBuildWorker({ srcBase: 'data/icon_libraries', destBase: 'public/svg_libraries' }),
+    paths: ['data/icon_libraries'],
+    ext: ['.json'],
     loggerLevel, sync,
   })
 
@@ -70,15 +69,8 @@ function* iterBuildManagers({ loggerLevel, sourceMaps, sync, prod }: GetBuildMan
   }
 
   yield new BuildManager({
-    builder: new AssetIBuildWorker({ srcBase: 'client/assets', destBase: 'public' }),
+    builder: new AssetBuildWorker({ srcBase: 'client/assets', destBase: 'public' }),
     paths: ['client/assets'],
-    loggerLevel, sync,
-  })
-
-  yield new BuildManager({
-    builder: new IconRefBuildWorker({ srcBase: 'data/icon_ref', destBase: 'private/icon_ref' }),
-    paths: ['data/icon_ref'],
-    ext: ['.json'],
     loggerLevel, sync,
   })
 

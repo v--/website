@@ -31,7 +31,7 @@ export function sidebarToggle(_state: unknown, env: WebsiteEnvironment) {
       },
     },
     c.factory(icon, {
-      refId: 'core',
+      libId: 'core',
       name: 'solid/bars',
     }),
   )

@@ -12,9 +12,6 @@
       "mockDBPath": "./mocks/ivasilev.db",
       "realDBPath": "/srv/http/pacman/x86_64/ivasilev.db"
     },
-    "icons": {
-      "root": "./private/icon_ref"
-    },
     "translation": {
       "root": "./private/translation"
     }

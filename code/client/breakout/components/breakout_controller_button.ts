@@ -3,7 +3,7 @@ import { combineLatest, map } from '../../../common/observable.ts'
 import { createComponent as c } from '../../../common/rendering/component.ts'
 import { classlist } from '../../../common/support/dom_properties.ts'
 import { StateStore } from '../../../common/support/state_store.ts'
-import { type IconRefId } from '../../../common/types/bundles.ts'
+import { type IconLibraryId } from '../../../common/types/bundles.ts'
 import { type Action } from '../../../common/types/typecons.ts'
 import { type ClientWebsiteEnvironment } from '../../core/environment.ts'
 import { type IGameState } from '../types.ts'
@@ -11,7 +11,7 @@ import { type IGameState } from '../types.ts'
 interface IBreakoutControllerButtonState {
   store: StateStore<IGameState>
   class: string
-  iconRefId: IconRefId
+  iconLibraryId: IconLibraryId
   iconName: string
   pointerdown: Action<MouseEvent>
   pointerup: Action<MouseEvent>
@@ -21,7 +21,7 @@ export function breakoutControllerButton(
   {
     store,
     class: cssClass,
-    iconRefId,
+    iconLibraryId,
     iconName,
     pointerdown,
     pointerup,
@@ -48,7 +48,7 @@ export function breakoutControllerButton(
     },
     c.factory(icon, {
       class: 'breakout-controller-button-icon',
-      refId: iconRefId,
+      libId: iconLibraryId,
       name: iconName,
     }),
   )

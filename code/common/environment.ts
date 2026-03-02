@@ -1,10 +1,9 @@
-import { IconStore } from './icon_store.ts'
 import { type WebsiteLanguageId } from './languages.ts'
 import { ReplaySubject, Subject } from './observable.ts'
 import { type IServiceManager } from './services.ts'
 import { type UrlPath } from './support/url_path.ts'
 import { GetText } from './translation.ts'
-import { type IconRefId, type TranslationBundleId } from './types/bundles.ts'
+import { type TranslationBundleId } from './types/bundles.ts'
 import { type IFinalizeable } from './types/finalizable.ts'
 import { type ColorScheme, type IWebsitePageState } from './types/page.ts'
 import { type SidebarTogglePosition } from './types/sidebar.ts'
@@ -21,7 +20,6 @@ export interface IEnvironmentConfig {
 export abstract class WebsiteEnvironment implements IFinalizeable {
   readonly services: IServiceManager
   readonly gettext: GetText
-  readonly iconStore: IconStore
   readonly urlPath$ = new Subject<UrlPath>()
   readonly sidebarCollapsed$ = new ReplaySubject<boolean | undefined>()
   readonly sidebarTogglePosition$ = new ReplaySubject<SidebarTogglePosition | undefined>()
@@ -31,7 +29,6 @@ export abstract class WebsiteEnvironment implements IFinalizeable {
   constructor(config: IEnvironmentConfig) {
     this.services = config.services
     this.gettext = new GetText(config.language)
-    this.iconStore = new IconStore()
     this.colorScheme$.next(config.colorScheme)
     this.sidebarCollapsed$.next(config.sidebarCollapsed)
     this.sidebarTogglePosition$.next(config.sidebarTogglePosition)
@@ -48,12 +45,6 @@ export abstract class WebsiteEnvironment implements IFinalizeable {
     this.gettext.updatePackage(pkg)
   }
 
-  async preloadIconRefPackage(iconRefIds: IconRefId[]) {
-    const extended = iconRefIds.includes('core') ? iconRefIds : ['core' as const, ...iconRefIds]
-    const pkg = await this.services.iconRefs.getIconRefPackage(extended)
-    this.iconStore.updatePackage(pkg)
-  }
-
   async preloadPageData(pageState: IWebsitePageState) {
     const currentLanguage = this.gettext.getCurrentLanguage()
     const bundleIds = new Set(pageState.translationBundleIds)
@@ -65,7 +56,6 @@ export abstract class WebsiteEnvironment implements IFinalizeable {
     bundleIds.add(pageState.descriptionSpec.bundleId)
 
     await this.preloadTranslationPackage(currentLanguage, Array.from(bundleIds))
-    await this.preloadIconRefPackage(pageState.iconRefIds ?? [])
   }
 
   // We cannot afford to update _language$ directly without first fetching the translations.
@@ -81,7 +71,6 @@ export abstract class WebsiteEnvironment implements IFinalizeable {
 
   async finalize() {
     await this.gettext.finalize()
-    await this.iconStore.finalize()
     this.urlPath$.complete()
     this.sidebarCollapsed$.complete()
     this.colorScheme$.complete()

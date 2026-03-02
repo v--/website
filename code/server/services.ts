@@ -1,5 +1,4 @@
 export { ServerFileService } from './services/files.ts'
-export { ServerIconRefService } from './services/icon_refs.ts'
 export { type IServerServiceManager, ServerServiceManagerFactory } from './services/manager.ts'
 export { ServerPacmanService } from './services/pacman.ts'
 export { ServerPageService } from './services/pages.ts'

@@ -168,7 +168,7 @@ export function breakout({ store }: IBreakoutState, env: ClientWebsiteEnvironmen
       {
         store,
         class: 'breakout-controller-button-left',
-        iconRefId: 'core',
+        iconLibraryId: 'core',
         iconName: 'solid/chevron-left',
 
         pointerdown(event: MouseEvent) {
@@ -185,7 +185,7 @@ export function breakout({ store }: IBreakoutState, env: ClientWebsiteEnvironmen
       {
         store,
         class: 'breakout-controller-button-right',
-        iconRefId: 'core',
+        iconLibraryId: 'core',
         iconName: 'solid/chevron-right',
 
         pointerdown(event: MouseEvent) {

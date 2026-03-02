@@ -1,5 +1,4 @@
 import { ClientFileService } from './files.ts'
-import { ClientIconService } from './icon_refs.ts'
 import { ClientPacmanService } from './pacman.ts'
 import { ClientPageService } from './pages.ts'
 import { ClientTranslationMapService } from './translation_maps.ts'
@@ -17,7 +16,6 @@ export class ClientServiceManager implements IServiceManager {
   readonly files: ClientFileService
   readonly pacman: ClientPacmanService
   readonly page: ClientPageService
-  readonly iconRefs: ClientIconService
   readonly translationMaps: ClientTranslationMapService
 
   static initializeWithRawRehydrationData(rawPageData: string | undefined): ClientServiceManager {
@@ -50,7 +48,6 @@ export class ClientServiceManager implements IServiceManager {
       rehydrationData?.pageData?.tag === 'pacman' ? rehydrationData.pageData.content : undefined,
     )
 
-    this.iconRefs = new ClientIconService(rehydrationData?.iconRefPackage)
     this.translationMaps = new ClientTranslationMapService(rehydrationData?.translationPackage)
     this.page = new ClientPageService()
 
@@ -74,7 +71,6 @@ export class ClientServiceManager implements IServiceManager {
   async finalize() {
     await this.files.finalize()
     await this.pacman.finalize()
-    await this.iconRefs.finalize()
     await this.page.finalize()
   }
 }

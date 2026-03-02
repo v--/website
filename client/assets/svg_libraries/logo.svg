@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<svg xmlns="http://www.w3.org/2000/svg">
+  <symbol id="logo" viewBox="0 0 96 96">
+    <path d="M 43.5,12 c -6,0 -19,2.62 -19,16 0,12.14 14.3,17.5 14.3,17.5 L 17,84 H 35 L 54,46 h 6 V 84 H 75 V 12 Z M 60,17 V 40.1 H 54 C 47.47,39.56 39.6,37.09 39.8,28 39.8,18.74 49.55,16.98 56,17 Z" />
+  </symbol>
+
+  <symbol id="logo-in-circle" viewBox="0 0 96 96">
+    <circle r="48" cx="48" cy="48" fill="#fff" />
+    <use href="#logo" x="10%" width="80%" fill="#2a92ea" />
+  </symbol>
+</svg>

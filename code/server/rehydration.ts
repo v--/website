@@ -4,7 +4,6 @@ import { type IRehydrationData } from '../common/types/rehydration.ts'
 
 export async function encodeRehydrationData(pageState: IWebsitePageState, env: ServerWebsiteEnvironment): Promise<IRehydrationData> {
   const rehydrationData: IRehydrationData = {
-    iconRefPackage: env.iconStore.getCurrentPackage(),
     translationPackage: env.gettext.getCurrentPackage(),
   }
 

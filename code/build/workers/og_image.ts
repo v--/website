@@ -1,8 +1,6 @@
 import { readFile } from 'node:fs/promises'
 import { dirname, join as joinPath, relative } from 'node:path'
 
-import { Resvg } from '@resvg/resvg-js'
-
 import { WEBSITE_LANGUAGE_IDS, type WebsiteLanguageId } from '../../common/languages.ts'
 import { SUBSTITUTION_CONTEXT_SCHEMA, substitutePlain } from '../../common/rich.ts'
 import { getObjectEntries } from '../../common/support/iteration.ts'
@@ -11,6 +9,7 @@ import { Schema } from '../../common/validation.ts'
 import { readJsonWithSchema } from '../../server/validation.ts'
 import { type IBuildContext, type IBuildWorker } from '../build_worker.ts'
 import { BuildError } from '../errors.ts'
+import { renderSvg } from '../svg.ts'
 
 export class OGImageBuildError extends BuildError {}
 
@@ -20,7 +19,6 @@ export interface IOGImageBuildWorkerConfig {
 }
 
 const PREVIEW_GENERATION_SOURCE_SCHEMA = Schema.object({
-  fontPath: Schema.string,
   images: Schema.record(
     Schema.literal(...OPEN_GRAPH_IMAGE_IDS),
     Schema.record(
@@ -54,24 +52,10 @@ export class OGImageBuildWorker implements IBuildWorker {
 
     for (const [name, images] of getObjectEntries(config.images)) {
       for (const [lang, { templatePath, context }] of getObjectEntries(images)) {
-        const template = await readFile(
-          joinPath(this.config.srcBase, templatePath),
-          'utf-8',
-        )
-
+        const fullTemplatePath = joinPath(this.config.srcBase, templatePath)
+        const template = await readFile(fullTemplatePath, 'utf-8')
         const svgString = context ? substitutePlain(template, context) : template
-
-        const resvg = new Resvg(svgString, {
-          font: {
-            fontFiles: [joinPath(this.config.srcBase, config.fontPath)],
-            loadSystemFonts: false,
-          },
-          imageRendering: 0, // optimizeQuality
-          textRendering: 2, // optimizeLegibility
-          shapeRendering: 2, // geometricPrecision
-        })
-
-        const pngBuffer = resvg.render().asPng()
+        const pngBuffer = await renderSvg(Buffer.from(svgString, 'utf-8'), dirname(fullTemplatePath))
 
         yield {
           src,

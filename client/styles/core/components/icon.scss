@@ -7,6 +7,7 @@ $intrinsic-icon-padding-ratio: 0.9;
 .icon {
   vertical-align: baseline;
   height: var(--icon-size-diameter);
+  aspect-ratio: 1;
   margin-bottom: calc((1ex - #{$intrinsic-icon-padding-ratio} * var(--icon-size-diameter)) / 2);
   padding-inline: var(--icon-size-padding);
   fill: var(--icon-color);

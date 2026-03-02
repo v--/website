@@ -3,15 +3,15 @@ import { join as joinPath, relative } from 'node:path'
 
 import { type IBuildContext, type IBuildWorker } from '../build_worker.ts'
 
-interface IAssetIBuildWorkerConfig {
+interface IAssetBuildWorkerConfig {
   srcBase: string
   destBase: string
 }
 
-export class AssetIBuildWorker implements IBuildWorker {
-  readonly config: IAssetIBuildWorkerConfig
+export class AssetBuildWorker implements IBuildWorker {
+  readonly config: IAssetBuildWorkerConfig
 
-  constructor(config: IAssetIBuildWorkerConfig) {
+  constructor(config: IAssetBuildWorkerConfig) {
     this.config = config
   }
 
