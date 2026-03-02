@@ -25,7 +25,6 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
       ogImageName: 'home',
       page: homePage,
       pageData: undefined,
-      preload: [{ contentType: 'image', href: '/images/home_page_photo.jpg' }],
       urlPath,
       canonicalUrlPath: urlPath.clearQueryString(),
     }

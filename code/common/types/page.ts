@@ -8,13 +8,6 @@ import { type SidebarId } from './sidebar.ts'
 
 export type ColorScheme = 'light' | 'dark'
 
-export interface IPreloadSpec {
-  href: string
-  // Taken from
-  // https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/rel/preload#what_types_of_content_can_be_preloaded
-  contentType: 'fetch' | 'font' | 'image' | 'script' | 'style' | 'track'
-}
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type DefaultPageData = any
 
@@ -32,7 +25,6 @@ export interface IWebsitePageState<T = DefaultPageData> {
   pageData: T
   pageDataHydrationTag?: PageDataHydrationTag
 
-  preload?: IPreloadSpec[]
   urlPath: UrlPath
   canonicalUrlPath?: UrlPath
 }

@@ -17,7 +17,6 @@ interface IRootState {
 }
 
 export function root({ pageState, rehydrationData }: IRootState, env: WebsiteEnvironment) {
-  const preloaded = pageState.preload?.map(({ href, contentType }) => c.html('link', { rel: 'preload', as: contentType, href })) ?? DEFAULT_PREFETCHED
   const canonicalLanguage$ = env.gettext.language$.pipe(
     map(lang => bcp47Encode(lang)),
   )
@@ -37,7 +36,6 @@ export function root({ pageState, rehydrationData }: IRootState, env: WebsiteEnv
       c.html('noscript', undefined,
         c.html('style', { text: '.require-javascript { display: none; } body { --noscript-multiplier: 1; }' }),
       ),
-      ...preloaded,
     ),
 
     c.factory(body, pageState),
