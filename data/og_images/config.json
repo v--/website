@@ -21,11 +21,11 @@
     "files": {
       "en": {
         "templatePath": "./templates/title_en.svg",
-        "context": {"title": "File server"}
+        "context": {"title": "File explorer"}
       },
       "ru": {
         "templatePath": "./templates/title_ru.svg",
-        "context": {"title": "Файловый сервер"}
+        "context": {"title": "Файловый навигатор"}
       }
     },
     "pacman": {

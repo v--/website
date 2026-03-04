@@ -4,9 +4,9 @@ import { type FactoryComponentType } from '../rendering/component.ts'
 import { type UrlPath } from '../support/url_path.ts'
 import { type ITranslationSpec } from '../translation.ts'
 import { type BundleId, type OpenGraphImageId, type TranslationBundleId } from './bundles.ts'
-import { type SidebarId } from './sidebar.ts'
 
 export type ColorScheme = 'light' | 'dark'
+export type NavigationId = 'home' | 'files' | 'pacman' | 'playground'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type DefaultPageData = any
@@ -17,7 +17,7 @@ export interface IWebsitePageState<T = DefaultPageData> {
 
   bundleId: BundleId
   translationBundleIds?: TranslationBundleId[]
-  sidebarId?: SidebarId
+  navId?: NavigationId
   ogImageName: OpenGraphImageId
 
   page: WebsitePage<T>

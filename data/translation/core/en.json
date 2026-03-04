@@ -9,37 +9,32 @@
     "content": "Playground"
   },
 
-  "sidebar.button.expand": {
+  "main_menu.button.close_menu": {
     "entryKind": "plain",
-    "content": "Expand sidebar"
+    "content": "Close menu"
   },
 
-  "sidebar.button.collapse": {
-    "entryKind": "plain",
-    "content": "Collapse sidebar"
-  },
-
-  "sidebar.button.color_scheme": {
+  "main_menu.button.color_scheme": {
     "entryKind": "plain",
     "content": "Toggle colors"
   },
 
-  "sidebar.page.home": {
+  "main_menu.page.home": {
     "entryKind": "plain",
     "content": "Home page"
   },
 
-  "sidebar.page.files": {
+  "main_menu.page.files": {
     "entryKind": "plain",
-    "content": "File server"
+    "content": "File explorer"
   },
 
-  "sidebar.page.pacman": {
+  "main_menu.page.pacman": {
     "entryKind": "plain",
     "content": "Pacman repo"
   },
 
-  "sidebar.page.playground": {
+  "main_menu.page.playground": {
     "entryKind": "plain",
     "content": "Playground"
   },

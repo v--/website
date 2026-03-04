@@ -1,3 +1,4 @@
+@use "../../colors";
 @use "../../sizes";
 @use "../../mixins";
 
@@ -6,10 +7,9 @@
   flex-direction: column;
   align-items: center;
   overflow-y: auto;
-  width: 100%;
-  max-width: unset;
-  height: 100dvh;
-  padding-inline: 0;
+  max-width: none; // Override the default main max-width since we want the scrollbar to be global
+  height: 100%;
+  padding: 0;
   overscroll-behavior-y: contain;
   scrollbar-gutter: stable;
 
@@ -17,35 +17,38 @@
     display: flex;
     flex-direction: column;
     justify-self: center;
-    box-sizing: border-box;
-    width: 100%;
-    max-width: var(--spotlight-page-head-max-width);
-    max-height: 100%;
-    padding-inline: var(--main-size-hpadding);
+    max-height: var(--main-size-max-height);
+    padding-top: var(--main-size-vpadding);
+  }
+
+  &-head, &-bridge {
+    width: var(--main-size-max-width);
+    max-width: var(--spotlight-size-head-max-width);
+  }
+
+  &-bridge {
+    --divider-border-style: var(--spotlight-divider-style);
+    --divider-color: var(--spotlight-color-divider);
+    --divider-size: var(--spotlight-size-divider);
+    --divider-size-margin: 0;
+
+    background: var(--spotlight-color-background);
   }
 
   &-aspect-ratio-box-wrapper {
     min-height: 0;
-    aspect-ratio: var(--spotlight-page-aspect-ratio);
+    aspect-ratio: var(--spotlight-size-aspect-ratio);
   }
 
   &-aspect-ratio-box {
-    height: 100%;
-    aspect-ratio: var(--spotlight-page-aspect-ratio);
-    margin: 0 auto;
-  }
-
-  &-bridge {
-    box-sizing: border-box;
-    width: 100%;
-    max-width: var(--spotlight-page-head-max-width);
-    padding-inline: var(--main-size-hpadding);
+    max-height: 100%;
+    aspect-ratio: var(--spotlight-size-aspect-ratio);
+    margin-inline: auto;
   }
 
   &-body {
-    box-sizing: border-box;
-    width: 100%;
-    max-width: var(--main-size-max-width);
-    padding-inline: var(--main-size-hpadding);
+    width: var(--main-size-max-width);
+    max-width: sizes.$root-size-max-content-width;
+    padding-bottom: var(--main-size-vpadding);
   }
 }

@@ -106,7 +106,7 @@ function mapColumnSpec<T>(
     class: columnSpec.class,
     id: columnSpec.id,
     headerAria: getHeaderAria(sortStatus),
-    header: c.factory(
+    header: () => c.factory(
       anchor,
       {
         isInternal: true,

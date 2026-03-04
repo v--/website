@@ -1,19 +1,17 @@
 import { type WebsiteLanguageId } from './languages.ts'
-import { ReplaySubject, Subject } from './observable.ts'
+import { ReplaySubject, Subject, first } from './observable.ts'
 import { type IServiceManager } from './services.ts'
 import { type UrlPath } from './support/url_path.ts'
 import { GetText } from './translation.ts'
 import { type TranslationBundleId } from './types/bundles.ts'
 import { type IFinalizeable } from './types/finalizable.ts'
 import { type ColorScheme, type IWebsitePageState } from './types/page.ts'
-import { type SidebarTogglePosition } from './types/sidebar.ts'
 
 export interface IEnvironmentConfig {
   services: IServiceManager
   language: WebsiteLanguageId
   colorScheme?: ColorScheme
   sidebarCollapsed?: boolean
-  sidebarTogglePosition?: SidebarTogglePosition
   loading?: boolean
 }
 
@@ -22,7 +20,6 @@ export abstract class WebsiteEnvironment implements IFinalizeable {
   readonly gettext: GetText
   readonly urlPath$ = new Subject<UrlPath>()
   readonly sidebarCollapsed$ = new ReplaySubject<boolean | undefined>()
-  readonly sidebarTogglePosition$ = new ReplaySubject<SidebarTogglePosition | undefined>()
   readonly colorScheme$ = new ReplaySubject<ColorScheme | undefined>()
   readonly loading$ = new ReplaySubject<boolean>()
 
@@ -31,12 +28,10 @@ export abstract class WebsiteEnvironment implements IFinalizeable {
     this.gettext = new GetText(config.language)
     this.colorScheme$.next(config.colorScheme)
     this.sidebarCollapsed$.next(config.sidebarCollapsed)
-    this.sidebarTogglePosition$.next(config.sidebarTogglePosition)
     this.loading$.next(config.loading ?? false)
   }
 
   abstract getActualColorScheme(): ColorScheme
-  abstract isSidebarActuallyCollapsed(): boolean
   abstract isContentDynamic(): boolean
 
   async preloadTranslationPackage(lang: WebsiteLanguageId, bundleIds: TranslationBundleId[]) {
@@ -56,6 +51,11 @@ export abstract class WebsiteEnvironment implements IFinalizeable {
     bundleIds.add(pageState.descriptionSpec.bundleId)
 
     await this.preloadTranslationPackage(currentLanguage, Array.from(bundleIds))
+  }
+
+  async toggleColorScheme() {
+    const current = await first(this.colorScheme$) ?? this.getActualColorScheme()
+    this.colorScheme$.next(current === 'light' ? 'dark' : 'light')
   }
 
   // We cannot afford to update _language$ directly without first fetching the translations.

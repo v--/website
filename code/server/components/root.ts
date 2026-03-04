@@ -4,12 +4,10 @@ import { WEBSITE_CANONICAL_URL } from '../../common/constants/url.ts'
 import { type WebsiteEnvironment } from '../../common/environment.ts'
 import { bcp47Encode } from '../../common/languages.ts'
 import { map } from '../../common/observable.ts'
-import { Component, createComponent as c } from '../../common/rendering/component.ts'
+import { createComponent as c } from '../../common/rendering/component.ts'
 import { type IWebsitePageState } from '../../common/types/page.ts'
 import { type IRehydrationData } from '../../common/types/rehydration.ts'
 import { ROOT_TAG_PREFIX, iterMetaTags } from '../meta.ts'
-
-const DEFAULT_PREFETCHED: Component[] = []
 
 interface IRootState {
   pageState: IWebsitePageState
@@ -34,7 +32,7 @@ export function root({ pageState, rehydrationData }: IRootState, env: WebsiteEnv
       c.html('script', { type: 'module', src: '/code/client/core/index.js', defer: true }),
       // This "JavaScript-only" hack is based on https://stackoverflow.com/a/431554/2756776
       c.html('noscript', undefined,
-        c.html('style', { text: '.require-javascript { display: none; } body { --noscript-multiplier: 1; }' }),
+        c.html('style', { text: '.require-javascript { display: none; }' }),
       ),
     ),
 

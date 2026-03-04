@@ -1,0 +1,22 @@
+@use "../../fonts";
+@use "../../mixins";
+@use "../../sizes";
+
+.breakout-controller-button {
+  --button-size-font: 1.5em;
+  --icon-size-diameter: 1.2em;
+
+  position: absolute;
+  bottom: var(--main-size-vpadding);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  opacity: 0.85;
+
+  &:not(&-enabled) {
+    display: none;
+  }
+}
+
+.breakout-controller-button-wrapper-right {
+  direction: rtl;
+}

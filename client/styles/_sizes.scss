@@ -1,53 +1,47 @@
 /* stylelint-disable custom-property-empty-line-before */
 /* stylelint-disable order/order */
+@use 'sass:math';
+
+// Main sizes
+$root-size-max-content-width:         850px;
+$root-size-sidebar-min-width:         225px; // This minimal width should also be maximal for Helvetica-compatible fonts
+$root-size-boundary-collapsed-width:  1150px;
+$root-size-boundary-collapsed-height: 450px;
+$root-size-boundary-dense-width:      600px;
+$root-size-boundary-dense-height:     $root-size-boundary-collapsed-height;
+$root-size-boundary-very-dense-width: 400px;
+
 // Base typography
 $root-size-base-font: 15px;
 $root-size-base-line: 1.7;
 
 // Main container sparse padding
-$main-size-hpadding-sparse: 3rem;
-$main-size-vpadding-sparse: 1.4rem;
+$main-size-hpadding-sparse: math.div($root-size-boundary-collapsed-width - $root-size-max-content-width - $root-size-sidebar-min-width, 2);
+$main-size-vpadding-sparse: 20px;
 
 // Main container dense padding
-$main-size-hpadding-dense: 1.5rem;
-$main-size-vpadding-dense: 0.8rem;
+$main-size-hpadding-dense: 30px;
+$main-size-hpadding-very-dense: 20px;
+$main-size-vpadding-dense: 15px;
 
-// Sidebar
-$sidebar-size-max-width-expanded:  300px;
-$sidebar-size-max-width-collapsed: 50px;
-$sidebar-size-icon-diameter:       20px;
-$sidebar-size-threshold-collapse:  800px;
-$sidebar-size-threshold-hide:      450px;
-
-// Main container dimensions
-// The minimal width and height are set as 312px - 50px.
-// 312px is the width of the Apple Watch, which is possibly the smallest "standard" width.
-// 50px are additionally reserved for padding and scrollbars.
-// Furthermore, 262px magically coincides with my phone's viewport (with toolbars) in landscape mode.
-$main-size-min-width:  262px;
-$main-size-max-width:  900px;
-$main-size-min-height: #{$main-size-min-width};
-
-// Thresholds for responsive design
-$page-size-width-threshold-dense:  600px;
-$page-size-height-threshold-dense: 500px;
+// Main menu
+$compact-navbar-size-extent: 50px;
+$main-menu-size-button-vpadding: 0.8em;
+$main-menu-size-button-gap: 1.5em;
 
 // Icons
 $icon-size-diameter-huge-loose: 15em;
-$icon-size-diameter-huge-dense: #{calc($icon-size-diameter-huge-loose / 2)};
-$icon-size-padding-huge: 1.5em;
-
-// Misc
-$base-size-outline-offset: -2px;
-$spotlight-page-head-max-width: 850px; // Because of proportional scaling, the spotlight content is different from the usual page width limitation.
+$icon-size-diameter-huge-dense: 10em;
+$icon-size-padding-huge-loose: 1em;
+$icon-size-padding-huge-dense: 0.8em;
 
 @mixin common-size-variables {
   // Base sizes
   --body-size-font:      1rem;
 
-  --body-size-border-thin:   1px;
-  --body-size-border-normal: 2px;
-  --body-size-border-thick:  3px;
+  --body-size-border-thin:    1px;
+  --body-size-border-normal:  2px;
+  --body-size-border-thick:   3px;
 
   // Sizes based on musical dynamics
   --body-size-ppp: 0.1em;
@@ -62,22 +56,35 @@ $spotlight-page-head-max-width: 850px; // Because of proportional scaling, the s
   // Main
   --main-size-hpadding: #{$main-size-hpadding-sparse};
   --main-size-vpadding: #{$main-size-vpadding-sparse};
-  --main-size-min-width: #{$main-size-min-width};
-  --main-size-max-width: #{$main-size-max-width};
-  --main-size-min-height: #{$main-size-min-height};
 
-  // Loading indicator
-  --loading-size-height: 3px;
+  // Spotlight
+  --spotlight-size-head-max-width: 750px;
+  --spotlight-size-divider: 2px;
+  --spotlight-size-shadow-radius: 5px;
+  --spotlight-size-drawer-border-radius: 5px;
+  --spotlight-size-drawer-width: 200px;
+
+  // Dialogs
+  --dialog-size-shadow-radius: 5px;
 
   // Buttons
   --button-size-font: var(--body-size-font);
   --button-size-hpadding: 1.3em;
   --button-size-vpadding: 0.3em;
   --button-size-outline-offset: -2px;
+  --button-size-icon-diameter: 1.3em;
+  --button-size-gap: 1.2em;
+  --button-size-width: auto;
+
+  // Anchor
+  --anchor-size-icon-diameter: 1em;
+  --anchor-size-gap: 0.8em;
 
   // Controls
   --control-size-label-hpadding: var(--button-size-hpadding);
   --control-size-label-vpadding: var(--button-size-vpadding);
+  --control-size-gap: var(--body-size-mp);
+  --control-size-width: auto;
 
   // Fields
   --field-size-border:  var(--body-size-border-normal);
@@ -86,7 +93,8 @@ $spotlight-page-head-max-width: 850px; // Because of proportional scaling, the s
 
   // Icons
   --icon-size-diameter: 1.4ex;
-  --icon-size-padding:  0.1em;
+  --icon-size-hpadding: 0.1em;
+  --icon-size-vpadding: 0.1em;
 
   // Lists
   --list-item-padding-left:       1.75em;
@@ -106,7 +114,8 @@ $spotlight-page-head-max-width: 850px; // Because of proportional scaling, the s
   --table-size-border: var(--body-size-border-thin);
 
   // Dividers
-  --divider-size: var(--body-size-border-thin);
+  --divider-size-margin: 0.5em;
+  --divider-size: 0.25em;
 
   // Typography
   --heading-h1-size-font: 3rem;
@@ -134,9 +143,6 @@ $spotlight-page-head-max-width: 850px; // Because of proportional scaling, the s
   @for $i from 4 through 6 {
     --heading-h#{$i}-size-margin-bottom: 1em;
   }
-
-  // Spotlight pages
-  --spotlight-page-head-max-width: #{$spotlight-page-head-max-width};
 }
 
 @mixin dense-size-variables {
@@ -145,4 +151,8 @@ $spotlight-page-head-max-width: 850px; // Because of proportional scaling, the s
   --heading-h1-size-font: 2.5rem;
   --heading-h2-size-font: 1.8rem;
   --heading-h3-size-font: 1.3rem;
+}
+
+@mixin very-dense-size-variables {
+  --main-size-hpadding: #{$main-size-hpadding-very-dense};
 }

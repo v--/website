@@ -2,6 +2,7 @@ import { MissingElementError } from './errors.ts'
 import { type WebsiteLanguageId, parseSupportedLanguageString } from '../../../common/languages.ts'
 import { repr } from '../../../common/support/strings.ts'
 import { UrlPath } from '../../../common/support/url_path.ts'
+import { type ColorScheme } from '../../../common/types/page.ts'
 
 export function aggressiveQuerySelector(element: Element, query: string) {
   const result = element.querySelector(query)
@@ -25,15 +26,11 @@ export function parsePreferredLanguage(): WebsiteLanguageId | undefined {
   return undefined
 }
 
-export function isSidebarActuallyCollapsed() {
-  // We cannot infer this from the rendered state because, unless we have clicked "Collapse sidebar" at least once,
-  // sidebar expansion is controlled by CSS.
-  const sidebarWidth = aggressiveQuerySelector(document.body, '.sidebar').clientWidth
-  const collapsibleContentWidth = (aggressiveQuerySelector(document.body, '.sidebar-entry-collapsible-content') as HTMLElement).offsetWidth
-  return sidebarWidth < collapsibleContentWidth
+export function isLayoutCollapsed() {
+  return window.getComputedStyle(document.body).getPropertyValue('--layout-collapsed') === 'true'
 }
 
-export function getActualColorScheme() {
+export function getActualColorScheme(): ColorScheme {
   return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
 }
 

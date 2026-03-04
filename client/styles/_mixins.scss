@@ -22,58 +22,20 @@
 }
 
 @mixin button-background-colors($color) {
-  --button-color-background-normal: #{$color};
-  --button-color-background-accented: color-mix(in srgb, var(--button-color-background-normal), var(--body-color-foreground) 10%);
+  --button-color-background-normal:   #{$color};
   --button-color-background-disabled: var(--body-color-disabled);
+  --button-color-background-accented: color-mix(in srgb, #{$color}, var(--body-color-foreground) 10%);
 }
 
 @mixin button-foreground-colors($color) {
-  --button-color-foreground-accented: var(--button-color-foreground-normal);
-  --button-color-foreground-disabled: color-mix(in srgb, var(--button-color-foreground-normal), var(--body-color-disabled) 25%);
   --button-color-foreground-normal:   #{$color};
-}
-
-@mixin button-floating() {
-  --icon-size-diameter: 1.2em;
-
-  position: absolute;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  opacity: 0.85;
+  --button-color-foreground-accented: #{$color};
+  --button-color-foreground-disabled: color-mix(in srgb, #{$color}, var(--body-color-disabled) 25%);
 }
 
 @mixin notice-colors($color) {
   --notice-color-indicator: #{$color};
   --notice-color-background: color-mix(in srgb, var(--body-color-background), var(--notice-color-indicator) 10%);
-}
-
-@mixin radio-control-restyle($background, $foreground, $accented) {
-  width: 0.9em;
-  height: 0.9em;
-  border: 0.2em solid $background;
-  border-radius: 50%;
-  background-color: $background;
-  appearance: none;
-
-  @media (hover: hover) {
-    &:hover {
-      border-color: $accented;
-      background-color: $accented;
-    }
-  }
-
-  &:checked {
-    background-color: transparent;
-  }
-
-  &[disabled], fieldset[disabled] & {
-    border-color: var(--control-color-input-disabled);
-    background-color: var(--control-color-input-disabled);
-
-    &:checked {
-      background-color: transparent;
-    }
-  }
 }
 
 @mixin inline-ellipsis {

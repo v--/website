@@ -1,0 +1,87 @@
+@use "../../fonts";
+@use "../../sizes";
+
+.compact-navbar {
+  z-index: var(--body-zindex-ff); // Needed because of the box shadow
+  display: flex;
+  justify-content: space-between;
+
+  @media (orientation: landscape) {
+    flex-direction: column;
+    width: #{sizes.$compact-navbar-size-extent};
+    height: 100%;
+
+    &-button {
+      flex-shrink: 0;
+      justify-content: center;
+      aspect-ratio: 1;
+      padding-inline: var(--button-size-vpadding);
+    }
+  }
+
+  @media (orientation: portrait) {
+    flex-direction: row;
+    width: 100%;
+    height: #{sizes.$compact-navbar-size-extent};
+    box-shadow: 0 0 var(--dialog-size-shadow-radius) var(--dialog-color-backdrop-shadow);
+  }
+
+  &-dialog {
+    width: min-content;
+    min-width: sizes.$root-size-sidebar-min-width;
+    height: 100%;
+    max-height: 100%;
+    margin-left: 0;
+    padding: 0;
+    background-color: var(--main-menu-color-background);
+
+    &[open] {
+      box-shadow: 0 0 var(--dialog-size-shadow-radius) var(--dialog-color-backdrop-shadow);
+
+      @media (prefers-reduced-motion: no-preference) {
+        & {
+          animation: compact-navbar-dialog-fade-in var(--dialog-duration-open) forwards;
+        }
+      }
+
+      &::backdrop {
+        background-color: var(--dialog-color-backdrop);
+        opacity: var(--backdrop-opacity);
+
+        @media (prefers-reduced-motion: no-preference) {
+          & {
+            animation: compact-navbar-dialog-backdrop-fade-in var(--dialog-duration-open) forwards;
+          }
+        }
+      }
+    }
+
+    &-form {
+      --divider-size-margin: 0;
+
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      box-sizing: border-box;
+      height: 100%;
+      translate: 0 0;
+    }
+
+    &-close-button {
+      --button-size-vpadding: #{sizes.$main-menu-size-button-vpadding};
+      --button-size-gap: #{sizes.$main-menu-size-button-gap};
+
+      @include fonts.accented-font;
+    }
+  }
+}
+
+@keyframes compact-navbar-dialog-fade-in {
+  from { translate: -100% 0; }
+  to { translate: 0 0; }
+}
+
+@keyframes compact-navbar-dialog-backdrop-fade-in {
+  from { opacity: 0; }
+  to { opacity: var(--backdrop-opacity); }
+}

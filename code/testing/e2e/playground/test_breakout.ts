@@ -54,39 +54,46 @@ describe('Breakout page', function () {
       }
     })
 
-    describe('menu', function () {
+    describe('playground menu', function () {
       it('is expanded on a large screen', async function () {
         await page.scaleViewport('Full HD')
         await page.goto('/playground/breakout')
-        await waitForStableState(page.getMenuRestLocator())
-        assertTrue(await page.isMenuExpanded())
+        const inlineMenu = page.getInlineMenuLocator()
+        assertTrue(await inlineMenu.isVisible())
       })
 
       it('is collapsed on a medium screen', async function () {
         await page.scaleViewport('VGA')
         await page.goto('/playground/breakout')
-        await waitForStableState(page.getMenuRestLocator())
-        assertFalse(await page.isMenuExpanded())
+
+        const inlineMenu = page.getInlineMenuLocator()
+        assertFalse(await inlineMenu.isVisible())
+
+        const drawer = page.getDrawerMenu()
+        assertFalse(await drawer.isVisible())
       })
 
       it('can expand on a medium screen by clicking the menu toggle', async function () {
         await page.scaleViewport('VGA')
         await page.goto('/playground/breakout')
+
         const toggle = page.getMenuToggleButton()
         await toggle.click()
-        await waitForStableState(page.getMenuRestLocator())
-        assertTrue(await page.isMenuExpanded())
+
+        const drawer = page.getDrawerMenu()
+        assertTrue(await drawer.isVisible())
       })
 
       it('can collapse by clicking the menu toggle twice', async function () {
         await page.scaleViewport('VGA')
         await page.goto('/playground/breakout')
+
         const toggle = page.getMenuToggleButton()
         await toggle.click()
-        await waitForStableState(page.getMenuRestLocator())
         await toggle.click()
-        await waitForStableState(page.getMenuRestLocator())
-        assertFalse(await page.isMenuExpanded())
+
+        const drawer = page.getDrawerMenu()
+        assertFalse(await drawer.isVisible())
       })
     })
 

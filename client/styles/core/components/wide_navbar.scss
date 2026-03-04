@@ -1,0 +1,23 @@
+@use "../../sizes";
+
+.wide-navbar {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: min-content;
+  min-width: sizes.$root-size-sidebar-min-width;
+
+  &-logo-box {
+    --icon-color: var(--main-menu-color-foreground);
+    --icon-size-diameter: 2em;
+    --icon-size-vpadding: var(--button-size-icon-diameter);
+
+    display: flex;
+    justify-content: center;
+    background-color: var(--main-menu-color-divider);
+  }
+
+  &-form {
+    height: 100%;
+  }
+}

@@ -6,8 +6,9 @@
 @use "components/loading_indicator";
 @use "components/paginator";
 @use "components/playground_menu";
-@use "components/sidebar";
-@use "components/sidebar_toggle";
+@use "components/wide_navbar";
+@use "components/compact_navbar";
+@use "components/main_menu";
 @use "components/spacer";
 @use "components/spotlight_page";
 @use "components/vertical_table";
@@ -21,11 +22,13 @@
 @use "plain/button";
 @use "plain/code";
 @use "plain/control";
+@use "plain/dialog";
 @use "plain/field";
 @use "plain/heading";
+@use "plain/hr";
 @use "plain/list";
 @use "plain/math";
-@use "plain/misc";
+@use "plain/menu";
 @use "plain/notice";
 @use "plain/table";
 

@@ -69,6 +69,10 @@ export class BasePage implements IFinalizeable {
     await this._pwPage.screenshot({ path, fullPage: true })
   }
 
+  async press(key: string) {
+    await this._pwPage.keyboard.press(key)
+  }
+
   async getTitle() {
     // This turns out to be less flaky than _pwPage.title()
     const locator = this._pwPage.locator('title')
@@ -103,12 +107,8 @@ export class BasePage implements IFinalizeable {
     await this.getLoadingIndicatorLocator().waitFor({ state: 'hidden' })
   }
 
-  getSidebarLocator() {
-    return this._pwPage.locator('.sidebar').first()
-  }
-
-  hasSidebar() {
-    return this.getSidebarLocator().isVisible()
+  getMainMenuLocator() {
+    return this._pwPage.locator('.main-menu').first()
   }
 
   getBodyLocator() {
@@ -148,52 +148,38 @@ export class BasePage implements IFinalizeable {
     return average < 128 ? 'dark' : 'light'
   }
 
-  async isSidebarActuallyCollapsed(): Promise<boolean> {
-    const sidebarWidth = await this.getSidebarLocator()
+  async isLayoutCollapsed(): Promise<boolean> {
+    return await this._pwPage
       .evaluate(
-        element => element.clientWidth,
+        _page => window.getComputedStyle(document.body).getPropertyValue('--layout-collapsed') === 'true',
       )
-
-    const collapsibleContentWidth = await this.getSidebarLocator()
-      .locator('.sidebar-entry-collapsible-content')
-      .first()
-      .evaluate(
-        element => (element as HTMLElement).offsetWidth,
-      )
-
-    return collapsibleContentWidth >= sidebarWidth
   }
 
-  async isSidebarHidden(): Promise<boolean> {
-    const sidebarWidth = await this.getSidebarLocator()
-      .evaluate(
-        element => window.getComputedStyle(element).getPropertyValue('margin-left'),
-      )
-
-    return parseInt(sidebarWidth) < 0
+  getMainMenuPanel() {
+    return this._pwPage.locator('.compact-navbar-dialog')
   }
 
-  getSidebarToggle() {
-    return new Button(this, this._pwPage.locator('.sidebar-toggle').first())
+  getMainMenuOpenButton() {
+    return new Button(this, this._pwPage.locator('.compact-navbar-button-menu').first())
   }
 
-  getSidebarCollapse() {
-    return new Button(this, this.getSidebarLocator().locator('.sidebar-collapse-button').first())
+  getMainMenuCloseButton() {
+    return new Button(this, this.getMainMenuPanel().getByRole('button', { name: 'Close menu' }))
   }
 
-  getSidebarLanguageButtons() {
+  getMainMenuLanguageButtons() {
     return {
-      en: new Button(this, this.getSidebarLocator().getByRole('radio', { name: 'ENG', exact: true }).first()),
-      ru: new Button(this, this.getSidebarLocator().getByRole('radio', { name: 'РУС', exact: true }).first()),
+      en: new Button(this, this.getMainMenuLocator().getByRole('radio', { name: 'English', exact: true }).first()),
+      ru: new Button(this, this.getMainMenuLocator().getByRole('radio', { name: 'Русский', exact: true }).first()),
     }
   }
 
-  getSidebarColorLocator() {
-    return this.getSidebarLocator().locator('.sidebar-scheme-toggle-button').first()
+  getMainMenuColorLocator() {
+    return this.getMainMenuLocator().locator('.main-menu-color-toggle').first()
   }
 
-  async getSidebarAnchors() {
-    const locators = await this.getSidebarLocator().getByRole('link').all()
+  async getMainMenuAnchors() {
+    const locators = await this.getMainMenuLocator().getByRole('link').all()
     return locators.map(l => new Anchor(this, l))
   }
 

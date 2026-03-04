@@ -23,11 +23,12 @@ function* iterPaginators(pageCount: uint32, currentPage: uint32, getUpdatedPath:
   yield c.factory(anchor,
     {
       disabled: currentPage === 0,
-      class: classlist('paginator-anchor', 'paginator-anchor-prev'),
+      class: 'paginator-anchor paginator-anchor-prev anchor-with-icon',
       href: getUpdatedPath(currentPage - 1),
       isInternal: true,
     },
     c.factory(icon, {
+      class: 'paginator-anchor-icon',
       libId: 'core',
       name: 'solid/chevron-left',
     }),
@@ -42,7 +43,7 @@ function* iterPaginators(pageCount: uint32, currentPage: uint32, getUpdatedPath:
       {
         disabled: i === currentPage,
         ariaCurrent: active ? 'page' : 'false',
-        class: classlist('paginator-anchor', 'paginator-anchor-direct'),
+        class: 'paginator-anchor paginator-anchor-direct',
         href: getUpdatedPath(i),
         isInternal: true,
       },
@@ -53,11 +54,12 @@ function* iterPaginators(pageCount: uint32, currentPage: uint32, getUpdatedPath:
   yield c.factory(anchor,
     {
       disabled: currentPage === pageCount - 1,
-      class: classlist('paginator-anchor', 'paginator-anchor-next'),
+      class: 'paginator-anchor paginator-anchor-next anchor-with-icon',
       href: getUpdatedPath(currentPage + 1),
       isInternal: true,
     },
     c.factory(icon, {
+      class: 'paginator-anchor-icon',
       libId: 'core',
       name: 'solid/chevron-right',
     }),

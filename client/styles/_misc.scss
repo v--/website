@@ -1,19 +1,23 @@
-$spotlight-page-aspect-ratio: #{calc(3 / 2)};
+@use 'sass:math';
+
+$spotlight-page-aspect-ratio: math.div(3, 2);
 
 @mixin common-misc-variables {
+  // Global z-indices
   --body-zindex-null: 0;
-  --body-zindex-ppp: 1;
-  --body-zindex-pp: 2;
-  --body-zindex-p: 3;
-  --body-zindex-mp: 4;
-  --body-zindex-mf: 5;
-  --body-zindex-f: 6;
-  --body-zindex-ff: 7;
-  --body-zindex-fff: 8;
+  --body-zindex-ppp:  1;
+  --body-zindex-pp:   2;
+  --body-zindex-p:    3;
+  --body-zindex-mp:   4;
+  --body-zindex-mf:   5;
+  --body-zindex-f:    6;
+  --body-zindex-ff:   7;
+  --body-zindex-fff:  8;
+
+  // Truly misc
   --anchor-text-decoration: underline;
-  --control-justify-content: none;
-  --icon-transform: none;
-  --icon-transition-properties: none;
-  --spotlight-page-aspect-ratio: #{$spotlight-page-aspect-ratio};
-  --noscript-multiplier: 0;
+  --divider-border-style: solid;
+  --spotlight-size-aspect-ratio: #{$spotlight-page-aspect-ratio};
+  --spotlight-divider-style: dotted;
+  --backdrop-opacity: 0.4;
 }

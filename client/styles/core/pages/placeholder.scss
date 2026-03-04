@@ -1,7 +1,7 @@
 @use "../../colors";
 
 .placeholder-page {
-  height: 100%;
+  height: var(--main-size-max-height);
   text-align: center;
 
   &-loading {
@@ -10,6 +10,12 @@
 
     &-text {
       font-size: min(15dvw, 5em);
+    }
+  }
+
+  &-unsupported {
+    &-icon {
+      --icon-color: var(--body-color-danger);
     }
   }
 }

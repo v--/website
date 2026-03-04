@@ -1,5 +1,4 @@
-import { spacer } from './spacer.ts'
-import { Component, createComponent as c } from '../rendering/component.ts'
+import { type FactoryComponentType, createComponent as c } from '../rendering/component.ts'
 import { waitForNextTask } from '../support/async.ts'
 import { type Action, type AsyncAction } from '../types/typecons.ts'
 
@@ -8,7 +7,7 @@ interface IRadioState<T extends string> {
   selectedValue?: T
   update: Action<T> | AsyncAction<T>
   name: string
-  content: string | Component
+  content?: string | FactoryComponentType
   labelClass?: string
   inputClass?: string
 }
@@ -40,9 +39,8 @@ export function radio<T extends string>(state: IRadioState<T>) {
       value: state.controlValue,
       checked: isActive,
     }),
-    state.content && c.factory(spacer, { direction: 'horizontal' }),
     state.content && (
-      state.content instanceof Component ? state.content : c.html('span', { text: state.content })
+      state.content instanceof Function ? c.factory(state.content) : c.html('span', { text: state.content })
     ),
   )
 }

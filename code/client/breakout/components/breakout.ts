@@ -14,20 +14,10 @@ import { animationFrameObservable, fromEvent } from '../../core/dom.ts'
 import { type ClientWebsiteEnvironment } from '../../core/environment.ts'
 import { getComputedState, processCollisions, refreshTarget } from '../computed.ts'
 import { EVOLUTION_FREQUENCY, FPS_INDICATOR_REFRESHES_PER_SECOND, STAGE } from '../constants.ts'
-import {
-  getEventParams,
-  handleKeyDown,
-  handleKeyUp,
-  handleLeftButtonDown,
-  handleLeftButtonUp,
-  handleRightButtonDown,
-  handleRightButtonUp,
-  handleStageClick,
-} from '../events.ts'
+import { getEventParams, handleKeyDown, handleKeyUp, handleStageClick } from '../events.ts'
 import { evolveBall, evolveBricks, evolvePaddle } from '../evolution.ts'
 import { computeBreakoutTrajectory } from '../geom/trajectory.ts'
 import { type IGameState } from '../types.ts'
-import { breakoutControllerButton } from './breakout_controller_button.ts'
 
 const SVG_VIEW_BOX = [STAGE.getLeftPos(), STAGE.getTopPos(), STAGE.width, STAGE.height].join(' ')
 
@@ -50,10 +40,6 @@ export function breakout({ store }: IBreakoutState, env: ClientWebsiteEnvironmen
     next: function (event) {
       handleKeyUp(getEventParams(store, env, event))
     },
-  })
-
-  store.keyedObservables.virtualControls.subscribe(function (virtualControls) {
-    env.sidebarTogglePosition$.next(virtualControls ? 'center' : 'left')
   })
 
   env.sidebarCollapsed$.subscribe(function (_sidebarCollapsed) {
@@ -143,59 +129,23 @@ export function breakout({ store }: IBreakoutState, env: ClientWebsiteEnvironmen
     bufferLatest(timeInterval(1000 / FPS_INDICATOR_REFRESHES_PER_SECOND)),
   )
 
-  return c.html('div', { class: 'breakout-controller' },
-    c.svg('svg',
-      {
-        class: store.keyedObservables.phase.pipe(
-          map(phase => classlist('breakout', phase === 'running' && 'breakout-active')),
-        ),
-        viewBox: SVG_VIEW_BOX,
-        click(event: MouseEvent) {
-          handleStageClick(getEventParams(store, env, event))
-        },
+  return c.svg('svg',
+    {
+      class: store.keyedObservables.phase.pipe(
+        map(phase => classlist('breakout', phase === 'running' && 'breakout-active')),
+      ),
+      viewBox: SVG_VIEW_BOX,
+      click(event: MouseEvent) {
+        handleStageClick(getEventParams(store, env, event))
       },
+    },
 
-      c.factory(breakoutTrace, breakoutRayState$),
-      c.factory(breakoutBricks, { bricks: store.keyedObservables.bricks }),
-      c.factory(breakoutPaddle, { paddle: store.keyedObservables.paddle }),
-      c.factory(breakoutBall, { ballCenter: ballCenter$ }),
-      c.factory(breakoutSplash, { phase: store.keyedObservables.phase }),
-      c.factory(breakoutScore, { score: store.keyedObservables.score }),
-      c.factory(breakoutFps, { fps: shownFps$, show: store.keyedObservables.debug }),
-    ),
-
-    c.factory(breakoutControllerButton,
-      {
-        store,
-        class: 'breakout-controller-button-left',
-        iconLibraryId: 'core',
-        iconName: 'solid/chevron-left',
-
-        pointerdown(event: MouseEvent) {
-          handleLeftButtonDown(getEventParams(store, env, event))
-        },
-
-        pointerup(event: MouseEvent) {
-          handleLeftButtonUp(getEventParams(store, env, event))
-        },
-      },
-    ),
-
-    c.factory(breakoutControllerButton,
-      {
-        store,
-        class: 'breakout-controller-button-right',
-        iconLibraryId: 'core',
-        iconName: 'solid/chevron-right',
-
-        pointerdown(event: MouseEvent) {
-          handleRightButtonDown(getEventParams(store, env, event))
-        },
-
-        pointerup(event: MouseEvent) {
-          handleRightButtonUp(getEventParams(store, env, event))
-        },
-      },
-    ),
+    c.factory(breakoutTrace, breakoutRayState$),
+    c.factory(breakoutBricks, { bricks: store.keyedObservables.bricks }),
+    c.factory(breakoutPaddle, { paddle: store.keyedObservables.paddle }),
+    c.factory(breakoutBall, { ballCenter: ballCenter$ }),
+    c.factory(breakoutSplash, { phase: store.keyedObservables.phase }),
+    c.factory(breakoutScore, { score: store.keyedObservables.score }),
+    c.factory(breakoutFps, { fps: shownFps$, show: store.keyedObservables.debug }),
   )
 }

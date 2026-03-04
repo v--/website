@@ -18,10 +18,6 @@ export class ServerWebsiteEnvironment extends WebsiteEnvironment {
     return 'light'
   }
 
-  override isSidebarActuallyCollapsed() {
-    return false
-  }
-
   override isContentDynamic() {
     return false
   }

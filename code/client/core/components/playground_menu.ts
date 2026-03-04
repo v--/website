@@ -1,47 +1,45 @@
 import { anchor } from '../../../common/components/anchor.ts'
-import { checkbox } from '../../../common/components/checkbox.ts'
 import { icon } from '../../../common/components/icon.ts'
-import { BehaviorSubject, map, takeUntil } from '../../../common/observable.ts'
-import { Component, createComponent as c } from '../../../common/rendering/component.ts'
-import { classlist } from '../../../common/support/dom_properties.ts'
+import { Component, type FactoryComponentType, createComponent as c } from '../../../common/rendering/component.ts'
 import { type ClientWebsiteEnvironment } from '../environment.ts'
 
-interface IFocusedPageState {
-  class?: string
+interface IPlaygroundMenuState {
+  submenu: FactoryComponentType<Component, ClientWebsiteEnvironment>
 }
 
-export function playgroundMenu(
-  { class: cssClass }: IFocusedPageState = {},
-  env: ClientWebsiteEnvironment,
-  children: Readonly<Component[]>,
-) {
-  const expanded$ = new BehaviorSubject(false)
-
+export function playgroundMenu({ submenu }: IPlaygroundMenuState) {
   return c.html('menu',
     {
-      class: expanded$.pipe(
-        takeUntil(env.pageUnload$),
-        map(expanded => classlist('playground-menu', cssClass, expanded && 'playground-menu-expanded')),
-      ),
+      class: 'playground-menu',
+      role: 'toolbar',
     },
     c.html('li', { class: 'playground-menu-head' },
-      c.html('div', { class: 'playground-menu-up-anchor-wrapper' },
-        c.factory(anchor, { class: 'playground-menu-up-anchor button-styled-anchor', href: '/playground', isInternal: true }),
-      ),
-
-      c.factory(checkbox, {
-        name: 'playground_menu_toggle',
-        labelClass: 'playground-menu-toggle-label',
-        inputClass: 'playground-menu-toggle-control',
-        value: expanded$.pipe(takeUntil(env.pageUnload$)),
-        content: c.html('button', { class: 'playground-menu-toggle-button' },
-          c.factory(icon, { libId: 'core', name: 'solid/bars' }),
-        ),
-        update(newValue: boolean) {
-          expanded$.next(newValue)
-        },
-      }),
+      c.factory(anchor, { class: 'playground-menu-up-anchor button-styled-anchor button-transparent', href: '/playground', isInternal: true }),
     ),
-    c.html('li', { class: 'playground-menu-rest' }, ...children),
+    c.html('li', { class: 'playground-menu-inline' },
+      c.html('form', { name: 'playground-menu-inline-form' }, c.factory(submenu)),
+    ),
+    c.html('li', { class: 'playground-menu-drawer' },
+      c.html('button',
+        {
+          class: 'playground-menu-drawer-toggle button-transparent button-with-icon',
+          popovertarget: 'playground-menu-drawer-popover',
+          type: 'button',
+        },
+        c.factory(icon, {
+          libId: 'core',
+          name: 'solid/bars',
+        }),
+      ),
+      c.html('form',
+        {
+          popover: true,
+          id: 'playground-menu-drawer-popover',
+          class: 'playground-menu-drawer-popover',
+          name: 'playground-menu-drawer-form',
+        },
+        c.factory(submenu),
+      ),
+    ),
   )
 }

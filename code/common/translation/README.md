@@ -6,13 +6,13 @@ We support translating arbitrary strings in a flexible way. What may seem like a
 
 The [`IGettextSpec`](./gettext.ts) interface contains everything necessary for translation - a translation bundle ID and key, and optionally a context for substituting variables, as well as options for coercing to either plain or rich text. Substitution is handled by the rich text system from [`../rich`](../rich).
 
-Here is a simple example from [`../components/sidebar.ts`](../components/sidebar.ts):
+Here is a simple example from [`../components/main_menu.ts`](../components/main_menu.ts):
 ```
 const _ = env.gettext.bindToBundle('core')
 
 h('button',
   ...
-  title: _('sidebar.button.collapse')
+  title: _('main_menu.button.color_scheme')
   ...
 )
 ```
@@ -21,7 +21,7 @@ The `_` function is now bound to the core translation bundle. It can take string
 ```
 title: _({
   bundleId: 'core',
-  key: 'sidebar.button.collapse',
+  key: 'main_menu.button.color_scheme',
   coerce: true,
   context: {}
 })
@@ -45,7 +45,7 @@ The above example sources the translation, which in its raw unbuilt form looks a
 ```
 {
   ...
-  "sidebar.button.collapse": {
+  "main_menu.button.collapse": {
     "entryKind": "plain",
     "content": "Collapse sidebar"
   },
@@ -59,7 +59,7 @@ This builds into translation maps, which have the simpler form
 ```
 {
   ...
-  "sidebar.button.collapsed": "Collapse sidebar",
+  "main_menu.button.collapsed": "Collapse sidebar",
   ...
 }
 ```

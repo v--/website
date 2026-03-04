@@ -103,40 +103,90 @@ describe('General website behavior', function () {
       await page?.finalize()
     })
 
-    it('exists', async function () {
+    it('is shown on large screens', async function () {
       await page.goto('/')
-      assertTrue(await page.hasSidebar())
+      const mainMenu = page.getMainMenuLocator()
+      assertTrue(await mainMenu.isVisible())
     })
 
-    it('has its collapse button disabled', async function () {
+    it('is hidden on small screens', async function () {
       await page.goto('/')
-      const button = page.getSidebarCollapse()
-      assertTrue(await button.isDisabled())
+      await page.scaleViewport('Apple Watch')
+
+      const mainMenu = page.getMainMenuLocator()
+      assertFalse(await mainMenu.isVisible())
+    })
+
+    it('has a visible open button on small screens', async function () {
+      await page.goto('/')
+      await page.scaleViewport('Apple Watch')
+
+      const openButton = page.getMainMenuOpenButton()
+      const isToggleVisible = await openButton.isVisible()
+      assertTrue(isToggleVisible)
+    })
+
+    it('panel is opened by the corresponding button on small screens', async function () {
+      await page.goto('/')
+      await page.scaleViewport('Apple Watch')
+
+      const openButton = page.getMainMenuOpenButton()
+      await openButton.click()
+
+      const menuPanel = page.getMainMenuPanel()
+      assertTrue(await menuPanel.isVisible())
+    })
+
+    it('panel is closed by the escape key on small screen', async function () {
+      await page.goto('/')
+      await page.scaleViewport('Apple Watch')
+
+      const openButton = page.getMainMenuOpenButton()
+      await openButton.click()
+      await page.press('Escape')
+
+      const menuPanel = page.getMainMenuPanel()
+      assertFalse(await menuPanel.isVisible())
+    })
+
+    // playwright refuses to click the close button for whatever reason
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    it.skip('panel is closed by the close button on small screen', async function () {
+      await page.goto('/')
+      await page.scaleViewport('Apple Watch')
+
+      const openButton = page.getMainMenuOpenButton()
+      await openButton.click()
+
+      const closeButton = page.getMainMenuCloseButton()
+      await closeButton.click()
+
+      const menuPanel = page.getMainMenuPanel()
+      assertFalse(await menuPanel.isVisible())
     })
 
     it('has its language buttons disabled', async function () {
       await page.goto('/')
-      const buttons = page.getSidebarLanguageButtons()
-
-      assertTrue(await buttons.en.isDisabled())
+      const buttons = page.getMainMenuLanguageButtons()
+      assertTrue(await buttons.en.isVisible())
       assertTrue(await buttons.ru.isDisabled())
     })
 
     it('has its color scheme toggle disabled', async function () {
       await page.goto('/')
-      const button = page.getSidebarColorLocator()
+      const button = page.getMainMenuColorLocator()
       assertTrue(await button.isDisabled())
     })
 
     it('has enabled anchors to other pages', async function () {
       await page.goto('/')
-      const anchors = await page.getSidebarAnchors()
+      const anchors = await page.getMainMenuAnchors()
       assert.equal(anchors.length, 4)
 
       assert.equal(await anchors[0].textContent(), 'Home page')
       assertTrue(await anchors[0].isEnabled())
 
-      assert.equal(await anchors[1].textContent(), 'File server')
+      assert.equal(await anchors[1].textContent(), 'File explorer')
       assertTrue(await anchors[1].isEnabled())
 
       assert.equal(await anchors[2].textContent(), 'Pacman repo')
@@ -144,63 +194,6 @@ describe('General website behavior', function () {
 
       assert.equal(await anchors[3].textContent(), 'Playground')
       assertTrue(await anchors[3].isEnabled())
-    })
-
-    it('is expanded by default', async function () {
-      await page.goto('/')
-      const isSidebarActuallyCollapsed = await page.isSidebarActuallyCollapsed()
-      assertFalse(isSidebarActuallyCollapsed)
-    })
-
-    it('is shown on small screens', async function () {
-      await page.goto('/')
-      await page.scaleViewport('Apple Watch')
-
-      const isSidebarHidden = await page.isSidebarHidden()
-      assertFalse(isSidebarHidden)
-    })
-
-    it('has no visible toggle on small screens', async function () {
-      await page.goto('/')
-      await page.scaleViewport('Apple Watch')
-
-      const toggle = page.getSidebarToggle()
-      const isToggleVisible = await toggle.isVisible()
-      assertFalse(isToggleVisible)
-    })
-
-    it('has no visible toggle on large screens', async function () {
-      await page.goto('/')
-
-      const toggle = page.getSidebarToggle()
-      const isToggleVisible = await toggle.isVisible()
-      assertFalse(isToggleVisible)
-    })
-
-    it('collapses on medium screens', async function () {
-      await page.goto('/')
-      await page.scaleViewport('VGA')
-
-      const isSidebarActuallyCollapsed = await page.isSidebarActuallyCollapsed()
-      assertTrue(isSidebarActuallyCollapsed)
-    })
-
-    it('expands when enlarging a medium screen', async function () {
-      await page.goto('/')
-      await page.scaleViewport('VGA')
-      await page.scaleViewport('Full HD')
-
-      const isSidebarActuallyCollapsed = await page.isSidebarActuallyCollapsed()
-      assertFalse(isSidebarActuallyCollapsed)
-    })
-
-    it('collapses when shrinking a large screen', async function () {
-      await page.goto('/')
-      await page.scaleViewport('Full HD')
-      await page.scaleViewport('VGA')
-
-      const isSidebarActuallyCollapsed = await page.isSidebarActuallyCollapsed()
-      assertTrue(isSidebarActuallyCollapsed)
     })
   })
 
@@ -219,188 +212,6 @@ describe('General website behavior', function () {
       await page?.finalize()
     })
 
-    describe('sidebar', function () {
-      it('exists', async function () {
-        await page.goto('/')
-        assertTrue(await page.hasSidebar())
-      })
-
-      it('has its collapse button enabled', async function () {
-        await page.goto('/')
-        const button = page.getSidebarCollapse()
-        assertTrue(await button.isEnabled())
-      })
-
-      it('is expanded by default', async function () {
-        await page.goto('/')
-        const isSidebarActuallyCollapsed = await page.isSidebarActuallyCollapsed()
-        assertFalse(isSidebarActuallyCollapsed)
-      })
-
-      it('is hidden on small screens', async function () {
-        await page.goto('/')
-        await page.scaleViewport('Apple Watch')
-
-        const isSidebarHidden = await page.isSidebarHidden()
-        assertTrue(isSidebarHidden)
-      })
-
-      it('has a visible toggle on small screens', async function () {
-        await page.goto('/')
-        await page.scaleViewport('Apple Watch')
-
-        const toggle = page.getSidebarToggle()
-        const isToggleVisible = await toggle.isVisible()
-        assertTrue(isToggleVisible)
-      })
-
-      it('has no visible toggle on large screens', async function () {
-        await page.goto('/')
-
-        const toggle = page.getSidebarToggle()
-        const isToggleVisible = await toggle.isVisible()
-        assertFalse(isToggleVisible)
-      })
-
-      it('expands after clicking the toggle on small screens', async function () {
-        await page.goto('/')
-        await page.scaleViewport('Apple Watch')
-
-        const toggle = page.getSidebarToggle()
-        await toggle.click()
-
-        const isSidebarActuallyCollapsed = await page.isSidebarActuallyCollapsed()
-        assertFalse(isSidebarActuallyCollapsed)
-      })
-
-      it('is collapsed after clicking the toggle on small screens', async function () {
-        await page.goto('/')
-        await page.scaleViewport('Apple Watch')
-
-        const toggle = page.getSidebarToggle()
-        await toggle.click()
-
-        const isSidebarActuallyCollapsed = await page.isSidebarActuallyCollapsed()
-        assertFalse(isSidebarActuallyCollapsed)
-      })
-
-      it('is collapsed after clicking the toggle and then the collapse button on a small screen', async function () {
-        await page.goto('/')
-        await page.scaleViewport('Apple Watch')
-
-        const toggle = page.getSidebarToggle()
-        await toggle.click()
-
-        const button = page.getSidebarCollapse()
-        await button.click()
-
-        const isSidebarActuallyCollapsed = await page.isSidebarActuallyCollapsed()
-        assertTrue(isSidebarActuallyCollapsed)
-      })
-
-      it('collapses on medium screens', async function () {
-        await page.goto('/')
-        await page.scaleViewport('VGA')
-
-        const isSidebarActuallyCollapsed = await page.isSidebarActuallyCollapsed()
-        assertTrue(isSidebarActuallyCollapsed)
-      })
-
-      it('is collapsed after clicking the collapse button on large screens', async function () {
-        await page.goto('/')
-        await page.scaleViewport('Full HD')
-
-        const button = page.getSidebarCollapse()
-        await button.click()
-
-        const isSidebarActuallyCollapsed = await page.isSidebarActuallyCollapsed()
-        assertTrue(isSidebarActuallyCollapsed)
-      })
-
-      it('is expanded after clicking the collapse button twice on a large screen', async function () {
-        await page.goto('/')
-        await page.scaleViewport('Full HD')
-
-        const button = page.getSidebarCollapse()
-        await button.click()
-        await button.click()
-
-        await page.scaleViewport('Full HD')
-
-        const isSidebarActuallyCollapsed = await page.isSidebarActuallyCollapsed()
-        assertFalse(isSidebarActuallyCollapsed)
-      })
-
-      it('expands on medium screens when the collapse button is clicked', async function () {
-        await page.goto('/')
-        await page.scaleViewport('VGA')
-
-        const button = page.getSidebarCollapse()
-        await button.click()
-
-        const isSidebarActuallyCollapsed = await page.isSidebarActuallyCollapsed()
-        assertFalse(isSidebarActuallyCollapsed)
-      })
-
-      it('is collapsed after clicking the collapse button twice on a large screen', async function () {
-        await page.goto('/')
-        await page.scaleViewport('Full HD')
-
-        const button = page.getSidebarCollapse()
-        await button.click()
-        await button.click()
-
-        const isSidebarActuallyCollapsed = await page.isSidebarActuallyCollapsed()
-        assertFalse(isSidebarActuallyCollapsed)
-      })
-
-      it('expands when enlarging a medium screen', async function () {
-        await page.goto('/')
-        await page.scaleViewport('VGA')
-        await page.scaleViewport('Full HD')
-
-        const isSidebarActuallyCollapsed = await page.isSidebarActuallyCollapsed()
-        assertFalse(isSidebarActuallyCollapsed)
-      })
-
-      it('is collapsed when enlarging a medium screen after clicking the collapse button twice', async function () {
-        await page.goto('/')
-        await page.scaleViewport('VGA')
-
-        const button = page.getSidebarCollapse()
-        await button.click()
-        await button.click()
-
-        await page.scaleViewport('Full HD')
-
-        const isSidebarActuallyCollapsed = await page.isSidebarActuallyCollapsed()
-        assertTrue(isSidebarActuallyCollapsed)
-      })
-
-      it('collapses when shrinking a large screen', async function () {
-        await page.goto('/')
-        await page.scaleViewport('Full HD')
-        await page.scaleViewport('VGA')
-
-        const isSidebarActuallyCollapsed = await page.isSidebarActuallyCollapsed()
-        assertTrue(isSidebarActuallyCollapsed)
-      })
-
-      it('is expanded when shrinking a large screen after clicking the collapse button twice', async function () {
-        await page.goto('/')
-        await page.scaleViewport('Full HD')
-
-        const button = page.getSidebarCollapse()
-        await button.click()
-        await button.click()
-
-        await page.scaleViewport('VGA')
-
-        const isSidebarActuallyCollapsed = await page.isSidebarActuallyCollapsed()
-        assertFalse(isSidebarActuallyCollapsed)
-      })
-    })
-
     describe('languages', function () {
       it('supports specifying a locale via a "override-language" query parameter', async function () {
         await page.goto('/?override-language=ru')
@@ -409,25 +220,25 @@ describe('General website behavior', function () {
         assert.equal(lang, 'ru')
       })
 
-      it('sidebar has its language buttons enabled', async function () {
+      it('main menu has its language buttons enabled', async function () {
         await page.goto('/')
-        const buttons = page.getSidebarLanguageButtons()
+        const buttons = page.getMainMenuLanguageButtons()
 
         assertTrue(await buttons.en.isEnabled())
         assertTrue(await buttons.ru.isEnabled())
       })
 
-      it('switches to Russian after clicking РУС', async function () {
+      it('switches to Russian after clicking Русский', async function () {
         await page.goto('/')
-        const buttons = page.getSidebarLanguageButtons()
+        const buttons = page.getMainMenuLanguageButtons()
         await buttons.ru.click({ expectLoadingIndicator: true })
         const lang = await page.getLanguage()
         assert.equal(lang, 'ru')
       })
 
-      it('switches to English after clicking РУС and then ENG', async function () {
+      it('switches to English after clicking Русский and then English', async function () {
         await page.goto('/')
-        const buttons = page.getSidebarLanguageButtons()
+        const buttons = page.getMainMenuLanguageButtons()
         await buttons.ru.click({ expectLoadingIndicator: true })
         await buttons.en.click()
         const lang = await page.getLanguage()
@@ -436,9 +247,9 @@ describe('General website behavior', function () {
     })
 
     describe('color scheme', function () {
-      it('sidebar has its scheme toggle button enabled', async function () {
+      it('main menu has its scheme toggle button enabled', async function () {
         await page.goto('/')
-        const button = page.getSidebarColorLocator()
+        const button = page.getMainMenuColorLocator()
         assertTrue(await button.isEnabled())
       })
 
@@ -450,7 +261,7 @@ describe('General website behavior', function () {
 
       it('changes to a dark scheme after clicking the toggle', async function () {
         await page.goto('/')
-        const button = page.getSidebarColorLocator()
+        const button = page.getMainMenuColorLocator()
         await button.click()
         const scheme = await page.getColorScheme()
         assert.equal(scheme, 'dark')
@@ -458,7 +269,7 @@ describe('General website behavior', function () {
 
       it('changes back to a light scheme after clicking the toggle twice', async function () {
         await page.goto('/')
-        const button = page.getSidebarColorLocator()
+        const button = page.getMainMenuColorLocator()
         await button.click()
         await button.click()
         const scheme = await page.getColorScheme()

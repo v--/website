@@ -1,3 +1,5 @@
+@use "../../colors";
+
 @keyframes moving-background {
   0% {
     background-position-x: 200%;
@@ -17,13 +19,13 @@
 
   &-bar {
     width: 100%;
-    height: var(--loading-size-height);
+    height: 3px;
     background-image: linear-gradient(
       90deg,
-      var(--loading-color-primary) 0%,
-      var(--loading-color-primary) 80%,
-      var(--loading-color-secondary) 95%,
-      var(--loading-color-primary) 100%
+      #{colors.$loading-color-primary} 0%,
+      #{colors.$loading-color-primary} 80%,
+      #{colors.$loading-color-secondary} 95%,
+      #{colors.$loading-color-primary} 100%
     );
     background-size: 200% 100%;
     animation: moving-background var(--loading-duration-cycle) linear infinite;

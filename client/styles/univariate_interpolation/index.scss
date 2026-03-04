@@ -8,7 +8,7 @@
 @use "components/interpolation_knot_table";
 
 .univariate-interpolation-page {
-  --interpolation-color-background:     var(--body-color-ppp);
+  --interpolation-color-background:     var(--spotlight-color-background);
   --interpolation-color-axis:           var(--body-color-pp);
   --interpolation-color-point-normal:   var(--body-color-pp);
   --interpolation-color-point-accented: var(--body-color-accented);

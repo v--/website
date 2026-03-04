@@ -1,0 +1,7 @@
+hr {
+  width: 100%;
+  height: 0;
+  margin: var(--divider-size-margin) 0;
+  border: 0;
+  border-top: var(--divider-size) var(--divider-border-style) var(--divider-color);
+}

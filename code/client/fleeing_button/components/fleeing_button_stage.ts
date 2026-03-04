@@ -1,5 +1,6 @@
 import { fleeingButtonAttractors } from './fleeing_button_attractors.ts'
 import { fleeingButtonMouseArea } from './fleeing_button_mouse_area.ts'
+import { iconContent } from '../../../common/components/icon.ts'
 import { Vec2D } from '../../../common/math/geom2d.ts'
 import { withLatestFrom } from '../../../common/observable/operators/with_latest_from.ts'
 import { Observable, combineLatest, map, pairwise, switchMap } from '../../../common/observable.ts'
@@ -72,8 +73,6 @@ export function fleeingButtonStage({ store }: IFleeingButtonStageState, env: Cli
     switchMap(debug => debug ? store.combinedState$ : Observable.of(store.getCombinedState())),
   )
 
-  const iconSpec = env.iconStore.getIconSpec('fleeing_button', 'solid/person-running')
-
   return c.svg('svg',
     {
       class: 'fleeing-button-stage',
@@ -141,13 +140,11 @@ export function fleeingButtonStage({ store }: IFleeingButtonStageState, env: Cli
           },
         },
       ),
-      // We could use the icon component here instead, but WebKit refuses to apply scaling transforms to nested SVG elements
-      c.svg('defs', undefined,
-        c.svg('symbol', { id: 'icon', viewBox: iconSpec.viewBox },
-          c.svg('path', { d: iconSpec.path }),
-        ),
-      ),
-      c.svg('use', { class: 'fleeing-button-icon', href: '#icon' }),
+      c.factory(iconContent, {
+        class: 'fleeing-button-icon',
+        libId: 'fleeing_button',
+        name: 'solid/person-running',
+      }),
     ),
   )
 }

@@ -106,7 +106,7 @@ const _ = env.gettext.bindToBundle('core')
 
 c.html('button',
   ...
-  title: _('sidebar.button.collapse')
+  title: _('main_menu.button.color_scheme')
   ...
 )
 ```

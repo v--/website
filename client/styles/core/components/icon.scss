@@ -1,31 +1,28 @@
-@use "../../colors";
 @use "../../sizes";
-
-// The icons themselves seem to have a small padding inside the view box
-$intrinsic-icon-padding-ratio: 0.9;
 
 .icon {
   vertical-align: baseline;
   height: var(--icon-size-diameter);
   aspect-ratio: 1;
-  margin-bottom: calc((1ex - #{$intrinsic-icon-padding-ratio} * var(--icon-size-diameter)) / 2);
-  padding-inline: var(--icon-size-padding);
+  padding-inline: var(--icon-size-hpadding);
+  padding-block: var(--icon-size-vpadding);
   fill: var(--icon-color);
-  transition-duration: var(--icon-duration-transition);
-  transition-property: var(--icon-transition-properties);
-  transform: var(--icon-transform);
-
-  &-capital-align {
-    margin-bottom: calc((1cap - #{$intrinsic-icon-padding-ratio} * var(--icon-size-diameter)) / 2);
-  }
 
   &-huge {
     --icon-size-diameter: #{sizes.$icon-size-diameter-huge-loose};
-    --icon-size-padding: #{sizes.$icon-size-padding-huge};
+    --icon-size-hpadding: #{sizes.$icon-size-padding-huge-loose};
+    --icon-size-vpadding: #{sizes.$icon-size-padding-huge-loose};
 
     max-width: 50dvw;
     min-height: #{sizes.$icon-size-diameter-huge-dense};
     max-height: 50dvh;
     margin-bottom: 0;
+
+
+    @container page-scroll-container (width <= #{sizes.$root-size-boundary-dense-width}) or (height <= #{sizes.$root-size-boundary-dense-height}) {
+      --icon-size-diameter: #{sizes.$icon-size-diameter-huge-dense};
+      --icon-size-hpadding: #{sizes.$icon-size-padding-huge-dense};
+      --icon-size-vpadding: #{sizes.$icon-size-padding-huge-dense};
+    }
   }
 }

@@ -14,8 +14,9 @@ body {
   @include misc.common-misc-variables;
   @include sizes.common-size-variables;
 
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: auto 1fr;
   height: 100dvh;
   margin: 0; // The body has a margin by default
   background-color: var(--body-color-background);
@@ -42,6 +43,56 @@ body {
     }
   }
 
+  @media (width > #{sizes.$root-size-boundary-collapsed-width}) and (height > #{sizes.$root-size-boundary-collapsed-height}) {
+    --layout-collapsed: false;
+
+    .compact-navbar {
+      display: none;
+    }
+
+    .wide-navbar {
+      grid-row: 1 / span 2;
+      grid-column: 1 / span 1;
+    }
+
+    .page-scroll-container {
+      grid-row: 1 / span 2;
+      grid-column: 2 / span 1;
+    }
+  }
+
+  @media (width <= #{sizes.$root-size-boundary-collapsed-width}) or (height <= #{sizes.$root-size-boundary-collapsed-height}) {
+    --layout-collapsed: true;
+
+    @media (orientation: landscape) {
+      .compact-navbar {
+        grid-row: 1 / span 2;
+        grid-column: 1 / span 1;
+      }
+
+      .page-scroll-container {
+        grid-row: 1 / span 2;
+        grid-column: 2 / span 1;
+      }
+    }
+
+    @media (orientation: portrait) {
+      .compact-navbar {
+        grid-row: 1 / span 1;
+        grid-column: 1 / span 2;
+      }
+
+      .page-scroll-container {
+        grid-row: 2 / span 1;
+        grid-column: 1 / span 2;
+      }
+    }
+
+    .wide-navbar {
+      display: none;
+    }
+  }
+
   &.light-scheme {
     @include colors.light-scheme;
   }
@@ -53,27 +104,37 @@ body {
 
 .page-scroll-container {
   position: relative;
-  display: flex;
-  flex-grow: 1;
-  justify-content: space-around;
   overflow-y: auto;
   container: page-scroll-container / size;
   overscroll-behavior-x: contain;
 }
 
 main {
-  box-sizing: border-box;
-  width: 100%;
-  min-width: var(--main-size-min-width);
-  max-width: var(--main-size-max-width);
+  --main-size-max-width: calc(100% - 2 * var(--main-size-hpadding));
+  --main-size-max-height: calc(100% - 2 * var(--main-size-vpadding));
+  --layout-dense: false;
+  --layout-very-dense: false;
+
+  overflow-x: hidden;
+  max-width: sizes.$root-size-max-content-width;
   height: fit-content;
-  min-height: var(--main-size-min-height);
+  margin-inline: auto;
   padding-inline: var(--main-size-hpadding);
   padding-block: var(--main-size-vpadding);
 
-  @container page-scroll-container (max-width: #{sizes.$page-size-width-threshold-dense}) or (max-height: #{sizes.$page-size-height-threshold-dense}) {
+  @container page-scroll-container (width <= #{sizes.$root-size-boundary-dense-width}) or (height <= #{sizes.$root-size-boundary-dense-height}) {
     & {
+      --layout-dense: true;
+
       @include sizes.dense-size-variables;
+    }
+  }
+
+  @container page-scroll-container (width <= #{sizes.$root-size-boundary-very-dense-width}) {
+    & {
+      --layout-very-dense: true;
+
+      @include sizes.very-dense-size-variables;
     }
   }
 }

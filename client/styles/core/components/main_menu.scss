@@ -1,0 +1,75 @@
+@use "../../fonts";
+@use "../../sizes";
+
+.main-menu-toolbar {
+  // Colors
+  --button-color-background-accented: var(--main-menu-color-background);
+  --button-color-background-disabled: var(--button-color-background-normal);
+  --button-color-background-normal:   var(--main-menu-color-background);
+  --button-color-foreground-disabled: var(--main-menu-color-disabled);
+  --button-color-foreground-accented: var(--main-menu-color-accented);
+  --button-color-foreground-normal:   var(--main-menu-color-foreground);
+  --control-color-label-normal:   var(--main-menu-color-foreground);
+  --control-color-label-active:   var(--main-menu-color-foreground);
+  --control-color-label-accented: var(--main-menu-color-accented);
+  --divider-color: var(--main-menu-color-divider);
+
+  background-color: var(--main-menu-color-background);
+}
+
+.main-menu {
+  --button-size-vpadding: #{sizes.$main-menu-size-button-vpadding};
+  --button-size-gap: #{sizes.$main-menu-size-button-gap};
+  --divider-size-margin: 0;
+  --button-size-width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  width: fit-content;
+  height: 100%;
+  margin: 0;
+
+  &-entry {
+    @include fonts.accented-font;
+
+    box-sizing: border-box;
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: pre;
+
+    &[aria-current="page"] {
+      --button-color-foreground-normal: var(--main-menu-color-foreground-active);
+      --button-color-foreground-accented: var(--main-menu-color-accented-active);
+      --button-color-background-normal: var(--main-menu-color-background-active);
+      --button-color-background-accented: var(--main-menu-color-background-active);
+    }
+  }
+
+  &-lang-toggle {
+    --icon-color: var(--button-color-foreground-normal);
+    --icon-size-diameter: var(--button-size-icon-diameter);
+    --control-color-input-active: var(--main-menu-color-background);
+
+    display: inline-flex;
+    gap: 1.5em;
+    justify-content: space-evenly;
+    align-items: center;
+    box-sizing: border-box;
+    margin-right: 1.5em; // We extend the main menu to the right for wide fonts
+    padding: var(--button-size-vpadding) var(--button-size-hpadding);
+
+    &:disabled {
+      --icon-color: var(--button-color-foreground-disabled);
+    }
+
+    &-label {
+      padding: 0;
+    }
+  }
+
+  &-color-toggle {
+    width: 100%;
+  }
+}

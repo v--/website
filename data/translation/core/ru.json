@@ -9,37 +9,32 @@
     "content": "Мастерская"
   },
 
-  "sidebar.button.expand": {
+  "main_menu.button.close_menu": {
     "entryKind": "plain",
-    "content": "Увеличить меню"
+    "content": "Закрыть меню"
   },
 
-  "sidebar.button.collapse": {
-    "entryKind": "plain",
-    "content": "Уменьшить меню"
-  },
-
-  "sidebar.button.color_scheme": {
+  "main_menu.button.color_scheme": {
     "entryKind": "plain",
     "content": "Изменить цвета"
   },
 
-  "sidebar.page.home": {
+  "main_menu.page.home": {
     "entryKind": "plain",
-    "content": "Дом. страница"
+    "content": "Домашняя страница"
   },
 
-  "sidebar.page.files": {
+  "main_menu.page.files": {
     "entryKind": "plain",
-    "content": "Файловый сервер"
+    "content": "Файл. навигатор"
   },
 
-  "sidebar.page.pacman": {
+  "main_menu.page.pacman": {
     "entryKind": "plain",
-    "content": "Хран. pacman"
+    "content": "Хранилище pacman"
   },
 
-  "sidebar.page.playground": {
+  "main_menu.page.playground": {
     "entryKind": "plain",
     "content": "Мастерская"
   },

@@ -6,7 +6,7 @@ export {
   aggressiveQuerySelector,
   getActualColorScheme,
   getCurrentUrlPath,
-  isSidebarActuallyCollapsed,
+  isLayoutCollapsed,
   parsePreferredLanguage,
   pushIntoHistory,
 } from './dom/misc.ts'

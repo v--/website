@@ -8,19 +8,27 @@ export class BreakoutPage extends PlaygroundPage {
   }
 
   getMenuToggleButton() {
-    return new Checkbox(this, this._pwPage.locator('.playground-menu-toggle-button'))
+    return new Checkbox(this, this._pwPage.locator('.playground-menu-drawer-toggle'))
   }
 
-  getMenuRestLocator() {
-    return this._pwPage.locator('.playground-menu-rest')
+  getInlineMenuLocator() {
+    return this._pwPage.locator('.playground-menu-inline')
+  }
+
+  getDrawerMenuLocator() {
+    return this._pwPage.locator('.playground-menu-drawer')
+  }
+
+  getDrawerMenu() {
+    return this._pwPage.locator('.playground-menu-drawer-popover')
   }
 
   getDebugToggle() {
-    return new Checkbox(this, this._pwPage.getByText('Debug mode', { exact: true }))
+    return new Checkbox(this, this.getInlineMenuLocator().getByText('Debug mode', { exact: true }))
   }
 
   getResetButton() {
-    return new Button(this, this._pwPage.getByText('Reset', { exact: true }))
+    return new Button(this, this.getInlineMenuLocator().getByText('Reset', { exact: true }))
   }
 
   async isMenuExpanded() {

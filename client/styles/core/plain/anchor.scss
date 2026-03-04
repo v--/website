@@ -24,15 +24,25 @@ a {
   }
 }
 
+.anchor-with-icon {
+  --icon-size-diameter: var(--anchor-size-icon-diameter);
+
+  display: inline-flex;
+  gap: var(--anchor-size-gap);
+  align-items: center;
+}
+
 .button-styled-anchor {
   --anchor-color-normal: var(--button-color-foreground-normal);
   --anchor-color-accented: var(--button-color-foreground-accented);
   --anchor-color-disabled: var(--button-color-foreground-disabled);
   --anchor-text-decoration: none;
+  --icon-size-diameter: var(--button-size-icon-diameter);
 
   @include mixins.background-color(var(--button-color-background-normal));
 
   display: inline-block;
+  width: var(--button-size-width);
   padding-inline: var(--button-size-hpadding);
   padding-block:  var(--button-size-vpadding);
   outline-offset: var(--button-size-outline-offset);

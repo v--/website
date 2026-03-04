@@ -41,8 +41,8 @@ function* iterHeaderColumns<T>(columnSpecs: IVerticalTableColumnSpec<T>[], env: 
       }
     }
 
-    if (column.header instanceof Component) {
-      yield c.html('th', headerState, column.header)
+    if (column.header instanceof Function) {
+      yield c.html('th', headerState, c.factory(column.header))
     } else {
       if (column.label) {
         headerState.text = env.gettext.plain$(column.label)

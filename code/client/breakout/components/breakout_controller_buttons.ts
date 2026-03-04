@@ -6,7 +6,54 @@ import { StateStore } from '../../../common/support/state_store.ts'
 import { type IconLibraryId } from '../../../common/types/bundles.ts'
 import { type Action } from '../../../common/types/typecons.ts'
 import { type ClientWebsiteEnvironment } from '../../core/environment.ts'
+import { getEventParams, handleLeftButtonDown, handleLeftButtonUp, handleRightButtonDown, handleRightButtonUp } from '../events.ts'
 import { type IGameState } from '../types.ts'
+
+interface IBreakoutControllerButtonsState {
+  store: StateStore<IGameState>
+}
+
+export function breakoutControllerButtons({ store }: IBreakoutControllerButtonsState, env: ClientWebsiteEnvironment) {
+  return c.html('div', { class: 'breakout-controller-buttons' },
+    c.html('div', { class: 'breakout-controller-button-wrapper-left' },
+      c.factory(breakoutControllerButton,
+        {
+          store,
+          class: 'breakout-controller-button-left',
+          iconLibraryId: 'core',
+          iconName: 'solid/chevron-left',
+
+          pointerdown(event: MouseEvent) {
+            handleLeftButtonDown(getEventParams(store, env, event))
+          },
+
+          pointerup(event: MouseEvent) {
+            handleLeftButtonUp(getEventParams(store, env, event))
+          },
+        },
+      ),
+    ),
+
+    c.html('div', { class: 'breakout-controller-button-wrapper-right' },
+      c.factory(breakoutControllerButton,
+        {
+          store,
+          class: 'breakout-controller-button-right',
+          iconLibraryId: 'core',
+          iconName: 'solid/chevron-right',
+
+          pointerdown(event: MouseEvent) {
+            handleRightButtonDown(getEventParams(store, env, event))
+          },
+
+          pointerup(event: MouseEvent) {
+            handleRightButtonUp(getEventParams(store, env, event))
+          },
+        },
+      ),
+    ),
+  )
+}
 
 interface IBreakoutControllerButtonState {
   store: StateStore<IGameState>
@@ -36,7 +83,7 @@ export function breakoutControllerButton(
       }).pipe(
         map(function ({ virtualControls, sidebarCollapsed }) {
           return classlist(
-            'breakout-controller-button',
+            'breakout-controller-button button-with-icon',
             cssClass,
             virtualControls && 'breakout-controller-button-enabled',
             !sidebarCollapsed && 'breakout-controller-button-compact',

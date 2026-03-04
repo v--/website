@@ -2,7 +2,7 @@
 @use "../../fonts";
 
 .breadcrumb-navigation {
-  --breadcrumb-navigation-color-background: var(--body-color-ppp);
+  --breadcrumb-navigation-color-background: var(--spotlight-color-background);
   --breadcrumb-navigation-color-disabled:   var(--body-color-foreground);
   --breadcrumb-navigation-size-slash-padding: var(--body-size-p);
   --breadcrumb-navigation-size-hpadding: var(--body-size-mp);

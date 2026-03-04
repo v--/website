@@ -2,12 +2,13 @@
 @use "sass:color";
 @use "sass:list";
 @use "sass:map";
+@use "sass:math";
 @use "./mixins";
 
-$color-light: #fff;
-$color-dark: #202020;
-$color-accented: #2a92ea;
-$color-fff-foreground-percent: 75%;
+$root-color-light: #fff;
+$root-color-dark: #202020;
+$root-color-accented: #2a92ea;
+$root-color-fff-foreground-percent: 80%;
 
 // The colors are a combination of the following:
 // [1] https://colorhunt.co/palette/347433ffc107ff6f3cb22222
@@ -16,7 +17,7 @@ $color-fff-foreground-percent: 75%;
 // [4] https://colorhunt.co/palette/4379f2ffeb006ec207117554
 // [5] https://colorhunt.co/palette/3329413b3486864af9f8e559
 // The names are based on the Russian mnemonic "Каждый охотник желает знать где сидит фазан"
-$color-rainbow-palette: (
+$root-color-rainbow-palette: (
   "red":    #B22222, // [1]
   "orange": #FF6F3C, // [1]
   "yellow": #FFC107, // [1]
@@ -26,71 +27,99 @@ $color-rainbow-palette: (
   "violet": #864AF9  // [5]
 );
 
+// Loading indicator
+$loading-color-primary: $root-color-accented;
+$loading-color-secondary: $root-color-light;
+
+@mixin musical-colors($background, $foreground) {
+  // Base color pallette based on musical dynamics
+  --body-color-ppp: #{color.mix($background, $foreground, math.div(1, 8) * $root-color-fff-foreground-percent)};
+  --body-color-pp:  #{color.mix($background, $foreground, math.div(2, 8) * $root-color-fff-foreground-percent)};
+  --body-color-p:   #{color.mix($background, $foreground, math.div(3, 8) * $root-color-fff-foreground-percent)};
+  --body-color-mp:  #{color.mix($background, $foreground, math.div(4, 8) * $root-color-fff-foreground-percent)};
+  --body-color-mf:  #{color.mix($background, $foreground, math.div(5, 8) * $root-color-fff-foreground-percent)};
+  --body-color-f:   #{color.mix($background, $foreground, math.div(6, 8) * $root-color-fff-foreground-percent)};
+  --body-color-ff:  #{color.mix($background, $foreground, math.div(7, 8) * $root-color-fff-foreground-percent)};
+  --body-color-fff: #{color.mix($background, $foreground, math.div(8, 8) * $root-color-fff-foreground-percent)};
+}
+
 @mixin light-scheme {
   // Base colors
-  --body-color-foreground: #{$color-dark};
-  --body-color-background: #{$color-light};
+  --body-color-foreground: #{$root-color-dark};
+  --body-color-background: #{$root-color-light};
+
+  // Dialogs
+  --dialog-color-backdrop:        #{$root-color-dark};
+  --dialog-color-backdrop-shadow: none;
+
+  // Spotlight
+  --spotlight-color-shadow: var(--body-color-mp);
 
   // Button foregrounds that require small adjustments
   @include mixins.button-foreground-colors(var(--body-color-background));
+  @include musical-colors($root-color-dark, $root-color-light);
 
-  // The sidebar which requires large adjustments
-  --sidebar-color-accented-active:    var(--body-color-fff);
-  --sidebar-color-accented:           var(--body-color-pp);
-  --sidebar-color-background-active:  var(--body-color-background);
-  --sidebar-color-background:         var(--body-color-foreground);
-  --sidebar-color-disabled:           var(--body-color-mf);
-  --sidebar-color-divider:            var(--body-color-fff);
-  --sidebar-color-foreground-active:  var(--body-color-foreground);
-  --sidebar-color-foreground:         var(--body-color-background);
+  // The toolbars requires larger adjustments
+  --main-menu-color-accented-active:   var(--body-color-fff);
+  --main-menu-color-accented:          var(--body-color-pp);
+  --main-menu-color-background-active: var(--body-color-background);
+  --main-menu-color-background:        var(--body-color-foreground);
+  --main-menu-color-disabled:          var(--body-color-mf);
+  --main-menu-color-divider:           #{color.mix($root-color-dark, $root-color-light, 90%)};
+  --main-menu-color-foreground-active: var(--body-color-foreground);
+  --main-menu-color-foreground:        var(--body-color-background);
 }
 
 @mixin dark-scheme {
   // Base colors
-  --body-color-foreground: #{$color-light};
-  --body-color-background: #{$color-dark};
+  --body-color-foreground: #{$root-color-light};
+  --body-color-background: #{$root-color-dark};
+
+  // Dialogs
+  --dialog-color-backdrop:        #{$root-color-dark};
+  --dialog-color-backdrop-shadow: var(--dialog-color-backdrop);
+
+  // Spotlight
+  --spotlight-color-shadow: var(--body-color-background);
 
   // Button foregrounds that require small adjustments
   @include mixins.button-foreground-colors(var(--body-color-foreground));
+  @include musical-colors($root-color-light, $root-color-dark);
 
-  // The sidebar which requires large adjustments
-  --sidebar-color-accented-active:    var(--body-color-fff);
-  --sidebar-color-accented:           var(--body-color-fff);
-  --sidebar-color-background-active:  var(--body-color-background);
-  --sidebar-color-background:         var(--body-color-ppp);
-  --sidebar-color-disabled:           var(--body-color-mf);
-  --sidebar-color-divider:            var(--body-color-p);
-  --sidebar-color-foreground-active:  var(--body-color-foreground);
-  --sidebar-color-foreground:         var(--body-color-foreground);
+  // The toolbars requires larger adjustments
+  --main-menu-color-accented-active:    var(--body-color-fff);
+  --main-menu-color-accented:           var(--body-color-fff);
+  --main-menu-color-background-active:  var(--body-color-background);
+  --main-menu-color-background:         var(--body-color-ppp);
+  --main-menu-color-disabled:           var(--body-color-mf);
+  --main-menu-color-divider:            var(--divider-color);
+  --main-menu-color-foreground-active:  var(--body-color-foreground);
+  --main-menu-color-foreground:         var(--body-color-foreground);
 }
 
 @mixin common-color-variables {
-  // Base color pallette based on musical dynamics
-  --body-color-ppp: color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(1 / 8 * $color-fff-foreground-percent)});
-  --body-color-pp:  color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(2 / 8 * $color-fff-foreground-percent)});
-  --body-color-p:   color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(3 / 8 * $color-fff-foreground-percent)});
-  --body-color-mp:  color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(4 / 8 * $color-fff-foreground-percent)});
-  --body-color-mf:  color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(5 / 8 * $color-fff-foreground-percent)});
-  --body-color-f:   color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(6 / 8 * $color-fff-foreground-percent)});
-  --body-color-ff:  color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(7 / 8 * $color-fff-foreground-percent)});
-  --body-color-fff: color-mix(in srgb, var(--body-color-background), var(--body-color-foreground) #{calc(8 / 8 * $color-fff-foreground-percent)});
-
   // Rainbow colors
-  @for $i from 1 through list.length($color-rainbow-palette) {
-    $pair: list.nth($color-rainbow-palette, $i);
+  @for $i from 1 through list.length($root-color-rainbow-palette) {
+    $pair: list.nth($root-color-rainbow-palette, $i);
     $name: list.nth($pair, 1);
     $color: list.nth($pair, 2);
 
     --body-color-rainbow-#{$name}: #{$color};
-    --body-color-rainbow-#{$i}: var(--body-color-rainbow-#{$name});
+    --body-color-rainbow-#{$i}: #{$color};
   }
 
   // Other base colors
-  --body-color-accented: #{$color-accented};
+  --body-color-accented: #{$root-color-accented};
   --body-color-disabled: var(--body-color-mf);
   --body-color-danger:   var(--body-color-rainbow-red);
   --body-color-success:  var(--body-color-rainbow-green);
   --body-color-warning:  var(--body-color-rainbow-yellow);
+
+  // Playground
+  --spotlight-color-background: var(--body-color-ppp);
+  --spotlight-color-drawer-background: var(--body-color-pp);
+  --spotlight-color-menu: color-mix(in srgb, transparent, var(--body-color-foreground) 10%);
+  --spotlight-color-divider: var(--body-color-p);
 
   // Anchors
   @include mixins.anchor-colors(var(--body-color-accented));
@@ -107,7 +136,7 @@ $color-rainbow-palette: (
   @include mixins.control-label-colors(var(--body-color-foreground));
 
   // Dividers
-  --divider-color: var(--body-color-mp);
+  --divider-color: var(--body-color-pp);
 
   // Fields
   --field-color-background-disabled: var(--body-color-pp);
@@ -126,10 +155,6 @@ $color-rainbow-palette: (
 
   // Notices
   @include mixins.notice-colors(var(--body-color-accented));
-
-  // Loading indicator
-  --loading-color-primary:   var(--body-color-accented);
-  --loading-color-secondary: #{$color-light};
 
   // Scrollbars
   --scrollbar-color-thumb:  var(--body-color-mf);

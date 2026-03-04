@@ -8,7 +8,6 @@ import { GITHUB_PROJECT_CODE_URL } from '../../common/constants/url.ts'
 import { createComponent as c } from '../../common/rendering/component.ts'
 import { StateStore } from '../../common/support/state_store.ts'
 import { type IWebsitePageState } from '../../common/types/page.ts'
-import { playgroundMenu } from '../core/components/playground_menu.ts'
 import { spotlightPage } from '../core/components/spotlight_page.ts'
 import { type ClientWebsiteEnvironment } from '../core/environment.ts'
 import { interpolationLegendTable } from './components/interpolation_legend_table.ts'
@@ -34,21 +33,23 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
 
   return c.factory(spotlightPage,
     {
-      class: 'univariate-interpolation-page',
-      stage: c.factory(interpolationGrid, { store }),
-      menu: c.factory(
-        playgroundMenu, undefined,
-        c.html('button', {
-          class: 'button-danger',
-          text: _({ bundleId: 'univariate_interpolation', key: 'control.reset.label' }),
-          click(_event: PointerEvent) {
-            const message = _.plain('control.reset.confirmation')
+      rootClass: 'univariate-interpolation-page',
+      stage: () => c.factory(interpolationGrid, { store }),
+      submenu: () => c.html('menu', { class: 'playground-submenu' },
+        c.html('li', { class: 'playground-submenu-item' },
+          c.html('button', {
+            type: 'button',
+            class: 'button-danger',
+            text: _({ bundleId: 'univariate_interpolation', key: 'control.reset.label' }),
+            click(_event: PointerEvent) {
+              const message = _.plain('control.reset.confirmation')
 
-            if (window.confirm(message)) {
-              store.update({ knots: DEFAULT_STATE.knots })
-            }
-          },
-        }),
+              if (window.confirm(message)) {
+                store.update({ knots: DEFAULT_STATE.knots })
+              }
+            },
+          }),
+        ),
       ),
     },
     c.factory(spacer, { dynamics: 'mf' }),

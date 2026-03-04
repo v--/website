@@ -29,49 +29,62 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
         },
       ),
     }),
-    c.factory(playgroundMenu, { class: 'sorting-page-menu' },
-      c.factory(slider<uint32>, {
-        name: 'sorting_speed',
-        content: _('control.speed.label'),
-        inputClass: 'sorting-page-menu-control-speed',
-        min: MIN_ACTIONS_PER_SECOND,
-        max: MAX_ACTIONS_PER_SECOND,
-        value: store.speed$,
-        update(newValue: uint32) {
-          store.updateSpeed(newValue)
-        },
-      }),
-      c.html('button', {
-        class: 'sorting-phase-button',
-        text: store.globalSortingPhase$.pipe(
-          switchMap(phase => _(`control.run.label.${phase}`)),
+    c.factory(playgroundMenu, {
+      submenu: () => c.html('menu', { class: 'playground-submenu' },
+        c.html('li', { class: 'playground-submenu-item' },
+          c.factory(slider<uint32>, {
+            name: 'sorting_speed',
+            content: _('control.speed.label'),
+            inputClass: 'sorting-page-menu-control-speed',
+            min: MIN_ACTIONS_PER_SECOND,
+            max: MAX_ACTIONS_PER_SECOND,
+            value: store.speed$,
+            update(newValue: uint32) {
+              store.updateSpeed(newValue)
+            },
+          }),
         ),
-        click() {
-          const phase = store.getGlobalSortingPhase()
+        c.html('li', { class: 'playground-submenu-item' },
+          c.html('button', {
+            type: 'button',
+            class: 'sorting-phase-button button-transparent',
+            text: store.globalSortingPhase$.pipe(
+              switchMap(phase => _(`control.run.label.${phase}`)),
+            ),
+            click() {
+              const phase = store.getGlobalSortingPhase()
 
-          switch (phase) {
-            case 'running':
-              store.updateGlobalPhase('paused')
-              break
+              switch (phase) {
+                case 'running':
+                  store.updateGlobalPhase('paused')
+                  break
 
-            case 'completed':
+                case 'completed':
+                  store.resetGlobalSortingState()
+                  // eslint-disable-next-line no-fallthrough
+                default:
+                  store.updateGlobalPhase('running')
+              }
+            },
+          }),
+        ),
+        c.html('li', { class: 'playground-submenu-item' },
+          c.html('button', {
+            type: 'button',
+            class: 'sorting-phase-button button-transparent',
+            text: _('control.reset.label'),
+            click() {
               store.resetGlobalSortingState()
-            // eslint-disable-next-line no-fallthrough
-            default:
-              store.updateGlobalPhase('running')
-          }
-        },
-      }),
-      c.html('button', {
-        class: 'sorting-phase-button',
-        text: _('control.reset.label'),
-        click() {
-          store.resetGlobalSortingState()
-        },
-      }),
-    ),
-    c.html('div', { class: 'sorting-cards' },
-      ...ALGORITHMS.map(algorithm => c.factory(sortingCard, { algorithm, store })),
+            },
+          }),
+        ),
+      ),
+    }),
+    c.html('div', { class: 'sorting-page-contents' },
+      c.html('hr', { class: 'sorting-page-top-divider' }),
+      c.html('div', { class: 'sorting-cards' },
+        ...ALGORITHMS.map(algorithm => c.factory(sortingCard, { algorithm, store })),
+      ),
     ),
   )
 }

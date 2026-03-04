@@ -1,7 +1,6 @@
 import { anchor } from '../components/anchor.ts'
 import { icon } from '../components/icon.ts'
 import { rich } from '../components/rich.ts'
-import { spacer } from '../components/spacer.ts'
 import {
   EMAIL_URL,
   GITHUB_PROJECT_CODE_URL,
@@ -72,48 +71,42 @@ export function homePage(pageState: IWebsitePageState, env: WebsiteEnvironment) 
 
     c.html('section', { class: 'home-page-contacts' },
       c.html('h1', { text: _('heading.contacts') }),
-      c.html('div', undefined,
-        c.html('div', { class: 'home-page-contacts-entry' },
-          c.factory(anchor, { href: EMAIL_URL },
+      c.html('ul', { class: 'home-page-contacts-list' },
+        c.html('li', { class: 'home-page-contacts-entry' },
+          c.factory(anchor, { class: 'anchor-with-icon', href: EMAIL_URL },
             c.factory(icon, { libId: 'contacts', name: 'solid/envelope' }),
-            c.factory(spacer, { direction: 'horizontal', dynamics: 'p' }),
             c.html('span', { text: 'Email' }),
           ),
         ),
 
-        c.html('div', { class: 'home-page-contacts-entry' },
-          c.factory(anchor, { href: TELEGRAM_URL },
+        c.html('li', { class: 'home-page-contacts-entry' },
+          c.factory(anchor, { class: 'anchor-with-icon', href: TELEGRAM_URL },
             c.factory(icon, { libId: 'contacts', name: 'brands/telegram' }),
-            c.factory(spacer, { direction: 'horizontal', dynamics: 'p' }),
             c.html('span', { text: 'Telegram' }),
           ),
         ),
 
-        c.html('div', { class: 'home-page-contacts-entry' },
-          c.factory(anchor, { href: MASTODON_URL, rel: 'me' },
+        c.html('li', { class: 'home-page-contacts-entry' },
+          c.factory(anchor, { class: 'anchor-with-icon', href: MASTODON_URL, rel: 'me' },
             c.factory(icon, { libId: 'contacts', name: 'brands/mastodon' }),
-            c.factory(spacer, { direction: 'horizontal', dynamics: 'p' }),
             c.html('span', { text: 'Mastodon' }),
           ),
         ),
 
-        c.html('div', { class: 'home-page-contacts-entry' },
-          c.factory(anchor, { href: GITHUB_USER_URL },
+        c.html('li', { class: 'home-page-contacts-entry' },
+          c.factory(anchor, { class: 'anchor-with-icon', href: GITHUB_USER_URL },
             c.factory(icon, { libId: 'contacts', name: 'brands/github' }),
-            c.factory(spacer, { direction: 'horizontal', dynamics: 'p' }),
             c.html('span', { text: 'GitHub' }),
           ),
         ),
-
-        c.factory(spacer, { dynamics: 'pp' }),
-
-        c.factory(rich, {
-          doc: _.rich$({
-            key: 'openpgp',
-            context: { keyName: OPENPGP_KEY_ID_SHORT, keyUrl: OPENPGP_KEYSERVER_URL },
-          }),
-        }),
       ),
+
+      c.factory(rich, {
+        doc: _.rich$({
+          key: 'openpgp',
+          context: { keyName: OPENPGP_KEY_ID_SHORT, keyUrl: OPENPGP_KEYSERVER_URL },
+        }),
+      }),
     ),
   )
 }

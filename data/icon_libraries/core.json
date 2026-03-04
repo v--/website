@@ -1,7 +1,6 @@
 [
   "solid/chevron-left",
   "solid/chevron-right",
-  "solid/language",
   "solid/lightbulb",
 
   "solid/house",
@@ -10,6 +9,8 @@
   "solid/code",
 
   "solid/bars",
+  "solid/toggle-on",
+  "solid/toggle-off",
 
   "solid/triangle-exclamation"
 ]

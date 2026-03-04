@@ -1,5 +1,4 @@
-import { spacer } from './spacer.ts'
-import { Component, createComponent as c } from '../rendering/component.ts'
+import { type FactoryComponentType, createComponent as c } from '../rendering/component.ts'
 import { type float64 } from '../types/numbers.ts'
 import { type Action, type AsyncAction } from '../types/typecons.ts'
 
@@ -9,7 +8,7 @@ interface ISliderState<T extends float64 = float64> {
   value: T
   update: Action<T> | AsyncAction<T>
   name: string
-  content?: string | Component
+  content?: string | FactoryComponentType
   labelClass?: string
   inputClass?: string
 }
@@ -35,6 +34,9 @@ export function slider<T extends float64 = float64>(state: ISliderState<T>) {
         await state.update(value)
       },
     },
+    state.content && (
+      state.content instanceof Function ? c.factory(state.content) : c.html('span', { text: state.content })
+    ),
     c.html('input', {
       type: 'range',
       class: state.inputClass,
@@ -43,9 +45,5 @@ export function slider<T extends float64 = float64>(state: ISliderState<T>) {
       min: state.min,
       max: state.max,
     }),
-    state.content && c.factory(spacer, { direction: 'horizontal' }),
-    state.content && (
-      state.content instanceof Component ? state.content : c.html('span', { text: state.content })
-    ),
   )
 }

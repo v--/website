@@ -3,11 +3,11 @@
 .paginator {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 0.5em;
 
-  .paginator-anchor {
+  &-anchor {
     --anchor-text-decoration: none;
-    --icon-size-diameter: 1.2em;
 
     font-weight: bold;
   }

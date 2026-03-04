@@ -5,8 +5,6 @@
 
 @mixin common-duration-variables {
   --body-duration-transition:  250ms;
-  --sidebar-duration-collapse: var(--body-duration-transition);
-  --sidebar-toggle-duration:   var(--body-duration-transition);
-  --icon-duration-transition:  var(--body-duration-transition);
+  --dialog-duration-open:      var(--body-duration-transition);
   --loading-duration-cycle:    1000ms;
 }

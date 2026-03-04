@@ -12,6 +12,7 @@ button {
   @include mixins.foreground-color(var(--button-color-foreground-normal));
   @include mixins.background-color(var(--button-color-background-normal));
 
+  width: var(--button-size-width);
   padding-inline: var(--button-size-hpadding);
   padding-block: var(--button-size-vpadding);
   border: none;
@@ -59,5 +60,17 @@ button {
 
   &-warning {
     @include mixins.button-background-colors(var(--body-color-warning));
+  }
+
+  &-transparent {
+    @include mixins.button-background-colors(transparent);
+  }
+
+  &-with-icon {
+    --icon-size-diameter: var(--button-size-icon-diameter);
+
+    display: inline-flex;
+    gap: var(--button-size-gap);
+    align-items: center;
   }
 }

@@ -1,5 +1,4 @@
-import { spacer } from './spacer.ts'
-import { Component, createComponent as c } from '../rendering/component.ts'
+import { type FactoryComponentType, createComponent as c } from '../rendering/component.ts'
 import { waitForNextTask } from '../support/async.ts'
 import { type Action, type AsyncAction } from '../types/typecons.ts'
 
@@ -7,7 +6,7 @@ interface ICheckboxState {
   value: boolean
   update: Action<boolean> | AsyncAction<boolean>
   name: string
-  content?: string | Component
+  content?: string | FactoryComponentType
   labelClass?: string
   inputClass?: string
 }
@@ -41,9 +40,8 @@ export function checkbox(state: ICheckboxState) {
       name: state.name,
       checked: state.value,
     }),
-    state.content && c.factory(spacer, { direction: 'horizontal' }),
     state.content && (
-      state.content instanceof Component ? state.content : c.html('span', { text: state.content })
+      state.content instanceof Function ? c.factory(state.content) : c.html('span', { text: state.content })
     ),
   )
 }
