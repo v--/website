@@ -22,6 +22,7 @@ import { spotlightPage } from '../core/components/spotlight_page.ts'
 import { DEFAULT_FPS, isLayoutCollapsed } from '../core/dom.ts'
 import { type ClientWebsiteEnvironment } from '../core/environment.ts'
 import { breakoutControllerButtons } from './components/breakout_controller_buttons.ts'
+import { button } from '../../common/components/button.ts'
 
 export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnvironment) {
   const _ = env.gettext.bindToBundle('breakout')
@@ -58,9 +59,8 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
           }),
         ),
         c.html('li', { class: 'playground-submenu-item' },
-          c.html('button', {
-            type: 'button',
-            class: 'button-danger',
+          c.factory(button, {
+            buttonStyle: 'danger',
             text: _('control.reset.label'),
             click(event: PointerEvent) {
               handleResetButton(getEventParams(store, env, event))

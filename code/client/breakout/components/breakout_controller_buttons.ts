@@ -1,4 +1,4 @@
-import { icon } from '../../../common/components/icon.ts'
+import { button } from '../../../common/components/button.ts'
 import { combineLatest, map } from '../../../common/observable.ts'
 import { createComponent as c } from '../../../common/rendering/component.ts'
 import { classlist } from '../../../common/support/dom_properties.ts'
@@ -75,7 +75,7 @@ export function breakoutControllerButton(
   }: IBreakoutControllerButtonState,
   env: ClientWebsiteEnvironment,
 ) {
-  return c.html('button',
+  return c.factory(button,
     {
       class: combineLatest({
         virtualControls: store.keyedObservables.virtualControls,
@@ -83,7 +83,7 @@ export function breakoutControllerButton(
       }).pipe(
         map(function ({ virtualControls, sidebarCollapsed }) {
           return classlist(
-            'breakout-controller-button button-with-icon',
+            'breakout-controller-button',
             cssClass,
             virtualControls && 'breakout-controller-button-enabled',
             !sidebarCollapsed && 'breakout-controller-button-compact',
@@ -92,11 +92,8 @@ export function breakoutControllerButton(
       ),
 
       pointerdown, pointerup,
+      iconLibId: iconLibraryId,
+      iconName: iconName,
     },
-    c.factory(icon, {
-      class: 'breakout-controller-button-icon',
-      libId: iconLibraryId,
-      name: iconName,
-    }),
   )
 }

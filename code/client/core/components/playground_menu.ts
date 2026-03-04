@@ -1,5 +1,5 @@
 import { anchor } from '../../../common/components/anchor.ts'
-import { icon } from '../../../common/components/icon.ts'
+import { button } from '../../../common/components/button.ts'
 import { Component, type FactoryComponentType, createComponent as c } from '../../../common/rendering/component.ts'
 import { type ClientWebsiteEnvironment } from '../environment.ts'
 
@@ -20,16 +20,14 @@ export function playgroundMenu({ submenu }: IPlaygroundMenuState) {
       c.html('form', { name: 'playground-menu-inline-form' }, c.factory(submenu)),
     ),
     c.html('li', { class: 'playground-menu-drawer' },
-      c.html('button',
+      c.factory(button,
         {
-          class: 'playground-menu-drawer-toggle button-transparent button-with-icon',
+          buttonStyle: 'transparent',
+          class: 'playground-menu-drawer-toggle',
           popovertarget: 'playground-menu-drawer-popover',
-          type: 'button',
+          iconLibId: 'core',
+          iconName: 'solid/bars',
         },
-        c.factory(icon, {
-          libId: 'core',
-          name: 'solid/bars',
-        }),
       ),
       c.html('form',
         {

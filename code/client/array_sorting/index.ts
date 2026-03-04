@@ -11,6 +11,7 @@ import { type IWebsitePageState } from '../../common/types/page.ts'
 import { playgroundMenu } from '../core/components/playground_menu.ts'
 import { type ClientWebsiteEnvironment } from '../core/environment.ts'
 import { sortingCard } from './components/sorting_card.ts'
+import { button } from '../../common/components/button.ts'
 
 export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnvironment) {
   const _ = env.gettext.bindToBundle('array_sorting')
@@ -45,8 +46,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
           }),
         ),
         c.html('li', { class: 'playground-submenu-item' },
-          c.html('button', {
-            type: 'button',
+          c.factory(button, {
             class: 'sorting-phase-button button-transparent',
             text: store.globalSortingPhase$.pipe(
               switchMap(phase => _(`control.run.label.${phase}`)),
@@ -69,9 +69,9 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
           }),
         ),
         c.html('li', { class: 'playground-submenu-item' },
-          c.html('button', {
-            type: 'button',
-            class: 'sorting-phase-button button-transparent',
+          c.factory(button, {
+            buttonStyle: 'transparent',
+            class: 'sorting-phase-button',
             text: _('control.reset.label'),
             click() {
               store.resetGlobalSortingState()

@@ -1,4 +1,5 @@
 import { anchor } from '../../../common/components/anchor.ts'
+import { button } from '../../../common/components/button.ts'
 import { rich } from '../../../common/components/rich.ts'
 import { GITHUB_PROJECT_CODE_URL } from '../../../common/constants/url.ts'
 import { EMPTY, map, switchMap, timeInterval } from '../../../common/observable.ts'
@@ -66,7 +67,7 @@ export function sortingCard({ algorithm, store }: IArraySortingCardState, env: C
     ),
 
     c.html('div', { class: 'sorting-card-buttons' },
-      c.html('button', {
+      c.factory(button, {
         class: 'sorting-phase-button',
         text: algorithmPhase$.pipe(
           switchMap(phase => _(`control.run.label.${phase}`)),
@@ -88,7 +89,7 @@ export function sortingCard({ algorithm, store }: IArraySortingCardState, env: C
         },
       }),
 
-      c.html('button', {
+      c.factory(button, {
         class: 'sorting-phase-button',
         text: _('control.reset.label'),
         click() {

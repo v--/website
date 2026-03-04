@@ -1,4 +1,5 @@
 import { anchor } from './anchor.ts'
+import { button } from './button.ts'
 import { icon } from './icon.ts'
 import { type WebsiteEnvironment } from '../environment.ts'
 import { radio } from './radio.ts'
@@ -78,21 +79,17 @@ export function mainMenu({ navId }: INavigationState, env: WebsiteEnvironment) {
 
       c.html('hr'),
 
-      c.html('button',
+      c.factory(button,
         {
-          class: 'main-menu-color-toggle main-menu-entry button-with-icon',
+          class: 'main-menu-color-toggle main-menu-entry',
           disabled: !env.isContentDynamic(),
-          title: _('main_menu.button.color_scheme'),
-          type: 'button',
+          text: _('main_menu.button.color_scheme'),
+          iconLibId: 'core',
+          iconName: 'solid/lightbulb',
           async click() {
             await env.toggleColorScheme()
           },
         },
-        c.factory(icon, {
-          libId: 'core',
-          name: 'solid/lightbulb',
-        }),
-        c.html('span', { text: _('main_menu.button.color_scheme') }),
       ),
     ),
   )

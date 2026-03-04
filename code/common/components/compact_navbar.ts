@@ -1,5 +1,6 @@
 import { icon } from './icon.ts'
 import { type WebsiteEnvironment } from '../environment.ts'
+import { button } from './button.ts'
 import { mainMenu } from './main_menu.ts'
 import { createComponent as c } from '../rendering/component.ts'
 import { type NavigationId } from '../types/page.ts'
@@ -29,18 +30,16 @@ export function compactNavbar({ navId }: INavbarState, env: WebsiteEnvironment) 
       }),
     ),
 
-    c.html('button',
+    c.factory(button,
       {
-        class: 'compact-navbar-button compact-navbar-button-color button-with-icon',
+        class: 'compact-navbar-button compact-navbar-button-color',
         disabled: !env.isContentDynamic(),
+        iconLibId: 'core',
+        iconName: 'solid/lightbulb',
         async click() {
           await env.toggleColorScheme()
         },
       },
-      c.factory(icon, {
-        libId: 'core',
-        name: 'solid/lightbulb',
-      }),
     ),
 
     c.html('dialog', { id: 'compact-navbar-dialog', closedby: 'any', class: 'compact-navbar-dialog' },
@@ -52,20 +51,14 @@ export function compactNavbar({ navId }: INavbarState, env: WebsiteEnvironment) 
             class: 'wide-navbar-logo',
           }),
         ),
-        c.html('button',
-          {
-            class: 'compact-navbar-dialog-close-button button-with-icon',
-            command: 'close',
-            commandFor: 'compact-navbar-dialog',
-            type: 'button',
-          },
-          c.factory(icon, {
-            libId: 'core',
-            name: 'solid/bars',
-            class: 'compact-navbar-item compact-navbar-item',
-          }),
-          c.html('span', { text: _('main_menu.button.close_menu') }),
-        ),
+        c.factory(button, {
+          class: 'compact-navbar-dialog-close-button',
+          text: _('main_menu.button.close_menu'),
+          command: 'close',
+          commandfor: 'compact-navbar-dialog',
+          iconLibId: 'core',
+          iconName: 'solid/bars',
+        }),
         c.html('hr'),
         c.factory(mainMenu, { navId }),
       ),

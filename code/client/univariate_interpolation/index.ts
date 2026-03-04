@@ -2,6 +2,7 @@ import { interpolationGrid } from './components/interpolation_grid.ts'
 import { interpolationKnotTable } from './components/interpolation_knot_table.ts'
 import { DEFAULT_STATE, STAGE } from './constants.ts'
 import { type IInterpolationState, type IInterpolator } from './types.ts'
+import { button } from '../../common/components/button.ts'
 import { rich } from '../../common/components/rich.ts'
 import { spacer } from '../../common/components/spacer.ts'
 import { GITHUB_PROJECT_CODE_URL } from '../../common/constants/url.ts'
@@ -37,10 +38,9 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
       stage: () => c.factory(interpolationGrid, { store }),
       submenu: () => c.html('menu', { class: 'playground-submenu' },
         c.html('li', { class: 'playground-submenu-item' },
-          c.html('button', {
-            type: 'button',
-            class: 'button-danger',
+          c.factory(button, {
             text: _({ bundleId: 'univariate_interpolation', key: 'control.reset.label' }),
+            buttonStyle: 'danger',
             click(_event: PointerEvent) {
               const message = _.plain('control.reset.confirmation')
 
