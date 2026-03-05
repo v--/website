@@ -1,4 +1,5 @@
 import { type WebsiteEnvironment } from '../environment.ts'
+import { type ButtonStyle } from './button.ts'
 import { Component, createComponent as c } from '../rendering/component.ts'
 import { classlist } from '../support/dom_properties.ts'
 import { UrlPath } from '../support/url_path.ts'
@@ -7,6 +8,7 @@ import { type Action } from '../types/typecons.ts'
 
 interface IAnchorState {
   href: UrlPath | string
+  buttonStyle?: boolean | ButtonStyle
   ariaCurrent?: AriaCurrentValue
   class?: string
   disabled?: boolean
@@ -47,7 +49,12 @@ interface IDisabledAnchorElementState {
  */
 export function anchor(state: IAnchorState, env: WebsiteEnvironment, children: Readonly<Component[]>) {
   const childState: IDisabledAnchorElementState = {
-    class: classlist(state.class, state.disabled && 'disabled-anchor'),
+    class: classlist(
+      state.class,
+      state.disabled && 'disabled-anchor',
+      state.buttonStyle && 'button-styled-anchor',
+      typeof state.buttonStyle === 'string' && `button-${state.buttonStyle}`,
+    ),
     title: state.title,
     style: state.style,
     rel: state.rel,

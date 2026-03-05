@@ -5,9 +5,11 @@ import { classlist } from '../support/dom_properties.ts'
 import { type IconLibraryId } from '../types/bundles.ts'
 import { type Action, type AsyncAction } from '../types/typecons.ts'
 
+export type ButtonStyle = 'success' | 'warning' | 'danger' | 'transparent'
+
 interface IButtonState {
   type?: 'button' | 'submit' | 'reset'
-  buttonStyle?: 'success' | 'warning' | 'danger' | 'transparent'
+  buttonStyle?: ButtonStyle
   class?: string
   title?: string
   command?: 'open-modal' | 'close' | 'request-close' | 'show-popover' | 'hide-popover' | 'toggle-popover'

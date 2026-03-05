@@ -36,9 +36,9 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
       rootClass: 'breakout-page',
       stage: () => c.factory(breakout, { store }),
       submenu: () => c.html('menu', { class: 'playground-submenu' },
-        c.html('li', { class: 'playground-submenu-item button-transparent' },
+        c.html('li', { class: 'playground-submenu-item' },
           c.factory(checkbox, {
-            labelClass: 'button-styled-input-label',
+            buttonStyle: 'transparent',
             name: 'virtual-controls',
             value: store.keyedObservables.virtualControls,
             content: _('control.virtual_controls.label'),
@@ -49,7 +49,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
         ),
         c.html('li', { class: 'playground-submenu-item' },
           c.factory(checkbox, {
-            labelClass: 'button-styled-input-label button-transparent',
+            buttonStyle: 'transparent',
             name: 'debug-mode',
             value: store.keyedObservables.debug,
             content: _('control.debug.label'),

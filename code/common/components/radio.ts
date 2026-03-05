@@ -1,6 +1,8 @@
 import { type FactoryComponentType, createComponent as c } from '../rendering/component.ts'
 import { waitForNextTask } from '../support/async.ts'
+import { classlist } from '../support/dom_properties.ts'
 import { type Action, type AsyncAction } from '../types/typecons.ts'
+import type { ButtonStyle } from './button.ts'
 
 interface IRadioState<T extends string> {
   controlValue: T
@@ -10,6 +12,7 @@ interface IRadioState<T extends string> {
   content?: string | FactoryComponentType
   labelClass?: string
   inputClass?: string
+  buttonStyle?: ButtonStyle
 }
 
 /**
@@ -22,7 +25,11 @@ export function radio<T extends string>(state: IRadioState<T>) {
 
   return c.html('label',
     {
-      class: state.labelClass,
+      class: classlist(
+        state.labelClass,
+        state.buttonStyle && 'button-styled-control-label',
+        typeof state.buttonStyle === 'string' && `button-${state.buttonStyle}`,
+      ),
       async click(event: PointerEvent) {
         event.preventDefault()
         await waitForNextTask()

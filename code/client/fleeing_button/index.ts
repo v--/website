@@ -27,6 +27,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
       submenu: () => c.html('menu', { class: 'playground-submenu' },
         c.html('li', { class: 'playground-submenu-item' },
           c.factory(checkbox, {
+            buttonStyle: 'transparent',
             name: 'debug-mode',
             value: store.keyedObservables.debug,
             content: _('control.debug'),

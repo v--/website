@@ -81,7 +81,7 @@ fieldset[disabled] label:has(input[type="checkbox"], input[type="radio"], input[
 }
 
 
-.button-styled-input-label {
+.button-styled-control-label {
   --icon-size-diameter: var(--button-size-icon-diameter);
   --control-color-input-normal: var(--button-color-foreground-accented);
   --control-color-input-accented: var(--button-color-foreground-accented);

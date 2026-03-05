@@ -1,4 +1,6 @@
+import { type ButtonStyle } from './button.ts'
 import { type FactoryComponentType, createComponent as c } from '../rendering/component.ts'
+import { classlist } from '../support/dom_properties.ts'
 import { type float64 } from '../types/numbers.ts'
 import { type Action, type AsyncAction } from '../types/typecons.ts'
 
@@ -11,6 +13,7 @@ interface ISliderState<T extends float64 = float64> {
   content?: string | FactoryComponentType
   labelClass?: string
   inputClass?: string
+  buttonStyle?: ButtonStyle
 }
 
 /**
@@ -24,7 +27,11 @@ interface ISliderState<T extends float64 = float64> {
 export function slider<T extends float64 = float64>(state: ISliderState<T>) {
   return c.html('label',
     {
-      class: state.labelClass,
+      class: classlist(
+        state.labelClass,
+        state.buttonStyle && 'button-styled-control-label',
+        typeof state.buttonStyle === 'string' && `button-${state.buttonStyle}`,
+      ),
       // Compared to checkboxes, it is worse here because preventDefault does nothing
       // and, on mobile browsers, even label's click event may not.
       // So we resort to using the input event.

@@ -1,5 +1,7 @@
+import { type ButtonStyle } from './button.ts'
 import { type FactoryComponentType, createComponent as c } from '../rendering/component.ts'
 import { waitForNextTask } from '../support/async.ts'
+import { classlist } from '../support/dom_properties.ts'
 import { type Action, type AsyncAction } from '../types/typecons.ts'
 
 interface ICheckboxState {
@@ -9,6 +11,7 @@ interface ICheckboxState {
   content?: string | FactoryComponentType
   labelClass?: string
   inputClass?: string
+  buttonStyle?: boolean | ButtonStyle
 }
 
 /**
@@ -23,7 +26,11 @@ interface ICheckboxState {
 export function checkbox(state: ICheckboxState) {
   return c.html('label',
     {
-      class: state.labelClass,
+      class: classlist(
+        state.labelClass,
+        state.buttonStyle && 'button-styled-control-label',
+        typeof state.buttonStyle === 'string' && `button-${state.buttonStyle}`,
+      ),
       async click(event: PointerEvent) {
         event.preventDefault()
         // Some browsers (e.g. Chrome on Android) sometimes misbehave when the default is prevented and the checked attribute is set immediately afterwards.
