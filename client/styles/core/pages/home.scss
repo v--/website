@@ -8,45 +8,41 @@ $home-size-photo-side: 200px;
 
   // We only care about whether the width is dense here
   @container page-scroll-container (width > #{sizes.$root-size-boundary-dense-width}) {
-    & {
-      grid-template-rows: auto 1fr;
-      grid-template-columns: $home-size-photo-side 1fr;
-    }
+    grid-template-rows: auto 1fr;
+    grid-template-columns: $home-size-photo-side 1fr;
 
-    & &-photo {
+    &-photo {
       grid-row: 1 / span 1;
       grid-column: 1 / span 1;
     }
 
-    & &-about {
+    &-about {
       grid-row: 1 / span 2;
       grid-column: 2 / span 1;
     }
 
-    & &-contacts {
+    &-contacts {
       grid-row: 2 / span 1;
       grid-column: 1 / span 1;
     }
   }
 
   @container page-scroll-container (width <= #{sizes.$root-size-boundary-dense-width}) {
-    & {
-      grid-template-columns: 1fr;
+    grid-template-columns: 1fr;
 
-      & &-photo {
-        grid-row: 1 / span 1;
-        grid-column: 1 / span 1;
-      }
+    &-photo {
+      grid-row: 1 / span 1;
+      grid-column: 1 / span 1;
+    }
 
-      & &-about {
-        grid-row: 2 / span 1;
-        grid-column: 1 / span 1;
-      }
+    &-about {
+      grid-row: 2 / span 1;
+      grid-column: 1 / span 1;
+    }
 
-      & &-contacts {
-        grid-row: 3 / span 1;
-        grid-column: 1 / span 1;
-      }
+    &-contacts {
+      grid-row: 3 / span 1;
+      grid-column: 1 / span 1;
     }
   }
 

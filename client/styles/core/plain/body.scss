@@ -26,9 +26,7 @@ body {
   scrollbar-gutter: stable;
 
   @media (prefers-reduced-motion: reduce) {
-    & {
-      @include duration.reduced-motion-durations;
-    }
+    @include duration.reduced-motion-durations;
   }
 
   @media (prefers-color-scheme: light) {
@@ -106,7 +104,7 @@ body {
   position: relative;
   overflow-y: auto;
   container: page-scroll-container / size;
-  overscroll-behavior-x: contain;
+  overscroll-behavior: contain;
 }
 
 main {
@@ -123,18 +121,14 @@ main {
   padding-block: var(--main-size-vpadding);
 
   @container page-scroll-container (width <= #{sizes.$root-size-boundary-dense-width}) or (height <= #{sizes.$root-size-boundary-dense-height}) {
-    & {
-      --layout-dense: true;
+    --layout-dense: true;
 
-      @include sizes.dense-size-variables;
-    }
+    @include sizes.dense-size-variables;
   }
 
   @container page-scroll-container (width <= #{sizes.$root-size-boundary-very-dense-width}) {
-    & {
-      --layout-very-dense: true;
+    --layout-very-dense: true;
 
-      @include sizes.very-dense-size-variables;
-    }
+    @include sizes.very-dense-size-variables;
   }
 }
