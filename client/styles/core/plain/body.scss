@@ -15,8 +15,8 @@ body {
   @include sizes.common-size-variables;
 
   display: grid;
-  grid-template-rows: auto 1fr;
-  grid-template-columns: auto 1fr;
+  grid-template-rows: min-content 1fr;
+  grid-template-columns: min-content 1fr;
   height: 100dvh;
   margin: 0; // The body has a margin by default
   background-color: var(--body-color-background);
