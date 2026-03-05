@@ -32,10 +32,9 @@
   margin: 0;
 
   &-entry {
-    @include fonts.accented-font;
-
     box-sizing: border-box;
     width: 100%;
+    font-variant: small-caps;
     text-overflow: ellipsis;
     white-space: pre;
 

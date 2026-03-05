@@ -71,7 +71,7 @@
       --button-size-vpadding: #{sizes.$main-menu-size-button-vpadding};
       --button-size-gap: #{sizes.$main-menu-size-button-gap};
 
-      @include fonts.accented-font;
+      font-variant: small-caps;
     }
   }
 }
