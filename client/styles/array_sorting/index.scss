@@ -10,22 +10,24 @@
   --sorting-color-array-bar-normal:  var(--body-color-mf);
   --sorting-color-array-bar-success: var(--body-color-success);
   --sorting-color-array-bar-danger:  var(--body-color-danger);
-  --sorting-size-main-vpadding:   0.75rem;
-  --sorting-size-main-gap:        #{vars.$sorting-size-card-gap};
-  --sorting-size-card-width:      #{vars.$sorting-size-card-width};
-  --sorting-size-card-gap:        var(--sorting-size-main-gap);
-  --sorting-size-card-vpadding:   #{vars.$sorting-size-card-vpadding};
-  --sorting-size-card-hpadding:   #{vars.$sorting-size-card-hpadding};
-  --sorting-size-array-width:     #{vars.$sorting-size-card-array-width};
-  --sorting-size-array-gap:       #{vars.$sorting-size-card-array-gap};
-  --sorting-size-button-width:    var(--sorting-size-array-width);
-  --sorting-size-button-gap:      var(--sorting-size-array-gap);
-  --sorting-size-card-table-gap:  #{vars.$sorting-size-card-array-gap};
+  --sorting-size-main-vpadding:      0.75rem;
+  --sorting-size-main-gap:           #{vars.$sorting-size-card-gap};
+  --sorting-size-card-width:         #{vars.$sorting-size-card-width};
+  --sorting-size-card-gap:           var(--sorting-size-main-gap);
+  --sorting-size-card-vpadding:      #{vars.$sorting-size-card-vpadding};
+  --sorting-size-card-hpadding:      #{vars.$sorting-size-card-hpadding};
+  --sorting-size-array-width:        #{vars.$sorting-size-card-array-width};
+  --sorting-size-array-gap:          #{vars.$sorting-size-card-array-gap};
+  --sorting-size-button-min-width:   var(--sorting-size-array-width);
+  --sorting-size-button-gap:         var(--sorting-size-array-gap);
+  --sorting-size-card-table-gap:     #{vars.$sorting-size-card-array-gap};
   --sorting-size-card-table-header-width: #{vars.$sorting-size-card-table-header-width};
 }
 
 .sorting-phase-button {
   --button-size-width: 100%;
+
+  min-width: var(--sorting-size-button-min-width);
 }
 
 .sorting-page-contents {

@@ -21,6 +21,7 @@
   }
 
   &-up-anchor {
+    @include mixins.button-background-colors(transparent);
     @include mixins.button-foreground-colors(var(--body-color-accented));
 
     font-weight: bold;
@@ -40,6 +41,7 @@
     &-toggle {
       --button-size-icon-diameter: 0.75em;
 
+      @include mixins.button-background-colors(transparent);
       @include mixins.button-foreground-colors(var(--body-color-accented));
 
       height: 100%;

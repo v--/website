@@ -64,6 +64,7 @@ button {
   }
 
   &-transparent {
+    @include mixins.button-foreground-colors(var(--body-color-foreground));
     @include mixins.button-background-colors(transparent);
   }
 
