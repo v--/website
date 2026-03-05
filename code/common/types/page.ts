@@ -3,7 +3,7 @@ import { type PageDataHydrationTag } from './rehydration.ts'
 import { type FactoryComponentType } from '../rendering/component.ts'
 import { type UrlPath } from '../support/url_path.ts'
 import { type ITranslationSpec } from '../translation.ts'
-import { type BundleId, type OpenGraphImageId, type TranslationBundleId } from './bundles.ts'
+import { type BundleId, type IconLibraryId, type OpenGraphImageId, type TranslationBundleId } from './bundles.ts'
 
 export type ColorScheme = 'light' | 'dark'
 export type NavigationId = 'home' | 'files' | 'pacman' | 'playground'
@@ -17,6 +17,7 @@ export interface IWebsitePageState<T = DefaultPageData> {
 
   bundleId: BundleId
   translationBundleIds?: TranslationBundleId[]
+  iconLibIds?: IconLibraryId[]
   navId?: NavigationId
   ogImageName: OpenGraphImageId
 

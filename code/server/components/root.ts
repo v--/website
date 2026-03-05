@@ -7,7 +7,7 @@ import { map } from '../../common/observable.ts'
 import { createComponent as c } from '../../common/rendering/component.ts'
 import { type IWebsitePageState } from '../../common/types/page.ts'
 import { type IRehydrationData } from '../../common/types/rehydration.ts'
-import { ROOT_TAG_PREFIX, iterMetaTags } from '../meta.ts'
+import { ROOT_TAG_PREFIX, iterMetaTags, iterPreloadLinks } from '../meta.ts'
 
 interface IRootState {
   pageState: IWebsitePageState
@@ -22,11 +22,10 @@ export function root({ pageState, rehydrationData }: IRootState, env: WebsiteEnv
   return c.html('html', { prefix: ROOT_TAG_PREFIX, lang: canonicalLanguage$ },
     c.html('head', undefined,
       c.factory(title, pageState),
-      ...iterMetaTags(env.gettext, pageState).map(
-        tag => c.html('meta', { name: tag.name, content: tag.content }),
-      ),
+      ...iterMetaTags(env.gettext, pageState).map(metaState => c.html('meta', metaState)),
       c.html('link', { rel: 'icon', type: 'image/x-icon', href: '/images/favicon.png' }),
       c.html('link', { rel: 'stylesheet', href: '/styles/core.css' }),
+      ...iterPreloadLinks(pageState).map(linkState => c.html('link', linkState)),
       pageState.canonicalUrlPath && c.html('link', { rel: 'canonical', href: WEBSITE_CANONICAL_URL + pageState.canonicalUrlPath.toString() }),
       c.html('script', { id: 'rehydrationData', type: 'application/json', text: JSON.stringify(rehydrationData) }),
       c.html('script', { type: 'module', src: '/code/client/core/index.js', defer: true }),

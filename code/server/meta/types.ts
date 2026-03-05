@@ -5,6 +5,7 @@ export interface IMetaTag {
 
 export interface IMetaLink {
   rel: string
+  as?: string
   type: string
   href: string
 }

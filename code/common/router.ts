@@ -7,9 +7,10 @@ import { placeholder } from './pages/placeholder.ts'
 import { playgroundPage } from './pages/playground.ts'
 import { EncodedErrorDecoder } from './presentable_errors/decoder.ts'
 import { type IEncodedError, PresentableError } from './presentable_errors.ts'
+import { includes } from './support/iteration.ts'
 import { snakeToKebabCase } from './support/strings.ts'
 import { type UrlPath } from './support/url_path.ts'
-import { PLAYGROUND_PAGE_IDS } from './types/bundles.ts'
+import { ICON_LIBRARY_IDS, PLAYGROUND_PAGE_IDS } from './types/bundles.ts'
 import { type IWebsitePageState } from './types/page.ts'
 
 export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise<IWebsitePageState> {
@@ -20,6 +21,7 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
       bundleId: 'core',
       navId: 'home',
       translationBundleIds: ['home'],
+      iconLibIds: ['contacts'],
       ogImageName: 'home',
       page: homePage,
       pageData: undefined,
@@ -41,6 +43,7 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
       bundleId: 'core',
       navId: 'files',
       translationBundleIds: ['files'],
+      iconLibIds: ['interactive_table'],
       ogImageName: 'files',
       page: filesPage,
       pageDataHydrationTag: 'files',
@@ -108,6 +111,7 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
         return {
           ...baseState,
           translationBundleIds: [playgroundId],
+          iconLibIds: includes(ICON_LIBRARY_IDS, playgroundId) ? [playgroundId] : undefined,
           page: await env.services.page.retrievePlaygroundPage(playgroundId),
         }
       }
@@ -115,6 +119,7 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
       return {
         ...baseState,
         translationBundleIds: ['placeholder'],
+        iconLibIds: ['placeholder'],
         page: placeholder,
       }
     }
