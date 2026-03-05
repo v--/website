@@ -2,6 +2,7 @@
   "include": ["./code"],
   "exclude": ["./node_modules", "./public"],
   "compilerOptions": {
+    "skipLibCheck": true,
     "noEmit": true,
     "module": "nodenext",
     "moduleResolution": "nodenext",
