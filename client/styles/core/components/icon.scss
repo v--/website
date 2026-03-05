@@ -2,8 +2,8 @@
 
 .icon {
   vertical-align: middle;
+  width: var(--icon-size-diameter);
   height: var(--icon-size-diameter);
-  aspect-ratio: 1;
   padding-inline: var(--icon-size-hpadding);
   padding-block: var(--icon-size-vpadding);
   fill: var(--icon-color);
