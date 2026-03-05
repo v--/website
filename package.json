@@ -72,16 +72,11 @@
     "rules": {
       "custom-property-pattern": null,
       "scss/dollar-variable-colon-space-after": null,
-      "plugin/use-defensive-css": [
-        true,
-        {
-          "severity": "warning",
-          "accidental-hover": true,
-          "background-repeat": true,
-          "scroll-chaining": true,
-          "vendor-prefix-grouping": true
-        }
-      ],
+      "defensive-css/no-list-style-none": [true, {"severity": "warning", "fix": true}],
+      "defensive-css/no-accidental-hover": [true, {"severity": "warning"}],
+      "defensive-css/require-background-repeat": [true, {"severity": "warning"}],
+      "defensive-css/require-overscroll-behavior": [true, {"severity": "warning"}],
+      "defensive-css/no-mixed-vendor-prefixes": [true, {"severity": "warning"}],
       "plugin/no-low-performance-animation-properties": true
     }
   }
