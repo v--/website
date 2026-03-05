@@ -30,7 +30,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
             buttonStyle: 'transparent',
             name: 'debug-mode',
             value: store.keyedObservables.debug,
-            content: _('control.debug'),
+            text: _('control.debug'),
             update(newValue: boolean) {
               store.update({ debug: newValue })
             },

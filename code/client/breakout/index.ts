@@ -41,7 +41,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
             buttonStyle: 'transparent',
             name: 'virtual-controls',
             value: store.keyedObservables.virtualControls,
-            content: _('control.virtual_controls.label'),
+            text: _('control.virtual_controls.label'),
             update(newValue: boolean) {
               store.update({ virtualControls: newValue })
             },
@@ -52,7 +52,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
             buttonStyle: 'transparent',
             name: 'debug-mode',
             value: store.keyedObservables.debug,
-            content: _('control.debug.label'),
+            text: _('control.debug.label'),
             update(newValue: boolean) {
               store.update({ debug: newValue })
             },

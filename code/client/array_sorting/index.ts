@@ -35,7 +35,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
         c.html('li', { class: 'playground-submenu-item' },
           c.factory(slider<uint32>, {
             name: 'sorting_speed',
-            content: _('control.speed.label'),
+            text: _('control.speed.label'),
             inputClass: 'sorting-page-menu-control-speed',
             min: MIN_ACTIONS_PER_SECOND,
             max: MAX_ACTIONS_PER_SECOND,

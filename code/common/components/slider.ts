@@ -1,5 +1,6 @@
 import { type ButtonStyle } from './button.ts'
-import { type FactoryComponentType, createComponent as c } from '../rendering/component.ts'
+import { type WebsiteEnvironment } from '../environment.ts'
+import { Component, createComponent as c } from '../rendering/component.ts'
 import { classlist } from '../support/dom_properties.ts'
 import { type float64 } from '../types/numbers.ts'
 import { type Action, type AsyncAction } from '../types/typecons.ts'
@@ -10,7 +11,7 @@ interface ISliderState<T extends float64 = float64> {
   value: T
   update: Action<T> | AsyncAction<T>
   name: string
-  content?: string | FactoryComponentType
+  text?: string
   labelClass?: string
   inputClass?: string
   buttonStyle?: ButtonStyle
@@ -24,12 +25,12 @@ interface ISliderState<T extends float64 = float64> {
  * It is worse here because it seems impossible to set the value right after the input event.
  * Setting it via an unrelated event seems to work reliably, however.
  */
-export function slider<T extends float64 = float64>(state: ISliderState<T>) {
+export function slider<T extends float64 = float64>(state: ISliderState<T>, env: WebsiteEnvironment, children: Readonly<Component[]>) {
   return c.html('label',
     {
       class: classlist(
         state.labelClass,
-        state.buttonStyle && 'button-styled-control-label',
+        state.buttonStyle && 'button-styled-anchor',
         typeof state.buttonStyle === 'string' && `button-${state.buttonStyle}`,
       ),
       // Compared to checkboxes, it is worse here because preventDefault does nothing
@@ -41,9 +42,8 @@ export function slider<T extends float64 = float64>(state: ISliderState<T>) {
         await state.update(value)
       },
     },
-    state.content && (
-      state.content instanceof Function ? c.factory(state.content) : c.html('span', { text: state.content })
-    ),
+    state.text && c.html('span', { text: state.text }),
+    ...children,
     c.html('input', {
       type: 'range',
       class: state.inputClass,

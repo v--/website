@@ -31,7 +31,7 @@ export function interpolationLegendTable({ interpolated, visible, toggleVisibili
               name: `interpolation-legend-${kebabCase}`,
               value: visible[interpolator.id],
               labelClass: `interpolation-legend-table-control interpolator-${kebabCase}`,
-              content: _(`legend_table.interpolator.${interpolator.id}.name`),
+              text: _(`legend_table.interpolator.${interpolator.id}.name`),
               update(newValue: boolean) {
                 toggleVisibility(interpolator, newValue)
               },

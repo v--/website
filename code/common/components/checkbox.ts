@@ -1,5 +1,6 @@
 import { type ButtonStyle } from './button.ts'
-import { type FactoryComponentType, createComponent as c } from '../rendering/component.ts'
+import { type WebsiteEnvironment } from '../environment.ts'
+import { Component, createComponent as c } from '../rendering/component.ts'
 import { waitForNextTask } from '../support/async.ts'
 import { classlist } from '../support/dom_properties.ts'
 import { type Action, type AsyncAction } from '../types/typecons.ts'
@@ -8,7 +9,7 @@ interface ICheckboxState {
   value: boolean
   update: Action<boolean> | AsyncAction<boolean>
   name: string
-  content?: string | FactoryComponentType
+  text?: string
   labelClass?: string
   inputClass?: string
   buttonStyle?: boolean | ButtonStyle
@@ -23,7 +24,7 @@ interface ICheckboxState {
  * We still prevent the default behavior, but our DOM manipulator is adjusted so that checked state
  * is both as a properties and as an attribute, while the indeterminate state --- only as a property.
  */
-export function checkbox(state: ICheckboxState) {
+export function checkbox(state: ICheckboxState, env: WebsiteEnvironment, children: Readonly<Component[]>) {
   return c.html('label',
     {
       class: classlist(
@@ -47,8 +48,7 @@ export function checkbox(state: ICheckboxState) {
       name: state.name,
       checked: state.value,
     }),
-    state.content && (
-      state.content instanceof Function ? c.factory(state.content) : c.html('span', { text: state.content })
-    ),
+    state.text && c.html('span', { text: state.text }),
+    ...children,
   )
 }

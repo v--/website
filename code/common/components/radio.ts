@@ -1,15 +1,16 @@
-import { type FactoryComponentType, createComponent as c } from '../rendering/component.ts'
+import { type WebsiteEnvironment } from '../environment.ts'
+import { type ButtonStyle } from './button.ts'
+import { Component, createComponent as c } from '../rendering/component.ts'
 import { waitForNextTask } from '../support/async.ts'
 import { classlist } from '../support/dom_properties.ts'
 import { type Action, type AsyncAction } from '../types/typecons.ts'
-import type { ButtonStyle } from './button.ts'
 
 interface IRadioState<T extends string> {
   controlValue: T
   selectedValue?: T
   update: Action<T> | AsyncAction<T>
   name: string
-  content?: string | FactoryComponentType
+  text?: string
   labelClass?: string
   inputClass?: string
   buttonStyle?: ButtonStyle
@@ -20,7 +21,7 @@ interface IRadioState<T extends string> {
  *
  * See the description of and comments to the checkbox component.
  */
-export function radio<T extends string>(state: IRadioState<T>) {
+export function radio<T extends string>(state: IRadioState<T>, env: WebsiteEnvironment, children: Readonly<Component[]>) {
   const isActive = state.controlValue === state.selectedValue
 
   return c.html('label',
@@ -46,8 +47,7 @@ export function radio<T extends string>(state: IRadioState<T>) {
       value: state.controlValue,
       checked: isActive,
     }),
-    state.content && (
-      state.content instanceof Function ? c.factory(state.content) : c.html('span', { text: state.content })
-    ),
+    state.text && c.html('span', { text: state.text }),
+    ...children,
   )
 }

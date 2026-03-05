@@ -60,7 +60,7 @@ export function mainMenu({ navId }: INavigationState, env: WebsiteEnvironment) {
           return c.factory(radio<WebsiteLanguageId>, {
             labelClass: 'main-menu-lang-toggle-label',
             inputClass: 'main-menu-lang-toggle-control',
-            content: langChoice.label,
+            text: langChoice.label,
             name: 'main-menu-lang',
             controlValue: langChoice.language,
             selectedValue: env.gettext.language$,
