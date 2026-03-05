@@ -21,8 +21,17 @@ export function compactNavbar({ navId }: INavbarState, env: WebsiteEnvironment) 
     c.html('button',
       {
         class: 'compact-navbar-button compact-navbar-button-menu button-with-icon',
-        command: 'show-modal',
-        commandFor: 'compact-navbar-dialog',
+        // Webkit only recently added support for `command` and `commandfor`, so we are stuck with manually showing the modal
+        // TODO: Migrate to the attributes
+        // command: 'show-modal',
+        // commandfor: 'compact-navbar-dialog',
+        click(_event: PointerEvent) {
+          const dialog = document.body.querySelector('#compact-navbar-dialog')
+
+          if (dialog instanceof HTMLDialogElement) {
+            dialog.showModal()
+          }
+        },
       },
       c.factory(icon, {
         libId: 'core',
@@ -54,10 +63,19 @@ export function compactNavbar({ navId }: INavbarState, env: WebsiteEnvironment) 
         c.factory(button, {
           class: 'compact-navbar-dialog-close-button',
           text: _('main_menu.button.close_menu'),
-          command: 'close',
-          commandfor: 'compact-navbar-dialog',
           iconLibId: 'core',
           iconName: 'solid/bars',
+          // Webkit only recently added support for `command` and `commandfor`, so we are stuck with manually showing the modal
+          // TODO: Migrate to the attributes
+          // command: 'close',
+          // commandfor: 'compact-navbar-dialog',
+          click(_event: PointerEvent) {
+            const dialog = document.body.querySelector('#compact-navbar-dialog')
+
+            if (dialog instanceof HTMLDialogElement) {
+              dialog.close()
+            }
+          },
         }),
         c.html('hr'),
         c.factory(mainMenu, { navId }),
