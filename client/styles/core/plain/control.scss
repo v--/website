@@ -83,12 +83,11 @@ fieldset[disabled] label:has(input[type="checkbox"], input[type="radio"], input[
 
 .button-styled-control-label {
   --icon-size-diameter: var(--button-size-icon-diameter);
-  --control-color-input-normal: var(--button-color-foreground-accented);
-  --control-color-input-accented: var(--button-color-foreground-accented);
-  --control-color-input-active: var(--button-color-foreground-accented);
+  --control-size-width: var(--button-size-width);
   --control-size-label-hpadding: var(--button-size-hpadding);
-  --control-size-label-vpadding:  var(--button-size-vpadding);
-  --control-size-width:  var(--button-size-width);
+  --control-size-label-vpadding: var(--button-size-vpadding);
+  // Mobile Chrome is bad at input accent colors that are not neutral, i.e. foreground or background
+  // --control-color-input-normal: var(--button-color-foreground-accented);
 
   @include mixins.foreground-color(var(--button-color-foreground-normal));
   @include mixins.background-color(var(--button-color-background-normal));
