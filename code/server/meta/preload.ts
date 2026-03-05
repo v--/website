@@ -11,13 +11,15 @@ export function* iterIconLibIds(pageState: IWebsitePageState): Generator<IconLib
   }
 }
 
-export function* iterPreloadLinks(pageState: IWebsitePageState): Generator<IMetaLink> {
-  for (const libId of iterIconLibIds(pageState)) {
-    yield {
-      rel: 'preload',
-      as: 'image',
-      href: `/svg_libraries/${libId}.svg`,
-      type: 'image/svg+xml',
-    }
-  }
+export function* iterPreloadLinks(_pageState: IWebsitePageState): Generator<IMetaLink> {
+  // Browsers are, as of 2026, reluctant about preloading SVG libraries
+  // https://geoffrich.net/posts/preloading-svgs/
+  // for (const libId of iterIconLibIds(pageState)) {
+  //   yield {
+  //     rel: 'preload',
+  //     as: 'image',
+  //     href: `/svg_libraries/${libId}.svg`,
+  //     type: 'image/svg+xml',
+  //   }
+  // }
 }
