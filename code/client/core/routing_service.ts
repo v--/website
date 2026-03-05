@@ -126,7 +126,6 @@ export class ClientRoutingService implements IFinalizeable {
       const pageState = await router(urlPath, this.env)
       await this.env.processPageChange(pageState)
 
-      this.#resetPageScroll()
       const promise = Promise.all([
         this.renderManager.awaitRendering(this.titleComponent),
         this.renderManager.awaitRendering(this.bodyComponent),
@@ -137,6 +136,7 @@ export class ClientRoutingService implements IFinalizeable {
 
       // If we put this in the finally block, it may trigger an error while we are already trying to recover from one
       this.env.loading$.next(false)
+      this.#resetPageScroll()
     } finally {
       await this.#releaseLock()
     }
