@@ -1,6 +1,7 @@
 /* stylelint-disable custom-property-empty-line-before */
 /* stylelint-disable order/order */
 @use 'sass:math';
+@use "./mixins";
 
 // Main sizes
 $root-size-max-content-width:         850px;
@@ -37,7 +38,8 @@ $icon-size-padding-huge-dense: 0.8em;
 
 @mixin common-size-variables {
   // Base sizes
-  --body-size-font:      1rem;
+  --body-size-font:          1rem;
+  --body-size-border-radius: 3px;
 
   --body-size-border-thin:    1px;
   --body-size-border-normal:  2px;
@@ -60,8 +62,8 @@ $icon-size-padding-huge-dense: 0.8em;
   // Spotlight
   --spotlight-size-head-max-width: 750px;
   --spotlight-size-divider: 2px;
+  --spotlight-size-border-radius: var(--body-size-border-radius);
   --spotlight-size-shadow-radius: 5px;
-  --spotlight-size-drawer-border-radius: 5px;
   --spotlight-size-drawer-width: 200px;
 
   // Dialogs
@@ -75,6 +77,7 @@ $icon-size-padding-huge-dense: 0.8em;
   --button-size-icon-diameter: 1.3em;
   --button-size-gap: 1.2em;
   --button-size-width: auto;
+  --button-size-border-radius: var(--body-size-border-radius);
 
   // Anchor
   --anchor-size-icon-diameter: 1em;
@@ -87,9 +90,15 @@ $icon-size-padding-huge-dense: 0.8em;
   --control-size-width: auto;
 
   // Fields
-  --field-size-border:  var(--body-size-border-normal);
-  --field-size-hpadding: 0.75em;
-  --field-size-vpadding: 0.5em;
+  --field-size-border-radius: var(--body-size-border-radius);
+  --field-size-border:        var(--body-size-border-normal);
+  --field-size-hpadding: 1.5em;
+  --field-size-vpadding: 0.6em;
+
+  // Menus
+  --menu-group-size-border-radius: var(--body-size-border-radius);
+  --menu-group-size-divider: 2px;
+  --menu-group-size-border: 2px;
 
   // Icons
   --icon-size-diameter: 1.4ex;
@@ -106,14 +115,14 @@ $icon-size-padding-huge-dense: 0.8em;
   --dlist-size-item-gap-small:    var(--body-size-pp);
 
   // Notices
-  --notice-size-vpadding:        var(--body-size-p);
-  --notice-size-hpadding:        var(--dlist-size-item-padding-left);
+  @include mixins.notice-padding(var(--field-size-hpadding));
   --notice-size-indicator-width: var(--body-size-border-thick);
 
   // Tables
   --table-size-border: var(--body-size-border-thin);
 
   // Dividers
+  --divider-size-border-radius: var(--body-size-border-radius);
   --divider-size-margin: 0.5em;
   --divider-size: 0.25em;
 
@@ -151,6 +160,9 @@ $icon-size-padding-huge-dense: 0.8em;
   --heading-h1-size-font: 2.5rem;
   --heading-h2-size-font: 1.8rem;
   --heading-h3-size-font: 1.3rem;
+  --field-size-hpadding: 1.1em;
+
+  @include mixins.notice-padding(var(--field-size-hpadding));
 }
 
 @mixin very-dense-size-variables {

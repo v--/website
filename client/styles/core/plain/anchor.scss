@@ -45,6 +45,7 @@ a {
   width: var(--button-size-width);
   padding-inline: var(--button-size-hpadding);
   padding-block:  var(--button-size-vpadding);
+  border-radius: var(--button-size-border-radius);
   outline-offset: var(--button-size-outline-offset);
 
   @media (hover: hover) {

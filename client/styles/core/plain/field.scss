@@ -3,18 +3,28 @@ fieldset {
   border: 0;
 }
 
-input:where(:not([type]), [type='text'], [type='number']), pre, textarea {
+input:where(:not([type]), [type='text'], [type='number']), textarea, pre {
   padding-inline: var(--field-size-hpadding);
   padding-block: var(--field-size-vpadding);
-  border: var(--field-size-border) solid var(--field-color-border-normal);
-  border-radius: 0;
+  border: 0;
+  border-top-left-radius: var(--field-size-border-radius);
+  border-top-right-radius: var(--field-size-border-radius);
   background-color: var(--field-color-background-normal);
   color: var(--field-color-foreground-normal);
   text-decoration: none;
 }
 
+input:where(:not([type]), [type='text'], [type='number']), textarea {
+  border-bottom: var(--field-size-border) solid var(--field-color-border-normal);
+}
+
 textarea {
   resize: none;
+}
+
+pre {
+  border-bottom-right-radius: var(--field-size-border-radius);
+  border-bottom-left-radius: var(--field-size-border-radius);
 }
 
 pre, textarea {

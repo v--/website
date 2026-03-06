@@ -13,6 +13,7 @@
   --control-color-label-active:   var(--main-menu-color-foreground);
   --control-color-label-accented: var(--main-menu-color-accented);
   --divider-color: var(--main-menu-color-divider);
+  --divider-size-border-radius: 0;
 
   background-color: var(--main-menu-color-background);
 }
@@ -20,8 +21,9 @@
 .main-menu {
   --button-size-vpadding: #{sizes.$main-menu-size-button-vpadding};
   --button-size-gap: #{sizes.$main-menu-size-button-gap};
-  --divider-size-margin: 0;
+  --button-size-border-radius: 0;
   --button-size-width: 100%;
+  --divider-size-margin: 0;
 
   display: flex;
   flex-direction: column;

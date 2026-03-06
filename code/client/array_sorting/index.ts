@@ -31,8 +31,9 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
       ),
     }),
     c.factory(playgroundMenu, {
+      stickBottom: true,
       submenu: () => c.html('menu', { class: 'playground-submenu' },
-        c.html('li', { class: 'playground-submenu-item' },
+        c.html('li', { class: 'menu-group-item playground-submenu-item' },
           c.factory(slider<uint32>, {
             name: 'sorting_speed',
             text: _('control.speed.label'),
@@ -45,9 +46,10 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
             },
           }),
         ),
-        c.html('li', { class: 'playground-submenu-item' },
+        c.html('li', { class: 'menu-group-item playground-submenu-item' },
           c.factory(button, {
-            class: 'sorting-phase-button button-transparent',
+            buttonStyle: 'transparent',
+            class: 'sorting-phase-button',
             text: store.globalSortingPhase$.pipe(
               switchMap(phase => _(`control.run.label.${phase}`)),
             ),
@@ -68,7 +70,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
             },
           }),
         ),
-        c.html('li', { class: 'playground-submenu-item' },
+        c.html('li', { class: 'menu-group-item playground-submenu-item' },
           c.factory(button, {
             buttonStyle: 'transparent',
             class: 'sorting-phase-button',

@@ -16,6 +16,7 @@ button {
   padding-inline: var(--button-size-hpadding);
   padding-block: var(--button-size-vpadding);
   border: none;
+  border-radius: var(--button-size-border-radius);
   outline-offset: var(--button-size-outline-offset);
   line-height: #{sizes.$root-size-base-line};
   cursor: var(--button-cursor-normal);

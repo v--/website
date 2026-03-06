@@ -24,7 +24,7 @@ export function spotlightPage(
     ),
     // This bridge is below the carefully crafted box with constant aspect ratio (and is not part of it).
     // It acts both as a navigation and, when partially hidden, as an indicator that there is scrollable content.
-    c.html('div', { class: 'spotlight-page-bridge' }, c.html('hr'), c.factory(playgroundMenu, { submenu })),
+    c.html('div', { class: 'spotlight-page-bridge' }, c.html('hr'), c.factory(playgroundMenu, { submenu, stickTop: true })),
     c.html('div', { class: classlist('spotlight-page-body', bodyClass) },
       ...children,
     ),

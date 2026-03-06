@@ -117,9 +117,6 @@ $loading-color-secondary: $root-color-light;
 
   // Playground
   --spotlight-color-background: var(--body-color-ppp);
-  --spotlight-color-drawer-background: var(--body-color-pp);
-  --spotlight-color-menu: color-mix(in srgb, transparent, var(--body-color-foreground) 10%);
-  --spotlight-color-divider: var(--body-color-p);
 
   // Anchors
   @include mixins.anchor-colors(var(--body-color-accented));
@@ -141,11 +138,14 @@ $loading-color-secondary: $root-color-light;
   // Fields
   --field-color-background-disabled: var(--body-color-pp);
   --field-color-background-normal:   var(--body-color-ppp);
-  --field-color-border-normal:       var(--body-color-pp);
-  --field-color-border-disabled:     var(--body-color-pp);
+  --field-color-border-normal:       var(--body-color-mf);
+  --field-color-border-disabled:     var(--body-color-mf);
   --field-color-foreground-disabled: var(--body-color-ff);
   --field-color-foreground-normal:   var(--body-color-foreground);
   --field-color-placeholder:         var(--body-color-f);
+
+  // Menus
+  --menu-group-color-border: var(--body-color-pp);
 
   // Icons
   --icon-color: var(--body-color-foreground);

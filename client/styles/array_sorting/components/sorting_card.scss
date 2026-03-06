@@ -1,6 +1,8 @@
 @use "../../mixins";
 
 .sorting-card {
+  --menu-group-color-border: var(--sorting-color-menu-border);
+
   display: flex;
   flex-direction: column;
   row-gap: var(--sorting-size-card-gap);
@@ -8,6 +10,7 @@
   width: var(--sorting-size-card-width);
   padding-inline: var(--sorting-size-card-hpadding);
   padding-block: var(--sorting-size-card-vpadding);
+  border-radius: var(--sorting-size-card-border-radius);
   background-color: var(--sorting-color-card-background);
   text-align: center;
 
@@ -36,11 +39,6 @@
 
   &-buttons {
     display: flex;
-    column-gap: var(--sorting-size-button-gap);
-
-    .sorting-status-button {
-      flex-grow: 1;
-    }
   }
 
   &-array-grid {

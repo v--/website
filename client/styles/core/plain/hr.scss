@@ -4,4 +4,5 @@ hr {
   margin: var(--divider-size-margin) 0;
   border: 0;
   border-top: var(--divider-size) var(--divider-border-style) var(--divider-color);
+  border-radius: var(--divider-size-border-radius);
 }

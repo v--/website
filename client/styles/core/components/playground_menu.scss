@@ -2,8 +2,13 @@
 @use "../../mixins";
 
 .playground-menu {
+  // --menu-group-color-border: none;
+  // --menu-group-color-border: none;
+  --button-size-border-radius: 0;
+
   display: flex;
   justify-content: space-between;
+  overflow: hidden; // This is needed to keep the border radius
   background-color: var(--spotlight-color-background);
 
   // We cannot use `style(--layout-collapsed: false)` because Firefox lacks support
@@ -20,6 +25,16 @@
     }
   }
 
+  &-stick-top {
+    border-bottom-right-radius: var(--spotlight-size-border-radius);
+    border-bottom-left-radius: var(--spotlight-size-border-radius);
+  }
+
+  &-stick-bottom {
+    border-top-left-radius: var(--spotlight-size-border-radius);
+    border-top-right-radius: var(--spotlight-size-border-radius);
+  }
+
   &-up-anchor {
     @include mixins.button-background-colors(transparent);
     @include mixins.button-foreground-colors(var(--body-color-accented));
@@ -32,7 +47,7 @@
       display: flex;
 
       &-item:not(:last-of-type) {
-        border-right: var(--spotlight-size-divider) var(--spotlight-divider-style) var(--spotlight-color-divider);
+        border-right: var(--menu-group-size-border) solid var(--menu-group-color-border);
       }
     }
   }
@@ -52,14 +67,16 @@
     }
 
     &-popover {
+      --menu-group-color-border:var(--body-color-p);
+
       inset: unset;
       right: anchor(right);
       bottom: anchor(top);
       padding: 0;
       border-width: 0;
-      border-radius: var(--spotlight-size-drawer-border-radius);
+      border-radius: var(--spotlight-size-border-radius);
       border-bottom-right-radius: 0;
-      background-color: var(--spotlight-color-drawer-background);
+      background-color: var(--body-color-pp);
       box-shadow: 0 0 var(--spotlight-size-shadow-radius) var(--spotlight-color-shadow);
 
       .playground-submenu {
@@ -69,7 +86,7 @@
         flex-direction: column;
 
         &-item:not(:last-of-type) {
-          border-bottom: var(--spotlight-size-divider) var(--spotlight-divider-style) var(--spotlight-color-divider);
+          border-bottom: var(--menu-group-size-border) solid var(--menu-group-color-border);
         }
       }
     }

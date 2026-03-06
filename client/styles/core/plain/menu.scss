@@ -1,6 +1,28 @@
+@use "../../mixins";
+
 menu {
   // Menus have default padding and margin set
   margin: 0;
   padding: 0;
   list-style-type: '';
+}
+
+.menu-group {
+  --button-size-border-radius: 0;
+  --field-size-border-radius: 0;
+
+  @include mixins.button-foreground-colors(var(--body-color-foreground));
+  @include mixins.button-background-colors(transparent);
+
+  border: var(--menu-group-size-border) solid var(--menu-group-color-border);
+  border-radius: var(--menu-group-size-border-radius);
+
+  .menu-group-item:not(:last-of-type) {
+    border-right: var(--menu-group-size-border) solid var(--menu-group-color-border);
+  }
+
+  &-sticky-bottom {
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
 }

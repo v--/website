@@ -10,12 +10,14 @@
   --sorting-color-array-bar-normal:  var(--body-color-mf);
   --sorting-color-array-bar-success: var(--body-color-success);
   --sorting-color-array-bar-danger:  var(--body-color-danger);
+  --sorting-color-menu-border:       var(--body-color-mp);
   --sorting-size-main-vpadding:      0.75rem;
   --sorting-size-main-gap:           #{vars.$sorting-size-card-gap};
   --sorting-size-card-width:         #{vars.$sorting-size-card-width};
   --sorting-size-card-gap:           var(--sorting-size-main-gap);
   --sorting-size-card-vpadding:      #{vars.$sorting-size-card-vpadding};
   --sorting-size-card-hpadding:      #{vars.$sorting-size-card-hpadding};
+  --sorting-size-card-border-radius: var(--body-size-border-radius);
   --sorting-size-array-width:        #{vars.$sorting-size-card-array-width};
   --sorting-size-array-gap:          #{vars.$sorting-size-card-array-gap};
   --sorting-size-button-min-width:   var(--sorting-size-array-width);
@@ -31,12 +33,14 @@
 }
 
 .sorting-page-contents {
+  border-bottom-right-radius: var(--body-size-border-radius);
+  border-bottom-left-radius: var(--body-size-border-radius);
   background-color: var(--sorting-color-main-background);
 
   .sorting-page-top-divider {
-    --divider-color: var(--spotlight-color-divider);
-    --divider-border-style: var(--spotlight-divider-style);
-    --divider-size: var(--spotlight-size-divider);
+    --divider-color: var(--menu-group-color-border);
+    --divider-size: var(--menu-group-size-border);
+    --divider-size-border-radius: 0;
     --divider-size-margin: 0;
   }
 }

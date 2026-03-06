@@ -66,9 +66,9 @@ export function sortingCard({ algorithm, store }: IArraySortingCardState, env: C
       }),
     ),
 
-    c.html('div', { class: 'sorting-card-buttons' },
+    c.html('menu', { class: 'sorting-card-buttons menu-group' },
       c.factory(button, {
-        class: 'sorting-phase-button',
+        class: 'menu-group-item sorting-phase-button',
         text: algorithmPhase$.pipe(
           switchMap(phase => _(`control.run.label.${phase}`)),
         ),
@@ -90,7 +90,7 @@ export function sortingCard({ algorithm, store }: IArraySortingCardState, env: C
       }),
 
       c.factory(button, {
-        class: 'sorting-phase-button',
+        class: 'menu-group-item sorting-phase-button',
         text: _('control.reset.label'),
         click() {
           store.resetAlgorithmState(algorithm.id)

@@ -27,12 +27,10 @@
   }
 
   &-bridge {
-    --divider-border-style: var(--spotlight-divider-style);
-    --divider-color: var(--spotlight-color-divider);
-    --divider-size: var(--spotlight-size-divider);
+    --divider-color: var(--menu-group-color-border);
+    --divider-size: var(--menu-group-size-border);
+    --divider-size-border-radius: 0;
     --divider-size-margin: 0;
-
-    background: var(--spotlight-color-background);
   }
 
   &-aspect-ratio-box-wrapper {
@@ -41,9 +39,12 @@
   }
 
   &-aspect-ratio-box {
+    overflow: hidden; // This is needed to keep the border radius
     max-height: 100%;
     aspect-ratio: var(--spotlight-size-aspect-ratio);
     margin-inline: auto;
+    border-top-left-radius: var(--spotlight-size-border-radius);
+    border-top-right-radius: var(--spotlight-size-border-radius);
   }
 
   &-body {
