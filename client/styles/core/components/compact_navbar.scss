@@ -8,7 +8,7 @@
 
   @media (orientation: landscape) {
     flex-direction: column;
-    width: #{sizes.$compact-navbar-size-extent};
+    width: #{sizes.$root-size-sidebar-compact-extent};
     height: 100%;
 
     &-button {
@@ -22,13 +22,13 @@
   @media (orientation: portrait) {
     flex-direction: row;
     width: 100%;
-    height: #{sizes.$compact-navbar-size-extent};
+    height: #{sizes.$root-size-sidebar-compact-extent};
     box-shadow: 0 0 var(--dialog-size-shadow-radius) var(--dialog-color-backdrop-shadow);
   }
 
   &-dialog {
     width: min-content;
-    min-width: sizes.$root-size-sidebar-min-width;
+    min-width: sizes.$root-size-sidebar-wide-min-width;
     height: 100%;
     max-height: 100%;
     margin-left: 0;
@@ -66,8 +66,6 @@
     &-close-button {
       --button-size-vpadding: #{sizes.$main-menu-size-button-vpadding};
       --button-size-gap: #{sizes.$main-menu-size-button-gap};
-
-      font-variant: small-caps;
     }
   }
 }

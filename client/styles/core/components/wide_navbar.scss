@@ -5,7 +5,7 @@
   flex-direction: column;
   box-sizing: border-box;
   width: min-content;
-  min-width: sizes.$root-size-sidebar-min-width;
+  min-width: sizes.$root-size-sidebar-wide-min-width;
 
   &-logo-box {
     --icon-color: var(--main-menu-color-foreground);

@@ -50,7 +50,7 @@
 
   "control.virtual_controls.label": {
     "entryKind": "plain",
-    "content": "Вирт. кнопки"
+    "content": "Виртуальные кнопки"
   },
 
   "control.debug.label": {

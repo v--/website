@@ -26,7 +26,7 @@
 
   "main_menu.page.files": {
     "entryKind": "plain",
-    "content": "Файл. навигатор"
+    "content": "Навигатор файлов"
   },
 
   "main_menu.page.pacman": {

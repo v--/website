@@ -36,7 +36,7 @@
   &-entry {
     box-sizing: border-box;
     width: 100%;
-    font-variant: small-caps;
+    border-right: 0.6em solid transparent; // Correction allowing wider fonts (e.g. Roboto) to extend the sidebar without looking odd
     text-overflow: ellipsis;
     white-space: pre;
 
@@ -54,11 +54,11 @@
     --control-color-input-active: var(--main-menu-color-background);
 
     display: inline-flex;
+    border-right: 0;
     gap: 1.5em;
     justify-content: space-evenly;
     align-items: center;
     box-sizing: border-box;
-    margin-right: 1.5em; // We extend the main menu to the right for wide fonts
     padding: var(--button-size-vpadding) var(--button-size-hpadding);
 
     &:disabled {

@@ -5,8 +5,10 @@
 
 // Main sizes
 $root-size-max-content-width:         850px;
-$root-size-sidebar-min-width:         225px; // This minimal width should also be maximal for Helvetica-compatible fonts
-$root-size-boundary-collapsed-width:  1150px;
+$root-size-sidebar-wide-min-width:    235px; // This minimal width should also be maximal for Helvetica-compatible fonts
+$root-size-sidebar-compact-extent:    50px;
+$root-size-sidebar-gap:               $root-size-sidebar-compact-extent;
+$root-size-boundary-collapsed-width:  $root-size-max-content-width + $root-size-sidebar-wide-min-width + 2 * $root-size-sidebar-gap;
 $root-size-boundary-collapsed-height: 450px;
 $root-size-boundary-dense-width:      600px;
 $root-size-boundary-dense-height:     $root-size-boundary-collapsed-height;
@@ -17,7 +19,7 @@ $root-size-base-font: 15px;
 $root-size-base-line: 1.7;
 
 // Main container sparse padding
-$main-size-hpadding-sparse: math.div($root-size-boundary-collapsed-width - $root-size-max-content-width - $root-size-sidebar-min-width, 2);
+$main-size-hpadding-sparse: $root-size-sidebar-gap;
 $main-size-vpadding-sparse: 20px;
 
 // Main container dense padding
@@ -26,7 +28,6 @@ $main-size-hpadding-very-dense: 20px;
 $main-size-vpadding-dense: 15px;
 
 // Main menu
-$compact-navbar-size-extent: 50px;
 $main-menu-size-button-vpadding: 0.8em;
 $main-menu-size-button-gap: 1.5em;
 
