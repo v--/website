@@ -1,8 +1,9 @@
-@use "../../mixins";
+@use "../../fonts";
 
 code {
+  @include fonts.mono-font;
+
   font-weight: bold;
-  font-family: var(--body-font-family-mono);
 
   pre & {
     font-weight: normal;
@@ -11,5 +12,5 @@ code {
 
 // pre elements use a monospace font by default; we simply adjust it
 pre {
-  font-family: var(--body-font-family-mono);
+  @include fonts.mono-font;
 }

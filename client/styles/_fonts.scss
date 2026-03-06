@@ -1,13 +1,21 @@
-$body-font-family-sans: 'PT Sans', 'Liberation Sans', 'Helvetica', 'Arial', sans-serif;
-$body-font-family-mono: 'PT Mono', 'Liberation Mono', 'Courier', 'Courier New', monospace;
-$body-font-family-math: 'STIX Two Math', math;
+$root-font-family-sans: 'PT Sans', 'Liberation Sans', 'Helvetica', 'Arial', sans-serif;
+$root-font-family-mono: 'PT Mono', 'Liberation Mono', 'Courier', 'Courier New', monospace;
+$root-font-family-math: 'STIX Two Math', math;
 
-@mixin common-font-variables {
-  // Body fonts
-  --body-font-family-sans: #{$body-font-family-sans};
-  --body-font-family-mono: #{$body-font-family-mono};
-  --body-font-family-math: #{$body-font-family-math};
-  --heading-text-align:    initial;
+@mixin sans-font($size: 1rem) {
+  font-size: $size;
+  font-family: $root-font-family-sans;
+}
+
+// Monospaced fonts tend to be much wider, so we apply some scaling
+@mixin mono-font($size: 0.9rem) {
+  font-size: $size;
+  font-family: $root-font-family-mono;
+}
+
+@mixin math-font($size: 1rem) {
+  font-size: $size;
+  font-family: $root-font-family-math;
 }
 
 @mixin font-faces {

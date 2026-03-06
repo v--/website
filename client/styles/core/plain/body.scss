@@ -10,7 +10,6 @@ body {
   @include colors.common-color-variables;
   @include cursors.common-cursor-variables;
   @include duration.common-duration-variables;
-  @include fonts.common-font-variables;
   @include misc.common-misc-variables;
   @include sizes.common-size-variables;
 
@@ -21,7 +20,6 @@ body {
   margin: 0; // The body has a margin by default
   background-color: var(--body-color-background);
   color: var(--body-color-foreground);
-  font-size: var(--body-size-font);
   scrollbar-color: var(--scrollbar-color-thumb) var(--scrollbar-color-track);
   scrollbar-gutter: stable;
 

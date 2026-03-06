@@ -1,3 +1,4 @@
+@use "../../fonts";
 @use "../../mixins";
 @use "../../sizes";
 
@@ -12,20 +13,18 @@ button {
   @include mixins.foreground-color(var(--button-color-foreground-normal));
   @include mixins.background-color(var(--button-color-background-normal));
 
+  // Buttons override the font by default
+  @include fonts.sans-font(var(--button-size-font));
+
   width: var(--button-size-width);
   padding-inline: var(--button-size-hpadding);
   padding-block: var(--button-size-vpadding);
   border: none;
   border-radius: var(--button-size-border-radius);
   outline-offset: var(--button-size-outline-offset);
+  font-weight: normal;
   line-height: #{sizes.$root-size-base-line};
   cursor: var(--button-cursor-normal);
-
-  // Buttons override the font by default
-  /* stylelint-disable-next-line order/properties-order */
-  font-weight: normal;
-  font-size: var(--button-size-font);
-  font-family: var(--body-font-family-sans);
 
   @media (hover: hover) {
     &:hover {

@@ -42,8 +42,8 @@
     ]
   },
 
-  "openpgp": {
-    "entryKind": "rich",
-    "content": "OpenPGP public key: [`${keyName}`](${keyUrl})"
+  "openpgp.label": {
+    "entryKind": "plain",
+    "content": "OpenPGP public key"
   }
 }

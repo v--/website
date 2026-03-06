@@ -101,12 +101,12 @@ export function homePage(pageState: IWebsitePageState, env: WebsiteEnvironment) 
         ),
       ),
 
-      c.factory(rich, {
-        doc: _.rich$({
-          key: 'openpgp',
-          context: { keyName: OPENPGP_KEY_ID_SHORT, keyUrl: OPENPGP_KEYSERVER_URL },
-        }),
-      }),
+      c.html('p', { class: 'home-page-openpgp-message' },
+        c.html('div', { text: _({ key: 'openpgp.label' }) }),
+        c.factory(anchor, { href: OPENPGP_KEYSERVER_URL },
+          c.html('code', { text: OPENPGP_KEY_ID_SHORT }),
+        ),
+      ),
     ),
   )
 }

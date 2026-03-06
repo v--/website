@@ -15,9 +15,9 @@ $spotlight-page-aspect-ratio: math.div(3, 2);
   --body-zindex-fff:  8;
 
   // Truly misc
+  --heading-text-align: initial;
   --anchor-text-decoration: underline;
   --divider-border-style: solid;
   --spotlight-size-aspect-ratio: #{$spotlight-page-aspect-ratio};
-  --spotlight-divider-style: dotted;
   --backdrop-opacity: 0.4;
 }

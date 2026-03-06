@@ -38,14 +38,6 @@ $icon-size-padding-huge-loose: 1em;
 $icon-size-padding-huge-dense: 0.8em;
 
 @mixin common-size-variables {
-  // Base sizes
-  --body-size-font:          1rem;
-  --body-size-border-radius: 3px;
-
-  --body-size-border-thin:    1px;
-  --body-size-border-normal:  2px;
-  --body-size-border-thick:   3px;
-
   // Sizes based on musical dynamics
   --body-size-ppp: 0.1em;
   --body-size-pp:  0.25em;
@@ -55,6 +47,12 @@ $icon-size-padding-huge-dense: 0.8em;
   --body-size-f:   1.5em;
   --body-size-ff:  2.5em;
   --body-size-fff: 4em;
+
+  // Borders
+  --body-size-border-thin:    1px;
+  --body-size-border-normal:  2px;
+  --body-size-border-thick:   3px;
+  --body-size-border-radius:  3px;
 
   // Main
   --main-size-hpadding: #{$main-size-hpadding-sparse};
@@ -71,7 +69,7 @@ $icon-size-padding-huge-dense: 0.8em;
   --dialog-size-shadow-radius: 5px;
 
   // Buttons
-  --button-size-font: var(--body-size-font);
+  --button-size-font: 1rem;
   --button-size-hpadding: 1.3em;
   --button-size-vpadding: 0.3em;
   --button-size-outline-offset: -2px;

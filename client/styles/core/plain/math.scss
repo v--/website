@@ -1,3 +1,5 @@
+@use "../../fonts";
+
 math {
-  font-family: var(--body-font-family-math);
+  @include fonts.math-font;
 }
