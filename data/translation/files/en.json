@@ -6,12 +6,12 @@
 
   "page_title_suffix": {
     "entryKind": "plain",
-    "content": "File explorer"
+    "content": "File navigator"
   },
 
   "heading.main": {
     "entryKind": "plain",
-    "content": "File explorer"
+    "content": "File navigator"
   },
 
   "table.heading.name": {

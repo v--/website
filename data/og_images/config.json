@@ -21,7 +21,7 @@
     "files": {
       "en": {
         "templatePath": "./templates/title_en.svg",
-        "context": {"title": "File explorer"}
+        "context": {"title": "File navigator"}
       },
       "ru": {
         "templatePath": "./templates/title_ru.svg",

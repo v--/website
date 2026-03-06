@@ -26,7 +26,7 @@
 
   "main_menu.page.files": {
     "entryKind": "plain",
-    "content": "File explorer"
+    "content": "File navigator"
   },
 
   "main_menu.page.pacman": {

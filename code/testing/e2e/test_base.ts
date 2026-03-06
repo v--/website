@@ -186,7 +186,7 @@ describe('General website behavior', function () {
       assert.equal(await anchors[0].textContent(), 'Home page')
       assertTrue(await anchors[0].isEnabled())
 
-      assert.equal(await anchors[1].textContent(), 'File explorer')
+      assert.equal(await anchors[1].textContent(), 'File navigator')
       assertTrue(await anchors[1].isEnabled())
 
       assert.equal(await anchors[2].textContent(), 'Pacman repo')

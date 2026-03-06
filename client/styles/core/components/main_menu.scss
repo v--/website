@@ -54,12 +54,12 @@
     --control-color-input-active: var(--main-menu-color-background);
 
     display: inline-flex;
-    border-right: 0;
     gap: 1.5em;
     justify-content: space-evenly;
     align-items: center;
     box-sizing: border-box;
     padding: var(--button-size-vpadding) var(--button-size-hpadding);
+    border-right: 0;
 
     &:disabled {
       --icon-color: var(--button-color-foreground-disabled);
