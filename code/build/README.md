@@ -44,7 +44,7 @@ In order to build SVG libraries with reusable `<symbol>` tags for icons, the [Ic
 
 There is a [generator](./workers/og_images.ts) for [Open Graph protocol](https://ogp.me/) images.
 
-We take an SVG image with a `${title}` string and replace that string with internationalized text based on the `config.json` file in [`../../data/og_images`](../../data/og_images) (consult the README file there for some details). The resulting SVG is then rendered to PNG via the [resvg-js](https://github.com/thx/resvg-js) library.
+We take an SVG image with a `${title}` string and replace that string with internationalized text based on the `config.json` file in [`../../data/og_images`](../../data/og_images) (consult the README file there for some details). The resulting SVG is then rendered to PNG.
 
 ### Translation maps
 

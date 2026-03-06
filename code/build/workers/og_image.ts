@@ -9,7 +9,7 @@ import { Schema } from '../../common/validation.ts'
 import { readJsonWithSchema } from '../../server/validation.ts'
 import { type IBuildContext, type IBuildWorker } from '../build_worker.ts'
 import { BuildError } from '../errors.ts'
-import { renderSvg } from '../svg.ts'
+import { renderSvg } from '../external.ts'
 
 export class OGImageBuildError extends BuildError {}
 

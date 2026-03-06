@@ -18,6 +18,9 @@ ln --symbolic local.json config/active.json
 
 After that, a development server can be launched via `npm run watcher` and, after the initial build, `npm run server`.
 
+> [!NOTE]
+> The build process requires [Inkscape](https://inkscape.org/) for SVG rendering and [oxipng](https://github.com/oxipng/oxipng) for PNG optimization.
+
 ## Library code
 
 What I call here "library code" is a bunch of reusable independent modules that would be external dependencies if it was not my goal to implement them myself. The following may be of interest:

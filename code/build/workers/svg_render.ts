@@ -2,7 +2,7 @@ import fs from 'node:fs/promises'
 import { basename, dirname, join as joinPath, relative } from 'node:path'
 
 import { type IBuildContext, type IBuildWorker } from '../build_worker.ts'
-import { renderSvg } from '../svg.ts'
+import { renderSvg } from '../external.ts'
 
 interface ISvgRenderBuildWorkerConfig {
   srcBase: string
