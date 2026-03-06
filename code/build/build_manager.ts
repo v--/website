@@ -14,6 +14,7 @@ import { ServerLogger } from '../server/logger.ts'
 interface BuildManagerConfig {
   builder: IBuildWorker
   paths: string[]
+  synchronize?: boolean
   ext?: string[]
   sync?: BrowserSyncInstance
   ignore?(path: ParsedPath): boolean
@@ -147,10 +148,18 @@ export class BuildManager {
   }
 
   async* #build(path: string) {
-    for await (const context of this.config.builder.performBuild(path)) {
-      await this.#prepareDestDir(context)
-      await this.#writeDestFile(context)
-      yield context
+    if (this.config.synchronize) {
+      for (const context of await Array.fromAsync(this.config.builder.performBuild(path))) {
+        await this.#prepareDestDir(context)
+        await this.#writeDestFile(context)
+        yield context
+      }
+    } else {
+      for await (const context of this.config.builder.performBuild(path)) {
+        await this.#prepareDestDir(context)
+        await this.#writeDestFile(context)
+        yield context
+      }
     }
   }
 }
