@@ -28,7 +28,7 @@
       #{colors.$loading-color-primary} 100%
     );
     background-size: 200% 100%;
-    background-repeat: no-repeat;
+    background-repeat: repeat;
     animation: moving-background var(--loading-duration-cycle) linear infinite;
   }
 }
