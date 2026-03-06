@@ -35,7 +35,7 @@
 
 @mixin notice-padding($base) {
   --notice-size-hpadding: calc(#{$base} - var(--notice-size-indicator-width));
-  --notice-size-vpadding: 0.5em;
+  --notice-size-vpadding: 0.3em;
 }
 
 @mixin notice-colors($color) {
