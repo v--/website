@@ -110,6 +110,7 @@ function mapColumnSpec<T>(
       anchor,
       {
         isInternal: true,
+        rel: 'nofollow',
         href: config.getUpdatedPath(nextSortParams),
       },
       c.factory(icon, { libId: 'interactive_table', name: getSvgIconFromDirection(direction) }),
