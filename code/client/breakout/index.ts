@@ -1,7 +1,6 @@
 import { breakout } from './components/breakout.ts'
 import {
   BRICK_MAX_POWER,
-  DEFAULT_GAME_STATE,
   EVOLUTION_FREQUENCY,
   KEY_CONTROL,
   KEY_DEBUG,
@@ -10,6 +9,7 @@ import {
   KEY_RIGHT_SECONDARY,
 } from './constants.ts'
 import { getEventParams, handleResetButton } from './events.ts'
+import { DEFAULT_GAME_STATE } from './state.ts'
 import { type IGameState } from './types.ts'
 import { checkbox } from '../../common/components/checkbox.ts'
 import { rich } from '../../common/components/rich.ts'

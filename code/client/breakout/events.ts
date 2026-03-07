@@ -1,4 +1,5 @@
-import { DEFAULT_GAME_STATE, KEY_CONTROL, KEY_DEBUG, KEY_LEFT_SECONDARY, KEY_RESET, KEY_RIGHT_SECONDARY } from './constants.ts'
+import { KEY_CONTROL, KEY_DEBUG, KEY_LEFT_SECONDARY, KEY_RESET, KEY_RIGHT_SECONDARY } from './constants.ts'
+import { DEFAULT_GAME_STATE } from './state.ts'
 import { type IGameState, type UpdateGameState } from './types.ts'
 import { type StateStore } from '../../common/support/state_store.ts'
 import { type ClientWebsiteEnvironment } from '../core/environment.ts'

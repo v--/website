@@ -1,10 +1,11 @@
 import { AAEllipse, type IPlainVec2D, Vec2D } from '../../../common/math/geom2d.ts'
 import { type float64 } from '../../../common/types/numbers.ts'
-import { BALL_RADIUS, PADDLE_HEIGHT, PADDLE_WIDTH, STAGE } from '../constants.ts'
+import { BALL_RADIUS, PADDLE_HEIGHT, PADDLE_WIDTH } from '../constants.ts'
 import { type IBreakoutIntersectible, type IBreakoutIntersection, type PaddleDirection } from '../types.ts'
 
 export interface IBreakoutPaddleConfig {
   center: float64
+  ordinate: float64
   direction: PaddleDirection
 }
 
@@ -13,15 +14,17 @@ export interface IBreakoutPaddleConfig {
  */
 export class BreakoutPaddle implements IBreakoutPaddleConfig, IBreakoutIntersectible {
   readonly center: float64
+  readonly ordinate: float64
   readonly direction: PaddleDirection
   readonly ellipse: AAEllipse
 
-  constructor({ center, direction }: IBreakoutPaddleConfig) {
+  constructor({ center, ordinate, direction }: IBreakoutPaddleConfig) {
     this.center = center
     this.direction = direction
+    this.ordinate = ordinate
     this.ellipse = new AAEllipse({
       x0: center,
-      y0: STAGE.getBottomPos(),
+      y0: ordinate,
       a: PADDLE_WIDTH + BALL_RADIUS,
       b: PADDLE_HEIGHT + BALL_RADIUS,
     })

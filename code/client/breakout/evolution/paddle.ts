@@ -1,7 +1,8 @@
 import { clamp } from '../../../common/support/floating.ts'
 import { type float64 } from '../../../common/types/numbers.ts'
 import { getComputedState, refreshTarget } from '../computed.ts'
-import { MINIMAL_MOVEMENT_DISTANCE, PADDLE_MOVEMENT_PER_SECOND, PADDLE_WIDTH, STAGE } from '../constants.ts'
+import { MINIMAL_MOVEMENT_DISTANCE, PADDLE_MOVEMENT_PER_SECOND, PADDLE_WIDTH } from '../constants.ts'
+import { STAGE } from '../geom/constants.ts'
 import { BreakoutPaddle } from '../geom/paddle.ts'
 import { type IGameState } from '../types.ts'
 

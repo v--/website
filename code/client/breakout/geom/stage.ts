@@ -1,7 +1,7 @@
-import { computeBallIntersectionWithFigure } from './intersection.ts'
 import { AARect, type IAARectConfig, type IPlainVec2D, Vec2D } from '../../../common/math/geom2d.ts'
 import { type float64 } from '../../../common/types/numbers.ts'
 import { type IBreakoutIntersectible, type IBreakoutIntersection } from '../types.ts'
+import { computeBallIntersectionWithFigure } from './ball.ts'
 
 export interface IBreakoutStageConfig extends IAARectConfig {
   offset: float64

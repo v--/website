@@ -1,11 +1,11 @@
 import { BreakoutBrick } from './brick.ts'
-import { STAGE } from '../constants.ts'
 import { BreakoutPaddle } from './paddle.ts'
 import { BreakoutStage } from './stage.ts'
-import { type IIntersectible, type IPlainVec2D, type Vec2D } from '../../../common/math/geom2d.ts'
+import { type IPlainVec2D, type Vec2D } from '../../../common/math/geom2d.ts'
 import { isGeq } from '../../../common/support/floating.ts'
 import { schwartzMin } from '../../../common/support/iteration.ts'
 import { type IBreakoutIntersectible, type IBreakoutIntersection } from '../types.ts'
+import { STAGE } from './constants.ts'
 
 function* iterIntersectibles(paddle: BreakoutPaddle, bricks: BreakoutBrick[]): Generator<IBreakoutIntersectible> {
   yield* bricks
@@ -36,20 +36,4 @@ export function isIntersectionFatal(int: IBreakoutIntersection): boolean {
 
 export function isIntersectionWinning(int: IBreakoutIntersection, bricks: BreakoutBrick[]): boolean {
   return bricks.length === 1 && bricks[0].power === 1 && int.figure === bricks[0]
-}
-
-export function computeBallIntersectionWithFigure(ballSource: Vec2D, ballDirection: IPlainVec2D, figure: IBreakoutIntersectible, geomFigure: IIntersectible): IBreakoutIntersection | undefined {
-  const int = geomFigure.intersectWithRay(ballSource, ballDirection)
-
-  if (int) {
-    return {
-      newCenter: int.point,
-      figure: figure,
-      calculateReflectedDirection() {
-        return int.calculateReflectedDirection()
-      },
-    }
-  }
-
-  return undefined
 }

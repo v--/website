@@ -1,7 +1,7 @@
 import { createComponent as c } from '../../../common/rendering/component.ts'
 import { type uint32 } from '../../../common/types/numbers.ts'
 import { type ClientWebsiteEnvironment } from '../../core/environment.ts'
-import { STAGE } from '../constants.ts'
+import { STAGE } from '../geom/constants.ts'
 
 interface IBreakoutFpsState {
   fps: uint32

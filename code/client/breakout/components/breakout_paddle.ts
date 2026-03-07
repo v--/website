@@ -1,5 +1,6 @@
 import { createComponent as c } from '../../../common/rendering/component.ts'
-import { PADDLE_HEIGHT, PADDLE_WIDTH, STAGE } from '../constants.ts'
+import { PADDLE_HEIGHT, PADDLE_WIDTH } from '../constants.ts'
+import { STAGE } from '../geom/constants.ts'
 import { type BreakoutPaddle } from '../geom/paddle.ts'
 
 interface IBreakoutPaddleState {

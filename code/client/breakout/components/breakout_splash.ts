@@ -1,6 +1,6 @@
 import { createComponent as c } from '../../../common/rendering/component.ts'
 import { type ClientWebsiteEnvironment } from '../../core/environment.ts'
-import { STAGE } from '../constants.ts'
+import { STAGE } from '../geom/constants.ts'
 import { type GamePhase } from '../types.ts'
 
 interface IBreakoutSplashState {

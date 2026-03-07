@@ -1,6 +1,6 @@
 import { BALL_RADIUS, BRICK_MAX_POWER } from '../constants.ts'
 import { BreakoutBrickError } from '../errors.ts'
-import { computeBallIntersectionWithFigure } from './intersection.ts'
+import { computeBallIntersectionWithFigure } from './ball.ts'
 import { AARect, type IPlainVec2D, Vec2D } from '../../../common/math/geom2d.ts'
 import { type uint32 } from '../../../common/types/numbers.ts'
 import { type GameBrickPower, type IBreakoutIntersection } from '../types.ts'
