@@ -23,7 +23,7 @@ export function initBrowserSync(socket: string): BrowserSync.BrowserSyncInstance
       },
     },
     proxy: 'localhost:' + socket,
-    serveStatic: ['./public'],
+    serveStatic: ['./build/public', './build/intermediate'],
   })
 
   return instance
@@ -54,8 +54,8 @@ export async function waitForServer(sync: BrowserSync.BrowserSyncInstance, conte
 
 export async function reloadBrowserSync(sync: BrowserSync.BrowserSyncInstance, contexts: IBuildContext[]): Promise<void> {
   const paths = contexts
-    .filter(ctx => ctx.dest.startsWith('public/'))
-    .map(ctx => ctx.dest.slice('public/'.length))
+    .filter(ctx => ctx.dest.startsWith('intermediate/'))
+    .map(ctx => ctx.dest.slice('intermediate/'.length))
 
   sync.notify('<div style="text-align: left"><b>Reloading</b><br />' + paths.join('<br />') + '</div>')
 

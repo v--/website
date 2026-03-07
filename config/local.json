@@ -13,7 +13,7 @@
       "realDBPath": "./mocks/ivasilev.db"
     },
     "translation": {
-      "root": "./private/translation"
+      "root": "./build/private/translation"
     }
   }
 }

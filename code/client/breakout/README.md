@@ -4,8 +4,6 @@ This is the code for the Breakout game at https://ivasilev.net/playground/breako
 
 The README in the [root directory](../../../) contains references to important bits of documentation that may aid in understanding the code.
 
-__Note:__ "Code bundle" here has a specific meaning as an isolated module, see [here](./build/#typescript).
-
 ## Overview
 
 An overview of how the game works is given on the web page. The code is structured so that it is easy to understand. The entry point is [`./index.ts`](./index.ts) and the user interaction code is concentrated in the [`breakout`](./components/breakout.ts) component (the component system is explained in the README file in [`../../common/rendering`](../../common/rendering)).

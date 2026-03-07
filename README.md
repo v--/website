@@ -39,7 +39,7 @@ What I call here "library code" is a bunch of reusable independent modules that 
 
 What I call here "website code" is code specific to my website.
 
-The website is split into logically independent bundles (these are not bundles in the usual JavaScript sense, although they initially were - see [here](./code/build#typescript)). The "core" bundle can be rendered both on the server and in the browser and its functionality is restricted to what can work in a modern browser without JavaScript. For example, the [`/files`](https://ivasilev.net/files) page must behave identically with and without JavaScript, and this is verified using [end-to-end tests](./code/testing/e2e/test_files.ts).
+The website is split into logically independent bundles. The "core" bundle can be rendered both on the server and in the browser and its functionality is restricted to what can work in a modern browser without JavaScript. For example, the [`/files`](https://ivasilev.net/files) page must behave identically with and without JavaScript, and this is verified using [end-to-end tests](./code/testing/e2e/test_files.ts).
 
 The server-side aspect is explained in [`./code/server`](./code/server), while the client-side aspect is explained in [`./code/client/core`](./code/client/core).
 

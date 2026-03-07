@@ -18,7 +18,6 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
     return {
       titleSegmentSpecs: [{ bundleId: 'core', key: 'global_title_suffix' }],
       descriptionSpec: { bundleId: 'core', key: 'description.home' },
-      bundleId: 'core',
       navId: 'home',
       translationBundleIds: ['home'],
       iconLibIds: ['contacts'],
@@ -40,7 +39,6 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
         { bundleId: 'core', key: 'global_title_suffix' },
       ],
       descriptionSpec: { bundleId: 'core', key: 'description.files' },
-      bundleId: 'core',
       navId: 'files',
       translationBundleIds: ['files'],
       iconLibIds: ['interactive_table'],
@@ -60,7 +58,6 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
         { bundleId: 'core', key: 'global_title_suffix' },
       ],
       descriptionSpec: { bundleId: 'core', key: 'description.pacman' },
-      bundleId: 'core',
       navId: 'pacman',
       translationBundleIds: ['pacman'],
       ogImageName: 'pacman',
@@ -79,7 +76,6 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
         { bundleId: 'core', key: 'global_title_suffix' },
       ],
       descriptionSpec: { bundleId: 'core', key: 'description.playground' },
-      bundleId: 'core',
       translationBundleIds: ['playground'],
       navId: 'playground',
       ogImageName: 'playground',
@@ -99,7 +95,6 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
           { bundleId: 'core', key: 'global_title_suffix' },
         ],
         descriptionSpec: { bundleId: 'core', key: `description.playground.${playgroundId}` },
-        bundleId: playgroundId,
         navId: 'playground',
         ogImageName: playgroundId,
         pageData: undefined,
@@ -132,7 +127,6 @@ export function createEncodedErrorState(urlPath: UrlPath, encoded: IEncodedError
   const decoder = new EncodedErrorDecoder(encoded)
 
   return {
-    bundleId: 'core',
     translationBundleIds: decoder.getBundleIds(),
     // We do not put the global title suffix here on purpose
     titleSegmentSpecs: [decoder.getTitleSpec()],

@@ -4,8 +4,6 @@ This is the code for the array sorting visualization at https://ivasilev.net/pla
 
 The README in the [root directory](../../../) contains references to important bits of documentation that may aid in understanding the code.
 
-__Note:__ "Code bundle" here has a specific meaning as an isolated module, see [here](./build/#typescript).
-
 ## Overview
 
 The entry point is [`./index.ts`](./index.ts), which hopefully makes the rendering code clear. The current state is stored in a [`StateStore`](../../common/support/state_store.ts) instance, the working of which is explained [here](../../common/observable#state-store).

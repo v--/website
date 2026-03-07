@@ -13,7 +13,7 @@
       "realDBPath": "/srv/http/pacman/x86_64/ivasilev.db"
     },
     "translation": {
-      "root": "./private/translation"
+      "root": "./build/private/translation"
     }
   }
 }

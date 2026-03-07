@@ -9,13 +9,6 @@ export const PLAYGROUND_PAGE_IDS = [
 
 export type PlaygroundPageId = typeof PLAYGROUND_PAGE_IDS[uint32]
 
-export const BUNDLE_IDS = [
-  'core',
-  ...PLAYGROUND_PAGE_IDS,
-] as const
-
-export type BundleId = typeof BUNDLE_IDS[uint32]
-
 export const ICON_LIBRARY_IDS = [
   'logo',
   'core',

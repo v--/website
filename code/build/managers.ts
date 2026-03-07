@@ -25,7 +25,7 @@ export function getBuildManagers(config: GetBuildManagersConfig) {
 
 function* iterBuildManagers({ loggerLevel, sourceMaps, sync, prod }: GetBuildManagersConfig) {
   yield new BuildManager({
-    builder: new CodeBuildWorker({ sourceMaps, srcBase: 'code', destBase: 'public/code' }),
+    builder: new CodeBuildWorker({ sourceMaps, srcBase: 'code', destBase: 'build/intermediate/code' }),
     paths: ['code/common', 'code/client'],
     ext: ['.ts'],
     loggerLevel, sync,
@@ -37,7 +37,7 @@ function* iterBuildManagers({ loggerLevel, sourceMaps, sync, prod }: GetBuildMan
   })
 
   yield new BuildManager({
-    builder: new StyleBuildWorker({ sourceMaps, srcBase: 'client/styles', destBase: 'public/styles' }),
+    builder: new StyleBuildWorker({ sourceMaps, srcBase: 'client/styles', destBase: 'build/public/styles' }),
     paths: ['client/styles'],
     ext: ['.scss'],
     ignoreOnBulkBuild(path: ParsedPath) {
@@ -47,7 +47,7 @@ function* iterBuildManagers({ loggerLevel, sourceMaps, sync, prod }: GetBuildMan
   })
 
   yield new BuildManager({
-    builder: new IconLibraryBuildWorker({ srcBase: 'data/icon_libraries', destBase: 'public/svg_libraries' }),
+    builder: new IconLibraryBuildWorker({ srcBase: 'data/icon_libraries', destBase: 'build/public/svg_libraries' }),
     paths: ['data/icon_libraries'],
     ext: ['.json'],
     loggerLevel, sync,
@@ -56,7 +56,7 @@ function* iterBuildManagers({ loggerLevel, sourceMaps, sync, prod }: GetBuildMan
   // We synchronize calls to Inkscape because it has problems with running multiple instances in parallel.
   //    https://gitlab.com/inkscape/inkscape/-/work_items/4716
   yield new BuildManager({
-    builder: new SvgRenderBuildWorker({ srcBase: 'client/assets/images', destBase: 'public/images' }),
+    builder: new SvgRenderBuildWorker({ srcBase: 'client/assets/images', destBase: 'build/public/images' }),
     paths: ['client/assets/images/favicon.svg'],
     ext: ['.svg'],
     synchronize: true,
@@ -65,7 +65,7 @@ function* iterBuildManagers({ loggerLevel, sourceMaps, sync, prod }: GetBuildMan
 
   if (prod) {
     yield new BuildManager({
-      builder: new OGImageBuildWorker({ srcBase: 'data/og_images', destBase: 'public/images/open_graph' }),
+      builder: new OGImageBuildWorker({ srcBase: 'data/og_images', destBase: 'build/public/images/open_graph' }),
       paths: ['data/og_images/config.json'],
       synchronize: true,
       loggerLevel, sync,
@@ -73,13 +73,13 @@ function* iterBuildManagers({ loggerLevel, sourceMaps, sync, prod }: GetBuildMan
   }
 
   yield new BuildManager({
-    builder: new AssetBuildWorker({ srcBase: 'client/assets', destBase: 'public' }),
+    builder: new AssetBuildWorker({ srcBase: 'client/assets', destBase: 'build/public' }),
     paths: ['client/assets'],
     loggerLevel, sync,
   })
 
   yield new BuildManager({
-    builder: new TranslationMapBuildWorker({ srcBase: 'data/translation', destBase: 'private/translation' }),
+    builder: new TranslationMapBuildWorker({ srcBase: 'data/translation', destBase: 'build/private/translation' }),
     paths: ['data/translation'],
     ext: ['.json'],
     loggerLevel, sync,

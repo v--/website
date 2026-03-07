@@ -3,7 +3,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
   <use href="../svg_libraries/background.svg#background" />
   <use href="../../../client/assets/svg_libraries/logo.svg#logo-in-circle" x="1120" y="550" width="50" height="50" />
-  <use href="../../../public/svg_libraries/core.svg#solid/triangle-exclamation" x="450" y="115" width="300" height="262.5" fill="#ffc107" />
+  <use href="../../../build/public/svg_libraries/core.svg#solid/triangle-exclamation" x="450" y="115" width="300" height="262.5" fill="#ffc107" />
   <text x="600" y="480" text-anchor="middle" font-size="80" fill="#fff" font-family="PT Sans">
     ${text}
   </text>

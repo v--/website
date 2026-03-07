@@ -1,6 +1,6 @@
 {
   "include": ["./code"],
-  "exclude": ["./node_modules", "./public"],
+  "exclude": ["./node_modules", "./build"],
   "compilerOptions": {
     "skipLibCheck": true,
     "noEmit": true,

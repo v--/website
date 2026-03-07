@@ -15,7 +15,7 @@ export class DynamicImportError extends CoolError {}
 
 async function loadJavaScriptFile(pageId: PlaygroundPageId): Promise<JavaScriptModule> {
   try {
-    return await import(`/code/client/${pageId}/index.js`)
+    return await import(`/code/client/${pageId}.js`)
   } catch (err) {
     throw new DynamicImportError(`Could not fetch JavaScript module for page ${repr(pageId)}.`, err)
   }

@@ -10,9 +10,9 @@ A build manager is instead an instance of the [BuildManager class](./build_manag
 
 Various managers are initialized in [`./managers.ts`](./managers.ts), while [`./builder.ts`](./builder.ts) and [`./watcher.ts`](./watcher.ts) use these for (re)building the website.
 
-## /public and /private
+## /build/public, /build/private and /build/intermediate
 
-Built files are dumped into either [`../../public`](../../public) or [`../../private`](../../private). The first one is directly served by BrowserSync (or nginx in production) and the second one is loaded and used by the [server code](../server).
+Built files are dumped into one of the aforementioned subdirectories of [`../../build`](../../build). The public directory is served by BrowserSync (or nginx in production); the private one is loaded and used by the [server code](../server), while the intermediate one is used during development and when creating code bundles.
 
 ## Concrete workers
 
@@ -20,11 +20,7 @@ Built files are dumped into either [`../../public`](../../public) or [`../../pri
 
 The [code worker](./workers/code.ts) uses [SWC](https://swc.rs/) to strip the types from source files, optionally mangle any whitespace and dump the result into individual JavaScript files.
 
-We mentioned in the [README in the root](../) that the client-side code is split into bundles. These are however not bundles in the sense of [WebPack](https://webpack.js.org/) or [Rollup](https://rollupjs.org/) (although this was the case a long time ago). Instead, the output JavaScript has the same structure as the source TypeScript.
-
-We will explain the reason for this. Generally, websites using the aforementioned code bundlers are homogeneous masses of code represented via one giant code blob, the "bundle". Instead, this website is modular, and significant effort is required to make different bundled code blobs interact well. After encountering several bugs related to state management, I decided to abort bundlers and instead rely on the then-new ability of browsers to [load JavaScript modules recursively](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules).
-
-This works well since 2018.
+We mentioned in the [README in the root](../) that the client-side code is split into bundles. The directory structure produced by SWC is used directly during development, but for production we use [Rollup](https://rollupjs.org/) to combine that code into larger bundles with shared chunks.
 
 We use the TypeScript compiler only as part of the linting process, and hence the worker is not concerned with it. We have previously relied on it for building the code (see [here](https://github.com/v--/website/tree/9a2a23245d8170595f78ee49f63a63a6c3a5d007/build/code.ts)), however that turned out cumbersome and, unfortunately, at some point it also became error-prone as it began to occasionally skip building new versions of files.
 

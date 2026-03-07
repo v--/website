@@ -1,5 +1,4 @@
 /node_modules
-/private
-/public
+/build
 
 /config/active.json
