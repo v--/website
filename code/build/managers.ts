@@ -53,13 +53,10 @@ function* iterBuildManagers({ loggerLevel, sourceMaps, sync, prod }: GetBuildMan
     loggerLevel, sync,
   })
 
-  // We synchronize calls to Inkscape because it has problems with running multiple instances in parallel.
-  //    https://gitlab.com/inkscape/inkscape/-/work_items/4716
   yield new BuildManager({
     builder: new SvgRenderBuildWorker({ srcBase: 'client/assets/images', destBase: 'build/public/images' }),
     paths: ['client/assets/images/favicon.svg'],
     ext: ['.svg'],
-    synchronize: true,
     loggerLevel, sync,
   })
 
@@ -67,7 +64,6 @@ function* iterBuildManagers({ loggerLevel, sourceMaps, sync, prod }: GetBuildMan
     yield new BuildManager({
       builder: new OGImageBuildWorker({ srcBase: 'data/og_images', destBase: 'build/public/images/open_graph' }),
       paths: ['data/og_images/config.json'],
-      synchronize: true,
       loggerLevel, sync,
     })
   }

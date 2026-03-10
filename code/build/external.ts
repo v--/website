@@ -4,9 +4,14 @@ import { BuildError } from './errors.ts'
 
 class ExternalCallError extends BuildError {}
 
-export function callExternalProgram(name: string, args: string[], input: Buffer, cwd?: string): Promise<Buffer> {
+class ExternalCallOptions {
+  cwd?: string
+  env?: Record<string, string>
+}
+
+export function callExternalProgram(name: string, args: string[], input: Buffer, options?: ExternalCallOptions): Promise<Buffer> {
   return new Promise((resolve, reject) => {
-    const inkscape = spawn(name, args, { cwd })
+    const inkscape = spawn(name, args, options)
     inkscape.stdin.write(input)
     inkscape.stdin.end()
     const chunks: Buffer[] = []
@@ -31,6 +36,12 @@ export function optimizePng(input: Buffer): Promise<Buffer> {
 
 export async function renderSvg(input: Buffer, cwd?: string): Promise<Buffer> {
   return optimizePng(
-    await callExternalProgram('inkscape', ['--pipe', '--export-type', 'png', '--export-filename', '-'], input, cwd),
+    // Inkscape has a singleton instance check for development purposes.
+    // Using unshare circumvents this check, as well as possible clashes.
+    // See https://gitlab.com/inkscape/inkscape/-/work_items/4716#note_1898150983
+    await callExternalProgram(
+      'unshare', ['inkscape', '--pipe', '--export-type', 'png', '--export-filename', '-'], input,
+      { cwd },
+    ),
   )
 }
