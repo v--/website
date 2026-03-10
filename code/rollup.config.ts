@@ -27,7 +27,7 @@ export default [
 
         for (const bundleId of CHUNK_NAMES) {
           if (id.startsWith(path.join(codeBasePath, 'client', bundleId))) {
-            return bundleId
+            return path.join('client', bundleId)
           }
         }
 
@@ -35,7 +35,7 @@ export default [
       },
 
       chunkFileNames(chunkInfo: PreRenderedChunk) {
-        return path.join('shared', chunkInfo.name + '.js')
+        return path.join(chunkInfo.name + '.js')
       },
 
       entryFileNames(chunkInfo: PreRenderedChunk) {
