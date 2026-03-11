@@ -17,7 +17,7 @@ async function errorJsonResponse(env: ServerWebsiteEnvironment, encoded: IEncode
 
   return ServerResponse.json(
     translateEncoding(env.gettext, encoded),
-    encoded.errorKind === 'http' ? encoded.code : 500,
+    { code: encoded.errorKind === 'http' ? encoded.code : 500 },
   )
 }
 
@@ -90,14 +90,19 @@ export async function serverRouter(urlPath: UrlPath, env: ServerWebsiteEnvironme
       return errorJsonResponse(env, { errorKind: 'http', code: 404, details })
     }
 
-    return ServerResponse.json({
-      subject: resource,
-      aliases: WEBFINGER_ALIASES.filter(alias => alias !== resource),
-      links: WEBFINGER_LINKS,
-    })
+    return ServerResponse.json(
+      {
+        subject: resource,
+        aliases: WEBFINGER_ALIASES.filter(alias => alias !== resource),
+        links: WEBFINGER_LINKS,
+      },
+      {
+        mimeType: 'application/jrd+json',
+      },
+    )
   }
 
   const routingResult = await router(urlPath, env)
   await env.preloadPageData(routingResult)
-  return ServerResponse.page(routingResult, 200, env)
+  return ServerResponse.page(routingResult, env, { code: 200 })
 }

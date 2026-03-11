@@ -124,8 +124,8 @@ export class HttpServer implements IFinalizeable {
         httpResponse,
         await ServerResponse.page(
           routingResult,
-          err instanceof PresentableError && err.cause.errorKind === 'http' ? err.cause.code : 500,
           env,
+          { code: err instanceof PresentableError && err.cause.errorKind === 'http' ? err.cause.code : 500 },
         ),
       )
     } finally {

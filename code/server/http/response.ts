@@ -6,16 +6,24 @@ import { root } from '../components/root.ts'
 import { type ServerWebsiteEnvironment } from '../environment.ts'
 import { encodeRehydrationData } from '../rehydration.ts'
 
+interface IServerResponseOptions {
+  mimeType?: string
+  code?: uint32
+}
+
 export class ServerResponse {
   readonly content: string
   readonly mimeType: string
   readonly code: uint32
 
-  static async json(contents: unknown, code: uint32 = 200) {
-    return new this(JSON.stringify(contents), 'application/json', code)
+  static async json(contents: unknown, options?: IServerResponseOptions) {
+    return new this(
+      JSON.stringify(contents),
+      options?.mimeType || 'application/json', options?.code || 200,
+    )
   }
 
-  static async page(pageState: IWebsitePageState, code: uint32 = 200, env: ServerWebsiteEnvironment) {
+  static async page(pageState: IWebsitePageState, env: ServerWebsiteEnvironment, options?: IServerResponseOptions) {
     const rehydrationData = await encodeRehydrationData(pageState, env)
     const component = c.factory(root, { pageState, rehydrationData })
     const rendered = await renderToString(component, env)
@@ -23,8 +31,8 @@ export class ServerResponse {
 
     return new this(
       '<!DOCTYPE html>' + rendered,
-      'text/html',
-      code,
+      options?.mimeType || 'text/html',
+      options?.code || 200,
     )
   }
 

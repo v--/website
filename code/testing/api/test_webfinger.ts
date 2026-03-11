@@ -44,6 +44,8 @@ describe('/.well-known/webfinger', function () {
       const resource = WEBFINGER_ALIASES[i]
 
       const response = await client.get(`/.well-known/webfinger?resource=${resource}`)
+      assert.equal(response.headers()['content-type'], 'application/jrd+json; charset=utf-8')
+
       const expected = {
         subject: resource,
         aliases: [...WEBFINGER_ALIASES.slice(0, i), ...WEBFINGER_ALIASES.slice(i + 1)],

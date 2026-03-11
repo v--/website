@@ -8,10 +8,9 @@
 import { type IMetaLink } from './types.ts'
 
 export const WEBFINGER_ALIASES = [
-  'acct:ianis@pub.ivasilev.net',
+  'acct:ianis@ivasilev.net',
   'mailto:ianis@ivasilev.net',
-  'https://pub.ivasilev.net/@ianis',
-  'https://pub.ivasilev.net/users/ianis',
+  'https://mastodon.social/@ivasilev',
 ]
 
 export const WEBFINGER_LINKS: IMetaLink[] = [
@@ -23,16 +22,16 @@ export const WEBFINGER_LINKS: IMetaLink[] = [
   {
     rel: 'http://webfinger.net/rel/avatar',
     type: 'image/jpg',
-    href: 'https://ivasilev.net/images/photo.jpg',
+    href: 'https://ivasilev.net/images/avatar.jpg',
   },
   {
     rel: 'http://webfinger.net/rel/profile-page',
     type: 'text/html',
-    href: 'https://pub.ivasilev.net/@ianis',
+    href: 'https://mastodon.social/@ivasilev',
   },
   {
     rel: 'self',
     type: 'application/activity+json',
-    href: 'https://pub.ivasilev.net/users/ianis',
+    href: 'https://mastodon.social/@ivasilev',
   },
 ]
