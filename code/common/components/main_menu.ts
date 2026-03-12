@@ -6,6 +6,7 @@ import { radio } from './radio.ts'
 import { type WebsiteLanguageId } from '../languages.ts'
 import { createComponent as c } from '../rendering/component.ts'
 import { type NavigationId } from '../types/page.ts'
+import { map } from '../observable.ts'
 
 interface INavigationState {
   navId?: NavigationId
@@ -52,28 +53,39 @@ export function mainMenu({ navId }: INavigationState, env: WebsiteEnvironment) {
 
       c.html('fieldset',
         {
-          class: 'main-menu-entry main-menu-lang-toggle',
+          class: 'main-menu-lang-toggle',
           role: 'radiogroup',
           disabled: !env.isContentDynamic(),
         },
         ...LANGUAGE_CHOICES.flatMap(langChoice => {
-          return c.factory(radio<WebsiteLanguageId>, {
-            labelClass: 'main-menu-lang-toggle-label',
-            inputClass: 'main-menu-lang-toggle-control',
-            text: langChoice.label,
-            name: 'main-menu-lang',
-            controlValue: langChoice.language,
-            selectedValue: env.gettext.language$,
-            async update(newValue: WebsiteLanguageId) {
-              env.loading$.next(true)
+          return c.factory(radio<WebsiteLanguageId>,
+            {
+              labelClass: 'main-menu-lang-toggle-label',
+              inputClass: 'main-menu-lang-toggle-control',
+              name: 'main-menu-lang',
+              controlValue: langChoice.language,
+              selectedValue: env.gettext.language$,
+              async update(newValue: WebsiteLanguageId) {
+                env.loading$.next(true)
 
-              try {
-                await env.changeLanguage(newValue)
-              } finally {
-                env.loading$.next(false)
-              }
+                try {
+                  await env.changeLanguage(newValue)
+                } finally {
+                  env.loading$.next(false)
+                }
+              },
             },
-          })
+            c.factory(button,
+              {
+                class: 'main-menu-entry',
+                text: langChoice.label,
+                iconLibId: 'core',
+                iconName: env.gettext.language$.pipe(
+                  map(lang => lang === langChoice.language ? 'solid/toggle-on' : 'solid/toggle-off'),
+                ),
+              },
+            ),
+          )
         }),
       ),
 
