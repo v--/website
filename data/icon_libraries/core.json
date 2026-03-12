@@ -5,8 +5,8 @@
 
   {"pack": "filled", "name": "home-alt-2", "exportAs": "home"},
   {"pack": "filled", "name": "folder", "exportAs": "files"},
-  {"pack": "filled", "name": "package", "exportAs": "pacman"},
-  {"pack": "basic", "name": "code-alt", "exportAs": "playground"},
+  {"pack": "filled", "name": "archive-arrow-down", "exportAs": "pacman"},
+  {"pack": "filled", "name": "clipboard-code", "exportAs": "playground"},
 
   {"pack": "basic", "name": "menu-wide", "exportAs": "menu"},
   {"pack": "basic", "name": "radio-circle-marked", "exportAs": "radio-on"},
