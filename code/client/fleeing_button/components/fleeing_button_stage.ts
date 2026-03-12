@@ -24,6 +24,7 @@ interface IFleeingButtonStageState {
 }
 
 const SVG_VIEW_BOX = [STAGE.getLeftPos(), STAGE.getTopPos(), STAGE.width, STAGE.height].join(' ')
+const BUTTON_BORDER_RADIUS = 0.01
 
 export function fleeingButtonStage({ store }: IFleeingButtonStageState, env: ClientWebsiteEnvironment) {
   const _ = env.gettext.bindToBundle('fleeing_button')
@@ -113,6 +114,8 @@ export function fleeingButtonStage({ store }: IFleeingButtonStageState, env: Cli
       c.svg('rect',
         {
           class: 'fleeing-button',
+          rx: BUTTON_BORDER_RADIUS,
+          ry: BUTTON_BORDER_RADIUS,
           x: -BUTTON_SIZE.x / 2,
           y: -BUTTON_SIZE.y / 2,
           width: BUTTON_SIZE.x,
@@ -143,7 +146,7 @@ export function fleeingButtonStage({ store }: IFleeingButtonStageState, env: Cli
       c.factory(iconContent, {
         class: 'fleeing-button-icon',
         libId: 'fleeing_button',
-        name: 'solid/person-running',
+        name: 'runner',
       }),
     ),
   )

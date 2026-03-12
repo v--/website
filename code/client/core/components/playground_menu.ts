@@ -37,7 +37,7 @@ export function playgroundMenu({ submenu, stickTop, stickBottom }: IPlaygroundMe
           class: 'playground-menu-drawer-toggle',
           popovertarget: 'playground-menu-drawer-popover',
           iconLibId: 'core',
-          iconName: 'solid/bars',
+          iconName: 'menu',
         },
       ),
       c.html('form',

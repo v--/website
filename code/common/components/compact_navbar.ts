@@ -35,7 +35,7 @@ export function compactNavbar({ navId }: INavbarState, env: WebsiteEnvironment) 
       },
       c.factory(icon, {
         libId: 'core',
-        name: 'solid/bars',
+        name: 'menu',
       }),
     ),
 
@@ -44,7 +44,7 @@ export function compactNavbar({ navId }: INavbarState, env: WebsiteEnvironment) 
         class: 'compact-navbar-button compact-navbar-button-color',
         disabled: !env.isContentDynamic(),
         iconLibId: 'core',
-        iconName: 'solid/lightbulb',
+        iconName: 'lightbulb',
         async click() {
           await env.toggleColorScheme()
         },
@@ -64,7 +64,7 @@ export function compactNavbar({ navId }: INavbarState, env: WebsiteEnvironment) 
           class: 'compact-navbar-dialog-close-button',
           text: _('main_menu.button.close_menu'),
           iconLibId: 'core',
-          iconName: 'solid/bars',
+          iconName: 'menu',
           // Webkit only recently added support for `command` and `commandfor`, so we are stuck with manually showing the modal
           // TODO: Migrate to the attributes
           // command: 'close',

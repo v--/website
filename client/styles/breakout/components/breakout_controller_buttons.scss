@@ -3,8 +3,10 @@
 @use "../../sizes";
 
 .breakout-controller-button {
-  --button-size-font: 1.5em;
-  --icon-size-diameter: 1.2em;
+  --button-size-font: 1.6em;
+  --icon-size-diameter: 2em;
+  --button-size-hpadding: 0.75em;
+  --button-size-vpadding: 0.75em;
 
   position: absolute;
   bottom: var(--main-size-vpadding);

@@ -1,6 +1,6 @@
 [
-  "solid/envelope",
-  "brands/telegram",
-  "brands/mastodon",
-  "brands/github"
+  {"pack": "filled", "name": "envelope", "exportAs": "email"},
+  {"pack": "brands", "name": "telegram"},
+  {"pack": "brands", "name": "mastodon"},
+  {"pack": "brands", "name": "github"}
 ]

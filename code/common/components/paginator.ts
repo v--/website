@@ -30,7 +30,7 @@ function* iterPaginators(pageCount: uint32, currentPage: uint32, getUpdatedPath:
     c.factory(icon, {
       class: 'paginator-anchor-icon',
       libId: 'core',
-      name: 'solid/chevron-left',
+      name: 'chevron-left',
     }),
   )
 
@@ -61,7 +61,7 @@ function* iterPaginators(pageCount: uint32, currentPage: uint32, getUpdatedPath:
     c.factory(icon, {
       class: 'paginator-anchor-icon',
       libId: 'core',
-      name: 'solid/chevron-right',
+      name: 'chevron-right',
     }),
   )
 }

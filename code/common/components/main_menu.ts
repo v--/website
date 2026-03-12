@@ -4,9 +4,9 @@ import { icon } from './icon.ts'
 import { type WebsiteEnvironment } from '../environment.ts'
 import { radio } from './radio.ts'
 import { type WebsiteLanguageId } from '../languages.ts'
+import { map } from '../observable.ts'
 import { createComponent as c } from '../rendering/component.ts'
 import { type NavigationId } from '../types/page.ts'
-import { map } from '../observable.ts'
 
 interface INavigationState {
   navId?: NavigationId
@@ -21,28 +21,28 @@ export function mainMenu({ navId }: INavigationState, env: WebsiteEnvironment) {
         c.factory(mainMenuEntry, {
           active: navId === 'home',
           text: _('main_menu.page.home'),
-          icon: 'solid/house',
+          icon: 'home',
           href: '/',
         }),
 
         c.factory(mainMenuEntry, {
           active: navId === 'files',
           text: _('main_menu.page.files'),
-          icon: 'solid/folder',
+          icon: 'files',
           href: '/files',
         }),
 
         c.factory(mainMenuEntry, {
           active: navId === 'pacman',
           text: _('main_menu.page.pacman'),
-          icon: 'solid/download',
+          icon: 'pacman',
           href: '/pacman',
         }),
 
         c.factory(mainMenuEntry, {
           active: navId === 'playground',
           text: _('main_menu.page.playground'),
-          icon: 'solid/code',
+          icon: 'playground',
           href: '/playground',
         }),
       ),
@@ -81,7 +81,7 @@ export function mainMenu({ navId }: INavigationState, env: WebsiteEnvironment) {
                 text: langChoice.label,
                 iconLibId: 'core',
                 iconName: env.gettext.language$.pipe(
-                  map(lang => lang === langChoice.language ? 'solid/toggle-on' : 'solid/toggle-off'),
+                  map(lang => lang === langChoice.language ? 'radio-on' : 'radio-off'),
                 ),
               },
             ),
@@ -97,7 +97,7 @@ export function mainMenu({ navId }: INavigationState, env: WebsiteEnvironment) {
           disabled: !env.isContentDynamic(),
           text: _('main_menu.button.color_scheme'),
           iconLibId: 'core',
-          iconName: 'solid/lightbulb',
+          iconName: 'lightbulb',
           async click() {
             await env.toggleColorScheme()
           },

@@ -71,11 +71,11 @@ export function interactiveTable<T = unknown>(
 function getSvgIconFromDirection(direction: SortDirection) {
   switch (direction) {
     case 'asc':
-      return 'solid/sort-up'
+      return 'sort-asc'
     case 'desc':
-      return 'solid/sort-down'
+      return 'sort-desc'
     case 'neutral':
-      return 'solid/sort'
+      return 'sort'
   }
 }
 

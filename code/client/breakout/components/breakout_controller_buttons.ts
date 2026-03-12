@@ -21,7 +21,7 @@ export function breakoutControllerButtons({ store }: IBreakoutControllerButtonsS
           store,
           class: 'breakout-controller-button-left',
           iconLibraryId: 'core',
-          iconName: 'solid/chevron-left',
+          iconName: 'chevron-left',
 
           pointerdown(event: MouseEvent) {
             handleLeftButtonDown(getEventParams(store, env, event))
@@ -40,7 +40,7 @@ export function breakoutControllerButtons({ store }: IBreakoutControllerButtonsS
           store,
           class: 'breakout-controller-button-right',
           iconLibraryId: 'core',
-          iconName: 'solid/chevron-right',
+          iconName: 'chevron-right',
 
           pointerdown(event: MouseEvent) {
             handleRightButtonDown(getEventParams(store, env, event))

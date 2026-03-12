@@ -9,7 +9,7 @@ export function placeholder({ urlPath }: IWebsitePageState, env: WebsiteEnvironm
 
   return c.html('main', { class: 'placeholder-page' },
     c.html('noscript', { class: 'placeholder-page-unsupported' },
-      c.factory(icon, { libId: 'placeholder', name: 'solid/ban', class: 'icon-huge placeholder-page-unsupported-icon' }),
+      c.factory(icon, { libId: 'core', name: 'ban', class: 'icon-huge placeholder-page-unsupported-icon' }),
       c.html('h1', { text: _('heading.unsupported') }),
       c.factory(rich, {
         doc: _.rich$({

@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises'
 import { basename, dirname, join as joinPath, relative } from 'node:path'
 
-import { Schema } from '../../common/validation.ts'
+import { type Infer, Schema } from '../../common/validation.ts'
 import { readJsonWithSchema } from '../../server/validation.ts'
 import { type IBuildContext, type IBuildWorker } from '../build_worker.ts'
 import { BuildError } from '../errors.ts'
@@ -13,7 +13,15 @@ export interface IIconLibraryBuildWorkerConfig {
   destBase: string
 }
 
-const ICON_LIBRARY_SOURCE_SCHEMA = Schema.array(Schema.string)
+export const ICON_CONFIG_SCHEMA = Schema.object({
+  pack: Schema.string,
+  name: Schema.string,
+  exportAs: Schema.optional(Schema.string),
+})
+
+export type IIconConfig = Infer<typeof ICON_CONFIG_SCHEMA>
+
+const ICON_LIBRARY_SOURCE_SCHEMA = Schema.array(ICON_CONFIG_SCHEMA)
 
 export class IconLibraryBuildWorker implements IBuildWorker {
   readonly config: IIconLibraryBuildWorkerConfig
@@ -32,11 +40,10 @@ export class IconLibraryBuildWorker implements IBuildWorker {
 
   async* performBuild(src: string): AsyncIterable<IBuildContext> {
     const iconSource = await readJsonWithSchema(ICON_LIBRARY_SOURCE_SCHEMA, src)
-    const promises = iconSource.map(name => readPathFromIconFile(name))
-    const iconObjects = await Promise.all(promises)
+    const iconObjects = await Promise.all(iconSource.map(readPathFromIconFile))
 
     const symbols = iconObjects
-      .map(({ name, viewBox, path }) => `<symbol id="${name}" viewBox="${viewBox}"><path d="${path}"/></symbol>`)
+      .map(({ config, viewBox, contents }) => `<symbol id="${config.exportAs ?? config.name}" viewBox="${viewBox}">${contents}</symbol>`)
       .join('')
 
     const result = `<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg">${symbols}</svg>`
@@ -49,20 +56,31 @@ export class IconLibraryBuildWorker implements IBuildWorker {
   }
 }
 
-const FONTAWESOME_SVG_REGEX = /<svg xmlns="http:\/\/www.w3.org\/2000\/svg" viewBox="(?<viewBox>.*)">.*<path d="(?<path>.*)"\/><\/svg>/
+const BOXICON_SVG_REGEX = /<svg xmlns="http:\/\/www.w3.org\/2000\/svg" (viewBox="(?<viewBox>[^"]+)" )?width="(?<width>\d+)" height="(?<height>\d+)">(?<contents>.*)<\/svg>/
 
-async function readPathFromIconFile(name: string) {
-  const fileName = `submodules/fontawesome/svgs/${name}.svg`
-  const svg = await readFile(fileName, 'utf8')
-  const match = svg.match(FONTAWESOME_SVG_REGEX)
+async function readPathFromIconFile(config: IIconConfig) {
+  const filePath = `node_modules/@boxicons/core/svg/${config.pack}/bx-${config.name}.svg`
+  let svg: string
+
+  try {
+    svg = await readFile(filePath, 'utf-8')
+  } catch (err) {
+    if (err instanceof Error && 'code' in err && err.code === 'ENOENT') {
+      throw new IconBuildError(`Cannot find icon with name ${config.name} in pack ${config.pack}`)
+    }
+
+    throw err
+  }
+
+  const match = svg.match(BOXICON_SVG_REGEX)
 
   if (match === null || match.groups === undefined) {
-    throw new IconBuildError(`Unrecognized file format for ${fileName}`)
+    throw new IconBuildError(`Could not parse SVG for icon ${config.name} from pack ${config.pack}`)
   }
 
   return {
-    name,
-    viewBox: match.groups.viewBox,
-    path: match.groups.path,
+    config,
+    viewBox: match.groups.viewBox ?? `0 0 ${match.groups.width} ${match.groups.height}`,
+    contents: match.groups.contents,
   }
 }

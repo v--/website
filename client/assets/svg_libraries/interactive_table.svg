@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<svg xmlns="http://www.w3.org/2000/svg">
+  <symbol id="sort-asc" viewBox="0 0 24 24">
+    <path d="m 12,2 -8.5,8.25 h 17 z" />
+  </symbol>
+
+  <symbol id="sort-desc" viewBox="0 0 24 24">
+    <path d="M 3.5,13.75 12,22 20.5,13.75 Z" />
+  </symbol>
+
+  <symbol id="sort" viewBox="0 0 24 24">
+    <path d="m 12,2 -8.5,8.25 h 17 z M 3.5,13.75 12,22 20.5,13.75 Z" />
+  </symbol>
+</svg>
