@@ -32,9 +32,10 @@ export class ServerServiceManagerFactory {
   }
 
   async preload() {
+    // It is important that the translations are loaded first because pacman loading may fail
+    await this.translation.preload()
     await this.realPacman.preload()
     await this.mockPacman.preload()
-    await this.translation.preload()
   }
 
   async reload(config: IServiceConfig) {

@@ -89,7 +89,7 @@
     "content": "Что-то пошло не так"
   },
 
-  "error.details.invalid_http_method": {
+  "error.subtitle.invalid_http_method": {
     "entryKind": "plain",
     "content": "Неожиданный HTTP метод ${method}."
   },

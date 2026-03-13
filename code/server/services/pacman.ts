@@ -4,6 +4,7 @@ import * as lzma from 'lzma-native'
 import * as tar from 'tar'
 
 import { ManualCache } from '../../common/cache.ts'
+import { PresentableError } from '../../common/presentable_errors.ts'
 import { type IPacmanPackage, type IPacmanRepository, type IPacmanService, PACMAN_PACKAGE_SCHEMA } from '../../common/services/pacman.ts'
 import { type Path } from '../../common/support/path.ts'
 import { validateSchema } from '../../common/validation.ts'
@@ -87,12 +88,33 @@ function parsePackage(buffer: Buffer): IPacmanPackage {
   return validateSchema(PACMAN_PACKAGE_SCHEMA, pkg)
 }
 
-function readDatabase(dbPath: Path): Promise<IPacmanRepository> {
+async function readDatabase(dbPath: Path): Promise<IPacmanRepository> {
+  try {
+    return await readDatabaseImpl(dbPath)
+  } catch (err) {
+    throw new PresentableError(
+      {
+        errorKind: 'generic',
+        bundleId: 'pacman',
+        titleKey: 'error.title.parsing',
+        subtitleKey: 'error.subtitle.parsing',
+      },
+      `Could not parse pacman database ${dbPath}`,
+    )
+  }
+}
+
+function readDatabaseImpl(dbPath: Path): Promise<IPacmanRepository> {
   const packages: IPacmanPackage[] = []
 
   return new Promise((resolve, reject) => {
+    const decompressor = lzma.createDecompressor()
+      .on('error', function (err) {
+        reject(err)
+      })
+
     fs.createReadStream(dbPath.toString())
-      .pipe(lzma.createDecompressor())
+      .pipe(decompressor)
       .pipe(new tar.Parser())
       .on('entry', function (entry: tar.ReadEntry) {
         if (entry.type != 'File') {

@@ -1,3 +1,5 @@
+import { getObjectEntries } from '../../common/support/iteration.ts'
+
 const DEFAULT_MAP = new Map()
 
 export function parsePreferenceHeader(headers?: string | string[]): Map<string, string> {
@@ -15,4 +17,8 @@ export function parsePreferenceHeader(headers?: string | string[]): Map<string, 
   }
 
   return result
+}
+
+export function encodePreferenceHeader(options: Record<string, string>): string {
+  return getObjectEntries(options).map(([k, v]) => `${k}=${v}`).join(',')
 }

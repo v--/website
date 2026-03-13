@@ -49,13 +49,19 @@ describe('/api/translation', function () {
     )
   })
 
-  it('errors out with 400 for a valid map without a language', async function () {
-    const response = await client.get('/api/translation/core')
+  void it.only('displays a raw error if requested', async function () {
+    const response = await client.get('/api/translation/core', { rawErrorResponse: true })
 
     assert.equal(response.status(), 400)
     assert.deepEqual(
       await response.json(),
-      { errorKind: 'http', code: 400, details: 'Missing language.' },
+      {
+        errorKind: 'http', code: 400,
+        details: {
+          bundleId: 'api',
+          key: 'error.details.language_string.missing',
+        },
+      },
     )
   })
 

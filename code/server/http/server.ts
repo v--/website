@@ -74,7 +74,12 @@ export class HttpServer implements IFinalizeable {
       await this.start()
     } else {
       this.logger.info('Server socket not changed. Using soft reload.')
-      await this.serviceFactory.reload(config.services)
+
+      try {
+        await this.serviceFactory.reload(config.services)
+      } catch (err) {
+        this.logger.error('Could not reload service data', err)
+      }
     }
   }
 
@@ -86,6 +91,7 @@ export class HttpServer implements IFinalizeable {
 
     const preferences = parsePreferenceHeader(httpRequest.headers['prefer'])
     const useMockData = preferences.get('data-source') === 'mocked'
+    const rawErrorResponse = preferences.get('error-response') === 'raw'
     const env = new ServerWebsiteEnvironment({
       services: this.serviceFactory.getManager(useMockData),
       language, loading: true,
@@ -108,7 +114,7 @@ export class HttpServer implements IFinalizeable {
       }
 
       this.logger.info(`${httpRequest.method} on ${urlPath}`)
-      const response = await serverRouter(urlPath, env)
+      const response = await serverRouter(urlPath, env, { rawErrorResponse })
       await this.writeResponse(httpResponse, response)
     } catch (err) {
       if (err instanceof PresentableError && err.cause.errorKind === 'http') {
@@ -147,7 +153,12 @@ export class HttpServer implements IFinalizeable {
     }
 
     process.title = this.#config.server.processName
-    await this.serviceFactory.preload()
+
+    try {
+      await this.serviceFactory.preload()
+    } catch (err) {
+      this.logger.error('Could not preload service data', err)
+    }
 
     this.#state = 'starting'
     this.#server = http.createServer((httpRequest, httpResponse) => {

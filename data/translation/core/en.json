@@ -94,6 +94,11 @@
     "content": "Unexpected HTTP method ${method}."
   },
 
+  "error.subtitle.pacman.loading": {
+    "entryKind": "plain",
+    "content": "Could not load pacman database."
+  },
+
   "error_page.suggestion": {
     "entryKind": "rich",
     "content": [

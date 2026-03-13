@@ -35,5 +35,15 @@
   "version": {
     "entryKind": "plain",
     "content": "${name} (версия ${version})"
+  },
+
+  "error.title.parsing": {
+    "entryKind": "plain",
+    "content": "Ошибка базы данных"
+  },
+
+  "error.subtitle.parsing": {
+    "entryKind": "plain",
+    "content": "Не удалось прочитать базу данных pacman"
   }
 }

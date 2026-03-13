@@ -11,19 +11,22 @@ import { type UrlPath } from '../common/support/url_path.ts'
 import { type ITranslationSpec } from '../common/translation.ts'
 import { TRANSLATION_BUNDLE_IDS } from '../common/types/bundles.ts'
 
-async function errorJsonResponse(env: ServerWebsiteEnvironment, encoded: IEncodedError) {
-  const decoder = new EncodedErrorDecoder(encoded)
-  await env.preloadTranslationPackage(API_LANGUAGE, decoder.getBundleIds())
-
-  return ServerResponse.json(
-    translateEncoding(env.gettext, encoded),
-    { code: encoded.errorKind === 'http' ? encoded.code : 500 },
-  )
+interface IServerRouterOptions {
+  rawErrorResponse: boolean
 }
 
-export async function serverRouter(urlPath: UrlPath, env: ServerWebsiteEnvironment) {
+export async function serverRouter(urlPath: UrlPath, env: ServerWebsiteEnvironment, options?: IServerRouterOptions) {
   if (urlPath.path.matchFull('api', 'pacman')) {
-    return ServerResponse.json(await env.services.pacman.fetchRepository())
+    try {
+      const repo = await env.services.pacman.fetchRepository()
+      return ServerResponse.json(repo)
+    } catch (err) {
+      if (err instanceof PresentableError) {
+        return await errorJsonResponse(env, err.cause, options)
+      } else {
+        throw err
+      }
+    }
   }
 
   if (urlPath.path.matchPrefix('api', 'files')) {
@@ -33,7 +36,7 @@ export async function serverRouter(urlPath: UrlPath, env: ServerWebsiteEnvironme
       return ServerResponse.json(dir)
     } catch (err) {
       if (err instanceof PresentableError) {
-        return await errorJsonResponse(env, err.cause)
+        return await errorJsonResponse(env, err.cause, options)
       } else {
         throw err
       }
@@ -45,22 +48,30 @@ export async function serverRouter(urlPath: UrlPath, env: ServerWebsiteEnvironme
     const languageId = urlPath.query.get('lang')
 
     if (languageId === undefined) {
-      return errorJsonResponse(env, {
-        errorKind: 'http',
-        code: 400,
-        details: { bundleId: 'api', key: 'error.details.language_string.missing' },
-      })
+      return errorJsonResponse(
+        env,
+        {
+          errorKind: 'http',
+          code: 400,
+          details: { bundleId: 'api', key: 'error.details.language_string.missing' },
+        },
+        options,
+      )
     }
 
     if (!includes(WEBSITE_LANGUAGE_IDS, languageId)) {
-      return errorJsonResponse(env, {
-        errorKind: 'http',
-        code: 400,
-        details: {
-          bundleId: 'api', key: 'error.details.language_string.invalid',
-          context: { lang: quoteString(languageId, 'ticks') },
+      return errorJsonResponse(
+        env,
+        {
+          errorKind: 'http',
+          code: 400,
+          details: {
+            bundleId: 'api', key: 'error.details.language_string.invalid',
+            context: { lang: quoteString(languageId, 'ticks') },
+          },
         },
-      })
+        options,
+      )
     }
 
     if (bundleId === 'server') {
@@ -74,7 +85,7 @@ export async function serverRouter(urlPath: UrlPath, env: ServerWebsiteEnvironme
   }
 
   if (urlPath.path.matchPrefix('api')) {
-    return errorJsonResponse(env, { errorKind: 'http', code: 404 })
+    return errorJsonResponse(env, { errorKind: 'http', code: 404 }, options)
   }
 
   if (urlPath.path.matchFull('.well-known', 'webfinger')) {
@@ -82,12 +93,12 @@ export async function serverRouter(urlPath: UrlPath, env: ServerWebsiteEnvironme
 
     if (resource === undefined) {
       const details: ITranslationSpec = { bundleId: 'api', key: 'error.details.webfinger.no_resource' }
-      return errorJsonResponse(env, { errorKind: 'http', code: 400, details })
+      return errorJsonResponse(env, { errorKind: 'http', code: 400, details }, options)
     }
 
     if (!WEBFINGER_ALIASES.includes(resource)) {
       const details: ITranslationSpec = { bundleId: 'api', key: 'error.details.webfinger.not_found' }
-      return errorJsonResponse(env, { errorKind: 'http', code: 404, details })
+      return errorJsonResponse(env, { errorKind: 'http', code: 404, details }, options)
     }
 
     return ServerResponse.json(
@@ -105,4 +116,21 @@ export async function serverRouter(urlPath: UrlPath, env: ServerWebsiteEnvironme
   const routingResult = await router(urlPath, env)
   await env.preloadPageData(routingResult)
   return ServerResponse.page(routingResult, env, { code: 200 })
+}
+
+async function errorJsonResponse(env: ServerWebsiteEnvironment, encoded: IEncodedError, options?: IServerRouterOptions) {
+  if (options?.rawErrorResponse) {
+    return ServerResponse.json(
+      encoded,
+      { code: encoded.errorKind === 'http' ? encoded.code : 500 },
+    )
+  }
+
+  const decoder = new EncodedErrorDecoder(encoded)
+  await env.preloadTranslationPackage(API_LANGUAGE, decoder.getBundleIds())
+
+  return ServerResponse.json(
+    translateEncoding(env.gettext, encoded),
+    { code: encoded.errorKind === 'http' ? encoded.code : 500 },
+  )
 }

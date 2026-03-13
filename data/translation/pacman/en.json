@@ -35,5 +35,15 @@
   "version": {
     "entryKind": "plain",
     "content": "${name} (version ${version})"
+  },
+
+  "error.title.parsing": {
+    "entryKind": "plain",
+    "content": "Database error"
+  },
+
+  "error.subtitle.parsing": {
+    "entryKind": "plain",
+    "content": "Could not parse pacman database"
   }
 }
