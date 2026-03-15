@@ -123,8 +123,12 @@ function readDatabaseImpl(dbPath: Path): Promise<IPacmanRepository> {
 
         entry
           .on('data', function (data) {
-            const pkg = parsePackage(data)
-            packages.push(pkg)
+            try {
+              const pkg = parsePackage(data)
+              packages.push(pkg)
+            } catch (err) {
+              reject(err)
+            }
           })
           .on('error', function (err) {
             reject(err)
