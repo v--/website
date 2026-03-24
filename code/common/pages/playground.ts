@@ -25,7 +25,7 @@ export function playgroundPage(pageState: IWebsitePageState, env: WebsiteEnviron
         doc: _.rich$('text.more_content'),
       }),
       c.html('dl', undefined,
-        ...PLAYGROUND_PAGE_IDS.flatMap(playgroundId => {
+        ...PLAYGROUND_PAGE_IDS.toReversed().flatMap(playgroundId => {
           return [
             c.html('dt', undefined,
               c.factory(anchor, {
