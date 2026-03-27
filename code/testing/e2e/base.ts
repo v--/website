@@ -169,8 +169,8 @@ export class BasePage implements IFinalizeable {
 
   getMainMenuLanguageButtons() {
     return {
-      en: new Button(this, this.getMainMenuLocator().getByRole('radio', { name: 'English', exact: true }).first()),
-      ru: new Button(this, this.getMainMenuLocator().getByRole('radio', { name: 'Русский', exact: true }).first()),
+      en: new Button(this, this.getMainMenuLocator().getByRole('button', { name: 'English', exact: true }).first()),
+      ru: new Button(this, this.getMainMenuLocator().getByRole('button', { name: 'Русский', exact: true }).first()),
     }
   }
 
