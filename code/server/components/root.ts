@@ -30,10 +30,6 @@ export function root({ pageState, rehydrationData }: IRootState, env: WebsiteEnv
       c.html('script', { id: 'rehydrationData', type: 'application/json', text: JSON.stringify(rehydrationData) }),
       c.html('script', { type: 'module', src: '/code/client/preload.js' }),
       c.html('script', { type: 'module', src: '/code/client/runtime.js', defer: true }),
-      // This "JavaScript-only" hack is based on https://stackoverflow.com/a/431554/2756776
-      c.html('noscript', undefined,
-        c.html('style', { text: '.require-javascript { display: none; }' }),
-      ),
     ),
 
     c.factory(body, pageState),

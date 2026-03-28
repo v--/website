@@ -6,3 +6,11 @@ const indicator = document.getElementById('loading-indicator')
 if (indicator instanceof HTMLElement) {
   indicator.showPopover()
 }
+
+// Enable the loading text on the placeholder page.
+// The text is by default hidden so that, if JavaScript is not enabled, only the noscript section gets shown.
+const placeholderLoadingText = document.querySelector('.placeholder-page-loading')
+
+if (placeholderLoadingText instanceof HTMLElement) {
+  placeholderLoadingText.style.display = 'revert'
+}

@@ -35,25 +35,28 @@ export class BasePage implements IFinalizeable {
     })
 
     const page = await context.newPage()
-    return new this(browser, context, page) as PageT
+    return new this(options ?? {}, browser, context, page) as PageT
   }
 
+  readonly options: IBasePageOptions
   readonly #browser: Browser
   readonly #context: BrowserContext
   protected _pwPage: PlayWrightPage
 
   protected constructor(
+    options: IBasePageOptions,
     browser: Browser,
     context: BrowserContext,
     pw_page: PlayWrightPage,
   ) {
+    this.options = options
     this.#browser = browser
     this.#context = context
     this._pwPage = pw_page
   }
 
   async isContentDynamic() {
-    return this._pwPage.locator('.require-javascript').first().isVisible()
+    return this.options.javaScriptEnabled
   }
 
   async goto(path: string) {

@@ -18,7 +18,7 @@ export function placeholder({ urlPath }: IWebsitePageState, env: WebsiteEnvironm
         }),
       }),
     ),
-    c.html('div', { class: 'placeholder-page-loading require-javascript' },
+    c.html('div', { class: 'placeholder-page-loading' },
       c.html('h1', {
         class: 'placeholder-page-loading-text',
         text: _('heading.loading'),

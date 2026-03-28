@@ -18,4 +18,9 @@
       --icon-color: var(--body-color-danger);
     }
   }
+
+  &-loading {
+    // This should get changed in preload.ts
+    display: none;
+  }
 }
