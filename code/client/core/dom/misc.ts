@@ -1,5 +1,6 @@
 import { MissingElementError } from './errors.ts'
 import { type WebsiteLanguageId, parseSupportedLanguageString } from '../../../common/languages.ts'
+import { waitForNextTask } from '../../../common/support/async.ts'
 import { repr } from '../../../common/support/strings.ts'
 import { UrlPath } from '../../../common/support/url_path.ts'
 import { type ColorScheme } from '../../../common/types/page.ts'
@@ -42,4 +43,15 @@ export function getCurrentUrlPath() {
 
 export function pushIntoHistory(urlPath: UrlPath) {
   window.history.pushState(null, window.document.title, urlPath.toString())
+}
+
+export async function waitForElementById(id: string): Promise<Element> {
+  let element = document.getElementById(id)
+
+  while (element === null) {
+    await waitForNextTask()
+    element = document.getElementById(id)
+  }
+
+  return element
 }

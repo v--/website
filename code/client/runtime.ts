@@ -4,7 +4,7 @@ import { filter, first, map, startWith, subscribeAsync, takeUntil } from '../com
 import { type IRenderEvent } from '../common/rendering/manager.ts'
 import { type UrlPath } from '../common/support/url_path.ts'
 import { fromEvent } from './core/dom/observable.ts'
-import { getCurrentUrlPath, parsePreferredLanguage, pushIntoHistory } from './core/dom.ts'
+import { getCurrentUrlPath, parsePreferredLanguage, pushIntoHistory, togglePopover } from './core/dom.ts'
 import { ClientWebsiteEnvironment } from './core/environment.ts'
 import { ClientLogger } from './core/logger.ts'
 import { ClientRoutingService } from './core/routing_service.ts'
@@ -107,20 +107,13 @@ subscribeAsync(
   },
 )
 
-// HACK: In order for the loading indicator to be at the top level, we must open it as a modal.
-// Without this, the loading indicator would be hidden by other dialogs like the expanded side bar.
-// Also, this makes sure that the loading indicator is only shown when JavaScript is enabled
-// See https://developer.mozilla.org/en-US/docs/Glossary/Top_layer
-env.loading$.pipe(takeUntil(routingService.unload$)).subscribe(
-  function (loading) {
-    const indicator = document.getElementById('loading-indicator')
+subscribeAsync(
+  env.loading$.pipe(takeUntil(routingService.unload$)),
+  {
+    async next(loading: boolean) {
+      await togglePopover('loading-indicator', loading)
+    },
 
-    if (indicator instanceof HTMLElement) {
-      if (loading) {
-        indicator.showPopover()
-      } else {
-        indicator.hidePopover()
-      }
-    }
+    error: handleError,
   },
 )

@@ -19,12 +19,11 @@ import { createComponent as c } from '../../common/rendering/component.ts'
 import { StateStore } from '../../common/support/state_store.ts'
 import { type IWebsitePageState } from '../../common/types/page.ts'
 import { spotlightPage } from '../core/components/spotlight_page.ts'
-import { DEFAULT_FPS, isLayoutCollapsed } from '../core/dom.ts'
+import { DEFAULT_FPS, isLayoutCollapsed, togglePopover } from '../core/dom.ts'
 import { type ClientWebsiteEnvironment } from '../core/environment.ts'
 import { breakoutControllerButtons } from './components/breakout_controller_buttons.ts'
 import { button } from '../../common/components/button.ts'
 import { subscribeAsync } from '../../common/observable.ts'
-import { waitForNextTask } from '../../common/support/async.ts'
 
 export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnvironment) {
   const _ = env.gettext.bindToBundle('breakout')
@@ -37,20 +36,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
     store.keyedObservables.virtualControls,
     {
       async next(virtualControls: boolean) {
-        let controls = document.getElementById('breakout-controller-buttons')
-
-        while (controls === null) {
-          await waitForNextTask()
-          controls = document.getElementById('breakout-controller-buttons')
-        }
-
-        if (controls instanceof HTMLElement) {
-          if (virtualControls) {
-            controls.showPopover()
-          } else {
-            controls.hidePopover()
-          }
-        }
+        await togglePopover('breakout-controller-buttons', virtualControls)
       },
     },
   )

@@ -1,4 +1,4 @@
-import { getActualColorScheme } from './dom.ts'
+import { getActualColorScheme, toggleModalDialog } from './dom.ts'
 import { ClientLogger } from './logger.ts'
 import { ClientServiceManager } from './services.ts'
 import { type IEnvironmentConfig, WebsiteEnvironment } from '../../common/environment.ts'
@@ -27,12 +27,7 @@ export class ClientWebsiteEnvironment extends WebsiteEnvironment {
   async processPageChange(pageState: IWebsitePageState) {
     this.pageUnload$.next()
     await super.preloadPageData(pageState)
-
-    const dialog = document.body.querySelector('.compact-navbar-dialog')
-
-    if (dialog instanceof HTMLDialogElement) {
-      dialog.close()
-    }
+    await toggleModalDialog('compact-navbar-dialog', false)
   }
 
   override async finalize() {

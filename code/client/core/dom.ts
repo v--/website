@@ -9,5 +9,7 @@ export {
   isLayoutCollapsed,
   parsePreferredLanguage,
   pushIntoHistory,
+  waitForElementById,
 } from './dom/misc.ts'
 export { DEFAULT_FPS, animationFrameObservable, fromEvent } from './dom/observable.ts'
+export { toggleModalDialog, togglePopover } from './dom/popover.ts'
