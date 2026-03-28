@@ -1,17 +1,18 @@
 @use "../fonts";
 @use "../sizes";
 @use "components/breadcrumb_navigation";
+@use "components/compact_navbar";
 @use "components/icon";
 @use "components/interactive_table";
 @use "components/loading_indicator";
+@use "components/main_menu";
+@use "components/main_menu_logo";
 @use "components/paginator";
 @use "components/playground_menu";
-@use "components/wide_navbar";
-@use "components/compact_navbar";
-@use "components/main_menu";
 @use "components/spacer";
 @use "components/spotlight_page";
 @use "components/vertical_table";
+@use "components/wide_navbar";
 @use "pages/error";
 @use "pages/files";
 @use "pages/home";
@@ -33,7 +34,7 @@
 @use "plain/table";
 
 html {
-  @include fonts.sans-font(sizes.$root-size-base-font);
+  @include fonts.sans-font;
 
   line-height: #{sizes.$root-size-base-line};
 }

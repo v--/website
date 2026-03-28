@@ -6,7 +6,10 @@ $sorting-size-card-gap: 1rem;
 $sorting-size-card-vpadding: 0.75rem;
 $sorting-size-card-hpadding: 0.75rem;
 $sorting-size-card-array-gap: 0.5rem;
-$sorting-size-card-width: 250px;
+$sorting-size-card-width: 15em;
+
+$sorting-size-main-vpadding: 1rem;
+$sorting-size-main-hpadding: 1rem;
 
 @function sorting-size-card-item-width($count) {
   @return #{

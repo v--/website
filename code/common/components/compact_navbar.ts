@@ -2,6 +2,7 @@ import { icon } from './icon.ts'
 import { type WebsiteEnvironment } from '../environment.ts'
 import { button } from './button.ts'
 import { mainMenu } from './main_menu.ts'
+import { mainMenuLogo } from './main_menu_logo.ts'
 import { createComponent as c } from '../rendering/component.ts'
 import { type NavigationId } from '../types/page.ts'
 
@@ -53,13 +54,7 @@ export function compactNavbar({ navId }: INavbarState, env: WebsiteEnvironment) 
 
     c.html('dialog', { id: 'compact-navbar-dialog', closedby: 'any', class: 'compact-navbar-dialog' },
       c.html('form', { class: 'compact-navbar-dialog-form', name: 'compact-navbar-dialog-form' },
-        c.html('div', { class: 'wide-navbar-logo-box' },
-          c.factory(icon, {
-            libId: 'logo',
-            name: 'logo',
-            class: 'wide-navbar-logo',
-          }),
-        ),
+        c.factory(mainMenuLogo),
         c.factory(button, {
           class: 'compact-navbar-dialog-close-button',
           text: _('main_menu.button.close_menu'),

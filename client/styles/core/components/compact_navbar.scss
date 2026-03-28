@@ -65,7 +65,8 @@
 
     &-close-button {
       --button-size-vpadding: #{sizes.$main-menu-size-button-vpadding};
-      --button-size-gap: #{sizes.$main-menu-size-button-gap};
+      --button-size-gap: #{sizes.$main-menu-size-button-hpadding};
+      --button-size-hpadding: #{sizes.$main-menu-size-button-hpadding};
     }
   }
 }

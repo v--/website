@@ -1,0 +1,9 @@
+.main-menu-logo-box {
+  --icon-color: var(--main-menu-color-foreground);
+  --icon-size-diameter: 2em;
+  --icon-size-vpadding: 1em;
+
+  display: flex;
+  justify-content: center;
+  background-color: var(--main-menu-color-divider);
+}
