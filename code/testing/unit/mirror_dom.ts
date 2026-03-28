@@ -4,12 +4,11 @@ import { type INodeManipulator } from '../../common/rendering/types.ts'
 
 export class MirrorDomError extends CoolError {}
 
-export class MirrorDomManipulator implements INodeManipulator<HtmlComponent, HtmlComponent> {
+export class MirrorDomManipulator implements INodeManipulator<HtmlComponent> {
   #childToParentMap = new Map<HtmlComponent, HtmlComponent>()
 
-  async createNode(component: HtmlComponent) {
-    const state = await component.getState()
-    return new HtmlComponent(component.type, state, [])
+  async createNode(type: string) {
+    return new HtmlComponent(type, undefined, [])
   }
 
   async destroyNode(node: HtmlComponent) {

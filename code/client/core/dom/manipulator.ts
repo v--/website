@@ -2,12 +2,11 @@ import { MissingElementError } from './errors.ts'
 import { fromEvent } from './observable.ts'
 import { IntegrityError } from '../../../common/errors.ts'
 import { type Subscription, subscribeAsync } from '../../../common/observable.ts'
-import { type HtmlComponent } from '../../../common/rendering/component.ts'
 import { type INodeManipulator } from '../../../common/rendering/types.ts'
 import { type IFinalizeable } from '../../../common/types/finalizable.ts'
 import { type ClientLogger } from '../logger.ts'
 
-export class DomManipulator implements INodeManipulator<Element, HtmlComponent>, IFinalizeable {
+export class DomManipulator implements INodeManipulator<Element>, IFinalizeable {
   logger: ClientLogger
   #subscriptionMap = new Map<Element, Map<string, Subscription<unknown>>>()
 
@@ -15,10 +14,10 @@ export class DomManipulator implements INodeManipulator<Element, HtmlComponent>,
     this.logger = logger
   }
 
-  async createNode(component: HtmlComponent) {
-    return component.namespace === undefined ?
-        document.createElement(component.type) :
-        document.createElementNS(component.namespace, component.type)
+  async createNode(type: string, namespace?: string) {
+    return namespace === undefined ?
+        document.createElement(type) :
+        document.createElementNS(namespace, type)
   }
 
   async destroyNode(node: Element) {

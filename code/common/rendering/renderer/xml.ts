@@ -16,7 +16,7 @@ export class XmlRenderer<NodeT = unknown> extends Renderer<NodeT> {
     state: IXmlComponentState,
     env: IComponentEnvironment,
   ): Promise<{ renderer: XmlRenderer<NodeT>, context: IXmlRendererContext }> {
-    const node = await manager.manipulator.createNode(component)
+    const node = await manager.manipulator.createNode(component.type, component.namespace)
     const renderer = new this(manager, component, node, env)
     await renderer.performInitialRender(state)
     return { renderer, context: { lastComponentState: state } }

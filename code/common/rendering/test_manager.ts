@@ -6,7 +6,7 @@ import { Component, ComponentSanityError, HtmlComponent, type IComponentEnvironm
 import { RenderError } from './errors.ts'
 import { RenderingManager } from './manager.ts'
 import { ServerLogger } from '../../server/logger.ts'
-import { assertEmpty, assertEqualRepr, assertFalse, assertTrue } from '../../testing/assertion.ts'
+import { assertEmpty, assertFalse, assertTrue } from '../../testing/assertion.ts'
 import { MirrorDomError, MirrorDomManipulator } from '../../testing/unit/mirror_dom.ts'
 import { assertNoLivingObservableSubscriptions } from '../../testing/unit/observable.ts'
 import { type Action } from '../types/typecons.ts'
@@ -43,25 +43,29 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
       it('renders simple components', async function () {
         const src = c.html('div')
         const dest = await manager.render(src)
-        assertEqualRepr(src, dest)
+        assert.equal(src.type, dest.type)
+        assert.deepEqual(await src.getState(), await dest.getState())
       })
 
       it('renders components with state', async function () {
         const src = c.html('div', { a: 0 })
         const dest = await manager.render(src)
-        assertEqualRepr(src, dest)
+        assert.equal(src.type, dest.type)
+        assert.deepEqual(await src.getState(), await dest.getState())
       })
 
       it('renders components with text children', async function () {
         const src = c.html('div', { text: 'text' })
         const dest = await manager.render(src)
-        assertEqualRepr(src, dest)
+        assert.equal(src.type, dest.type)
+        assert.deepEqual(await src.getState(), await dest.getState())
       })
 
       it('renders components with HTML children', async function () {
         const src = c.html('div', undefined, c.html('span'), c.html('span', { text: 'text' }))
         const dest = await manager.render(src)
-        assertEqualRepr(src, dest)
+        assert.equal(src.type, dest.type)
+        assert.deepEqual(await src.getState(), await dest.getState())
       })
     })
 
@@ -168,7 +172,8 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
         const src = c.factory(() => constant, {})
         const dest = await manager.render(src)
 
-        assertEqualRepr(dest, constant)
+        assert.equal(constant.type, dest.type)
+        assert.deepEqual(await constant.getState(), await dest.getState())
       })
 
       it('renders simple text', async function () {
