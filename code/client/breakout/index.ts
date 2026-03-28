@@ -23,12 +23,36 @@ import { DEFAULT_FPS, isLayoutCollapsed } from '../core/dom.ts'
 import { type ClientWebsiteEnvironment } from '../core/environment.ts'
 import { breakoutControllerButtons } from './components/breakout_controller_buttons.ts'
 import { button } from '../../common/components/button.ts'
+import { subscribeAsync } from '../../common/observable.ts'
+import { waitForNextTask } from '../../common/support/async.ts'
 
 export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnvironment) {
   const _ = env.gettext.bindToBundle('breakout')
   const store = new StateStore<IGameState>(
     { ...DEFAULT_GAME_STATE, fps: DEFAULT_FPS, debug: false, virtualControls: isLayoutCollapsed() },
     env.pageUnload$,
+  )
+
+  subscribeAsync(
+    store.keyedObservables.virtualControls,
+    {
+      async next(virtualControls: boolean) {
+        let controls = document.getElementById('breakout-controller-buttons')
+
+        while (controls === null) {
+          await waitForNextTask()
+          controls = document.getElementById('breakout-controller-buttons')
+        }
+
+        if (controls instanceof HTMLElement) {
+          if (virtualControls) {
+            controls.showPopover()
+          } else {
+            controls.hidePopover()
+          }
+        }
+      },
+    },
   )
 
   return c.factory(spotlightPage,

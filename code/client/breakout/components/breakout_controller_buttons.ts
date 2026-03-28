@@ -1,5 +1,4 @@
 import { button } from '../../../common/components/button.ts'
-import { combineLatest, map } from '../../../common/observable.ts'
 import { createComponent as c } from '../../../common/rendering/component.ts'
 import { classlist } from '../../../common/support/dom_properties.ts'
 import { StateStore } from '../../../common/support/state_store.ts'
@@ -14,49 +13,47 @@ interface IBreakoutControllerButtonsState {
 }
 
 export function breakoutControllerButtons({ store }: IBreakoutControllerButtonsState, env: ClientWebsiteEnvironment) {
-  return c.html('div', { class: 'breakout-controller-buttons' },
-    c.html('div', { class: 'breakout-controller-button-wrapper-left' },
-      c.factory(breakoutControllerButton,
-        {
-          store,
-          class: 'breakout-controller-button-left',
-          iconLibraryId: 'core',
-          iconName: 'chevron-left',
+  return c.html('div',
+    {
+      id: 'breakout-controller-buttons',
+      class: 'breakout-controller-buttons',
+      popover: 'manual',
+    },
+    c.factory(breakoutControllerButton,
+      {
+        class: 'breakout-controller-button-left',
+        iconLibraryId: 'core',
+        iconName: 'chevron-left',
 
-          pointerdown(event: MouseEvent) {
-            handleLeftButtonDown(getEventParams(store, env, event))
-          },
-
-          pointerup(event: MouseEvent) {
-            handleLeftButtonUp(getEventParams(store, env, event))
-          },
+        pointerdown(event: MouseEvent) {
+          handleLeftButtonDown(getEventParams(store, env, event))
         },
-      ),
+
+        pointerup(event: MouseEvent) {
+          handleLeftButtonUp(getEventParams(store, env, event))
+        },
+      },
     ),
 
-    c.html('div', { class: 'breakout-controller-button-wrapper-right' },
-      c.factory(breakoutControllerButton,
-        {
-          store,
-          class: 'breakout-controller-button-right',
-          iconLibraryId: 'core',
-          iconName: 'chevron-right',
+    c.factory(breakoutControllerButton,
+      {
+        class: 'breakout-controller-button-right',
+        iconLibraryId: 'core',
+        iconName: 'chevron-right',
 
-          pointerdown(event: MouseEvent) {
-            handleRightButtonDown(getEventParams(store, env, event))
-          },
-
-          pointerup(event: MouseEvent) {
-            handleRightButtonUp(getEventParams(store, env, event))
-          },
+        pointerdown(event: MouseEvent) {
+          handleRightButtonDown(getEventParams(store, env, event))
         },
-      ),
+
+        pointerup(event: MouseEvent) {
+          handleRightButtonUp(getEventParams(store, env, event))
+        },
+      },
     ),
   )
 }
 
 interface IBreakoutControllerButtonState {
-  store: StateStore<IGameState>
   class: string
   iconLibraryId: IconLibraryId
   iconName: string
@@ -66,31 +63,16 @@ interface IBreakoutControllerButtonState {
 
 export function breakoutControllerButton(
   {
-    store,
     class: cssClass,
     iconLibraryId,
     iconName,
     pointerdown,
     pointerup,
   }: IBreakoutControllerButtonState,
-  env: ClientWebsiteEnvironment,
 ) {
   return c.factory(button,
     {
-      class: combineLatest({
-        virtualControls: store.keyedObservables.virtualControls,
-        sidebarCollapsed: env.sidebarCollapsed$,
-      }).pipe(
-        map(function ({ virtualControls, sidebarCollapsed }) {
-          return classlist(
-            'breakout-controller-button',
-            cssClass,
-            virtualControls && 'breakout-controller-button-enabled',
-            !sidebarCollapsed && 'breakout-controller-button-compact',
-          )
-        }),
-      ),
-
+      class: classlist('breakout-controller-button', cssClass),
       pointerdown, pointerup,
       iconLibId: iconLibraryId,
       iconName: iconName,

@@ -2,23 +2,27 @@
 @use "../../mixins";
 @use "../../sizes";
 
-.breakout-controller-button {
-  --button-size-font: 1.6em;
-  --icon-size-diameter: 2em;
-  --button-size-hpadding: 0.75em;
-  --button-size-vpadding: 0.75em;
-
-  position: absolute;
-  bottom: var(--main-size-vpadding);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  opacity: 0.85;
-
-  &:not(&-enabled) {
-    display: none;
-  }
+.breakout-controller-buttons {
+  padding: 0;
+  border: 0;
 }
 
-.breakout-controller-button-wrapper-right {
-  direction: rtl;
+.breakout-controller-button {
+  --icon-size-diameter: var(--breakout-size-breakout-controller-button);
+
+  position: fixed;
+  bottom: anchor(bottom);
+  aspect-ratio: 1;
+  margin: var(--breakout-size-breakout-controller-padding);
+  border-radius: 50%;
+  opacity: 0.85;
+  position-anchor: --page-scroll-container;
+
+  &-left {
+    left: anchor(left);
+  }
+
+  &-right {
+    right: anchor(right);
+  }
 }
