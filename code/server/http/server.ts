@@ -53,17 +53,19 @@ export class HttpServer implements IFinalizeable {
   }
 
   writeResponse(httpResponse: http.ServerResponse, response: ServerResponse): Promise<void> {
+    const { promise, resolve } = Promise.withResolvers<void>()
+
     httpResponse.writeHead(response.code, {
       'Content-Type': `${response.mimeType}; charset=utf-8`,
       'Content-Length': Buffer.byteLength(response.content, 'utf-8'),
     })
 
-    return new Promise(function (resolve: Action<void>) {
-      httpResponse.write(response.content, 'utf-8', function () {
-        httpResponse.end()
-        resolve()
-      })
+    httpResponse.write(response.content, 'utf-8', function () {
+      httpResponse.end()
+      resolve()
     })
+
+    return promise
   }
 
   async reload(config: IWebsiteConfig) {
@@ -165,17 +167,17 @@ export class HttpServer implements IFinalizeable {
       this.#handleRequest(httpRequest as NodeServerMessage, httpResponse).catch(this.handleUnexectedError)
     })
 
-    return new Promise(resolve => {
-      if (this.#server === undefined) {
-        return
-      }
+    const { promise, resolve } = Promise.withResolvers<void>()
 
+    if (this.#server) {
       this.#server.listen(this.#config.server.socket, () => {
         this.logger.info(`Started web server on socket ${this.#config.server.socket}.`)
         this.#state = 'running'
         resolve()
       })
-    })
+    }
+
+    return promise
   }
 
   stop(signal?: string): Promise<void> {
@@ -185,29 +187,31 @@ export class HttpServer implements IFinalizeable {
 
     this.#state = 'stopping'
 
-    return new Promise((resolve, reject) => {
-      if (this.#server === undefined) {
-        resolve()
+    const { promise, resolve, reject } = Promise.withResolvers<void>()
+
+    if (this.#server === undefined) {
+      resolve()
+      return promise
+    }
+
+    this.#server.closeAllConnections()
+    this.#server.close(err => {
+      if (err !== undefined) {
+        reject(err)
         return
       }
 
-      this.#server.closeAllConnections()
-      this.#server.close(err => {
-        if (err !== undefined) {
-          reject(err)
-          return
-        }
+      if (signal === undefined) {
+        this.logger.info('Server stopped.')
+      } else {
+        this.logger.info(`Server stopped with signal ${signal}.`)
+      }
 
-        if (signal === undefined) {
-          this.logger.info('Server stopped.')
-        } else {
-          this.logger.info(`Server stopped with signal ${signal}.`)
-        }
-
-        this.#state = 'inactive'
-        resolve()
-      })
+      this.#state = 'inactive'
+      resolve()
     })
+
+    return promise
   }
 
   async finalize() {

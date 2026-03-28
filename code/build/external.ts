@@ -10,24 +10,25 @@ class ExternalCallOptions {
 }
 
 export function callExternalProgram(name: string, args: string[], input: Buffer, options?: ExternalCallOptions): Promise<Buffer> {
-  return new Promise((resolve, reject) => {
-    const inkscape = spawn(name, args, options)
-    inkscape.stdin.write(input)
-    inkscape.stdin.end()
-    const chunks: Buffer[] = []
+  const { promise, resolve, reject } = Promise.withResolvers<Buffer>()
+  const inkscape = spawn(name, args, options)
+  inkscape.stdin.write(input)
+  inkscape.stdin.end()
+  const chunks: Buffer[] = []
 
-    inkscape.stdout.on('data', (data: Buffer) => {
-      chunks.push(data)
-    })
-
-    inkscape.stderr.on('data', (data: Buffer) => {
-      reject(new ExternalCallError(data.toString('utf-8')))
-    })
-
-    inkscape.on('close', () => {
-      resolve(Buffer.concat(chunks))
-    })
+  inkscape.stdout.on('data', (data: Buffer) => {
+    chunks.push(data)
   })
+
+  inkscape.stderr.on('data', (data: Buffer) => {
+    reject(new ExternalCallError(data.toString('utf-8')))
+  })
+
+  inkscape.on('close', () => {
+    resolve(Buffer.concat(chunks))
+  })
+
+  return promise
 }
 
 export function optimizePng(input: Buffer): Promise<Buffer> {

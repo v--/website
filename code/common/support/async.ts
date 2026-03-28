@@ -5,9 +5,9 @@ export function waitForNextMicrotask(): Promise<void> {
 }
 
 export function waitForTime(milliseconds: uint32): Promise<void> {
-  return new Promise(function (resolve, _reject) {
-    setTimeout(resolve, milliseconds)
-  })
+  const { promise, resolve } = Promise.withResolvers<void>()
+  setTimeout(resolve, milliseconds)
+  return promise
 }
 
 export function waitForNextTask(): Promise<void> {

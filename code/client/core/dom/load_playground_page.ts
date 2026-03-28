@@ -23,26 +23,27 @@ async function loadJavaScriptFile(pageId: PlaygroundPageId): Promise<JavaScriptM
 
 function loadCssFile(pageId: PlaygroundPageId): Promise<void> {
   const element = document.createElement('link')
+  const { promise, resolve, reject } = Promise.withResolvers<void>()
+
   element.setAttribute('rel', 'stylesheet')
   element.setAttribute('href', `/styles/${pageId}.css`)
   document.head.appendChild(element)
 
-  return new Promise(function (resolve, reject) {
-    function onLoad() {
-      element.removeEventListener('load', onLoad)
-      element.removeEventListener('error', onError)
-      resolve()
-    }
+  function onLoad() {
+    element.removeEventListener('load', onLoad)
+    element.removeEventListener('error', onError)
+    resolve()
+  }
 
-    function onError(event: ErrorEvent) {
-      element.removeEventListener('load', onLoad)
-      element.removeEventListener('error', onError)
-      reject(new DynamicImportError(`Could not fetch CSS module for page ${repr(pageId)}.`, event.error))
-    }
+  function onError(event: ErrorEvent) {
+    element.removeEventListener('load', onLoad)
+    element.removeEventListener('error', onError)
+    reject(new DynamicImportError(`Could not fetch CSS module for page ${repr(pageId)}.`, event.error))
+  }
 
-    element.addEventListener('load', onLoad)
-    element.addEventListener('error', onError)
-  })
+  element.addEventListener('load', onLoad)
+  element.addEventListener('error', onError)
+  return promise
 }
 
 export async function loadPlaygroundPage(pageId: PlaygroundPageId) {

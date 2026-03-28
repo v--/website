@@ -93,71 +93,71 @@ export class RenderingManager<NodeT> implements IFinalizeable {
   // 4. We assign the renderer and context to the accum variable and result the promise.
   // 5. Once we receive a subsequent component state, we use the last context to rerender and obtain a new context.
   #initializeRenderer<ComponentT extends Component = Component>(component: ComponentT): Promise<Renderer<NodeT>> {
+    const { promise, resolve, reject } = Promise.withResolvers<Renderer<NodeT>>()
     const rendererClass = this.#getRendererClass(component)
     let accum: { renderer: Renderer<NodeT>, context: IRendererContext } | null = null
 
-    return new Promise((resolve, reject) => {
-      const subscription = subscribeAsync(component.state$, {
-        next: async (state: IComponentState) => {
-          if (accum === null) {
-            this.#currentlyRendering.add(component)
+    const subscription = subscribeAsync(component.state$, {
+      next: async (state: IComponentState) => {
+        if (accum === null) {
+          this.#currentlyRendering.add(component)
 
-            try {
-              accum = await rendererClass.initialize(this, component, state, this.env)
-            } catch (err) {
-              this.renderNotify$.next({ component, status: 'failure', error: err })
-              reject(err)
-              subscription.unsubscribe()
-              this.#stateSubscriptionMap.delete(component)
-              this.#currentlyRendering.delete(component)
-              return
-            }
-
+          try {
+            accum = await rendererClass.initialize(this, component, state, this.env)
+          } catch (err) {
+            this.renderNotify$.next({ component, status: 'failure', error: err })
+            reject(err)
+            subscription.unsubscribe()
+            this.#stateSubscriptionMap.delete(component)
             this.#currentlyRendering.delete(component)
-            this.renderNotify$.next({ component, status: 'success' })
-            resolve(accum.renderer)
-          } else {
-            await this.#awaitPendingComponentRerender(component)
-            const { renderer, context } = accum
-            this.#currentlyRendering.add(component)
+            return
+          }
 
-            try {
-              accum.context = await renderer.rerender(context, state)
-            } catch (err) {
-              this.renderNotify$.next({ component, status: 'failure', error: err })
-              this.#currentlyRendering.delete(component)
-              // We can also destroy the renderer here, however that would prevent us from possible recovery.
-              return
-            }
+          this.#currentlyRendering.delete(component)
+          this.renderNotify$.next({ component, status: 'success' })
+          resolve(accum.renderer)
+        } else {
+          await this.#awaitPendingComponentRerender(component)
+          const { renderer, context } = accum
+          this.#currentlyRendering.add(component)
 
+          try {
+            accum.context = await renderer.rerender(context, state)
+          } catch (err) {
+            this.renderNotify$.next({ component, status: 'failure', error: err })
             this.#currentlyRendering.delete(component)
-            this.renderNotify$.next({ component, status: 'success' })
-          }
-        },
-
-        error: (err: unknown) => {
-          if (accum) {
-            this.renderNotify$.next({ component: accum.renderer.component, status: 'failure', error: err })
-
-            this.finalizeRenderer(accum.renderer).catch((nestedErr: unknown) => {
-              this.logger.error('Error while finalizing renderer', nestedErr)
-            })
+            // We can also destroy the renderer here, however that would prevent us from possible recovery.
+            return
           }
 
-          reject(err)
-        },
+          this.#currentlyRendering.delete(component)
+          this.renderNotify$.next({ component, status: 'success' })
+        }
+      },
 
-        complete: () => {
-          if (accum) {
-            this.finalizeRenderer(accum.renderer).catch((nestedErr: unknown) => {
-              this.logger.error('Error while finalizing renderer', nestedErr)
-            })
-          }
-        },
-      })
+      error: (err: unknown) => {
+        if (accum) {
+          this.renderNotify$.next({ component: accum.renderer.component, status: 'failure', error: err })
 
-      this.#stateSubscriptionMap.set(component, subscription)
+          this.finalizeRenderer(accum.renderer).catch((nestedErr: unknown) => {
+            this.logger.error('Error while finalizing renderer', nestedErr)
+          })
+        }
+
+        reject(err)
+      },
+
+      complete: () => {
+        if (accum) {
+          this.finalizeRenderer(accum.renderer).catch((nestedErr: unknown) => {
+            this.logger.error('Error while finalizing renderer', nestedErr)
+          })
+        }
+      },
     })
+
+    this.#stateSubscriptionMap.set(component, subscription)
+    return promise
   }
 
   async render(component: Component, managingRenderer?: Renderer): Promise<NodeT> {

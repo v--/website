@@ -105,40 +105,41 @@ async function readDatabase(dbPath: Path): Promise<IPacmanRepository> {
 }
 
 function readDatabaseImpl(dbPath: Path): Promise<IPacmanRepository> {
+  const { promise, resolve, reject } = Promise.withResolvers<IPacmanRepository>()
   const packages: IPacmanPackage[] = []
 
-  return new Promise((resolve, reject) => {
-    const decompressor = lzma.createDecompressor()
-      .on('error', function (err) {
-        reject(err)
-      })
+  const decompressor = lzma.createDecompressor()
+    .on('error', function (err) {
+      reject(err)
+    })
 
-    fs.createReadStream(dbPath.toString())
-      .pipe(decompressor)
-      .pipe(new tar.Parser())
-      .on('entry', function (entry: tar.ReadEntry) {
-        if (entry.type != 'File') {
-          entry.resume()
-        }
+  fs.createReadStream(dbPath.toString())
+    .pipe(decompressor)
+    .pipe(new tar.Parser())
+    .on('entry', function (entry: tar.ReadEntry) {
+      if (entry.type != 'File') {
+        entry.resume()
+      }
 
-        entry
-          .on('data', function (data) {
-            try {
-              const pkg = parsePackage(data)
-              packages.push(pkg)
-            } catch (err) {
-              reject(err)
-            }
-          })
-          .on('error', function (err) {
+      entry
+        .on('data', function (data) {
+          try {
+            const pkg = parsePackage(data)
+            packages.push(pkg)
+          } catch (err) {
             reject(err)
-          })
-      })
-      .on('error', function (err) {
-        reject(err)
-      })
-      .on('end', function () {
-        resolve({ packages })
-      })
-  })
+          }
+        })
+        .on('error', function (err) {
+          reject(err)
+        })
+    })
+    .on('error', function (err) {
+      reject(err)
+    })
+    .on('end', function () {
+      resolve({ packages })
+    })
+
+  return promise
 }
