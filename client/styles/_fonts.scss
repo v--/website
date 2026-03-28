@@ -12,6 +12,7 @@ $root-font-family-math: 'STIX Two Math', math;
 
 // Monospaced fonts tend to be much wider, so we apply some scaling
 @mixin mono-font($size: 0.9rem) {
+  font-size: $size;
   font-family: $root-font-family-mono;
 }
 

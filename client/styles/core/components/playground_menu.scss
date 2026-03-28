@@ -3,6 +3,7 @@
 
 .playground-menu {
   --button-size-border-radius: 0;
+  --button-size-icon-diameter: 1.2em;
 
   display: flex;
   justify-content: space-between;
@@ -52,8 +53,6 @@
 
   &-drawer {
     &-toggle {
-      --button-size-icon-diameter: 0.75em;
-
       @include mixins.button-background-colors(transparent);
       @include mixins.button-foreground-colors(var(--body-color-accented));
 

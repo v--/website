@@ -24,6 +24,10 @@
     width: 100%;
     height: #{sizes.$root-size-sidebar-compact-extent};
     box-shadow: 0 0 var(--dialog-size-shadow-radius) var(--dialog-color-backdrop-shadow);
+
+    &-button {
+      padding-inline: var(--body-size-mf);
+    }
   }
 
   &-dialog {

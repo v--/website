@@ -5,7 +5,7 @@
 
 // Main sizes
 $root-size-max-content-width:         50rem;
-$root-size-sidebar-wide-min-width:    14rem;
+$root-size-sidebar-wide-min-width:    14.5rem;
 $root-size-sidebar-compact-extent:    3rem;
 $root-size-sidebar-gap:               $root-size-sidebar-compact-extent;
 $root-size-boundary-collapsed-width:  $root-size-max-content-width + $root-size-sidebar-wide-min-width + 2 * $root-size-sidebar-gap;
@@ -69,9 +69,9 @@ $icon-size-padding-huge-dense: 0.8em;
   // Buttons
   --button-size-font: 1rem;
   --button-size-hpadding: 1.3em;
-  --button-size-vpadding: 0.3em;
+  --button-size-vpadding: 0.4em;
   --button-size-outline-offset: -2px;
-  --button-size-icon-diameter: 1.5em;
+  --button-size-icon-diameter: 1.4em;
   --button-size-gap: 1.2em;
   --button-size-width: auto;
   --button-size-border-radius: var(--body-size-border-radius);
