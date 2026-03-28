@@ -6,8 +6,8 @@ import { CoolError } from './common/errors.ts'
 import { PLAYGROUND_PAGE_IDS } from './common/types/bundles.ts'
 
 const codeBasePath = path.resolve('build/intermediate/code')
-const entryPoints = ['runtime', ...PLAYGROUND_PAGE_IDS].map(bundleId => path.join(codeBasePath, 'client', bundleId + '.js'))
-const CHUNK_NAMES = ['core', 'runtime', ...PLAYGROUND_PAGE_IDS]
+const entryPoints = ['preload', 'runtime', ...PLAYGROUND_PAGE_IDS].map(bundleId => path.join(codeBasePath, 'client', bundleId + '.js'))
+const CHUNK_NAMES = ['core', 'preload', 'runtime', ...PLAYGROUND_PAGE_IDS]
 
 class BundlingError extends CoolError {}
 
