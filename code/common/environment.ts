@@ -11,7 +11,6 @@ export interface IEnvironmentConfig {
   services: IServiceManager
   language: WebsiteLanguageId
   colorScheme?: ColorScheme
-  sidebarCollapsed?: boolean
   loading?: boolean
 }
 
@@ -19,7 +18,6 @@ export abstract class WebsiteEnvironment implements IFinalizeable {
   readonly services: IServiceManager
   readonly gettext: GetText
   readonly urlPath$ = new Subject<UrlPath>()
-  readonly sidebarCollapsed$ = new ReplaySubject<boolean | undefined>()
   readonly colorScheme$ = new ReplaySubject<ColorScheme | undefined>()
   readonly loading$ = new ReplaySubject<boolean>()
 
@@ -27,7 +25,6 @@ export abstract class WebsiteEnvironment implements IFinalizeable {
     this.services = config.services
     this.gettext = new GetText(config.language)
     this.colorScheme$.next(config.colorScheme)
-    this.sidebarCollapsed$.next(config.sidebarCollapsed)
     this.loading$.next(config.loading ?? false)
   }
 
@@ -72,7 +69,6 @@ export abstract class WebsiteEnvironment implements IFinalizeable {
   async finalize() {
     await this.gettext.finalize()
     this.urlPath$.complete()
-    this.sidebarCollapsed$.complete()
     this.colorScheme$.complete()
     this.loading$.complete()
   }

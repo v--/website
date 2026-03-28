@@ -43,12 +43,6 @@ export function breakout({ store }: IBreakoutState, env: ClientWebsiteEnvironmen
     },
   })
 
-  env.sidebarCollapsed$.subscribe(function (_sidebarCollapsed) {
-    if (store.getState('phase') == 'running') {
-      store.setState('phase', 'paused')
-    }
-  })
-
   store.keyedObservables.phase.pipe(
     takeUntil(env.pageUnload$),
     switchMap(function (phase) {
