@@ -37,7 +37,7 @@
   &-entry {
     box-sizing: border-box;
     width: 100%;
-    border-right: 0.6em solid transparent; // Correction allowing wider fonts (e.g. Roboto) to extend the sidebar without looking odd
+    border-right: var(--body-size-mp) solid transparent; // Correction allowing wider fonts (e.g. Roboto) to extend the sidebar without looking odd
     text-overflow: ellipsis;
     white-space: pre;
 

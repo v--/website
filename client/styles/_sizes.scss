@@ -5,7 +5,7 @@
 
 // Main sizes
 $root-size-max-content-width:         50rem;
-$root-size-sidebar-wide-min-width:    15.5rem; // This minimal width should also be maximal for Helvetica-compatible fonts
+$root-size-sidebar-wide-min-width:    13.5rem;
 $root-size-sidebar-compact-extent:    3rem;
 $root-size-sidebar-gap:               $root-size-sidebar-compact-extent;
 $root-size-boundary-collapsed-width:  $root-size-max-content-width + $root-size-sidebar-wide-min-width + 2 * $root-size-sidebar-gap;
