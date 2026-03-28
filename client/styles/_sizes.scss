@@ -5,7 +5,7 @@
 
 // Main sizes
 $root-size-max-content-width:         50rem;
-$root-size-sidebar-wide-min-width:    13.5rem;
+$root-size-sidebar-wide-min-width:    14rem;
 $root-size-sidebar-compact-extent:    3rem;
 $root-size-sidebar-gap:               $root-size-sidebar-compact-extent;
 $root-size-boundary-collapsed-width:  $root-size-max-content-width + $root-size-sidebar-wide-min-width + 2 * $root-size-sidebar-gap;
@@ -27,8 +27,8 @@ $main-size-hpadding-very-dense: 1.5rem;
 $main-size-vpadding-dense: 1rem;
 
 // Main menu
-$main-menu-size-button-vpadding: 0.6em;
-$main-menu-size-button-hpadding: 1.2em;
+$main-menu-size-button-vpadding: 0.7em;
+$main-menu-size-button-hpadding: 1.5em;
 
 // Icons
 $icon-size-diameter-huge-loose: 15em;
