@@ -3,7 +3,6 @@ import { button } from './button.ts'
 import { icon } from './icon.ts'
 import { mainMenu } from './main_menu.ts'
 import { mainMenuLogo } from './main_menu_logo.ts'
-import { toggleModalDialog } from '../../client/core/dom.ts'
 import { createComponent as c } from '../rendering/component.ts'
 import { waitForNextTask } from '../support/async.ts'
 import { type NavigationId } from '../types/page.ts'
@@ -30,7 +29,11 @@ export function compactNavbar({ navId }: INavbarState, env: WebsiteEnvironment) 
         // TODO: Remove click handler
         async click(_event: PointerEvent) {
           await waitForNextTask()
-          await toggleModalDialog('compact-navbar-dialog', true)
+          const dialog = document.getElementById('compact-navbar-dialog')
+
+          if (dialog instanceof HTMLDialogElement && !dialog.open) {
+            dialog.showModal()
+          }
         },
       },
       c.factory(icon, {
@@ -65,7 +68,11 @@ export function compactNavbar({ navId }: INavbarState, env: WebsiteEnvironment) 
           // TODO: Remove click handler
           async click(_event: PointerEvent) {
             await waitForNextTask()
-            await toggleModalDialog('compact-navbar-dialog', false)
+            const dialog = document.getElementById('compact-navbar-dialog')
+
+            if (dialog instanceof HTMLDialogElement && dialog.open) {
+              dialog.close()
+            }
           },
         }),
         c.html('hr'),
