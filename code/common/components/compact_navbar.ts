@@ -1,9 +1,10 @@
-import { icon } from './icon.ts'
 import { type WebsiteEnvironment } from '../environment.ts'
 import { button } from './button.ts'
+import { icon } from './icon.ts'
 import { mainMenu } from './main_menu.ts'
 import { mainMenuLogo } from './main_menu_logo.ts'
 import { createComponent as c } from '../rendering/component.ts'
+import { waitForNextTask } from '../support/async.ts'
 import { type NavigationId } from '../types/page.ts'
 
 export interface INavbarState {
@@ -22,14 +23,15 @@ export function compactNavbar({ navId }: INavbarState, env: WebsiteEnvironment) 
     c.html('button',
       {
         class: 'compact-navbar-button compact-navbar-button-menu button-with-icon',
+        command: 'show-modal',
+        commandfor: 'compact-navbar-dialog',
         // Webkit only recently added support for `command` and `commandfor`, so we are stuck with manually showing the modal
-        // TODO: Migrate to the attributes
-        // command: 'show-modal',
-        // commandfor: 'compact-navbar-dialog',
-        click(_event: PointerEvent) {
+        // TODO: Remove click handler
+        async click(_event: PointerEvent) {
+          await waitForNextTask()
           const dialog = document.body.querySelector('#compact-navbar-dialog')
 
-          if (dialog instanceof HTMLDialogElement) {
+          if (dialog instanceof HTMLDialogElement && !dialog.open) {
             dialog.showModal()
           }
         },
@@ -60,14 +62,15 @@ export function compactNavbar({ navId }: INavbarState, env: WebsiteEnvironment) 
           text: _('main_menu.button.close_menu'),
           iconLibId: 'core',
           iconName: 'menu',
+          command: 'close',
+          commandfor: 'compact-navbar-dialog',
           // Webkit only recently added support for `command` and `commandfor`, so we are stuck with manually showing the modal
-          // TODO: Migrate to the attributes
-          // command: 'close',
-          // commandfor: 'compact-navbar-dialog',
-          click(_event: PointerEvent) {
+          // TODO: Remove click handler
+          async click(_event: PointerEvent) {
+            await waitForNextTask()
             const dialog = document.body.querySelector('#compact-navbar-dialog')
 
-            if (dialog instanceof HTMLDialogElement) {
+            if (dialog instanceof HTMLDialogElement && dialog.open) {
               dialog.close()
             }
           },

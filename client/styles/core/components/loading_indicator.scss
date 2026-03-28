@@ -11,15 +11,17 @@
 }
 
 .loading-indicator {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  z-index: var(--body-zindex-fff);
+  width: 100%;
+  height: 0.2rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
 
   &-bar {
     width: 100%;
-    height: 0.2rem;
+    height: 100%;
+
+    // height: 0.2rem;
     background-image: linear-gradient(
       90deg,
       #{colors.$loading-color-primary} 0%,

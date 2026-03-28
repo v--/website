@@ -28,6 +28,7 @@ export function root({ pageState, rehydrationData }: IRootState, env: WebsiteEnv
       ...iterPreloadLinks(pageState).map(linkState => c.html('link', linkState)),
       pageState.canonicalUrlPath && c.html('link', { rel: 'canonical', href: WEBSITE_CANONICAL_URL + pageState.canonicalUrlPath.toString() }),
       c.html('script', { id: 'rehydrationData', type: 'application/json', text: JSON.stringify(rehydrationData) }),
+      c.html('script', { type: 'module', src: '/code/client/preload.js' }),
       c.html('script', { type: 'module', src: '/code/client/runtime.js', defer: true }),
       // This "JavaScript-only" hack is based on https://stackoverflow.com/a/431554/2756776
       c.html('noscript', undefined,

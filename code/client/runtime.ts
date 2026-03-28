@@ -85,7 +85,7 @@ subscribeAsync(
 )
 
 subscribeAsync(
-  env.urlPath$,
+  env.urlPath$.pipe(takeUntil(routingService.unload$)),
   {
     async next(urlPath: UrlPath) {
       await routingService.processUrlPath(urlPath)
@@ -97,12 +97,30 @@ subscribeAsync(
 )
 
 subscribeAsync(
-  env.gettext.language$,
+  env.gettext.language$.pipe(takeUntil(routingService.unload$)),
   {
     async next(language: WebsiteLanguageId) {
       document.documentElement.setAttribute('lang', bcp47Encode(language))
     },
 
     error: handleError,
+  },
+)
+
+// HACK: In order for the loading indicator to be at the top level, we must open it as a modal.
+// Without this, the loading indicator would be hidden by other dialogs like the expanded side bar.
+// Also, this makes sure that the loading indicator is only shown when JavaScript is enabled
+// See https://developer.mozilla.org/en-US/docs/Glossary/Top_layer
+env.loading$.pipe(takeUntil(routingService.unload$)).subscribe(
+  function (loading) {
+    const indicator = document.getElementById('loading-indicator')
+
+    if (indicator instanceof HTMLElement) {
+      if (loading) {
+        indicator.showPopover()
+      } else {
+        indicator.hidePopover()
+      }
+    }
   },
 )
