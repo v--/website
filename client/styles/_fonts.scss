@@ -3,7 +3,7 @@ $root-font-family-mono: 'PT Mono', 'Liberation Mono', 'Courier', 'Courier New', 
 $root-font-family-math: 'STIX Two Math', math;
 
 @mixin sans-font($size: null) {
-  @if ($size) {
+  @if $size {
     font-size: $size;
   }
 
@@ -16,7 +16,7 @@ $root-font-family-math: 'STIX Two Math', math;
 }
 
 @mixin math-font($size: null) {
-  @if ($size) {
+  @if $size {
     font-size: $size;
   }
 

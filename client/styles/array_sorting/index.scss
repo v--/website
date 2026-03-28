@@ -34,11 +34,11 @@
 }
 
 .sorting-page-contents {
+  overflow-x: auto;
   border-bottom-right-radius: var(--body-size-border-radius);
   border-bottom-left-radius: var(--body-size-border-radius);
   background-color: var(--sorting-color-main-background);
-  overflow-x: auto;
-  scrollbar-gutter: auto;
+  overscroll-behavior: contain;
 
   .sorting-page-top-divider {
     --divider-color: var(--menu-group-color-border);
@@ -53,6 +53,6 @@
   flex-wrap: wrap;
   gap: var(--sorting-size-main-gap);
   justify-content: space-evenly;
-  padding-block: var(--sorting-size-main-vpadding);
   padding-inline: var(--sorting-size-main-hpadding);
+  padding-block: var(--sorting-size-main-vpadding);
 }
