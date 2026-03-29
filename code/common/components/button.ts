@@ -12,7 +12,7 @@ interface IButtonState {
   buttonStyle?: ButtonStyle
   class?: string
   title?: string
-  command?: 'open-modal' | 'close' | 'request-close' | 'show-popover' | 'hide-popover' | 'toggle-popover'
+  command?: 'show-modal' | 'close' | 'request-close' | 'show-popover' | 'hide-popover' | 'toggle-popover'
   commandfor?: string
   popovertarget?: string
   iconLibId?: IconLibraryId

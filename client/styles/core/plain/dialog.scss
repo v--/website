@@ -1,3 +1,9 @@
 dialog {
   border: 0;
+  box-shadow: 0 0 var(--dialog-size-shadow-radius) var(--dialog-color-backdrop-shadow);
+
+  &::backdrop {
+    background-color: var(--dialog-color-backdrop);
+    opacity: var(--backdrop-opacity);
+  }
 }

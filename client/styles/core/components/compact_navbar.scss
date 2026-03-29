@@ -40,19 +40,8 @@
     background-color: var(--main-menu-color-background);
 
     &[open] {
-      box-shadow: 0 0 var(--dialog-size-shadow-radius) var(--dialog-color-backdrop-shadow);
-
       @media (prefers-reduced-motion: no-preference) {
         animation: compact-navbar-dialog-fade-in var(--dialog-duration-open) forwards;
-      }
-
-      &::backdrop {
-        background-color: var(--dialog-color-backdrop);
-        opacity: var(--backdrop-opacity);
-
-        @media (prefers-reduced-motion: no-preference) {
-          animation: compact-navbar-dialog-backdrop-fade-in var(--dialog-duration-open) forwards;
-        }
       }
     }
 

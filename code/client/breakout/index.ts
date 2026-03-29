@@ -19,7 +19,7 @@ import { createComponent as c } from '../../common/rendering/component.ts'
 import { StateStore } from '../../common/support/state_store.ts'
 import { type IWebsitePageState } from '../../common/types/page.ts'
 import { spotlightPage } from '../core/components/spotlight_page.ts'
-import { DEFAULT_FPS, isLayoutCollapsed, togglePopover } from '../core/dom.ts'
+import { DEFAULT_FPS, isLayoutCollapsed, toggleModalDialog, togglePopover } from '../core/dom.ts'
 import { type ClientWebsiteEnvironment } from '../core/environment.ts'
 import { breakoutControllerButtons } from './components/breakout_controller_buttons.ts'
 import { button } from '../../common/components/button.ts'
@@ -72,8 +72,9 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
           c.factory(button, {
             buttonStyle: 'danger',
             text: _('control.reset.label'),
-            click(event: PointerEvent) {
+            async click(event: PointerEvent) {
               handleResetButton(getEventParams(store, env, event))
+              await toggleModalDialog('playground-menu-drawer-dialog', false)
             },
           }),
         ),

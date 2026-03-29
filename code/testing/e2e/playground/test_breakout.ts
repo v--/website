@@ -73,24 +73,26 @@ describe('Breakout page', function () {
         assertFalse(await drawer.isVisible())
       })
 
-      it('can expand on a medium screen by clicking the menu toggle', async function () {
+      it('can expand on a medium screen by clicking the menu open button', async function () {
         await page.scaleViewport('VGA')
         await page.goto('/playground/breakout')
 
-        const toggle = page.getMenuToggleButton()
-        await toggle.click()
+        const openButton = page.getMenuOpenButton()
+        await openButton.click()
 
         const drawer = page.getDrawerMenu()
         assertTrue(await drawer.isVisible())
       })
 
-      it('can collapse by clicking the menu toggle twice', async function () {
+      it('can collapse by clicking the menu openButton twice', async function () {
         await page.scaleViewport('VGA')
         await page.goto('/playground/breakout')
 
-        const toggle = page.getMenuToggleButton()
-        await toggle.click()
-        await toggle.click()
+        const openButton = page.getMenuOpenButton()
+        await openButton.click()
+
+        const closeButton = page.getMenuCloseButton()
+        await closeButton.click()
 
         const drawer = page.getDrawerMenu()
         assertFalse(await drawer.isVisible())

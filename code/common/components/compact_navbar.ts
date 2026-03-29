@@ -20,7 +20,7 @@ export function compactNavbar({ navId }: INavbarState, env: WebsiteEnvironment) 
       class: 'compact-navbar main-menu-toolbar',
     },
 
-    c.html('button',
+    c.factory(button,
       {
         class: 'compact-navbar-button compact-navbar-button-menu button-with-icon',
         command: 'show-modal',

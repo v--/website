@@ -12,6 +12,7 @@ import { playgroundMenu } from '../core/components/playground_menu.ts'
 import { type ClientWebsiteEnvironment } from '../core/environment.ts'
 import { sortingCard } from './components/sorting_card.ts'
 import { button } from '../../common/components/button.ts'
+import { toggleModalDialog } from '../core/dom.ts'
 
 export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnvironment) {
   const _ = env.gettext.bindToBundle('array_sorting')
@@ -53,7 +54,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
             text: store.globalSortingPhase$.pipe(
               switchMap(phase => _(`control.run.label.${phase}`)),
             ),
-            click() {
+            async click() {
               const phase = store.getGlobalSortingPhase()
 
               switch (phase) {
@@ -67,6 +68,8 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
                 default:
                   store.updateGlobalPhase('running')
               }
+
+              await toggleModalDialog('playground-menu-drawer-dialog', false)
             },
           }),
         ),
@@ -75,8 +78,9 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
             buttonStyle: 'transparent',
             class: 'sorting-phase-button',
             text: _('control.reset.label'),
-            click() {
+            async click() {
               store.resetGlobalSortingState()
+              await toggleModalDialog('playground-menu-drawer-dialog', false)
             },
           }),
         ),
