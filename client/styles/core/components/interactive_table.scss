@@ -4,9 +4,8 @@
   .interactive-table {
     border-bottom: var(--table-size-border) solid var(--table-color-border);
 
-    &-header-cell-icon {
-      margin-right: var(--anchor-size-gap);
-      padding: 0;
+    &-header-cell {
+      white-space: pre;
     }
   }
 

@@ -109,6 +109,7 @@ function mapColumnSpec<T>(
     header: () => c.factory(
       anchor,
       {
+        class: 'interactive-table-header-cell',
         isInternal: true,
         rel: 'nofollow',
         href: config.getUpdatedPath(nextSortParams),
