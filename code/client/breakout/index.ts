@@ -19,26 +19,16 @@ import { createComponent as c } from '../../common/rendering/component.ts'
 import { StateStore } from '../../common/support/state_store.ts'
 import { type IWebsitePageState } from '../../common/types/page.ts'
 import { spotlightPage } from '../core/components/spotlight_page.ts'
-import { DEFAULT_FPS, isLayoutCollapsed, toggleModalDialog, togglePopover } from '../core/dom.ts'
+import { DEFAULT_FPS, isLayoutCollapsed, toggleModalDialog } from '../core/dom.ts'
 import { type ClientWebsiteEnvironment } from '../core/environment.ts'
 import { breakoutControllerButtons } from './components/breakout_controller_buttons.ts'
 import { button } from '../../common/components/button.ts'
-import { subscribeAsync } from '../../common/observable.ts'
 
 export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnvironment) {
   const _ = env.gettext.bindToBundle('breakout')
   const store = new StateStore<IGameState>(
     { ...DEFAULT_GAME_STATE, fps: DEFAULT_FPS, debug: false, virtualControls: isLayoutCollapsed() },
     env.pageUnload$,
-  )
-
-  subscribeAsync(
-    store.keyedObservables.virtualControls,
-    {
-      async next(virtualControls: boolean) {
-        await togglePopover('breakout-controller-buttons', virtualControls)
-      },
-    },
   )
 
   return c.factory(spotlightPage,
@@ -74,7 +64,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
             text: _('control.reset.label'),
             async click(event: PointerEvent) {
               handleResetButton(getEventParams(store, env, event))
-              await toggleModalDialog('playground-menu-drawer-dialog', false)
+              toggleModalDialog('playground-menu-drawer-dialog', false)
             },
           }),
         ),

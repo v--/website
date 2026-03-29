@@ -17,11 +17,11 @@ export function breakoutControllerButtons({ store }: IBreakoutControllerButtonsS
     {
       id: 'breakout-controller-buttons',
       class: 'breakout-controller-buttons',
-      popover: 'manual',
     },
     c.factory(breakoutControllerButton,
       {
         class: 'breakout-controller-button-left',
+        enabled: store.keyedObservables.virtualControls,
         iconLibraryId: 'core',
         iconName: 'chevron-left',
 
@@ -38,6 +38,7 @@ export function breakoutControllerButtons({ store }: IBreakoutControllerButtonsS
     c.factory(breakoutControllerButton,
       {
         class: 'breakout-controller-button-right',
+        enabled: store.keyedObservables.virtualControls,
         iconLibraryId: 'core',
         iconName: 'chevron-right',
 
@@ -55,6 +56,7 @@ export function breakoutControllerButtons({ store }: IBreakoutControllerButtonsS
 
 interface IBreakoutControllerButtonState {
   class: string
+  enabled: boolean
   iconLibraryId: IconLibraryId
   iconName: string
   pointerdown: Action<MouseEvent>
@@ -64,6 +66,7 @@ interface IBreakoutControllerButtonState {
 export function breakoutControllerButton(
   {
     class: cssClass,
+    enabled,
     iconLibraryId,
     iconName,
     pointerdown,
@@ -72,7 +75,11 @@ export function breakoutControllerButton(
 ) {
   return c.factory(button,
     {
-      class: classlist('breakout-controller-button', cssClass),
+      class: classlist(
+        'breakout-controller-button',
+        enabled && 'breakout-controller-button-enabled',
+        cssClass,
+      ),
       pointerdown, pointerup,
       iconLibId: iconLibraryId,
       iconName: iconName,

@@ -1,7 +1,5 @@
-import { waitForElementById } from './misc.ts'
-
-export async function togglePopover(id: string, state: boolean) {
-  const popover = await waitForElementById(id)
+export function togglePopover(id: string, state: boolean) {
+  const popover = document.getElementById(id)
 
   if (popover instanceof HTMLElement) {
     if (state) {
@@ -12,8 +10,8 @@ export async function togglePopover(id: string, state: boolean) {
   }
 }
 
-export async function toggleModalDialog(id: string, state: boolean) {
-  const dialog = await waitForElementById(id)
+export function toggleModalDialog(id: string, state: boolean) {
+  const dialog = document.getElementById(id)
 
   if (dialog instanceof HTMLDialogElement) {
     if (state) {

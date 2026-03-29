@@ -54,7 +54,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
             text: store.globalSortingPhase$.pipe(
               switchMap(phase => _(`control.run.label.${phase}`)),
             ),
-            async click() {
+            click() {
               const phase = store.getGlobalSortingPhase()
 
               switch (phase) {
@@ -69,7 +69,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
                   store.updateGlobalPhase('running')
               }
 
-              await toggleModalDialog('playground-menu-drawer-dialog', false)
+              toggleModalDialog('playground-menu-drawer-dialog', false)
             },
           }),
         ),
@@ -78,9 +78,9 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
             buttonStyle: 'transparent',
             class: 'sorting-phase-button',
             text: _('control.reset.label'),
-            async click() {
+            click() {
               store.resetGlobalSortingState()
-              await toggleModalDialog('playground-menu-drawer-dialog', false)
+              toggleModalDialog('playground-menu-drawer-dialog', false)
             },
           }),
         ),

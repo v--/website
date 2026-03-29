@@ -27,7 +27,7 @@ export class ClientWebsiteEnvironment extends WebsiteEnvironment {
   async processPageChange(pageState: IWebsitePageState) {
     this.pageUnload$.next()
     await super.preloadPageData(pageState)
-    await toggleModalDialog('compact-navbar-dialog', false)
+    toggleModalDialog('compact-navbar-dialog', false)
   }
 
   override async finalize() {

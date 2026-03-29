@@ -47,7 +47,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
 
               if (window.confirm(message)) {
                 store.update({ knots: DEFAULT_STATE.knots })
-                await toggleModalDialog('playground-menu-drawer-dialog', false)
+                toggleModalDialog('playground-menu-drawer-dialog', false)
               }
             },
           }),

@@ -47,7 +47,7 @@ export function playgroundMenu({ submenu, stickTop, stickBottom }: IPlaygroundMe
           // TODO: Remove click handler
           async click(_event: PointerEvent) {
             await waitForNextTask()
-            await toggleModalDialog('playground-menu-drawer-dialog', true)
+            toggleModalDialog('playground-menu-drawer-dialog', true)
           },
         },
       ),
@@ -68,7 +68,7 @@ export function playgroundMenu({ submenu, stickTop, stickBottom }: IPlaygroundMe
               commandfor: 'playground-menu-drawer-dialog',
               async click(_event: PointerEvent) {
                 await waitForNextTask()
-                await toggleModalDialog('playground-menu-drawer-dialog', false)
+                toggleModalDialog('playground-menu-drawer-dialog', false)
               },
             },
           ),

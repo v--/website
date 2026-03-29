@@ -12,11 +12,16 @@
 
   position: fixed;
   bottom: anchor(bottom);
+  display: none;
   aspect-ratio: 1;
   margin: var(--breakout-size-breakout-controller-padding);
   border-radius: 50%;
   opacity: 0.85;
   position-anchor: --page-scroll-container;
+
+  &-enabled {
+    display: block;
+  }
 
   &-left {
     left: anchor(left);
