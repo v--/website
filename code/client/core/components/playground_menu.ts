@@ -1,9 +1,8 @@
 import { anchor } from '../../../common/components/anchor.ts'
 import { button } from '../../../common/components/button.ts'
 import { Component, type FactoryComponentType, createComponent as c } from '../../../common/rendering/component.ts'
-import { waitForNextTask } from '../../../common/support/async.ts'
 import { classlist } from '../../../common/support/dom_properties.ts'
-import { toggleModalDialog } from '../dom.ts'
+import { togglePopover } from '../dom.ts'
 import { type ClientWebsiteEnvironment } from '../environment.ts'
 
 interface IPlaygroundMenuState {
@@ -12,9 +11,7 @@ interface IPlaygroundMenuState {
   stickBottom?: boolean
 }
 
-export function playgroundMenu({ submenu, stickTop, stickBottom }: IPlaygroundMenuState, env: ClientWebsiteEnvironment) {
-  const _ = env.gettext.bindToBundle('core')
-
+export function playgroundMenu({ submenu, stickTop, stickBottom }: IPlaygroundMenuState) {
   return c.html('menu',
     {
       role: 'toolbar',
@@ -38,42 +35,25 @@ export function playgroundMenu({ submenu, stickTop, stickBottom }: IPlaygroundMe
     c.html('li', { class: 'playground-menu-drawer' },
       c.factory(button,
         {
-          class: 'playground-menu-drawer-button-open',
+          class: 'playground-menu-drawer-toggle',
+          popovertarget: 'playground-menu-drawer-popover',
           iconLibId: 'core',
           iconName: 'menu',
-          command: 'show-modal',
-          commandfor: 'playground-menu-drawer-dialog',
-          // Webkit only recently added support for `command` and `commandfor`, so we are stuck with manually showing the modal
-          // TODO: Remove click handler
-          async click(_event: PointerEvent) {
-            await waitForNextTask()
-            toggleModalDialog('playground-menu-drawer-dialog', true)
-          },
         },
       ),
-      c.html('dialog',
+      c.html('form',
         {
-          id: 'playground-menu-drawer-dialog',
-          class: 'playground-menu-drawer-dialog',
-          closedby: 'any',
+          popover: true,
+          id: 'playground-menu-drawer-popover',
+          class: 'playground-menu-drawer-popover',
+          name: 'playground-menu-drawer-form',
         },
-        c.html('form', { name: 'playground-menu-drawer-form' },
-          c.factory(submenu),
-          c.factory(button,
-            {
-              class: 'playground-menu-drawer-button-close',
-              buttonStyle: 'transparent',
-              text: _('main_menu.button.close_menu'),
-              command: 'close',
-              commandfor: 'playground-menu-drawer-dialog',
-              async click(_event: PointerEvent) {
-                await waitForNextTask()
-                toggleModalDialog('playground-menu-drawer-dialog', false)
-              },
-            },
-          ),
-        ),
+        c.factory(submenu),
       ),
     ),
   )
+}
+
+export function closeDrawer() {
+  togglePopover('playground-menu-drawer-popover', false)
 }

@@ -52,24 +52,29 @@
   }
 
   &-drawer {
-    &-button-open {
+    &-toggle {
       @include mixins.button-background-colors(transparent);
       @include mixins.button-foreground-colors(var(--body-color-accented));
 
       height: 100%;
+
+      &:has(+ :popover-open) {
+        --button-color-background-normal: var(--button-color-background-accented);
+      }
     }
 
-    &-button-close {
-      width: 100%;
-    }
-
-    &-dialog {
+    &-popover {
       --menu-group-color-border:var(--body-color-p);
 
+      inset: unset;
+      right: anchor(right);
+      bottom: anchor(top);
       padding: 0;
       border-width: 0;
       border-radius: var(--spotlight-size-border-radius);
+      border-bottom-right-radius: 0;
       background-color: var(--body-color-pp);
+      box-shadow: 0 0 var(--spotlight-size-shadow-radius) var(--dialog-color-shadow);
 
       .playground-submenu {
         --button-size-width: 100%;

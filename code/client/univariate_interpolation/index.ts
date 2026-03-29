@@ -14,7 +14,7 @@ import { type ClientWebsiteEnvironment } from '../core/environment.ts'
 import { interpolationLegendTable } from './components/interpolation_legend_table.ts'
 import { INTERPOLATORS } from './interpolation.ts'
 import { type KnotMapping } from '../../common/math/numeric.ts'
-import { toggleModalDialog } from '../core/dom.ts'
+import { closeDrawer } from '../core/components/playground_menu.ts'
 
 export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnvironment) {
   const _ = env.gettext.bindToBundle('univariate_interpolation')
@@ -42,12 +42,12 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
           c.factory(button, {
             text: _({ bundleId: 'univariate_interpolation', key: 'control.reset.label' }),
             buttonStyle: 'danger',
-            async click(_event: PointerEvent) {
+            click(_event: PointerEvent) {
               const message = _.plain('control.reset.confirmation')
 
               if (window.confirm(message)) {
                 store.update({ knots: DEFAULT_STATE.knots })
-                toggleModalDialog('playground-menu-drawer-dialog', false)
+                closeDrawer()
               }
             },
           }),

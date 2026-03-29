@@ -12,7 +12,6 @@ import { playgroundMenu } from '../core/components/playground_menu.ts'
 import { type ClientWebsiteEnvironment } from '../core/environment.ts'
 import { sortingCard } from './components/sorting_card.ts'
 import { button } from '../../common/components/button.ts'
-import { toggleModalDialog } from '../core/dom.ts'
 
 export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnvironment) {
   const _ = env.gettext.bindToBundle('array_sorting')
@@ -68,8 +67,6 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
                 default:
                   store.updateGlobalPhase('running')
               }
-
-              toggleModalDialog('playground-menu-drawer-dialog', false)
             },
           }),
         ),
@@ -80,7 +77,6 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
             text: _('control.reset.label'),
             click() {
               store.resetGlobalSortingState()
-              toggleModalDialog('playground-menu-drawer-dialog', false)
             },
           }),
         ),

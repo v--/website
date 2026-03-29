@@ -7,12 +7,8 @@ export class BreakoutPage extends PlaygroundPage {
     return this._pwPage.locator('.spotlight-page-aspect-ratio-box')
   }
 
-  getMenuOpenButton() {
-    return new Button(this, this._pwPage.locator('.playground-menu-drawer-button-open'))
-  }
-
-  getMenuCloseButton() {
-    return new Button(this, this._pwPage.locator('.playground-menu-drawer-button-close'))
+  getMenuToggleButton() {
+    return new Checkbox(this, this._pwPage.locator('.playground-menu-drawer-toggle'))
   }
 
   getInlineMenuLocator() {
@@ -24,7 +20,7 @@ export class BreakoutPage extends PlaygroundPage {
   }
 
   getDrawerMenu() {
-    return this._pwPage.locator('.playground-menu-drawer-dialog')
+    return this._pwPage.locator('.playground-menu-drawer-popover')
   }
 
   getDebugToggle() {

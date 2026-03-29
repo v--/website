@@ -111,7 +111,7 @@ subscribeAsync(
   env.loading$.pipe(takeUntil(routingService.unload$)),
   {
     async next(loading: boolean) {
-      await togglePopover('loading-indicator', loading)
+      togglePopover('loading-indicator', loading)
     },
 
     error: handleError,
