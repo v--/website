@@ -25,8 +25,8 @@ export function compactNavbar({ navId }: INavbarState, env: WebsiteEnvironment) 
         class: 'compact-navbar-button compact-navbar-button-menu button-with-icon',
         command: 'show-modal',
         commandfor: 'compact-navbar-dialog',
-        // Webkit only recently added support for `command` and `commandfor`, so we are stuck with manually showing the modal
-        // TODO: Remove click handler
+        // Webkit only added support for `command` and `commandfor` in 2026, so we are stuck with manually showing the modal
+        // TODO@2030: Remove click handler
         async click(_event: PointerEvent) {
           await waitForNextTask()
           const dialog = document.getElementById('compact-navbar-dialog')
@@ -64,8 +64,8 @@ export function compactNavbar({ navId }: INavbarState, env: WebsiteEnvironment) 
           iconName: 'menu',
           command: 'close',
           commandfor: 'compact-navbar-dialog',
-          // Webkit only recently added support for `command` and `commandfor`, so we are stuck with manually showing the modal
-          // TODO: Remove click handler
+          // Webkit only added support for `command` and `commandfor` in 2026, so we are stuck with manually showing the modal
+          // TODO@2030: Remove click handler
           async click(_event: PointerEvent) {
             await waitForNextTask()
             const dialog = document.getElementById('compact-navbar-dialog')

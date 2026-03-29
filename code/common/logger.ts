@@ -21,7 +21,7 @@ export abstract class Logger {
   abstract write(level: LoggerLevel, ...contents: unknown[]): void
 
   generatePrefix() {
-    // TODO: Update this when Temporal is widely available
+    // TODO@2030: Update this when Temporal is widely available
     // Date#toISOString() is close to what we need but it doesn't respect time zones
     const date = new Date()
     const Y = date.getFullYear()
