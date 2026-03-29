@@ -14,7 +14,7 @@ import { animationFrameObservable, fromEvent } from '../../core/dom.ts'
 import { type ClientWebsiteEnvironment } from '../../core/environment.ts'
 import { getComputedState, processCollisions, refreshTarget } from '../computed.ts'
 import { EVOLUTION_FREQUENCY, FPS_INDICATOR_REFRESHES_PER_SECOND } from '../constants.ts'
-import { getEventParams, handleKeyDown, handleKeyUp, handleStageClick } from '../events.ts'
+import { getEventParams, handleKeyDown, handleKeyUp, handleStageBlur, handleStageClick } from '../events.ts'
 import { evolveBall, evolveBricks, evolvePaddle } from '../evolution.ts'
 import { STAGE } from '../geom/constants.ts'
 import { computeBreakoutTrajectory } from '../geom/trajectory.ts'
@@ -132,6 +132,9 @@ export function breakout({ store }: IBreakoutState, env: ClientWebsiteEnvironmen
       viewBox: SVG_VIEW_BOX,
       click(event: MouseEvent) {
         handleStageClick(getEventParams(store, env, event))
+      },
+      blur(event: FocusEvent) {
+        handleStageBlur(getEventParams(store, env, event))
       },
     },
 

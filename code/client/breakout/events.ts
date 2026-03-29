@@ -111,6 +111,12 @@ export function handleStageClick(params: IEventParams<MouseEvent>) {
   toggleStatus(params)
 }
 
+export function handleStageBlur({ update, state }: IEventParams<FocusEvent>) {
+  if (state.phase === 'running') {
+    update({ phase: 'paused' })
+  }
+}
+
 export function handleLeftButtonDown({ state, update }: IEventParams<MouseEvent>) {
   if (state.phase === 'running') {
     update({ paddle: state.paddle.update({ direction: -1 }) })
