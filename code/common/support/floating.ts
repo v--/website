@@ -49,11 +49,11 @@ export function stringifyNumber(x: float64, maxDigits: uint32 = 3) {
   let s = x.toFixed(maxDigits)
 
   while (s.endsWith('0')) {
-    s = s.slice(0, s.length - 1)
+    s = s.slice(0, -1)
   }
 
   if (s.endsWith('.')) {
-    s = s.slice(0, s.length - 1)
+    s = s.slice(0, -1)
   }
 
   if (s === '0' && !isClose(x, 0)) {

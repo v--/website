@@ -67,17 +67,19 @@ export class Path {
 
   popRight(count: uint32 = 1) {
     return new Path(
-      this.segments.slice(0, this.segments.length - count),
+      this.segments.slice(0, -count),
       this.prefixSlash,
     )
   }
 
-  getBaseName() {
-    if (this.isEmpty()) {
+  getBaseName(): string {
+    const last = this.segments.at(-1)
+
+    if (last === undefined) {
       throw new IntegrityError('Cannot get the base name of an empty path')
     }
 
-    return this.segments[this.segments.length - 1]
+    return this.segments.at(-1)!
   }
 
   equals(other: Path) {

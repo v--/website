@@ -19,7 +19,7 @@ describe('MathMLHelper class', function () {
         entries: [mathml.root('inline', entry)],
       })
 
-      return result.slice(1, result.length - 1) // Remove dollar signs
+      return result.slice(1, -1) // Remove dollar signs
     }
 
     it('returns zero when no data is passed', function () {
@@ -135,7 +135,7 @@ describe('MathMLHelper class', function () {
         entries: [mathml.root('inline', entry)],
       })
 
-      return result.slice(1, result.length - 1) // Remove dollar signs
+      return result.slice(1, -1) // Remove dollar signs
     }
 
     it('parenthesizes a single argument', function () {

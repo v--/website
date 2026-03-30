@@ -28,7 +28,9 @@ export class UnivariatePolynomial implements IUnivariatePolynomialConfig, ISymbo
   }
 
   constructor({ coeff }: IUnivariatePolynomialConfig) {
-    if (coeff.length > 0 && isZero(coeff[coeff.length - 1])) {
+    const last = coeff.at(-1)
+
+    if (last !== undefined && isZero(last)) {
       throw new UnivariatePolynomialError('The leading coefficient cannot be zero')
     }
 
