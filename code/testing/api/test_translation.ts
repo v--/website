@@ -49,7 +49,7 @@ describe('/api/translation', function () {
     )
   })
 
-  void it.only('displays a raw error if requested', async function () {
+  it('displays a raw error if requested', async function () {
     const response = await client.get('/api/translation/core', { rawErrorResponse: true })
 
     assert.equal(response.status(), 400)
