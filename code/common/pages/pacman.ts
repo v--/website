@@ -4,11 +4,11 @@ import { WebsiteEnvironment } from '../environment.ts'
 import { createComponent as c } from '../rendering/component.ts'
 import { type IPacmanRepository, type PacmanPackageArch } from '../services/pacman.ts'
 import { type IPacmanPackage } from '../services.ts'
-import { groupBy } from '../support/iteration.ts'
+import { getObjectEntries } from '../support/iteration.ts'
 import { type IWebsitePageState } from '../types/page.ts'
 
 export function pacmanPage({ pageData }: IWebsitePageState<IPacmanRepository>, env: WebsiteEnvironment) {
-  const byArch = groupBy(pageData.packages, pkg => pkg.arch)
+  const byArch = Object.groupBy(pageData.packages, pkg => pkg.arch)
   const _ = env.gettext.bindToBundle('pacman')
 
   return c.html('main', { class: 'pacman-page' },
@@ -45,7 +45,7 @@ export function pacmanPage({ pageData }: IWebsitePageState<IPacmanRepository>, e
 
     c.html('section', undefined,
       c.html('h1', { text: _('heading.packages') }),
-      ...byArch.entries().map(([arch, pkgs]) => c.factory(packages, { arch, pkgs })),
+      ...getObjectEntries(byArch).map(([arch, pkgs]) => c.factory(packages, { arch, pkgs: pkgs! })),
     ),
   )
 }
