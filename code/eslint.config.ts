@@ -2,9 +2,7 @@ import { dirname } from 'node:path'
 
 import jsPlugin from '@eslint/js'
 import stylisticPlugin from '@stylistic/eslint-plugin'
-import importPlugin from 'eslint-plugin-import'
-// @ts-expect-error
-import reExportSortPlugin from 'eslint-plugin-re-export-sort'
+import { importX } from 'eslint-plugin-import-x'
 import unusedImports from 'eslint-plugin-unused-imports'
 import globals from 'globals'
 import * as tseslint from 'typescript-eslint'
@@ -14,8 +12,8 @@ import { defineConfig } from 'eslint/config'
 export default defineConfig([
   jsPlugin.configs.recommended,
   tseslint.configs.recommendedTypeChecked,
-  importPlugin.flatConfigs.recommended,
-  importPlugin.flatConfigs.typescript,
+  importX.flatConfigs.recommended,
+  importX.flatConfigs.typescript,
   stylisticPlugin.configs.customize({ severity: 'warn' }),
   {
     files: ['**/*.ts'],
@@ -27,7 +25,6 @@ export default defineConfig([
     },
     plugins: {
       '@unused-imports': unusedImports,
-      're-export-sort': reExportSortPlugin,
     },
     settings: {
       'import/resolver': {
@@ -56,7 +53,7 @@ export default defineConfig([
         },
       ],
       'no-unused-vars': ['off'], // Superseded by the @unused-imports rule below
-      'import/order': [
+      'import-x/order': [
         'warn',
         {
           'named': true,
@@ -65,9 +62,8 @@ export default defineConfig([
           'groups': ['builtin', 'external', 'internal'],
         },
       ],
-      'import/extensions': ['error', 'always'],
-      'import/consistent-type-specifier-style': ['warn', 'prefer-inline'],
-      're-export-sort/exports': ['warn'],
+      'import-x/extensions': ['error', 'always'],
+      'import-x/consistent-type-specifier-style': ['warn', 'prefer-inline'],
       '@unused-imports/no-unused-imports': ['warn'],
       '@unused-imports/no-unused-vars': ['warn', { vars: 'all', args: 'after-used', argsIgnorePattern: '^_', caughtErrors: 'none' }],
       '@typescript-eslint/no-unused-vars': ['off'],
