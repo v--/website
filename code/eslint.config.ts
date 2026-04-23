@@ -8,9 +8,10 @@ import reExportSortPlugin from 'eslint-plugin-re-export-sort'
 import unusedImports from 'eslint-plugin-unused-imports'
 import globals from 'globals'
 import * as tseslint from 'typescript-eslint'
+import { defineConfig } from 'eslint/config'
 
 // eslint-disable-next-line no-restricted-syntax
-export default tseslint.config([
+export default defineConfig([
   jsPlugin.configs.recommended,
   tseslint.configs.recommendedTypeChecked,
   importPlugin.flatConfigs.recommended,
