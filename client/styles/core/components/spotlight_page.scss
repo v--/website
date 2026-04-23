@@ -7,10 +7,10 @@
   flex-direction: column;
   align-items: center;
   overflow-y: auto;
+  overscroll-behavior-y: contain;
   max-width: none; // Override the default main max-width since we want the scrollbar to be global
   height: 100%;
   padding: 0;
-  overscroll-behavior-y: contain;
   scrollbar-gutter: stable;
 
   &-head {

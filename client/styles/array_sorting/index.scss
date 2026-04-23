@@ -35,10 +35,10 @@
 
 .sorting-page-contents {
   overflow-x: auto;
+  overscroll-behavior: contain;
   border-bottom-right-radius: var(--body-size-border-radius);
   border-bottom-left-radius: var(--body-size-border-radius);
   background-color: var(--sorting-color-main-background);
-  overscroll-behavior: contain;
 
   .sorting-page-top-divider {
     --divider-color: var(--menu-group-color-border);

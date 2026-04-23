@@ -1,4 +1,4 @@
-import Benchmark from 'benchmark'
+import Benchmark, { Suite } from 'benchmark'
 
 import { orderComparator } from '../common/support/iteration.ts'
 import { type Action } from '../common/types/typecons.ts'
@@ -10,7 +10,7 @@ interface BenchmarkEvent {
 
 export function runBenchmark(...candidates: Array<Action<void>>) {
   const logger = new ServerLogger('BENCHMARK', 'DEBUG')
-  const suite = new Benchmark.Suite()
+  const suite = new Suite()
   const { promise, resolve, reject } = Promise.withResolvers()
 
   for (const candidate of candidates) {

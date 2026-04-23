@@ -2,11 +2,11 @@ import { dirname } from 'node:path'
 
 import jsPlugin from '@eslint/js'
 import stylisticPlugin from '@stylistic/eslint-plugin'
+import { defineConfig } from 'eslint/config' // eslint-disable-line import-x/extensions
 import { importX } from 'eslint-plugin-import-x'
 import unusedImports from 'eslint-plugin-unused-imports'
 import globals from 'globals'
 import * as tseslint from 'typescript-eslint'
-import { defineConfig } from 'eslint/config'
 
 // eslint-disable-next-line no-restricted-syntax
 export default defineConfig([

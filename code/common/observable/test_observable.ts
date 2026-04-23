@@ -23,7 +23,7 @@ interface TestRunner {
 }
 
 function runTests(ObservableClass: unknown): Promise<TestRunner> {
-  return observableTests.runTests(ObservableClass) as unknown as Promise<TestRunner>
+  return observableTests.runTests(ObservableClass)
 }
 
 describe('Observable class', function () {

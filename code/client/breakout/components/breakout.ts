@@ -9,7 +9,6 @@ import { EMPTY, Observable, bufferLatest, combineLatest, first, map, switchMap, 
 import { createComponent as c } from '../../../common/rendering/component.ts'
 import { classlist } from '../../../common/support/dom_properties.ts'
 import { StateStore } from '../../../common/support/state_store.ts'
-import { type uint32 } from '../../../common/types/numbers.ts'
 import { animationFrameObservable, fromEvent } from '../../core/dom.ts'
 import { type ClientWebsiteEnvironment } from '../../core/environment.ts'
 import { getComputedState, processCollisions, refreshTarget } from '../computed.ts'
@@ -50,7 +49,7 @@ export function breakout({ store }: IBreakoutState, env: ClientWebsiteEnvironmen
         return animationFrameObservable()
       }
 
-      return EMPTY as Observable<uint32>
+      return EMPTY
     }),
   ).subscribe(function (fps) {
     const state = store.getCombinedState()

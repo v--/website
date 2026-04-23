@@ -1,8 +1,8 @@
 @use "../../mixins";
 
 input:where([type="checkbox"], [type="radio"], [type="range"]) {
-  cursor: var(--control-cursor-normal);
   accent-color: var(--control-color-input-normal);
+  cursor: var(--control-cursor-normal);
 
   @media (hover: hover) {
     &:hover {
@@ -21,8 +21,8 @@ input:where([type="checkbox"], [type="radio"], [type="range"]) {
   }
 
   &[disabled], fieldset[disabled] & {
-    cursor: var(--control-cursor-disabled);
     accent-color: var(--control-color-input-disabled);
+    cursor: var(--control-cursor-disabled);
   }
 }
 

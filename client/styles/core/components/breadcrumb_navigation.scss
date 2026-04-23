@@ -10,6 +10,7 @@
 
   display: flex;
   flex-wrap: wrap;
+  overscroll-behavior-x: contain;
   padding-block: var(--breadcrumb-navigation-size-vpadding);
   padding-right: var(--breadcrumb-navigation-size-hpadding);
   padding-left: calc(var(--breadcrumb-navigation-size-hpadding) - var(--breadcrumb-navigation-size-slash-padding));
@@ -17,7 +18,6 @@
   background-color: var(--spotlight-color-background);
   font-weight: bold;
   font-size: var(--heading-h4-size-font);
-  overscroll-behavior-x: contain;
   scrollbar-gutter: stable;
 
   .breadcrumb {

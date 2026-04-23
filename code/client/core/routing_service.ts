@@ -71,7 +71,7 @@ export class ClientRoutingService implements IFinalizeable {
   }
 
   async #renderBody(urlPath: UrlPath) {
-    let err: unknown = undefined
+    let err: unknown
 
     try {
       return await this.renderManager.render(this.bodyComponent)

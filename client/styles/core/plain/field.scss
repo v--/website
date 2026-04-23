@@ -29,8 +29,8 @@ pre {
 
 pre, textarea {
   overflow-x: auto;
-  scrollbar-gutter: auto;
   overscroll-behavior-x: contain;
+  scrollbar-gutter: auto;
 }
 
 input:where(:not([type]), [type='text'], [type='number']), textarea {
