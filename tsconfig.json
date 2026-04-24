@@ -4,16 +4,10 @@
   "compilerOptions": {
     "skipLibCheck": true,
     "noEmit": true,
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
-    "lib": ["DOM", "ESNext"],
-    "target": "esnext",
+    "lib": ["DOM", "ES2025", "ESNext.Array"],
     "verbatimModuleSyntax": true,
     "allowImportingTsExtensions": true,
-    "strict": true,
     "noImplicitAny": true,
-    "erasableSyntaxOnly": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true
+    "erasableSyntaxOnly": true
   }
 }
