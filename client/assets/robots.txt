@@ -1,2 +1,2 @@
-Sitemap: https://ivasilev.net/sitemap.xml
 User-agent: *
+Sitemap: https://ivasilev.net/sitemap.xml
