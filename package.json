@@ -24,7 +24,7 @@
     "test:api": "npm run --silent test:runner -- --test-timeout 1000 --test-global-setup code/testing/api/setup.ts $(npm run --silent test:api:files)",
     "test:e2e:files": "find code/testing/e2e -name 'test_*.ts'",
     "test:e2e": "npm run --silent test:runner -- --test-timeout 60000 $(npm run --silent test:e2e:files)",
-    "declutter": "knip --dependencies --files"
+    "declutter": "knip --config code/knip.ts --dependencies --files"
   },
   "dependencies": {
     "commonmark": "^0.31.2",
