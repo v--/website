@@ -75,7 +75,7 @@ export function homePage(pageState: IWebsitePageState, env: WebsiteEnvironment) 
         c.html('li', { class: 'home-page-contacts-entry' },
           c.factory(anchor, { class: 'anchor-with-icon', href: EMAIL_URL },
             c.factory(icon, { libId: 'contacts', name: 'email' }),
-            c.html('span', { text: 'Email' }),
+            c.html('span', { text: _('contacts.email.label') }),
           ),
         ),
 

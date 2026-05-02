@@ -42,6 +42,11 @@
     ]
   },
 
+  "contacts.email.label": {
+    "entryKind": "plain",
+    "content": "Email"
+  },
+
   "openpgp.label": {
     "entryKind": "plain",
     "content": "OpenPGP public key"
