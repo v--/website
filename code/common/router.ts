@@ -26,6 +26,7 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
       pageData: undefined,
       urlPath,
       canonicalUrlPath: urlPath.clearQueryString(),
+      allowIndexing: urlPath.query.size === 0,
     }
   }
 
@@ -48,6 +49,7 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
       pageData: await env.services.files.readDirectory(path),
       urlPath,
       canonicalUrlPath: urlPath.pickQueryString('page', 'per-page', 'sort-asc', 'sort-desc'),
+      allowIndexing: urlPath.query.keys().every(key => key === 'page'),
     }
   }
 
@@ -66,6 +68,7 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
       pageData: await env.services.pacman.fetchRepository(),
       urlPath,
       canonicalUrlPath: urlPath.clearQueryString(),
+      allowIndexing: urlPath.query.size === 0,
     }
   }
 
@@ -83,6 +86,7 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
       pageData: undefined,
       urlPath,
       canonicalUrlPath: urlPath.clearQueryString(),
+      allowIndexing: urlPath.query.size === 0,
     }
   }
 
@@ -100,6 +104,7 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
         pageData: undefined,
         urlPath,
         canonicalUrlPath: urlPath.clearQueryString(),
+        allowIndexing: urlPath.query.size === 0,
       }
 
       if (env.isContentDynamic()) {

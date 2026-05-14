@@ -1,9 +1,9 @@
 import { type WebsiteEnvironment } from '../environment.ts'
+import { type IconLibraryId, type OpenGraphImageId, type TranslationBundleId } from './bundles.ts'
 import { type PageDataHydrationTag } from './rehydration.ts'
 import { type FactoryComponentType } from '../rendering/component.ts'
 import { type UrlPath } from '../support/url_path.ts'
 import { type ITranslationSpec } from '../translation.ts'
-import { type IconLibraryId, type OpenGraphImageId, type TranslationBundleId } from './bundles.ts'
 
 export type ColorScheme = 'light' | 'dark'
 export type NavigationId = 'home' | 'files' | 'pacman' | 'playground'
@@ -26,6 +26,7 @@ export interface IWebsitePageState<T = DefaultPageData> {
 
   urlPath: UrlPath
   canonicalUrlPath?: UrlPath
+  allowIndexing?: boolean
 }
 
 export type IWebsitePageContext = object
