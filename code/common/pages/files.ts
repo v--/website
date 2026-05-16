@@ -2,6 +2,7 @@ import { anchor } from '../components/anchor.ts'
 import { breadcrumbNavigation } from '../components/breadcrumb_navigation.ts'
 import { interactiveTable } from '../components/interactive_table.ts'
 import { rich } from '../components/rich.ts'
+import { spacer } from '../components/spacer.ts'
 import { CC0_URL } from '../constants/url.ts'
 import { type WebsiteEnvironment } from '../environment.ts'
 import { type LanguageId, bcp47Encode } from '../languages.ts'
@@ -20,6 +21,7 @@ export function filesPage({ urlPath, pageData }: IWebsitePageState<IDirectory>, 
 
   return c.html('main', { class: 'files-page' },
     c.html('h1', { text: _('heading.main') }),
+    c.factory(spacer, { dynamics: 'p' }),
     c.factory(breadcrumbNavigation, { urlPath }),
     entries.length > 0 && c.factory(interactiveTable<IDirEntry>, { class: 'files-page-table delimited-table', data: entries, columnSpecs, urlPath }),
     c.factory(filesPageNotices, { directory: pageData, currentLanguage: env.gettext.language$ }),

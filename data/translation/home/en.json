@@ -1,7 +1,7 @@
 {
-  "heading.about_me": {
+  "heading.welcome": {
     "entryKind": "plain",
-    "content": "About me"
+    "content": "Welcome"
   },
 
   "heading.about_website": {

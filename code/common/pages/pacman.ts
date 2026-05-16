@@ -12,9 +12,9 @@ export function pacmanPage({ pageData }: IWebsitePageState<IPacmanRepository>, e
   const _ = env.gettext.bindToBundle('pacman')
 
   return c.html('main', { class: 'pacman-page' },
-    c.html('section', undefined,
-      c.html('h1', { text: _('heading.main') }),
+    c.html('h1', { text: _('heading.main') }),
 
+    c.html('section', undefined,
       c.factory(rich, {
         mode: 'paragraph',
         doc: _.rich$('text'),
@@ -44,7 +44,7 @@ export function pacmanPage({ pageData }: IWebsitePageState<IPacmanRepository>, e
     ),
 
     c.html('section', undefined,
-      c.html('h1', { text: _('heading.packages') }),
+      c.html('h2', { text: _('heading.packages') }),
       ...getObjectEntries(byArch).map(([arch, pkgs]) => c.factory(packages, { arch, pkgs: pkgs! })),
     ),
   )

@@ -26,10 +26,10 @@ export function homePage(pageState: IWebsitePageState, env: WebsiteEnvironment) 
     }),
 
     c.html('section', { class: 'home-page-about' },
-      c.html('h1', { text: _('heading.about_me') }),
+      c.html('h1', { text: _('heading.welcome') }),
       c.factory(rich, { doc: _.rich$({ key: 'bio' }) }),
 
-      c.html('h1', { text: _('heading.about_website') }),
+      c.html('h2', { text: _('heading.about_website') }),
       c.factory(rich, { doc: _.rich$({ key: 'website_description' }) }),
 
       c.html('p', { text: _('page_list_prefix') }),
