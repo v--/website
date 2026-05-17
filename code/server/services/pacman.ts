@@ -114,6 +114,9 @@ function readDatabaseImpl(dbPath: Path): Promise<IPacmanRepository> {
     })
 
   fs.createReadStream(dbPath.toString())
+    .on('error', function (err) {
+      reject(err)
+    })
     .pipe(decompressor)
     .pipe(new tar.Parser())
     .on('entry', function (entry: tar.ReadEntry) {
@@ -133,9 +136,6 @@ function readDatabaseImpl(dbPath: Path): Promise<IPacmanRepository> {
         .on('error', function (err) {
           reject(err)
         })
-    })
-    .on('error', function (err) {
-      reject(err)
     })
     .on('end', function () {
       resolve({ packages })
