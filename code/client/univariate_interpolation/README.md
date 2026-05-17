@@ -1,6 +1,6 @@
 # Univariate interpolation bundle
 
-This is the code for the univariate interpolation visualization at https://ivasilev.net/playground/univariate-interpolation
+This is the code for the univariate interpolation visualization at <https://ivasilev.net/playground/univariate-interpolation>.
 
 The README in the [root directory](../../../) contains references to important bits of documentation that may aid in understanding the code.
 

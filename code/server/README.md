@@ -7,6 +7,7 @@ This directory features a simple web server based on node's builtin libraries. I
 The main class is [`HttpServer`](./http/server.ts), which wraps a node `http.Server` and, based on the router, renders HTML or JSON responses.
 
 The entry point is [`./index.ts`](./index.ts), which does the following:
+
 1. Reads and validates [`../config/active.json`](`../config/active.json`).
 2. Creates a `HttpServer` instance with this configuration.
 3. Binds a signal handler for configuration reloading.

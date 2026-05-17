@@ -6,7 +6,7 @@ I have set up [StyleLint](https://stylelint.io/) (configured in [`../../package.
 
 It should be noted that I am not a designer, and CSS is notoriously hard to get right for different browsers. Thus, unlike for the code, here I feel on shaky ground.
 
-Some important notes on bundling and, more generally, on the build process, can be found [here](./build/#styles).
+Some important notes on bundling and, more generally, on the build process, can be found [here](../../code/build/#styles).
 
 ## Pure CSS
 
@@ -19,7 +19,8 @@ Here is a list of reasons why we continue using SASS:
 * Media queries don't allow custom properties (see [here](https://stackoverflow.com/questions/40722882/css-native-variables-not-working-in-media-queries)). We thus rely on SASS variables.
 
 * Defining groups of variables is not possible, while we occasionally rely on the following pattern (the example is taken from [`./core/plain/body.scss`](./core/plain/body.scss)):
-  ```
+
+  ```scss
   body {
     ...
 
@@ -48,7 +49,8 @@ Here is a list of reasons why we continue using SASS:
   This allows us to correctly set the scheme based on browser's preferences, but also to override is manually by clicking a button.
 
 * Even though nested selectors are supported, we prefer to avoid deep selectors and rely on prefixing. For example, we prefer
-  ```
+
+  ```scss
     .sidebar {
       ...
 
@@ -57,8 +59,10 @@ Here is a list of reasons why we continue using SASS:
       }
     }
   ```
+
   to the more verbose
-  ```
+
+  ```scss
     .sidebar {
       ...
     }
@@ -67,8 +71,10 @@ Here is a list of reasons why we continue using SASS:
       ...
     }
   ```
+
   or the less semantically clear
-  ```
+
+  ```scss
     .sidebar {
       ...
 

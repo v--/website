@@ -1,6 +1,6 @@
 # Breakout bundle
 
-This is the code for the Breakout game at https://ivasilev.net/playground/breakout
+This is the code for the Breakout game at <https://ivasilev.net/playground/breakout>.
 
 The README in the [root directory](../../../) contains references to important bits of documentation that may aid in understanding the code.
 

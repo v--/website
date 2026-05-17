@@ -19,7 +19,8 @@ The class also features a static list of living observers, which we use to verif
 ## State store
 
 The [`StateStore`](../support/state_store.ts) is a flexible reactive state container. Here is a simple usage example:
-```
+
+```typescript
 const unload$ = new Subject<void>();
 const store = new StateStore(unload$, { velocity: 3, time: 2 })
 const displacement$ = store.combinedState$.pipe(

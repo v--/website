@@ -9,7 +9,8 @@ __Warning__: Validation error reporting is very primitive - it simply says that 
 ## Usage example
 
 The schema for our rich text system (see [`../rich`](../rich)) demonstrates our feature set quite well:
-```
+
+```typescript
 const RICH_TEXT_ENTRY_SCHEMA = Schema.recursive(
   Schema.union(
     ...
@@ -29,12 +30,14 @@ const RICH_TEXT_ENTRY_SCHEMA = Schema.recursive(
 Most of the code above should be straightforward to understand; some subtleties will be commented below. The ellipses hide code that is similar to what is shown.
 
 All objects produced by the `Schema` helper are `TypeSchema` instances. The `Infer` type constructor can be used to build a TypeScript type from a `TypeSchema` instance. We use the following:
-```
+
+```typescript
 type IRichTextEntry = Infer<typeof RICH_TEXT_ENTRY_SCHEMA>
 ```
 
 TypeScript then shows `IRichTextEntry` as
-```
+
+```typescript
 type IRichTextEntry = {
   ...
 } | {
@@ -52,7 +55,8 @@ The `content` field is resolved to a reference to the (anonymous to the `Infer` 
 The `uint32` type above is defined by [flavoring](https://spin.atomicobject.com/2018/01/15/typescript-flexible-nominal-typing/) the builtin type `number`. Our schemas are able to validate unsigned integers, but there is no way to prevent anybody from assigning an arbitrary floating point number to a variable annotated with `uint32`.
 
 If `rawEntry` contains an object that is possibly a rich text entry, we can validate it as follows:
-```
+
+```typescript
 const entry = validateSchema(RICH_TEXT_ENTRY_SCHEMA, rawEntry)
 ```
 

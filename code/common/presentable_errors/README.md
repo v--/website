@@ -8,4 +8,4 @@ Creating a presentable error requires such an encoding, but also requires some b
 
 Since we support arbitrary translation keys from arbitrary translation bundles, we cannot foresee what keys need to be translated when creating a `PresentableError` instance. Thus, there is slight duplication, but the benefit is that we are able to show rich text errors to the end user.
 
-Specifically for API errors, we have a [`translateEncoding`](./translate_encoding.ts) function, which creates a similarly structured encoded error, but with English strings rather than translation keys.
+Specifically for API errors, we have a [`translateEncoding`](./translation.ts) function, which creates a similarly structured encoded error, but with English strings rather than translation keys.

@@ -7,7 +7,8 @@ We support translating arbitrary strings in a flexible way. What may seem like a
 The [`IGettextSpec`](./gettext.ts) interface contains everything necessary for translation - a translation bundle ID and key, and optionally a context for substituting variables, as well as options for coercing to either plain or rich text. Substitution is handled by the rich text system from [`../rich`](../rich).
 
 Here is a simple example from [`../components/main_menu.ts`](../components/main_menu.ts):
-```
+
+```typescript
 const _ = env.gettext.bindToBundle('core')
 
 h('button',
@@ -18,7 +19,8 @@ h('button',
 ```
 
 The `_` function is now bound to the core translation bundle. It can take string and return an observable that updates the translated string once the active language changes. Furthermore, it can work with `IPartialGettextSpec` objects; the following produces the same result:
-```
+
+```typescript
 title: _({
   bundleId: 'core',
   key: 'main_menu.button.color_scheme',
@@ -42,7 +44,8 @@ Each page declares its required translation bundles in the router, and so we kno
 ## Plain and rich text sources
 
 The above example sources the translation, which in its raw unbuilt form looks as follows:
-```
+
+```json
 {
   ...
   "main_menu.button.collapse": {
@@ -56,7 +59,8 @@ The above example sources the translation, which in its raw unbuilt form looks a
 For the raw format, see [here](../../build#translation-maps).
 
 This builds into translation maps, which have the simpler form
-```
+
+```json
 {
   ...
   "main_menu.button.collapsed": "Collapse sidebar",

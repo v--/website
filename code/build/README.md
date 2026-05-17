@@ -26,7 +26,7 @@ We use the TypeScript compiler only as part of the linting process, and hence th
 
 ### SCSS
 
-The [style worker](./workers/styles.ts) uses [Dart Sass](https://sass-lang.com/dart-sass/) to bundle up blobs of CSS. Unlike for the code, no problems are encountered with bundling here because the style sheets are by their nature non-modular and their effect is global.
+The [style worker](./workers/style.ts) uses [Dart Sass](https://sass-lang.com/dart-sass/) to bundle up blobs of CSS. Unlike for the code, no problems are encountered with bundling here because the style sheets are by their nature non-modular and their effect is global.
 
 ### SVG
 
@@ -34,11 +34,11 @@ There is an [SVG rendering](./workers/svg_render.ts) worker.
 
 ### Icon libraries
 
-In order to build SVG libraries with reusable `<symbol>` tags for icons, the [IconLibrary worker](./workers/svg_libraries.ts) relies on a directory of JSON files, [`../../data/icon_library`](../../data/icon_library). Each of the files is a list of [FontAwesome](https://fontawesome.com/) icon names.
+In order to build SVG libraries with reusable `<symbol>` tags for icons, the [IconLibrary worker](./workers/icon_libraries.ts) relies on a directory of JSON files, [`../../data/icon_libraries`](../../data/icon_libraries). Each of the files is a list of [boxicons](https://boxicons.com/) icon names.
 
 ### Open graph images
 
-There is a [generator](./workers/og_images.ts) for [Open Graph protocol](https://ogp.me/) images.
+There is a [generator](./workers/og_image.ts) for [Open Graph protocol](https://ogp.me/) images.
 
 We take an SVG image with a `${title}` string and replace that string with internationalized text based on the `config.json` file in [`../../data/og_images`](../../data/og_images) (consult the README file there for some details). The resulting SVG is then rendered to PNG.
 
@@ -50,4 +50,4 @@ How these maps are used for translation is discussed in [`../common/translation`
 
 ### Assets
 
-Finally, the [asset worker](./workers/assets.ts) simply copies files from [`../../client/assets`](../../client/assets) into [`../../public`](../../public).
+Finally, the [asset worker](./workers/assets.ts) simply copies files from [`../../client/assets`](../../client/assets) into [`../../build/public`](../../build/public).

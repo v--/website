@@ -10,7 +10,7 @@ The entry point loaded by the browser is [`./runtime.ts`](./runtime.ts). In it, 
 
 2. We try to read rehydration data (see [here](../server#rehydration-data)) and use it to initialize the [`ClientServiceManager`](./core/services/manager.ts). If no rehydration data can be read, we simply fetch the corresponding data from the server via API calls.
 
-3. Once we have a service manager initialized, we use it to initialize a [`ClientWebsiteEnvironment`](./environment.ts) that will get injected into the components.
+3. Once we have a service manager initialized, we use it to initialize a [`ClientWebsiteEnvironment`](./core/environment.ts) that will get injected into the components.
 
 4. We create a [`ClientRoutingService`](./core/routing_service.ts), which does a lot of essential work. We describe it next.
 
