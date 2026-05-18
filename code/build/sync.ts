@@ -30,7 +30,7 @@ export function initBrowserSync(socket: string): BrowserSync.BrowserSyncInstance
 }
 
 export async function reloadServerData(contexts: IBuildContext[]) {
-  if (contexts.some(ctx => ctx.dest.startsWith('private'))) {
+  if (contexts.some(ctx => ctx.dest.startsWith('build/private'))) {
     const processes = await findProcess('name', 'website')
     for (const { pid } of processes) {
       process.kill(pid, 'SIGUSR2')
