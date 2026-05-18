@@ -31,6 +31,11 @@ export function pacmanPage({ pageData }: IWebsitePageState<IPacmanRepository>, e
         rootCssClass: 'notice notice-info',
         doc: _.rich$('notice.variables'),
       }),
+    ),
+
+    c.html('section', undefined,
+      c.html('h2', { text: _('heading.packages') }),
+
       c.factory(rich, {
         mode: 'paragraph',
         rootCssClass: 'notice notice-success',
@@ -41,10 +46,13 @@ export function pacmanPage({ pageData }: IWebsitePageState<IPacmanRepository>, e
           },
         ),
       }),
-    ),
 
-    c.html('section', undefined,
-      c.html('h2', { text: _('heading.packages') }),
+      c.factory(rich, {
+        mode: 'paragraph',
+        rootCssClass: 'notice notice-warning',
+        doc: _.rich$('notice.removal'),
+      }),
+
       ...getObjectEntries(byArch).map(([arch, pkgs]) => c.factory(packages, { arch, pkgs: pkgs! })),
     ),
   )
@@ -66,7 +74,7 @@ interface IPackagesState {
 
 function packages({ arch, pkgs }: IPackagesState, env: WebsiteEnvironment) {
   return c.html('div', { class: 'packages' },
-    c.html('h2', { text: arch }),
+    c.html('h3', { text: arch }),
     c.html('dl', undefined, ...iterPackagesComponents(pkgs, env)),
   )
 }

@@ -32,6 +32,11 @@
     "content": "All packages are signed and can be verified using my OpenPGP public key [`${keyName}`](${keyUrl})."
   },
 
+  "notice.removal": {
+    "entryKind": "rich",
+    "content": "It is possible that I add or remove a package at any time at my own discretion."
+  },
+
   "version": {
     "entryKind": "plain",
     "content": "${name} (version ${version})"
