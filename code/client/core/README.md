@@ -2,7 +2,7 @@
 
 This directory contains code required for the interactivity of the base website and of the other bundles.
 
-Understanding the component system in [`../../common/rendering`](../../common/rendering) is important, so reading the documentation there should ideally be done before reading this one. Familiarity with [RxJS](https://rxjs.dev/) or with the observable system in [`../../common/observable`](../../common/observable) is also important.
+Understanding the component system in [`../../common/rendering`](../../common/rendering) is important, so reading the documentation there should ideally be done before reading this one. Familiarity with the [RxJS](https://rxjs.dev/)-like observable system in [`../../common/observable`](../../common/observable) is also important.
 
 ## Routing service
 

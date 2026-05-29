@@ -25,7 +25,7 @@ After that, a development server can be launched via `npm run watcher` and, afte
 
 What I call here "library code" is a bunch of reusable independent modules that would be external dependencies if it was not my goal to implement them myself. The following may be of interest:
 
-* [Proposal-compliant](https://github.com/tc39/proposal-observable) observables with extensions based on [RxJS](https://rxjs.dev/) in [`./code/common/observable`](./code/common/observable).
+* [Proposal-compliant](https://github.com/tc39/proposal-observable) observables with extensions resembling [RxJS](https://rxjs.dev/) in [`./code/common/observable`](./code/common/observable).
 
 * Reactive (re)rendering of virtual components based on the aforementioned observables in [`./code/common/rendering`](./code/common/rendering).
 
