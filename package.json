@@ -65,6 +65,12 @@
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.59.0"
   },
+  "allowScripts": {
+    "@parcel/watcher@2.5.1": true,
+    "@swc/core@1.15.30": true,
+    "lzma-native@8.0.6": true,
+    "unrs-resolver@1.10.1": true
+  },
   "stylelint": {
     "extends": [
       "stylelint-config-standard-scss",
