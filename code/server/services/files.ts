@@ -48,7 +48,7 @@ export class ServerFileService implements IFileService {
       const childStat = await fs.stat(filePath.toString())
 
       if (name.startsWith('.')) {
-        const match = name.match(/^.README_(?<lang>[a-z]+)\.(?<ext>[a-z]+)$/)
+        const match = name.match(/^.README(_|-)(?<lang>[a-z]+)\.(?<ext>[a-z]+)$/)
 
         if (match === null || match.groups === undefined) {
           continue
