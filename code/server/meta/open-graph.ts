@@ -11,7 +11,7 @@ import { WEBSITE_LANGUAGE_IDS, bcp47Encode } from '../../common/languages.ts'
 import { type GetText } from '../../common/translation.ts'
 import { type IWebsitePageState } from '../../common/types/page.ts'
 
-export const ROOT_TAG_PREFIX = 'og: http://ogp.me/ns#'
+export const ROOT_TAG_PREFIX = 'og: https://ogp.me/ns#'
 
 export function* iterOpenGraphTags(gettext: GetText, pageState: IWebsitePageState): Generator<IMetaTag> {
   yield {
