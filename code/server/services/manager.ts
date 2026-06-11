@@ -52,13 +52,13 @@ export class ServerServiceManagerFactory {
     await this.translation.preload()
   }
 
-  async finalize() {
-    await this.realFiles.finalize()
-    await this.mockFiles.finalize()
-    await this.realPacman.finalize()
-    await this.mockPacman.finalize()
-    await this.page.finalize()
-    await this.translation.finalize()
+  async [Symbol.asyncDispose]() {
+    await this.realFiles[Symbol.asyncDispose]()
+    await this.mockFiles[Symbol.asyncDispose]()
+    await this.realPacman[Symbol.asyncDispose]()
+    await this.mockPacman[Symbol.asyncDispose]()
+    await this.page[Symbol.asyncDispose]()
+    await this.translation[Symbol.asyncDispose]()
   }
 
   getManager(useMockData: boolean): IServerServiceManager {

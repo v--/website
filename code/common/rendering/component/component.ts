@@ -1,7 +1,6 @@
 import { ComponentSanityError } from './errors.ts'
 import { Observable, ReplaySubject, type Subscription, combineLatest, first } from '../../observable.ts'
 import { recursivelyStringify, repr } from '../../support/strings.ts'
-import { type IFinalizeable } from '../../types/finalizable.ts'
 import { type uint32 } from '../../types/numbers.ts'
 
 export type ComponentType = unknown
@@ -14,7 +13,7 @@ export type IComponentEnvironment = object
 export type IComponentStateSource<StateT extends IComponentState = IComponentState> =
   StateT extends undefined ? undefined : { [K in keyof StateT]: StateT[K] | Observable<StateT[K]> } | Observable<StateT>
 
-export abstract class Component<TypeT = ComponentType, StateT extends IComponentState = IComponentState> implements IFinalizeable {
+export abstract class Component<TypeT = ComponentType, StateT extends IComponentState = IComponentState> implements AsyncDisposable {
   #state$ = new ReplaySubject<StateT>(1)
   #stateSubscription?: Subscription<StateT>
   #stateSource: IComponentStateSource<StateT>
@@ -131,7 +130,7 @@ export abstract class Component<TypeT = ComponentType, StateT extends IComponent
     this.#updateStateSource(newSource, false)
   }
 
-  async finalize() {
+  async [Symbol.asyncDispose]() {
     this.unsubscribeFromStateSource()
     this.#state$.complete()
   }

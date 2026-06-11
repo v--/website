@@ -35,8 +35,8 @@ export class ServerPacmanService implements IPacmanService {
     return this.#cache.getValue(this.#dbPath)
   }
 
-  async finalize() {
-    await this.#cache.finalize()
+  async [Symbol.asyncDispose]() {
+    await this.#cache[Symbol.asyncDispose]()
   }
 }
 

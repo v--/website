@@ -30,9 +30,9 @@ export class ClientWebsiteEnvironment extends WebsiteEnvironment {
     toggleModalDialog('compact-navbar-dialog', false)
   }
 
-  override async finalize() {
+  override async [Symbol.asyncDispose]() {
     this.pageUnload$.next()
     this.pageUnload$.complete()
-    await this.services.finalize()
+    await this.services[Symbol.asyncDispose]()
   }
 }

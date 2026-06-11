@@ -47,5 +47,5 @@ export class ServerTranslationMapService implements ITranslationMapService {
     return this.#package.filter(entry => entry.languageId === languageId && bundleIds.includes(entry.bundleId))
   }
 
-  async finalize() {}
+  async [Symbol.asyncDispose]() {}
 }

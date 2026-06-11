@@ -26,5 +26,5 @@ export class ClientPacmanService implements IPacmanService {
     return validateSchema(PACMAN_REPOSITORY_SCHEMA, response)
   }
 
-  async finalize() {}
+  async [Symbol.asyncDispose]() {}
 }

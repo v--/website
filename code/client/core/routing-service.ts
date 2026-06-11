@@ -9,10 +9,9 @@ import { RenderingManager } from '../../common/rendering/manager.ts'
 import { createEncodedErrorState, createErrorState, router } from '../../common/router.ts'
 import { AsyncLock } from '../../common/support/async-lock.ts'
 import { UrlPath } from '../../common/support/url-path.ts'
-import { type IFinalizeable } from '../../common/types/finalizable.ts'
 import { type IWebsitePageState } from '../../common/types/page.ts'
 
-export class ClientRoutingService implements IFinalizeable {
+export class ClientRoutingService implements AsyncDisposable {
   readonly env: ClientWebsiteEnvironment
   readonly logger: ClientLogger
   readonly manipulator: DomManipulator
@@ -197,14 +196,14 @@ export class ClientRoutingService implements IFinalizeable {
     return this.#isRenderingError
   }
 
-  async finalize() {
+  async [Symbol.asyncDispose]() {
     this.#pageState$.complete()
     this.#unload$.next()
     this.#unload$.complete()
-    await this.manipulator.finalize()
-    await this.renderManager.finalize()
+    await this.manipulator[Symbol.asyncDispose]()
+    await this.renderManager[Symbol.asyncDispose]()
     // We have not marked the body and title components as managed, so we finalize them manually
-    await this.bodyComponent.finalize()
-    await this.titleComponent.finalize()
+    await this.bodyComponent[Symbol.asyncDispose]()
+    await this.titleComponent[Symbol.asyncDispose]()
   }
 }

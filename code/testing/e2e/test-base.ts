@@ -10,7 +10,9 @@ describe('General website behavior', function () {
       const page: BasePage = await BasePage.initialize({ javaScriptEnabled: false, locale: 'ru-RU' })
       await page.goto('/')
       const lang = await page.getLanguage()
-      await page.finalize()
+      if (page) {
+        await page[Symbol.asyncDispose]()
+      }
 
       assert.equal(lang, 'ru')
     })
@@ -19,7 +21,9 @@ describe('General website behavior', function () {
       const page: BasePage = await BasePage.initialize({ javaScriptEnabled: false })
       await page.goto('/?override-language=ru')
       const lang = await page.getLanguage()
-      await page.finalize()
+      if (page) {
+        await page[Symbol.asyncDispose]()
+      }
 
       assert.equal(lang, 'ru')
     })
@@ -28,7 +32,9 @@ describe('General website behavior', function () {
       const page: BasePage = await BasePage.initialize({ javaScriptEnabled: false, locale: 'bg-BG' })
       await page.goto('/')
       const lang = await page.getLanguage()
-      await page.finalize()
+      if (page) {
+        await page[Symbol.asyncDispose]()
+      }
 
       assert.equal(lang, 'en')
     })
@@ -37,7 +43,9 @@ describe('General website behavior', function () {
       const page: BasePage = await BasePage.initialize({ javaScriptEnabled: true, locale: 'ru-RU' })
       await page.goto('/')
       const lang = await page.getLanguage()
-      await page.finalize()
+      if (page) {
+        await page[Symbol.asyncDispose]()
+      }
 
       assert.equal(lang, 'ru')
     })
@@ -46,7 +54,9 @@ describe('General website behavior', function () {
       const page: BasePage = await BasePage.initialize({ javaScriptEnabled: false, httpHeaders: { 'accept-language': 'ru-RU' } })
       await page.goto('/')
       const lang = await page.getLanguage()
-      await page.finalize()
+      if (page) {
+        await page[Symbol.asyncDispose]()
+      }
 
       assert.equal(lang, 'ru')
     })
@@ -55,7 +65,9 @@ describe('General website behavior', function () {
       const page: BasePage = await BasePage.initialize({ javaScriptEnabled: false, httpHeaders: { 'accept-language': 'bg-BG' } })
       await page.goto('/')
       const lang = await page.getLanguage()
-      await page.finalize()
+      if (page) {
+        await page[Symbol.asyncDispose]()
+      }
 
       assert.equal(lang, 'en')
     })
@@ -64,7 +76,9 @@ describe('General website behavior', function () {
       const page: BasePage = await BasePage.initialize({ javaScriptEnabled: false, colorScheme: 'dark' })
       await page.goto('/')
       const scheme = await page.getColorScheme()
-      await page.finalize()
+      if (page) {
+        await page[Symbol.asyncDispose]()
+      }
 
       assert.equal(scheme, 'dark')
     })
@@ -73,7 +87,9 @@ describe('General website behavior', function () {
       const page: BasePage = await BasePage.initialize({ javaScriptEnabled: false })
       await page.goto('/')
       const scheme = await page.getColorScheme()
-      await page.finalize()
+      if (page) {
+        await page[Symbol.asyncDispose]()
+      }
 
       assert.equal(scheme, 'light')
     })
@@ -82,7 +98,9 @@ describe('General website behavior', function () {
       const page: BasePage = await BasePage.initialize({ javaScriptEnabled: true, colorScheme: 'dark' })
       await page.goto('/')
       const scheme = await page.getColorScheme()
-      await page.finalize()
+      if (page) {
+        await page[Symbol.asyncDispose]()
+      }
 
       assert.equal(scheme, 'dark')
     })
@@ -100,7 +118,9 @@ describe('General website behavior', function () {
     })
 
     after(async function () {
-      await page?.finalize()
+      if (page) {
+        await page[Symbol.asyncDispose]()
+      }
     })
 
     it('is shown on large screens', async function () {
@@ -150,7 +170,7 @@ describe('General website behavior', function () {
     })
 
     // playwright refuses to click the close button for whatever reason
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+
     it.skip('panel is closed by the close button on small screen', async function () {
       await page.goto('/')
       await page.scaleViewport('Apple Watch')
@@ -209,7 +229,9 @@ describe('General website behavior', function () {
     })
 
     after(async function () {
-      await page?.finalize()
+      if (page) {
+        await page[Symbol.asyncDispose]()
+      }
     })
 
     describe('languages', function () {

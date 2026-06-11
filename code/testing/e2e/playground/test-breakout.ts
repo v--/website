@@ -15,7 +15,9 @@ describe('Breakout page', function () {
     const isAtPlaceholder = await page.isAtPlaceholder()
     const showsUnsupportedMessage = await page.showsUnsupportedMessage()
 
-    await page.finalize()
+    if (page) {
+      await page[Symbol.asyncDispose]()
+    }
 
     assert.equal(title, "Breakout ⋅ Playground ⋅ Ianis Vasilev's website")
     assertTrue(isAtPlaceholder)
@@ -34,7 +36,9 @@ describe('Breakout page', function () {
     })
 
     after(async function () {
-      await page?.finalize()
+      if (page) {
+        await page[Symbol.asyncDispose]()
+      }
     })
 
     describe('aspect ratio box', function () {

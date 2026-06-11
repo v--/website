@@ -17,7 +17,7 @@ describe('/api/pacman', function () {
   })
 
   after(async function () {
-    await client?.finalize()
+    await client[Symbol.asyncDispose]()
   })
 
   it('matches the repository schema at the root', async function () {

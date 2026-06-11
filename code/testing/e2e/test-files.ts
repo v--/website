@@ -20,7 +20,9 @@ describe('Files page', function () {
       })
 
       after(async function () {
-        await page?.finalize()
+        if (page) {
+          await page[Symbol.asyncDispose]()
+        }
       })
 
       it('renders the title correctly', async function () {

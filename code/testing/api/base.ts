@@ -1,7 +1,6 @@
 import { type APIRequestContext, request } from '@playwright/test'
 
 import { BASE_URL } from './config.ts'
-import { type IFinalizeable } from '../../common/types/finalizable.ts'
 import { encodePreferenceHeader } from '../../server/http/preferences.ts'
 
 interface IBaseApiClientOptions {
@@ -14,7 +13,7 @@ interface IApiRequestOptions {
 
 const PREFERENCE_HEADER_OPTIONS = { 'data-source': 'mocked' }
 
-export class BaseApiClient implements IFinalizeable {
+export class BaseApiClient implements AsyncDisposable {
   protected _context: APIRequestContext
 
   static async initialize<ClientT extends BaseApiClient>(options?: IBaseApiClientOptions): Promise<ClientT> {
@@ -48,7 +47,7 @@ export class BaseApiClient implements IFinalizeable {
 
   async reset() {}
 
-  async finalize() {
+  async [Symbol.asyncDispose]() {
     await this._context.dispose()
   }
 }

@@ -17,7 +17,7 @@ describe('/api/translation', function () {
   })
 
   after(async function () {
-    await client?.finalize()
+    await client[Symbol.asyncDispose]()
   })
 
   it('serves a correct core English translation', async function () {

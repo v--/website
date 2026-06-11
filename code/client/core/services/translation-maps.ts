@@ -61,7 +61,7 @@ export class ClientTranslationMapService implements ITranslationMapService {
     )
   }
 
-  async finalize() {
-    await this.#cache.finalize()
+  async [Symbol.asyncDispose]() {
+    await this.#cache[Symbol.asyncDispose]()
   }
 }

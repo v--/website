@@ -174,7 +174,7 @@ export class FactoryRenderer<NodeT = unknown> extends Renderer<NodeT> {
     }
 
     oldRoot.updateChildren(updatedChildren)
-    await newRoot.finalize()
+    await newRoot[Symbol.asyncDispose]()
   }
 
   override async rerender(context: IFactoryRendererContext, state: IFactoryComponentState) {

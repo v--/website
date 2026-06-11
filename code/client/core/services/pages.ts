@@ -17,5 +17,5 @@ export class ClientPageService implements IWebsitePageService {
     return page
   }
 
-  async finalize() {}
+  async [Symbol.asyncDispose]() {}
 }

@@ -68,9 +68,9 @@ export class ClientServiceManager implements IServiceManager {
     }
   }
 
-  async finalize() {
-    await this.files.finalize()
-    await this.pacman.finalize()
-    await this.page.finalize()
+  async [Symbol.asyncDispose]() {
+    await this.files[Symbol.asyncDispose]()
+    await this.pacman[Symbol.asyncDispose]()
+    await this.page[Symbol.asyncDispose]()
   }
 }

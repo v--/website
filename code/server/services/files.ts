@@ -102,5 +102,5 @@ export class ServerFileService implements IFileService {
     return result
   }
 
-  async finalize() {}
+  async [Symbol.asyncDispose]() {}
 }

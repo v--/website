@@ -16,7 +16,7 @@ describe('/.well-known/webfinger', function () {
   })
 
   after(async function () {
-    await client?.finalize()
+    await client[Symbol.asyncDispose]()
   })
 
   it('errors out with 400 if no resource is requested', async function () {

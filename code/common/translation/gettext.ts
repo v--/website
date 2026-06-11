@@ -6,7 +6,6 @@ import { type SubstitutionContext } from '../rich/substitution.ts'
 import { convertPlainToRich, convertRichToPlain, substitutePlain, substituteRich } from '../rich.ts'
 import { ExtendableFunction } from '../support/extendable-function.ts'
 import { type TranslationBundleId } from '../types/bundles.ts'
-import { type IFinalizeable } from '../types/finalizable.ts'
 
 export interface IBoundGetTextSpec {
   bundleId?: TranslationBundleId
@@ -19,7 +18,7 @@ export interface IGetTextSpec extends ITranslationSpec, IBoundGetTextSpec {
   bundleId: TranslationBundleId
 }
 
-export class GetText extends ExtendableFunction<[IGetTextSpec], Observable<string>> implements IFinalizeable {
+export class GetText extends ExtendableFunction<[IGetTextSpec], Observable<string>> implements AsyncDisposable {
   #language$: BehaviorSubject<WebsiteLanguageId>
   #package$: BehaviorSubject<ITranslationPackage>
 
@@ -145,7 +144,7 @@ export class GetText extends ExtendableFunction<[IGetTextSpec], Observable<strin
     )
   }
 
-  async finalize() {
+  async [Symbol.asyncDispose]() {
     this.#language$.complete()
     this.#package$.complete()
   }
@@ -198,5 +197,5 @@ export class BoundGetText extends ExtendableFunction<[string | IBoundGetTextSpec
     return this.gettext.rich$(this.#liftPartialSpec(pspec))
   }
 
-  async finalize() {}
+  async [Symbol.asyncDispose]() {}
 }

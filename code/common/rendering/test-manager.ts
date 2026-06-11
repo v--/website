@@ -29,7 +29,7 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
   })
 
   afterEach(async function () {
-    await manager?.finalize()
+    await manager[Symbol.asyncDispose]()
   })
 
   async function updateAndWait<T>(subject$: Subject<T>, value: T, src?: Component) {
@@ -675,8 +675,8 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
         class CustomComponent extends HtmlComponent {
           isFinalized = false
 
-          override async finalize() {
-            await super.finalize()
+          override async [Symbol.asyncDispose]() {
+            await super[Symbol.asyncDispose]()
             this.isFinalized = true
           }
         }
@@ -695,8 +695,8 @@ describe('RenderingManager class with MirrorDomManipulator', function () {
         class CustomComponent extends HtmlComponent {
           isFinalized = false
 
-          override async finalize() {
-            await super.finalize()
+          override async [Symbol.asyncDispose]() {
+            await super[Symbol.asyncDispose]()
             this.isFinalized = true
           }
         }

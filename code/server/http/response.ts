@@ -27,7 +27,7 @@ export class ServerResponse {
     const rehydrationData = await encodeRehydrationData(pageState, env)
     const component = c.factory(root, { pageState, rehydrationData })
     const rendered = await renderToString(component, env)
-    await component.finalize()
+    await component[Symbol.asyncDispose]()
 
     return new this(
       '<!DOCTYPE html>' + rendered,

@@ -5,7 +5,6 @@ import { FactoryRenderer, type IRendererContext, type Renderer, XmlRenderer } fr
 import { type INodeManipulator } from './types.ts'
 import { type Logger } from '../logger.ts'
 import { repr } from '../support/strings.ts'
-import { type IFinalizeable } from '../types/finalizable.ts'
 import { type IComponentEnvironment } from './component/component.ts'
 import { firstOfIterable } from '../support/iteration.ts'
 
@@ -15,7 +14,7 @@ export interface IRenderEvent {
   error?: unknown
 }
 
-export class RenderingManager<NodeT> implements IFinalizeable {
+export class RenderingManager<NodeT> implements AsyncDisposable {
   readonly logger: Logger
   readonly manipulator: INodeManipulator<NodeT>
   readonly env: IComponentEnvironment
@@ -217,7 +216,7 @@ export class RenderingManager<NodeT> implements IFinalizeable {
 
     if (this.#managedComponents.has(component)) {
       this.#managedComponents.delete(component)
-      await component.finalize()
+      await component[Symbol.asyncDispose]()
     }
 
     const stateSubscription = this.#stateSubscriptionMap.get(component)
@@ -241,7 +240,7 @@ export class RenderingManager<NodeT> implements IFinalizeable {
     // this.#componentRendererMap.delete(component)
   }
 
-  async finalize() {
+  async [Symbol.asyncDispose]() {
     await this.awaitPendingRerenders()
 
     while (this.#componentRendererMap.size > 0) {

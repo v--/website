@@ -9,7 +9,6 @@ import { waitForStableState } from './support/locator.ts'
 import { type ViewportSizeName, transposeViewport, viewportNameMap } from './support/viewport.ts'
 import { type WebsiteLanguageId, parseSupportedLanguageString } from '../../common/languages.ts'
 import { UrlPath } from '../../common/support/url-path.ts'
-import { type IFinalizeable } from '../../common/types/finalizable.ts'
 import { type ColorScheme } from '../../common/types/page.ts'
 
 interface IBasePageOptions {
@@ -22,7 +21,7 @@ interface IBasePageOptions {
 
 const LOADING_INDICATOR_WAIT_TIMEOUT = 1000
 
-export class BasePage implements IFinalizeable {
+export class BasePage implements AsyncDisposable {
   static async initialize<PageT extends BasePage>(options?: IBasePageOptions): Promise<PageT> {
     const browser = await BROWSER.launch()
     const context = await browser.newContext({
@@ -211,7 +210,7 @@ export class BasePage implements IFinalizeable {
     this._pwPage = await this.#context.newPage()
   }
 
-  async finalize() {
+  async [Symbol.asyncDispose]() {
     await this.#browser.close()
   }
 }

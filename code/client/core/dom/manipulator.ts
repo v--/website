@@ -3,10 +3,9 @@ import { fromEvent } from './observable.ts'
 import { IntegrityError } from '../../../common/errors.ts'
 import { type Subscription, subscribeAsync } from '../../../common/observable.ts'
 import { type INodeManipulator } from '../../../common/rendering/types.ts'
-import { type IFinalizeable } from '../../../common/types/finalizable.ts'
 import { type ClientLogger } from '../logger.ts'
 
-export class DomManipulator implements INodeManipulator<Element>, IFinalizeable {
+export class DomManipulator implements INodeManipulator<Element>, AsyncDisposable {
   logger: ClientLogger
   #subscriptionMap = new Map<Element, Map<string, Subscription<unknown>>>()
 
@@ -137,7 +136,7 @@ export class DomManipulator implements INodeManipulator<Element>, IFinalizeable 
     parent.replaceChild(newNode, oldNode)
   }
 
-  async finalize(): Promise<void> {
+  async [Symbol.asyncDispose](): Promise<void> {
     for (const node of this.#subscriptionMap.keys()) {
       await this.destroyNode(node)
     }

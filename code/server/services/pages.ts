@@ -8,5 +8,5 @@ export class ServerPageService implements IWebsitePageService {
     throw new IntegrityError('We should not resolve a playground page on the server')
   }
 
-  async finalize() {}
+  async [Symbol.asyncDispose]() {}
 }

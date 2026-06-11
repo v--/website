@@ -40,7 +40,7 @@ export class ClientFileService implements IFileService {
     this.#cachedValue = undefined
   }
 
-  async finalize() {
+  async [Symbol.asyncDispose]() {
     this.resetCache()
   }
 }

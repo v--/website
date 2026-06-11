@@ -1,7 +1,6 @@
 import { BehaviorSubject, filter, first } from '../observable.ts'
-import { type IFinalizeable } from '../types/finalizable.ts'
 
-export class AsyncLock implements IFinalizeable {
+export class AsyncLock implements AsyncDisposable {
   #locked$ = new BehaviorSubject(false)
 
   async aquire() {
@@ -20,7 +19,7 @@ export class AsyncLock implements IFinalizeable {
     this.#locked$.next(false)
   }
 
-  async finalize() {
+  async [Symbol.asyncDispose]() {
     this.#locked$.complete()
   }
 }

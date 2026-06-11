@@ -4,7 +4,6 @@ import { type IServiceManager } from './services.ts'
 import { type UrlPath } from './support/url-path.ts'
 import { GetText } from './translation.ts'
 import { type TranslationBundleId } from './types/bundles.ts'
-import { type IFinalizeable } from './types/finalizable.ts'
 import { type ColorScheme, type IWebsitePageState } from './types/page.ts'
 
 export interface IEnvironmentConfig {
@@ -14,7 +13,7 @@ export interface IEnvironmentConfig {
   loading?: boolean
 }
 
-export abstract class WebsiteEnvironment implements IFinalizeable {
+export abstract class WebsiteEnvironment implements AsyncDisposable {
   readonly services: IServiceManager
   readonly gettext: GetText
   readonly urlPath$ = new Subject<UrlPath>()
@@ -66,8 +65,8 @@ export abstract class WebsiteEnvironment implements IFinalizeable {
     this.gettext.updateLanguage(newLanguage)
   }
 
-  async finalize() {
-    await this.gettext.finalize()
+  async [Symbol.asyncDispose]() {
+    await this.gettext[Symbol.asyncDispose]()
     this.urlPath$.complete()
     this.colorScheme$.complete()
     this.loading$.complete()

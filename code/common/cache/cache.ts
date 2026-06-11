@@ -1,11 +1,10 @@
 import { AsyncLock } from '../support/async-lock.ts'
-import { type IFinalizeable } from '../types/finalizable.ts'
 
 export interface ICachePayload<V> {
   value: V
 }
 
-export abstract class Cache<K, V, PayloadT extends ICachePayload<V> = ICachePayload<V>> implements IFinalizeable {
+export abstract class Cache<K, V, PayloadT extends ICachePayload<V> = ICachePayload<V>> implements AsyncDisposable {
   #payloads = new Map<string, PayloadT>()
   #lock = new AsyncLock()
 
@@ -52,7 +51,7 @@ export abstract class Cache<K, V, PayloadT extends ICachePayload<V> = ICachePayl
     await this.getValue(key)
   }
 
-  async finalize() {
-    await this.#lock.finalize()
+  async [Symbol.asyncDispose]() {
+    await this.#lock[Symbol.asyncDispose]()
   }
 }

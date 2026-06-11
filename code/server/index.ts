@@ -19,7 +19,7 @@ for (const signal of ['SIGINT', 'SIGTERM', 'SIGQUIT']) {
     if (server.getState() === 'running') {
       server.logger.info(`Received signal ${signal}. Shutting down server.`)
       server.stop(signal).catch(server.handleUnexectedError)
-      server.finalize().catch(server.handleUnexectedError)
+      server[Symbol.asyncDispose]().catch(server.handleUnexectedError)
     }
   })
 }

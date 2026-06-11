@@ -7,7 +7,6 @@ import { SubscriptionObserver } from '../../common/observable.ts'
 import { PresentableError } from '../../common/presentable-errors.ts'
 import { createErrorState } from '../../common/router.ts'
 import { UrlPath } from '../../common/support/url-path.ts'
-import { type IFinalizeable } from '../../common/types/finalizable.ts'
 import { type Action } from '../../common/types/typecons.ts'
 import { type IWebsiteConfig } from '../config.ts'
 import { ServerWebsiteEnvironment } from '../environment.ts'
@@ -25,7 +24,7 @@ export interface NodeServerMessage extends http.IncomingMessage {
   url: string
 }
 
-export class HttpServer implements IFinalizeable {
+export class HttpServer implements AsyncDisposable {
   readonly logger: ServerLogger
   readonly serviceFactory: ServerServiceManagerFactory
   readonly handleUnexectedError: Action<unknown>
@@ -137,7 +136,7 @@ export class HttpServer implements IFinalizeable {
         ),
       )
     } finally {
-      await env.finalize()
+      await env[Symbol.asyncDispose]()
 
       const livingCount = SubscriptionObserver.getLivingObserverCount()
 
@@ -214,12 +213,12 @@ export class HttpServer implements IFinalizeable {
     return promise
   }
 
-  async finalize() {
+  async [Symbol.asyncDispose]() {
     if (this.#state === 'running') {
       await this.stop()
     }
 
-    await this.serviceFactory.finalize()
+    await this.serviceFactory[Symbol.asyncDispose]()
     this.#server?.unref()
   }
 }

@@ -17,7 +17,7 @@ describe('/api/files', function () {
   })
 
   after(async function () {
-    await client?.finalize()
+    await client[Symbol.asyncDispose]()
   })
 
   it('matches the directory schema at the root', async function () {
