@@ -1,6 +1,6 @@
 import { Line2D } from './line2d.ts'
 import { type IIntersectible, type IIntersection } from './types.ts'
-import { type IPlainVec2D, Vec2D } from './vec2d.ts'
+import { type IPlainVec2D, type IVec2DConfig, Vec2D } from './vec2d.ts'
 import { isGeq, isLeq } from '../../support/floating.ts'
 import { schwartzMin } from '../../support/iteration.ts'
 import { type float64 } from '../../types/numbers.ts'
@@ -56,6 +56,15 @@ export class AARect implements IAARectConfig, IIntersectible {
       isGeq(this.getRightPos(), other.getRightPos(), tolerance) &&
       isLeq(this.getTopPos(), other.getTopPos(), tolerance) &&
       isGeq(this.getBottomPos(), other.getBottomPos(), tolerance)
+  }
+
+  translate(vector: IVec2DConfig) {
+    return new AARect({
+      x: this.x + vector.x,
+      y: this.y + vector.y,
+      width: this.width + vector.x,
+      height: this.height + vector.y,
+    })
   }
 
   * iterEdges() {

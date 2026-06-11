@@ -95,6 +95,21 @@ describe('Breakout page', function () {
         const drawer = page.getDrawerMenu()
         assertFalse(await drawer.isVisible())
       })
+
+      it('drawer menu fits the spotlight head area', async function () {
+        await page.scaleViewport('VGA')
+        await page.goto('/playground/breakout')
+
+        const toggle = page.getMenuToggleButton()
+        await toggle.click()
+
+        await page.captureScreenshot('test.png')
+        const headBox = await getBoundingBox(page.getSpotlightHeadLocator())
+        const drawerBox = await getBoundingBox(page.getDrawerMenu())
+
+        // There is a small border of the drawer box that is technically outside the head box.
+        assertTrue(headBox.fits(drawerBox.translate({ x: 0, y: -2 })))
+      })
     })
 
     describe('debug trace', function () {

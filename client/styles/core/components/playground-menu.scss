@@ -75,6 +75,7 @@
       border-bottom-right-radius: 0;
       background-color: var(--body-color-pp);
       box-shadow: 0 0 var(--spotlight-size-shadow-radius) var(--dialog-color-shadow);
+      position-area: top left;
 
       .playground-submenu {
         --button-size-width: 100%;

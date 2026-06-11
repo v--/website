@@ -42,4 +42,12 @@ export class BreakoutPage extends PlaygroundPage {
   getStageLocator() {
     return this._pwPage.locator('.breakout').first()
   }
+
+  getSpotlightHeadLocator() {
+    return this._pwPage.locator('.spotlight-page-head').first()
+  }
+
+  getSpotlightBodyLocator() {
+    return this._pwPage.locator('.spotlight-page-body').first()
+  }
 }
