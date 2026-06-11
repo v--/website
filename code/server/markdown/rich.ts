@@ -48,7 +48,7 @@ export class MarkdownToRichTextVisitor extends MarkdownVisitor<IRichTextEntry | 
 
   visitCodeBlock(node: Node) {
     return {
-      kind: 'code_block',
+      kind: 'code-block',
       text: node.literal,
     }
   }
@@ -74,12 +74,12 @@ export class MarkdownToRichTextVisitor extends MarkdownVisitor<IRichTextEntry | 
       return undefined
     }
 
-    if (children.every(c => c.kind === 'text' || c.kind == 'soft_break')) {
+    if (children.every(c => c.kind === 'text' || c.kind == 'soft-break')) {
       return {
         text: children.map(
           function (child) {
             switch (child.kind) {
-              case 'soft_break':
+              case 'soft-break':
                 return '\n'
               case 'text':
                 return child.text
@@ -139,7 +139,7 @@ export class MarkdownToRichTextVisitor extends MarkdownVisitor<IRichTextEntry | 
 
   visitItem(node: Node) {
     return {
-      kind: 'list_item',
+      kind: 'list-item',
       children: Array.from(this.#iterChildren(node)),
     }
   }
@@ -153,11 +153,11 @@ export class MarkdownToRichTextVisitor extends MarkdownVisitor<IRichTextEntry | 
   }
 
   visitThematicBreak(_node: Node) {
-    return { kind: 'horizontal_rule' }
+    return { kind: 'horizontal-rule' }
   }
 
   visitSoftbreak(_node: Node) {
-    return { kind: 'soft_break' }
+    return { kind: 'soft-break' }
   }
 
   visitImage(node: Node) {

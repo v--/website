@@ -185,14 +185,14 @@ export class HtmlToRichTextVisitor extends HtmlVisitor<IRichTextEntry | IRichTex
       kind: 'list',
       ordered: false,
       // We oblige the children to be list items, but TypeScript doesn't know that
-      tight: children.every(c => c.kind === 'list_item' && c.children.length === 1),
+      tight: children.every(c => c.kind === 'list-item' && c.children.length === 1),
       items: this.#collapseChildren(element),
     }
   }
 
   visitLI(element: HTMLElement) {
     return {
-      kind: 'list_item',
+      kind: 'list-item',
       children: this.#collapseChildren(element).map(c => c.kind === 'paragraph' ? c : { kind: 'paragraph', children: c }),
     }
   }
@@ -216,14 +216,14 @@ export class HtmlToRichTextVisitor extends HtmlVisitor<IRichTextEntry | IRichTex
 
   visitTR(element: HTMLElement) {
     return {
-      kind: 'table_row',
+      kind: 'table-row',
       cells: this.#collapseChildren(element),
     }
   }
 
   visitTD(element: HTMLElement) {
     return {
-      kind: 'table_cell',
+      kind: 'table-cell',
       ...this.#parseContent(element),
     }
   }

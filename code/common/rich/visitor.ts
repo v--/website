@@ -3,10 +3,10 @@ import { type IRichTextDocument, type IRichTextEntry } from './types.ts'
 export abstract class RichTextVisitor<EntryReturnT, DocReturnT = EntryReturnT> {
   visit(entry: IRichTextEntry): EntryReturnT {
     switch (entry.kind) {
-      case 'horizontal_rule':
+      case 'horizontal-rule':
         return this.visitHorizontalRuleEntry(entry)
 
-      case 'soft_break':
+      case 'soft-break':
         return this.visitSoftBreakEntry(entry)
 
       case 'text':
@@ -15,7 +15,7 @@ export abstract class RichTextVisitor<EntryReturnT, DocReturnT = EntryReturnT> {
       case 'code':
         return this.visitCodeEntry(entry)
 
-      case 'code_block':
+      case 'code-block':
         return this.visitCodeBlockEntry(entry)
 
       case 'paragraph':
@@ -39,7 +39,7 @@ export abstract class RichTextVisitor<EntryReturnT, DocReturnT = EntryReturnT> {
       case 'list':
         return this.visitListEntry(entry)
 
-      case 'list_item':
+      case 'list-item':
         return this.visitListItemEntry(entry)
 
       case 'image':
@@ -48,10 +48,10 @@ export abstract class RichTextVisitor<EntryReturnT, DocReturnT = EntryReturnT> {
       case 'table':
         return this.visitTableEntry(entry)
 
-      case 'table_row':
+      case 'table-row':
         return this.visitTableRowEntry(entry)
 
-      case 'table_cell':
+      case 'table-cell':
         return this.visitTableCellEntry(entry)
 
       case 'mathml':
@@ -61,11 +61,11 @@ export abstract class RichTextVisitor<EntryReturnT, DocReturnT = EntryReturnT> {
 
   abstract genericVisit(entry: IRichTextEntry): EntryReturnT
 
-  visitHorizontalRuleEntry(entry: IRichTextEntry & { kind: 'horizontal_rule' }) {
+  visitHorizontalRuleEntry(entry: IRichTextEntry & { kind: 'horizontal-rule' }) {
     return this.genericVisit(entry)
   }
 
-  visitSoftBreakEntry(entry: IRichTextEntry & { kind: 'soft_break' }) {
+  visitSoftBreakEntry(entry: IRichTextEntry & { kind: 'soft-break' }) {
     return this.genericVisit(entry)
   }
 
@@ -77,7 +77,7 @@ export abstract class RichTextVisitor<EntryReturnT, DocReturnT = EntryReturnT> {
     return this.genericVisit(entry)
   }
 
-  visitCodeBlockEntry(entry: IRichTextEntry & { kind: 'code_block' }) {
+  visitCodeBlockEntry(entry: IRichTextEntry & { kind: 'code-block' }) {
     return this.genericVisit(entry)
   }
 
@@ -109,7 +109,7 @@ export abstract class RichTextVisitor<EntryReturnT, DocReturnT = EntryReturnT> {
     return this.genericVisit(entry)
   }
 
-  visitListItemEntry(entry: IRichTextEntry & { kind: 'list_item' }) {
+  visitListItemEntry(entry: IRichTextEntry & { kind: 'list-item' }) {
     return this.genericVisit(entry)
   }
 
@@ -121,11 +121,11 @@ export abstract class RichTextVisitor<EntryReturnT, DocReturnT = EntryReturnT> {
     return this.genericVisit(entry)
   }
 
-  visitTableRowEntry(entry: IRichTextEntry & { kind: 'table_row' }) {
+  visitTableRowEntry(entry: IRichTextEntry & { kind: 'table-row' }) {
     return this.genericVisit(entry)
   }
 
-  visitTableCellEntry(entry: IRichTextEntry & { kind: 'table_cell' }) {
+  visitTableCellEntry(entry: IRichTextEntry & { kind: 'table-cell' }) {
     return this.genericVisit(entry)
   }
 

@@ -37,11 +37,11 @@ class ComponentCreationVisitor extends RichTextVisitor<Component> {
     throw new NotImplementedError()
   }
 
-  override visitHorizontalRuleEntry(_entry: IRichTextEntry & { kind: 'horizontal_rule' }) {
+  override visitHorizontalRuleEntry(_entry: IRichTextEntry & { kind: 'horizontal-rule' }) {
     return c.html('hr')
   }
 
-  override visitSoftBreakEntry(_entry: IRichTextEntry & { kind: 'soft_break' }) {
+  override visitSoftBreakEntry(_entry: IRichTextEntry & { kind: 'soft-break' }) {
     return c.html('span', { text: '\n' })
   }
 
@@ -61,7 +61,7 @@ class ComponentCreationVisitor extends RichTextVisitor<Component> {
     return c.html('code', this.visitTextState(entry))
   }
 
-  override visitCodeBlockEntry(entry: IRichTextEntry & { kind: 'code_block' }) {
+  override visitCodeBlockEntry(entry: IRichTextEntry & { kind: 'code-block' }) {
     return c.html('pre', this.visitTextState(entry))
   }
 
@@ -108,7 +108,7 @@ class ComponentCreationVisitor extends RichTextVisitor<Component> {
 
   * iterListItems(items: IRichTextEntry[], tight: boolean) {
     for (const entry of items) {
-      if (entry.kind !== 'list_item') {
+      if (entry.kind !== 'list-item') {
         throw new IntegrityError(`Expected all children of a list to be list items, but got ${repr(entry.kind)}`)
       }
 
@@ -124,7 +124,7 @@ class ComponentCreationVisitor extends RichTextVisitor<Component> {
     )
   }
 
-  override visitListItemEntry(entry: IRichTextEntry & { kind: 'list_item' }, tight?: boolean) {
+  override visitListItemEntry(entry: IRichTextEntry & { kind: 'list-item' }, tight?: boolean) {
     if (tight) {
       if (entry.children.length !== 1 || entry.children[0].kind !== 'paragraph') {
         throw new IntegrityError('Expected a tight list item to only have one paragraph child')
@@ -162,13 +162,13 @@ class ComponentCreationVisitor extends RichTextVisitor<Component> {
     )
   }
 
-  override visitTableRowEntry(entry: IRichTextEntry & { kind: 'table_row' }) {
+  override visitTableRowEntry(entry: IRichTextEntry & { kind: 'table-row' }) {
     return c.html('tr', undefined,
       ...this.iterChildren(entry.cells),
     )
   }
 
-  override visitTableCellEntry(entry: IRichTextEntry & { kind: 'table_cell' }) {
+  override visitTableCellEntry(entry: IRichTextEntry & { kind: 'table-cell' }) {
     return c.html('td', this.visitTextState(entry), ...this.iterChildren(entry.children))
   }
 

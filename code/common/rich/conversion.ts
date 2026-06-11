@@ -30,11 +30,11 @@ export class PlainTextConversionVisitor extends RichTextVisitor<string> {
     throw new NotImplementedError()
   }
 
-  override visitHorizontalRuleEntry(_entry: IRichTextEntry & { kind: 'horizontal_rule' }) {
+  override visitHorizontalRuleEntry(_entry: IRichTextEntry & { kind: 'horizontal-rule' }) {
     return '---'
   }
 
-  override visitSoftBreakEntry(_entry: IRichTextEntry & { kind: 'soft_break' }) {
+  override visitSoftBreakEntry(_entry: IRichTextEntry & { kind: 'soft-break' }) {
     return '\n'
   }
 
@@ -46,7 +46,7 @@ export class PlainTextConversionVisitor extends RichTextVisitor<string> {
     return '`' + entry.text + '`'
   }
 
-  override visitCodeBlockEntry(entry: IRichTextEntry & { kind: 'code_block' }) {
+  override visitCodeBlockEntry(entry: IRichTextEntry & { kind: 'code-block' }) {
     return '\n' + entry.text.split('\n').map(line => '  ' + line).join('\n') + '\n'
   }
 
@@ -99,7 +99,7 @@ export class PlainTextConversionVisitor extends RichTextVisitor<string> {
     return entry.items.map((c, i) => (entry.tight || i === 0 ? '' : '\n') + '* ' + this.visit(c) + '\n').join('')
   }
 
-  override visitListItemEntry(entry: IRichTextEntry & { kind: 'list_item' }) {
+  override visitListItemEntry(entry: IRichTextEntry & { kind: 'list-item' }) {
     return this.visitContent(entry)
   }
 

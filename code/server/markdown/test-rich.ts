@@ -364,7 +364,7 @@ describe('parseMarkdown function', function () {
               tight: true,
               items: [
                 {
-                  kind: 'list_item',
+                  kind: 'list-item',
                   children: [
                     {
                       kind: 'paragraph',
@@ -373,7 +373,7 @@ describe('parseMarkdown function', function () {
                   ],
                 },
                 {
-                  kind: 'list_item',
+                  kind: 'list-item',
                   children: [
                     {
                       kind: 'paragraph',
@@ -409,7 +409,7 @@ describe('parseMarkdown function', function () {
               tight: false,
               items: [
                 {
-                  kind: 'list_item',
+                  kind: 'list-item',
                   children: [
                     {
                       kind: 'paragraph',
@@ -418,7 +418,7 @@ describe('parseMarkdown function', function () {
                   ],
                 },
                 {
-                  kind: 'list_item',
+                  kind: 'list-item',
                   children: [
                     {
                       kind: 'paragraph',
@@ -456,7 +456,7 @@ describe('parseMarkdown function', function () {
               tight: true,
               items: [
                 {
-                  kind: 'list_item',
+                  kind: 'list-item',
                   children: [
                     {
                       kind: 'paragraph',
@@ -465,7 +465,7 @@ describe('parseMarkdown function', function () {
                   ],
                 },
                 {
-                  kind: 'list_item',
+                  kind: 'list-item',
                   children: [
                     {
                       kind: 'paragraph',
@@ -490,7 +490,7 @@ describe('parseMarkdown function', function () {
           kind: 'document',
           entries: [
             {
-              kind: 'horizontal_rule',
+              kind: 'horizontal-rule',
             },
           ],
         },
@@ -507,7 +507,7 @@ describe('parseMarkdown function', function () {
           kind: 'document',
           entries: [
             {
-              kind: 'horizontal_rule',
+              kind: 'horizontal-rule',
             },
           ],
         },
@@ -529,7 +529,7 @@ describe('parseMarkdown function', function () {
           kind: 'document',
           entries: [
             {
-              kind: 'code_block',
+              kind: 'code-block',
               text: 'Lorem\nIpsum\n',
             },
           ],

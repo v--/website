@@ -12,7 +12,7 @@ export const RICH_TEXT_ENTRY_SCHEMA = Schema.recursive(
    *
    *   Schema.union(
    *     Schema.object({
-   *       kind: Schema.literal('horizontal_rule', 'soft_break'),
+   *       kind: Schema.literal('horizontal-rule', 'soft-break'),
    *     }),
    *     ...
    *   })
@@ -21,27 +21,27 @@ export const RICH_TEXT_ENTRY_SCHEMA = Schema.recursive(
    *
    *   Schema.union(
    *     Schema.object({
-   *       kind: Schema.literal('horizontal_rule'),
+   *       kind: Schema.literal('horizontal-rule'),
    *     }),
    *     Schema.object({
-   *       kind: Schema.literal('soft_break'),
+   *       kind: Schema.literal('soft-break'),
    *     }),
    *     ...
    *   })
    *
    * Unfortunately, this caused type narrowing to behave weirdly. Checks like
-   *   entry.kind === 'horizontal_rule'
+   *   entry.kind === 'horizontal-rule'
    * narrowed the type to
-   *   IRichTextEntry & { kind: 'horizontal_rule' | 'soft_break' }
+   *   IRichTextEntry & { kind: 'horizontal-rule' | 'soft-break' }
    * rather than
-   *   IRichTextEntry & { kind: 'horizontal_rule' }
+   *   IRichTextEntry & { kind: 'horizontal-rule' }
   */
   Schema.union(
     Schema.object({
-      kind: Schema.literal('horizontal_rule'),
+      kind: Schema.literal('horizontal-rule'),
     }),
     Schema.object({
-      kind: Schema.literal('soft_break'),
+      kind: Schema.literal('soft-break'),
     }),
     Schema.object({
       kind: Schema.literal('text'),
@@ -52,7 +52,7 @@ export const RICH_TEXT_ENTRY_SCHEMA = Schema.recursive(
       text: Schema.string,
     }),
     Schema.object({
-      kind: Schema.literal('code_block'),
+      kind: Schema.literal('code-block'),
       text: Schema.string,
     }),
     Schema.object({
@@ -88,7 +88,7 @@ export const RICH_TEXT_ENTRY_SCHEMA = Schema.recursive(
       items: Schema.array(Schema.self),
     }),
     Schema.object({
-      kind: Schema.literal('list_item'),
+      kind: Schema.literal('list-item'),
       children: Schema.array(Schema.self),
     }),
     Schema.object({
@@ -101,11 +101,11 @@ export const RICH_TEXT_ENTRY_SCHEMA = Schema.recursive(
       rows: Schema.array(Schema.self),
     }),
     Schema.object({
-      kind: Schema.literal('table_row'),
+      kind: Schema.literal('table-row'),
       cells: Schema.array(Schema.self),
     }),
     Schema.object({
-      kind: Schema.literal('table_cell'),
+      kind: Schema.literal('table-cell'),
       ...CONTENTFUL_ENTRY_SCHEMA_MIXIN,
     }),
     Schema.object({

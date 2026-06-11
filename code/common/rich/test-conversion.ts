@@ -92,7 +92,7 @@ describe('convertRichToPlain function', function () {
         kind: 'document',
         entries: [
           {
-            kind: 'code_block',
+            kind: 'code-block',
             text: 'some\ncode',
           },
         ],
@@ -168,7 +168,7 @@ describe('convertRichToPlain function', function () {
             tight: true,
             items: [
               {
-                kind: 'list_item',
+                kind: 'list-item',
                 children: [
                   {
                     kind: 'paragraph',
@@ -177,7 +177,7 @@ describe('convertRichToPlain function', function () {
                 ],
               },
               {
-                kind: 'list_item',
+                kind: 'list-item',
                 children: [
                   {
                     kind: 'paragraph',
@@ -209,7 +209,7 @@ describe('convertRichToPlain function', function () {
             tight: false,
             items: [
               {
-                kind: 'list_item',
+                kind: 'list-item',
                 children: [
                   {
                     kind: 'paragraph',
@@ -218,7 +218,7 @@ describe('convertRichToPlain function', function () {
                 ],
               },
               {
-                kind: 'list_item',
+                kind: 'list-item',
                 children: [
                   {
                     kind: 'paragraph',
@@ -251,7 +251,7 @@ describe('convertRichToPlain function', function () {
             tight: true,
             items: [
               {
-                kind: 'list_item',
+                kind: 'list-item',
                 children: [
                   {
                     kind: 'paragraph',
@@ -260,7 +260,7 @@ describe('convertRichToPlain function', function () {
                 ],
               },
               {
-                kind: 'list_item',
+                kind: 'list-item',
                 children: [
                   {
                     kind: 'paragraph',
