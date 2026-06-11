@@ -1,5 +1,5 @@
 import { type WebsiteLanguageId } from '../languages.ts'
-import { type UrlPath } from '../support/url_path.ts'
+import { type UrlPath } from '../support/url-path.ts'
 
 /**
  * We support ISO 639 (i.e. en, eng) and IETF BCP 47 (i.e. en-US, en_US) strings.

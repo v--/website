@@ -24,7 +24,7 @@ The entry point is [`./index.ts`](./index.ts), which does the following:
     3. Finally, it binds node's server to our custom request handlers.
 
 3. Upon receiving a `NodeServerMessage` representing an HTTP request, we run perform the following:
-    1. We parse the URL and create a [`UrlPath`](../common/support/url_path.ts) object.
+    1. We parse the URL and create a [`UrlPath`](../common/support/url-path.ts) object.
     2. We parse some HTTP headers via the [`parsePreferredLanguage`](./http/languages.ts) and [`parsePreferenceHeader`](./http/preferences.ts) functions.
     3. We use the manager factory to create a `ServerServiceManager` instance based on whether the headers require mock data (see [`../testing`](../testing)).
     4. We create a [`ServerWebsiteEnvironment`](./environment.ts) instance that is to be injected into factory components.
@@ -43,7 +43,7 @@ The website does not allow user input, nor does it need big batches of structure
 
 ## Rich text
 
-The [file service](./services/files.ts) lists the contents of a directory, and, if the directory contains either `.README_{lang}.md` or `.README_{lang}.html`, it parses them and serves an AST that can be rendered. Consult the rich text module in [`../common/rich`](../common/rich) regarding the general approach, as well as the server-specific code that adapts Markdown and HTML syntax trees.
+The [file service](./services/files.ts) lists the contents of a directory, and, if the directory contains either `.README-{lang}.md` or `.README-{lang}.html`, it parses them and serves an AST that can be rendered. Consult the rich text module in [`../common/rich`](../common/rich) regarding the general approach, as well as the server-specific code that adapts Markdown and HTML syntax trees.
 
 ## Rehydration data
 

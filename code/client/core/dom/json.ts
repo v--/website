@@ -1,5 +1,5 @@
-import { ENCODED_ERROR_SCHEMA, type IEncodedError, PresentableError } from '../../../common/presentable_errors.ts'
-import { type UrlPath } from '../../../common/support/url_path.ts'
+import { ENCODED_ERROR_SCHEMA, type IEncodedError, PresentableError } from '../../../common/presentable-errors.ts'
+import { type UrlPath } from '../../../common/support/url-path.ts'
 import { validateSchema } from '../../../common/validation.ts'
 
 export async function fetchJson(urlPath: UrlPath) {

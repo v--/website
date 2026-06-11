@@ -1,10 +1,10 @@
 {
-  "page_title": {
+  "page-title": {
     "entryKind": "plain",
     "content": "Index of ${path}"
   },
 
-  "page_title_suffix": {
+  "page-title-suffix": {
     "entryKind": "plain",
     "content": "File navigator"
   },
@@ -34,12 +34,12 @@
     "content": "Directory"
   },
 
-  "table.data.type.file_ext": {
+  "table.data.type.file-ext": {
     "entryKind": "plain",
     "content": "File: ${ext}"
   },
 
-  "table.data.type.file_noext": {
+  "table.data.type.file-noext": {
     "entryKind": "plain",
     "content": "File"
   },

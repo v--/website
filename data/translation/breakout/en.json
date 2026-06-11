@@ -1,5 +1,5 @@
 {
-  "page_title": {
+  "page-title": {
     "entryKind": "plain",
     "content": "Breakout"
   },
@@ -48,7 +48,7 @@
     ]
   },
 
-  "control.virtual_controls.label": {
+  "control.virtual-controls.label": {
     "entryKind": "plain",
     "content": "Virtual controls"
   },
@@ -78,7 +78,7 @@
     "content": "Paused"
   },
 
-  "splash.message.game_over": {
+  "splash.message.game-over": {
     "entryKind": "plain",
     "content": "Game over"
   },
@@ -98,7 +98,7 @@
     "content": "Continue?"
   },
 
-  "splash.hint.game_over": {
+  "splash.hint.game-over": {
     "entryKind": "plain",
     "content": "Restart?"
   },

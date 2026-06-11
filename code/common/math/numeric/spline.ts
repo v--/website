@@ -1,4 +1,4 @@
-import { BSpline } from './b_spline.ts'
+import { BSpline } from './b-spline.ts'
 import { type ISymbolicFunction } from './types.ts'
 import { mathml } from '../../rich.ts'
 import { zip } from '../../support/iteration.ts'

@@ -1,20 +1,20 @@
 {
-  "error.details.webfinger.no_resource": {
+  "error.details.webfinger.no-resource": {
     "entryKind": "plain",
     "content": "No resource requested."
   },
 
-  "error.details.webfinger.not_found": {
+  "error.details.webfinger.not-found": {
     "entryKind": "plain",
     "content": "The requested resource was not found."
   },
 
-  "error.details.language_string.missing": {
+  "error.details.language-string.missing": {
     "entryKind": "plain",
     "content": "Missing language."
   },
 
-  "error.details.language_string.invalid": {
+  "error.details.language-string.invalid": {
     "entryKind": "plain",
     "content": "Unexpected language ${lang}."
   }

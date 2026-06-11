@@ -1,4 +1,4 @@
-import { ENCODED_ERROR_SCHEMA } from '../presentable_errors.ts'
+import { ENCODED_ERROR_SCHEMA } from '../presentable-errors.ts'
 import { DIRECTORY_SCHEMA, PACMAN_REPOSITORY_SCHEMA } from '../services.ts'
 import { TRANSLATION_PACKAGE_SCHEMA } from '../translation.ts'
 import { type Infer, Schema } from '../validation.ts'

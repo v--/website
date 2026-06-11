@@ -8,7 +8,7 @@ import { Button } from './support/button.ts'
 import { waitForStableState } from './support/locator.ts'
 import { type ViewportSizeName, transposeViewport, viewportNameMap } from './support/viewport.ts'
 import { type WebsiteLanguageId, parseSupportedLanguageString } from '../../common/languages.ts'
-import { UrlPath } from '../../common/support/url_path.ts'
+import { UrlPath } from '../../common/support/url-path.ts'
 import { type IFinalizeable } from '../../common/types/finalizable.ts'
 import { type ColorScheme } from '../../common/types/page.ts'
 
@@ -47,12 +47,12 @@ export class BasePage implements IFinalizeable {
     options: IBasePageOptions,
     browser: Browser,
     context: BrowserContext,
-    pw_page: PlayWrightPage,
+    pwPage: PlayWrightPage,
   ) {
     this.options = options
     this.#browser = browser
     this.#context = context
-    this._pwPage = pw_page
+    this._pwPage = pwPage
   }
 
   async isContentDynamic() {

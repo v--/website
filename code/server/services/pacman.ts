@@ -4,7 +4,7 @@ import * as lzma from 'lzma-native'
 import * as tar from 'tar'
 
 import { ManualCache } from '../../common/cache.ts'
-import { PresentableError } from '../../common/presentable_errors.ts'
+import { PresentableError } from '../../common/presentable-errors.ts'
 import { type IPacmanPackage, type IPacmanRepository, type IPacmanService, PACMAN_PACKAGE_SCHEMA } from '../../common/services/pacman.ts'
 import { type Path } from '../../common/support/path.ts'
 import { validateSchema } from '../../common/validation.ts'

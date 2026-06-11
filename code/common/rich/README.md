@@ -2,9 +2,9 @@
 
 Plain text is rarely sufficient. This leads to a plethora of incompatible rich text formats. We use here our own AST-based rich text system based on Markdown, with extensions based on [MathML](https://developer.mozilla.org/en-US/docs/Web/MathML).
 
-A schema for the AST can be found in [`./types.ts`](./types.ts). Examples can be found in [`./test_conversion.ts`](./test_conversion.ts) and [`../../server/markdown/test_rich.ts`](../../server/markdown/test_rich.ts).
+A schema for the AST can be found in [`./types.ts`](./types.ts). Examples can be found in [`./test-conversion.ts`](./test-conversion.ts) and [`../../server/markdown/test-rich.ts`](../../server/markdown/test-rich.ts).
 
-The MathML subsystem is flexible, but the type schema is quite loose. This is better discussed and explained in [`./mathml.ts`](./mathml.ts), which features several tools for easily building rudimentary MathML expressions. The latter module is used, for example, in the [`UnivariatePolynomial`](../math/algebra/univariate_polynomial.ts) and [`Spline`](../math/numeric/spline.ts) classes, as well as for denoting computational compexity in the [`ComplexityMathMLHelper`](../../client/array_sorting/support/complexity.ts) class.
+The MathML subsystem is flexible, but the type schema is quite loose. This is better discussed and explained in [`./mathml.ts`](./mathml.ts), which features several tools for easily building rudimentary MathML expressions. The latter module is used, for example, in the [`UnivariatePolynomial`](../math/algebra/univariate-polynomial.ts) and [`Spline`](../math/numeric/spline.ts) classes, as well as for denoting computational compexity in the [`ComplexityMathMLHelper`](../../client/array-sorting/support/complexity.ts) class.
 
 ## Markdown
 
@@ -22,7 +22,7 @@ I made the decision to develop on AST-based system that is flexible enough to ha
 
 ## Other formats
 
-Another format that is partially supported is [LaTeX](https://www.latex-project.org/) via [TeX4ht](https://tug.org/tex4ht), which can be parsed by the code at [`../../server/html`](../../server/html). The latter acts as a general HTML parser (used for parsing `.README_{lang}.html` files in the [server's file service](../../server/services/files.ts)), but only supports a Markdown-like limited subset of HTML, extended with MathML.
+Another format that is partially supported is [LaTeX](https://www.latex-project.org/) via [TeX4ht](https://tug.org/tex4ht), which can be parsed by the code at [`../../server/html`](../../server/html). The latter acts as a general HTML parser (used for parsing `.README-{lang}.html` files in the [server's file service](../../server/services/files.ts)), but only supports a Markdown-like limited subset of HTML, extended with MathML.
 
 If that turns out easy enough, I may also experiment at some point with [plasTeX](https://github.com/plastex/plastex) or even possibly [typst](https://typst.app).
 

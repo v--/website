@@ -1,6 +1,6 @@
 import { DIRECTORY_SCHEMA, type IDirectory, type IFileService } from '../../../common/services.ts'
 import { Path } from '../../../common/support/path.ts'
-import { UrlPath } from '../../../common/support/url_path.ts'
+import { UrlPath } from '../../../common/support/url-path.ts'
 import { validateSchema } from '../../../common/validation.ts'
 import { fetchJson } from '../dom.ts'
 

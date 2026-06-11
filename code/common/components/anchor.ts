@@ -1,8 +1,8 @@
 import { type WebsiteEnvironment } from '../environment.ts'
 import { type ButtonStyle } from './button.ts'
 import { Component, createComponent as c } from '../rendering/component.ts'
-import { classlist } from '../support/dom_properties.ts'
-import { UrlPath } from '../support/url_path.ts'
+import { classlist } from '../support/dom-properties.ts'
+import { UrlPath } from '../support/url-path.ts'
 import { type AriaCurrentValue } from '../types/aria.ts'
 import { type Action } from '../types/typecons.ts'
 
@@ -86,7 +86,7 @@ export function anchor(state: IAnchorState, env: WebsiteEnvironment, children: R
   }
 
   if (state.newTab) {
-    childState.target = '_blank'
+    childState.target = '-blank'
   }
 
   return c.html('a', childState, ...children)

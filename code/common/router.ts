@@ -5,18 +5,18 @@ import { homePage } from './pages/home.ts'
 import { pacmanPage } from './pages/pacman.ts'
 import { placeholder } from './pages/placeholder.ts'
 import { playgroundPage } from './pages/playground.ts'
-import { EncodedErrorDecoder } from './presentable_errors/decoder.ts'
-import { type IEncodedError, PresentableError } from './presentable_errors.ts'
+import { EncodedErrorDecoder } from './presentable-errors/decoder.ts'
+import { type IEncodedError, PresentableError } from './presentable-errors.ts'
 import { includes } from './support/iteration.ts'
 import { snakeToKebabCase } from './support/strings.ts'
-import { type UrlPath } from './support/url_path.ts'
+import { type UrlPath } from './support/url-path.ts'
 import { ICON_LIBRARY_IDS, PLAYGROUND_PAGE_IDS } from './types/bundles.ts'
 import { type IWebsitePageState } from './types/page.ts'
 
 export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise<IWebsitePageState> {
   if (urlPath.path.isEmpty()) {
     return {
-      titleSegmentSpecs: [{ bundleId: 'core', key: 'global_title_suffix' }],
+      titleSegmentSpecs: [{ bundleId: 'core', key: 'global-title-suffix' }],
       descriptionSpec: { bundleId: 'core', key: 'description.home' },
       navId: 'home',
       translationBundleIds: ['home'],
@@ -35,14 +35,14 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
 
     return {
       titleSegmentSpecs: [
-        { bundleId: 'files', key: 'page_title', context: { path: urlPath.path.toString() } },
-        { bundleId: 'files', key: 'page_title_suffix' },
-        { bundleId: 'core', key: 'global_title_suffix' },
+        { bundleId: 'files', key: 'page-title', context: { path: urlPath.path.toString() } },
+        { bundleId: 'files', key: 'page-title-suffix' },
+        { bundleId: 'core', key: 'global-title-suffix' },
       ],
       descriptionSpec: { bundleId: 'core', key: 'description.files' },
       navId: 'files',
       translationBundleIds: ['files'],
-      iconLibIds: ['interactive_table'],
+      iconLibIds: ['interactive-table'],
       ogImageName: 'files',
       page: filesPage,
       pageDataHydrationTag: 'files',
@@ -56,8 +56,8 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
   if (urlPath.path.matchFull('pacman')) {
     return {
       titleSegmentSpecs: [
-        { bundleId: 'pacman', key: 'page_title' },
-        { bundleId: 'core', key: 'global_title_suffix' },
+        { bundleId: 'pacman', key: 'page-title' },
+        { bundleId: 'core', key: 'global-title-suffix' },
       ],
       descriptionSpec: { bundleId: 'core', key: 'description.pacman' },
       navId: 'pacman',
@@ -75,8 +75,8 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
   if (urlPath.path.matchFull('playground')) {
     return {
       titleSegmentSpecs: [
-        { bundleId: 'core', key: 'playground_title_suffix' },
-        { bundleId: 'core', key: 'global_title_suffix' },
+        { bundleId: 'core', key: 'playground-title-suffix' },
+        { bundleId: 'core', key: 'global-title-suffix' },
       ],
       descriptionSpec: { bundleId: 'core', key: 'description.playground' },
       translationBundleIds: ['playground'],
@@ -94,9 +94,9 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
     if (urlPath.path.matchFull('playground', snakeToKebabCase(playgroundId))) {
       const baseState: Omit<IWebsitePageState, 'translationBundleIds' | 'page'> = {
         titleSegmentSpecs: [
-          { bundleId: playgroundId, key: 'page_title' },
-          { bundleId: 'core', key: 'playground_title_suffix' },
-          { bundleId: 'core', key: 'global_title_suffix' },
+          { bundleId: playgroundId, key: 'page-title' },
+          { bundleId: 'core', key: 'playground-title-suffix' },
+          { bundleId: 'core', key: 'global-title-suffix' },
         ],
         descriptionSpec: { bundleId: 'core', key: `description.playground.${playgroundId}` },
         navId: 'playground',

@@ -1,14 +1,14 @@
 @use "../misc";
 @use "../mixins";
 @use "./components/breakout";
-@use "./components/breakout_ball";
-@use "./components/breakout_bricks";
-@use "./components/breakout_controller_buttons";
-@use "./components/breakout_fps";
-@use "./components/breakout_paddle";
-@use "./components/breakout_score";
-@use "./components/breakout_splash";
-@use "./components/breakout_trace";
+@use "./components/breakout-ball";
+@use "./components/breakout-bricks";
+@use "./components/breakout-controller-buttons";
+@use "./components/breakout-fps";
+@use "./components/breakout-paddle";
+@use "./components/breakout-score";
+@use "./components/breakout-splash";
+@use "./components/breakout-trace";
 
 .breakout-page {
   // Custom variables

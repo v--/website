@@ -1,5 +1,5 @@
 import { createComponent as c } from '../../common/rendering/component.ts'
-import { renderToString } from '../../common/rendering/static_render.ts'
+import { renderToString } from '../../common/rendering/static-render.ts'
 import { type uint32 } from '../../common/types/numbers.ts'
 import { type IWebsitePageState } from '../../common/types/page.ts'
 import { root } from '../components/root.ts'

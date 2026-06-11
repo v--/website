@@ -4,7 +4,7 @@ import { type Locator } from '@playwright/test'
 
 import { AARect } from '../../../common/math/geom2d.ts'
 import { repr } from '../../../common/support/strings.ts'
-import { type SortDirection } from '../../../common/types/table_interaction.ts'
+import { type SortDirection } from '../../../common/types/table-interaction.ts'
 
 export async function getLocatorClasses(locator: Locator) {
   const classes = await locator.getAttribute('class')

@@ -1,5 +1,5 @@
 import { type IPacmanRepository, type IPacmanService, PACMAN_REPOSITORY_SCHEMA } from '../../../common/services.ts'
-import { UrlPath } from '../../../common/support/url_path.ts'
+import { UrlPath } from '../../../common/support/url-path.ts'
 import { validateSchema } from '../../../common/validation.ts'
 import { fetchJson } from '../dom.ts'
 

@@ -1,13 +1,13 @@
 import { type ServerWebsiteEnvironment } from './environment.ts'
-import { EncodedErrorDecoder } from '../common/presentable_errors/decoder.ts'
-import { type IEncodedError, PresentableError, translateEncoding } from '../common/presentable_errors.ts'
+import { EncodedErrorDecoder } from '../common/presentable-errors/decoder.ts'
+import { type IEncodedError, PresentableError, translateEncoding } from '../common/presentable-errors.ts'
 import { router } from '../common/router.ts'
 import { ServerResponse } from './http/response.ts'
 import { WEBFINGER_ALIASES, WEBFINGER_LINKS } from './meta.ts'
 import { API_LANGUAGE, WEBSITE_LANGUAGE_IDS } from '../common/languages.ts'
 import { includes } from '../common/support/iteration.ts'
 import { quoteString } from '../common/support/strings.ts'
-import { type UrlPath } from '../common/support/url_path.ts'
+import { type UrlPath } from '../common/support/url-path.ts'
 import { type ITranslationSpec } from '../common/translation.ts'
 import { TRANSLATION_BUNDLE_IDS } from '../common/types/bundles.ts'
 
@@ -53,7 +53,7 @@ export async function serverRouter(urlPath: UrlPath, env: ServerWebsiteEnvironme
         {
           errorKind: 'http',
           code: 400,
-          details: { bundleId: 'api', key: 'error.details.language_string.missing' },
+          details: { bundleId: 'api', key: 'error.details.language-string.missing' },
         },
         options,
       )
@@ -66,7 +66,7 @@ export async function serverRouter(urlPath: UrlPath, env: ServerWebsiteEnvironme
           errorKind: 'http',
           code: 400,
           details: {
-            bundleId: 'api', key: 'error.details.language_string.invalid',
+            bundleId: 'api', key: 'error.details.language-string.invalid',
             context: { lang: quoteString(languageId, 'ticks') },
           },
         },
@@ -92,12 +92,12 @@ export async function serverRouter(urlPath: UrlPath, env: ServerWebsiteEnvironme
     const resource = urlPath.query.get('resource')
 
     if (resource === undefined) {
-      const details: ITranslationSpec = { bundleId: 'api', key: 'error.details.webfinger.no_resource' }
+      const details: ITranslationSpec = { bundleId: 'api', key: 'error.details.webfinger.no-resource' }
       return errorJsonResponse(env, { errorKind: 'http', code: 400, details }, options)
     }
 
     if (!WEBFINGER_ALIASES.includes(resource)) {
-      const details: ITranslationSpec = { bundleId: 'api', key: 'error.details.webfinger.not_found' }
+      const details: ITranslationSpec = { bundleId: 'api', key: 'error.details.webfinger.not-found' }
       return errorJsonResponse(env, { errorKind: 'http', code: 404, details }, options)
     }
 

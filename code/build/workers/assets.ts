@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises'
 import { join as joinPath, relative } from 'node:path'
 
-import { type IBuildContext, type IBuildWorker } from '../build_worker.ts'
+import { type IBuildContext, type IBuildWorker } from '../build-worker.ts'
 
 interface IAssetBuildWorkerConfig {
   srcBase: string

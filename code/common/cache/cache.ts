@@ -1,4 +1,4 @@
-import { AsyncLock } from '../support/async_lock.ts'
+import { AsyncLock } from '../support/async-lock.ts'
 import { type IFinalizeable } from '../types/finalizable.ts'
 
 export interface ICachePayload<V> {

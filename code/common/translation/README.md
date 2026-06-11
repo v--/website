@@ -6,24 +6,24 @@ We support translating arbitrary strings in a flexible way. What may seem like a
 
 The [`IGettextSpec`](./gettext.ts) interface contains everything necessary for translation - a translation bundle ID and key, and optionally a context for substituting variables, as well as options for coercing to either plain or rich text. Substitution is handled by the rich text system from [`../rich`](../rich).
 
-Here is a simple example from [`../components/main_menu.ts`](../components/main_menu.ts):
+Here is a simple example from [`../components/main-menu.ts`](../components/main-menu.ts):
 
 ```typescript
 const _ = env.gettext.bindToBundle('core')
 
 h('button',
   ...
-  title: _('main_menu.button.color_scheme')
+  title: _('main-menu.button.color-scheme')
   ...
 )
 ```
 
-The `_` function is now bound to the core translation bundle. It can take string and return an observable that updates the translated string once the active language changes. Furthermore, it can work with `IPartialGettextSpec` objects; the following produces the same result:
+The `-` function is now bound to the core translation bundle. It can take string and return an observable that updates the translated string once the active language changes. Furthermore, it can work with `IPartialGettextSpec` objects; the following produces the same result:
 
 ```typescript
 title: _({
   bundleId: 'core',
-  key: 'main_menu.button.color_scheme',
+  key: 'main-menu.button.color-scheme',
   coerce: true,
   context: {}
 })
@@ -31,7 +31,7 @@ title: _({
 
 ## GetText class
 
-The underscore above is an instance of the [`BoundGetText`](./gettext.ts) class. Like the [`GetText`](./gettext.ts) class, it is an extendable function (see [`../support/extendable_function.ts`](../support/extendable_function.ts)), and so it can be called, but it also has other useful methods:
+The underscore above is an instance of the [`BoundGetText`](./gettext.ts) class. Like the [`GetText`](./gettext.ts) class, it is an extendable function (see [`../support/extendable-function.ts`](../support/extendable-function.ts)), and so it can be called, but it also has other useful methods:
 
 1. `_(...)` is equivalent to `_.plain$(...)`; it creates an observable expecting a plain text translation.
 2. `_.plain(...)` instead translates a string instantly based on the currently set language and currently loaded translation package (see the next section).
@@ -48,7 +48,7 @@ The above example sources the translation, which in its raw unbuilt form looks a
 ```json
 {
   ...
-  "main_menu.button.collapse": {
+  "main-menu.button.collapse": {
     "entryKind": "plain",
     "content": "Collapse sidebar"
   },
@@ -63,7 +63,7 @@ This builds into translation maps, which have the simpler form
 ```json
 {
   ...
-  "main_menu.button.collapsed": "Collapse sidebar",
+  "main-menu.button.collapsed": "Collapse sidebar",
   ...
 }
 ```

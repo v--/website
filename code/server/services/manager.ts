@@ -5,7 +5,7 @@ import { type ServerLogger } from '../logger.ts'
 import { ServerFileService } from './files.ts'
 import { ServerPacmanService } from './pacman.ts'
 import { ServerPageService } from './pages.ts'
-import { ServerTranslationMapService } from './translation_maps.ts'
+import { ServerTranslationMapService } from './translation-maps.ts'
 
 export interface IServerServiceManager extends IServiceManager {
   files: ServerFileService

@@ -4,11 +4,11 @@ import { PLAYGROUND_PAGE_IDS } from './common/types/bundles.ts'
 
 const config: KnipConfig = {
   entry: [
-    'code/**/test_*.ts',
-    'code/benchmarks/bench_*.ts',
+    'code/**/test-*.ts',
+    'code/benchmarks/bench-*.ts',
     'code/benchmarks/benchmark.ts',
     'code/build/{builder,watcher}.ts',
-    'code/client/browsersync_injection.ts',
+    'code/client/browsersync-injection.ts',
     'code/client/preload.ts',
     'code/client/runtime.ts',
     'code/testing/*/setup.ts',

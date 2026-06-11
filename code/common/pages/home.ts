@@ -22,17 +22,17 @@ export function homePage(pageState: IWebsitePageState, env: WebsiteEnvironment) 
     c.html('img', {
       class: 'home-page-photo',
       alt: _('photo.alt'),
-      src: '/images/home_page_photo.jpg',
+      src: '/images/home-page-photo.jpg',
     }),
 
     c.html('section', { class: 'home-page-about' },
       c.html('h1', { text: _('heading.welcome') }),
       c.factory(rich, { doc: _.rich$({ key: 'bio' }) }),
 
-      c.html('h2', { text: _('heading.about_website') }),
-      c.factory(rich, { doc: _.rich$({ key: 'website_description' }) }),
+      c.html('h2', { text: _('heading.about-website') }),
+      c.factory(rich, { doc: _.rich$({ key: 'website-description' }) }),
 
-      c.html('p', { text: _('page_list_prefix') }),
+      c.html('p', { text: _('page-list-prefix') }),
       c.html('dl', undefined,
         c.html('dt', undefined,
           c.factory(anchor, {
@@ -60,7 +60,7 @@ export function homePage(pageState: IWebsitePageState, env: WebsiteEnvironment) 
       ),
       c.factory(rich, {
         doc: _.rich$({
-          key: 'website_code',
+          key: 'website-code',
           context: {
             projectUrl: GITHUB_PROJECT_URL,
             reactiveRenderingUrl: `${GITHUB_PROJECT_CODE_URL}/common/rendering`,

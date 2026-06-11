@@ -14,4 +14,4 @@ export {
   PACMAN_REPOSITORY_SCHEMA,
 } from './services/pacman.ts'
 export { type IWebsitePageService } from './services/pages.ts'
-export { type ITranslationMapService } from './services/translation_maps.ts'
+export { type ITranslationMapService } from './services/translation-maps.ts'

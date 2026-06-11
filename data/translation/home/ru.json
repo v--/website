@@ -4,7 +4,7 @@
     "content": "Добро пожаловать"
   },
 
-  "heading.about_website": {
+  "heading.about-website": {
     "entryKind": "plain",
     "content": "Об этом сайте"
   },
@@ -24,17 +24,17 @@
     "content": "Моя портретная фотография"
   },
 
-  "website_description": {
+  "website-description": {
     "entryKind": "rich",
     "content": "Это мой личный сайт. Он посвящён моим творениям, которыми я хочу поделиться с широкой публикой и для которых по сути нет более подходящих мест."
   },
 
-  "page_list_prefix": {
+  "page-list-prefix": {
     "entryKind": "plain",
     "content": "Есть несколько разделов:"
   },
 
-  "website_code": {
+  "website-code": {
     "entryKind": "rich",
     "content": [
       "Кроме того, для меня этот сайт представлял возможность реализовать с нуля некоторые составные современной веб разработки как [реактивную отрисовку](${reactiveRenderingUrl}).",

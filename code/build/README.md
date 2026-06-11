@@ -4,9 +4,9 @@ When I developed the website initially, [gulp.js](https://gulpjs.com/) was stron
 
 ## Workers and managers
 
-A build worker accepts a source path and generates "build contexts", each containing a destination file's path and contents. All that a build worker needs is to implement the single-method [IBuildWorker interface](./build_worker.ts).
+A build worker accepts a source path and generates "build contexts", each containing a destination file's path and contents. All that a build worker needs is to implement the single-method [IBuildWorker interface](./build-worker.ts).
 
-A build manager is instead an instance of the [BuildManager class](./build_manager.ts). A manager knows which files to watch (and ignore) and when to run BrowserSync (the latter requires some hacks - see the comments in [`./sync.ts`](./sync.ts) and [`../client/browsersync_injection.ts`](../client/browsersync_injection.ts)).
+A build manager is instead an instance of the [BuildManager class](./build-manager.ts). A manager knows which files to watch (and ignore) and when to run BrowserSync (the latter requires some hacks - see the comments in [`./sync.ts`](./sync.ts) and [`../client/browsersync-injection.ts`](../client/browsersync-injection.ts)).
 
 Various managers are initialized in [`./managers.ts`](./managers.ts), while [`./builder.ts`](./builder.ts) and [`./watcher.ts`](./watcher.ts) use these for (re)building the website.
 
@@ -30,21 +30,21 @@ The [style worker](./workers/style.ts) uses [Dart Sass](https://sass-lang.com/da
 
 ### SVG
 
-There is an [SVG rendering](./workers/svg_render.ts) worker.
+There is an [SVG rendering](./workers/svg-render.ts) worker.
 
 ### Icon libraries
 
-In order to build SVG libraries with reusable `<symbol>` tags for icons, the [IconLibrary worker](./workers/icon_libraries.ts) relies on a directory of JSON files, [`../../data/icon_libraries`](../../data/icon_libraries). Each of the files is a list of [boxicons](https://boxicons.com/) icon names.
+In order to build SVG libraries with reusable `<symbol>` tags for icons, the [IconLibrary worker](./workers/icon-libraries.ts) relies on a directory of JSON files, [`../../data/icon-libraries`](../../data/icon-libraries). Each of the files is a list of [boxicons](https://boxicons.com/) icon names.
 
 ### Open graph images
 
-There is a [generator](./workers/og_image.ts) for [Open Graph protocol](https://ogp.me/) images.
+There is a [generator](./workers/og-image.ts) for [Open Graph protocol](https://ogp.me/) images.
 
-We take an SVG image with a `${title}` string and replace that string with internationalized text based on the `config.json` file in [`../../data/og_images`](../../data/og_images) (consult the README file there for some details). The resulting SVG is then rendered to PNG.
+We take an SVG image with a `${title}` string and replace that string with internationalized text based on the `config.json` file in [`../../data/og-images`](../../data/og-images) (consult the README file there for some details). The resulting SVG is then rendered to PNG.
 
 ### Translation maps
 
-Slightly more intriguing is the [translation map worker](./workers/translation_maps.ts). The corresponding source directory, [`../../data/translation`](../../data/translation), consists of subdirectories, each containing per-language files with translations. These translations are either plain strings or Markdown strings (which are rendered by commonmark as explained in [`../common/rich`](../common/rich/)), with multiline strings encoded as arrays.
+Slightly more intriguing is the [translation map worker](./workers/translation-maps.ts). The corresponding source directory, [`../../data/translation`](../../data/translation), consists of subdirectories, each containing per-language files with translations. These translations are either plain strings or Markdown strings (which are rendered by commonmark as explained in [`../common/rich`](../common/rich/)), with multiline strings encoded as arrays.
 
 How these maps are used for translation is discussed in [`../common/translation`](../common/translation).
 

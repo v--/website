@@ -1,7 +1,7 @@
 import { KEY_CONTROL, KEY_DEBUG, KEY_LEFT_SECONDARY, KEY_RESET, KEY_RIGHT_SECONDARY } from './constants.ts'
 import { DEFAULT_GAME_STATE } from './state.ts'
 import { type IGameState, type UpdateGameState } from './types.ts'
-import { type StateStore } from '../../common/support/state_store.ts'
+import { type StateStore } from '../../common/support/state-store.ts'
 import { type ClientWebsiteEnvironment } from '../core/environment.ts'
 
 export interface IEventParams<EventT extends Event> {
@@ -21,7 +21,7 @@ export function getEventParams<EventT extends Event>(store: StateStore<IGameStat
 
 function toggleStatus({ state, update }: IEventParams<Event>) {
   switch (state.phase) {
-    case 'game_over':
+    case 'game-over':
     case 'completed':
       update(DEFAULT_GAME_STATE)
       break

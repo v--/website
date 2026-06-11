@@ -14,9 +14,9 @@ I have seriously considered removing the dependency on SASS since the introducti
 
 Here is a list of reasons why we continue using SASS:
 
-* Custom properties cannot update when their dependents are updated (see [here](https://stackoverflow.com/questions/57666786/how-can-i-make-a-css-variable-that-is-defined-using-another-variable-reflect-cha)). We thus rely on SASS mixins for setting interdependent custom properties in bulk (see e.g. `button-background-colors` in [`./_mixins.scss`](./_mixins.scss)).
+* Custom properties cannot update when their dependents are updated (see [here](https://stackoverflow.com/q/57666786/2756776)). We thus rely on SASS mixins for setting interdependent custom properties in bulk (see e.g. `button-background-colors` in [`./_mixins.scss`](./_mixins.scss)).
 
-* Media queries don't allow custom properties (see [here](https://stackoverflow.com/questions/40722882/css-native-variables-not-working-in-media-queries)). We thus rely on SASS variables.
+* Media queries don't allow custom properties (see [here](https://stackoverflow.com/q/40722882/2756776)). We thus rely on SASS variables.
 
 * Defining groups of variables is not possible, while we occasionally rely on the following pattern (the example is taken from [`./core/plain/body.scss`](./core/plain/body.scss)):
 

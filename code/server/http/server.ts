@@ -4,9 +4,9 @@ import { ServerError } from './errors.ts'
 import { parsePreferredLanguage } from './languages.ts'
 import { DEFAULT_LANGUAGE, parseSupportedQueryParamLanguage } from '../../common/languages.ts'
 import { SubscriptionObserver } from '../../common/observable.ts'
-import { PresentableError } from '../../common/presentable_errors.ts'
+import { PresentableError } from '../../common/presentable-errors.ts'
 import { createErrorState } from '../../common/router.ts'
-import { UrlPath } from '../../common/support/url_path.ts'
+import { UrlPath } from '../../common/support/url-path.ts'
 import { type IFinalizeable } from '../../common/types/finalizable.ts'
 import { type Action } from '../../common/types/typecons.ts'
 import { type IWebsiteConfig } from '../config.ts'
@@ -107,7 +107,7 @@ export class HttpServer implements IFinalizeable {
             code: 400,
             details: {
               bundleId: 'core',
-              key: 'error.details.invalid_http_method',
+              key: 'error.details.invalid-http-method',
               context: { method: httpRequest.method! },
             },
           },

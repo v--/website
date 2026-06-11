@@ -13,7 +13,7 @@
     ]
   },
 
-  "text.more_content": {
+  "text.more-content": {
     "entryKind": "rich",
     "content": [
       "There was previously more content here, but during the last refactoring I removed the majority of what I considered unfinished. The removed code should be easily discoverable in the repository's history."

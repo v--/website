@@ -1,6 +1,6 @@
 import { anchor } from '../components/anchor.ts'
-import { breadcrumbNavigation } from '../components/breadcrumb_navigation.ts'
-import { interactiveTable } from '../components/interactive_table.ts'
+import { breadcrumbNavigation } from '../components/breadcrumb-navigation.ts'
+import { interactiveTable } from '../components/interactive-table.ts'
 import { rich } from '../components/rich.ts'
 import { spacer } from '../components/spacer.ts'
 import { CC0_URL } from '../constants/url.ts'
@@ -9,10 +9,10 @@ import { type LanguageId, bcp47Encode } from '../languages.ts'
 import { map } from '../observable.ts'
 import { createComponent as c } from '../rendering/component.ts'
 import { type IDirEntry, type IDirectory } from '../services.ts'
-import { UrlPath } from '../support/url_path.ts'
+import { UrlPath } from '../support/url-path.ts'
 import { type BoundGetText, type IBoundGetTextSpec } from '../translation.ts'
 import { type IWebsitePageState } from '../types/page.ts'
-import { type IInteractiveTableColumnSpec } from '../types/table_interaction.ts'
+import { type IInteractiveTableColumnSpec } from '../types/table-interaction.ts'
 
 export function filesPage({ urlPath, pageData }: IWebsitePageState<IDirectory>, env: WebsiteEnvironment) {
   const _ = env.gettext.bindToBundle('files')
@@ -78,11 +78,11 @@ function getFileTypeSpec(entry: IDirEntry): IBoundGetTextSpec | string {
   const ext = getFileExtension(entry.name)
 
   if (ext === undefined) {
-    return 'table.data.type.file_noext'
+    return 'table.data.type.file-noext'
   }
 
   return {
-    key: 'table.data.type.file_ext',
+    key: 'table.data.type.file-ext',
     context: { ext },
   }
 }

@@ -1,0 +1,6 @@
+export { CUBIC_SPLINE_INTERPOLATOR } from './interpolation/cubic-spline.ts'
+export { INTERPOLATORS } from './interpolation/index.ts'
+export { LINEAR_LEAST_SQUARES_INTERPOLATOR } from './interpolation/linear-least-squares.ts'
+export { LINEAR_SPLINE_INTERPOLATOR } from './interpolation/linear-spline.ts'
+export { NEWTON_POLYNOMIAL_INTERPOLATOR } from './interpolation/newton-polynomial.ts'
+export { QUADRATIC_SPLINE_INTERPOLATOR } from './interpolation/quadratic-spline.ts'

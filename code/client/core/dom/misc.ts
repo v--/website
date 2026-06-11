@@ -1,7 +1,7 @@
 import { MissingElementError } from './errors.ts'
 import { type WebsiteLanguageId, parseSupportedLanguageString } from '../../../common/languages.ts'
 import { repr } from '../../../common/support/strings.ts'
-import { UrlPath } from '../../../common/support/url_path.ts'
+import { UrlPath } from '../../../common/support/url-path.ts'
 import { type ColorScheme } from '../../../common/types/page.ts'
 
 export function aggressiveQuerySelector(element: Element, query: string) {

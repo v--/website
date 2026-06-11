@@ -4,7 +4,7 @@ import { basename, dirname, join as joinPath, relative, resolve as resolvePath }
 import * as swc from '@swc/core'
 
 import { waitForTime } from '../../common/support/async.ts'
-import { type IBuildContext, type IBuildWorker } from '../build_worker.ts'
+import { type IBuildContext, type IBuildWorker } from '../build-worker.ts'
 import { BuildError } from '../errors.ts'
 
 const SWC_TRANSFORM_OPTIONS: swc.Options = {

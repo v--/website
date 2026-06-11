@@ -1,4 +1,4 @@
-import { type SubscriptionObserver } from './subscription_observer.ts'
+import { type SubscriptionObserver } from './subscription-observer.ts'
 import { type ISubscription } from './types.ts'
 
 export class Subscription<T, V = void> implements ISubscription {

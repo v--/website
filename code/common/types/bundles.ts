@@ -1,10 +1,10 @@
 import { type uint32 } from '../types/numbers.ts'
 
 export const PLAYGROUND_PAGE_IDS = [
-  'array_sorting',
-  'univariate_interpolation',
+  'array-sorting',
+  'univariate-interpolation',
   'breakout',
-  'fleeing_button',
+  'fleeing-button',
 ] as const
 
 export type PlaygroundPageId = typeof PLAYGROUND_PAGE_IDS[uint32]
@@ -13,9 +13,9 @@ export const ICON_LIBRARY_IDS = [
   'logo',
   'core',
   'contacts',
-  'interactive_table',
+  'interactive-table',
   'placeholder',
-  'fleeing_button',
+  'fleeing-button',
 ] as const
 
 export type IconLibraryId = typeof ICON_LIBRARY_IDS[uint32]
@@ -23,7 +23,7 @@ export type IconLibraryId = typeof ICON_LIBRARY_IDS[uint32]
 export const TRANSLATION_BUNDLE_IDS = [
   'core',
   'api',
-  'interactive_table_error',
+  'interactive-table-error',
   'placeholder',
   'home',
   'files',

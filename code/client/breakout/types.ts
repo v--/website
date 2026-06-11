@@ -11,7 +11,7 @@ export type GamePhase =
   'running' |
   'paused' |
   'completed' |
-  'game_over'
+  'game-over'
 
 export type GameBrickPower = 1 | 2 | 3
 

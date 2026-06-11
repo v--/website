@@ -4,7 +4,7 @@
     "content": "Welcome"
   },
 
-  "heading.about_website": {
+  "heading.about-website": {
     "entryKind": "plain",
     "content": "About the website"
   },
@@ -24,17 +24,17 @@
     "content": "Portrait photo of me"
   },
 
-  "website_description": {
+  "website-description": {
     "entryKind": "rich",
     "content": "This is my personal website. It is dedicated to creations I want to share with the general public that don't properly belong elsewhere."
   },
 
-  "page_list_prefix": {
+  "page-list-prefix": {
     "entryKind": "plain",
     "content": "There are a few distinct sections:"
   },
 
-  "website_code": {
+  "website-code": {
     "entryKind": "rich",
     "content": [
       "Additionally, for me this website was an opportunity to implement from scratch some essentials of modern web development like [reactive rendering](${reactiveRenderingUrl}).",

@@ -12,6 +12,6 @@ The entry point loaded by the browser is [`./runtime.ts`](./runtime.ts). In it, 
 
 3. Once we have a service manager initialized, we use it to initialize a [`ClientWebsiteEnvironment`](./core/environment.ts) that will get injected into the components.
 
-4. We create a [`ClientRoutingService`](./core/routing_service.ts), which does a lot of essential work. We describe it next.
+4. We create a [`ClientRoutingService`](./core/routing-service.ts), which does a lot of essential work. We describe it next.
 
 5. Finally, we subscribe to various events and delegate the job of handling them to the routing service.

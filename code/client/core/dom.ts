@@ -1,6 +1,6 @@
 export { DomError, MissingElementError } from './dom/errors.ts'
 export { fetchJson } from './dom/json.ts'
-export { loadPlaygroundPage } from './dom/load_playground_page.ts'
+export { loadPlaygroundPage } from './dom/load-playground-page.ts'
 export { DomManipulator } from './dom/manipulator.ts'
 export {
   aggressiveQuerySelector,

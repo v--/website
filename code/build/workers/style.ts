@@ -3,7 +3,7 @@ import { basename, dirname, join as joinPath, relative } from 'node:path'
 
 import * as sass from 'sass'
 
-import { type IBuildContext, type IBuildWorker } from '../build_worker.ts'
+import { type IBuildContext, type IBuildWorker } from '../build-worker.ts'
 import { BuildError } from '../errors.ts'
 
 class StyleBuildError extends BuildError {}

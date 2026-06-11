@@ -1,10 +1,10 @@
-import { loadingIndicator } from './loading_indicator.ts'
-import { wideNavbar } from './wide_navbar.ts'
+import { loadingIndicator } from './loading-indicator.ts'
+import { wideNavbar } from './wide-navbar.ts'
 import { WebsiteEnvironment } from '../environment.ts'
 import { map } from '../observable.ts'
-import { compactNavbar } from './compact_navbar.ts'
+import { compactNavbar } from './compact-navbar.ts'
 import { createComponent as c } from '../rendering/component.ts'
-import { classlist } from '../support/dom_properties.ts'
+import { classlist } from '../support/dom-properties.ts'
 import { type IWebsitePageState } from '../types/page.ts'
 
 export function body(state: IWebsitePageState, env: WebsiteEnvironment) {

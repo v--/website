@@ -39,16 +39,16 @@ What I call here "library code" is a bunch of reusable independent modules that 
 
 What I call here "website code" is code specific to my website.
 
-The website is split into logically independent bundles. The "core" bundle can be rendered both on the server and in the browser and its functionality is restricted to what can work in a modern browser without JavaScript. For example, the [`/files`](https://ivasilev.net/files) page must behave identically with and without JavaScript, and this is verified using [end-to-end tests](./code/testing/e2e/test_files.ts).
+The website is split into logically independent bundles. The "core" bundle can be rendered both on the server and in the browser and its functionality is restricted to what can work in a modern browser without JavaScript. For example, the [`/files`](https://ivasilev.net/files) page must behave identically with and without JavaScript, and this is verified using [end-to-end tests](./code/testing/e2e/test-files.ts).
 
 The server-side aspect is explained in [`./code/server`](./code/server), while the client-side aspect is explained in [`./code/client/core`](./code/client/core).
 
 The other bundles are part of the "playground": a collection of interactive pages that, because of their interactivity, rely on client-side JavaScript.
 
-* The array sorting visualization bundle is in [`./code/client/array_sorting`](./code/client/array_sorting).
+* The array sorting visualization bundle is in [`./code/client/array-sorting`](./code/client/array-sorting).
 
-* The univariate interpolation bundle is in [`./code/client/univariate_interpolation`](./code/client/univariate_interpolation).
+* The univariate interpolation bundle is in [`./code/client/univariate-interpolation`](./code/client/univariate-interpolation).
 
 * The Breakout bundle is in [`./code/client/breakout`](./code/client/breakout).
 
-* The fleeing button bundle is in [`./code/client/fleeing_button`](./code/client/fleeing_button).
+* The fleeing button bundle is in [`./code/client/fleeing-button`](./code/client/fleeing-button).

@@ -4,7 +4,8 @@ I have implemented here a straightforward schema-based data validator based, ide
 
 The implementation is fairly straightforward - refer, for example, to the schema-to-type code in [`./inference.ts`](./inference.ts).
 
-__Warning__: Validation error reporting is very primitive - it simply says that the (root) value mismatches the schema. The reason for this is that there is no clear answer as to how to show which value mismatches which sub-schema. Think of the confusing interface mismatches reported by TypeScript. There are possible approaches to make validation errors clearer, but truly any data validation is already an overkill for my website, so I did not bother with detailed errors.
+> [!WARNING]
+> Validation error reporting is very primitive - it simply says that the (root) value mismatches the schema. The reason for this is that there is no clear answer as to how to show which value mismatches which sub-schema. Think of the confusing interface mismatches reported by TypeScript. There are possible approaches to make validation errors clearer, but truly any data validation is already an overkill for my website, so I did not bother with detailed errors.
 
 ## Usage example
 

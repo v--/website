@@ -4,7 +4,7 @@ import { type WebsiteLanguageId } from '../languages.ts'
 import { BehaviorSubject, Observable, map } from '../observable.ts'
 import { type SubstitutionContext } from '../rich/substitution.ts'
 import { convertPlainToRich, convertRichToPlain, substitutePlain, substituteRich } from '../rich.ts'
-import { ExtendableFunction } from '../support/extendable_function.ts'
+import { ExtendableFunction } from '../support/extendable-function.ts'
 import { type TranslationBundleId } from '../types/bundles.ts'
 import { type IFinalizeable } from '../types/finalizable.ts'
 

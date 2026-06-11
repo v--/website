@@ -2,15 +2,15 @@ import { type ParsedPath } from 'node:path'
 
 import { type BrowserSyncInstance } from 'browser-sync'
 
-import { BuildManager } from './build_manager.ts'
+import { BuildManager } from './build-manager.ts'
 import { AssetBuildWorker } from './workers/assets.ts'
 import { CodeBuildWorker } from './workers/code.ts'
-import { IconLibraryBuildWorker } from './workers/icon_libraries.ts'
-import { OGImageBuildWorker } from './workers/og_image.ts'
+import { IconLibraryBuildWorker } from './workers/icon-libraries.ts'
+import { OGImageBuildWorker } from './workers/og-image.ts'
 import { StyleBuildWorker } from './workers/style.ts'
-import { SvgRenderBuildWorker } from './workers/svg_render.ts'
+import { SvgRenderBuildWorker } from './workers/svg-render.ts'
 import { type LoggerLevel } from '../common/logger.ts'
-import { TranslationMapBuildWorker } from './workers/translation_maps.ts'
+import { TranslationMapBuildWorker } from './workers/translation-maps.ts'
 
 interface GetBuildManagersConfig {
   sourceMaps: boolean
@@ -31,8 +31,8 @@ function* iterBuildManagers({ loggerLevel, sourceMaps, sync, prod }: GetBuildMan
     loggerLevel, sync,
     ignore(path: ParsedPath) {
       return path.name === 'eslint.config' ||
-        path.name.startsWith('test_') ||
-        (prod && path.name === 'browsersync_injection')
+        path.name.startsWith('test-') ||
+        (prod && path.name === 'browsersync-injection')
     },
   })
 
@@ -47,8 +47,8 @@ function* iterBuildManagers({ loggerLevel, sourceMaps, sync, prod }: GetBuildMan
   })
 
   yield new BuildManager({
-    builder: new IconLibraryBuildWorker({ srcBase: 'data/icon_libraries', destBase: 'build/public/svg_libraries' }),
-    paths: ['data/icon_libraries'],
+    builder: new IconLibraryBuildWorker({ srcBase: 'data/icon-libraries', destBase: 'build/public/svg-libraries' }),
+    paths: ['data/icon-libraries'],
     ext: ['.json'],
     loggerLevel, sync,
   })
@@ -62,8 +62,8 @@ function* iterBuildManagers({ loggerLevel, sourceMaps, sync, prod }: GetBuildMan
 
   if (prod) {
     yield new BuildManager({
-      builder: new OGImageBuildWorker({ srcBase: 'data/og_images', destBase: 'build/public/images/open_graph' }),
-      paths: ['data/og_images/config.json'],
+      builder: new OGImageBuildWorker({ srcBase: 'data/og-images', destBase: 'build/public/images/open-graph' }),
+      paths: ['data/og-images/config.json'],
       loggerLevel, sync,
     })
   }

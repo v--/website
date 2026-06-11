@@ -1,7 +1,7 @@
 import { type WebsiteLanguageId } from './languages.ts'
 import { ReplaySubject, Subject, first } from './observable.ts'
 import { type IServiceManager } from './services.ts'
-import { type UrlPath } from './support/url_path.ts'
+import { type UrlPath } from './support/url-path.ts'
 import { GetText } from './translation.ts'
 import { type TranslationBundleId } from './types/bundles.ts'
 import { type IFinalizeable } from './types/finalizable.ts'

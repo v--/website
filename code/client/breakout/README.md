@@ -10,7 +10,7 @@ An overview of how the game works is given on the web page. The code is structur
 
 ### Evolution
 
-The game logic is based on discrete-time state evolutions. The current state is stored a [`StateStore`](../../common/support/state_store.ts) instance, the working of which is explained [here](../../common/observable#state-store). All non-dynamic state is extracted as `SCREAMING_SNAKE_CASE` constants in [`./constants.ts`](./constants.ts).
+The game logic is based on discrete-time state evolutions. The current state is stored a [`StateStore`](../../common/support/state-store.ts) instance, the working of which is explained [here](../../common/observable#state-store). All non-dynamic state is extracted as `SCREAMING_SNAKE_CASE` constants in [`./constants.ts`](./constants.ts).
 
 1. The ball evolves in accordance to the [`evolveBall`](./evolution/ball.ts) function, which gets invoked on intervals maintained by a [`animationFrameObservable`](../core/dom/observable.ts) observable. The `evolveBall` function contains the majority of game logic, modulo the ray intersection logic in [`./geom/intersection.ts`](./geom/intersection.ts) based on the geometric code from [`../../common/math/geom2d`](../../common/math/geom2d).
 
@@ -20,4 +20,4 @@ The game logic is based on discrete-time state evolutions. The current state is 
 
     The paddle evolution takes care of paddle movement, which is toggled by holding the corresponding keyboard key or on-screen button.
 
-3. Finally, brick evolution is governed by [`evolveBricks`](./evolution/bricks.ts) on regular intervals signaled by a [`timeInterval`](../../common/observable/operators/time_interval.ts) observable.
+3. Finally, brick evolution is governed by [`evolveBricks`](./evolution/bricks.ts) on regular intervals signaled by a [`timeInterval`](../../common/observable/operators/time-interval.ts) observable.

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <use href="../svg-libraries/background.svg#background" />
+  <text x="600" y="235" text-anchor="middle" dominant-baseline="mathematical" font-size="125" fill="#fff" font-family="PT Sans">
+    ${title}
+  </text>
+  <use href="../svg-libraries/logo-with-text.svg#logo-with-text-en" y="400" height="70" />
+</svg>

@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises'
 
 import { LANGUAGE_IDS } from '../../common/languages.ts'
-import { PresentableError } from '../../common/presentable_errors.ts'
+import { PresentableError } from '../../common/presentable-errors.ts'
 import { type IDirectory, type IFileService } from '../../common/services/files.ts'
 import { includes } from '../../common/support/iteration.ts'
 import { type Path } from '../../common/support/path.ts'

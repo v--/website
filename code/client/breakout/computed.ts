@@ -60,7 +60,7 @@ export function processCollisions(state: IIncompleteGameState): Partial<IGameSta
 
   if (isIntersectionFatal(ballTarget)) {
     return {
-      phase: 'game_over',
+      phase: 'game-over',
     }
   }
 

@@ -2,7 +2,7 @@ import { type WebsiteEnvironment } from '../environment.ts'
 import { type IconLibraryId, type OpenGraphImageId, type TranslationBundleId } from './bundles.ts'
 import { type PageDataHydrationTag } from './rehydration.ts'
 import { type FactoryComponentType } from '../rendering/component.ts'
-import { type UrlPath } from '../support/url_path.ts'
+import { type UrlPath } from '../support/url-path.ts'
 import { type ITranslationSpec } from '../translation.ts'
 
 export type ColorScheme = 'light' | 'dark'

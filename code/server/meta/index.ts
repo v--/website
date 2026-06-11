@@ -1,6 +1,6 @@
 import { FEDIVERSE_CREATOR_TAG } from './fediverse.ts'
 import { VIEWPORT_TAG } from './generic.ts'
-import { iterOpenGraphTags } from './open_graph.ts'
+import { iterOpenGraphTags } from './open-graph.ts'
 import { iterRobotsMetaTags } from './robots.ts'
 import { type IMetaTag } from './types.ts'
 import { type GetText } from '../../common/translation.ts'

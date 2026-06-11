@@ -16,14 +16,14 @@ import { rich } from '../../common/components/rich.ts'
 import { spacer } from '../../common/components/spacer.ts'
 import { GITHUB_PROJECT_CODE_URL } from '../../common/constants/url.ts'
 import { createComponent as c } from '../../common/rendering/component.ts'
-import { StateStore } from '../../common/support/state_store.ts'
+import { StateStore } from '../../common/support/state-store.ts'
 import { type IWebsitePageState } from '../../common/types/page.ts'
-import { spotlightPage } from '../core/components/spotlight_page.ts'
+import { spotlightPage } from '../core/components/spotlight-page.ts'
 import { DEFAULT_FPS, isLayoutCollapsed } from '../core/dom.ts'
 import { type ClientWebsiteEnvironment } from '../core/environment.ts'
-import { breakoutControllerButtons } from './components/breakout_controller_buttons.ts'
+import { breakoutControllerButtons } from './components/breakout-controller-buttons.ts'
 import { button } from '../../common/components/button.ts'
-import { closeDrawer } from '../core/components/playground_menu.ts'
+import { closeDrawer } from '../core/components/playground-menu.ts'
 
 export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnvironment) {
   const _ = env.gettext.bindToBundle('breakout')
@@ -42,7 +42,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
             buttonStyle: 'transparent',
             name: 'virtual-controls',
             value: store.keyedObservables.virtualControls,
-            text: _('control.virtual_controls.label'),
+            text: _('control.virtual-controls.label'),
             update(newValue: boolean) {
               store.update({ virtualControls: newValue })
             },

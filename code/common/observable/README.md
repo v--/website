@@ -4,21 +4,22 @@ I started using an observable-based approach to rendering in 2017, with a home-b
 
 Two years later, after having worked with RxJS for some time, I decided to reimplement observables based on the corresponding [TC39 proposal](https://github.com/tc39/proposal-observable). At that time most of the code still used subjects.
 
-Now, several years later, this module features [`Observable`](./observable.ts), [`Subject`](./subject.ts), [`ReplaySubject`](./replay_subject.ts) and [`BehaviorSubject`](./behavior_subject.ts) classes mostly compatible with RxJS, with a lot of operators that can be found in [`./operators`](./operators). Furthermore, the TC39 proposal's test suite is run in [`./test_observable.ts`](./test_observable.ts), which ensures additional compatibility.
+Now, several years later, this module features [`Observable`](./observable.ts), [`Subject`](./subject.ts), [`ReplaySubject`](./replay-subject.ts) and [`BehaviorSubject`](./behavior-subject.ts) classes mostly compatible with RxJS, with a lot of operators that can be found in [`./operators`](./operators). Furthermore, the TC39 proposal's test suite is run in [`./test-observable.ts`](./test-observable.ts), which ensures additional compatibility.
 
-Incompatibilities are specifically noted in code comments. For example, [`./operators/combine_latest.ts`](./operators/combine_latest.ts) explains how our implementation of `combineLatest` breaks compatibility RxJS's on purpose, since that enables us to use a pattern we fundamentally rely on in the component system in [`../rendering`](../rendering).
+Incompatibilities are specifically noted in code comments. For example, [`./operators/combine-latest.ts`](./operators/combine-latest.ts) explains how our implementation of `combineLatest` breaks compatibility RxJS's on purpose, since that enables us to use a pattern we fundamentally rely on in the component system in [`../rendering`](../rendering).
 
-__Note:__ Just to be clear, I find observables to be an awkward abstraction. They leave a lot of questions unanswered (what should `takeUntil` do when its argument completes? how about `debounce`?) and often introduce unnecessary cognitive load (will `shareReplay` leak here?). Until a more elegant abstraction arises, however, observables may be the most powerful way to perform reactive updates.
+> [!NOTE]
+> Just to be clear, I find observables to be an awkward abstraction. They leave a lot of questions unanswered (what should `takeUntil` do when its argument completes? how about `debounce`?) and often introduce unnecessary cognitive load (will `shareReplay` leak here?). Until a more elegant abstraction arises, however, observables may be the most powerful way to perform reactive updates.
 
 ## Subscription observers
 
-Most of the heavy lifting is done in [`SubscriptionObserver`](./subscription_observer.ts), which wraps observers into a standardized object with proper error handling and recovery.
+Most of the heavy lifting is done in [`SubscriptionObserver`](./subscription-observer.ts), which wraps observers into a standardized object with proper error handling and recovery.
 
 The class also features a static list of living observers, which we use to verify proper unsubscribing. For example, there is a [global unit test hook](../../testing/unit/setup.ts) which verifies that there are no living observers after running a test and its teardown code.
 
 ## State store
 
-The [`StateStore`](../support/state_store.ts) is a flexible reactive state container. Here is a simple usage example:
+The [`StateStore`](../support/state-store.ts) is a flexible reactive state container. Here is a simple usage example:
 
 ```typescript
 const unload$ = new Subject<void>();

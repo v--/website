@@ -1,10 +1,10 @@
 {
-  "page_title": {
+  "page-title": {
     "entryKind": "plain",
     "content": "Индекс ${path}"
   },
 
-  "page_title_suffix": {
+  "page-title-suffix": {
     "entryKind": "plain",
     "content": "Навигатор файлов"
   },
@@ -34,12 +34,12 @@
     "content": "Директория"
   },
 
-  "table.data.type.file_ext": {
+  "table.data.type.file-ext": {
     "entryKind": "plain",
     "content": "Файл: ${ext}"
   },
 
-  "table.data.type.file_noext": {
+  "table.data.type.file-noext": {
     "entryKind": "plain",
     "content": "Файл"
   },

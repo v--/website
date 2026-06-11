@@ -1,6 +1,6 @@
 import { errors } from './errors.ts'
+import { SubscriptionObserver } from './subscription-observer.ts'
 import { Subscription } from './subscription.ts'
-import { SubscriptionObserver } from './subscription_observer.ts'
 import { type IObserver, type IPotentialObserver, type SubscriberFunction } from './types.ts'
 
 export class Observable<T, V = void> {

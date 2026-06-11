@@ -8,4 +8,4 @@ Understanding the component system in [`../../common/rendering`](../../common/re
 
 The routing service ensures page (re)rendering works smoothly and, more importantly, it does a lot to aid error recovery. The code should be clear enough about all the cases we try to handle.
 
-What is specific to the client-side environment is that the `processPageChange` method not only preloads data (like its parent class), but it emits a value to the `pageUnload$` observable, which is crucial for unsubscribing from observables all over the place in the other bundles. The latter is a prerequisite for the [`StateStore`](../../common/support/state_store.ts) class used actively in the other bundles.
+What is specific to the client-side environment is that the `processPageChange` method not only preloads data (like its parent class), but it emits a value to the `pageUnload$` observable, which is crucial for unsubscribing from observables all over the place in the other bundles. The latter is a prerequisite for the [`StateStore`](../../common/support/state-store.ts) class used actively in the other bundles.

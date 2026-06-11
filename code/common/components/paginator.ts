@@ -1,9 +1,9 @@
 import { anchor } from './anchor.ts'
 import { icon } from './icon.ts'
 import { createComponent as c } from '../rendering/component.ts'
-import { classlist } from '../support/dom_properties.ts'
+import { classlist } from '../support/dom-properties.ts'
 import { getPaginatorBounds } from '../support/pagination.ts'
-import { type UrlPath } from '../support/url_path.ts'
+import { type UrlPath } from '../support/url-path.ts'
 import { type uint32 } from '../types/numbers.ts'
 
 interface IPaginatorConfig {

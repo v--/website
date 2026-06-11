@@ -2,7 +2,7 @@ import { type ButtonStyle } from './button.ts'
 import { type WebsiteEnvironment } from '../environment.ts'
 import { Component, createComponent as c } from '../rendering/component.ts'
 import { waitForNextTask } from '../support/async.ts'
-import { classlist } from '../support/dom_properties.ts'
+import { classlist } from '../support/dom-properties.ts'
 import { type Action, type AsyncAction } from '../types/typecons.ts'
 
 interface ICheckboxState {

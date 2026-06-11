@@ -18,7 +18,7 @@ export function* iterPreloadLinks(_pageState: IWebsitePageState): Generator<IMet
   //   yield {
   //     rel: 'preload',
   //     as: 'image',
-  //     href: `/svg_libraries/${libId}.svg`,
+  //     href: `/svg-libraries/${libId}.svg`,
   //     type: 'image/svg+xml',
   //   }
   // }

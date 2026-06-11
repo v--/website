@@ -1,7 +1,7 @@
 import BrowserSync from 'browser-sync'
 import findProcess from 'find-process'
 
-import { type IBuildContext } from './build_worker.ts'
+import { type IBuildContext } from './build-worker.ts'
 import { IntegrityError } from '../common/errors.ts'
 import { waitForTime } from '../common/support/async.ts'
 
@@ -18,7 +18,7 @@ export function initBrowserSync(socket: string): BrowserSync.BrowserSyncInstance
       rule: {
         match: /<\/head>/u,
         fn(snippet, match) {
-          return '<script src="/code/client/browsersync_injection.js" type="module"></script>' + match
+          return '<script src="/code/client/browsersync-injection.js" type="module"></script>' + match
         },
       },
     },

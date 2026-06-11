@@ -1,5 +1,5 @@
-export { AAEllipse, type IAAEllipseConfig } from './geom2d/aa_ellipse.ts'
-export { AARect, type IAARectConfig } from './geom2d/aa_rect.ts'
+export { AAEllipse, type IAAEllipseConfig } from './geom2d/aa-ellipse.ts'
+export { AARect, type IAARectConfig } from './geom2d/aa-rect.ts'
 export { Line2DError, ReflectionError, Vec2DError, ZeroVec2DError } from './geom2d/errors.ts'
 export { type ILine2DConfig, Line2D } from './geom2d/line2d.ts'
 export { type IIntersectible, type IIntersection } from './geom2d/types.ts'

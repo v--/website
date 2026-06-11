@@ -1,6 +1,6 @@
 import { median } from '../../../common/math/prob.ts'
 import { type IObserver, Observable } from '../../../common/observable.ts'
-import { CircularBuffer } from '../../../common/support/circular_buffer.ts'
+import { CircularBuffer } from '../../../common/support/circular-buffer.ts'
 import { type float64, type uint32 } from '../../../common/types/numbers.ts'
 
 export function fromEvent(target: EventTarget, eventName: 'touchdown' | 'touchup' | 'touchmove' | 'touchcancel'): Observable<TouchEvent>

@@ -1,40 +1,40 @@
 {
-  "global_title_suffix": {
+  "global-title-suffix": {
     "entryKind": "plain",
     "content": "Сайт Яниса Василева"
   },
 
-  "playground_title_suffix": {
+  "playground-title-suffix": {
     "entryKind": "plain",
     "content": "Мастерская"
   },
 
-  "main_menu.button.close_menu": {
+  "main-menu.button.close-menu": {
     "entryKind": "plain",
     "content": "Закрыть меню"
   },
 
-  "main_menu.button.color_scheme": {
+  "main-menu.button.color-scheme": {
     "entryKind": "plain",
     "content": "Изменить цвета"
   },
 
-  "main_menu.page.home": {
+  "main-menu.page.home": {
     "entryKind": "plain",
     "content": "Домашняя страница"
   },
 
-  "main_menu.page.files": {
+  "main-menu.page.files": {
     "entryKind": "plain",
     "content": "Навигатор файлов"
   },
 
-  "main_menu.page.pacman": {
+  "main-menu.page.pacman": {
     "entryKind": "plain",
     "content": "Хранилище pacman"
   },
 
-  "main_menu.page.playground": {
+  "main-menu.page.playground": {
     "entryKind": "plain",
     "content": "Мастерская"
   },
@@ -89,12 +89,12 @@
     "content": "Что-то пошло не так"
   },
 
-  "error.subtitle.invalid_http_method": {
+  "error.subtitle.invalid-http-method": {
     "entryKind": "plain",
     "content": "Неожиданный HTTP метод ${method}."
   },
 
-  "error_page.suggestion": {
+  "error-page.suggestion": {
     "entryKind": "rich",
     "content": [
       "Попытайтесь освежить браузер.",
@@ -123,12 +123,12 @@
     "content": "Интерактивные браузерные симуляции и визуализации."
   },
 
-  "description.playground.array_sorting": {
+  "description.playground.array-sorting": {
     "entryKind": "plain",
     "content": "Визуализация алгоритмов сортировки."
   },
 
-  "description.playground.univariate_interpolation": {
+  "description.playground.univariate-interpolation": {
     "entryKind": "plain",
     "content": "Интерполяция и приближение одномерных реальнозначных функций."
   },
@@ -138,7 +138,7 @@
     "content": "Вариант игры Breakout с развивающимися кирпичами."
   },
 
-  "description.playground.fleeing_button": {
+  "description.playground.fleeing-button": {
     "entryKind": "plain",
     "content": "Кнопка, убегающая от указателя мышки."
   }

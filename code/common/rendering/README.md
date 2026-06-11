@@ -47,7 +47,8 @@ There were many solutions to reactivity, and none of them scratched the itch as 
 
 I had the sudden realization that the virtual DOM fits nicely with the idea of observables. I tried to implement this, and soon found out that I could achieve a lot by following only this simple approach.
 
-__Note:__ As explained in the README in [`../observable`](../observable), my understanding of observables at the time was not based on RxJS itself but rather on some obsolete (at the time) ideas. I only later realized the benefits of the cold-observable-pipe approach of RxJS.
+> [!NOTE]
+> As explained in the README in [`../observable`](../observable), my understanding of observables at the time was not based on RxJS itself but rather on some obsolete (at the time) ideas. I only later realized the benefits of the cold-observable-pipe approach of RxJS.
 
 ## Components
 
@@ -80,7 +81,7 @@ The [`Component`](./component/component.ts) class is a building block for our vi
         c.html('button', buttonState$)
         ```
 
-    4. A dictionary of observables (transformed into a single observable using [`combineLatest`](../observable/operators/combine_latest.ts)):
+    4. A dictionary of observables (transformed into a single observable using [`combineLatest`](../observable/operators/combine-latest.ts)):
 
         ```typescript
         c.html('button', { text: text$, title: title$ })
@@ -119,16 +120,16 @@ const _ = env.gettext.bindToBundle('core')
 
 c.html('button',
   ...
-  title: _('main_menu.button.color_scheme')
+  title: _('main-menu.button.color-scheme')
   ...
 )
 ```
 
-Whenever the environment's language is updated (i.e. whenever `env.changeLanguage(...)` resolves), all components bound to `_` observables get updated without any intermediate components getting rerendered.
+Whenever the environment's language is updated (i.e. whenever `env.changeLanguage(...)` resolves), all components bound to `-` observables get updated without any intermediate components getting rerendered.
 
 ## Static rendering
 
-The [`renderToString`](./static_render.ts) function allows us to take a component and environment and output a string. This is the static server-side rendering. It is the simplest example of how everything comes together, so it makes sense to study the function before delving into reactivity.
+The [`renderToString`](./static-render.ts) function allows us to take a component and environment and output a string. This is the static server-side rendering. It is the simplest example of how everything comes together, so it makes sense to study the function before delving into reactivity.
 
 ## Re-rendering
 
@@ -138,11 +139,11 @@ Once we have a component, it has its `state$` property, and we can use it to ext
 
     The manipulator takes care of the low-level primitive operations of rendering - creating a node, updating some property of a node, adding a child node and so forth.
 
-    We have implemented a [`DomManipulator`](../../client/core/dom/manipulator.ts) in the core bundle and a [`MirrorDomManipulator`](../../testing/unit/mirror_dom.ts) for our unit tests. The latter simply recreates the same virtual DOM as the source HtmlComponent.
+    We have implemented a [`DomManipulator`](../../client/core/dom/manipulator.ts) in the core bundle and a [`MirrorDomManipulator`](../../testing/unit/mirror-dom.ts) for our unit tests. The latter simply recreates the same virtual DOM as the source HtmlComponent.
 
 2. Once we have a manipulator, we can instantiate a [`RenderingManager`](./manager.ts). This manager outsources some operations to the [`Renderer`](./renderer/renderer.ts) subclasses [`XmlRenderer`](./renderer/xml.ts) and [`FactoryRenderer`](./renderer/factory.ts).
 
-    The aforementioned files have a lot of comments (see e.g. `RenderingManager`'s `#initializeRenderer` method or `FactoryRenderer`'s `rerender` method) since there are a lot of minutiae. Some subtleties even have dedicated tests in [`./test_manager.ts`](./test_manager.ts) numbered as `BF7` ("bugfix test 7").
+    The aforementioned files have a lot of comments (see e.g. `RenderingManager`'s `#initializeRenderer` method or `FactoryRenderer`'s `rerender` method) since there are a lot of minutiae. Some subtleties even have dedicated tests in [`./test-manager.ts`](./test-manager.ts) numbered as `BF7` ("bugfix test 7").
 
     What matters here is that once we have a manager instance, we can use
 

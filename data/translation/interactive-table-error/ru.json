@@ -1,0 +1,22 @@
+{
+  "error.details.page.invalid": {
+    "entryKind": "rich",
+    "content": "Стойность URL параметра `page` должен быть положительным целым числом."
+  },
+  "error.details.page.out-of-bounds": {
+    "entryKind": "rich",
+    "content": "Стойность URL параметра `page` не должен превосходить ${pageCount}, количества страниц."
+  },
+  "error.details.per-page.invalid": {
+    "entryKind": "rich",
+    "content": "Стойность URL параметра `per-page` должен быть положительным целым числом."
+  },
+  "error.details.sort.conflict": {
+    "entryKind": "rich",
+    "content": "URL параметры `sort-asc` и `sort-desc` не могут быть заданы одновременно."
+  },
+  "error.details.sort.unknown": {
+    "entryKind": "rich",
+    "content": "Стойность URL параметра `${paramName}` не является знакомой колонной сортировки."
+  }
+}

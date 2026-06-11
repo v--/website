@@ -1,40 +1,40 @@
 {
-  "global_title_suffix": {
+  "global-title-suffix": {
     "entryKind": "plain",
     "content": "Ianis Vasilev's website"
   },
 
-  "playground_title_suffix": {
+  "playground-title-suffix": {
     "entryKind": "plain",
     "content": "Playground"
   },
 
-  "main_menu.button.close_menu": {
+  "main-menu.button.close-menu": {
     "entryKind": "plain",
     "content": "Close menu"
   },
 
-  "main_menu.button.color_scheme": {
+  "main-menu.button.color-scheme": {
     "entryKind": "plain",
     "content": "Toggle colors"
   },
 
-  "main_menu.page.home": {
+  "main-menu.page.home": {
     "entryKind": "plain",
     "content": "Home page"
   },
 
-  "main_menu.page.files": {
+  "main-menu.page.files": {
     "entryKind": "plain",
     "content": "File navigator"
   },
 
-  "main_menu.page.pacman": {
+  "main-menu.page.pacman": {
     "entryKind": "plain",
     "content": "Pacman repo"
   },
 
-  "main_menu.page.playground": {
+  "main-menu.page.playground": {
     "entryKind": "plain",
     "content": "Playground"
   },
@@ -89,7 +89,7 @@
     "content": "Something went wrong"
   },
 
-  "error.details.invalid_http_method": {
+  "error.details.invalid-http-method": {
     "entryKind": "plain",
     "content": "Unexpected HTTP method ${method}."
   },
@@ -99,7 +99,7 @@
     "content": "Could not load pacman database."
   },
 
-  "error_page.suggestion": {
+  "error-page.suggestion": {
     "entryKind": "rich",
     "content": [
       "Please try refreshing the browser.",
@@ -128,12 +128,12 @@
     "content": "Interactive browser-based visualizations and simulations."
   },
 
-  "description.playground.array_sorting": {
+  "description.playground.array-sorting": {
     "entryKind": "plain",
     "content": "Sorting algorithm visualizations."
   },
 
-  "description.playground.univariate_interpolation": {
+  "description.playground.univariate-interpolation": {
     "entryKind": "plain",
     "content": "Interpolation and approximation of univariate real-valued functions."
   },
@@ -143,7 +143,7 @@
     "content": "A Breakout variant with evolving bricks."
   },
 
-  "description.playground.fleeing_button": {
+  "description.playground.fleeing-button": {
     "entryKind": "plain",
     "content": "A button that flees from the mouse cursor."
   }

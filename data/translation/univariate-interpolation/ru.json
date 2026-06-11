@@ -1,0 +1,81 @@
+{
+  "page-title": {
+    "entryKind": "plain",
+    "content": "Одномерная интерполяция"
+  },
+
+  "text": {
+    "entryKind": "rich",
+    "content": [
+      "# Одномерная интерполяция",
+      "",
+      "Наглядное сравнение некоторых элементарных техник интерполяции и приближения одномерных реальнозначных функций.",
+      "Узлы интерполяции расположены по целочисленной решётке с размахом от ${xMin} до ${xMax} по абсциссе и ${yMin} до ${yMax} по ординате.",
+      "Поменять узлы можно через нажатие точек на решётке.",
+      "",
+      "Разработано во время подготовки с экзамену по численным методам в 2018 году.",
+      "",
+      "Код можно найти [в GitHub](${githubPageUrl})."
+    ]
+  },
+
+  "control.reset.label": {
+    "entryKind": "plain",
+    "content": "Сбросить узлы"
+  },
+
+  "control.reset.confirmation": {
+    "entryKind": "plain",
+    "content": "Сбросить узлы?"
+  },
+
+  "knot-table.section-heading": {
+    "entryKind": "plain",
+    "content": "Интерполяционные узлы"
+  },
+
+  "knot-table.placeholder": {
+    "entryKind": "plain",
+    "content": "Нет настроенных узлов"
+  },
+
+  "legend-table.section-heading": {
+    "entryKind": "plain",
+    "content": "Легенда"
+  },
+
+  "legend-table.heading.method": {
+    "entryKind": "plain",
+    "content": "Метод"
+  },
+
+  "legend-table.heading.expression": {
+    "entryKind": "plain",
+    "content": "Выражение"
+  },
+
+  "legend-table.interpolator.linear-least-squares.name": {
+    "entryKind": "plain",
+    "content": "Лин. наименьшие квадраты"
+  },
+
+  "legend-table.interpolator.newton-polynomial.name": {
+    "entryKind": "plain",
+    "content": "Многочлен Нютона"
+  },
+
+  "legend-table.interpolator.linear-spline.name": {
+    "entryKind": "plain",
+    "content": "Линейный сплайн"
+  },
+
+  "legend-table.interpolator.quadratic-spline.name": {
+    "entryKind": "plain",
+    "content": "Квадратичный сплайн"
+  },
+
+  "legend-table.interpolator.cubic-spline.name": {
+    "entryKind": "plain",
+    "content": "Кубический сплайн"
+  }
+}

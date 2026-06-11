@@ -22,7 +22,7 @@ export function playgroundPage(pageState: IWebsitePageState, env: WebsiteEnviron
       c.factory(rich, {
         mode: 'paragraph',
         rootCssClass: 'notice notice-info',
-        doc: _.rich$('text.more_content'),
+        doc: _.rich$('text.more-content'),
       }),
       c.html('dl', undefined,
         ...PLAYGROUND_PAGE_IDS.toReversed().flatMap(playgroundId => {

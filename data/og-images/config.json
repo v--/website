@@ -1,0 +1,92 @@
+{
+  "images": {
+    "home": {
+      "en": {
+        "templatePath": "./templates/home-en.svg"
+      },
+      "ru": {
+        "templatePath": "./templates/home-ru.svg"
+      }
+    },
+    "error": {
+      "en": {
+        "templatePath": "./templates/error.svg",
+        "context": {"text": "An error occurred"}
+      },
+      "ru": {
+        "templatePath": "./templates/error.svg",
+        "context": {"text": "Произошла ошибка"}
+      }
+    },
+    "files": {
+      "en": {
+        "templatePath": "./templates/title-en.svg",
+        "context": {"title": "File navigator"}
+      },
+      "ru": {
+        "templatePath": "./templates/title-ru.svg",
+        "context": {"title": "Навигатор файлов"}
+      }
+    },
+    "pacman": {
+      "en": {
+        "templatePath": "./templates/title-en.svg",
+        "context": {"title": "Pacman repository"}
+      },
+      "ru": {
+        "templatePath": "./templates/title-ru.svg",
+        "context": {"title": "Pacman хранилище"}
+      }
+    },
+    "playground": {
+      "en": {
+        "templatePath": "./templates/title-en.svg",
+        "context": {"title": "Playground"}
+      },
+      "ru": {
+        "templatePath": "./templates/title-ru.svg",
+        "context": {"title": "Мастерская"}
+      }
+    },
+    "array-sorting": {
+      "en": {
+        "templatePath": "./templates/image.svg",
+        "context": {"title": "Array sorting", "image": "../images/array-sorting.png"}
+      },
+      "ru": {
+        "templatePath": "./templates/image.svg",
+        "context": {"title": "Сортировка массивов", "image": "../images/array-sorting.png"}
+      }
+    },
+    "univariate-interpolation": {
+      "en": {
+        "templatePath": "./templates/image.svg",
+        "context": {"title": "Univariate interpolation", "image": "../images/univariate-interpolation.png"}
+      },
+      "ru": {
+        "templatePath": "./templates/image.svg",
+        "context": {"title": "Одномерная интерполяция", "image": "../images/univariate-interpolation.png"}
+      }
+    },
+    "breakout": {
+      "en": {
+        "templatePath": "./templates/image.svg",
+        "context": {"title": "Breakout", "image": "../images/breakout.png"}
+      },
+      "ru": {
+        "templatePath": "./templates/image.svg",
+        "context": {"title": "Breakout", "image": "../images/breakout.png"}
+      }
+    },
+    "fleeing-button": {
+      "en": {
+        "templatePath": "./templates/image.svg",
+        "context": {"title": "Fleeing button", "image": "../images/fleeing-button.png"}
+      },
+      "ru": {
+        "templatePath": "./templates/image.svg",
+        "context": {"title": "Убегающая кнопка", "image": "../images/fleeing-button.png"}
+      }
+    }
+  }
+}

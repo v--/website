@@ -1,0 +1,141 @@
+{
+  "page-title": {
+    "entryKind": "plain",
+    "content": "Сортировка массивов"
+  },
+
+  "text": {
+    "entryKind": "rich",
+    "content": [
+      "# Сортировка массивов",
+      "",
+      "Эта страница содержит визуализации некоторых известных сортирующих алгоритмов.",
+      "Каждый алгоритм демонстрируется как последовательность в дискретном времени, где в каждый момент моментов показано сравнение двух значений.",
+      "Они окрашиваются в зелёный цвет если их места меняются, а иначе они окрашиваются в красный цвет.",
+      "",
+      "Разработано для рассмотрения новых (на тот момент) [генераторных функций](${generatorDocUrl}) в 2014 (по иронии, я в последствии избавился от этих генераторов).",
+      "",
+      "Код можно найти [в GitHub](${githubPageUrl}). Индивидуальные карты имеют ссылки на соответствующие реализации."
+    ]
+  },
+
+  "control.speed.label": {
+    "entryKind": "plain",
+    "content": "Скорость"
+  },
+
+  "control.run.label.unstarted": {
+    "entryKind": "plain",
+    "content": "Пустить"
+  },
+
+  "control.run.label.running": {
+    "entryKind": "plain",
+    "content": "Остановить"
+  },
+
+  "control.run.label.paused": {
+    "entryKind": "plain",
+    "content": "Пустить"
+  },
+
+  "control.run.label.completed": {
+    "entryKind": "plain",
+    "content": "Пустить"
+  },
+
+  "control.reset.label": {
+    "entryKind": "plain",
+    "content": "Сбросить"
+  },
+
+  "card.info.header.stable": {
+    "entryKind": "plain",
+    "content": "Устойчивость"
+  },
+
+  "card.info.header.time": {
+    "entryKind": "plain",
+    "content": "Время"
+  },
+
+  "card.info.header.space": {
+    "entryKind": "plain",
+    "content": "Память"
+  },
+
+  "card.info.stability.true": {
+    "entryKind": "plain",
+    "content": "Да"
+  },
+
+  "card.info.stability.false": {
+    "entryKind": "plain",
+    "content": "Нет"
+  },
+
+  "card.array.ascending.name": {
+    "entryKind": "plain",
+    "content": "Восходящий"
+  },
+
+  "card.array.descending.name": {
+    "entryKind": "plain",
+    "content": "Нисходящий"
+  },
+
+  "card.array.shuffled.name": {
+    "entryKind": "plain",
+    "content": "Перемешанный"
+  },
+
+  "card.array.grouped.name": {
+    "entryKind": "plain",
+    "content": "Группированный"
+  },
+
+  "algorithm.heapsort.name": {
+    "entryKind": "plain",
+    "content": "Метод кучей"
+  },
+
+  "algorithm.merge.name": {
+    "entryKind": "plain",
+    "content": "Метод слияния"
+  },
+
+  "algorithm.quicksort.name": {
+    "entryKind": "plain",
+    "content": "Метод Хоаре"
+  },
+
+  "algorithm.shellsort.name": {
+    "entryKind": "plain",
+    "content": "Метод Шелла"
+  },
+
+  "algorithm.insertion.name": {
+    "entryKind": "plain",
+    "content": "Метод вставок"
+  },
+
+  "algorithm.selection.name": {
+    "entryKind": "plain",
+    "content": "Метод выбора"
+  },
+
+  "algorithm.gnome.name": {
+    "entryKind": "plain",
+    "content": "Метод гнома"
+  },
+
+  "algorithm.cocktail.name": {
+    "entryKind": "plain",
+    "content": "Метод коктейля"
+  },
+
+  "algorithm.bubble.name": {
+    "entryKind": "plain",
+    "content": "Метод пузыря"
+  }
+}

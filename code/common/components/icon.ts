@@ -1,5 +1,5 @@
 import { createComponent as c } from '../rendering/component.ts'
-import { classlist } from '../support/dom_properties.ts'
+import { classlist } from '../support/dom-properties.ts'
 import { type IconLibraryId } from '../types/bundles.ts'
 import { type Action } from '../types/typecons.ts'
 
@@ -13,7 +13,7 @@ interface IIconContentComponentState {
 export function iconContent({ libId, name, class: cssClass }: IIconContentComponentState) {
   return c.svg('use', {
     class: classlist('icon', cssClass),
-    href: `/svg_libraries/${libId}.svg#${name}`,
+    href: `/svg-libraries/${libId}.svg#${name}`,
   })
 }
 

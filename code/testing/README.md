@@ -4,7 +4,7 @@ For almost 10 years, from the [first commit](https://github.com/v--/website/tree
 
 ## Unit tests
 
-The unit tests, runnable via `npm run test:unit`, are scattered through the source code. Whenever `file.ts` implements some functionality, its unit tests (if any) can be found in `test_file.ts`.
+The unit tests, runnable via `npm run test:unit`, are scattered through the source code. Whenever `file.ts` implements some functionality, its unit tests (if any) can be found in `test-file.ts`.
 
 The [`./unit`](./unit) directory only contains helpers.
 
@@ -30,6 +30,6 @@ The tests require `env` and `browser` command-line options, of which the CLI com
 
 ### Mock data
 
-For testing the [/files page](https://ivasilev.net/files) via the corresponding [end-to-end tests](./e2e/test_files.ts), we rely on mock data. To avoid polluting the file server with this mock data (which resides in [`../../mocks/files`](../../mocks/files)), the server serves mock data when the `prefer` HTTP header sets `data-source` to `mocked`.
+For testing the [/files page](https://ivasilev.net/files) via the corresponding [end-to-end tests](./e2e/test-files.ts), we rely on mock data. To avoid polluting the file server with this mock data (which resides in [`../../mocks/files`](../../mocks/files)), the server serves mock data when the `prefer` HTTP header sets `data-source` to `mocked`.
 
 PlayWright sets this header, for which reason we are able to run the same tests on different environments.
