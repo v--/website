@@ -91,12 +91,12 @@ export default defineConfig([
         'warn',
         {
           allowForKnownSafeCalls: [
-            // @types/node seemed to have some oddities, regarding these names,
+            // @types/node seemed to have some oddities regarding these names,
             // which I found out about by monkey patching @typescript-eslint and logging.
             // In case of future need, the following files can be patched:
             // node_modules/@typescript-eslint/type-utils/dist/typeOrValueSpecifiers/specifierNameMatches.js
             // node_modules/@typescript-eslint/type-utils/dist/typeOrValueSpecifiers/typeDeclaredInPackageDeclarationFile.js
-            { from: 'package', package: 'node:test', name: ['describe', 'it'] },
+            { from: 'package', package: 'node:test', name: ['describe', 'it', 'only', 'skip'] },
           ],
         },
       ],
