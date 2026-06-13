@@ -28,7 +28,6 @@
   },
   "dependencies": {
     "commonmark": "^0.31.2",
-    "lzma-native": "^8.0.6",
     "node-html-parser": "^7.1.0",
     "tar": "^7.5.13"
   },
@@ -41,7 +40,6 @@
     "@types/benchmark": "^2.1.5",
     "@types/browser-sync": "^2.29.1",
     "@types/commonmark": "^0.27.10",
-    "@types/lzma-native": "^4.0.4",
     "@types/node": "^24.12.2",
     "benchmark": "^2.1.4",
     "browser-sync": "^3.0.4",
@@ -68,7 +66,6 @@
   "allowScripts": {
     "@parcel/watcher@2.5.1": true,
     "@swc/core@1.15.30": true,
-    "lzma-native@8.0.6": true,
     "unrs-resolver@1.10.1": true
   },
   "stylelint": {

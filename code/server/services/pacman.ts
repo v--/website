@@ -1,6 +1,6 @@
 import fs from 'node:fs'
+import zlib from 'node:zlib'
 
-import * as lzma from 'lzma-native'
 import * as tar from 'tar'
 
 import { ManualCache } from '../../common/cache.ts'
@@ -108,7 +108,7 @@ function readDatabaseImpl(dbPath: Path): Promise<IPacmanRepository> {
   const { promise, resolve, reject } = Promise.withResolvers<IPacmanRepository>()
   const packages: IPacmanPackage[] = []
 
-  const decompressor = lzma.createDecompressor()
+  const decompressor = zlib.createZstdDecompress()
     .on('error', function (err) {
       reject(err)
     })
