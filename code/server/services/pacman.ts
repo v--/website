@@ -122,19 +122,25 @@ function readDatabaseImpl(dbPath: Path): Promise<IPacmanRepository> {
     .on('entry', function (entry: tar.ReadEntry) {
       if (entry.type != 'File') {
         entry.resume()
+        return
       }
+
+      const chunks: Buffer[] = []
 
       entry
         .on('data', function (data) {
+          chunks.push(data)
+        })
+        .on('error', function (err) {
+          reject(err)
+        })
+        .on('end', function () {
           try {
-            const pkg = parsePackage(data)
+            const pkg = parsePackage(Buffer.concat(chunks))
             packages.push(pkg)
           } catch (err) {
             reject(err)
           }
-        })
-        .on('error', function (err) {
-          reject(err)
         })
     })
     .on('end', function () {
