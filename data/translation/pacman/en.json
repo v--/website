@@ -18,7 +18,8 @@
     "entryKind": "rich",
     "content": [
       "This is a repository for Arch Linux' [pacman](https://wiki.archlinux.org/title/Pacman) package manager.",
-      "It contains a variety of packages; mostly my own software and AUR builds."
+      "It contains a variety of packages; mostly my own software and AUR builds.",
+      "The code used to manage it can be found [on GitHub](${codeUrl})."
     ]
   },
 

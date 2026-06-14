@@ -17,7 +17,14 @@ export function pacmanPage({ pageData }: IWebsitePageState<IPacmanRepository>, e
     c.html('section', undefined,
       c.factory(rich, {
         mode: 'paragraph',
-        doc: _.rich$('text'),
+        doc: _.rich$(
+          {
+            key: 'text',
+            context: {
+              codeUrl: 'https://github.com/v--/alrin',
+            },
+          },
+        ),
       }),
 
       c.html('pre', undefined,
