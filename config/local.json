@@ -1,6 +1,6 @@
 {
   "server": {
-    "socket": "3010",
+    "port": 3010,
     "processName": "website"
   },
   "services": {

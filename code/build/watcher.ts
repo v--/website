@@ -2,6 +2,7 @@ import fs from 'node:fs/promises'
 
 import { bulkBindWatcher, bulkBuild, getBuildManagers } from './managers.ts'
 import { initBrowserSync } from './sync.ts'
+import { IntegrityError } from '../common/errors.ts'
 import { readConfig } from '../server/config.ts'
 
 await fs.rm('./build', { recursive: true, force: true })
@@ -16,7 +17,12 @@ try {
 }
 
 const config = await readConfig()
-const sync = initBrowserSync(config.server.socket)
+
+if ('socket' in config.server) {
+  throw new IntegrityError('BrowserSync does not support proxying Unix domain sockets')
+}
+
+const sync = initBrowserSync(config.server.port)
 
 await bulkBindWatcher(
   getBuildManagers({ sourceMaps: true, prod: false, loggerLevel: 'INFO', sync }),

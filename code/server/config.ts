@@ -1,10 +1,16 @@
 import { readJsonWithSchema } from './validation.ts'
 import { type Infer, Schema } from '../common/validation.ts'
 
-export const SERVER_CONFIG_SCHEMA = Schema.object({
-  socket: Schema.string,
-  processName: Schema.string,
-})
+export const SERVER_CONFIG_SCHEMA = Schema.union(
+  Schema.object({
+    port: Schema.uint32,
+    processName: Schema.string,
+  }),
+  Schema.object({
+    socket: Schema.string,
+    processName: Schema.string,
+  }),
+)
 
 export type IServerConfig = Infer<typeof SERVER_CONFIG_SCHEMA>
 

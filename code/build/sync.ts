@@ -2,14 +2,10 @@ import BrowserSync from 'browser-sync'
 import findProcess from 'find-process'
 
 import { type IBuildContext } from './build-worker.ts'
-import { IntegrityError } from '../common/errors.ts'
 import { waitForTime } from '../common/support/async.ts'
+import { type uint32 } from '../common/types/numbers.ts'
 
-export function initBrowserSync(socket: string): BrowserSync.BrowserSyncInstance {
-  if (!Number.isInteger(Number.parseInt(socket))) {
-    throw new IntegrityError('BrowserSync does not support proxying sockets')
-  }
-
+export function initBrowserSync(port: uint32): BrowserSync.BrowserSyncInstance {
   const instance = BrowserSync.create()
   instance.init({
     open: false,
@@ -22,7 +18,7 @@ export function initBrowserSync(socket: string): BrowserSync.BrowserSyncInstance
         },
       },
     },
-    proxy: 'localhost:' + socket,
+    proxy: 'localhost:' + port,
     serveStatic: ['./build/public', './build/intermediate'],
   })
 

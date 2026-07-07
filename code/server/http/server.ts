@@ -68,13 +68,13 @@ export class HttpServer implements AsyncDisposable {
   }
 
   async reload(config: IWebsiteConfig) {
-    if (config.server.socket !== this.#config.server.socket) {
-      this.logger.info('Server socket changed. Forcing hard reload.')
+    if (JSON.stringify(this.#config.server) != JSON.stringify(config.server)) {
+      this.logger.info('Server config has changed. Forcing hard reload.')
       await this.stop()
       this.#config = config
       await this.start()
     } else {
-      this.logger.info('Server socket not changed. Using soft reload.')
+      this.logger.info('Server config has not changed. Using soft reload.')
 
       try {
         await this.serviceFactory.reload(config.services)
@@ -169,11 +169,27 @@ export class HttpServer implements AsyncDisposable {
     const { promise, resolve } = Promise.withResolvers<void>()
 
     if (this.#server) {
-      this.#server.listen(this.#config.server.socket, () => {
-        this.logger.info(`Started web server on socket ${this.#config.server.socket}.`)
-        this.#state = 'running'
-        resolve()
-      })
+      if ('socket' in this.#config.server) {
+        const socket = this.#config.server.socket
+
+        this.#server.listen(
+          { path: socket, readableAll: true, writableAll: true },
+          () => {
+            this.logger.info(`Started web server on socket ${socket}.`)
+            this.#state = 'running'
+            resolve()
+          })
+      } else {
+        const port = this.#config.server.port
+
+        this.#server.listen(
+          { port },
+          () => {
+            this.logger.info(`Started web server on port ${port}.`)
+            this.#state = 'running'
+            resolve()
+          })
+      }
     }
 
     return promise
