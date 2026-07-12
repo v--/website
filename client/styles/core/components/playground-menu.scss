@@ -27,11 +27,23 @@
   &-stick-top {
     border-bottom-right-radius: var(--spotlight-size-border-radius);
     border-bottom-left-radius: var(--spotlight-size-border-radius);
+
+    .playground-menu-drawer-popover {
+      bottom: anchor(top);
+      border-bottom-right-radius: 0;
+      position-area: bottom left;  // Firefox on Android does a bad attempt at auto-positioning without this
+    }
   }
 
   &-stick-bottom {
     border-top-left-radius: var(--spotlight-size-border-radius);
     border-top-right-radius: var(--spotlight-size-border-radius);
+
+    .playground-menu-drawer-popover {
+      top: anchor(bottom);
+      border-top-right-radius: 0;
+      position-area: top left;  // Firefox on Android does a bad attempt at auto-positioning without this
+    }
   }
 
   &-up-anchor {
@@ -68,14 +80,11 @@
 
       inset: unset;
       right: anchor(right);
-      bottom: anchor(top);
       padding: 0;
       border-width: 0;
       border-radius: var(--spotlight-size-border-radius);
-      border-bottom-right-radius: 0;
       background-color: var(--body-color-pp);
-      box-shadow: 0 0 var(--spotlight-size-shadow-radius) var(--dialog-color-shadow);
-      position-area: top left;
+      box-shadow: 0 0 var(--dialog-size-shadow-radius) var(--dialog-color-backdrop-shadow);
 
       .playground-submenu {
         --button-size-width: 100%;
@@ -83,7 +92,7 @@
         display: flex;
         flex-direction: column;
 
-        &-item {
+        &-item:not(:last-of-type) {
           border-bottom: var(--menu-group-size-border) solid var(--menu-group-color-border);
         }
       }
