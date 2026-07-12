@@ -70,7 +70,7 @@ export function homePage(pageState: IWebsitePageState, env: WebsiteEnvironment) 
     ),
 
     c.html('section', { class: 'home-page-contacts' },
-      c.html('h1', { text: _('heading.contacts') }),
+      c.html('h2', { text: _('heading.contacts') }),
       c.html('ul', { class: 'home-page-contacts-list' },
         c.html('li', { class: 'home-page-contacts-entry' },
           c.factory(anchor, { class: 'anchor-with-icon', href: EMAIL_URL },
