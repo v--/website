@@ -107,7 +107,6 @@ describe('Breakout page', function () {
         const toggle = page.getMenuToggleButton()
         await toggle.click()
 
-        await page.captureScreenshot('test.png')
         const headBox = await getBoundingBox(page.getSpotlightHeadLocator())
         const drawerBox = await getBoundingBox(page.getDrawerMenu())
 

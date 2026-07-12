@@ -29,9 +29,8 @@
     border-bottom-left-radius: var(--spotlight-size-border-radius);
 
     .playground-menu-drawer-popover {
-      bottom: anchor(top);
       border-bottom-right-radius: 0;
-      position-area: bottom left;  // Firefox on Android does a bad attempt at auto-positioning without this
+      position-area: top left;  // Firefox on Android does a bad attempt at auto-positioning without this
     }
   }
 
@@ -40,9 +39,8 @@
     border-top-right-radius: var(--spotlight-size-border-radius);
 
     .playground-menu-drawer-popover {
-      top: anchor(bottom);
       border-top-right-radius: 0;
-      position-area: top left;  // Firefox on Android does a bad attempt at auto-positioning without this
+      position-area: bottom left;  // Firefox on Android does a bad attempt at auto-positioning without this
     }
   }
 
@@ -78,6 +76,10 @@
     &-popover {
       --menu-group-color-border:var(--body-color-p);
 
+      // As described in [1], anchor() can be used to position popovers, however the behavior of browsers turns out to be so
+      // inconsistent as to require position-area (which is listed as an alternative to anchor positioning).
+      // [1]: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/anchor#using_anchor_to_position_popovers
+      // --ivasilev@2026-07-12
       inset: unset;
       right: anchor(right);
       padding: 0;
