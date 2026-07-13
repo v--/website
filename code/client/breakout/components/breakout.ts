@@ -133,6 +133,10 @@ export function breakout({ store }: IBreakoutState, env: ClientWebsiteEnvironmen
         handleStageClick(getEventParams(store, env, event))
       },
       blur(event: FocusEvent) {
+        if (event.relatedTarget instanceof HTMLButtonElement && event.relatedTarget.classList.contains('breakout-controller-button')) {
+          return
+        }
+
         handleStageBlur(getEventParams(store, env, event))
       },
     },

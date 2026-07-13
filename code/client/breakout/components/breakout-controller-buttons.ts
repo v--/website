@@ -13,11 +13,7 @@ interface IBreakoutControllerButtonsState {
 }
 
 export function breakoutControllerButtons({ store }: IBreakoutControllerButtonsState, env: ClientWebsiteEnvironment) {
-  return c.html('div',
-    {
-      id: 'breakout-controller-buttons',
-      class: 'breakout-controller-buttons',
-    },
+  return c.html('div', { class: 'breakout-controller-buttons' },
     c.factory(breakoutControllerButton,
       {
         class: 'breakout-controller-button-left',
@@ -25,11 +21,11 @@ export function breakoutControllerButtons({ store }: IBreakoutControllerButtonsS
         iconLibraryId: 'core',
         iconName: 'chevron-left',
 
-        pointerdown(event: MouseEvent) {
+        pointerdown(event: PointerEvent) {
           handleLeftButtonDown(getEventParams(store, env, event))
         },
 
-        pointerup(event: MouseEvent) {
+        pointerup(event: PointerEvent) {
           handleLeftButtonUp(getEventParams(store, env, event))
         },
       },
@@ -42,11 +38,11 @@ export function breakoutControllerButtons({ store }: IBreakoutControllerButtonsS
         iconLibraryId: 'core',
         iconName: 'chevron-right',
 
-        pointerdown(event: MouseEvent) {
+        pointerdown(event: PointerEvent) {
           handleRightButtonDown(getEventParams(store, env, event))
         },
 
-        pointerup(event: MouseEvent) {
+        pointerup(event: PointerEvent) {
           handleRightButtonUp(getEventParams(store, env, event))
         },
       },
@@ -59,8 +55,8 @@ interface IBreakoutControllerButtonState {
   enabled: boolean
   iconLibraryId: IconLibraryId
   iconName: string
-  pointerdown: Action<MouseEvent>
-  pointerup: Action<MouseEvent>
+  pointerdown: Action<PointerEvent>
+  pointerup: Action<PointerEvent>
 }
 
 export function breakoutControllerButton(

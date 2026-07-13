@@ -115,7 +115,7 @@ describe('Breakout page', function () {
       })
     })
 
-    describe('debug trace', function () {
+    describe('debug traces', function () {
       it('are hidden by default', async function () {
         await page.goto('/playground/breakout')
         const balls = await page.getGhostBallLocators()
@@ -142,6 +142,86 @@ describe('Breakout page', function () {
         await waitForStableState(stage)
         const balls = await page.getGhostBallLocators()
         assert.equal(balls.length, 0)
+      })
+    })
+
+    describe('virtual buttons', function () {
+      it('are hidden on large screens', async function () {
+        await page.goto('/playground/breakout')
+        const virtualButtons = page.getVirtualButtonLocators()
+        const isVisible = await virtualButtons.left.isVisible()
+        assertTrue(!isVisible)
+      })
+
+      it('can be enabled on large screens by the toggle', async function () {
+        await page.goto('/playground/breakout')
+
+        const buttonToggle = page.getVirtualButtonToggle()
+        await buttonToggle.click()
+
+        const virtualButtons = page.getVirtualButtonLocators()
+        const isVisible = await virtualButtons.left.isVisible()
+
+        assertTrue(isVisible)
+      })
+
+      it('are shown on small screens', async function () {
+        await page.scaleViewport('VGA')
+        await page.goto('/playground/breakout')
+        const virtualButtons = page.getVirtualButtonLocators()
+        const isVisible = await virtualButtons.left.isVisible()
+        assertTrue(isVisible)
+      })
+    })
+
+    describe('game phase', function () {
+      it("is 'unstarted' by default", async function () {
+        await page.goto('/playground/breakout')
+        const phase = await page.getGamePhase()
+        assert.equal(phase, 'unstarted')
+      })
+
+      it("becomes 'running' after clicking the stage", async function () {
+        await page.goto('/playground/breakout')
+        const stage = page.getStageLocator()
+        await stage.click()
+        const phase = await page.getGamePhase()
+        assert.equal(phase, 'running')
+      })
+
+      it("becomes 'paused' after double clicking the stage", async function () {
+        await page.goto('/playground/breakout')
+        const stage = page.getStageLocator()
+        await stage.dblclick()
+        const phase = await page.getGamePhase()
+        assert.equal(phase, 'paused')
+      })
+
+      it("becomes 'paused' after clicking outside the stage", async function () {
+        await page.goto('/playground/breakout')
+
+        const stage = page.getStageLocator()
+        await stage.click()
+
+        const buttonToggle = page.getVirtualButtonToggle()
+        await buttonToggle.click()
+
+        const phase = await page.getGamePhase()
+        assert.equal(phase, 'paused')
+      })
+
+      it('continues to run after clicking a virtual button', async function () {
+        await page.scaleViewport('VGA')
+        await page.goto('/playground/breakout')
+
+        const stage = page.getStageLocator()
+        await stage.click()
+
+        const virtualButtons = page.getVirtualButtonLocators()
+        await virtualButtons.left.click()
+
+        const phase = await page.getGamePhase()
+        assert.equal(phase, 'running')
       })
     })
   })
