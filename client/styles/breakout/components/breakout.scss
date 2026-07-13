@@ -2,10 +2,24 @@
 @use "../../mixins";
 @use "../../sizes";
 
-.breakout {
+.breakout-wrapper {
+  position: relative;
   width: 100%;
   height: 100%;
   background-color: var(--breakout-color-background);
+}
+
+.breakout-canvas {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.breakout {
+  position: absolute;
+  width: 100%;
+  height: 100%;
 
   &-text {
     fill: var(--breakout-color-text);

@@ -1,4 +1,5 @@
 export { BehaviorSubject } from './observable/behavior-subject.ts'
+export { withLatestFrom } from './observable/operators/with-latest-from.ts'
 export { ObservableError } from './observable/errors.ts'
 export { Observable } from './observable/observable.ts'
 export { bufferLatest } from './observable/operators/buffer-latest.ts'

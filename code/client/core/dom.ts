@@ -1,4 +1,4 @@
-export { DomError, MissingElementError } from './dom/errors.ts'
+export { CanvasError, DomError, InvalidElementError, MissingElementError } from './dom/errors.ts'
 export { fetchJson } from './dom/json.ts'
 export { loadPlaygroundPage } from './dom/load-playground-page.ts'
 export { DomManipulator } from './dom/manipulator.ts'
@@ -12,3 +12,4 @@ export {
 } from './dom/misc.ts'
 export { DEFAULT_FRAME_DURATION, animationFrameObservable, fromEvent } from './dom/observable.ts'
 export { toggleModalDialog, togglePopover } from './dom/popover.ts'
+export { getCanvas$, getCanvasContext } from './dom/canvas.ts'
