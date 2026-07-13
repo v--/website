@@ -19,16 +19,16 @@ import { createComponent as c } from '../../common/rendering/component.ts'
 import { StateStore } from '../../common/support/state-store.ts'
 import { type IWebsitePageState } from '../../common/types/page.ts'
 import { spotlightPage } from '../core/components/spotlight-page.ts'
-import { DEFAULT_FPS, isLayoutCollapsed } from '../core/dom.ts'
 import { type ClientWebsiteEnvironment } from '../core/environment.ts'
 import { breakoutControllerButtons } from './components/breakout-controller-buttons.ts'
 import { button } from '../../common/components/button.ts'
 import { closeDrawer } from '../core/components/playground-menu.ts'
+import { DEFAULT_FRAME_DURATION, isLayoutCollapsed } from '../core/dom.ts'
 
 export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnvironment) {
   const _ = env.gettext.bindToBundle('breakout')
   const store = new StateStore<IGameState>(
-    { ...DEFAULT_GAME_STATE, fps: DEFAULT_FPS, debug: false, virtualControls: isLayoutCollapsed() },
+    { ...DEFAULT_GAME_STATE, frameDuration: DEFAULT_FRAME_DURATION, debug: false, virtualControls: isLayoutCollapsed() },
     env.pageUnload$,
   )
 

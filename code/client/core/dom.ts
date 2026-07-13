@@ -10,5 +10,5 @@ export {
   parsePreferredLanguage,
   pushIntoHistory,
 } from './dom/misc.ts'
-export { DEFAULT_FPS, animationFrameObservable, fromEvent } from './dom/observable.ts'
+export { DEFAULT_FRAME_DURATION, animationFrameObservable, fromEvent } from './dom/observable.ts'
 export { toggleModalDialog, togglePopover } from './dom/popover.ts'

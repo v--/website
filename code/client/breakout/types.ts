@@ -1,7 +1,7 @@
 import { type BreakoutBrick } from './geom/brick.ts'
 import { type BreakoutPaddle } from './geom/paddle.ts'
 import { type IPlainVec2D, Vec2D } from '../../common/math/geom2d.ts'
-import { type UnitRatio, type uint32 } from '../../common/types/numbers.ts'
+import { type UnitRatio, type float64, type uint32 } from '../../common/types/numbers.ts'
 import { type Action } from '../../common/types/typecons.ts'
 
 export type PaddleDirection = -1 | 0 | 1
@@ -40,8 +40,8 @@ export interface IIncompleteGameState extends IBallState {
 
 export interface IGameState extends IIncompleteGameState {
   virtualControls: boolean
+  frameDuration: float64
   debug: boolean
-  fps: uint32
 }
 
 export interface IComputedGameState {

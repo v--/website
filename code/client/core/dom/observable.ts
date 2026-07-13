@@ -27,16 +27,16 @@ export function fromEvent(target: EventTarget, eventName: string): Observable<Ev
   })
 }
 
-export const DEFAULT_FPS = 60
-const FRAME_OBSERVABLE_FPS_BUFFER_SIZE = 5
+export const DEFAULT_FRAME_DURATION = 1000 / 60
+const FRAME_OBSERVABLE_BUFFER_SIZE = 10
 
 /**
- * An observable that emits the current FPS on every animation frame.
+ * An observable that emits an estimated call duration on every animation frame.
  */
-export function animationFrameObservable(): Observable<uint32> {
+export function animationFrameObservable(): Observable<float64> {
   return new Observable(observer => {
     let continueRecursing = false
-    const lastCallDurations = new CircularBuffer<float64>(FRAME_OBSERVABLE_FPS_BUFFER_SIZE)
+    const lastCallDurations = new CircularBuffer<float64>(FRAME_OBSERVABLE_BUFFER_SIZE)
     let lastCallTimestamp = performance.now()
 
     function recurse() {
@@ -45,9 +45,9 @@ export function animationFrameObservable(): Observable<uint32> {
       lastCallTimestamp = thisCallTimestamp
       // The median is useful here because one slow or fast frame drawing does not affect it.
       // Even without fluctuations, when resetting, the confirmation may take an arbitrary amount of time
-      // that is counted towards the FPS if we use the mean.
+      // that is counted towards the call duration if we use the mean.
       const medianDuration = median(lastCallDurations)
-      observer.next(Math.round(1000 / medianDuration))
+      observer.next(Math.round(medianDuration))
 
       if (!continueRecursing) {
         requestAnimationFrame(recurse)

@@ -7,10 +7,10 @@ import { BreakoutPaddle } from '../geom/paddle.ts'
 import { type IGameState } from '../types.ts'
 
 export function evolvePaddle(state: IGameState): Partial<IGameState> | undefined {
-  const { paddle, fps } = state
+  const { paddle, frameDuration } = state
   const { ballCenter } = getComputedState(state)
 
-  const paddleMovement = Math.max(MINIMAL_MOVEMENT_DISTANCE, PADDLE_MOVEMENT_PER_SECOND / fps)
+  const paddleMovement = Math.max(MINIMAL_MOVEMENT_DISTANCE, PADDLE_MOVEMENT_PER_SECOND * frameDuration / 1000)
   const newPaddleCenter = calculateNewPaddleCenter(paddle, paddleMovement)
   const newPaddle = paddle.update({ center: newPaddleCenter })
 

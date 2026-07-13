@@ -4,7 +4,7 @@ export const KEY_DEBUG = 'e'
 export const KEY_LEFT_SECONDARY = 'a'
 export const KEY_RIGHT_SECONDARY = 'd'
 
-export const FPS_INDICATOR_REFRESHES_PER_SECOND = 2 // This is only for the visual indicator
+export const FPS_INDICATOR_REFRESHES_PER_SECOND = 5 // This is only for the visual indicator
 // The movement speed is determined by the FPS and the intended amount traversed per second
 export const BALL_MOVEMENT_PER_SECOND = 15
 export const PADDLE_MOVEMENT_PER_SECOND = 20

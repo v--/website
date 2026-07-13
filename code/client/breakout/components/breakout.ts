@@ -51,9 +51,9 @@ export function breakout({ store }: IBreakoutState, env: ClientWebsiteEnvironmen
 
       return EMPTY
     }),
-  ).subscribe(function (fps) {
+  ).subscribe(function (frameDuration) {
     const state = store.getCombinedState()
-    const newState: Partial<IGameState> = { fps }
+    const newState: Partial<IGameState> = { frameDuration }
     Object.assign(newState, evolvePaddle({ ...state, ...newState }))
     Object.assign(newState, evolveBall({ ...state, ...newState }))
     Object.assign(newState, processCollisions({ ...state, ...newState }))
@@ -115,11 +115,12 @@ export function breakout({ store }: IBreakoutState, env: ClientWebsiteEnvironmen
   }).pipe(
     switchMap(function ({ phase, debug }) {
       if (phase === 'running' && debug) {
-        return store.keyedObservables.fps
+        return store.keyedObservables.frameDuration
       }
 
-      return Observable.of(store.getState('fps'))
+      return Observable.of(store.getState('frameDuration'))
     }),
+    map(frameDuration => Math.ceil(1000 / frameDuration)),
     bufferLatest(timeInterval(1000 / FPS_INDICATOR_REFRESHES_PER_SECOND)),
   )
 
