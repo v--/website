@@ -27,6 +27,17 @@ describe('combineLatest observable operator', function () {
     assert.deepEqual(values, [{ a: 1, b: 2, c: 3 }])
   })
 
+  it('allows constants only', async function () {
+    const observable$ = combineLatest({
+      a: 1,
+      b: 2,
+      c: 3,
+    })
+
+    const values = await collect(observable$)
+    assert.deepEqual(values, [{ a: 1, b: 2, c: 3 }])
+  })
+
   it('continues emitting after the first time', async function () {
     const observable$ = combineLatest({
       a: Observable.of(1),

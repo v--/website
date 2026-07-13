@@ -36,8 +36,8 @@ export function combineLatest<T extends object>(object: T): Observable<FlattenOb
     }
   }
 
-  if (values.size === totalValueCount) {
-    return Observable.of(getObjectEntries(values) as FlattenObservableRecord<T>)
+  if (staticValueCount === totalValueCount) {
+    return Observable.of(object as FlattenObservableRecord<T>)
   }
 
   return new Observable(function (observer) {
