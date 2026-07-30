@@ -1,5 +1,8 @@
 export const WEBSITE_CANONICAL_URL = 'https://ivasilev.net'
 export const CC0_URL = 'https://creativecommons.org/public-domain/cc0/'
+export const CC4_BY_URL = 'https://creativecommons.org/licenses/by/4.0/'
+export const UNLICENSE_URL = 'https://unlicense.org'
+export const BOXICONS_URL = 'https://boxicons.com'
 export const EMAIL_URL = 'mailto:ianis@ivasilev.net'
 export const TELEGRAM_URL = 'https://t.me/ianis_vasilev'
 export const MASTODON_URL = 'https://mastodon.social/@ivasilev'

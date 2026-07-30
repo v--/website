@@ -6,7 +6,7 @@ import { type UrlPath } from '../support/url-path.ts'
 import { type ITranslationSpec } from '../translation.ts'
 
 export type ColorScheme = 'light' | 'dark'
-export type NavigationId = 'home' | 'files' | 'pacman' | 'playground'
+export type NavigationId = 'home' | 'files' | 'pacman' | 'playground' | 'attributions'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type DefaultPageData = any

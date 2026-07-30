@@ -29,6 +29,7 @@ export const TRANSLATION_BUNDLE_IDS = [
   'files',
   'pacman',
   'playground',
+  'attributions',
   ...PLAYGROUND_PAGE_IDS,
 ] as const
 
@@ -40,6 +41,7 @@ export const OPEN_GRAPH_IMAGE_IDS = [
   'files',
   'pacman',
   'playground',
+  'attributions',
   ...PLAYGROUND_PAGE_IDS,
 ] as const
 

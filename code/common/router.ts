@@ -1,4 +1,5 @@
 import { type WebsiteEnvironment } from './environment.ts'
+import { attributionsPage } from './pages/attributions.ts'
 import { errorPage } from './pages/error.ts'
 import { filesPage } from './pages/files.ts'
 import { homePage } from './pages/home.ts'
@@ -122,6 +123,24 @@ export async function router(urlPath: UrlPath, env: WebsiteEnvironment): Promise
         iconLibIds: ['placeholder'],
         page: placeholder,
       }
+    }
+  }
+
+  if (urlPath.path.matchFull('attributions')) {
+    return {
+      titleSegmentSpecs: [
+        { bundleId: 'attributions', key: 'page-title' },
+        { bundleId: 'core', key: 'global-title-suffix' },
+      ],
+      descriptionSpec: { bundleId: 'core', key: 'description.attributions' },
+      translationBundleIds: ['attributions'],
+      navId: 'attributions',
+      ogImageName: 'attributions',
+      page: attributionsPage,
+      pageData: undefined,
+      urlPath,
+      canonicalUrlPath: urlPath.clearQueryString(),
+      allowIndexing: urlPath.query.size === 0,
     }
   }
 

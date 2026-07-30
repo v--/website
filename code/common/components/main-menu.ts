@@ -51,6 +51,15 @@ export function mainMenu({ navId }: INavigationState, env: WebsiteEnvironment) {
     c.html('li', undefined,
       c.html('hr'),
 
+      c.factory(mainMenuEntry, {
+        active: navId === 'attributions',
+        text: _('main-menu.page.attributions'),
+        icon: 'attributions',
+        href: '/attributions',
+      }),
+
+      c.html('hr'),
+
       c.html('fieldset',
         {
           class: 'main-menu-lang-toggle',

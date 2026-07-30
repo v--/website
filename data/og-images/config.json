@@ -87,6 +87,16 @@
         "templatePath": "./templates/image.svg",
         "context": {"title": "Убегающая кнопка", "image": "../images/fleeing-button.png"}
       }
+    },
+    "attributions": {
+      "en": {
+        "templatePath": "./templates/title-en.svg",
+        "context": {"title": "Attributions"}
+      },
+      "ru": {
+        "templatePath": "./templates/title-ru.svg",
+        "context": {"title": "Атрибуции"}
+      }
     }
   }
 }

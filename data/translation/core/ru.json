@@ -39,6 +39,11 @@
     "content": "Мастерская"
   },
 
+  "main-menu.page.attributions": {
+    "entryKind": "plain",
+    "content": "Атрибуции"
+  },
+
   "error.title.http.400": {
     "entryKind": "plain",
     "content": "Неправильный запрос"
@@ -141,5 +146,10 @@
   "description.playground.fleeing-button": {
     "entryKind": "plain",
     "content": "Кнопка, убегающая от указателя мышки."
+  },
+
+  "description.attributions": {
+    "entryKind": "plain",
+    "content": "Страница для извещений об авторстве."
   }
 }

@@ -14,9 +14,9 @@ export type SubstitutionContext = Infer<typeof SUBSTITUTION_CONTEXT_SCHEMA>
 /**
  * A straightforward substitution function replacing keys with values literally.
  *
- * The keys must consist of a single ASCII-only capital Latin string. The key `key` gets replaced whenever
- * `${key}` (but not `\${key}`) occurs within the template string. We choose a syntax that is close to
- * JavaScript's own template strings.
+ * The keys must consist of a single ASCII-only Latin string with possible digits.
+ * The key `key` gets replaced whenever `${key}` (but not `\${key}`) occurs within the template string.
+ * We choose a syntax that is close toJavaScript's own template strings.
  *
  * We only replace the variables from the context and simply ignore any other potential template variables.
  * If the keys are iterated in the right order, it is even possible to create new template variables.
@@ -29,8 +29,8 @@ export function substitutePlain(plain: string, context: SubstitutionContext): st
   let result = plain
 
   for (const [key, value] of getObjectEntries(context)) {
-    if (!key.match(/^[a-zA-Z]+$/)) {
-      throw new SubstitutionError('Only capital ASCII Latin letters allowed as substitution keys')
+    if (!key.match(/^[a-zA-Z][a-zA-Z0-9]*$/)) {
+      throw new SubstitutionError('Only capital ASCII Latin letters and digits are allowed as substitution keys')
     }
 
     result = result.replaceAll(new RegExp('(?<!\\\\)\\${' + key + '}', 'g'), value.toString())

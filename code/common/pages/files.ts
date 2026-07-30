@@ -3,7 +3,6 @@ import { breadcrumbNavigation } from '../components/breadcrumb-navigation.ts'
 import { interactiveTable } from '../components/interactive-table.ts'
 import { rich } from '../components/rich.ts'
 import { spacer } from '../components/spacer.ts'
-import { CC0_URL } from '../constants/url.ts'
 import { type WebsiteEnvironment } from '../environment.ts'
 import { type LanguageId, bcp47Encode } from '../languages.ts'
 import { map } from '../observable.ts'
@@ -41,17 +40,9 @@ interface IFilesPageNoticesState {
 
 export function filesPageNotices({ directory, currentLanguage }: IFilesPageNoticesState, env: WebsiteEnvironment) {
   const _ = env.gettext.bindToBundle('files')
-  const { entries, readme } = directory
+  const { readme } = directory
 
   return c.html('section', undefined,
-    entries.length > 0 && c.factory(rich, {
-      mode: 'paragraph',
-      rootCssClass: 'notice',
-      doc: _.rich$({
-        key: 'notice.cc',
-        context: { ccUrl: CC0_URL },
-      }),
-    }),
     readme && currentLanguage !== readme.languageId && c.factory(rich, {
       rootCssClass: 'notice notice-warning',
       mode: 'paragraph',

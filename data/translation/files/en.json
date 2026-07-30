@@ -82,10 +82,5 @@
   "notice.language.bg": {
     "entryKind": "rich",
     "content": "This directory's description is written in Bulgarian."
-  },
-
-  "notice.cc": {
-    "entryKind": "rich",
-    "content": "Unless stated or implied otherwise, the content in this directory is licensed under [CC0](${ccUrl}); i.e. it has no restrictions on its modification and redistribution."
   }
 }

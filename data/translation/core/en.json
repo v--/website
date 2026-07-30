@@ -39,6 +39,11 @@
     "content": "Playground"
   },
 
+  "main-menu.page.attributions": {
+    "entryKind": "plain",
+    "content": "Attributions"
+  },
+
   "error.title.http.400": {
     "entryKind": "plain",
     "content": "Bad request"
@@ -146,5 +151,10 @@
   "description.playground.fleeing-button": {
     "entryKind": "plain",
     "content": "A button that flees from the mouse cursor."
+  },
+
+  "description.attributions": {
+    "entryKind": "plain",
+    "content": "A page for acknowledgements."
   }
 }

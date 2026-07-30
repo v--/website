@@ -201,7 +201,7 @@ describe('General website behavior', function () {
     it('has enabled anchors to other pages', async function () {
       await page.goto('/')
       const anchors = await page.getMainMenuAnchors()
-      assert.equal(anchors.length, 4)
+      assert.equal(anchors.length, 5)
 
       assert.equal(await anchors[0].textContent(), 'Home page')
       assertTrue(await anchors[0].isEnabled())
@@ -214,6 +214,9 @@ describe('General website behavior', function () {
 
       assert.equal(await anchors[3].textContent(), 'Playground')
       assertTrue(await anchors[3].isEnabled())
+
+      assert.equal(await anchors[4].textContent(), 'Attributions')
+      assertTrue(await anchors[4].isEnabled())
     })
   })
 

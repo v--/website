@@ -7,6 +7,7 @@
   {"pack": "filled", "name": "folder", "exportAs": "files"},
   {"pack": "filled", "name": "archive-arrow-down", "exportAs": "pacman"},
   {"pack": "filled", "name": "clipboard-code", "exportAs": "playground"},
+  {"pack": "filled", "name": "law", "exportAs": "attributions"},
 
   {"pack": "basic", "name": "menu-wide", "exportAs": "menu"},
   {"pack": "basic", "name": "radio-circle-marked", "exportAs": "radio-on"},
