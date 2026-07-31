@@ -65,18 +65,22 @@ class ComponentCreationVisitor extends RichTextVisitor<Component> {
     return c.html('pre', this.visitTextState(entry))
   }
 
-  * iterChildren(entries?: IRichTextEntry[]) {
+  * iterChildren(entries?: IRichTextEntry[], inTightList: boolean = false) {
     if (!entries) {
       return
     }
 
     for (const entry of entries) {
-      yield this.visit(entry)
+      if (entry.kind == 'paragraph') {
+        yield this.visitParagraphEntry(entry, inTightList)
+      } else {
+        yield this.visit(entry)
+      }
     }
   }
 
-  override visitParagraphEntry(entry: IRichTextEntry & { kind: 'paragraph' }) {
-    return c.html('p', this.visitTextState(entry), ...this.iterChildren(entry.children))
+  override visitParagraphEntry(entry: IRichTextEntry & { kind: 'paragraph' }, inTightList: boolean = false): Component {
+    return c.html(inTightList ? 'span' : 'p', this.visitTextState(entry), ...this.iterChildren(entry.children))
   }
 
   override visitContainerEntry(entry: IRichTextEntry & { kind: 'container' }) {
@@ -125,16 +129,16 @@ class ComponentCreationVisitor extends RichTextVisitor<Component> {
   }
 
   override visitListItemEntry(entry: IRichTextEntry & { kind: 'list-item' }, tight?: boolean) {
+    // Direct quote from https://markedapp.com/help/CommonMark_Spec:
+    //   Loose lists wrap items in <p> tags, tight lists don't.
     if (tight) {
-      if (entry.children.length !== 1 || entry.children[0].kind !== 'paragraph') {
-        throw new IntegrityError('Expected a tight list item to only have one paragraph child')
-      }
-
-      return c.html('li', this.visitTextState(entry.children[0]), ...this.iterChildren(entry.children[0].children))
+      return c.html('li', undefined,
+        ...this.iterChildren(entry.children, true),
+      )
     }
 
     return c.html('li', undefined,
-      ...this.iterChildren(entry.children),
+      ...this.iterChildren(entry.children).map(child => c.html('p', undefined, child)),
     )
   }
 
