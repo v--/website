@@ -12,14 +12,19 @@
   "text": {
     "entryKind": "rich",
     "content": [
-      "Most of the content on this website was produced by me. Unless stated otherwise, the content is shared under a [CC0](${cc0Url}) public domain dedication; i.e. it has no restrictions on modification and redistribution.",
+      "The website's code, [published on GitHub](${projectUrl}), is released under the [Unlicense](${UNLICENSE_URL}).",
+      "This includes static content like text and images that are part of the code repository, as well as artifacts produced from them during the build process.",
+      "Refer to the repository for more detailed information.",
       "",
-      "Some of the files under [**/files**](/files) are technically derivative works, for example recorded lecture notes or typeset note sheets. In such cases I have tried to acknowledge the original authors on the page linking to the files.",
-      "The files under [**/pacman**](/pacman) are archives that contain the corresponding copyright status inside them.",
+      "The build artifacts also include the following:",
+      "* The icons that are not part of the code are taken from the [BoxIcons project](${boxIconsUrl}) and are licensed under [Creative Commons Attribution 4.0](${cc4ByUrl}).",
       "",
-      "The website's code is is written by me and released under the [Unlicense](${UNLICENSE_URL}). The server-side code has a few small dependencies with permissive licenses. More details can be found on the website's [GitHub page](${projectUrl}).",
+      "The server-side code depends mostly on the [node.js](${nodeUrl}) standard library, but also on a few libraries with permissive licenses.",
+      "Again, refer to the repository for more information.",
       "",
-      "Most icons are taken from the [BoxIcons project](${boxIconsUrl}) and are licensed under [Creative Commons Attribution 4.0](${cc4ByUrl})."
+      "Finally, \"dynamic\" content that is not part of the website's code is distributed under different conditions:",
+      "* For the files under [**/files**](/files), I try to elaborate their copyright status on the pages that link to them.",
+      "* The files under [**/pacman**](/pacman) are archives that contain the corresponding copyright status inside them."
     ]
   }
 }
