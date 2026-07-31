@@ -19,13 +19,8 @@ path = [
   "package.json",
   "REUSE.toml",
   "tsconfig.json",
-]
-SPDX-FileCopyrightText = "Ianis Vasilev <ianis@ivasilev.net>"
-SPDX-License-Identifier = "Unlicense"
 
-# The images are licensed separately because they do not fit software licenses.
-[[annotations]]
-path = [
+  # It seems appropriate to license the images separately, but they are not an important enough part of the software to justify that.
   "client/assets/images/**",
   "client/assets/svg-libraries/*.svg",
   "data/og-images/**.png",
@@ -33,7 +28,7 @@ path = [
   "data/svg-libraries",
 ]
 SPDX-FileCopyrightText = "Ianis Vasilev <ianis@ivasilev.net>"
-SPDX-License-Identifier = "CC0-1.0"
+SPDX-License-Identifier = "Unlicense"
 
 # The REUSE documentation suggests licensing generated files under CC0-1.0 with NONE as author.
 # https://reuse.software/faq/#exclude-file
