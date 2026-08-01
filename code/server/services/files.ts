@@ -1,4 +1,5 @@
 import fs from 'node:fs/promises'
+import { relative } from 'node:path'
 
 import { LANGUAGE_IDS } from '../../common/languages.ts'
 import { PresentableError } from '../../common/presentable-errors.ts'
@@ -24,11 +25,18 @@ export class ServerFileService implements IFileService {
   }
 
   async readDirectory(path: Path) {
-    if (path.segments.some(segment => segment.startsWith('.'))) {
+    const fullPath = this.#rootPath.pushRight(...path.segments)
+
+    // Handle parent directory traversal cleanly.
+    // The next check catches actual traversal attacks by accident, but this check feels safer.
+    if (relative(this.#rootPath.toString(), fullPath.toString()).startsWith('..')) {
       throw new PresentableError({ errorKind: 'http', code: 403 })
     }
 
-    const fullPath = this.#rootPath.pushRight(...path.segments)
+    // We forbid listing the contents of directories that start with a dot, even if they don't exist.
+    if (path.segments.some(segment => segment.startsWith('.'))) {
+      throw new PresentableError({ errorKind: 'http', code: 403 })
+    }
 
     const result: IDirectory = { path: path.toString(), entries: [] }
     let files: string[]

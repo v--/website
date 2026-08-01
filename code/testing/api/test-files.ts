@@ -87,4 +87,37 @@ describe('/api/files', function () {
       { errorKind: 'http', code: 403 },
     )
   })
+
+  // We attempt to hit the file system root, however node does not translate %2F to slashes, so we hit an actual directory called %2F
+  it('handles attempted absolute path access', async function () {
+    const response = await client.get('/api/files/%2F')
+
+    assert.equal(response.status(), 404)
+    assert.deepEqual(
+      await response.json(),
+      { errorKind: 'http', code: 404 },
+    )
+  })
+
+  // 404 because we essentially hit /api. See the next test for an actual attack.
+  it('handles attempted parent path access', async function () {
+    const response = await client.get('/api/files/..')
+
+    assert.equal(response.status(), 404)
+    assert.deepEqual(
+      await response.json(),
+      { errorKind: 'http', code: 404 },
+    )
+  })
+
+  // Ditto
+  it('handles attempted indirect parent path access', async function () {
+    const response = await client.get('/api/files/%2E%2E')
+
+    assert.equal(response.status(), 404)
+    assert.deepEqual(
+      await response.json(),
+      { errorKind: 'http', code: 404 },
+    )
+  })
 })
