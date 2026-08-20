@@ -12,7 +12,7 @@
   "text": {
     "entryKind": "rich",
     "content": [
-      "The website's code, [published on GitHub](${projectUrl}), is released under the [Unlicense](${UNLICENSE_URL}).",
+      "The website's code, [published on GitHub](${projectUrl}), is released under the [Unlicense](${unlicenseUrl}).",
       "This includes static content like text and images that are part of the code repository, as well as artifacts produced from them during the build process.",
       "Refer to the repository for more detailed information.",
       "",
