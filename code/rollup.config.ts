@@ -6,7 +6,13 @@ import { CoolError } from './common/errors.ts'
 import { PLAYGROUND_PAGE_IDS } from './common/types/bundles.ts'
 
 const codeBasePath = path.resolve('build/intermediate/code')
-const entryPoints = ['preload', 'runtime', ...PLAYGROUND_PAGE_IDS].map(bundleId => path.join(codeBasePath, 'client', bundleId + '.js'))
+const entryPoints = [
+  path.join(codeBasePath, 'client', 'preload.js'),
+  path.join(codeBasePath, 'client', 'runtime.js'),
+  ...PLAYGROUND_PAGE_IDS.map(bundleId => path.join(codeBasePath, 'client', bundleId, 'index.js')),
+  path.join(codeBasePath, 'client', 'breakout', 'worker.js'),
+]
+
 const CHUNK_NAMES = ['core', 'preload', 'runtime', ...PLAYGROUND_PAGE_IDS]
 
 class BundlingError extends CoolError {}
@@ -39,7 +45,11 @@ export default [
       },
 
       entryFileNames(chunkInfo: PreRenderedChunk) {
-        return path.join('client', chunkInfo.name + '.js')
+        if (chunkInfo.facadeModuleId) {
+          return path.relative(codeBasePath, chunkInfo.facadeModuleId)
+        }
+
+        throw new BundlingError('Cannot determine entry file name')
       },
     },
   },
