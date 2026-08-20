@@ -6,7 +6,6 @@ export function scan<T, S>(reducer: Reducer<T, S>, initial: S) {
   return function (observable: Observable<T>) {
     return new Observable((observer: IObserver<S>) => {
       let accum = initial
-      observer.next(accum)
 
       return observable.subscribe({
         ...observer,
