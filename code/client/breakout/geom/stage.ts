@@ -13,5 +13,5 @@ export const STAGE_INTERSECTION_BOUNDS = new AARect({
   x: STAGE.x + BALL_RADIUS,
   y: STAGE.y + BALL_RADIUS,
   width: STAGE.width - 2 * BALL_RADIUS,
-  height: STAGE.height - BALL_RADIUS,
+  height: STAGE.height - 2 * BALL_RADIUS,
 })

@@ -2,7 +2,8 @@ import { type IPlainVec2D } from '../../../common/math/geom2d.ts'
 import { createComponent as c } from '../../../common/rendering/component.ts'
 import { classlist } from '../../../common/support/dom-properties.ts'
 import { type float64 } from '../../../common/types/numbers.ts'
-import { BALL_RADIUS, PADDLE_HEIGHT, PADDLE_WIDTH } from '../constants.ts'
+import { BALL_RADIUS, PADDLE_HEIGHT, PADDLE_OFFSET, PADDLE_WIDTH } from '../constants.ts'
+import { getPaddleEllipse } from '../geom/paddle.ts'
 import { STAGE } from '../geom/stage.ts'
 import { type IBreakoutTrajectory, type IBrickState } from '../types.ts'
 
@@ -19,13 +20,12 @@ export function breakoutTrace({ debug, ballCenter, trajectory, paddleCenter, bri
     return c.svg('g', { class: 'breakout-trace' })
   }
 
+  const paddle = getPaddleEllipse(paddleCenter)
+
   return c.svg('g', { class: 'breakout-trace' },
-    c.svg('ellipse', {
+    c.svg('path', {
       class: 'breakout-trace-paddle',
-      cx: String(paddleCenter),
-      cy: String(STAGE.getBottomPos()),
-      rx: String(PADDLE_WIDTH + BALL_RADIUS),
-      ry: String(PADDLE_HEIGHT + BALL_RADIUS),
+      d: `M ${paddle.x0 - paddle.a} ${paddle.y0} a ${paddle.a} ${paddle.b} 0 0 1 ${2 * paddle.a} 0`,
     }),
     ...bricks.map(brickState => {
       return c.svg('rect', {

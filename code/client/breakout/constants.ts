@@ -19,3 +19,4 @@ export const BRICK_MAX_POWER = 3
 export const BALL_RADIUS = 0.3
 export const PADDLE_WIDTH = 2
 export const PADDLE_HEIGHT = 0.3
+export const PADDLE_OFFSET = 0.15
