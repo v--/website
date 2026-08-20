@@ -1,5 +1,3 @@
-import { type BreakoutBrick } from './geom/brick.ts'
-import { type BreakoutPaddle } from './geom/paddle.ts'
 import { type IPlainVec2D, Vec2D } from '../../common/math/geom2d.ts'
 import { type UnitRatio, type float64, type uint32 } from '../../common/types/numbers.ts'
 import { type Action } from '../../common/types/typecons.ts'
@@ -16,9 +14,9 @@ export type GamePhase =
 export type GameBrickPower = 1 | 2 | 3
 
 export interface IBreakoutIntersection {
-  newCenter: Vec2D
-  figure: unknown
-  calculateReflectedDirection(): Vec2D
+  newCenter: IPlainVec2D
+  reflectedDirection: IPlainVec2D
+  brickIndex?: uint32
 }
 
 export interface IBreakoutIntersectible {
@@ -26,21 +24,34 @@ export interface IBreakoutIntersectible {
 }
 
 export interface IBallState {
-  ballSource: Vec2D
+  ballSource: IPlainVec2D
   ballTarget: IBreakoutIntersection
   ballPosition: UnitRatio
 }
 
-export interface IIncompleteGameState extends IBallState {
-  phase: GamePhase
-  paddle: BreakoutPaddle
-  score: uint32
-  bricks: BreakoutBrick[]
+export interface IBreakoutTrajectory {
+  head: IPlainVec2D
+  tail: IBreakoutIntersection[]
 }
 
-export interface IGameState extends IIncompleteGameState {
-  virtualControls: boolean
+export interface IBrickState {
+  x: uint32
+  y: uint32
+  power: GameBrickPower
+}
+
+export interface IInternalGameState extends IBallState {
+  paddleCenter: float64
+  score: uint32
+  bricks: IBrickState[]
   frameDuration: float64
+  trajectory: IBreakoutTrajectory
+}
+
+export interface IControllableGameState {
+  phase: GamePhase
+  paddleDirection: PaddleDirection
+  virtualControls: boolean
   debug: boolean
 }
 
@@ -49,4 +60,4 @@ export interface IComputedGameState {
   ballDirection: Vec2D
 }
 
-export type UpdateGameState = Action<Partial<IGameState>>
+export type UpdateGameState = Action<Partial<IControllableGameState>>

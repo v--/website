@@ -12,10 +12,7 @@ export function computeBallIntersectionWithFigure(
   if (int) {
     return {
       newCenter: int.point,
-      figure: figure,
-      calculateReflectedDirection() {
-        return int.calculateReflectedDirection()
-      },
+      reflectedDirection: int.calculateReflectedDirection(),
     }
   }
 

@@ -1,22 +1,21 @@
-import { type Vec2D } from '../../../common/math/geom2d.ts'
+import { type IPlainVec2D } from '../../../common/math/geom2d.ts'
 import { createComponent as c } from '../../../common/rendering/component.ts'
 import { classlist } from '../../../common/support/dom-properties.ts'
+import { type float64 } from '../../../common/types/numbers.ts'
 import { BALL_RADIUS, PADDLE_HEIGHT, PADDLE_WIDTH } from '../constants.ts'
-import { BreakoutBrick } from '../geom/brick.ts'
 import { STAGE } from '../geom/constants.ts'
 import { isIntersectionFatal, isIntersectionWinning } from '../geom/intersection.ts'
-import { type BreakoutPaddle } from '../geom/paddle.ts'
-import { type IBreakoutTrajectory } from '../geom/trajectory.ts'
+import { type IBreakoutTrajectory, type IBrickState } from '../types.ts'
 
 export interface IBreakoutTraceState {
   debug: boolean
-  paddle: BreakoutPaddle
-  ballCenter: Vec2D
-  bricks: BreakoutBrick[]
+  paddleCenter: float64
+  ballCenter: IPlainVec2D
+  bricks: IBrickState[]
   trajectory: IBreakoutTrajectory
 }
 
-export function breakoutTrace({ debug, ballCenter, trajectory, paddle, bricks }: IBreakoutTraceState) {
+export function breakoutTrace({ debug, ballCenter, trajectory, paddleCenter, bricks }: IBreakoutTraceState) {
   if (!debug) {
     return c.svg('g', { class: 'breakout-trace' })
   }
@@ -24,18 +23,18 @@ export function breakoutTrace({ debug, ballCenter, trajectory, paddle, bricks }:
   return c.svg('g', { class: 'breakout-trace' },
     c.svg('ellipse', {
       class: 'breakout-trace-paddle',
-      cx: String(paddle.center),
+      cx: String(paddleCenter),
       cy: String(STAGE.getBottomPos()),
       rx: String(PADDLE_WIDTH + BALL_RADIUS),
       ry: String(PADDLE_HEIGHT + BALL_RADIUS),
     }),
-    ...bricks.map(brick => {
+    ...bricks.map(brickState => {
       return c.svg('rect', {
         class: 'breakout-trace-brick',
-        width: brick.bounds.width,
-        height: brick.bounds.height,
-        x: brick.bounds.getLeftPos(),
-        y: brick.bounds.getTopPos(),
+        width: 1 + 2 * BALL_RADIUS,
+        height: 1 + 2 * BALL_RADIUS,
+        x: brickState.x - BALL_RADIUS,
+        y: brickState.y - BALL_RADIUS,
       })
     }),
     c.svg('polyline', {

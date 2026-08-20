@@ -13,9 +13,11 @@ export interface IClientEnvironmentConfig extends IEnvironmentConfig {
 export class ClientWebsiteEnvironment extends WebsiteEnvironment {
   declare readonly services: ClientServiceManager
   readonly pageUnload$ = new Subject<void>()
+  readonly logger: ClientLogger
 
   constructor(config: IClientEnvironmentConfig) {
     super(config)
+    this.logger = config.logger
   }
 
   override getActualColorScheme = getActualColorScheme

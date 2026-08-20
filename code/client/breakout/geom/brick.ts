@@ -1,26 +1,26 @@
+import { AARect, type IPlainVec2D, Vec2D } from '../../../common/math/geom2d.ts'
+import { type uint32 } from '../../../common/types/numbers.ts'
 import { BALL_RADIUS, BRICK_MAX_POWER } from '../constants.ts'
 import { BreakoutBrickError } from '../errors.ts'
 import { computeBallIntersectionWithFigure } from './ball.ts'
-import { AARect, type IPlainVec2D, Vec2D } from '../../../common/math/geom2d.ts'
-import { type uint32 } from '../../../common/types/numbers.ts'
-import { type GameBrickPower, type IBreakoutIntersection } from '../types.ts'
+import { type GameBrickPower, type IBreakoutIntersection, type IBrickState } from '../types.ts'
 
-export interface IBreakoutBrickConfig {
-  x: uint32
-  y: uint32
-  power: GameBrickPower
+export interface IBreakoutBrickConfig extends IBrickState {
+  index: uint32
 }
 
 export class BreakoutBrick implements IBreakoutBrickConfig {
   readonly x: uint32
   readonly y: uint32
+  readonly index: uint32
   readonly power: GameBrickPower
   readonly bounds: AARect
 
-  constructor({ x, y, power }: IBreakoutBrickConfig) {
+  constructor({ x, y, power, index }: IBreakoutBrickConfig) {
     this.x = x
     this.y = y
     this.power = power
+    this.index = index
     this.bounds = new AARect({
       x: x - BALL_RADIUS,
       y: y - BALL_RADIUS,
@@ -30,7 +30,13 @@ export class BreakoutBrick implements IBreakoutBrickConfig {
   }
 
   intersectWithBall(ballCenter: Vec2D, ballDirection: IPlainVec2D): IBreakoutIntersection | undefined {
-    return computeBallIntersectionWithFigure(ballCenter, ballDirection, this, this.bounds)
+    const int = computeBallIntersectionWithFigure(ballCenter, ballDirection, this, this.bounds)
+
+    if (int === undefined) {
+      return undefined
+    }
+
+    return { ...int, brickIndex: this.index }
   }
 
   evolve() {
@@ -41,6 +47,7 @@ export class BreakoutBrick implements IBreakoutBrickConfig {
     return new BreakoutBrick({
       x: this.x,
       y: this.y,
+      index: this.index,
       power: this.power + 1 as GameBrickPower,
     })
   }
@@ -53,6 +60,7 @@ export class BreakoutBrick implements IBreakoutBrickConfig {
     return new BreakoutBrick({
       x: this.x,
       y: this.y,
+      index: this.index,
       power: this.power - 1 as GameBrickPower,
     })
   }

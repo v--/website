@@ -62,7 +62,7 @@ export default defineConfig([
           'groups': ['builtin', 'external', 'internal'],
         },
       ],
-      'import-x/extensions': ['error', 'always'],
+      'import-x/extensions': ['off'],
       'import-x/consistent-type-specifier-style': ['warn', 'prefer-inline'],
       '@unused-imports/no-unused-imports': ['warn'],
       '@unused-imports/no-unused-vars': ['warn', { vars: 'all', args: 'after-used', argsIgnorePattern: '^_', caughtErrors: 'none' }],

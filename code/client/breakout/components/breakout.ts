@@ -5,32 +5,32 @@ import { breakoutPaddle } from './breakout-paddle.ts'
 import { breakoutScore } from './breakout-score.ts'
 import { breakoutSplash } from './breakout-splash.ts'
 import { breakoutTrace } from './breakout-trace.ts'
-import { EMPTY, Observable, bufferLatest, combineLatest, first, map, switchMap, takeUntil, timeInterval } from '../../../common/observable.ts'
+import { Observable, bufferLatest, combineLatest, map, switchMap, takeUntil, timeInterval } from '../../../common/observable.ts'
 import { createComponent as c } from '../../../common/rendering/component.ts'
 import { classlist } from '../../../common/support/dom-properties.ts'
 import { StateStore } from '../../../common/support/state-store.ts'
-import { animationFrameObservable, fromEvent } from '../../core/dom.ts'
+import { fromEvent } from '../../core/dom.ts'
 import { type ClientWebsiteEnvironment } from '../../core/environment.ts'
-import { getComputedState, processCollisions, refreshTarget } from '../computed.ts'
-import { EVOLUTION_FREQUENCY, FPS_INDICATOR_REFRESHES_PER_SECOND } from '../constants.ts'
+import { getComputedState } from '../computed.ts'
+import { FPS_INDICATOR_REFRESHES_PER_SECOND } from '../constants.ts'
 import { getEventParams, handleKeyDown, handleKeyUp, handleStageBlur, handleStageClick } from '../events.ts'
-import { evolveBall, evolveBricks, evolvePaddle } from '../evolution.ts'
 import { STAGE } from '../geom/constants.ts'
-import { computeBreakoutTrajectory } from '../geom/trajectory.ts'
-import { type IGameState } from '../types.ts'
+import { type IControllableGameState, type IInternalGameState } from '../types.ts'
 
 const SVG_VIEW_BOX = [STAGE.getLeftPos(), STAGE.getTopPos(), STAGE.width, STAGE.height].join(' ')
 
 interface IBreakoutState {
-  store: StateStore<IGameState>
+  worker: Worker
+  internalStateStore: StateStore<IInternalGameState>
+  controllableStateStore: StateStore<IControllableGameState>
 }
 
-export function breakout({ store }: IBreakoutState, env: ClientWebsiteEnvironment) {
+export function breakout({ worker, internalStateStore, controllableStateStore }: IBreakoutState, env: ClientWebsiteEnvironment) {
   fromEvent(window, 'keydown').pipe(
     takeUntil(env.pageUnload$),
   ).subscribe({
     next: function (event) {
-      handleKeyDown(getEventParams(store, env, event))
+      handleKeyDown(getEventParams(controllableStateStore, worker, env, event))
     },
   })
 
@@ -38,87 +38,32 @@ export function breakout({ store }: IBreakoutState, env: ClientWebsiteEnvironmen
     takeUntil(env.pageUnload$),
   ).subscribe({
     next: function (event) {
-      handleKeyUp(getEventParams(store, env, event))
+      handleKeyUp(getEventParams(controllableStateStore, worker, env, event))
     },
   })
 
-  store.keyedObservables.phase.pipe(
-    takeUntil(env.pageUnload$),
-    switchMap(function (phase) {
-      if (phase === 'running') {
-        return animationFrameObservable()
-      }
-
-      return EMPTY
-    }),
-  ).subscribe(function (frameDuration) {
-    const state = store.getCombinedState()
-    const newState: Partial<IGameState> = { frameDuration }
-    Object.assign(newState, evolvePaddle({ ...state, ...newState }))
-    Object.assign(newState, evolveBall({ ...state, ...newState }))
-    Object.assign(newState, processCollisions({ ...state, ...newState }))
-    store.update(newState)
-  })
-
-  store.keyedObservables.phase.pipe(
-    switchMap(function (phase) {
-      if (phase === 'running') {
-        return timeInterval(1000 * EVOLUTION_FREQUENCY)
-      }
-
-      return EMPTY
-    }),
-  ).subscribe(function () {
-    const state = store.getCombinedState()
-    const newState: Partial<IGameState> = {}
-    Object.assign(newState, evolveBricks({ ...state, ...newState }))
-    Object.assign(newState, refreshTarget({ ...state, ...newState }))
-    store.update(newState)
-  })
-
-  const ballCenter$ = store.combinedState$.pipe(
+  const ballCenter$ = internalStateStore.combinedState$.pipe(
     map(state => getComputedState(state).ballCenter),
   )
 
-  const trajectory$ = combineLatest({
-    paddle: store.keyedObservables.paddle,
-    bricks: store.keyedObservables.bricks,
-    ballTarget: store.keyedObservables.ballTarget,
-  }).pipe(
-    map(function ({ paddle, ballTarget, bricks }) {
-      const ballSource = store.getState('ballSource')
-      return computeBreakoutTrajectory(ballSource, ballTarget, paddle, bricks)
-    }),
-  )
-
-  const breakoutRayState$ = store.keyedObservables.debug.pipe(
-    switchMap(function (debug) {
-      const result = combineLatest({
-        debug,
-        trajectory: trajectory$,
-        ballCenter: ballCenter$,
-        paddle: store.keyedObservables.paddle,
-        bricks: store.keyedObservables.bricks,
-      })
-
-      if (debug) {
-        return result
-      }
-
-      return first(result)
-    }),
-  )
+  const breakoutTraceState$ = combineLatest({
+    debug: controllableStateStore.keyedObservables.debug,
+    trajectory: internalStateStore.keyedObservables.trajectory,
+    ballCenter: ballCenter$,
+    paddleCenter: internalStateStore.keyedObservables.paddleCenter,
+    bricks: internalStateStore.keyedObservables.bricks,
+  })
 
   const shownFps$ = combineLatest({
-    phase: store.keyedObservables.phase,
-    debug: store.keyedObservables.debug,
+    phase: controllableStateStore.keyedObservables.phase,
+    debug: controllableStateStore.keyedObservables.debug,
   }).pipe(
     switchMap(function ({ phase, debug }) {
       if (phase === 'running' && debug) {
-        return store.keyedObservables.frameDuration
+        return internalStateStore.keyedObservables.frameDuration
       }
 
-      return Observable.of(store.getState('frameDuration'))
+      return Observable.of(internalStateStore.getState('frameDuration'))
     }),
     map(frameDuration => Math.ceil(1000 / frameDuration)),
     bufferLatest(timeInterval(1000 / FPS_INDICATOR_REFRESHES_PER_SECOND)),
@@ -126,28 +71,28 @@ export function breakout({ store }: IBreakoutState, env: ClientWebsiteEnvironmen
 
   return c.svg('svg',
     {
-      class: store.keyedObservables.phase.pipe(
+      class: controllableStateStore.keyedObservables.phase.pipe(
         map(phase => classlist('breakout', phase === 'running' && 'breakout-active')),
       ),
       viewBox: SVG_VIEW_BOX,
       click(event: MouseEvent) {
-        handleStageClick(getEventParams(store, env, event))
+        handleStageClick(getEventParams(controllableStateStore, worker, env, event))
       },
       blur(event: FocusEvent) {
         if (event.relatedTarget instanceof HTMLButtonElement && event.relatedTarget.classList.contains('breakout-controller-button')) {
           return
         }
 
-        handleStageBlur(getEventParams(store, env, event))
+        handleStageBlur(getEventParams(controllableStateStore, worker, env, event))
       },
     },
 
-    c.factory(breakoutTrace, breakoutRayState$),
-    c.factory(breakoutBricks, { bricks: store.keyedObservables.bricks }),
-    c.factory(breakoutPaddle, { paddle: store.keyedObservables.paddle }),
+    c.factory(breakoutTrace, breakoutTraceState$),
+    c.factory(breakoutBricks, { bricks: internalStateStore.keyedObservables.bricks }),
+    c.factory(breakoutPaddle, { paddleCenter: internalStateStore.keyedObservables.paddleCenter }),
     c.factory(breakoutBall, { ballCenter: ballCenter$ }),
-    c.factory(breakoutSplash, { phase: store.keyedObservables.phase }),
-    c.factory(breakoutScore, { score: store.keyedObservables.score }),
-    c.factory(breakoutFps, { fps: shownFps$, show: store.keyedObservables.debug }),
+    c.factory(breakoutSplash, { phase: controllableStateStore.keyedObservables.phase }),
+    c.factory(breakoutScore, { score: internalStateStore.keyedObservables.score }),
+    c.factory(breakoutFps, { fps: shownFps$, show: controllableStateStore.keyedObservables.debug }),
   )
 }

@@ -1,22 +1,15 @@
-import { type Vec2D } from '../../../common/math/geom2d.ts'
-import { type uint32 } from '../../../common/types/numbers.ts'
-import { type IBreakoutIntersection } from '../types.ts'
-import { type BreakoutBrick } from './brick.ts'
 import { findClosestIntersection, isIntersectionFatal, isIntersectionWinning } from './intersection.ts'
-import { type BreakoutPaddle } from './paddle.ts'
+import { type IPlainVec2D } from '../../../common/math/geom2d.ts'
+import { type float64, type uint32 } from '../../../common/types/numbers.ts'
+import { type IBreakoutIntersection, type IBreakoutTrajectory, type IBrickState } from '../types.ts'
 
 const MAX_TRAJECTORY_LENGTH = 4
 
-export interface IBreakoutTrajectory {
-  head: Vec2D
-  tail: IBreakoutIntersection[]
-}
-
 export function computeBreakoutTrajectory(
-  head: Vec2D,
+  head: IPlainVec2D,
   first: IBreakoutIntersection,
-  paddle: BreakoutPaddle,
-  bricks: BreakoutBrick[],
+  paddleCenter: float64,
+  bricks: IBrickState[],
   maxLength: uint32 = MAX_TRAJECTORY_LENGTH,
 ): IBreakoutTrajectory {
   const tail: IBreakoutIntersection[] = []
@@ -28,8 +21,13 @@ export function computeBreakoutTrajectory(
       break
     }
 
-    const refl = int.calculateReflectedDirection()
-    int = findClosestIntersection(int.newCenter, refl, paddle, bricks)
+    const refl = int.reflectedDirection
+    int = findClosestIntersection(
+      int.newCenter,
+      refl,
+      paddleCenter,
+      bricks,
+    )
   }
 
   return { head, tail }

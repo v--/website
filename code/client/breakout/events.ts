@@ -1,29 +1,39 @@
 import { KEY_CONTROL, KEY_DEBUG, KEY_LEFT_SECONDARY, KEY_RESET, KEY_RIGHT_SECONDARY } from './constants.ts'
-import { DEFAULT_GAME_STATE } from './state.ts'
-import { type IGameState, type UpdateGameState } from './types.ts'
+import { type IControllableGameState, type UpdateGameState } from './types.ts'
 import { type StateStore } from '../../common/support/state-store.ts'
+import { type Action } from '../../common/types/typecons.ts'
 import { type ClientWebsiteEnvironment } from '../core/environment.ts'
 
 export interface IEventParams<EventT extends Event> {
-  state: IGameState
+  state: IControllableGameState
   update: UpdateGameState
+  reset: Action<void>
   env: ClientWebsiteEnvironment
   event: EventT
 }
 
-export function getEventParams<EventT extends Event>(store: StateStore<IGameState>, env: ClientWebsiteEnvironment, event: EventT): IEventParams<EventT> {
+export function getEventParams<EventT extends Event>(
+  store: StateStore<IControllableGameState>,
+  worker: Worker,
+  env: ClientWebsiteEnvironment,
+  event: EventT,
+): IEventParams<EventT> {
   return {
     state: store.getCombinedState(),
     update: store.update,
     env, event,
+    reset() {
+      store.update({ phase: 'unstarted' })
+      worker.postMessage({ kind: 'reset' })
+    },
   }
 }
 
-function toggleStatus({ state, update }: IEventParams<Event>) {
+function toggleStatus({ state, update, reset }: IEventParams<Event>) {
   switch (state.phase) {
     case 'game-over':
     case 'completed':
-      update(DEFAULT_GAME_STATE)
+      reset()
       break
 
     case 'unstarted':
@@ -37,20 +47,20 @@ function toggleStatus({ state, update }: IEventParams<Event>) {
   }
 }
 
-function tryReset({ env, update }: IEventParams<Event>) {
+function tryReset({ env, reset }: IEventParams<Event>) {
   const message = env.gettext.plain({ bundleId: 'breakout', key: 'control.reset.confirmation' })
 
   if (window.confirm(message)) {
-    update(DEFAULT_GAME_STATE)
+    reset()
   }
 }
 
-export function handleKeyDown({ state, event, update }: IEventParams<KeyboardEvent>) {
+export function handleKeyDown({ event, update }: IEventParams<KeyboardEvent>) {
   switch (event.key) {
     case KEY_LEFT_SECONDARY:
     case 'ArrowLeft':
       if (!event.repeat) {
-        update({ paddle: state.paddle.update({ direction: -1 }) })
+        update({ paddleDirection: -1 })
       }
 
       break
@@ -58,7 +68,7 @@ export function handleKeyDown({ state, event, update }: IEventParams<KeyboardEve
     case KEY_RIGHT_SECONDARY:
     case 'ArrowRight':
       if (!event.repeat) {
-        update({ paddle: state.paddle.update({ direction: 1 }) })
+        update({ paddleDirection: 1 })
       }
 
       break
@@ -87,16 +97,16 @@ export function handleKeyUp(params: IEventParams<KeyboardEvent>) {
 
     case KEY_LEFT_SECONDARY:
     case 'ArrowLeft':
-      if (state.paddle.direction === -1) {
-        update({ paddle: state.paddle.update({ direction: 0 }) })
+      if (state.paddleDirection === -1) {
+        update({ paddleDirection: 0 })
       }
 
       break
 
     case KEY_RIGHT_SECONDARY:
     case 'ArrowRight':
-      if (state.paddle.direction === 1) {
-        update({ paddle: state.paddle.update({ direction: 0 }) })
+      if (state.paddleDirection === 1) {
+        update({ paddleDirection: 0 })
       }
 
       break
@@ -119,24 +129,24 @@ export function handleStageBlur({ update, state }: IEventParams<FocusEvent>) {
 
 export function handleLeftButtonDown({ state, update }: IEventParams<MouseEvent>) {
   if (state.phase === 'running') {
-    update({ paddle: state.paddle.update({ direction: -1 }) })
+    update({ paddleDirection: -1 })
   }
 }
 
 export function handleLeftButtonUp({ state, update }: IEventParams<MouseEvent>) {
-  if (state.paddle.direction === -1) {
-    update({ paddle: state.paddle.update({ direction: 0 }) })
+  if (state.paddleDirection === -1) {
+    update({ paddleDirection: 0 })
   }
 }
 
 export function handleRightButtonDown({ state, update }: IEventParams<MouseEvent>) {
   if (state.phase === 'running') {
-    update({ paddle: state.paddle.update({ direction: 1 }) })
+    update({ paddleDirection: 1 })
   }
 }
 
 export function handleRightButtonUp({ state, update }: IEventParams<MouseEvent>) {
-  if (state.paddle.direction === 1) {
-    update({ paddle: state.paddle.update({ direction: 0 }) })
+  if (state.paddleDirection === 1) {
+    update({ paddleDirection: 0 })
   }
 }

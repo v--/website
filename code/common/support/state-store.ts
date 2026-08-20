@@ -1,61 +1,58 @@
-import { BehaviorSubject, Observable, filter, map, startWithFactory, takeUntil } from '../observable.ts'
+import { BehaviorSubject, Observable, filter, map, scan, startWithFactory, takeUntil } from '../observable.ts'
 import { getObjectKeys } from './iteration.ts'
 import { type Action } from '../types/typecons.ts'
 
 export type SubjectProperties<T extends object> = { [K in keyof T]: BehaviorSubject<T[K]> }
 export type ObservableProperties<T extends object> = { [K in keyof T]: Observable<T[K]> }
 
-interface StateStorePayload<T extends object> {
-  state: T
-  lastPatchedKeys: Array<keyof T>
-}
-
 export class StateStore<T extends object> {
-  #combinedSubject$: BehaviorSubject<StateStorePayload<T>>
+  #updateSubject$: BehaviorSubject<Partial<T>>
+  #combinedSubject$: BehaviorSubject<T>
 
   readonly keyedObservables: ObservableProperties<T>
   readonly combinedState$: Observable<T>
+  readonly stateUpdate$: Observable<Partial<T>>
   readonly update: Action<Partial<T>>
 
   constructor(initial: T, unload$: Observable<void>) {
-    this.#combinedSubject$ = new BehaviorSubject({
-      state: initial,
-      lastPatchedKeys: [],
-    })
+    this.#updateSubject$ = new BehaviorSubject({})
+    this.#combinedSubject$ = new BehaviorSubject(initial)
 
-    this.update = this.#update.bind(this)
-    this.combinedState$ = this.#combinedSubject$.pipe(
+    this.stateUpdate$ = this.#updateSubject$.pipe(
       takeUntil(unload$),
-      map(({ state }) => state),
     )
+
+    this.combinedState$ = this.stateUpdate$.pipe(
+      scan((accum, patch) => ({ ...accum, ...patch }), initial),
+    )
+
+    this.combinedState$.subscribe(this.#combinedSubject$)
 
     this.keyedObservables = Object.fromEntries(
       getObjectKeys(initial).map(key => {
-        const observable = this.#combinedSubject$.pipe(
-          takeUntil(unload$),
-          filter(payload => payload.lastPatchedKeys.includes(key)),
-          map(payload => payload.state[key]),
-          startWithFactory(() => this.getState(key)),
+        const observable = this.stateUpdate$.pipe(
+          filter(patch => key in patch),
+          map(patch => patch[key]),
+          startWithFactory(() => initial[key]),
         )
 
         return [key, observable]
       }),
     ) as ObservableProperties<T>
+
+    this.update = this.#update.bind(this)
   }
 
   getCombinedState() {
-    return this.#combinedSubject$.value.state
+    return this.#combinedSubject$.value
   }
 
   #update(patch: Partial<T>) {
-    this.#combinedSubject$.next({
-      state: { ...this.#combinedSubject$.value.state, ...patch },
-      lastPatchedKeys: getObjectKeys(patch),
-    })
+    this.#updateSubject$.next(patch)
   }
 
   getState<K extends keyof T>(key: K): T[K] {
-    return this.#combinedSubject$.value.state[key]
+    return this.#combinedSubject$.value[key]
   }
 
   setState<K extends keyof T>(key: K, value: T[K]) {

@@ -2,13 +2,12 @@ import { randInt } from '../../../common/math/prob.ts'
 import { isGeq, isLeq } from '../../../common/support/floating.ts'
 import { getComputedState } from '../computed.ts'
 import { BRICK_EVOLUTION_BALL_MIN_DISTANCE, BRICK_EVOLUTION_BOTTOM_MIN_DISTANCE, BRICK_MAX_POWER } from '../constants.ts'
-import { BreakoutBrick } from '../geom/brick.ts'
 import { STAGE } from '../geom/constants.ts'
-import { type IGameState } from '../types.ts'
+import { type GameBrickPower, type IInternalGameState } from '../types.ts'
 
 const MAX_EVOLUTION_ATTEMPTS = 3
 
-export function evolveBricks(state: IGameState): Partial<IGameState> | undefined {
+export function evolveBricks(state: IInternalGameState): Partial<IInternalGameState> | undefined {
   const { bricks } = state
   const { ballCenter } = getComputedState(state)
 
@@ -49,10 +48,8 @@ export function evolveBricks(state: IGameState): Partial<IGameState> | undefined
       brickIndex = bricks.findIndex(b => b.x === point.x && b.y === point.y)
 
       if (brickIndex === -1) {
-        const newBrick = new BreakoutBrick({ ...point, power: 1 })
-
         return {
-          bricks: bricks.concat([newBrick]),
+          bricks: bricks.concat([{ ...point, power: 1 }]),
         }
       }
     }
@@ -61,7 +58,7 @@ export function evolveBricks(state: IGameState): Partial<IGameState> | undefined
 
     if (brick.power < BRICK_MAX_POWER) {
       return {
-        bricks: bricks.toSpliced(brickIndex, 1, brick.evolve()),
+        bricks: bricks.toSpliced(brickIndex, 1, { ...brick, power: brick.power + 1 as GameBrickPower }),
       }
     }
   }

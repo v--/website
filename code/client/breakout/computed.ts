@@ -1,24 +1,33 @@
-import { BreakoutBrick } from './geom/brick.ts'
-import { findClosestIntersection, isIntersectionFatal } from './geom/intersection.ts'
-import { type IBallState, type IBreakoutIntersection, type IComputedGameState, type IGameState, type IIncompleteGameState } from './types.ts'
+import { findClosestIntersection } from './geom/intersection.ts'
+import { type GameBrickPower, type IBallState, type IBreakoutIntersection, type IComputedGameState, type IInternalGameState } from './types.ts'
+import { Vec2D } from '../../common/math/geom2d.ts'
 import { isClose, isZero } from '../../common/support/floating.ts'
 
 export function getComputedState(state: IBallState): IComputedGameState {
-  const diffVector = state.ballTarget.newCenter.sub(state.ballSource)
+  const source = new Vec2D(state.ballSource)
+  const target = new Vec2D(state.ballTarget.newCenter)
+
+  const diffVector = target.sub(source)
   const diff = diffVector.getNorm()
   const ballDirection = diffVector.scaleToNormed()
-  const ballCenter = state.ballSource.translate(ballDirection, state.ballPosition * diff)
+  const ballCenter = source.translate(ballDirection, state.ballPosition * diff)
 
   return { ballCenter, ballDirection }
 }
 
-export function refreshTarget(state: IIncompleteGameState): Partial<IGameState> | undefined {
-  const { paddle, ballTarget, bricks } = state
+export function refreshTarget(state: IInternalGameState): Partial<IInternalGameState> | undefined {
+  const { paddleCenter, ballTarget, bricks } = state
   const { ballCenter, ballDirection } = getComputedState(state)
 
-  const int = findClosestIntersection(ballCenter, ballDirection, paddle, bricks)
+  const int = findClosestIntersection(ballCenter, ballDirection, paddleCenter, bricks)
 
-  if (int === undefined || isZero(int.newCenter.distanceTo(ballTarget.newCenter))) {
+  if (int === undefined) {
+    return undefined
+  }
+
+  const newCenter = new Vec2D(int.newCenter)
+
+  if (isZero(newCenter.distanceTo(ballTarget.newCenter))) {
     return undefined
   }
 
@@ -29,43 +38,40 @@ export function refreshTarget(state: IIncompleteGameState): Partial<IGameState> 
   }
 }
 
-function processBrickCollisions(state: IIncompleteGameState, int: IBreakoutIntersection): Partial<IGameState> | undefined {
-  if (int.figure instanceof BreakoutBrick) {
-    const newBricks = state.bricks.slice()
-    const brick = int.figure
-    const brickIndex = newBricks.indexOf(brick)
-
-    if (brick.power > 1) {
-      newBricks.splice(brickIndex, 1, brick.devolve())
-    } else {
-      newBricks.splice(brickIndex, 1)
-    }
-
-    return {
-      bricks: newBricks,
-      score: state.score + 1,
-      phase: newBricks.length === 0 ? 'completed' : state.phase,
-    }
+function processBrickCollisions(state: IInternalGameState, int: IBreakoutIntersection): Partial<IInternalGameState> | undefined {
+  if (int.brickIndex === undefined) {
+    return undefined
   }
 
-  return undefined
+  const newBricks = state.bricks.slice()
+  const brick = state.bricks[int.brickIndex]
+  const brickIndex = newBricks.indexOf(brick)
+
+  if (brick.power > 1) {
+    newBricks.splice(brickIndex, 1, { ...brick, power: brick.power - 1 as GameBrickPower })
+  } else {
+    newBricks.splice(brickIndex, 1)
+  }
+
+  return {
+    bricks: newBricks,
+    score: state.score + 1,
+  }
 }
 
-export function processCollisions(state: IIncompleteGameState): Partial<IGameState> | undefined {
-  const { ballPosition, ballTarget, paddle, bricks } = state
+export function processCollisions(state: IInternalGameState): Partial<IInternalGameState> | undefined {
+  const { ballPosition, ballTarget, paddleCenter, bricks } = state
 
   if (!isClose(ballPosition, 1.0)) {
     return undefined
   }
 
-  if (isIntersectionFatal(ballTarget)) {
-    return {
-      phase: 'game-over',
-    }
-  }
-
-  const refl = ballTarget.calculateReflectedDirection()
-  const reflInt = findClosestIntersection(ballTarget.newCenter, refl, paddle, bricks)
+  const reflInt = findClosestIntersection(
+    ballTarget.newCenter,
+    ballTarget.reflectedDirection,
+    paddleCenter,
+    bricks,
+  )
 
   if (reflInt === undefined) {
     return undefined

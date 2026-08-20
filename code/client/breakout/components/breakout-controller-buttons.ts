@@ -6,27 +6,28 @@ import { type IconLibraryId } from '../../../common/types/bundles.ts'
 import { type Action } from '../../../common/types/typecons.ts'
 import { type ClientWebsiteEnvironment } from '../../core/environment.ts'
 import { getEventParams, handleLeftButtonDown, handleLeftButtonUp, handleRightButtonDown, handleRightButtonUp } from '../events.ts'
-import { type IGameState } from '../types.ts'
+import { type IControllableGameState } from '../types.ts'
 
 interface IBreakoutControllerButtonsState {
-  store: StateStore<IGameState>
+  worker: Worker
+  controllableStateStore: StateStore<IControllableGameState>
 }
 
-export function breakoutControllerButtons({ store }: IBreakoutControllerButtonsState, env: ClientWebsiteEnvironment) {
+export function breakoutControllerButtons({ worker, controllableStateStore }: IBreakoutControllerButtonsState, env: ClientWebsiteEnvironment) {
   return c.html('div', { class: 'breakout-controller-buttons' },
     c.factory(breakoutControllerButton,
       {
         class: 'breakout-controller-button-left',
-        enabled: store.keyedObservables.virtualControls,
+        enabled: controllableStateStore.keyedObservables.virtualControls,
         iconLibraryId: 'core',
         iconName: 'chevron-left',
 
         pointerdown(event: PointerEvent) {
-          handleLeftButtonDown(getEventParams(store, env, event))
+          handleLeftButtonDown(getEventParams(controllableStateStore, worker, env, event))
         },
 
         pointerup(event: PointerEvent) {
-          handleLeftButtonUp(getEventParams(store, env, event))
+          handleLeftButtonUp(getEventParams(controllableStateStore, worker, env, event))
         },
       },
     ),
@@ -34,16 +35,16 @@ export function breakoutControllerButtons({ store }: IBreakoutControllerButtonsS
     c.factory(breakoutControllerButton,
       {
         class: 'breakout-controller-button-right',
-        enabled: store.keyedObservables.virtualControls,
+        enabled: controllableStateStore.keyedObservables.virtualControls,
         iconLibraryId: 'core',
         iconName: 'chevron-right',
 
         pointerdown(event: PointerEvent) {
-          handleRightButtonDown(getEventParams(store, env, event))
+          handleRightButtonDown(getEventParams(controllableStateStore, worker, env, event))
         },
 
         pointerup(event: PointerEvent) {
-          handleRightButtonUp(getEventParams(store, env, event))
+          handleRightButtonUp(getEventParams(controllableStateStore, worker, env, event))
         },
       },
     ),

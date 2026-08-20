@@ -1,16 +1,16 @@
 import { createComponent as c } from '../../../common/rendering/component.ts'
+import { type float64 } from '../../../common/types/numbers.ts'
 import { PADDLE_HEIGHT, PADDLE_WIDTH } from '../constants.ts'
 import { STAGE } from '../geom/constants.ts'
-import { type BreakoutPaddle } from '../geom/paddle.ts'
 
 interface IBreakoutPaddleState {
-  paddle: BreakoutPaddle
+  paddleCenter: float64
 }
 
-export function breakoutPaddle({ paddle }: IBreakoutPaddleState) {
+export function breakoutPaddle({ paddleCenter }: IBreakoutPaddleState) {
   return c.svg('ellipse', {
     class: 'breakout-paddle',
-    cx: String(paddle.center),
+    cx: String(paddleCenter),
     cy: String(STAGE.getBottomPos()),
     rx: String(PADDLE_WIDTH),
     ry: String(PADDLE_HEIGHT),

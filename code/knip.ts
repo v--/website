@@ -13,7 +13,8 @@ const config: KnipConfig = {
     'code/client/runtime.ts',
     'code/testing/*/setup.ts',
     'code/testing/cli.ts',
-    ...PLAYGROUND_PAGE_IDS.flatMap(pageId => [`code/client/${pageId}.ts`, `code/client/${pageId}/index.ts`]),
+    ...PLAYGROUND_PAGE_IDS.flatMap(pageId => [`code/client/${pageId}/index.ts`]),
+    'code/client/breakout/worker.ts',
 
     // Configurations
     'code/rollup.config.ts',
