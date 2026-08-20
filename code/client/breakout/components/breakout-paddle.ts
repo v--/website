@@ -1,7 +1,7 @@
 import { createComponent as c } from '../../../common/rendering/component.ts'
 import { type float64 } from '../../../common/types/numbers.ts'
 import { PADDLE_HEIGHT, PADDLE_WIDTH } from '../constants.ts'
-import { STAGE } from '../geom/constants.ts'
+import { STAGE } from '../geom/stage.ts'
 
 interface IBreakoutPaddleState {
   paddleCenter: float64

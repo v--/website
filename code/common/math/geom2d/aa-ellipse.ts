@@ -104,13 +104,19 @@ export class AAEllipse implements IAAEllipseConfig, IIntersectible {
   }
 
   intersectWithRay(origin: Vec2D, direction: IPlainVec2D, tolerance?: float64): IIntersection | undefined {
-    const intPoint = this.calculateIntersectionPointWithRay(origin, direction, tolerance)
+    const ellipseIntPoint = this.calculateIntersectionPointWithRay(origin, direction, tolerance)
 
-    if (intPoint === undefined) {
+    if (ellipseIntPoint === undefined) {
       return undefined
     }
 
-    const tangent = this.tangentAtPoint(intPoint, tolerance)
-    return tangent.intersectWithRay(origin, direction, tolerance)
+    const tangent = this.tangentAtPoint(ellipseIntPoint, tolerance)
+    const tangentInt = tangent.intersectWithRay(origin, direction, tolerance)
+
+    if (tangentInt && this.containsPoint(tangentInt.point)) {
+      return tangentInt
+    }
+
+    return undefined
   }
 }

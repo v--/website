@@ -1,4 +1,4 @@
-import { findClosestIntersection } from './geom/intersection.ts'
+import { findClosestBreakoutIntersection } from './geom/intersection.ts'
 import { type GameBrickPower, type IBallState, type IBreakoutIntersection, type IComputedGameState, type IInternalGameState } from './types.ts'
 import { Vec2D } from '../../common/math/geom2d.ts'
 import { isClose, isZero } from '../../common/support/floating.ts'
@@ -19,12 +19,7 @@ export function refreshTarget(state: IInternalGameState): Partial<IInternalGameS
   const { paddleCenter, ballTarget, bricks } = state
   const { ballCenter, ballDirection } = getComputedState(state)
 
-  const int = findClosestIntersection(ballCenter, ballDirection, paddleCenter, bricks)
-
-  if (int === undefined) {
-    return undefined
-  }
-
+  const int = findClosestBreakoutIntersection(ballCenter, ballDirection, paddleCenter, bricks)
   const newCenter = new Vec2D(int.newCenter)
 
   if (isZero(newCenter.distanceTo(ballTarget.newCenter))) {
@@ -39,13 +34,13 @@ export function refreshTarget(state: IInternalGameState): Partial<IInternalGameS
 }
 
 function processBrickCollisions(state: IInternalGameState, int: IBreakoutIntersection): Partial<IInternalGameState> | undefined {
-  if (int.brickIndex === undefined) {
+  if (int.brick === undefined) {
     return undefined
   }
 
   const newBricks = state.bricks.slice()
-  const brick = state.bricks[int.brickIndex]
-  const brickIndex = newBricks.indexOf(brick)
+  const brick = int.brick
+  const brickIndex = newBricks.findIndex(b => b.x === brick.x && b.y === brick.y)
 
   if (brick.power > 1) {
     newBricks.splice(brickIndex, 1, { ...brick, power: brick.power - 1 as GameBrickPower })
@@ -66,16 +61,12 @@ export function processCollisions(state: IInternalGameState): Partial<IInternalG
     return undefined
   }
 
-  const reflInt = findClosestIntersection(
+  const reflInt = findClosestBreakoutIntersection(
     ballTarget.newCenter,
     ballTarget.reflectedDirection,
     paddleCenter,
     bricks,
   )
-
-  if (reflInt === undefined) {
-    return undefined
-  }
 
   return {
     ballPosition: 0.0,

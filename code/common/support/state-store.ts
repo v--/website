@@ -33,7 +33,7 @@ export class StateStore<T extends object> {
         const observable = this.stateUpdate$.pipe(
           filter(patch => key in patch),
           map(patch => patch[key]),
-          startWithFactory(() => initial[key]),
+          startWithFactory(() => this.getState(key)),
         )
 
         return [key, observable]

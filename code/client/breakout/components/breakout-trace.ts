@@ -3,8 +3,7 @@ import { createComponent as c } from '../../../common/rendering/component.ts'
 import { classlist } from '../../../common/support/dom-properties.ts'
 import { type float64 } from '../../../common/types/numbers.ts'
 import { BALL_RADIUS, PADDLE_HEIGHT, PADDLE_WIDTH } from '../constants.ts'
-import { STAGE } from '../geom/constants.ts'
-import { isIntersectionFatal, isIntersectionWinning } from '../geom/intersection.ts'
+import { STAGE } from '../geom/stage.ts'
 import { type IBreakoutTrajectory, type IBrickState } from '../types.ts'
 
 export interface IBreakoutTraceState {
@@ -45,8 +44,8 @@ export function breakoutTrace({ debug, ballCenter, trajectory, paddleCenter, bri
       return c.svg('circle', {
         class: classlist(
           'breakout-trace-ghost',
-          isIntersectionFatal(int) && 'breakout-trace-ghost-fatal',
-          isIntersectionWinning(int, bricks) && 'breakout-trace-ghost-winning',
+          int.isStageBottom && 'breakout-trace-ghost-fatal',
+          int.isLastBrick && 'breakout-trace-ghost-winning',
         ),
         cx: String(int.newCenter.x),
         cy: String(int.newCenter.y),

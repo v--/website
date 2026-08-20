@@ -2,7 +2,7 @@ import { randInt } from '../../../common/math/prob.ts'
 import { isGeq, isLeq } from '../../../common/support/floating.ts'
 import { getComputedState } from '../computed.ts'
 import { BRICK_EVOLUTION_BALL_MIN_DISTANCE, BRICK_EVOLUTION_BOTTOM_MIN_DISTANCE, BRICK_MAX_POWER } from '../constants.ts'
-import { STAGE } from '../geom/constants.ts'
+import { STAGE } from '../geom/stage.ts'
 import { type GameBrickPower, type IInternalGameState } from '../types.ts'
 
 const MAX_EVOLUTION_ATTEMPTS = 3

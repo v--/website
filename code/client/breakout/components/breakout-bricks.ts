@@ -1,8 +1,8 @@
 import { createComponent as c } from '../../../common/rendering/component.ts'
-import { type BreakoutBrick } from '../geom/brick.ts'
+import { type IBrickState } from '../types.ts'
 
 interface IBreakoutBricksState {
-  bricks: BreakoutBrick[]
+  bricks: IBrickState[]
 }
 
 const BRICK_VISUAL_PADDING = 0.01

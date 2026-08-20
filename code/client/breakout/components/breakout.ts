@@ -14,7 +14,7 @@ import { type ClientWebsiteEnvironment } from '../../core/environment.ts'
 import { getComputedState } from '../computed.ts'
 import { FPS_INDICATOR_REFRESHES_PER_SECOND } from '../constants.ts'
 import { getEventParams, handleKeyDown, handleKeyUp, handleStageBlur, handleStageClick } from '../events.ts'
-import { STAGE } from '../geom/constants.ts'
+import { STAGE } from '../geom/stage.ts'
 import { type IControllableGameState, type IInternalGameState } from '../types.ts'
 
 const SVG_VIEW_BOX = [STAGE.getLeftPos(), STAGE.getTopPos(), STAGE.width, STAGE.height].join(' ')

@@ -5,11 +5,10 @@ import { computeBreakoutTrajectory } from './geom/trajectory.js'
 import { type HostToWorkerMessage } from './messages.js'
 import { DEFAULT_CONTROLLABLE_GAME_STATE, DEFAULT_INTERNAL_GAME_STATE } from './state.js'
 import { type IControllableGameState, type IInternalGameState } from './types.js'
-import { EMPTY, combineLatest, first, map, switchMap, timeInterval } from '../../common/observable.js'
+import { EMPTY, combineLatest, map, switchMap, timeInterval } from '../../common/observable.js'
+import { isClose } from '../../common/support/floating.js'
 import { StateStore } from '../../common/support/state-store.js'
 import { animationFrameObservable, fromEvent } from '../core/dom.js'
-import { isIntersectionFatal } from './geom/intersection.js'
-import { isClose } from '../../common/support/floating.js'
 
 const internalStateStore = new StateStore<IInternalGameState>(DEFAULT_INTERNAL_GAME_STATE, EMPTY)
 const controllableStateStore = new StateStore<IControllableGameState>(DEFAULT_CONTROLLABLE_GAME_STATE, EMPTY)
@@ -46,15 +45,18 @@ controllableStateStore.keyedObservables.phase.pipe(
   const internalState = internalStateStore.getCombinedState()
   const paddleDirection = controllableStateStore.getState('paddleDirection')
   const newState: Partial<IInternalGameState> = { frameDuration }
+
   Object.assign(newState, evolvePaddle({ ...internalState, ...newState }, paddleDirection))
   Object.assign(newState, evolveBall({ ...internalState, ...newState }))
 
-  if (newState.bricks && newState.bricks.length === 0) {
-    self.postMessage({ kind: 'completed' })
-  } else if (isClose(newState.ballPosition!, 1.0) && isIntersectionFatal(newState.ballTarget || internalState.ballTarget)) {
+  if (isClose(newState.ballPosition!, 1.0) && internalState.ballTarget.isStageBottom) {
     self.postMessage({ kind: 'gameOver' })
   } else {
     Object.assign(newState, processCollisions({ ...internalState, ...newState }))
+
+    if (newState.bricks && newState.bricks.length === 0) {
+      self.postMessage({ kind: 'gameCompleted' })
+    }
   }
 
   internalStateStore.update(newState)
@@ -78,8 +80,8 @@ controllableStateStore.keyedObservables.phase.pipe(
 
 const trajectory$ = combineLatest({
   paddleCenter: internalStateStore.keyedObservables.paddleCenter,
-  bricks: internalStateStore.keyedObservables.bricks,
   ballTarget: internalStateStore.keyedObservables.ballTarget,
+  bricks: internalStateStore.keyedObservables.bricks,
 }).pipe(
   map(function ({ paddleCenter, ballTarget, bricks }) {
     const ballSource = internalStateStore.getState('ballSource')
@@ -93,7 +95,7 @@ controllableStateStore.keyedObservables.debug.pipe(
       return trajectory$
     }
 
-    return first(trajectory$)
+    return EMPTY
   }),
 ).subscribe(function (trajectory) {
   internalStateStore.update({ trajectory })

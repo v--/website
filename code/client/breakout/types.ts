@@ -13,31 +13,35 @@ export type GamePhase =
 
 export type GameBrickPower = 1 | 2 | 3
 
-export interface IBreakoutIntersection {
-  newCenter: IPlainVec2D
-  reflectedDirection: IPlainVec2D
-  brickIndex?: uint32
-}
-
-export interface IBreakoutIntersectible {
-  intersectWithBall(ballSource: Vec2D, ballTarget: IPlainVec2D): IBreakoutIntersection | undefined
-}
-
 export interface IBallState {
   ballSource: IPlainVec2D
   ballTarget: IBreakoutIntersection
   ballPosition: UnitRatio
 }
 
-export interface IBreakoutTrajectory {
-  head: IPlainVec2D
-  tail: IBreakoutIntersection[]
-}
-
 export interface IBrickState {
   x: uint32
   y: uint32
   power: GameBrickPower
+}
+
+export interface IBreakoutIntersectionB {
+  x: uint32
+  y: uint32
+  power: GameBrickPower
+}
+
+export interface IBreakoutIntersection {
+  newCenter: IPlainVec2D
+  reflectedDirection: IPlainVec2D
+  brick?: IBrickState
+  isLastBrick?: boolean
+  isStageBottom?: boolean
+}
+
+export interface IBreakoutTrajectory {
+  head: IPlainVec2D
+  tail: IBreakoutIntersection[]
 }
 
 export interface IInternalGameState extends IBallState {
