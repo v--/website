@@ -83,7 +83,7 @@ export class Line2D implements ILine2DConfig, IIntersectible {
     // This projection point is P' in the figure
     const tProjection = this.#getIntersectionParameter(origin, normalDirection, tolerance)
 
-    if (tProjection === undefined || isZero(tIntersection, tolerance)) {
+    if (tProjection === undefined || isZero(tProjection, tolerance)) {
       return undefined
     }
 
@@ -96,7 +96,7 @@ export class Line2D implements ILine2DConfig, IIntersectible {
     // This reflected point is R in the figure
     const tReflected = parallelLine.#getIntersectionParameter(reflectedProjection, normalDirection, tolerance)
 
-    if (tReflected === undefined || isZero(tIntersection, tolerance)) {
+    if (tReflected === undefined || isZero(tReflected, tolerance)) {
       return undefined
     }
 

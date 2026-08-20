@@ -35,7 +35,7 @@ export interface IBreakoutIntersection {
   newCenter: IPlainVec2D
   reflectedDirection: IPlainVec2D
   brick?: IBrickState
-  isLastBrick?: boolean
+  isLastHit?: boolean
   isStageBottom?: boolean
 }
 

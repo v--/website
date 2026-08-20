@@ -63,7 +63,7 @@ export class AAEllipse implements IAAEllipseConfig, IIntersectible {
     const t2 = (-b + Math.sqrt(d)) / (2 * a)
 
     if (isLess(t1, 0, tolerance) && isLess(t2, 0, tolerance)) {
-      return
+      return undefined
     }
 
     const t = isLess(t1, 0, tolerance) ? t2 : (isLess(t2, 0, tolerance) ? t1 : Math.min(t1, t2))
@@ -111,12 +111,6 @@ export class AAEllipse implements IAAEllipseConfig, IIntersectible {
     }
 
     const tangent = this.tangentAtPoint(ellipseIntPoint, tolerance)
-    const tangentInt = tangent.intersectWithRay(origin, direction, tolerance)
-
-    if (tangentInt && this.containsPoint(tangentInt.point)) {
-      return tangentInt
-    }
-
-    return undefined
+    return tangent.intersectWithRay(origin, direction, tolerance)
   }
 }

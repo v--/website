@@ -49,7 +49,7 @@ controllableStateStore.keyedObservables.phase.pipe(
   Object.assign(newState, evolvePaddle({ ...internalState, ...newState }, paddleDirection))
   Object.assign(newState, evolveBall({ ...internalState, ...newState }))
 
-  if (isClose(newState.ballPosition!, 1.0) && internalState.ballTarget.isStageBottom) {
+  if (isClose(newState.ballPosition!, 1.0) && (newState.ballTarget || internalState.ballTarget).isStageBottom) {
     self.postMessage({ kind: 'gameOver' })
   } else {
     Object.assign(newState, processCollisions({ ...internalState, ...newState }))

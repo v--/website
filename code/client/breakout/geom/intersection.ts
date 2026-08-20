@@ -1,17 +1,16 @@
-import { STAGE_INTERSECTION_BOUNDS } from './stage.ts'
+import { STAGE, STAGE_INTERSECTION_BOUNDS } from './stage.ts'
 import { AARect, type IIntersection, type IPlainVec2D, Vec2D } from '../../../common/math/geom2d.ts'
 import { isClose } from '../../../common/support/floating.ts'
 import { schwartzMin } from '../../../common/support/iteration.ts'
 import { type float64 } from '../../../common/types/numbers.ts'
 import { BALL_RADIUS } from '../constants.ts'
-import { BreakoutIntersectionError } from '../errors.ts'
 import { type IBreakoutIntersection, type IBrickState } from '../types.ts'
 import { getPaddleEllipse } from './paddle.ts'
 
 interface IFigureGeomIntersection {
   int?: IIntersection
   brick?: IBrickState
-  isLastBrick?: boolean
+  isLastHit?: boolean
   isStageBottom?: boolean
 }
 
@@ -28,12 +27,14 @@ function getPaddleGeomIntersection(ballSource: Vec2D, ballDirection: IPlainVec2D
   const int = getPaddleEllipse(paddleCenter).intersectWithRay(ballSource, ballDirection)
 
   if (int === undefined) {
-    return { int }
+    return {
+      int: undefined,
+    }
   }
 
   return {
     int: {
-      point: int.point,
+      point: new Vec2D({ x: int.point.x, y: Math.min(int.point.y, STAGE.getBottomPos() - BALL_RADIUS) }),
       calculateReflectedDirection() {
         // Due to a combination of numerical errors and intricacies of elliptic reflection,
         // reflection at the edge of the paddle seemingly misbehaves.
@@ -70,16 +71,10 @@ export function* iterGeomIntersections(ballSource: Vec2D, ballDirection: IPlainV
 
 function findClosestGeomIntersection(ballSource: IPlainVec2D, ballDirection: IPlainVec2D, paddleCenter: float64, bricks: IBrickState[]): IFigureGeomIntersection {
   const source = new Vec2D(ballSource)
-  const closest = schwartzMin(
-    ({ int, isStageBottom }) => isStageBottom ? Number.POSITIVE_INFINITY : source.distanceTo(int!.point),
-    iterGeomIntersections(source, ballDirection, paddleCenter, bricks).filter(({ int }) => int),
+  return schwartzMin(
+    ({ int }) => int ? source.distanceTo(int.point) : Number.POSITIVE_INFINITY,
+    iterGeomIntersections(source, ballDirection, paddleCenter, bricks),
   )
-
-  if (closest === undefined) {
-    throw new BreakoutIntersectionError('Cannot intersect the ball trajectory')
-  }
-
-  return closest
 }
 
 export function findClosestBreakoutIntersection(ballSource: IPlainVec2D, ballDirection: IPlainVec2D, paddleCenter: float64, bricks: IBrickState[]): IBreakoutIntersection {
@@ -89,7 +84,7 @@ export function findClosestBreakoutIntersection(ballSource: IPlainVec2D, ballDir
     newCenter: int!.point,
     reflectedDirection: int!.calculateReflectedDirection(),
     brick,
-    isLastBrick: bricks.length === 1 && brick !== undefined,
+    isLastHit: bricks.length === 1 && brick !== undefined && brick.power == 1,
     isStageBottom,
   }
 }

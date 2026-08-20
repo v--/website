@@ -2,7 +2,7 @@ import { type IPlainVec2D } from '../../../common/math/geom2d.ts'
 import { createComponent as c } from '../../../common/rendering/component.ts'
 import { classlist } from '../../../common/support/dom-properties.ts'
 import { type float64 } from '../../../common/types/numbers.ts'
-import { BALL_RADIUS, PADDLE_HEIGHT, PADDLE_WIDTH } from '../constants.ts'
+import { BALL_RADIUS, PADDLE_HEIGHT, PADDLE_TRACE_WIDTH_CORRECTION, PADDLE_WIDTH } from '../constants.ts'
 import { STAGE } from '../geom/stage.ts'
 import { type IBreakoutTrajectory, type IBrickState } from '../types.ts'
 
@@ -24,7 +24,7 @@ export function breakoutTrace({ debug, ballCenter, trajectory, paddleCenter, bri
       class: 'breakout-trace-paddle',
       cx: String(paddleCenter),
       cy: String(STAGE.getBottomPos()),
-      rx: String(PADDLE_WIDTH + BALL_RADIUS),
+      rx: String(PADDLE_WIDTH + PADDLE_TRACE_WIDTH_CORRECTION * BALL_RADIUS),
       ry: String(PADDLE_HEIGHT + BALL_RADIUS),
     }),
     ...bricks.map(brickState => {
@@ -45,7 +45,7 @@ export function breakoutTrace({ debug, ballCenter, trajectory, paddleCenter, bri
         class: classlist(
           'breakout-trace-ghost',
           int.isStageBottom && 'breakout-trace-ghost-fatal',
-          int.isLastBrick && 'breakout-trace-ghost-winning',
+          int.isLastHit && 'breakout-trace-ghost-winning',
         ),
         cx: String(int.newCenter.x),
         cy: String(int.newCenter.y),

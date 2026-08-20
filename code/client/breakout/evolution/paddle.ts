@@ -15,7 +15,7 @@ export function evolvePaddle(state: IInternalGameState, paddleDirection: PaddleD
 
   if (!isClose(newPaddleCenter, paddleCenter) && !getPaddleEllipse(newPaddleCenter).containsPoint(ballCenter)) {
     const newState = { paddleCenter: newPaddleCenter }
-    Object.assign(newState, refreshTarget({ ...state }))
+    Object.assign(newState, refreshTarget({ ...state, ...newState }))
     return newState
   }
 
