@@ -6,14 +6,6 @@
     stroke-linecap: round;
   }
 
-  &-ball {
-    fill: var(--breakout-color-ball);
-  }
-
-  &-paddle {
-    fill: var(--breakout-color-paddle);
-  }
-
   &-ghost {
     fill: var(--breakout-color-trace);
 
@@ -26,7 +18,7 @@
     }
   }
 
-  &-brick, &-paddle-extension {
+  &-paddle, &-brick {
     fill: var(--breakout-color-trace-extension);
   }
 }

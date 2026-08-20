@@ -23,18 +23,11 @@ export function breakoutTrace({ debug, ballCenter, trajectory, paddle, bricks }:
 
   return c.svg('g', { class: 'breakout-trace' },
     c.svg('ellipse', {
-      class: 'breakout-trace-paddle-extension',
+      class: 'breakout-trace-paddle',
       cx: String(paddle.center),
       cy: String(STAGE.getBottomPos()),
       rx: String(PADDLE_WIDTH + BALL_RADIUS),
       ry: String(PADDLE_HEIGHT + BALL_RADIUS),
-    }),
-    c.svg('ellipse', {
-      class: 'breakout-trace-paddle',
-      cx: String(paddle.center),
-      cy: String(STAGE.getBottomPos()),
-      rx: String(PADDLE_WIDTH),
-      ry: String(PADDLE_HEIGHT),
     }),
     ...bricks.map(brick => {
       return c.svg('rect', {
@@ -48,12 +41,6 @@ export function breakoutTrace({ debug, ballCenter, trajectory, paddle, bricks }:
     c.svg('polyline', {
       class: 'breakout-trace-edges',
       points: `${ballCenter.x},${ballCenter.y} ` + trajectory.tail.map(({ newCenter }) => `${newCenter.x},${newCenter.y}`).join(' '),
-    }),
-    c.svg('circle', {
-      class: 'breakout-trace-ball',
-      cx: String(ballCenter.x),
-      cy: String(ballCenter.y),
-      r: BALL_RADIUS,
     }),
     ...trajectory.tail.map(int => {
       return c.svg('circle', {

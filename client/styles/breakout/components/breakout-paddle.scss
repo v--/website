@@ -1,0 +1,6 @@
+@use "sass:list";
+@use "../../colors";
+
+.breakout-paddle {
+  fill: var(--breakout-color-paddle);
+}
