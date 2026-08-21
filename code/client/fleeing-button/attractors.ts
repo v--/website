@@ -1,19 +1,22 @@
 import {
-  ATTRACTOR_EDGE_OFFSET,
-  ATTRACTOR_INNER_OFFSET,
+  ATTRACTOR_MAJOR_AXIS,
+  ATTRACTOR_MINOR_AXIS,
+  ATTRACTOR_RING_POINTS,
   MOUSE_DISTANCE_THRESHOLD,
-  STAGE,
 } from './constants.ts'
 import { Vec2D } from '../../common/math/geom2d.ts'
 import { schwartzMin } from '../../common/support/iteration.ts'
 
-export function* iterateAttractors() {
-  for (let x = STAGE.getLeftPos() + ATTRACTOR_EDGE_OFFSET; x <= STAGE.getRightPos() - ATTRACTOR_EDGE_OFFSET; x += ATTRACTOR_INNER_OFFSET) {
-    for (let y = STAGE.getTopPos() + ATTRACTOR_EDGE_OFFSET; y <= STAGE.getBottomPos() - ATTRACTOR_EDGE_OFFSET; y += ATTRACTOR_INNER_OFFSET) {
-      yield new Vec2D({ x, y })
-    }
+function* iterateAttractors() {
+  for (let angle = 0; angle < 2 * Math.PI; angle += 2 * Math.PI / ATTRACTOR_RING_POINTS) {
+    yield new Vec2D({
+      x: ATTRACTOR_MAJOR_AXIS * Math.cos(angle),
+      y: ATTRACTOR_MINOR_AXIS * Math.sin(angle),
+    })
   }
 }
+
+export const ATTRACTORS = Array.from(iterateAttractors())
 
 export function adjustActiveAttractor(buttonPosition: Vec2D, mousePosition: Vec2D, activeAttractor?: Vec2D): Vec2D | undefined {
   if (activeAttractor && mousePosition.distanceTo(activeAttractor) > MOUSE_DISTANCE_THRESHOLD) {
@@ -22,6 +25,6 @@ export function adjustActiveAttractor(buttonPosition: Vec2D, mousePosition: Vec2
 
   return schwartzMin(
     att => buttonPosition.distanceTo(att),
-    iterateAttractors().filter(attractor => mousePosition.distanceTo(attractor) > MOUSE_DISTANCE_THRESHOLD),
+    ATTRACTORS.filter(attractor => mousePosition.distanceTo(attractor) > MOUSE_DISTANCE_THRESHOLD),
   )
 }

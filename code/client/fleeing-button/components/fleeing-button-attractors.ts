@@ -1,7 +1,7 @@
 import { Vec2D } from '../../../common/math/geom2d.ts'
 import { createComponent as c } from '../../../common/rendering/component.ts'
 import { classlist } from '../../../common/support/dom-properties.ts'
-import { iterateAttractors } from '../attractors.ts'
+import { ATTRACTORS } from '../attractors.ts'
 
 interface FleeingButtonAttractorsState {
   activeAttractor?: Vec2D
@@ -16,7 +16,7 @@ export function fleeingButtonAttractors({ activeAttractor, debug }: FleeingButto
   }
 
   return c.svg('g', { class: 'fleeing-button-attractors' },
-    ...iterateAttractors().map(
+    ...ATTRACTORS.map(
       attractor => c.svg('circle', {
         class: classlist(
           'fleeing-button-attractor',

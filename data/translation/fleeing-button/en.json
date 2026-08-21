@@ -17,7 +17,7 @@
       "",
       "## Method",
       "",
-      "The button simply rushes towards the closest acceptable attractor point on a uniform rectangular grid.",
+      "The button simply rushes towards the closest acceptable attractor point.",
       "Whether the attractor is acceptable depends on its distance from the mouse cursor.",
       "This can be visualized by enabling debug mode.",
       "",
