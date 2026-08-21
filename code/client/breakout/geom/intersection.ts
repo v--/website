@@ -1,4 +1,4 @@
-import { STAGE, STAGE_INTERSECTION_BOUNDS } from './stage.ts'
+import { STAGE_INTERSECTION_BOUNDS } from './stage.ts'
 import { AARect, type IIntersection, type IPlainVec2D, Vec2D } from '../../../common/math/geom2d.ts'
 import { isClose } from '../../../common/support/floating.ts'
 import { schwartzMin } from '../../../common/support/iteration.ts'
@@ -34,7 +34,7 @@ function getPaddleGeomIntersection(ballSource: Vec2D, ballDirection: IPlainVec2D
 
   return {
     int: {
-      point: new Vec2D({ x: int.point.x, y: Math.min(int.point.y, STAGE.getBottomPos() - BALL_RADIUS) }),
+      point: int.point,
       calculateReflectedDirection() {
         // Due to a combination of numerical errors and intricacies of elliptic reflection,
         // reflection at the edge of the paddle seemingly misbehaves.
