@@ -109,7 +109,7 @@
     "content": [
       "Please try refreshing the browser.",
       "If the problem persists, you can report an issue [on GitHub](${githubProjectUrl}/issues) or [via email](${emailUrl}).",
-      "Please include the browser log in the report."
+      "Please include the browser's console log in the report."
     ]
   },
 
