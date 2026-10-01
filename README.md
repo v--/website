@@ -12,11 +12,19 @@ To run the code, a little setup is required:
 
 ```shell
 nodenv install
-npm install
+npm install  # This should be managed by nodenv; see comment below
 ln --symbolic local.json config/active.json
 ```
 
 After that, a development server can be launched via `npm run watcher` and, after the initial build, `npm run server`.
+
+> [!NOTE]
+> [`nodenv`](https://github.com/nodenv/nodenv) works by appending its shim directory to `$PATH` (via `nodenv init`). I prefer to be explicit about whether the `npm` command I execute is managed or not, so I use the following script called `nodenv-npm` (it can be invoked as `nodenv npm ...`):
+>
+>     #!/usr/bin/env fish
+>
+>     set npm (nodenv which npm)
+>     $npm $argv
 
 > [!NOTE]
 > The build process requires [Inkscape](https://inkscape.org/) for SVG rendering and [oxipng](https://github.com/oxipng/oxipng) for PNG optimization.
