@@ -1,0 +1,10 @@
+@use 'sass:math';
+@use "../misc";
+@use "../sizes";
+@use "components/heart-rate-simulation";
+
+.heart-rate-page {
+  --heart-rate-color-stage: var(--spotlight-color-background);
+  --heart-rate-color-pulse: var(--body-color-rainbow-cyan);
+  --heart-rate-size-pulse: 0.010;
+}

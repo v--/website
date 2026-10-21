@@ -5,6 +5,7 @@ export const PLAYGROUND_PAGE_IDS = [
   'univariate-interpolation',
   'breakout',
   'fleeing-button',
+  'heart-rate',
 ] as const
 
 export type PlaygroundPageId = typeof PLAYGROUND_PAGE_IDS[uint32]

@@ -1,0 +1,10 @@
+.heart-rate-simulation {
+  width: 100%;
+  background-color: var(--heart-rate-color-stage);
+
+  &-line {
+    fill: none;
+    stroke: var(--heart-rate-color-pulse);
+    stroke-width: var(--heart-rate-size-pulse);
+  }
+}

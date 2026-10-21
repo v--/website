@@ -29,10 +29,10 @@ export function playgroundMenu({ submenu, stickTop, stickBottom }: IPlaygroundMe
         isInternal: true,
       }),
     ),
-    c.html('li', { class: 'playground-menu-inline' },
+    submenu && c.html('li', { class: 'playground-menu-inline' },
       c.html('form', { name: 'playground-menu-inline-form' }, c.factory(submenu)),
     ),
-    c.html('li', { class: 'playground-menu-drawer' },
+    submenu && c.html('li', { class: 'playground-menu-drawer' },
       c.factory(button,
         {
           class: 'playground-menu-drawer-toggle',

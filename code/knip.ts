@@ -15,6 +15,7 @@ const config: KnipConfig = {
     'code/testing/cli.ts',
     ...PLAYGROUND_PAGE_IDS.flatMap(pageId => [`code/client/${pageId}/index.ts`]),
     'code/client/breakout/worker.ts',
+    'code/client/heart-rate/worker.ts',
 
     // Configurations
     'code/rollup.config.ts',

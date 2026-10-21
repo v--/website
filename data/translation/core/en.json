@@ -153,6 +153,11 @@
     "content": "A button that flees from the mouse cursor."
   },
 
+  "description.playground.heart-rate": {
+    "entryKind": "plain",
+    "content": "Visualizations of heart rate estimation."
+  },
+
   "description.attributions": {
     "entryKind": "plain",
     "content": "A page for acknowledgements."

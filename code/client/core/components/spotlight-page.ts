@@ -1,14 +1,14 @@
+import { playgroundMenu } from './playground-menu.ts'
 import { type WebsiteEnvironment } from '../../../common/environment.ts'
 import { type Component, type FactoryComponentType, createComponent as c } from '../../../common/rendering/component.ts'
 import { classlist } from '../../../common/support/dom-properties.ts'
 import { type ClientWebsiteEnvironment } from '../environment.ts'
-import { playgroundMenu } from './playground-menu.ts'
 
 interface ISpotlightPageState {
   rootClass?: string
   bodyClass?: string
   stage: FactoryComponentType<object, ClientWebsiteEnvironment>
-  submenu: FactoryComponentType<object, ClientWebsiteEnvironment>
+  submenu?: FactoryComponentType<object, ClientWebsiteEnvironment>
 }
 
 export function spotlightPage(

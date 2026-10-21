@@ -1,8 +1,8 @@
 import { CoolError } from '../errors.ts'
-import { Component, FactoryComponent, type IFactoryComponentState, XmlComponent } from './component.ts'
-import { repr } from '../support/strings.ts'
 import { type IComponentEnvironment } from './component/component.ts'
+import { Component, FactoryComponent, type IFactoryComponentState, XmlComponent } from './component.ts'
 import { getObjectEntries } from '../support/iteration.ts'
+import { repr } from '../support/strings.ts'
 
 class StaticRenderError extends CoolError {}
 

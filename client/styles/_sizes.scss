@@ -30,6 +30,9 @@ $main-size-vpadding-dense: 1rem;
 $main-menu-size-button-vpadding: 0.7em;
 $main-menu-size-button-hpadding: 1.5em;
 
+// Spotlight
+$spotlight-size-head-max-width-default: 45em;
+
 // Icons
 $icon-size-diameter-huge-loose: 15em;
 $icon-size-diameter-huge-dense: 10em;
@@ -58,7 +61,7 @@ $icon-size-padding-huge-dense: 0.8em;
   --main-size-vpadding: #{$main-size-vpadding-sparse};
 
   // Spotlight
-  --spotlight-size-head-max-width: 45em;
+  --spotlight-size-head-max-width: #{$spotlight-size-head-max-width-default};
   --spotlight-size-divider: var(--body-size-border-normal);
   --spotlight-size-border-radius: var(--body-size-border-radius);
 

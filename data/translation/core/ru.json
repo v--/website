@@ -148,6 +148,11 @@
     "content": "Кнопка, убегающая от указателя мышки."
   },
 
+  "description.playground.heart-rate": {
+    "entryKind": "plain",
+    "content": "Визуализация оценки пульса."
+  },
+
   "description.attributions": {
     "entryKind": "plain",
     "content": "Страница для извещений об авторстве."
