@@ -60,3 +60,5 @@ The other bundles are part of the "playground": a collection of interactive page
 * The Breakout bundle is in [`./code/client/breakout`](./code/client/breakout).
 
 * The fleeing button bundle is in [`./code/client/fleeing-button`](./code/client/fleeing-button).
+
+* The heart rate bundle is in [`./code/client/heart-rate`](./code/client/heart-rate).
