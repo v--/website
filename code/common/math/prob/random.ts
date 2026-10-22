@@ -10,6 +10,17 @@ export function randInt(a: uint32, b: uint32): uint32 {
   return Math.floor(randFloat(a, b))
 }
 
+export function randTriangular(a: float64, b: float64, c: float64): float64 {
+  const k = (c - a) / (b - a)
+  const u = Math.random()
+
+  if (u < k) {
+    return a + Math.sqrt(u * (b - a) * (c - a))
+  }
+
+  return b - Math.sqrt((1 - u) * (b - a) * (b - c))
+}
+
 export function choice<T>(collection: T[]): T {
   if (collection.length === 0) {
     throw new MathError('Cannot choose an element from an empty collection')

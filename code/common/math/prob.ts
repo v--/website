@@ -1,1 +1,1 @@
-export { boxMullerTransform, choice, randFloat, randInt, randNormal } from './prob/random.ts'
+export { boxMullerTransform, choice, randFloat, randInt, randNormal, randTriangular } from './prob/random.ts'

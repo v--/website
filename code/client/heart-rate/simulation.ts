@@ -1,5 +1,5 @@
 import { type IFreePulseWave, type IPulseCycle, type IPulseWave } from './types.ts'
-import { randNormal } from '../../common/math/prob.ts'
+import { randTriangular } from '../../common/math/prob.ts'
 import { type float64 } from '../../common/types/numbers.ts'
 
 /*
@@ -22,25 +22,37 @@ interface IPulseWaveGenerationConfig {
 }
 
 const WAVE_GENERATION_PARAMS: Record<string, IPulseWaveGenerationConfig> = {
-  p: { durationMean: 0.100, durationSD: 0.008, amplitudeMean: 0.100, amplitudeSD: 0.010, offsetMean: 0.150, offsetSD: 0.020 },
-  q: { durationMean: 0.050, durationSD: 0.005, amplitudeMean: 0.100, amplitudeSD: 0.015, offsetMean: 0.150, offsetSD: 0.020 },
-  r: { durationMean: 0.025, durationSD: 0.002, amplitudeMean: 0.350, amplitudeSD: 0.015, offsetMean: 0.000, offsetSD: 0.000 },
-  s: { durationMean: 0.050, durationSD: 0.005, amplitudeMean: 0.100, amplitudeSD: 0.010, offsetMean: 0.000, offsetSD: 0.000 },
-  t: { durationMean: 0.100, durationSD: 0.008, amplitudeMean: 0.100, amplitudeSD: 0.015, offsetMean: 0.150, offsetSD: 0.020 },
-  u: { durationMean: 0.050, durationSD: 0.005, amplitudeMean: 0.025, amplitudeSD: 0.003, offsetMean: 0.150, offsetSD: 0.020 },
+  p: { durationMean: 0.100, durationSD: 0.010, amplitudeMean: 0.100, amplitudeSD: 0.020, offsetMean: 0.150, offsetSD: 0.050 },
+  q: { durationMean: 0.050, durationSD: 0.010, amplitudeMean: 0.100, amplitudeSD: 0.030, offsetMean: 0.150, offsetSD: 0.050 },
+  r: { durationMean: 0.025, durationSD: 0.005, amplitudeMean: 0.350, amplitudeSD: 0.075, offsetMean: 0.000, offsetSD: 0.000 },
+  s: { durationMean: 0.050, durationSD: 0.010, amplitudeMean: 0.100, amplitudeSD: 0.025, offsetMean: 0.000, offsetSD: 0.000 },
+  t: { durationMean: 0.100, durationSD: 0.015, amplitudeMean: 0.100, amplitudeSD: 0.030, offsetMean: 0.150, offsetSD: 0.050 },
+  u: { durationMean: 0.050, durationSD: 0.010, amplitudeMean: 0.030, amplitudeSD: 0.020, offsetMean: 0.150, offsetSD: 0.050 },
+}
+
+/**
+ * Generate a random value from a distribution with a given mean and standard deviation.
+ * We initially used the normal distribution, but its unboundedness occasionally caused some glitches,
+ * so the next simplest thing was to use a triangular distribution.
+ *
+ * We adjust parameters based on the desired mean and standard deviation.
+ */
+function randVariate(mean: float64, sd: float64): float64 {
+  const r = Math.sqrt(6) * sd
+  return randTriangular(mean - r, mean + r, mean)
 }
 
 function generateFreePulseWave(config: IPulseWaveGenerationConfig, durationScale: float64): IFreePulseWave {
   return {
-    amplitude: randNormal(config.amplitudeMean, config.amplitudeSD),
-    duration: durationScale * randNormal(config.durationMean, config.durationSD),
+    amplitude: randVariate(config.amplitudeMean, config.amplitudeSD),
+    duration: durationScale * randVariate(config.durationMean, config.durationSD),
   }
 }
 
 function generatePulseWave(config: IPulseWaveGenerationConfig, durationScale: float64): IPulseWave {
   return {
     ...generateFreePulseWave(config, durationScale),
-    offset: randNormal(config.offsetMean, config.offsetSD) * durationScale,
+    offset: randVariate(config.offsetMean, config.offsetSD) * durationScale,
   }
 }
 
@@ -52,7 +64,7 @@ export function simulatePulseCycle(durationScale: float64): IPulseCycle {
   const t = generatePulseWave(WAVE_GENERATION_PARAMS.t, durationScale)
   const u = generatePulseWave(WAVE_GENERATION_PARAMS.u, durationScale)
   const qrs = {
-    offset: randNormal(WAVE_GENERATION_PARAMS.q.offsetMean, WAVE_GENERATION_PARAMS.q.offsetSD) * durationScale,
+    offset: randVariate(WAVE_GENERATION_PARAMS.q.offsetMean, WAVE_GENERATION_PARAMS.q.offsetSD) * durationScale,
     q, r, s,
   }
 
