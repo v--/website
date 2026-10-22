@@ -1,5 +1,5 @@
 import { UnivariatePolynomial, ZERO_POLYNOMIAL } from '../../../common/math/algebra/univariate-polynomial.ts'
-import { type KnotMapping, dotprod, sum } from '../../../common/math/numeric.ts'
+import { type KnotMapping, calcDotprod, calcSum } from '../../../common/math/numeric.ts'
 import { type IInterpolator } from '../types.ts'
 
 export const LINEAR_LEAST_SQUARES_INTERPOLATOR: IInterpolator = {
@@ -19,10 +19,10 @@ export const LINEAR_LEAST_SQUARES_INTERPOLATOR: IInterpolator = {
       return UnivariatePolynomial.safeCreate(y)
     }
 
-    const sx = sum(x)
-    const sy = sum(y)
+    const sx = calcSum(x)
+    const sy = calcSum(y)
 
-    const b = (n * dotprod(x, y) - sx * sy) / (n * dotprod(x, x) - sx * sx)
+    const b = (n * calcDotprod(x, y) - sx * sy) / (n * calcDotprod(x, x) - sx * sx)
     const a = (sy - b * sx) / n
 
     return UnivariatePolynomial.safeCreate([a, b])

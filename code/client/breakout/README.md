@@ -6,11 +6,11 @@ The README in the [root directory](../../../) contains references to important b
 
 ## Overview
 
-An overview of how the game works is given on the web page. The code is structured so that it is easy to understand. The entry point is [`./index.ts`](./index.ts) and the user interaction code is concentrated in the [`breakout`](./components/breakout.ts) component (the component system is explained in the README file in [`../../common/rendering`](../../common/rendering)).
+An overview of how the game works is given on the web page. The code is structured so that it is easy to understand. The entry point is [`./index.ts`](./index.ts) and the user interaction code is concentrated in the [`breakout`](./components/breakout.ts) component (the component system is explained in the README file in [`../../common/rendering`](../../common/rendering)). The computations (described below) are offloaded to [`./worker.ts`](./worker.ts).
 
 ### Evolution
 
-The game logic is based on discrete-time state evolutions. The current state is stored a [`StateStore`](../../common/support/state-store.ts) instance, the working of which is explained [here](../../common/observable#state-store). All non-dynamic state is extracted as `SCREAMING_SNAKE_CASE` constants in [`./constants.ts`](./constants.ts).
+The game logic is based on discrete-time state evolutions. The current state is stored a pair of [`StateStore`](../../common/support/state-store.ts) instances. The working of a state store is explained [here](../../common/observable#state-store). All non-dynamic state is extracted as `SCREAMING_SNAKE_CASE` constants in [`./constants.ts`](./constants.ts).
 
 1. The ball evolves in accordance to the [`evolveBall`](./evolution/ball.ts) function, which gets invoked on intervals maintained by a [`animationFrameObservable`](../core/dom/observable.ts) observable. The `evolveBall` function contains the majority of game logic, modulo the ray intersection logic in [`./geom/intersection.ts`](./geom/intersection.ts) based on the geometric code from [`../../common/math/geom2d`](../../common/math/geom2d).
 

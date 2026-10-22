@@ -1,4 +1,4 @@
-import { type float64 } from '../../common/types/numbers.ts'
+import { type float64, type uint32 } from '../../common/types/numbers.ts'
 
 export interface IFreePulseWave {
   amplitude: float64
@@ -27,8 +27,14 @@ export interface IPulseCycle {
 export interface IInternalHrsState {
   pulse: IPulseCycle[]
   offset: float64
+  simulationRate: float64
+  frameDuration: float64
+  nextPeakCycle?: IPulseCycle
 }
 
 export interface IControllableHrsState {
   running: boolean
+  showLabels: boolean
+  targetRate: uint32
+  windowSize: uint32
 }

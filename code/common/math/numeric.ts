@@ -1,5 +1,5 @@
 export { BSpline } from './numeric/b-spline.ts'
-export { dotprod, sum } from './numeric/common.ts'
+export { calcDotprod, calcSum } from './numeric/common.ts'
 export {
   ConvergenceError,
   DimensionError,

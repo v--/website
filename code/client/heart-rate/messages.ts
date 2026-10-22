@@ -1,4 +1,5 @@
-import { type IControllableHrsState, type IInternalHrsState } from './types.js'
+import { type IControllableHrsState, type IInternalHrsState, type IPulseCycle } from './types.js'
+import { type float64 } from '../../common/types/numbers.js'
 
 export interface HostStateUpdateMessage {
   kind: 'stateUpdate'
@@ -12,4 +13,10 @@ export interface WorkerStateUpdateMessage {
   update: Partial<IInternalHrsState>
 }
 
-export type WorkerToHostMessage = WorkerStateUpdateMessage
+export interface CycleAtPeakMessage {
+  kind: 'newRPoint'
+  cycle: IPulseCycle
+  timestamp: float64
+}
+
+export type WorkerToHostMessage = WorkerStateUpdateMessage | CycleAtPeakMessage

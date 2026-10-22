@@ -51,7 +51,7 @@
     font-weight: bold;
   }
 
-  &-inline {
+  &-inline, &-fixed {
     .playground-submenu {
       display: flex;
 

@@ -6,12 +6,13 @@ import { togglePopover } from '../dom.ts'
 import { type ClientWebsiteEnvironment } from '../environment.ts'
 
 interface IPlaygroundMenuState {
-  submenu: FactoryComponentType<Component, ClientWebsiteEnvironment>
+  submenu?: FactoryComponentType<Component, ClientWebsiteEnvironment>
   stickTop?: boolean
   stickBottom?: boolean
+  disableSubmenuCollapse?: boolean
 }
 
-export function playgroundMenu({ submenu, stickTop, stickBottom }: IPlaygroundMenuState) {
+export function playgroundMenu({ submenu, disableSubmenuCollapse, stickTop, stickBottom }: IPlaygroundMenuState) {
   return c.html('menu',
     {
       role: 'toolbar',
@@ -29,10 +30,13 @@ export function playgroundMenu({ submenu, stickTop, stickBottom }: IPlaygroundMe
         isInternal: true,
       }),
     ),
-    submenu && c.html('li', { class: 'playground-menu-inline' },
+    disableSubmenuCollapse && submenu && c.html('li', { class: 'playground-menu-fixed' },
       c.html('form', { name: 'playground-menu-inline-form' }, c.factory(submenu)),
     ),
-    submenu && c.html('li', { class: 'playground-menu-drawer' },
+    !disableSubmenuCollapse && submenu && c.html('li', { class: 'playground-menu-inline' },
+      c.html('form', { name: 'playground-menu-inline-form' }, c.factory(submenu)),
+    ),
+    !disableSubmenuCollapse && submenu && c.html('li', { class: 'playground-menu-drawer' },
       c.factory(button,
         {
           class: 'playground-menu-drawer-toggle',

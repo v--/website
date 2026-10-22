@@ -1,0 +1,21 @@
+.heart-rate-simulation-label {
+  &-text {
+    font-size: var(--heart-rate-size-simulation-label-text);
+    fill: var(--heart-rate-color-simulation-label-secondary);
+    text-anchor: middle;
+
+    &-r {
+      fill: var(--heart-rate-color-simulation-label-primary);
+    }
+  }
+
+  &-line {
+    stroke: var(--heart-rate-color-simulation-label-secondary);
+    stroke-width: var(--heart-rate-size-simulation-label-line);
+    stroke-dasharray: var(--heart-rate-size-simulation-label-dash);
+
+    &-r {
+      stroke: var(--heart-rate-color-simulation-label-primary);
+    }
+  }
+}

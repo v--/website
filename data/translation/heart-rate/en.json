@@ -7,5 +7,121 @@
   "heading.main": {
     "entryKind": "plain",
     "content": "Heart rate estimation"
+  },
+
+  "overview": {
+    "entryKind": "plain",
+    "content": [
+      "This is a simulation of an electrocardiogram whose purpose is to visualize how devices can estimate the heart rate based on R-R intervals.",
+      "Scroll down for details."
+    ]
+  },
+
+  "description": {
+    "entryKind": "rich",
+    "content": [
+      "## Explanation",
+      "",
+      "I created this visualization when I started using a heart rate monitor (HRM) and got curious about the mysterious value that is heart rate variability (HRV).",
+      "I do not have a background in medicine or biology, so I found it simpler to devise a naive cardiogram simulation and use it to calculate a few summary statistics.",
+      "After looking at a few real and schematic cardiograms, I decided to generate a sequence of \"cycles\", each having distinguished PQRSTU points with slightly perturbed wave durations and amplitudes.",
+      "",
+      "By recording each R that the simulation produces, we obtain a sequence of \"R-R intervals\" and can analyze the simulated heart beat using so-called \"time-domain measurements\".",
+      "We use only the intervals recorded in the last few seconds, depending on how we configure the rolling time window.",
+      "The target heart rate parameter controls how often new (randomized) cardiogram cycles are produced.",
+      "The calculations we show are simple descriptive statistics; they are explained in [a Kubios blog post](${kubiosBlogUrl}) and are further discussed in the paper [\"An Overview of Heart Rate Variability Metrics and Norms\"](${overviewPaperUrl}) by Shaffer and Ginsberg (DOI: `${overviewPaperDoi}`).",
+      "",
+      "More complicated methods exist for analyzing HRV, however they require a different approach to visualize.",
+      "Furthermore, even the methods we have listed are not interchangeable and are used in different cases, most notably with much larger time windows (minutes and hours rather than seconds).",
+      "",
+      "Anyhow, here is a summary of the statistics above (see either the source code or the Kubios blog post for the calculations themselves):",
+      "",
+      "* SDDR is simply the standard deviation of the R-R intervals (with Bessel's correction), used for long-term HRV analysis (>=24h).",
+      "* RMSSD is the \"root mean square of successive differences\", used for short-term analysis (several minutes).",
+      "* pNN50 is the percentage of successive interval differences longer than 50msec, used for even shorter-term analysis.",
+      "* IQRRR is the inter-quantile range of the R-R intervals. I haven't seen IQR mentioned elsewhere, so it may be useless for HRV analysis.",
+      "",
+      "The simulation's code can be found [on GitHub](${githubPageUrl})."
+    ]
+  },
+
+  "simulation.initializing": {
+    "entryKind": "plain",
+    "content": "Initializing"
+  },
+
+  "control.start.label.running": {
+    "entryKind": "plain",
+    "content": "Pause"
+  },
+
+  "control.start.label.paused": {
+    "entryKind": "plain",
+    "content": "Resume"
+  },
+
+  "data.parameters.heading": {
+    "entryKind": "plain",
+    "content": "Parameters"
+  },
+
+  "data.parameters.simulated": {
+    "entryKind": "plain",
+    "content": "Target heart rate (bpm)"
+  },
+
+  "data.parameters.time-window-size": {
+    "entryKind": "plain",
+    "content": "Time window (sec)"
+  },
+
+  "data.heart-rate.heading": {
+    "entryKind": "plain",
+    "content": "Heart rate (HR)"
+  },
+
+  "data.heart-rate.rolling-average.bpm": {
+    "entryKind": "plain",
+    "content": "Mean (bpm)"
+  },
+
+  "data.heart-rate.rolling-average.msec": {
+    "entryKind": "plain",
+    "content": "Mean (msec)"
+  },
+
+  "data.heart-rate.rolling-median.bpm": {
+    "entryKind": "plain",
+    "content": "Median (bpm)"
+  },
+
+  "data.heart-rate.rolling-median.msec": {
+    "entryKind": "plain",
+    "content": "Median (msec)"
+  },
+
+  "data.heart-rate-variance.heading": {
+    "entryKind": "plain",
+    "content": "HR variability (HRV)"
+  },
+
+  "data.heart-rate-variance.sdrr": {
+    "entryKind": "plain",
+    "content": "SDRR (msec)"
+  },
+
+  "data.heart-rate-variance.rmssd": {
+    "entryKind": "plain",
+    "content": "RMSSD (msec)"
+  },
+
+  "data.heart-rate-variance.pnn50": {
+    "entryKind": "plain",
+    "content": "pNN50 (%)"
+  },
+
+  "data.heart-rate-variance.range": {
+    "entryKind": "plain",
+    "content": "IQRRR (bpm)"
   }
 }

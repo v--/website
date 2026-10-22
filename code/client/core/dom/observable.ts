@@ -1,4 +1,4 @@
-import { median } from '../../../common/math/prob.ts'
+import { calcQuantile } from '../../../common/math/stat/descriptive.ts'
 import { type IObserver, Observable } from '../../../common/observable.ts'
 import { CircularBuffer } from '../../../common/support/circular-buffer.ts'
 import { type float64 } from '../../../common/types/numbers.ts'
@@ -42,13 +42,20 @@ export function animationFrameObservable(): Observable<float64> {
 
     function recurse() {
       const thisCallTimestamp = performance.now()
-      lastCallDurations.push(thisCallTimestamp - lastCallTimestamp)
-      lastCallTimestamp = thisCallTimestamp
-      // The median is useful here because one slow or fast frame drawing does not affect it.
-      // Even without fluctuations, when resetting, the confirmation may take an arbitrary amount of time
-      // that is counted towards the call duration if we use the mean.
-      const medianDuration = median(lastCallDurations)
-      observer.next(Math.round(medianDuration))
+
+      // During the first call, thisCallTimestamp could almost coincide with lastCallTimestamp,
+      // which can cause arbitrary things that depend on the refresh rate to fail.
+      if (lastCallDurations.getSize() === 0) {
+        observer.next(Math.round(DEFAULT_FRAME_DURATION))
+      } else {
+        lastCallDurations.push(thisCallTimestamp - lastCallTimestamp)
+        lastCallTimestamp = thisCallTimestamp
+        // The median is useful here because one slow or fast frame drawing does not affect it.
+        // Even without fluctuations, when resetting, the confirmation may take an arbitrary amount of time
+        // that is counted towards the call duration if we use the mean.
+        const medianDuration = calcQuantile(lastCallDurations, 0.5)
+        observer.next(Math.round(medianDuration))
+      }
 
       if (!continueRecursing) {
         requestAnimationFrame(recurse)

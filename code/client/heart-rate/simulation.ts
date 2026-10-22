@@ -1,15 +1,15 @@
 import { type IFreePulseWave, type IPulseCycle, type IPulseWave } from './types.ts'
-import { randNormal } from '../../common/math/prob/random.ts'
+import { randNormal } from '../../common/math/prob.ts'
 import { type float64 } from '../../common/types/numbers.ts'
 
 /*
  * A single pulse "complex" in our simulation has the following "PQRSTU" structure:
- * |         R             |
- * |         |             |
- * |   _    / \    _       |   _
- * |__/ \__ | | __/ \__/\__|__/ \
- * |   P   \| |/   T   U   |   P
- * |        Q S            |
+ * |           R               |
+ * |           ^               |
+ * |    _     | |     _        |    _
+ * |___/ \___ | | ___/ \___^___|___/ \
+ * |    P    \| |/    T    U   |    P
+ * |          Q S              |
  */
 
 interface IPulseWaveGenerationConfig {
@@ -30,29 +30,29 @@ const WAVE_GENERATION_PARAMS: Record<string, IPulseWaveGenerationConfig> = {
   u: { durationMean: 0.050, durationSD: 0.005, amplitudeMean: 0.025, amplitudeSD: 0.003, offsetMean: 0.150, offsetSD: 0.020 },
 }
 
-function generateFreePulseWave(config: IPulseWaveGenerationConfig): IFreePulseWave {
+function generateFreePulseWave(config: IPulseWaveGenerationConfig, durationScale: float64): IFreePulseWave {
   return {
     amplitude: randNormal(config.amplitudeMean, config.amplitudeSD),
-    duration: randNormal(config.durationMean, config.durationSD),
+    duration: durationScale * randNormal(config.durationMean, config.durationSD),
   }
 }
 
-function generatePulseWave(config: IPulseWaveGenerationConfig): IPulseWave {
+function generatePulseWave(config: IPulseWaveGenerationConfig, durationScale: float64): IPulseWave {
   return {
-    ...generateFreePulseWave(config),
-    offset: randNormal(config.offsetMean, config.offsetSD),
+    ...generateFreePulseWave(config, durationScale),
+    offset: randNormal(config.offsetMean, config.offsetSD) * durationScale,
   }
 }
 
-export function generatePulseComplex(): IPulseCycle {
-  const p = generatePulseWave(WAVE_GENERATION_PARAMS.p)
-  const q = generateFreePulseWave(WAVE_GENERATION_PARAMS.q)
-  const r = generateFreePulseWave(WAVE_GENERATION_PARAMS.r)
-  const s = generateFreePulseWave(WAVE_GENERATION_PARAMS.s)
-  const t = generatePulseWave(WAVE_GENERATION_PARAMS.t)
-  const u = generatePulseWave(WAVE_GENERATION_PARAMS.u)
+export function simulatePulseCycle(durationScale: float64): IPulseCycle {
+  const p = generatePulseWave(WAVE_GENERATION_PARAMS.p, durationScale)
+  const q = generateFreePulseWave(WAVE_GENERATION_PARAMS.q, durationScale)
+  const r = generateFreePulseWave(WAVE_GENERATION_PARAMS.r, durationScale)
+  const s = generateFreePulseWave(WAVE_GENERATION_PARAMS.s, durationScale)
+  const t = generatePulseWave(WAVE_GENERATION_PARAMS.t, durationScale)
+  const u = generatePulseWave(WAVE_GENERATION_PARAMS.u, durationScale)
   const qrs = {
-    offset: randNormal(WAVE_GENERATION_PARAMS.q.offsetMean, WAVE_GENERATION_PARAMS.q.offsetSD),
+    offset: randNormal(WAVE_GENERATION_PARAMS.q.offsetMean, WAVE_GENERATION_PARAMS.q.offsetSD) * durationScale,
     q, r, s,
   }
 

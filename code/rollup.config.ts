@@ -11,6 +11,7 @@ const entryPoints = [
   path.join(codeBasePath, 'client', 'runtime.js'),
   ...PLAYGROUND_PAGE_IDS.map(bundleId => path.join(codeBasePath, 'client', bundleId, 'index.js')),
   path.join(codeBasePath, 'client', 'breakout', 'worker.js'),
+  path.join(codeBasePath, 'client', 'heart-rate', 'worker.js'),
 ]
 
 const CHUNK_NAMES = ['core', 'preload', 'runtime', ...PLAYGROUND_PAGE_IDS]

@@ -72,7 +72,7 @@ export class GetText extends ExtendableFunction<[IGetTextSpec], Observable<strin
 
     if (rawValue === undefined) {
       throw new TranslationError(
-        'Missing translation',
+        `Missing translation ${key}`,
         { languageId, bundleId, key },
       )
     }

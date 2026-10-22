@@ -27,17 +27,13 @@ export function boxMullerTransform({ x, y }: IPlainVec2D): IPlainVec2D {
   }
 }
 
-export function randBoxMuller(): IPlainVec2D {
-  return boxMullerTransform({ x: Math.random(), y: Math.random() })
-}
-
 const randomValues: float64[] = []
 
 export function randNormal(mean: float64 = 0.0, sd: float64 = 1.0): float64 {
   const rv = randomValues.pop()
 
   if (rv === undefined) {
-    const bm = randBoxMuller()
+    const bm = boxMullerTransform({ x: Math.random(), y: Math.random() })
     randomValues.push(bm.y)
     return mean + bm.x * sd
   }

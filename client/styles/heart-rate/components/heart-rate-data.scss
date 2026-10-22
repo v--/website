@@ -1,0 +1,50 @@
+@use "../../sizes";
+@use "sass:math";
+
+.heart-rate-data {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--body-size-f);
+  justify-content: space-evenly;
+  align-items: flex-start;
+
+  &-table {
+    flex: 1 0;
+    width: auto;
+    min-width: #{math.div(sizes.$root-size-boundary-very-dense-width, 2)};
+
+    &-header {
+      font-weight: normal;
+      font-size: var(--heading-h3-size-font);
+      text-align: center;
+    }
+
+    &-parameters {
+      flex-grow: 1;
+    }
+
+    &-col-widenum {
+      width: 25%;
+      text-align: right;
+    }
+
+    &-col-num {
+      text-align: right;
+    }
+
+    &-col-slider {
+      width: 100%;
+    }
+  }
+
+  &-slider {
+    &-label {
+      width: 100%;
+      padding-inline: 0;
+    }
+
+    &-input {
+      width: 100%;
+    }
+  }
+}

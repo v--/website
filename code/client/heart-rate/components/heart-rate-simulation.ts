@@ -1,14 +1,14 @@
-import { map } from '../../../common/observable.ts'
+import { heartRateSimulationLabels } from './heart-rate-simulation-labels.ts'
 import { createComponent as c } from '../../../common/rendering/component.ts'
-import { type StateStore } from '../../../common/support/state-store.ts'
 import { type float64 } from '../../../common/types/numbers.ts'
 import { type ClientWebsiteEnvironment } from '../../core/environment.ts'
 import { SIMULATION_BOUNDS } from '../constants.ts'
-import { type IControllableHrsState, type IInternalHrsState, type IPQRComplex, type IPulseWave } from '../types.ts'
+import { type IPQRComplex, type IPulseCycle, type IPulseWave } from '../types.ts'
 
-interface IHeartRateStageState {
-  internalStateStore: StateStore<IInternalHrsState>
-  controllableStateStore: StateStore<IControllableHrsState>
+interface IHeartRateSimulationState {
+  offset: float64
+  pulse: IPulseCycle[]
+  showLabels: boolean
 }
 
 const SVG_VIEW_BOX = [
@@ -18,17 +18,29 @@ const SVG_VIEW_BOX = [
   SIMULATION_BOUNDS.height,
 ].join(' ')
 
-export function heartRateSimulation({ internalStateStore }: IHeartRateStageState, _env: ClientWebsiteEnvironment) {
+export function heartRateSimulation({ offset, pulse, showLabels }: IHeartRateSimulationState, env: ClientWebsiteEnvironment) {
+  const _ = env.gettext.bindToBundle('heart-rate')
+
   return c.svg('svg',
     {
       class: 'heart-rate-simulation',
       viewBox: SVG_VIEW_BOX,
     },
+    pulse.length === 0 && c.svg('text', {
+      class: 'heart-rate-simulation-loading-text',
+      text: _('simulation.initializing'),
+      ...SIMULATION_BOUNDS.getCenter(),
+    }),
+    showLabels && c.factory(heartRateSimulationLabels, { offset, pulse }),
     c.svg('polyline', {
-      class: 'heart-rate-simulation-line',
-      points: internalStateStore.combinedState$.pipe(
-        map(sim => Array.from(iterSimulationPathCoordinates(sim)).join(' ')),
-      ),
+      class: 'heart-rate-simulation-pulse',
+      points: Array.from(iterSimulationPathCoordinates(pulse, offset)).join(' '),
+    }),
+    c.svg('line', {
+      x1: SIMULATION_BOUNDS.getLeftPos(),
+      y1: SIMULATION_BOUNDS.getTopPos(),
+      x2: SIMULATION_BOUNDS.getLeftPos(),
+      y2: SIMULATION_BOUNDS.getBottomPos(),
     }),
   )
 }
@@ -51,10 +63,11 @@ function* iterQRSComplexPath(complex: IPQRComplex, offset: float64): Generator<s
   yield pointToPathCoord(offset + complex.offset + complex.q.duration + complex.r.duration + complex.s.duration, 0)
 }
 
-function* iterSimulationPathCoordinates(sim: IInternalHrsState): Generator<string> {
-  let globalOffset = sim.offset
+function* iterSimulationPathCoordinates(pulse: IPulseCycle[], stateOffset: float64): Generator<string> {
+  let globalOffset = stateOffset
+  yield pointToPathCoord(globalOffset, 0)
 
-  for (const cycle of sim.pulse) {
+  for (const cycle of pulse) {
     let offset = globalOffset
     yield* iterWavePath(cycle.p, offset)
     offset += cycle.p.offset + cycle.p.duration

@@ -1,10 +1,34 @@
-@use 'sass:math';
-@use "../misc";
-@use "../sizes";
 @use "components/heart-rate-simulation";
+@use "components/heart-rate-simulation-labels";
+@use "components/heart-rate-data";
 
 .heart-rate-page {
-  --heart-rate-color-stage: var(--spotlight-color-background);
-  --heart-rate-color-pulse: var(--body-color-rainbow-cyan);
-  --heart-rate-size-pulse: 0.010;
+  --heart-rate-color-simulation-stage: var(--spotlight-color-background);
+  --heart-rate-color-simulation-pulse: var(--body-color-accented);
+  --heart-rate-color-simulation-collector: var(--body-color-rainbow-blue);
+  --heart-rate-color-simulation-collector-active: var(--body-color-rainbow-cyan);
+  --heart-rate-color-simulation-loading-text:     var(--body-color-foreground);
+  --heart-rate-color-simulation-label-primary:    var(--body-color-accented);
+  --heart-rate-color-simulation-label-secondary:  var(--body-color-mp);
+  --heart-rate-size-simulation-pulse:        0.015;
+  --heart-rate-size-simulation-collector:    0.050;
+  --heart-rate-size-simulation-loading-text: 0.010em;
+  --heart-rate-size-simulation-label-text:   0.005em;
+  --heart-rate-size-simulation-label-line:   0.010;
+  --heart-rate-size-simulation-label-dash:   0.010;
+  --heart-rate-size-start-button-min-width:  6em;
+
+  display: flex;
+  flex-direction: column;
+
+  &-divider {
+    --divider-color: var(--menu-group-color-border);
+    --divider-size: var(--menu-group-size-border);
+    --divider-size-border-radius: 0;
+    --divider-size-margin: 0;
+  }
+}
+
+.heart-rate-start-button {
+  min-width: var(--heart-rate-size-start-button-min-width);
 }

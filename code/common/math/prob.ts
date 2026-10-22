@@ -1,2 +1,1 @@
-export { choice, randFloat, randInt } from './prob/random.ts'
-export { median } from './prob/statistics.ts'
+export { boxMullerTransform, choice, randFloat, randInt, randNormal } from './prob/random.ts'

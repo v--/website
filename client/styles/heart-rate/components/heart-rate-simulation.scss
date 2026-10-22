@@ -1,10 +1,28 @@
 .heart-rate-simulation {
   width: 100%;
-  background-color: var(--heart-rate-color-stage);
+  border-top-left-radius: var(--body-size-border-radius);
+  border-top-right-radius: var(--body-size-border-radius);
+  background-color: var(--heart-rate-color-simulation-stage);
 
-  &-line {
+  &-loading-text {
+    font-size: var(--heart-rate-size-simulation-loading-text);
+    fill: var(--heart-rate-color-simulation-loading-text);
+    text-anchor: middle;
+    dominant-baseline: middle;
+  }
+
+  &-pulse {
     fill: none;
-    stroke: var(--heart-rate-color-pulse);
-    stroke-width: var(--heart-rate-size-pulse);
+    stroke: var(--heart-rate-color-simulation-pulse);
+    stroke-width: var(--heart-rate-size-simulation-pulse);
+  }
+
+  &-collector {
+    stroke: var(--heart-rate-color-simulation-collector);
+    stroke-width: var(--heart-rate-size-simulation-collector);
+
+    &-active {
+      stroke: var(--heart-rate-color-simulation-collector-active);
+    }
   }
 }
