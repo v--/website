@@ -22,12 +22,12 @@ interface IPulseWaveGenerationConfig {
 }
 
 const WAVE_GENERATION_PARAMS: Record<string, IPulseWaveGenerationConfig> = {
-  p: { durationMean: 0.100, durationSD: 0.010, amplitudeMean: 0.100, amplitudeSD: 0.020, offsetMean: 0.150, offsetSD: 0.050 },
-  q: { durationMean: 0.050, durationSD: 0.010, amplitudeMean: 0.100, amplitudeSD: 0.030, offsetMean: 0.150, offsetSD: 0.050 },
-  r: { durationMean: 0.025, durationSD: 0.005, amplitudeMean: 0.350, amplitudeSD: 0.075, offsetMean: 0.000, offsetSD: 0.000 },
-  s: { durationMean: 0.050, durationSD: 0.010, amplitudeMean: 0.100, amplitudeSD: 0.025, offsetMean: 0.000, offsetSD: 0.000 },
-  t: { durationMean: 0.100, durationSD: 0.015, amplitudeMean: 0.100, amplitudeSD: 0.030, offsetMean: 0.150, offsetSD: 0.050 },
-  u: { durationMean: 0.050, durationSD: 0.010, amplitudeMean: 0.030, amplitudeSD: 0.020, offsetMean: 0.150, offsetSD: 0.050 },
+  p: { durationMean: 0.100, durationSD: 0.005, amplitudeMean: 0.100, amplitudeSD: 0.020, offsetMean: 0.150, offsetSD: 0.015 },
+  q: { durationMean: 0.050, durationSD: 0.005, amplitudeMean: 0.100, amplitudeSD: 0.030, offsetMean: 0.150, offsetSD: 0.015 },
+  r: { durationMean: 0.025, durationSD: 0.005, amplitudeMean: 0.350, amplitudeSD: 0.040, offsetMean: 0.000, offsetSD: 0.000 },
+  s: { durationMean: 0.050, durationSD: 0.005, amplitudeMean: 0.100, amplitudeSD: 0.025, offsetMean: 0.000, offsetSD: 0.000 },
+  t: { durationMean: 0.100, durationSD: 0.010, amplitudeMean: 0.100, amplitudeSD: 0.030, offsetMean: 0.150, offsetSD: 0.015 },
+  u: { durationMean: 0.050, durationSD: 0.005, amplitudeMean: 0.030, amplitudeSD: 0.020, offsetMean: 0.150, offsetSD: 0.015 },
 }
 
 /**
