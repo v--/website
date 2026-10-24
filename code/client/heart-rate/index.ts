@@ -98,6 +98,7 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
         key: 'description',
         context: {
           githubPageUrl: `${GITHUB_PROJECT_CODE_URL}/client/heart-rate`,
+          bluetoothSpecUrl: 'https://www.bluetooth.com/specifications/specs/html/?src=HRS_v1.0/out/en/index-en.html',
           kubiosBlogUrl: 'https://www.kubios.com/blog/hrv-analysis-methods/',
           overviewPaperUrl: 'https://pmc.ncbi.nlm.nih.gov/articles/PMC5624990/',
           overviewPaperDoi: '10.3389/fpubh.2017.00258',
