@@ -44,7 +44,6 @@ export function indexPage(pageState: IWebsitePageState, env: ClientWebsiteEnviro
       doc: _.rich$({
         key: 'text',
         context: {
-          badUiUrl: 'https://www.reddit.com/r/badUIbattles/',
           githubPageUrl: `${GITHUB_PROJECT_CODE_URL}/client/fleeing-button`,
         },
       }),
