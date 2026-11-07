@@ -88,6 +88,16 @@
         "context": {"title": "Убегающая кнопка", "image": "../images/fleeing-button.png"}
       }
     },
+    "heart-rate": {
+      "en": {
+        "templatePath": "./templates/image.svg",
+        "context": {"title": "Heart rate estimation", "image": "../images/heart-rate.png"}
+      },
+      "ru": {
+        "templatePath": "./templates/image.svg",
+        "context": {"title": "Оценка сердечного ритма", "image": "../images/heart-rate.png"}
+      }
+    },
     "attributions": {
       "en": {
         "templatePath": "./templates/title-en.svg",
